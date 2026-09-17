@@ -1,0 +1,1590 @@
+{
+  "schema": "skydancer-construction-plan/v1",
+  "units": "meters; Three.js coordinates [x,y,z], y up, +z faces the beak",
+  "status": "proposal_for_independent_review_only",
+  "frozen_inputs": {
+    "wildkinMeshKit_sha256": "b1b34688b902baf7bb502ec9c6e190126bad14ac9dddec081a85dfb0b301ac70",
+    "target_png_sha256": "95296b034a5b1363195811af35ddab455b99125f94b223dba44eab57b95a19a2",
+    "target_review": "art/targets/skydancer/rotation-1/target-review-v1.md",
+    "source_audit": "docs/species/skydancer/rotation-1-source-audit.md"
+  },
+  "authoring_envelope_m": {
+    "min": [
+      -1.133993,
+      0.015873,
+      -1.670907
+    ],
+    "max": [
+      1.133993,
+      2.147128,
+      1.132
+    ]
+  },
+  "preserve_unchanged": {
+    "identity": [
+      "cream faceted torso/head",
+      "gold beak",
+      "moss eyes",
+      "two split turquoise tail ribbons"
+    ],
+    "sky3_components": [
+      "slender_avian_torso",
+      "crested_avian_head",
+      "beak",
+      "inset_almond_eye and eye_glint pairs",
+      "split_ribbon_tail"
+    ],
+    "runtime_contract": [
+      "asset id and baked visual recipe",
+      "metadata",
+      "gameplay",
+      "collision offset (0,.45,0) and size (1,.9,1)",
+      "two placements and secret chest",
+      "all six non-Skydancer species"
+    ]
+  },
+  "host_shell_intervals": {
+    "torso_geometry_source": "current sky3 slender_avian_torso loftMesh rings [-.35,.8,.24,.5], [.05,1.1,.31,.65], [.3,1.46,.25,.48], sides=6",
+    "wing_root_inner_interval": {
+      "x": [
+        -0.2,
+        0.2
+      ],
+      "y": [
+        1.18,
+        1.53
+      ],
+      "z": [
+        -0.04,
+        0.19
+      ],
+      "meaning": "conservative common occupied torso-shell interval spanning every vertex of both wing root planes; not a center-point test"
+    },
+    "leg_root_inner_interval": {
+      "x": [
+        -0.24,
+        0.24
+      ],
+      "y": [
+        0.53,
+        0.72
+      ],
+      "z": [
+        -0.08,
+        0.12
+      ],
+      "meaning": "conservative occupied torso-shell interval for every vertex of each leg host_root plane; not a center-point test"
+    }
+  },
+  "topology_recipe": {
+    "closed_profile_mesh": "For each ordered same-sided ring list, create quads (ring i vertex j, j+1, ring i+1 j+1, ring i+1 j), triangulate every quad as [a,b,d] and [b,c,d], then cap first and last ring with a centroid fan. Compute outward normals after winding verification. No open leaf planes, Boolean, voxel remesh, or geometry merge.",
+    "closed_wedge": "For each 8-vertex plate/foot/toe record, use front quad [0,1,2,3], rear quad [4,7,6,5], and side quads [0,4,5,1], [1,5,6,2], [2,6,7,3], [3,7,4,0]; triangulate each quad consistently outward.",
+    "physical_joins": "Wing host_root_a and host_root_b are buried full ring faces in torso. Each plate root face is buried in the primary wing between host_root_b and shoulder_fold. Each leg host_root ring is buried in torso. Each foot top quad overlaps the leg foot_root volume; each toe root face overlaps its foot volume. Join checks must reject separated shells."
+  },
+  "wing_volumes": {
+    "right": {
+      "sections": [
+        {
+          "name": "host_root_a",
+          "center": [
+            0.1,
+            1.36,
+            0.1
+          ],
+          "half_vertical": 0.12,
+          "half_chord": 0.09,
+          "vertices": [
+            [
+              0.1,
+              1.36,
+              0.19
+            ],
+            [
+              0.1,
+              1.463923,
+              0.145
+            ],
+            [
+              0.1,
+              1.463923,
+              0.055
+            ],
+            [
+              0.1,
+              1.36,
+              0.01
+            ],
+            [
+              0.1,
+              1.256077,
+              0.055
+            ],
+            [
+              0.1,
+              1.256077,
+              0.145
+            ]
+          ]
+        },
+        {
+          "name": "host_root_b",
+          "center": [
+            0.18,
+            1.37,
+            0.08
+          ],
+          "half_vertical": 0.12,
+          "half_chord": 0.11,
+          "vertices": [
+            [
+              0.18,
+              1.37,
+              0.19
+            ],
+            [
+              0.18,
+              1.473923,
+              0.135
+            ],
+            [
+              0.18,
+              1.473923,
+              0.025
+            ],
+            [
+              0.18,
+              1.37,
+              -0.03
+            ],
+            [
+              0.18,
+              1.266077,
+              0.025
+            ],
+            [
+              0.18,
+              1.266077,
+              0.135
+            ]
+          ]
+        },
+        {
+          "name": "shoulder_fold",
+          "center": [
+            0.46,
+            1.38,
+            -0.02
+          ],
+          "half_vertical": 0.16,
+          "half_chord": 0.2,
+          "vertices": [
+            [
+              0.46,
+              1.38,
+              0.18
+            ],
+            [
+              0.46,
+              1.518564,
+              0.08
+            ],
+            [
+              0.46,
+              1.518564,
+              -0.12
+            ],
+            [
+              0.46,
+              1.38,
+              -0.22
+            ],
+            [
+              0.46,
+              1.241436,
+              -0.12
+            ],
+            [
+              0.46,
+              1.241436,
+              0.08
+            ]
+          ]
+        },
+        {
+          "name": "outer_fold",
+          "center": [
+            0.82,
+            1.27,
+            -0.2
+          ],
+          "half_vertical": 0.14,
+          "half_chord": 0.23,
+          "vertices": [
+            [
+              0.82,
+              1.27,
+              0.03
+            ],
+            [
+              0.82,
+              1.391244,
+              -0.085
+            ],
+            [
+              0.82,
+              1.391244,
+              -0.315
+            ],
+            [
+              0.82,
+              1.27,
+              -0.43
+            ],
+            [
+              0.82,
+              1.148756,
+              -0.315
+            ],
+            [
+              0.82,
+              1.148756,
+              -0.085
+            ]
+          ]
+        },
+        {
+          "name": "folded_tip",
+          "center": [
+            0.86,
+            1.12,
+            -0.47
+          ],
+          "half_vertical": 0.11,
+          "half_chord": 0.18,
+          "vertices": [
+            [
+              0.86,
+              1.12,
+              -0.29
+            ],
+            [
+              0.86,
+              1.215263,
+              -0.38
+            ],
+            [
+              0.86,
+              1.215263,
+              -0.56
+            ],
+            [
+              0.86,
+              1.12,
+              -0.65
+            ],
+            [
+              0.86,
+              1.024737,
+              -0.56
+            ],
+            [
+              0.86,
+              1.024737,
+              -0.38
+            ]
+          ]
+        }
+      ],
+      "layer_plates": [
+        {
+          "name": "upper_cover_plate",
+          "root_attachment": "wing.host_root_b-to-shoulder_fold",
+          "vertices": [
+            [
+              0.2,
+              1.47,
+              0.15
+            ],
+            [
+              0.2,
+              1.31,
+              -0.05
+            ],
+            [
+              0.2,
+              1.27,
+              -0.1
+            ],
+            [
+              0.2,
+              1.43,
+              0.1
+            ],
+            [
+              0.72,
+              1.46,
+              -0.1
+            ],
+            [
+              0.72,
+              1.34,
+              -0.31
+            ],
+            [
+              0.72,
+              1.3,
+              -0.37
+            ],
+            [
+              0.72,
+              1.43,
+              -0.17
+            ]
+          ]
+        },
+        {
+          "name": "lower_cover_plate",
+          "root_attachment": "wing.host_root_b-to-shoulder_fold",
+          "vertices": [
+            [
+              0.28,
+              1.38,
+              0.1
+            ],
+            [
+              0.28,
+              1.24,
+              -0.08
+            ],
+            [
+              0.28,
+              1.22,
+              -0.12
+            ],
+            [
+              0.28,
+              1.35,
+              0.05
+            ],
+            [
+              0.82,
+              1.29,
+              -0.31
+            ],
+            [
+              0.82,
+              1.14,
+              -0.49
+            ],
+            [
+              0.82,
+              1.12,
+              -0.54
+            ],
+            [
+              0.82,
+              1.24,
+              -0.35
+            ]
+          ]
+        }
+      ],
+      "measurements": {
+        "segment_lengths_m": [
+          0.083066,
+          0.297489,
+          0.417253,
+          0.311448
+        ],
+        "fold_angles_degrees": [
+          7.4987,
+          18.5202,
+          52.283
+        ],
+        "full_vertical_thicknesses_m": [
+          0.24,
+          0.24,
+          0.32,
+          0.28,
+          0.22
+        ],
+        "full_chord_depths_m": [
+          0.18,
+          0.22,
+          0.4,
+          0.46,
+          0.36
+        ]
+      }
+    },
+    "left": {
+      "sections": [
+        {
+          "name": "host_root_a",
+          "center": [
+            -0.1,
+            1.36,
+            0.1
+          ],
+          "half_vertical": 0.12,
+          "half_chord": 0.09,
+          "vertices": [
+            [
+              -0.1,
+              1.36,
+              0.19
+            ],
+            [
+              -0.1,
+              1.463923,
+              0.145
+            ],
+            [
+              -0.1,
+              1.463923,
+              0.055
+            ],
+            [
+              -0.1,
+              1.36,
+              0.01
+            ],
+            [
+              -0.1,
+              1.256077,
+              0.055
+            ],
+            [
+              -0.1,
+              1.256077,
+              0.145
+            ]
+          ]
+        },
+        {
+          "name": "host_root_b",
+          "center": [
+            -0.18,
+            1.37,
+            0.08
+          ],
+          "half_vertical": 0.12,
+          "half_chord": 0.11,
+          "vertices": [
+            [
+              -0.18,
+              1.37,
+              0.19
+            ],
+            [
+              -0.18,
+              1.473923,
+              0.135
+            ],
+            [
+              -0.18,
+              1.473923,
+              0.025
+            ],
+            [
+              -0.18,
+              1.37,
+              -0.03
+            ],
+            [
+              -0.18,
+              1.266077,
+              0.025
+            ],
+            [
+              -0.18,
+              1.266077,
+              0.135
+            ]
+          ]
+        },
+        {
+          "name": "shoulder_fold",
+          "center": [
+            -0.46,
+            1.38,
+            -0.02
+          ],
+          "half_vertical": 0.16,
+          "half_chord": 0.2,
+          "vertices": [
+            [
+              -0.46,
+              1.38,
+              0.18
+            ],
+            [
+              -0.46,
+              1.518564,
+              0.08
+            ],
+            [
+              -0.46,
+              1.518564,
+              -0.12
+            ],
+            [
+              -0.46,
+              1.38,
+              -0.22
+            ],
+            [
+              -0.46,
+              1.241436,
+              -0.12
+            ],
+            [
+              -0.46,
+              1.241436,
+              0.08
+            ]
+          ]
+        },
+        {
+          "name": "outer_fold",
+          "center": [
+            -0.82,
+            1.27,
+            -0.2
+          ],
+          "half_vertical": 0.14,
+          "half_chord": 0.23,
+          "vertices": [
+            [
+              -0.82,
+              1.27,
+              0.03
+            ],
+            [
+              -0.82,
+              1.391244,
+              -0.085
+            ],
+            [
+              -0.82,
+              1.391244,
+              -0.315
+            ],
+            [
+              -0.82,
+              1.27,
+              -0.43
+            ],
+            [
+              -0.82,
+              1.148756,
+              -0.315
+            ],
+            [
+              -0.82,
+              1.148756,
+              -0.085
+            ]
+          ]
+        },
+        {
+          "name": "folded_tip",
+          "center": [
+            -0.86,
+            1.12,
+            -0.47
+          ],
+          "half_vertical": 0.11,
+          "half_chord": 0.18,
+          "vertices": [
+            [
+              -0.86,
+              1.12,
+              -0.29
+            ],
+            [
+              -0.86,
+              1.215263,
+              -0.38
+            ],
+            [
+              -0.86,
+              1.215263,
+              -0.56
+            ],
+            [
+              -0.86,
+              1.12,
+              -0.65
+            ],
+            [
+              -0.86,
+              1.024737,
+              -0.56
+            ],
+            [
+              -0.86,
+              1.024737,
+              -0.38
+            ]
+          ]
+        }
+      ],
+      "layer_plates": [
+        {
+          "name": "upper_cover_plate",
+          "root_attachment": "wing.host_root_b-to-shoulder_fold",
+          "vertices": [
+            [
+              -0.2,
+              1.47,
+              0.15
+            ],
+            [
+              -0.2,
+              1.31,
+              -0.05
+            ],
+            [
+              -0.2,
+              1.27,
+              -0.1
+            ],
+            [
+              -0.2,
+              1.43,
+              0.1
+            ],
+            [
+              -0.72,
+              1.46,
+              -0.1
+            ],
+            [
+              -0.72,
+              1.34,
+              -0.31
+            ],
+            [
+              -0.72,
+              1.3,
+              -0.37
+            ],
+            [
+              -0.72,
+              1.43,
+              -0.17
+            ]
+          ]
+        },
+        {
+          "name": "lower_cover_plate",
+          "root_attachment": "wing.host_root_b-to-shoulder_fold",
+          "vertices": [
+            [
+              -0.28,
+              1.38,
+              0.1
+            ],
+            [
+              -0.28,
+              1.24,
+              -0.08
+            ],
+            [
+              -0.28,
+              1.22,
+              -0.12
+            ],
+            [
+              -0.28,
+              1.35,
+              0.05
+            ],
+            [
+              -0.82,
+              1.29,
+              -0.31
+            ],
+            [
+              -0.82,
+              1.14,
+              -0.49
+            ],
+            [
+              -0.82,
+              1.12,
+              -0.54
+            ],
+            [
+              -0.82,
+              1.24,
+              -0.35
+            ]
+          ]
+        }
+      ],
+      "measurements": "mirror of right; signs of x centers and vertices reverse only"
+    },
+    "ring_order": "host_root_a -> host_root_b -> shoulder_fold -> outer_fold -> folded_tip",
+    "intent": "two compact folded turquoise/deep-teal wing volumes, each with two closed overlapping cover layers; preserve two-wing count"
+  },
+  "leg_volumes": {
+    "right": {
+      "sections": [
+        {
+          "name": "host_root",
+          "center": [
+            0.16,
+            0.62,
+            0.02
+          ],
+          "half_lateral": 0.07,
+          "half_longitudinal": 0.08,
+          "vertices": [
+            [
+              0.23,
+              0.62,
+              0.02
+            ],
+            [
+              0.209497,
+              0.62,
+              0.076569
+            ],
+            [
+              0.16,
+              0.62,
+              0.1
+            ],
+            [
+              0.110503,
+              0.62,
+              0.076569
+            ],
+            [
+              0.09,
+              0.62,
+              0.02
+            ],
+            [
+              0.110503,
+              0.62,
+              -0.036569
+            ],
+            [
+              0.16,
+              0.62,
+              -0.06
+            ],
+            [
+              0.209497,
+              0.62,
+              -0.036569
+            ]
+          ]
+        },
+        {
+          "name": "knee",
+          "center": [
+            0.21,
+            0.42,
+            0.12
+          ],
+          "half_lateral": 0.06,
+          "half_longitudinal": 0.07,
+          "vertices": [
+            [
+              0.27,
+              0.42,
+              0.12
+            ],
+            [
+              0.252426,
+              0.42,
+              0.169497
+            ],
+            [
+              0.21,
+              0.42,
+              0.19
+            ],
+            [
+              0.167574,
+              0.42,
+              0.169497
+            ],
+            [
+              0.15,
+              0.42,
+              0.12
+            ],
+            [
+              0.167574,
+              0.42,
+              0.070503
+            ],
+            [
+              0.21,
+              0.42,
+              0.05
+            ],
+            [
+              0.252426,
+              0.42,
+              0.070503
+            ]
+          ]
+        },
+        {
+          "name": "ankle",
+          "center": [
+            0.18,
+            0.19,
+            0.2
+          ],
+          "half_lateral": 0.045,
+          "half_longitudinal": 0.05,
+          "vertices": [
+            [
+              0.225,
+              0.19,
+              0.2
+            ],
+            [
+              0.21182,
+              0.19,
+              0.235355
+            ],
+            [
+              0.18,
+              0.19,
+              0.25
+            ],
+            [
+              0.14818,
+              0.19,
+              0.235355
+            ],
+            [
+              0.135,
+              0.19,
+              0.2
+            ],
+            [
+              0.14818,
+              0.19,
+              0.164645
+            ],
+            [
+              0.18,
+              0.19,
+              0.15
+            ],
+            [
+              0.21182,
+              0.19,
+              0.164645
+            ]
+          ]
+        },
+        {
+          "name": "foot_root",
+          "center": [
+            0.18,
+            0.1,
+            0.27
+          ],
+          "half_lateral": 0.05,
+          "half_longitudinal": 0.07,
+          "vertices": [
+            [
+              0.23,
+              0.1,
+              0.27
+            ],
+            [
+              0.215355,
+              0.1,
+              0.319497
+            ],
+            [
+              0.18,
+              0.1,
+              0.34
+            ],
+            [
+              0.144645,
+              0.1,
+              0.319497
+            ],
+            [
+              0.13,
+              0.1,
+              0.27
+            ],
+            [
+              0.144645,
+              0.1,
+              0.220503
+            ],
+            [
+              0.18,
+              0.1,
+              0.2
+            ],
+            [
+              0.215355,
+              0.1,
+              0.220503
+            ]
+          ]
+        }
+      ],
+      "foot": {
+        "side": "right",
+        "vertices": [
+          [
+            0.09,
+            0.13,
+            0.17
+          ],
+          [
+            0.27,
+            0.13,
+            0.17
+          ],
+          [
+            0.27,
+            0.13,
+            0.35
+          ],
+          [
+            0.09,
+            0.13,
+            0.35
+          ],
+          [
+            0.06,
+            0.035,
+            0.2
+          ],
+          [
+            0.3,
+            0.035,
+            0.2
+          ],
+          [
+            0.3,
+            0.035,
+            0.43
+          ],
+          [
+            0.06,
+            0.035,
+            0.43
+          ]
+        ]
+      },
+      "toes": [
+        {
+          "name": "right_toe_1",
+          "foot": "right",
+          "vertices": [
+            [
+              0.075,
+              0.075,
+              0.3
+            ],
+            [
+              0.145,
+              0.075,
+              0.3
+            ],
+            [
+              0.145,
+              0.035,
+              0.35
+            ],
+            [
+              0.075,
+              0.035,
+              0.35
+            ],
+            [
+              0.088,
+              0.06,
+              0.52
+            ],
+            [
+              0.132,
+              0.06,
+              0.52
+            ],
+            [
+              0.127,
+              0.035,
+              0.54
+            ],
+            [
+              0.093,
+              0.035,
+              0.54
+            ]
+          ]
+        },
+        {
+          "name": "right_toe_2",
+          "foot": "right",
+          "vertices": [
+            [
+              0.145,
+              0.075,
+              0.3
+            ],
+            [
+              0.215,
+              0.075,
+              0.3
+            ],
+            [
+              0.215,
+              0.035,
+              0.35
+            ],
+            [
+              0.145,
+              0.035,
+              0.35
+            ],
+            [
+              0.158,
+              0.06,
+              0.52
+            ],
+            [
+              0.202,
+              0.06,
+              0.52
+            ],
+            [
+              0.197,
+              0.035,
+              0.54
+            ],
+            [
+              0.163,
+              0.035,
+              0.54
+            ]
+          ]
+        },
+        {
+          "name": "right_toe_3",
+          "foot": "right",
+          "vertices": [
+            [
+              0.215,
+              0.075,
+              0.3
+            ],
+            [
+              0.285,
+              0.075,
+              0.3
+            ],
+            [
+              0.285,
+              0.035,
+              0.35
+            ],
+            [
+              0.215,
+              0.035,
+              0.35
+            ],
+            [
+              0.228,
+              0.06,
+              0.52
+            ],
+            [
+              0.272,
+              0.06,
+              0.52
+            ],
+            [
+              0.267,
+              0.035,
+              0.54
+            ],
+            [
+              0.233,
+              0.035,
+              0.54
+            ]
+          ]
+        }
+      ],
+      "measurements": {
+        "segment_lengths_m": [
+          0.229129,
+          0.245357,
+          0.114018
+        ],
+        "joint_angles_degrees": [
+          20.9554,
+          19.9274
+        ],
+        "taper_full_widths_m": [
+          0.14,
+          0.12,
+          0.09,
+          0.1
+        ],
+        "taper_full_depths_m": [
+          0.16,
+          0.14,
+          0.1,
+          0.14
+        ]
+      }
+    },
+    "left": {
+      "sections": [
+        {
+          "name": "host_root",
+          "center": [
+            -0.16,
+            0.62,
+            0.02
+          ],
+          "half_lateral": 0.07,
+          "half_longitudinal": 0.08,
+          "vertices": [
+            [
+              -0.23,
+              0.62,
+              0.02
+            ],
+            [
+              -0.209497,
+              0.62,
+              0.076569
+            ],
+            [
+              -0.16,
+              0.62,
+              0.1
+            ],
+            [
+              -0.110503,
+              0.62,
+              0.076569
+            ],
+            [
+              -0.09,
+              0.62,
+              0.02
+            ],
+            [
+              -0.110503,
+              0.62,
+              -0.036569
+            ],
+            [
+              -0.16,
+              0.62,
+              -0.06
+            ],
+            [
+              -0.209497,
+              0.62,
+              -0.036569
+            ]
+          ]
+        },
+        {
+          "name": "knee",
+          "center": [
+            -0.21,
+            0.42,
+            0.12
+          ],
+          "half_lateral": 0.06,
+          "half_longitudinal": 0.07,
+          "vertices": [
+            [
+              -0.27,
+              0.42,
+              0.12
+            ],
+            [
+              -0.252426,
+              0.42,
+              0.169497
+            ],
+            [
+              -0.21,
+              0.42,
+              0.19
+            ],
+            [
+              -0.167574,
+              0.42,
+              0.169497
+            ],
+            [
+              -0.15,
+              0.42,
+              0.12
+            ],
+            [
+              -0.167574,
+              0.42,
+              0.070503
+            ],
+            [
+              -0.21,
+              0.42,
+              0.05
+            ],
+            [
+              -0.252426,
+              0.42,
+              0.070503
+            ]
+          ]
+        },
+        {
+          "name": "ankle",
+          "center": [
+            -0.18,
+            0.19,
+            0.2
+          ],
+          "half_lateral": 0.045,
+          "half_longitudinal": 0.05,
+          "vertices": [
+            [
+              -0.225,
+              0.19,
+              0.2
+            ],
+            [
+              -0.21182,
+              0.19,
+              0.235355
+            ],
+            [
+              -0.18,
+              0.19,
+              0.25
+            ],
+            [
+              -0.14818,
+              0.19,
+              0.235355
+            ],
+            [
+              -0.135,
+              0.19,
+              0.2
+            ],
+            [
+              -0.14818,
+              0.19,
+              0.164645
+            ],
+            [
+              -0.18,
+              0.19,
+              0.15
+            ],
+            [
+              -0.21182,
+              0.19,
+              0.164645
+            ]
+          ]
+        },
+        {
+          "name": "foot_root",
+          "center": [
+            -0.18,
+            0.1,
+            0.27
+          ],
+          "half_lateral": 0.05,
+          "half_longitudinal": 0.07,
+          "vertices": [
+            [
+              -0.23,
+              0.1,
+              0.27
+            ],
+            [
+              -0.215355,
+              0.1,
+              0.319497
+            ],
+            [
+              -0.18,
+              0.1,
+              0.34
+            ],
+            [
+              -0.144645,
+              0.1,
+              0.319497
+            ],
+            [
+              -0.13,
+              0.1,
+              0.27
+            ],
+            [
+              -0.144645,
+              0.1,
+              0.220503
+            ],
+            [
+              -0.18,
+              0.1,
+              0.2
+            ],
+            [
+              -0.215355,
+              0.1,
+              0.220503
+            ]
+          ]
+        }
+      ],
+      "foot": {
+        "side": "left",
+        "vertices": [
+          [
+            -0.09,
+            0.13,
+            0.17
+          ],
+          [
+            -0.27,
+            0.13,
+            0.17
+          ],
+          [
+            -0.27,
+            0.13,
+            0.35
+          ],
+          [
+            -0.09,
+            0.13,
+            0.35
+          ],
+          [
+            -0.06,
+            0.035,
+            0.2
+          ],
+          [
+            -0.3,
+            0.035,
+            0.2
+          ],
+          [
+            -0.3,
+            0.035,
+            0.43
+          ],
+          [
+            -0.06,
+            0.035,
+            0.43
+          ]
+        ]
+      },
+      "toes": [
+        {
+          "name": "left_toe_1",
+          "foot": "left",
+          "vertices": [
+            [
+              -0.075,
+              0.075,
+              0.3
+            ],
+            [
+              -0.145,
+              0.075,
+              0.3
+            ],
+            [
+              -0.145,
+              0.035,
+              0.35
+            ],
+            [
+              -0.075,
+              0.035,
+              0.35
+            ],
+            [
+              -0.088,
+              0.06,
+              0.52
+            ],
+            [
+              -0.132,
+              0.06,
+              0.52
+            ],
+            [
+              -0.127,
+              0.035,
+              0.54
+            ],
+            [
+              -0.093,
+              0.035,
+              0.54
+            ]
+          ]
+        },
+        {
+          "name": "left_toe_2",
+          "foot": "left",
+          "vertices": [
+            [
+              -0.145,
+              0.075,
+              0.3
+            ],
+            [
+              -0.215,
+              0.075,
+              0.3
+            ],
+            [
+              -0.215,
+              0.035,
+              0.35
+            ],
+            [
+              -0.145,
+              0.035,
+              0.35
+            ],
+            [
+              -0.158,
+              0.06,
+              0.52
+            ],
+            [
+              -0.202,
+              0.06,
+              0.52
+            ],
+            [
+              -0.197,
+              0.035,
+              0.54
+            ],
+            [
+              -0.163,
+              0.035,
+              0.54
+            ]
+          ]
+        },
+        {
+          "name": "left_toe_3",
+          "foot": "left",
+          "vertices": [
+            [
+              -0.215,
+              0.075,
+              0.3
+            ],
+            [
+              -0.285,
+              0.075,
+              0.3
+            ],
+            [
+              -0.285,
+              0.035,
+              0.35
+            ],
+            [
+              -0.215,
+              0.035,
+              0.35
+            ],
+            [
+              -0.228,
+              0.06,
+              0.52
+            ],
+            [
+              -0.272,
+              0.06,
+              0.52
+            ],
+            [
+              -0.267,
+              0.035,
+              0.54
+            ],
+            [
+              -0.233,
+              0.035,
+              0.54
+            ]
+          ]
+        }
+      ],
+      "measurements": "mirror of right; signs of x centers and vertices reverse only"
+    },
+    "ring_order": "host_root -> knee -> ankle -> foot_root",
+    "intent": "two bent cream avian legs, each ending in one grounded taloned foot with three closed toe wedges"
+  },
+  "review_views": {
+    "front": "two wings stay symmetric on upper torso; legs remain two and separate",
+    "left_right": "folded wing has layered shoulder-to-tip volume and a visibly bent knee/ankle",
+    "rear": "both wing roots and both split-tail ribbons remain legible",
+    "top": "folded wing chord/back sweep stays inside frozen envelope",
+    "threequarter": "check root coverage, cover-layer overlap, foot grounding, and no floating shell"
+  },
+  "predicted_changed_geometry_bounds_m": {
+    "min": [
+      -0.86,
+      0.035,
+      -0.65
+    ],
+    "max": [
+      0.86,
+      1.518564,
+      0.54
+    ]
+  },
+  "predicted_changed_geometry_inside_authoring_envelope": true,
+  "predicted_triangle_budget": {
+    "two_primary_wings": 112,
+    "four_cover_plates": 48,
+    "two_legs": 120,
+    "two_feet_and_six_toes": 96,
+    "total_changed_triangles": 376
+  },
+  "builder_required_audits": [
+    "recompute plan file SHA-256 before use",
+    "literal input parse only; no profile reconstruction",
+    "per-root-face containment against declared interval",
+    "closed surface, component and outward normal checks",
+    "all changed vertices inside frozen authoring envelope",
+    "wing plate-to-wing, foot-to-leg, and toe-to-foot intersection/containment checks",
+    "baked and authoring bounds/triangle comparison plus front,rear,left,right,top,threequarter,48px,96px neutral captures"
+  ]
+}

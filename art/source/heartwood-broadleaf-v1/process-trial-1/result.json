@@ -1,0 +1,12 @@
+{
+  "status": "HOLD",
+  "stage": "texture-flow import",
+  "error": "ModuleNotFoundError: No module named 'trellis2' before child_pipeline installed the local package search path",
+  "completedStages": ["background", "conditioning", "sparse", "shape-flow"],
+  "sparseExitFreeGiB": 18.868240356445312,
+  "shapeExitFreeGiB": 18.852413177490234,
+  "previousSingleProcessAfterSparseFreeGiB": 12.0806,
+  "meshProduced": false,
+  "runtimeAdmission": false,
+  "nextAction": "Correct texture and decode bootstrap ordering, validate in a fresh child, and obtain independent review before any corrected run. Preserve this trial."
+}

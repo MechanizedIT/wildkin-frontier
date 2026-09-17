@@ -1,0 +1,12 @@
+{
+  "schema": "rootbound-scenery-gate-audit/v1",
+  "counts": {
+    "total": 164,
+    "curated": 37,
+    "ordinary": 127,
+    "ordinaryLow": 107,
+    "ordinaryCanopy": 20
+  },
+  "filter": "rootboundVisibleScenery rejects all non-low and all lows outside four small circles",
+  "recommendation": "retain four pockets; additionally allow existing non-solid low specs within named continuous Gallery/Verge/Crown shoulder bands after existing route/source/home admission"
+}

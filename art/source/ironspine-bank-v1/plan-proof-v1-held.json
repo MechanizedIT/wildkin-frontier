@@ -1,0 +1,75 @@
+{
+  "schema": "ironspine-bank-plan-proof/v1",
+  "status": "numerical construction-plan proof only; not a Blender/model/runtime proof",
+  "computedFrom": "construction-data.json literal vertices/faces",
+  "bounds": {
+    "min": [
+      -1.8,
+      -0.38,
+      -0.5
+    ],
+    "max": [
+      1.8,
+      1.62,
+      0.5
+    ],
+    "dimensions": [
+      3.6,
+      2,
+      1
+    ]
+  },
+  "topology": {
+    "vertices": 63,
+    "triangles": 122,
+    "edges": 183,
+    "edgeUseHistogram": {
+      "2": 183
+    },
+    "allEdgesExactlyTwice": true,
+    "zeroAreaTriangleCount": 0,
+    "signedVolume": 1.733651999999999,
+    "positiveOutwardWinding": true,
+    "components": 1
+  },
+  "caps": {
+    "leftFaceIndices": [
+      108,
+      109,
+      110,
+      111,
+      112,
+      113,
+      114
+    ],
+    "rightFaceIndices": [
+      115,
+      116,
+      117,
+      118,
+      119,
+      120,
+      121
+    ],
+    "individualBoundaryOnly": true,
+    "combinedLoopFill": false
+  },
+  "supportEmbedding": {
+    "minTerrainY": 8.880348675115647,
+    "maxTerrainY": 9.226700643057336,
+    "span": 0.34635196794168976,
+    "localMinY": -0.38,
+    "buryMarginAboveHighestTerrain": 0.03364803205831021
+  },
+  "reviewRequired": [
+    "inspect untextured front/rear/end/three-quarter massing",
+    "compare game-scale native projection after builder export",
+    "verify actual Blender mesh.calc_loop_triangles count equals stored 122 triangles",
+    "verify opaque coverage and terrain/hull contact later"
+  ],
+  "frozenConstructionData": {
+    "path": "construction-data.json",
+    "sha256": "B5EB01D86FBA0981BA90C5C1DB425E1E22BA9472470CFDB1CF82D0B249A977AD"
+  },
+  "validationMethod": "Read literal UTF-8 JSON; derive bounds, unique undirected edge uses, triangle areas, and signed tetrahedral volume directly from stored vertices/faces. No Blender scene or runtime was opened."
+}

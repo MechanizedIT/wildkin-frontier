@@ -1,0 +1,200 @@
+{
+  "date": "2026-09-14T10:06:45.883Z",
+  "baseCommit": "f455dcb",
+  "workflowCommit": "07a8348",
+  "status": "Rootbound and tree-study checkpoint complete; continuous habitat/Wildkin goal active",
+  "habitat": {
+    "finalPhase": "checkpoint",
+    "status": "HOLD",
+    "score": 3.6,
+    "passes": 3,
+    "retained": "R2 after rejected R3 feasibility experiment",
+    "curatedCount": 10
+  },
+  "species": {
+    "name": "Trailgloam",
+    "status": "Design PASS; construction reference conditional PASS; model/play HOLD",
+    "referencePasses": 3
+  },
+  "asset": {
+    "status": "HOLD 6.0/10; not shipped",
+    "candidate": "candidate-v3",
+    "version": "v3",
+    "passes": 3,
+    "summary": "One missing buttress tree was generated as a target, built in three separate Blender candidates and independently judged. The final candidate is improved but still too thin and generic; no model or collider was integrated."
+  },
+  "playerSummary": "Rootbound now has a bounded ten-prop framing trial and protected local terrain changes. The ordinary circuit has useful gathering, but the habitat remains far below the selected visual target. The species reference and new tree are honest development checkpoints, not shipped creatures or assets.",
+  "journeyLabel": "4m 40s circuit",
+  "validation": {
+    "tests": 1416,
+    "summary": "npm test, verify and ZIP completed at the final source checkpoint.",
+    "results": [
+      {
+        "label": "test",
+        "command": "npm test",
+        "exitCode": 0,
+        "seconds": 113.761,
+        "tests": 1416,
+        "failures": 0,
+        "tail": "  ---\n  duration_ms: 1.7701\n  type: 'test'\n  ...\n# Subtest: cached targets exclude their own geometry and recover after retirement and recreation\nok 936 - cached targets exclude their own geometry and recover after retirement and recreation\n  ---\n  duration_ms: 2.2427\n  type: 'test'\n  ...\n1..936\n# tests 1416\n# suites 173\n# pass 1416\n# fail 0\n# cancelled 0\n# skipped 0\n# todo 0\n# duration_ms 112653.8935\n"
+      },
+      {
+        "label": "verify",
+        "command": "npm run verify",
+        "exitCode": 0,
+        "seconds": 116.623,
+        "tests": 1416,
+        "failures": 0,
+        "tail": "# cancelled 0\n# skipped 0\n# todo 0\n# duration_ms 112038.6799\n[check-world] PASS — world.json and world.generated.js in sync\n[check-campaign] PASS — route, carried renewable economy, companion identity, finale order, and coarse walkability are coherent.\nsection_1: XP 62 (L2), reachable renewable harvest {\"wood\":26,\"stone\":12,\"fiber\":9,\"berries\":16,\"iron_ore\":10,\"crystal_shard\":0,\"wildflower\":3}\nsection_2: XP 263 (L3), reachable renewable harvest {\"wood\":36,\"stone\":24,\"fiber\":15,\"berries\":16,\"iron_ore\":10,\"crystal_shard\":8,\"wildflower\":6}\nsection_3: XP 503 (L4), reachable renewable harvest {\"wood\":41,\"stone\":28,\"fiber\":18,\"berries\":16,\"iron_ore\":35,\"crystal_shard\":12,\"wildflower\":6}\nsection_4: XP 865 (L5), reachable renewable harvest {\"wood\":46,\"stone\":32,\"fiber\":21,\"berries\":16,\"iron_ore\":50,\"crystal_shard\":32,\"wildflower\":9}\nsection_5: XP 1145 (L5), reachable renewable harvest {\"wood\":51,\"stone\":36,\"fiber\":24,\"berries\":16,\"iron_ore\":50,\"crystal_shard\":76,\"wildflower\":9}\n[check-campaign] Coarse walkability is an estimate only; run a physical playtest before release.\n[build] wrote dist\\submission\\index.html (15990.9 KB)\n[build] vendor/three.module.js 1243.1 KB\n[build] vendor/rapier.js 2790.6 KB\n[build] submission dir: dist\\submission\n[build] next: npm run validate  |  npm run zip\n[validate] submission size 45487.5 KB (44.42 MB)\n[validate] PASS — submission looks compliant\n"
+      },
+      {
+        "label": "zip",
+        "command": "npm run zip",
+        "exitCode": 0,
+        "seconds": 9.687,
+        "tests": 0,
+        "failures": 0,
+        "tail": "\n> wildkin-frontier@0.3.0-alpha.1 zip\n> node tools/zip-submission.mjs\n\n[zip] created dist\\submission.zip (21092.2 KB, 20.60 MB)\n"
+      }
+    ]
+  },
+  "package": {
+    "zipBytes": 21598371,
+    "zipMB": "20.60",
+    "unpackedBytes": 46579234,
+    "sha256": "d620fe2fdaabc047553583c43497f1530c6fe3039aee66712d1e89a497815f4e"
+  },
+  "journey": {
+    "seconds": 280.022,
+    "legs": [
+      {
+        "i": 1,
+        "reached": true,
+        "detours": 0
+      },
+      {
+        "i": 2,
+        "reached": true,
+        "detours": 0
+      },
+      {
+        "i": 3,
+        "reached": true,
+        "detours": 0
+      },
+      {
+        "i": 4,
+        "reached": true,
+        "detours": 0
+      },
+      {
+        "i": 5,
+        "reached": true,
+        "detours": 0
+      },
+      {
+        "i": 6,
+        "reached": true,
+        "detours": 0
+      },
+      {
+        "i": 7,
+        "reached": true,
+        "detours": 0
+      }
+    ],
+    "errors": [],
+    "frames": {
+      "count": 37510,
+      "p50": 6.699999999254942,
+      "p95": 11,
+      "p99": 14.699999999254942,
+      "max": 226.5
+    },
+    "inventoryExact": true,
+    "ecologyExact": true,
+    "completeProgressExact": false,
+    "differences": [
+      {
+        "path": "progress.activeRun.feet.x",
+        "before": -473.5948791503906,
+        "after": -473.6006164550781
+      },
+      {
+        "path": "progress.activeRun.feet.y",
+        "before": 13.552412320696625,
+        "after": 13.552341629587922
+      }
+    ]
+  },
+  "portable": [
+    {
+      "label": "portable-route",
+      "url": "http://localhost:8081/",
+      "setup": "Isolated browser, public validated importSave API then literal reload and Start; no user browser storage touched.",
+      "imported": true,
+      "exportOk": true,
+      "exact": true,
+      "inventoryExact": true,
+      "ecologyExact": true,
+      "errors": [],
+      "external": [],
+      "positionDelta": 0
+    },
+    {
+      "label": "developer-original",
+      "url": "http://localhost:8080/",
+      "setup": "Isolated browser, public validated importSave API then literal reload and Start; no user browser storage touched.",
+      "imported": true,
+      "exportOk": true,
+      "exact": true,
+      "inventoryExact": true,
+      "ecologyExact": true,
+      "errors": [],
+      "external": [],
+      "positionDelta": null
+    },
+    {
+      "label": "portable-original",
+      "url": "http://localhost:8081/",
+      "setup": "Isolated browser, public validated importSave API then literal reload and Start; no user browser storage touched.",
+      "imported": true,
+      "exportOk": true,
+      "exact": true,
+      "inventoryExact": true,
+      "ecologyExact": true,
+      "errors": [],
+      "external": [],
+      "positionDelta": null
+    }
+  ],
+  "sourceHashes": {
+    "src/world/frontierRootbound.js": "1f585a3e19536af43e2ad73adecd1619989483703484d3be1fb9e0bff1c2354f",
+    "src/world/frontierRegion.js": "f4311070347484c907290e90169d5b395de896ad6418f609072a478a3a25f04a",
+    "src/world/frontierTerrain.js": "3a0c5d36abc08dbf47b40dc45617e61ce83e4202bd121e6880dd7230dd50601a",
+    "src/world/frontierScenery.js": "9df09e658c70a3bc3653e4729abd28fe2e500bc1c3527a7eb98162881cbdcc10",
+    "tests/rootboundCircuit.test.js": "ca9da8520ea2522c3e36d6bd709bd27a54f4dd6081bf48d0b2f259ea6c693e2e",
+    "tests/frontierRegion.test.js": "4401da88d353d410e4a616df59b441198033237c1829992d96891ba6692b5bcd",
+    "tests/frontierCaldera.test.js": "feb22ea73f0992de740cdfd0f6c2930058aa55a11efaac47922e71cdbae277ba"
+  },
+  "humanChecks": [
+    "For a visual inspection, open Scout, Continue, and use flight to find the Rootbound Wildwood clearing shown in the arrival image (near x -475, z 590). Descend and press G to walk. Look for a broad open floor with the canopy/log edge; failure looks like disconnected props without a readable opening. Scout progress is temporary.",
+    "At the Gallery shown in the second comparison (near x -480, z 720), walk toward the paired gray stones and fallen log in the Hollow (near x -449, z 675). The approach should remain traversable without repeated jumping or an invisible wall. The illustrated fixed views supplement these locations; the test route was guided, not an unaided navigation proof.",
+    "In ordinary play, gather ripe berries beside the Hollow, return to a clear resting point and reload. Inventory and depleted berries should remain consistent, with no duplicate yield. Exact saved-foot position remains a documented reload limitation; Scout cannot test persistent gathering."
+  ],
+  "limitations": [
+    "Final habitat visual review is HOLD 3.6/10. The third crescent method failed support/traversal feasibility; the safer second pass is retained. Root Galleries, Lantern Grove, Thornstone Verge and Heartroot Crown are not claimed as finished habitat experiences.",
+    "The generated target is direction only. Three fixed portrait poses are diagnostic placements in an isolated copied save; the ordinary circuit used one start placement then keyboard movement guided by coordinates.",
+    "Complete active-run save equality is not claimed: see exact differing fields below and portable proof. Inventory and ecology are reported separately.",
+    "Headless Edge at a phone viewport is not a physical phone. Renderer interval samples are bounded diagnostics with the Blender study workbench active concurrently; they are not an isolated performance baseline, measured improvement or sustained device benchmark.",
+    "Trailgloam has no mesh, rig, motion, encounter or ability implementation. The tree has no runtime admission. Neither is present in the game ZIP.",
+    "The original three batches and explicit two-approach tree study are complete. Chris then authorized continuous repeated habitat rotations with Wildkin in parallel. No push, external posting, paid generation or global skill installation occurred."
+  ],
+  "nextRecommendation": "Continue Heartwood Basin planning, fresh baseline, 2–4 portrait targets and independent selection before a bounded structural pass; advance Trailgloam references and guarded generation in parallel. Repeat all ten habitats under the active owner goal.",
+  "treeStudy": {
+    "status": "Both trials held; no tree admitted",
+    "trialA": "Final HOLD 7.4/10; 4542 triangles; exact nonshipping GLB",
+    "trialB": "Final massing HOLD 1.0/10; 1976 triangles; 46 disconnected wood components; no GLB",
+    "report": "../../source/rootbound-buttress-study/review.html"
+  }
+}

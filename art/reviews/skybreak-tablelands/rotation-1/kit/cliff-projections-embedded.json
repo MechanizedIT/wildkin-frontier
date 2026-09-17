@@ -1,0 +1,317 @@
+{
+  "note": "Actual camera, complete mesh and convex hull projection of diagnostic models without physics or resident lifecycle. Central window y160..640 approximate HUD safety; not occlusion/collision proof.",
+  "views": [
+    {
+      "pose": {
+        "name": "arrival",
+        "x": 4,
+        "z": -153,
+        "yaw": 0
+      },
+      "camera": [
+        4,
+        15.613566012829253,
+        -143.62261966558938
+      ],
+      "direction": [
+        0,
+        -0.5877852522924688,
+        -0.8090169943749508
+      ],
+      "probes": [
+        {
+          "name": "embedded-buttress-a",
+          "asset": "asset_verdant_cliff_buttress",
+          "x": 20,
+          "z": -226,
+          "scale": 0.65,
+          "yaw": 0.4,
+          "baseX": 19.3369,
+          "baseZ": -224.99,
+          "baseY": 32.91849651794434,
+          "mesh": {
+            "minX": 454.99254496163707,
+            "minY": -638.3960768087876,
+            "maxX": 489.9042251126315,
+            "maxY": -575.7378380930344,
+            "central": 0,
+            "front": 1160,
+            "total": 1160
+          },
+          "hull": {
+            "minX": 453.1287858519837,
+            "minY": -640.1478165758713,
+            "maxX": 491.7311213924366,
+            "maxY": -574.999653849206,
+            "central": 0,
+            "front": 19,
+            "total": 19
+          }
+        },
+        {
+          "name": "embedded-buttress-b",
+          "asset": "asset_verdant_cliff_buttress",
+          "x": 28,
+          "z": -220,
+          "scale": 0.65,
+          "yaw": 0.4,
+          "baseX": 29.1349,
+          "baseZ": -220.1446,
+          "baseY": 28.005123891639712,
+          "mesh": {
+            "minX": 601.7016837350844,
+            "minY": -546.8602781818689,
+            "maxX": 639.5190223501523,
+            "maxY": -484.8619210326427,
+            "central": 0,
+            "front": 1160,
+            "total": 1160
+          },
+          "hull": {
+            "minX": 599.4332264884258,
+            "minY": -548.5571705053596,
+            "maxX": 641.7869514432714,
+            "maxY": -484.2949598810536,
+            "central": 0,
+            "front": 19,
+            "total": 19
+          }
+        }
+      ]
+    },
+    {
+      "pose": {
+        "name": "ascent",
+        "x": -7,
+        "z": -184,
+        "yaw": -0.5404195002705842
+      },
+      "camera": [
+        -11.824622379083817,
+        25.181956758029315,
+        -175.95896270152699
+      ],
+      "direction": [
+        0.4162358096746484,
+        -0.5877852522924769,
+        -0.6937263494577377
+      ],
+      "probes": [
+        {
+          "name": "embedded-buttress-a",
+          "asset": "asset_verdant_cliff_buttress",
+          "x": 20,
+          "z": -226,
+          "scale": 0.65,
+          "yaw": 0.4,
+          "baseX": 19.3369,
+          "baseZ": -224.99,
+          "baseY": 32.91849651794434,
+          "mesh": {
+            "minX": 219.90423686787494,
+            "minY": -503.4952423736722,
+            "maxX": 256.60451686282795,
+            "maxY": -427.10278081205024,
+            "central": 0,
+            "front": 1160,
+            "total": 1160
+          },
+          "hull": {
+            "minX": 217.7365651913383,
+            "minY": -505.62609393671977,
+            "maxX": 259.2060889451693,
+            "maxY": -426.48571102781534,
+            "central": 0,
+            "front": 19,
+            "total": 19
+          }
+        },
+        {
+          "name": "embedded-buttress-b",
+          "asset": "asset_verdant_cliff_buttress",
+          "x": 28,
+          "z": -220,
+          "scale": 0.65,
+          "yaw": 0.4,
+          "baseX": 29.1349,
+          "baseZ": -220.1446,
+          "baseY": 28.005123891639712,
+          "mesh": {
+            "minX": 426.0467113622609,
+            "minY": -362.2588645566543,
+            "maxX": 460.0964773446745,
+            "maxY": -294.82360799343087,
+            "central": 0,
+            "front": 1160,
+            "total": 1160
+          },
+          "hull": {
+            "minX": 424.0637705157702,
+            "minY": -364.3178046737324,
+            "maxX": 461.8494731707164,
+            "maxY": -294.6179853061831,
+            "central": 0,
+            "front": 19,
+            "total": 19
+          }
+        }
+      ]
+    },
+    {
+      "pose": {
+        "name": "crown",
+        "x": 12,
+        "z": -228,
+        "yaw": -2.1815222911841055
+      },
+      "camera": [
+        4.317750699203318,
+        43.22624539328328,
+        -233.37757451055768
+      ],
+      "direction": [
+        0.662772546034332,
+        -0.5877852522924715,
+        0.4639407822240301
+      ],
+      "probes": [
+        {
+          "name": "embedded-buttress-a",
+          "asset": "asset_verdant_cliff_buttress",
+          "x": 20,
+          "z": -226,
+          "scale": 0.65,
+          "yaw": 0.4,
+          "baseX": 19.3369,
+          "baseZ": -224.99,
+          "baseY": 32.91849651794434,
+          "mesh": {
+            "minX": 16.387036638727235,
+            "minY": 265.1139394764304,
+            "maxX": 118.06075293939158,
+            "maxY": 397.7328450114085,
+            "central": 1160,
+            "front": 1160,
+            "total": 1160
+          },
+          "hull": {
+            "minX": 10.453507522193506,
+            "minY": 259.0336338314203,
+            "maxX": 123.92961725941865,
+            "maxY": 402.0442187081721,
+            "central": 19,
+            "front": 19,
+            "total": 19
+          }
+        },
+        {
+          "name": "embedded-buttress-b",
+          "asset": "asset_verdant_cliff_buttress",
+          "x": 28,
+          "z": -220,
+          "scale": 0.65,
+          "yaw": 0.4,
+          "baseX": 29.1349,
+          "baseZ": -220.1446,
+          "baseY": 28.005123891639712,
+          "mesh": {
+            "minX": 95.18199044593631,
+            "minY": 276.246635383693,
+            "maxX": 159.42763083084586,
+            "maxY": 360.4412384115787,
+            "central": 1160,
+            "front": 1160,
+            "total": 1160
+          },
+          "hull": {
+            "minX": 92.32323219481842,
+            "minY": 272.38006618952267,
+            "maxX": 163.05130903216167,
+            "maxY": 363.01468097985656,
+            "central": 19,
+            "front": 19,
+            "total": 19
+          }
+        }
+      ]
+    },
+    {
+      "pose": {
+        "name": "return",
+        "x": 36,
+        "z": -188,
+        "yaw": 3.141592653589793
+      },
+      "camera": [
+        36,
+        26.61839817953811,
+        -197.37738033441062
+      ],
+      "direction": [
+        0,
+        -0.5877852522924688,
+        0.8090169943749508
+      ],
+      "probes": [
+        {
+          "name": "embedded-buttress-a",
+          "asset": "asset_verdant_cliff_buttress",
+          "x": 20,
+          "z": -226,
+          "scale": 0.65,
+          "yaw": 0.4,
+          "baseX": 19.3369,
+          "baseZ": -224.99,
+          "baseY": 32.91849651794434,
+          "mesh": {
+            "minX": -390.432069604061,
+            "minY": 42.29096316266724,
+            "maxX": -299.9698686665758,
+            "maxY": 131.50520478333968,
+            "central": 0,
+            "front": 0,
+            "total": 1160
+          },
+          "hull": {
+            "minX": -394.19008691485135,
+            "minY": 41.13133277733004,
+            "maxX": -297.4252064757403,
+            "maxY": 134.08669074922423,
+            "central": 0,
+            "front": 0,
+            "total": 19
+          }
+        },
+        {
+          "name": "embedded-buttress-b",
+          "asset": "asset_verdant_cliff_buttress",
+          "x": 28,
+          "z": -220,
+          "scale": 0.65,
+          "yaw": 0.4,
+          "baseX": 29.1349,
+          "baseZ": -220.1446,
+          "baseY": 28.005123891639712,
+          "mesh": {
+            "minX": -234.34493097863546,
+            "minY": -142.34210608163772,
+            "maxX": -123.71382972910561,
+            "maxY": -9.97043804731242,
+            "central": 0,
+            "front": 0,
+            "total": 1160
+          },
+          "hull": {
+            "minX": -238.04981729532093,
+            "minY": -142.8367229429913,
+            "maxX": -120.3989605122118,
+            "maxY": -6.7032599449849855,
+            "central": 0,
+            "front": 0,
+            "total": 19
+          }
+        }
+      ]
+    }
+  ]
+}

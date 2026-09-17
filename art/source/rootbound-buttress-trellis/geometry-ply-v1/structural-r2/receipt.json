@@ -1,0 +1,151 @@
+{
+  "status": "executed; independent visual review pending",
+  "raw_sha256": "3005ad1a1f3039a946db633b323ace8bc73856e91f38bfef4fc1faaf59ce223c",
+  "parameters_sha256": "3d06b2c1aaaaa2b5c9b33a3625b0051965c300b9b06ab3758a0888966441bb54",
+  "analysis_sha256": "2906141dfdcf8d611079020b4c096dcc4d7f631a1a55e73028fbfdcd25d7d4e0",
+  "cpu_receipt_sha256": "c26de351330f892d3024ff403981b76cfa0a3b7e11cc4704a17ef082045b6bea",
+  "actual_float32_surface_audit": {
+    "degenerate_triangles": 0,
+    "nonpositive_normal_dot_triangles": 0,
+    "global_self_intersections_tested": false
+  },
+  "vertices": 514489,
+  "triangles": 1029792,
+  "movement": {
+    "webs": [
+      {
+        "name": "near_existing_web_260_280",
+        "selected_vertex_count": 26329,
+        "max_weight": 0.9999997448039016,
+        "max_lateral_offset_m": 0.0891123650843254,
+        "source_bearing_deg": 270.0,
+        "selection_bounds_m": {
+          "min": [
+            -0.6151130862885278,
+            -2.4990951130743726,
+            0.00351021650853367
+          ],
+          "max": [
+            0.13583104964202228,
+            -1.1461340996248481,
+            0.7399950786067453
+          ],
+          "extent": [
+            0.7509441359305501,
+            1.3529610134495245,
+            0.7364848620982116
+          ]
+        }
+      },
+      {
+        "name": "near_existing_web_320_350",
+        "selected_vertex_count": 50761,
+        "max_weight": 0.9999999999999938,
+        "max_lateral_offset_m": 0.1431848480462322,
+        "source_bearing_deg": 335.0,
+        "selection_bounds_m": {
+          "min": [
+            0.36619455649816063,
+            -1.830952822845036,
+            0.004194206757502039
+          ],
+          "max": [
+            2.404570997204756,
+            -0.36055059427610986,
+            0.8799738618012003
+          ],
+          "extent": [
+            2.0383764407065956,
+            1.4704022285689262,
+            0.8757796550436983
+          ]
+        }
+      }
+    ],
+    "trunk_s_bend": {
+      "selected_vertex_count": 17298,
+      "max_weight": 1.0,
+      "max_xy_offset_m": 0.06518690645529561,
+      "selection_bounds_m": {
+        "min": [
+          -0.7840294830779443,
+          -0.8979890805842398,
+          1.4136234413229611
+        ],
+        "max": [
+          0.1317905619474418,
+          -0.0031454316392559166,
+          3.199998927541422
+        ],
+        "extent": [
+          0.915820045025386,
+          0.8948436489449838,
+          1.7863754862184607
+        ]
+      }
+    },
+    "max_total_xy_displacement_m": 0.1431848480462322,
+    "mean_total_xy_displacement_m": 0.007176613503371037,
+    "moved_vertex_count": 94244
+  },
+  "grounded_bounds_m": {
+    "min": [
+      -2.4998416900634766,
+      -2.49985408782959,
+      0.0
+    ],
+    "max": [
+      2.5001583099365234,
+      2.497629165649414,
+      3.917402505874634
+    ],
+    "extent": [
+      5.0,
+      4.997483253479004,
+      3.917402505874634
+    ]
+  },
+  "renders": {
+    "raw": [
+      "C:\\Users\\cwood\\Documents\\mobile-rpg\\art\\source\\rootbound-buttress-trellis\\geometry-ply-v1\\structural-r2\\renders\\raw\\front-512.png",
+      "C:\\Users\\cwood\\Documents\\mobile-rpg\\art\\source\\rootbound-buttress-trellis\\geometry-ply-v1\\structural-r2\\renders\\raw\\front-96.png",
+      "C:\\Users\\cwood\\Documents\\mobile-rpg\\art\\source\\rootbound-buttress-trellis\\geometry-ply-v1\\structural-r2\\renders\\raw\\front-48.png",
+      "C:\\Users\\cwood\\Documents\\mobile-rpg\\art\\source\\rootbound-buttress-trellis\\geometry-ply-v1\\structural-r2\\renders\\raw\\threequarter-512.png",
+      "C:\\Users\\cwood\\Documents\\mobile-rpg\\art\\source\\rootbound-buttress-trellis\\geometry-ply-v1\\structural-r2\\renders\\raw\\threequarter-96.png",
+      "C:\\Users\\cwood\\Documents\\mobile-rpg\\art\\source\\rootbound-buttress-trellis\\geometry-ply-v1\\structural-r2\\renders\\raw\\threequarter-48.png",
+      "C:\\Users\\cwood\\Documents\\mobile-rpg\\art\\source\\rootbound-buttress-trellis\\geometry-ply-v1\\structural-r2\\renders\\raw\\side-512.png",
+      "C:\\Users\\cwood\\Documents\\mobile-rpg\\art\\source\\rootbound-buttress-trellis\\geometry-ply-v1\\structural-r2\\renders\\raw\\side-96.png",
+      "C:\\Users\\cwood\\Documents\\mobile-rpg\\art\\source\\rootbound-buttress-trellis\\geometry-ply-v1\\structural-r2\\renders\\raw\\side-48.png",
+      "C:\\Users\\cwood\\Documents\\mobile-rpg\\art\\source\\rootbound-buttress-trellis\\geometry-ply-v1\\structural-r2\\renders\\raw\\rear-512.png",
+      "C:\\Users\\cwood\\Documents\\mobile-rpg\\art\\source\\rootbound-buttress-trellis\\geometry-ply-v1\\structural-r2\\renders\\raw\\rear-96.png",
+      "C:\\Users\\cwood\\Documents\\mobile-rpg\\art\\source\\rootbound-buttress-trellis\\geometry-ply-v1\\structural-r2\\renders\\raw\\rear-48.png"
+    ],
+    "derivative": [
+      "C:\\Users\\cwood\\Documents\\mobile-rpg\\art\\source\\rootbound-buttress-trellis\\geometry-ply-v1\\structural-r2\\renders\\derivative\\front-512.png",
+      "C:\\Users\\cwood\\Documents\\mobile-rpg\\art\\source\\rootbound-buttress-trellis\\geometry-ply-v1\\structural-r2\\renders\\derivative\\front-96.png",
+      "C:\\Users\\cwood\\Documents\\mobile-rpg\\art\\source\\rootbound-buttress-trellis\\geometry-ply-v1\\structural-r2\\renders\\derivative\\front-48.png",
+      "C:\\Users\\cwood\\Documents\\mobile-rpg\\art\\source\\rootbound-buttress-trellis\\geometry-ply-v1\\structural-r2\\renders\\derivative\\threequarter-512.png",
+      "C:\\Users\\cwood\\Documents\\mobile-rpg\\art\\source\\rootbound-buttress-trellis\\geometry-ply-v1\\structural-r2\\renders\\derivative\\threequarter-96.png",
+      "C:\\Users\\cwood\\Documents\\mobile-rpg\\art\\source\\rootbound-buttress-trellis\\geometry-ply-v1\\structural-r2\\renders\\derivative\\threequarter-48.png",
+      "C:\\Users\\cwood\\Documents\\mobile-rpg\\art\\source\\rootbound-buttress-trellis\\geometry-ply-v1\\structural-r2\\renders\\derivative\\side-512.png",
+      "C:\\Users\\cwood\\Documents\\mobile-rpg\\art\\source\\rootbound-buttress-trellis\\geometry-ply-v1\\structural-r2\\renders\\derivative\\side-96.png",
+      "C:\\Users\\cwood\\Documents\\mobile-rpg\\art\\source\\rootbound-buttress-trellis\\geometry-ply-v1\\structural-r2\\renders\\derivative\\side-48.png",
+      "C:\\Users\\cwood\\Documents\\mobile-rpg\\art\\source\\rootbound-buttress-trellis\\geometry-ply-v1\\structural-r2\\renders\\derivative\\rear-512.png",
+      "C:\\Users\\cwood\\Documents\\mobile-rpg\\art\\source\\rootbound-buttress-trellis\\geometry-ply-v1\\structural-r2\\renders\\derivative\\rear-96.png",
+      "C:\\Users\\cwood\\Documents\\mobile-rpg\\art\\source\\rootbound-buttress-trellis\\geometry-ply-v1\\structural-r2\\renders\\derivative\\rear-48.png"
+    ]
+  },
+  "triangle_indices_sha256": "45f576304d626a2cb5d9e083c3ffbdaa2e2ed61676ff71e42e31e24f3f53a796",
+  "indices_unchanged": true,
+  "no_z_displacement": true,
+  "no_reduction": true,
+  "material": "inspection clay only; no generated texture or runtime material",
+  "not_proven": [
+    "four-root consolidation",
+    "manifoldness",
+    "self-intersection freedom",
+    "runtime fit"
+  ],
+  "blend_sha256": "befaaed230aaf9498ff72fc6de042c8b2eb6678da6405176de438c4c0e0ab5c0",
+  "blend_bytes": 24756512
+}

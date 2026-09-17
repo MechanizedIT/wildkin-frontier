@@ -1,0 +1,42 @@
+{
+  "planSha256": "0b67e04ba19e6a437fa758730010022aaad973064d118247949f78af88de84ae",
+  "audit": [
+    {
+      "name": "right_upper_cover_plate",
+      "originalVolume": 0.0015631666666666348,
+      "badEdges": 0,
+      "globalWindingReversed": false
+    },
+    {
+      "name": "right_mid_cover_plate",
+      "originalVolume": 0.0031666666666666636,
+      "badEdges": 0,
+      "globalWindingReversed": false
+    },
+    {
+      "name": "right_lower_cover_plate",
+      "originalVolume": 0.0022399999999999816,
+      "badEdges": 0,
+      "globalWindingReversed": false
+    },
+    {
+      "name": "left_upper_cover_plate",
+      "originalVolume": 0.0015631666666666348,
+      "badEdges": 0,
+      "globalWindingReversed": false
+    },
+    {
+      "name": "left_mid_cover_plate",
+      "originalVolume": 0.0031666666666666636,
+      "badEdges": 0,
+      "globalWindingReversed": false
+    },
+    {
+      "name": "left_lower_cover_plate",
+      "originalVolume": 0.0022399999999999816,
+      "badEdges": 0,
+      "globalWindingReversed": false
+    }
+  ],
+  "lowerAnatomyExact": true
+}

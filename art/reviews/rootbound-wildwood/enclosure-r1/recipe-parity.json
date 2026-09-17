@@ -1,0 +1,26 @@
+[
+  {
+    "id": "asset_rootbound_gallery_shelter_placeholder",
+    "generatedEqual": true,
+    "parts": 23,
+    "triangles": 12660
+  },
+  {
+    "id": "asset_rootbound_gallery_lintel_placeholder",
+    "generatedEqual": true,
+    "parts": 23,
+    "triangles": 6330
+  },
+  {
+    "id": "asset_rootbound_heartroot_core_placeholder",
+    "generatedEqual": true,
+    "parts": 23,
+    "triangles": 12660
+  },
+  {
+    "id": "asset_rootbound_heartroot_wing_placeholder",
+    "generatedEqual": true,
+    "parts": 23,
+    "triangles": 6330
+  }
+]

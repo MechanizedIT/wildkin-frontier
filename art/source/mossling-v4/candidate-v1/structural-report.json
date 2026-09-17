@@ -1,0 +1,71 @@
+{
+  "ok": false,
+  "input": "C:\\Users\\cwood\\Documents\\mobile-rpg\\art\\source\\mossling-v4\\candidate-v1\\model.glb",
+  "profile": "creature",
+  "limits": {
+    "max_triangles": 20000,
+    "max_vertices": 60000,
+    "max_materials": 2,
+    "max_bones": 48,
+    "max_texture": 1024
+  },
+  "sourceSHA256": "8857277d1af44fdc4b01b4a4b0483516286ea620d5e72b8e4fd9064f1ade57f0",
+  "textureSHA256": [
+    "14d44a3a6e33a1af39aa8c01f42831018ada71e5f252ba57c77a345ce04ce7ad"
+  ],
+  "counts": {
+    "triangles": 20047,
+    "vertices": 24025,
+    "materials": 2,
+    "bones": 23,
+    "animations": 5
+  },
+  "animations": [
+    {
+      "name": "Attack",
+      "startSeconds": 0.0,
+      "durationSeconds": 0.6666666865348816
+    },
+    {
+      "name": "Hurt",
+      "startSeconds": 0.0,
+      "durationSeconds": 0.4166666567325592
+    },
+    {
+      "name": "Idle",
+      "startSeconds": 0.0,
+      "durationSeconds": 2.375
+    },
+    {
+      "name": "Run",
+      "startSeconds": 0.0,
+      "durationSeconds": 0.5
+    },
+    {
+      "name": "Walk",
+      "startSeconds": 0.0,
+      "durationSeconds": 0.75
+    }
+  ],
+  "textures": [
+    {
+      "mimeType": "image/png",
+      "width": 1024,
+      "height": 1024,
+      "sha256": "14d44a3a6e33a1af39aa8c01f42831018ada71e5f252ba57c77a345ce04ce7ad",
+      "roles": [
+        "baseColor"
+      ]
+    }
+  ],
+  "textureRoles": [
+    {
+      "texture": 0,
+      "role": "baseColor"
+    }
+  ],
+  "failures": [
+    "triangles 20047 exceed 20000"
+  ],
+  "note": "Structural asset checks only; visual acceptance and measured phone FPS remain separate."
+}

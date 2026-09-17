@@ -1,0 +1,139 @@
+{
+  "schemaVersion": 1,
+  "asset": "sunscar-weathered-rib-v1",
+  "status": "final pre-builder R3 input pending independent review",
+  "axes": {
+    "blender": "X length,Y depth,Z up",
+    "gltf": "export then audit actual Y-up bounds"
+  },
+  "envelope": {
+    "x": 4.4,
+    "y": 2.1,
+    "z": 1.6
+  },
+  "budget": {
+    "maxTriangles": 700,
+    "materialCount": 1,
+    "oneClosedMesh": true
+  },
+  "stations": [
+    {
+      "x": -2.2,
+      "depth": 1.56,
+      "lower": 0.66,
+      "upper": 1.24,
+      "frontShelfDepth": 0.23,
+      "upperShelfDepth": 0.34
+    },
+    {
+      "x": -1.72,
+      "depth": 2.1,
+      "lower": 0.86,
+      "upper": 1.6,
+      "frontShelfDepth": 0.38,
+      "upperShelfDepth": 0.48
+    },
+    {
+      "x": -1.08,
+      "depth": 2.06,
+      "lower": 0.93,
+      "upper": 1.42,
+      "frontShelfDepth": 0.32,
+      "upperShelfDepth": 0.42
+    },
+    {
+      "x": -0.3,
+      "depth": 1.94,
+      "lower": 0.82,
+      "upper": 1.05,
+      "frontShelfDepth": 0.18,
+      "upperShelfDepth": 0.25
+    },
+    {
+      "x": 0.58,
+      "depth": 1.82,
+      "lower": 0.76,
+      "upper": 0.93,
+      "frontShelfDepth": 0.12,
+      "upperShelfDepth": 0.16
+    },
+    {
+      "x": 1.42,
+      "depth": 1.69,
+      "lower": 0.66,
+      "upper": 0.8,
+      "frontShelfDepth": 0.08,
+      "upperShelfDepth": 0.1
+    },
+    {
+      "x": 2.2,
+      "depth": 1.46,
+      "lower": 0.55,
+      "upper": 0.67,
+      "frontShelfDepth": 0.05,
+      "upperShelfDepth": 0.06
+    }
+  ],
+  "ring": {
+    "count": 12,
+    "orderedVertices": [
+      "frontBottom",
+      "frontLow",
+      "frontLowerShelfOuter",
+      "frontLowerShelfInner",
+      "frontBreak",
+      "frontUpperShelfOuter",
+      "frontUpperShelfInner",
+      "crown",
+      "rearCrown",
+      "rearUpper",
+      "rearLow",
+      "rearBottom"
+    ],
+    "coordinateRule": "For station depth D, lower L, upper U, front shelf F and upper shelf S: [(\u00e2\u02c6\u2019.5D,0),(\u00e2\u02c6\u2019.5D,.38L),(\u00e2\u02c6\u2019.5D,.68L),(\u00e2\u02c6\u2019.5D+F,.68L),(\u00e2\u02c6\u2019.5D+F,.90L),(\u00e2\u02c6\u2019.5D+S,U),(\u00e2\u02c6\u2019.16D+S,U),(.18D,.95U),(.5D,.78U),(.5D,.52U),(.5D,.26L),(.5D,0)]. Coordinates are [Y,Z]."
+  },
+  "bridging": {
+    "sideQuads": "for station s=0..5 and index i=0..11 create Q[s,i]=[R[s,i],R[s+1,i],R[s+1,(i+1)%12],R[s,(i+1)%12]]; reuse ring vertices exactly",
+    "chamfers": "The changing F/S values make shelf depth narrow and break from left to right; no independent rail, prism, or added object is permitted."
+  },
+  "endCaps": {
+    "operation": "Create exactly one ordered concave ngon from reversed R[0] and one from R[6]. Keep both faces. Invoke bmesh.ops.triangulate(bm, faces=[leftCap,rightCap]) on those distinct existing faces; never delete them and never call triangle_fill on their combined boundary edges.",
+    "normals": "bmesh.ops.recalc_face_normals after triangulation; left cap must face \u00e2\u02c6\u2019X and right cap +X.",
+    "coverage": "Project cap triangles to YZ. Sum signed triangle areas by winding and compare absolute union coverage to the ordered profile polygon within 1e-5; reject zero-area triangles, uncovered area, or coverage above polygon area. Render cap-facing opaque check before studio renders."
+  },
+  "weathering": {
+    "shoulder": "stations0\u00e2\u20ac\u201c2 retain a 1.24\u00e2\u2020\u20191.60\u00e2\u2020\u20191.42m broad high upper shelf and deep F/S values; station0 is a blunt shoulder continuation, not a flat prism",
+    "longCap": "stations2\u20136 lower shelf is literal L=.93\u2192.55m while F/S narrows .32/.42\u2192.05/.06; frontBreak is L+.08 and remains below U at every station, producing a broken tapering band rather than a bench rail",
+    "facets": "only triangulate selected existing side quads around station0\u00e2\u20ac\u201c2 upper transitions and station5\u00e2\u20ac\u201c6 termination; vertices remain shared; no fan dimples, booleans, detached slabs, or noise"
+  },
+  "preRenderGate": {
+    "mustPass": [
+      "bounds X[-2.2,2.2], Y[-1.05,1.05], Z[0,1.6]",
+      "all R[s][0] and R[s][11] exactly Z=0",
+      "one component and every edge has two faces",
+      "outward normals after recalculation",
+      "mesh.calc_loop_triangles() used for all triangle audits",
+      "cap area/coverage and cap-facing opaque-pixel checks pass",
+      "BVH broad candidates followed by narrow triangle-triangle test; only cap-adjacent shared-boundary contacts may be classified, zero confirmed non-adjacent intersections"
+    ],
+    "order": [
+      "numeric topology/bounds/normal/coverage/intersection audits",
+      "cheap cap-facing opaque-pixel render",
+      "studio source/orthographic renders"
+    ]
+  },
+  "triangleEstimate": 168,
+  "inputHashes": {
+    "reference": "157070274fef13f6449840c9acfdce4ec660d50e84d1244e74a3b7c3dd2a5529",
+    "r2": "d6bd4f21ad76b9901712c9c9ba2bec2148472e4fe1f439dc480d83f4fd6e1d5b"
+  },
+  "guidanceUsed": {
+    "source": " .agents/skills/wildkin-asset-forge/references/blender-mcp.md",
+    "applicableRules": [
+      "inspect actual scene/export rather than stale renders",
+      "use Blender Python API for scoped reproducible operations",
+      "capture affected views after each scoped change"
+    ],
+    "adaptation": "No live Blender action is performed by this plan; bmesh triangulation/recalc and mesh.calc_loop_triangles requirements are the deterministic pre-render builder contract."
+  }
+}

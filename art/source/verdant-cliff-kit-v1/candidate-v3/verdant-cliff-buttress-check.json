@@ -1,0 +1,43 @@
+{
+  "ok": true,
+  "input": "C:\\Users\\cwood\\Documents\\mobile-rpg\\art\\source\\verdant-cliff-kit-v1\\candidate-v3\\verdant-cliff-buttress.glb",
+  "profile": "prop",
+  "limits": {
+    "max_triangles": 5000,
+    "max_vertices": 15000,
+    "max_materials": 2,
+    "max_bones": 0,
+    "max_texture": 1024
+  },
+  "sourceSHA256": "5b023fec89a26128b07006cf8b0a8dcc70cbfa4ca773aee2b9578eeca903f022",
+  "textureSHA256": [
+    "06dcab2c7718acc9ca5d12b1421cbec68327a1a66e2143032968a4865e30d3e5"
+  ],
+  "counts": {
+    "triangles": 474,
+    "vertices": 1270,
+    "materials": 1,
+    "bones": 0,
+    "animations": 0
+  },
+  "animations": [],
+  "textures": [
+    {
+      "mimeType": "image/png",
+      "width": 256,
+      "height": 256,
+      "sha256": "06dcab2c7718acc9ca5d12b1421cbec68327a1a66e2143032968a4865e30d3e5",
+      "roles": [
+        "baseColor"
+      ]
+    }
+  ],
+  "textureRoles": [
+    {
+      "texture": 0,
+      "role": "baseColor"
+    }
+  ],
+  "failures": [],
+  "note": "Structural asset checks only; visual acceptance and measured phone FPS remain separate."
+}

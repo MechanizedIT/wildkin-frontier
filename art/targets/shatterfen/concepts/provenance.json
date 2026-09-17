@@ -1,0 +1,37 @@
+{
+  "schema": "shatterfen-rotation-1-targets",
+  "status": "unreviewed; separate director selection required",
+  "tool": "built-in image_gen edit, exactly two calls",
+  "nativeBaselineSources": {
+    "baseline-captures.json": "5B70B8247CB9C1754476DBAA8476F684C5ED430721DA277E415490B4D1122B88",
+    "baseline-arrival.png": "A8A1DBFC96B1AFA71F43275A7BDC860AD5288894FFFD1F70F9F1CF7D04B06AAD",
+    "baseline-interior.png": "CBF714AB3976615F29AF513A8E49537C02354E0CEF2DB4F774E6163912983A82",
+    "baseline-overhead.png": "C754A925A1C6C0A612E636E46EF35E6117FE8192DE6FCD7920D7ED6E5BB2065B",
+    "baseline-destination.png": "1D1C402FE1DC7E1E452C1B63C9F003455F112379B0A83FE66AC1DD381419A1AA"
+  },
+  "outputs": {
+    "return-hummock-prompt.txt": "2FA8877ADFBAB5BF411DC6D5DF15AA0B6EFD6C7B6EF2729BBCF07F2C80F2FE43",
+    "return-hummock-direction.png": "FE4B2156DA2A286C2B12DC88C8D00D02BD5A5566ECDA257DD5A080C4F6252996",
+    "arrival-channel-direction.png": "2FDF17E784C788BDB7D496C855E390919B8F7784778B527812D3B0F71DEB93FB",
+    "arrival-channel-prompt.txt": "C63DD33D50EA1F5ED2DA379B8BD2C693C3FBE7F72F75EF567846E83140512482"
+  },
+  "poses": {
+    "destination": {
+      "baseline": "baseline-destination.png",
+      "cameraYaw": 1.223184743,
+      "intent": "north return hummock and dry opening"
+    },
+    "arrival": {
+      "baseline": "baseline-arrival.png",
+      "cameraYaw": -2.23983932498547,
+      "intent": "dry hummock and shallow channel cue"
+    }
+  },
+  "invariants": [
+    "actual portrait camera/player/HUD framing retained as reference",
+    "no water mechanic or deep water",
+    "no bridge/building/new resource/new Wildkin",
+    "target images do not claim runtime fit",
+    "author does not select or admit"
+  ]
+}

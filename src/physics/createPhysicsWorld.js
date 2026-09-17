@@ -18,6 +18,9 @@ export function createPhysicsWorld(RAPIER, playground) {
   // Natural traversal is narrower than ordinary collision: terrain and
   // explicitly classified rock faces only.
   const traversalColliders = new Set();
+  // Terrain is a stricter class than traversal: rock faces remain available to
+  // climbing/probes but never become an accidental sliding foothold.
+  const terrainColliders = new Set();
   const colliderSections = new Map();
   const objectColliders = new Map();
   const disabledObjects = new Set();
@@ -28,10 +31,11 @@ export function createPhysicsWorld(RAPIER, playground) {
   let activeSectionId = null;
   let sectionSelectionMade = false;
 
-  function registerCollider(collider, sectionId, objectId, { cameraSolid = true, traversalSolid = false } = {}) {
+  function registerCollider(collider, sectionId, objectId, { cameraSolid = true, traversalSolid = false, terrainSolid = false } = {}) {
     staticColliders.push(collider);
     if (cameraSolid) cameraColliders.add(collider);
     if (traversalSolid) traversalColliders.add(collider);
+    if (terrainSolid) terrainColliders.add(collider);
     colliderSections.set(collider, sectionId);
     if (objectId == null) return;
     if (!objectColliders.has(objectId)) objectColliders.set(objectId, []);
@@ -45,6 +49,7 @@ export function createPhysicsWorld(RAPIER, playground) {
     if (staticIndex >= 0) staticColliders.splice(staticIndex, 1);
     cameraColliders.delete(collider);
     traversalColliders.delete(collider);
+    terrainColliders.delete(collider);
     const objectId = colliderObjects.get(collider);
     colliderObjects.delete(collider);
     colliderSections.delete(collider);
@@ -84,7 +89,8 @@ export function createPhysicsWorld(RAPIER, playground) {
       const desc = RAPIER.ColliderDesc.trimesh(surface.vertices, surface.indices)
         .setFriction(0.6).setActiveCollisionTypes(RAPIER.ActiveCollisionTypes.ALL);
       const collider = world.createCollider(desc);
-      registerCollider(collider, surface.sectionId ?? null, surface.id, { traversalSolid: true });
+      const terrainSolid = surface.traversalSurface === 'terrain';
+      registerCollider(collider, surface.sectionId ?? null, surface.id, { traversalSolid: terrainSolid || surface.traversalSurface === 'rock', terrainSolid });
     }
     for (const gp of playground.groundPatches) {
       if (gp.collisionEnabled === false) continue;
@@ -97,11 +103,11 @@ export function createPhysicsWorld(RAPIER, playground) {
       const rotY = gp.rotY ?? 0;
       const x = gp.x ?? gp.pos?.x ?? 0;
       const z = gp.z ?? gp.pos?.z ?? 0;
-      addCuboid(hx, hy, hz, x, ty, z, rotY, gp.sectionId ?? gp.regionId ?? null, gp.id);
+      addCuboid(hx, hy, hz, x, ty, z, rotY, gp.sectionId ?? gp.regionId ?? null, gp.id, { terrainSolid: true });
     }
   } else {
     // Legacy fallback for worlds without groundPatches (tests)
-    addCuboid(13, 0.25, 12, 0, -0.25, 0, 0, null);
+    addCuboid(13, 0.25, 12, 0, -0.25, 0, 0, null, null, { terrainSolid: true });
   }
 
   // Obstacles — respect authored baseY and rotY for parity (includes ground patch colliders if they were marked as obstacles already)
@@ -250,7 +256,7 @@ export function createPhysicsWorld(RAPIER, playground) {
     for (const id of keptDisabled) disabledObjects.add(id);
     for (const [id, { collider, surface }] of prepared) {
       const traversalSolid = surface.traversalSurface === 'terrain' || surface.traversalSurface === 'rock';
-      registerCollider(collider, surface.sectionId ?? null, id, { traversalSolid });
+      registerCollider(collider, surface.sectionId ?? null, id, { traversalSolid, terrainSolid: surface.traversalSurface === 'terrain' });
       terrainSurfaceColliders.set(id, collider);
       collider.setEnabled(isColliderEnabled(collider));
     }
@@ -270,9 +276,14 @@ export function createPhysicsWorld(RAPIER, playground) {
       && (typeof collider.isEnabled !== 'function' || collider.isEnabled());
   }
 
+  function isTerrainColliderActive(collider) {
+    return !!collider && terrainColliders.has(collider)
+      && (typeof collider.isEnabled !== 'function' || collider.isEnabled());
+  }
+
   function getColliderSurfaceId(collider) {
     return colliderObjects.get(collider) ?? null;
   }
 
-  return { world, staticColliders, cameraColliders, traversalColliders, colliderSections, registerCameraCollider, unregisterCameraCollider, isTraversalColliderActive, getColliderSurfaceId, setActiveSection, setStaticObjectEnabled, updateTerrainSurfaces, getActiveSectionId: () => activeSectionId, RAPIER };
+  return { world, staticColliders, cameraColliders, traversalColliders, terrainColliders, colliderSections, registerCameraCollider, unregisterCameraCollider, isTraversalColliderActive, isTerrainColliderActive, getColliderSurfaceId, setActiveSection, setStaticObjectEnabled, updateTerrainSurfaces, getActiveSectionId: () => activeSectionId, RAPIER };
 }

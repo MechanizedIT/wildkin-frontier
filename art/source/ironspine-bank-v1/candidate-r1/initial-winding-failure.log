@@ -1,0 +1,8 @@
+Blender 4.5.3 LTS (hash 67807e1800cc built 2025-09-09 01:33:33)
+Traceback (most recent call last):
+  File "C:\Users\cwood\Documents\mobile-rpg\art\source\ironspine-bank-v1\candidate-r1\build-bank.py", line 37, in <module>
+    assert metrics['capOutward'],'Cap winding'
+           ~~~~~~~^^^^^^^^^^^^^^
+AssertionError: Cap winding
+
+Blender quit

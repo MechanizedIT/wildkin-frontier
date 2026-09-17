@@ -1,0 +1,9 @@
+Use case: stylized-concept
+Asset type: portrait mobile gameplay target direction for Wildkin Frontier, Ironspine Range.
+Input image: `art/reviews/ironspine-range/rotation-1/baseline-destination.png`, edit target and primary composition reference.
+Primary request: transform only the world scene into a high-quality but feasible target direction for the crown shelf; retain exact portrait 412×915 framing, player scale and position, all existing HUD panels, minimap, controls, hotbar, UI text, and the current low-poly Three.js mobile game aesthetic.
+Scene: a broad open iron-grey crown shelf with a visible descending gully lane leading away from the player. Build readable near and midground using low layered rock lips on the outer edges, a few grouped hardy alpine plants and lichen-like low clusters, and two existing-style iron ore nodes together off one side of the walking lane. Maintain central negative space for controls and movement. Show shallow asymmetric banks and a distant route shoulder, not a giant mountain vista.
+Materials: matte steel-grey weathered strata, pale dusty shelf ground, restrained mossy green accents.
+Lighting: same neutral daylight, soft contact shadows, source camera.
+Constraints: existing feasible mobile kit and shallow local terrain only.
+Avoid: a new asset family, cinematic horizon, extreme cliffs, caves, bridges, snow, new creatures, mechanics, architecture, altered camera/HUD/player, text changes, photorealism, or dense forest.

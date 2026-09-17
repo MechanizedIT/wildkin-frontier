@@ -1,0 +1,52 @@
+TAP version 13
+# Subtest: Crown forest keeps its landmark, clear routes and a bounded solid-tree population
+ok 1 - Crown forest keeps its landmark, clear routes and a bounded solid-tree population
+  ---
+  duration_ms: 3419.0584
+  type: 'test'
+  ...
+# Subtest: a partial nature kit cannot publish an incomplete authored forest
+ok 2 - a partial nature kit cannot publish an incomplete authored forest
+  ---
+  duration_ms: 70.8908
+  type: 'test'
+  ...
+# Subtest: every Author asset has a maintained mesh kit or a local model, and kit transforms stay finite
+ok 3 - every Author asset has a maintained mesh kit or a local model, and kit transforms stay finite
+  ---
+  duration_ms: 914.8354
+  type: 'test'
+  ...
+# Subtest: closed faceted meshes face outward on both caps
+ok 4 - closed faceted meshes face outward on both caps
+  ---
+  duration_ms: 1.1853
+  type: 'test'
+  ...
+# Subtest: resource visual rebuild retains the harvest chunk contract and Author/runtime bounds
+ok 5 - resource visual rebuild retains the harvest chunk contract and Author/runtime bounds
+  ---
+  duration_ms: 22.5596
+  type: 'test'
+  ...
+# Subtest: explorer rig and equipped tool instantiate with bounded geometry and preserved gait anchors
+ok 6 - explorer rig and equipped tool instantiate with bounded geometry and preserved gait anchors
+  ---
+  duration_ms: 18.4661
+  type: 'test'
+  ...
+# Subtest: builtin dimensional fits survive authored placement for either fence axis and scaled machines
+ok 7 - builtin dimensional fits survive authored placement for either fence axis and scaled machines
+  ---
+  duration_ms: 26.2929
+  type: 'test'
+  ...
+1..7
+# tests 7
+# suites 0
+# pass 7
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 4138.0052

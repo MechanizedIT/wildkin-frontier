@@ -1,0 +1,51 @@
+{
+  "status": "render-only perception study; not integrated",
+  "runtime_source": "unchanged",
+  "viewport_css": [
+    412,
+    915
+  ],
+  "capture_pixels": [
+    330,
+    732
+  ],
+  "capture_note": "Browser capture scale 0.8; same calibrated crop for all three portraits. Earlier uncalibrated fullpage image retained separately.",
+  "pose": "native-pose.json",
+  "bounds": {
+    "minX": -454,
+    "maxX": -438,
+    "minZ": 670,
+    "maxZ": 688
+  },
+  "boundary_fade_m": 2,
+  "samples": [
+    {
+      "image": "baseline-portrait.png",
+      "amplitude_m": 0,
+      "changed_vertices": 0
+    },
+    {
+      "image": "gentle-portrait.png",
+      "amplitude_m": 0.18,
+      "changed_vertices": 64,
+      "max_abs_delta_m": 0.17927744543070798
+    },
+    {
+      "image": "strong-portrait.png",
+      "amplitude_m": 0.35,
+      "changed_vertices": 64,
+      "max_abs_delta_m": 0.34859503278193216
+    }
+  ],
+  "limits": [
+    "Diagnostic positioning in isolated Scout; no ordinary-route claim.",
+    "Companion animation differs between captures.",
+    "Physics, placement supports and save contracts unchanged; preview cannot prove their fit.",
+    "Preview restored baseline arrays before temporary tab closed; browser viewport override reset."
+  ],
+  "sha256": {
+    "baseline-portrait.png": "0320b4cd027ca65b15ab76f37063098a959f87b3e14409373a904e49ae06d5dd",
+    "gentle-portrait.png": "9054e96c8e5e54f2b6654162e07d1a81a5836bee2e57971762b4054452547657",
+    "strong-portrait.png": "9eae3808e751b731873fc362d0252ce91d7f1fb72c14713ec9d1e7fdfab1a05f"
+  }
+}

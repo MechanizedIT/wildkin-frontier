@@ -1,0 +1,48 @@
+{
+  "date": "2026-09-14",
+  "status": "Tree study closed; continuous habitat/Wildkin goal active",
+  "summary": "The new modeling-director workflow improved the first tree's proportions and arrangement, as Chris observed. Trial A finished at 7.4/10 HOLD. Trial B failed its geometry gate at 1.0/10 after three attempts. Neither tree is admitted. The experiment exposed concrete planning, construction and verification gaps now captured in the reusable workflow.",
+  "trials": [
+    {
+      "name": "Trial A",
+      "guide": "Selected arjun988/blender-skills guidance",
+      "path": "trial-a-arjun/pass-3",
+      "status": "HOLD 7.4/10",
+      "passes": 3,
+      "triangles": 4542,
+      "glb": "trial-a-arjun/pass-3/rootbound-buttress-trial-a-repair.glb",
+      "blend": "trial-a-arjun/pass-3/rootbound-buttress-trial-a-final-repair.blend",
+      "sha256": "08a17ed82f79320f6c8bf919675ff53412a81e254a6bc15c29d12db080865b06"
+    },
+    {
+      "name": "Trial B",
+      "guide": "Selected RobLe3/cc-blender-skill guidance",
+      "path": "trial-b-roble/pass-3/output",
+      "status": "Gate A HOLD 1.0/10",
+      "passes": 3,
+      "triangles": 1976,
+      "glb": null,
+      "blend": "trial-b-roble/pass-3/output/trial-b-roble-pass3-massing.blend",
+      "initialImage": "trial-b-roble/output/renders/massing_three_quarter.png",
+      "images": {
+        "source_three_quarter": "trial-b-roble/pass-3/output/renders/pass3_three_quarter.png",
+        "front": "trial-b-roble/pass-3/output/renders/pass3_front.png",
+        "left": "trial-b-roble/pass-3/output/renders/pass3_left.png",
+        "rear": "trial-b-roble/pass-3/output/renders/pass3_rear.png",
+        "right": "trial-b-roble/pass-3/output/renders/pass3_right.png"
+      },
+      "woodComponents": 46
+    }
+  ],
+  "findings": [
+    "A separate target analyst and early image review helped establish proportions and part placement. Chris explicitly judged the fresh first attempt substantially better than the earlier balls-and-rods result.",
+    "Specific path points, section sizes and derived bend angles made intended curves explicit. They did not by themselves specify valid forks or grounded buttress surfaces.",
+    "Plan revisions were not consistently approved before execution, and the builder substituted operations. The revised skill now requires relevant Blender guidance, independent technical plan review and re-review of material method changes.",
+    "Trial B's failed Boolean method exposed discontinuous section frames; its final attempt still left 46 disconnected wood components. The original object-count assumption was invalid and is explicitly superseded by computed connectivity evidence.",
+    "The construction method must match the form: a buttress requires grounded webs, not just a bent elliptical tube. A tiny geometry probe should establish unfamiliar junction construction before a full asset relies on it.",
+    "Trial A retained exact meshes/Blender sources but lacked separately preserved literal historical MCP code. Trial B retained executed scripts and plan hashes. The skill now requires frozen inputs and retained construction code.",
+    "The two builders received evolving guidance, different cameras/material stages, and different implementation choices. These results do not establish a general ranking of the community packs or Astra's capabilities.",
+    "The generated target is artistic direction. Actual all-angle renders, computed topology and exact exported/game views are separate evidence. Trial B never reached export or runtime preview."
+  ],
+  "recommendation": "Keep the modeling-director stage, but pair it with applicable Blender recipes, an independent technical plan gate, one small method probe for unfamiliar surfaces, and target-specific visual checks. Reuse the useful Arjun organizational/reference guidance and RobLe measurement ideas selectively. Continue the authorized habitat rotation and parallel Wildkin work; do not reopen this failed tree method immediately."
+}

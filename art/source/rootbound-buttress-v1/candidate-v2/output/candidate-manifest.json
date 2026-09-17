@@ -1,0 +1,45 @@
+{
+  "method": "manual-blender-structural-rebuild-v2-after-independent-v1-hold",
+  "reference": "../reference/target-v1.png",
+  "mesh": {
+    "triangles": 740,
+    "materials": 1,
+    "bounds": {
+      "min": [
+        -3.1290340423583984,
+        -2.0478219985961914,
+        0.0
+      ],
+      "max": [
+        3.0244174003601074,
+        1.1099997758865356,
+        5.9621500968933105
+      ],
+      "dimensions": [
+        6.153451442718506,
+        3.157821774482727,
+        5.9621500968933105
+      ]
+    },
+    "grounded": true
+  },
+  "colliderProposal": {
+    "type": "box",
+    "dimensions": [
+      2.8,
+      2.2,
+      2.6
+    ],
+    "offset": [
+      0.0,
+      1.1,
+      0.0
+    ],
+    "scope": "lower trunk/root core only; buttress tips and canopy are non-solid"
+  },
+  "glb": {
+    "file": "rootbound-buttress-v1.glb",
+    "sha256": "e13cf5dfbb37217deceed0ce7cb7978287854bd9aa436fb0a3514fd5e7b32d3e",
+    "bytes": 88356
+  }
+}

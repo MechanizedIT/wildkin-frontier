@@ -1,0 +1,36 @@
+{
+  "source": "art/source/trailgloam-v1/rig-prep-r1/fitted-r1a/trailgloam-fitted.glb",
+  "dest": "assets/models/trailgloam-fitted-r1/model.glb",
+  "sha256": "d3163edb5536dfd4d1fa39895f2a8e2bac71372d83cbe854913c667786f4dab7",
+  "bytes": 4430972,
+  "triangles": 59376,
+  "blenderZUpBounds": {
+    "min": [
+      -0.909099817276001,
+      -0.9235902428627014,
+      -0.008342292159795761
+    ],
+    "max": [
+      0.9115515947341919,
+      0.9220970273017883,
+      0.9000000953674316
+    ]
+  },
+  "horizontalEnvelopeRadius": 1.2976691591363463,
+  "plannedRouteEdgeClearance": 5.84741018974689,
+  "capsule": {
+    "radius": 0.48,
+    "halfHeight": 0.02,
+    "totalHeight": 1,
+    "note": "Central-body capsule retained for prototype; legs/fronds have no separate collision. Actual surface evidence is in native traces."
+  },
+  "initialHome": [
+    -461,
+    689
+  ],
+  "finalHome": [
+    -463,
+    685
+  ],
+  "routeCenterlineDistance": 12.445079348883237
+}

@@ -1,0 +1,11 @@
+{
+  "status": "terminal startup memory guard; no inference submitted",
+  "pid": 38692,
+  "process_absent_verified": true,
+  "guard_message": "[RAM GUARD] Stopping owned TRELLIS process: only 5.80 GiB free.",
+  "free_gib_after_exit": 18.6976776123047,
+  "selected_input": "art/source/trailgloam-v1/rotation-1-reference/target-v2.png",
+  "input_sha256": "417daef7277d21dd3c5f53abc92fe4e63f11f575cf04a7e9cca7bae3d2afc2ff",
+  "raw_model": null,
+  "guards_changed": false
+}

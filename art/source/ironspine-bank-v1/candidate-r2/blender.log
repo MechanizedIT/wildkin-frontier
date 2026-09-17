@@ -1,0 +1,47 @@
+Blender 4.5.3 LTS (hash 67807e1800cc built 2025-09-09 01:33:33)
+Fra:1 Mem:39.52M (Peak 39.56M) | Time:00:01.17 | Rendering 1 / 64 samples
+Fra:1 Mem:39.52M (Peak 39.56M) | Time:00:01.22 | Rendering 25 / 64 samples
+Fra:1 Mem:39.52M (Peak 39.56M) | Time:00:01.27 | Rendering 50 / 64 samples
+Fra:1 Mem:39.52M (Peak 39.56M) | Time:00:01.30 | Rendering 64 / 64 samples
+Saved: 'C:\Users\cwood\Documents\mobile-rpg\art\source\ironspine-bank-v1\candidate-r2\cap-left.png'
+Time: 00:01.36 (Saving: 00:00.03)
+
+Fra:1 Mem:39.57M (Peak 39.57M) | Time:00:00.07 | Rendering 1 / 64 samples
+Fra:1 Mem:39.57M (Peak 39.57M) | Time:00:00.12 | Rendering 25 / 64 samples
+Fra:1 Mem:39.57M (Peak 39.57M) | Time:00:00.16 | Rendering 50 / 64 samples
+Fra:1 Mem:39.57M (Peak 39.57M) | Time:00:00.19 | Rendering 64 / 64 samples
+Saved: 'C:\Users\cwood\Documents\mobile-rpg\art\source\ironspine-bank-v1\candidate-r2\cap-right.png'
+Time: 00:00.21 (Saving: 00:00.00)
+
+Fra:1 Mem:46.74M (Peak 46.77M) | Time:00:00.08 | Rendering 1 / 64 samples
+Fra:1 Mem:46.74M (Peak 46.77M) | Time:00:00.15 | Rendering 25 / 64 samples
+Fra:1 Mem:46.74M (Peak 46.77M) | Time:00:00.22 | Rendering 50 / 64 samples
+Fra:1 Mem:46.74M (Peak 46.77M) | Time:00:00.26 | Rendering 64 / 64 samples
+Saved: 'C:\Users\cwood\Documents\mobile-rpg\art\source\ironspine-bank-v1\candidate-r2\source-threequarter.png'
+Time: 00:00.36 (Saving: 00:00.06)
+
+Fra:1 Mem:46.78M (Peak 46.78M) | Time:00:00.07 | Rendering 1 / 64 samples
+Fra:1 Mem:46.78M (Peak 46.78M) | Time:00:00.12 | Rendering 25 / 64 samples
+Fra:1 Mem:46.78M (Peak 46.78M) | Time:00:00.17 | Rendering 50 / 64 samples
+Fra:1 Mem:46.78M (Peak 46.78M) | Time:00:00.20 | Rendering 64 / 64 samples
+Saved: 'C:\Users\cwood\Documents\mobile-rpg\art\source\ironspine-bank-v1\candidate-r2\side.png'
+Time: 00:00.29 (Saving: 00:00.05)
+
+Fra:1 Mem:46.83M (Peak 46.83M) | Time:00:00.08 | Rendering 1 / 64 samples
+Fra:1 Mem:46.83M (Peak 46.83M) | Time:00:00.12 | Rendering 25 / 64 samples
+Fra:1 Mem:46.83M (Peak 46.83M) | Time:00:00.17 | Rendering 50 / 64 samples
+Fra:1 Mem:46.83M (Peak 46.83M) | Time:00:00.19 | Rendering 64 / 64 samples
+Saved: 'C:\Users\cwood\Documents\mobile-rpg\art\source\ironspine-bank-v1\candidate-r2\end.png'
+Time: 00:00.28 (Saving: 00:00.05)
+
+Fra:1 Mem:46.86M (Peak 46.86M) | Time:00:00.08 | Rendering 1 / 64 samples
+Fra:1 Mem:46.86M (Peak 46.86M) | Time:00:00.15 | Rendering 25 / 64 samples
+Fra:1 Mem:46.86M (Peak 46.86M) | Time:00:00.22 | Rendering 50 / 64 samples
+Fra:1 Mem:46.86M (Peak 46.86M) | Time:00:00.26 | Rendering 64 / 64 samples
+Saved: 'C:\Users\cwood\Documents\mobile-rpg\art\source\ironspine-bank-v1\candidate-r2\rear-threequarter.png'
+Time: 00:00.36 (Saving: 00:00.06)
+
+Info: Saved as "ironspine-bank-r2.blend"
+{"status": "MASSING_READY_FOR_INDEPENDENT_REVIEW", "inputSha256": "0dc4dad6951ca7b3aca36a502b04b50f26d64fb2a014a3b0c3b4e2e5c11b211d", "blenderVersion": "4.5.3 LTS", "meshValidateChanged": false, "vertices": 117, "triangles": 230, "edgeUseHistogram": {"2": 345}, "components": 1, "signedVolume": 3.3543736135616196, "zeroAreaTriangles": 0, "gameAxisRoundtripMaxError": 5.7220459037665705e-08, "boundsGame": {"min": [-1.7999999523162842, -0.3799999952316284, -0.5], "max": [1.7999999523162842, 1.6200000047683716, 0.5]}, "capSourceFaces": {"leftCap": [216, 217, 218, 219, 220, 221, 222], "rightCap": [223, 224, 225, 226, 227, 228, 229]}, "normalRepair": {"method": "none; unmodified literal face winding is audited before rendering", "changedFaces": []}, "directedEdgeConsistent": true, "capOutward": true, "capOpaqueCoverage": [{"file": "cap-left.png", "isolatedCapFaces": [216, 217, 218, 219, 220, 221, 222], "opaquePixels": 4291, "fraction": 0.26190185546875, "projectedPolygonFraction": 0.2628403148651123, "minimumRelativeCoverage": 0.9}, {"file": "cap-right.png", "isolatedCapFaces": [223, 224, 225, 226, 227, 228, 229], "opaquePixels": 5655, "fraction": 0.34515380859375, "projectedPolygonFraction": 0.34604291633976336, "minimumRelativeCoverage": 0.9}], "renders": ["cap-left.png", "cap-right.png", "end.png", "rear-threequarter.png", "side.png", "source-threequarter.png"]}
+
+Blender quit

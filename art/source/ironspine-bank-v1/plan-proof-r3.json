@@ -1,0 +1,172 @@
+{
+  "schema": "ironspine-bank-plan-proof/r3",
+  "status": "numerical final-R3 construction proof only; not Blender/model/runtime proof",
+  "computedFrom": "construction-data-r3.json literal vertices/faces",
+  "bounds": {
+    "min": [
+      -1.8,
+      -0.38,
+      -0.5
+    ],
+    "max": [
+      1.8,
+      1.05,
+      0.5
+    ],
+    "dimensions": [
+      3.6,
+      1.4300000000000002,
+      1
+    ]
+  },
+  "topology": {
+    "vertices": 130,
+    "triangles": 256,
+    "edges": 384,
+    "allEdgesExactlyTwice": true,
+    "directedEdgeConsistency": true,
+    "directedEdgeFailures": [],
+    "zeroAreaTriangleCount": 0,
+    "signedVolume": 2.7661634633333367,
+    "positiveOutwardWinding": true,
+    "components": 1
+  },
+  "caps": {
+    "leftFaceIndices": [
+      240,
+      241,
+      242,
+      243,
+      244,
+      245,
+      246,
+      247
+    ],
+    "rightFaceIndices": [
+      248,
+      249,
+      250,
+      251,
+      252,
+      253,
+      254,
+      255
+    ],
+    "leftNormals": [
+      {
+        "face": 240,
+        "normalX": -0.034100000000000005,
+        "outward": true
+      },
+      {
+        "face": 241,
+        "normalX": -0.061689999999999995,
+        "outward": true
+      },
+      {
+        "face": 242,
+        "normalX": -0.13801200000000002,
+        "outward": true
+      },
+      {
+        "face": 243,
+        "normalX": -0.130665,
+        "outward": true
+      },
+      {
+        "face": 244,
+        "normalX": -0.19158000000000003,
+        "outward": true
+      },
+      {
+        "face": 245,
+        "normalX": -0.13044799999999995,
+        "outward": true
+      },
+      {
+        "face": 246,
+        "normalX": -0.3038,
+        "outward": true
+      },
+      {
+        "face": 247,
+        "normalX": -0.02603999999999999,
+        "outward": true
+      }
+    ],
+    "rightNormals": [
+      {
+        "face": 248,
+        "normalX": 0.0308,
+        "outward": true
+      },
+      {
+        "face": 249,
+        "normalX": 0.045248,
+        "outward": true
+      },
+      {
+        "face": 250,
+        "normalX": 0.10152800000000002,
+        "outward": true
+      },
+      {
+        "face": 251,
+        "normalX": 0.09472399999999999,
+        "outward": true
+      },
+      {
+        "face": 252,
+        "normalX": 0.106708,
+        "outward": true
+      },
+      {
+        "face": 253,
+        "normalX": 0.05521599999999999,
+        "outward": true
+      },
+      {
+        "face": 254,
+        "normalX": 0.18704000000000004,
+        "outward": true
+      },
+      {
+        "face": 255,
+        "normalX": 0.023519999999999996,
+        "outward": true
+      }
+    ],
+    "leftAllOutward": true,
+    "rightAllOutward": true,
+    "individualBoundaryOnly": true,
+    "combinedLoopFill": false
+  },
+  "coordinateRoundTrip": {
+    "mapping": "game (x,y,z) -> Blender Z-up (x,-z,y) -> glTF/Three Y-up (x,y,z)",
+    "vertexCount": 130,
+    "maxAbsoluteCoordinateError": 0,
+    "allVerticesExact": true
+  },
+  "supportEmbedding": {
+    "objectOriginWorldY": 8.880348675115647,
+    "localMinY": -0.38,
+    "localMaxY": 1.05,
+    "minTerrainY": 8.880348675115647,
+    "maxTerrainY": 9.226700643057336,
+    "supportSpan": 0.34635196794168976,
+    "baseBelowMinimumTerrain": 0.38,
+    "baseBelowMaximumTerrain": 0.7263519679416898,
+    "crestExposedAboveMinimumTerrain": 1.05,
+    "crestExposedAboveMaximumTerrain": 0.7036480320583103
+  },
+  "reviewRequired": [
+    "independent R3 plan review",
+    "builder source review before final execution",
+    "pre-render directed-edge/cap-normal audit",
+    "actual untextured side/end/rear/source-threequarter review"
+  ],
+  "frozenConstructionData": {
+    "path": "construction-data-r3.json",
+    "sha256": "9763C30394ABE66761D05749BD97D18E8EADE5005176DEA61F1EFD991540D6B2"
+  }
+}

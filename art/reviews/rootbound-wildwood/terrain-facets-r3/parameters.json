@@ -1,0 +1,43 @@
+{
+  "schema": "rootbound-terrain-facets-r3-preview-v1",
+  "status": "private renderer-only method proof",
+  "camera": {
+    "playerXZ": [-449, 675],
+    "yaw": -2.3,
+    "pitchRad": 0.6283185307179586,
+    "effectiveDistanceM": 11.59107954420122,
+    "fovDeg": 52,
+    "framePx": [412, 915],
+    "usefulRectPx": [35, 377, 230, 600]
+  },
+  "field": {
+    "minX": -458,
+    "maxX": -436,
+    "minZ": 666,
+    "maxZ": 688,
+    "stepM": 2,
+    "meaning": "broadened lower-center foreground field across chunks (-10,13) and (-9,13); all edge vertices are exact zero"
+  },
+  "vertexReliefM": [
+    [0,0,0,0,0,0,0,0,0,0,0,0],
+    [0,-0.08,-0.16,-0.10,0.04,0.12,0.08,-0.04,-0.12,-0.06,0.05,0],
+    [0,-0.12,-0.22,-0.14,0.10,0.24,0.18,0.01,-0.17,-0.13,0.02,0],
+    [0,-0.05,-0.16,-0.06,0.18,0.32,0.26,0.06,-0.13,-0.20,-0.05,0],
+    [0,0.08,-0.04,0.10,0.28,0.36,0.20,-0.08,-0.24,-0.18,-0.02,0],
+    [0,0.14,0.04,0.18,0.31,0.22,0.04,-0.20,-0.30,-0.14,0.06,0],
+    [0,0.08,-0.06,0.04,0.22,0.12,-0.12,-0.28,-0.22,-0.04,0.12,0],
+    [0,-0.05,-0.18,-0.10,0.08,-0.02,-0.24,-0.32,-0.16,0.06,0.14,0],
+    [0,-0.10,-0.24,-0.14,0.02,-0.12,-0.26,-0.20,-0.04,0.18,0.12,0],
+    [0,-0.04,-0.12,-0.02,0.16,0.08,-0.06,0.02,0.12,0.24,0.10,0],
+    [0,0.04,0.02,0.12,0.22,0.16,0.04,0.10,0.22,0.28,0.12,0],
+    [0,0,0,0,0,0,0,0,0,0,0,0]
+  ],
+  "perFaceMapMultiplier": {
+    "whiteOutsideField": true,
+    "fromMeanReliefM": [0.36, 0.10, 0.065],
+    "range": [0.90, 1.10],
+    "meaning": "same RGB multiplier for all three duplicated vertices of one face; existing baked map remains attached"
+  },
+  "notRuntime": ["No terrain sampler, query, source mesh, physics, support, route, save, color sampling, or gameplay object changes."]
+}
+

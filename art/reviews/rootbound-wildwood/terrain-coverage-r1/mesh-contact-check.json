@@ -1,0 +1,128 @@
+{
+  "scope": "Read-only comparison of recorded production Rapier ray hits with the same production chunk triangle interpolation. Baseline rows use disableRootbound analytic and mesh values only; no baseline Rapier hits were recorded.",
+  "supportRayCount": 4,
+  "supportRays": [
+    {
+      "point": {
+        "x": -484,
+        "z": 642,
+        "surface": "-10,12"
+      },
+      "production": {
+        "analyticHeightM": 11.462043882451917,
+        "triangleMeshHeightM": 11.462043762207031,
+        "rapierHitHeightM": 11.462043762207031,
+        "analyticMinusMeshM": 1.2024488604822636e-7,
+        "meshMinusRapierM": 0
+      },
+      "disableRootboundBaseline": {
+        "analyticHeightM": 11.012550604448288,
+        "triangleMeshHeightM": 11.012550354003906,
+        "analyticMinusMeshM": 2.5044438167753924e-7
+      },
+      "recordedOverviewQueryM": 11.462043882451917
+    },
+    {
+      "point": {
+        "x": -469,
+        "z": 638,
+        "surface": "-10,12"
+      },
+      "production": {
+        "analyticHeightM": 11.119301486685059,
+        "triangleMeshHeightM": 11.119218826293945,
+        "rapierHitHeightM": 11.119220733642578,
+        "analyticMinusMeshM": 0.00008266039111326506,
+        "meshMinusRapierM": -0.0000019073486328125
+      },
+      "disableRootboundBaseline": {
+        "analyticHeightM": 11.119301486685059,
+        "triangleMeshHeightM": 11.119218826293945,
+        "analyticMinusMeshM": 0.00008266039111326506
+      },
+      "recordedOverviewQueryM": 11.119301486685059
+    },
+    {
+      "point": {
+        "x": -503,
+        "z": 672,
+        "surface": "-11,13"
+      },
+      "production": {
+        "analyticHeightM": 10.702297773742583,
+        "triangleMeshHeightM": 10.647088527679443,
+        "rapierHitHeightM": 10.647090911865234,
+        "analyticMinusMeshM": 0.05520924606313926,
+        "meshMinusRapierM": -0.000002384185791015625
+      },
+      "disableRootboundBaseline": {
+        "analyticHeightM": 9.952297773742583,
+        "triangleMeshHeightM": 9.952188968658447,
+        "analyticMinusMeshM": 0.00010880508413535495
+      },
+      "recordedOverviewQueryM": 10.702297773742583
+    },
+    {
+      "point": {
+        "x": -409,
+        "z": 688,
+        "surface": "-9,13"
+      },
+      "production": {
+        "analyticHeightM": 9.332265563074394,
+        "triangleMeshHeightM": 9.28161907196045,
+        "rapierHitHeightM": 9.2816162109375,
+        "analyticMinusMeshM": 0.05064649111394459,
+        "meshMinusRapierM": 0.00000286102294921875
+      },
+      "disableRootboundBaseline": {
+        "analyticHeightM": 8.525342915403016,
+        "triangleMeshHeightM": 8.52547311782837,
+        "analyticMinusMeshM": -0.00013020242535333182
+      },
+      "recordedOverviewQueryM": 9.332265563074394
+    }
+  ],
+  "summary": {
+    "productionAnalyticMinusMesh": {
+      "maxAbsM": 0.05520924606313926,
+      "meanAbsM": 0.02648462945327079
+    },
+    "productionMeshMinusRapier": {
+      "maxAbsM": 0.00000286102294921875,
+      "meanAbsM": 0.0000017881393432617188
+    },
+    "baselineAnalyticMinusMesh": {
+      "maxAbsM": 0.00013020242535333182,
+      "meanAbsM": 0.00008047958624590734
+    }
+  },
+  "walks": {
+    "walk-across-shoulder": {
+      "input": "timed keyboard events through game input",
+      "key": "d",
+      "samples": 42,
+      "elapsedMs": 4007.1000000089407,
+      "planarDistanceM": 9.036785581001443,
+      "playerYRangeM": {
+        "min": 11.61494255065918,
+        "max": 12.252508163452148
+      },
+      "groundedSamples": 42,
+      "ungroundedSamples": 0
+    },
+    "walk-back-from-shoulder": {
+      "input": "timed keyboard events through game input",
+      "key": "a",
+      "samples": 42,
+      "elapsedMs": 4002.5999999940395,
+      "planarDistanceM": 9.029306866811297,
+      "playerYRangeM": {
+        "min": 11.61439037322998,
+        "max": 12.251877784729004
+      },
+      "groundedSamples": 42,
+      "ungroundedSamples": 0
+    }
+  }
+}

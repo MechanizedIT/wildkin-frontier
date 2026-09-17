@@ -1,0 +1,46 @@
+{
+  "checkpoint": "0bbdee1",
+  "note": "Source contents match after Windows CRLF-to-LF normalization, preserving terrain/routes, finite ecology and wildlife identities, scenery and footprint selection. New one-asset resident path separately tested for transform/lifecycle/world gating.",
+  "checks": [
+    {
+      "path": "src/world/frontierTerrain.js",
+      "before": "af1c5d20d463420ff3c84fe44deee492abdab608c188ae5013c9db981426a32c",
+      "after": "af1c5d20d463420ff3c84fe44deee492abdab608c188ae5013c9db981426a32c"
+    },
+    {
+      "path": "src/world/frontierLandform.js",
+      "before": "5c080efe522ec9bb2307b223bd767196fda04902810ae335ba7c75b0e98b7047",
+      "after": "5c080efe522ec9bb2307b223bd767196fda04902810ae335ba7c75b0e98b7047"
+    },
+    {
+      "path": "src/world/frontierEcology.js",
+      "before": "a96426a72369023942fec62fbe3f606aa7698febbcf6625ce0c9de1091739004",
+      "after": "a96426a72369023942fec62fbe3f606aa7698febbcf6625ce0c9de1091739004"
+    },
+    {
+      "path": "src/world/frontierWildlife.js",
+      "before": "19b42263322776790a21fc1526f04fcfa61051b8cb9604fa80e7f50c6b498781",
+      "after": "19b42263322776790a21fc1526f04fcfa61051b8cb9604fa80e7f50c6b498781"
+    },
+    {
+      "path": "src/world/frontierScenery.js",
+      "before": "d74fc26310c453d4605587556741ca82c66c80cb885349a9b04b9354c99648af",
+      "after": "d74fc26310c453d4605587556741ca82c66c80cb885349a9b04b9354c99648af"
+    },
+    {
+      "path": "src/world/frontierSceneryVisual.js",
+      "before": "567238c20c034c9260dcc126600b77dd4636375f063cfaf84d5dff7a2b300bc0",
+      "after": "567238c20c034c9260dcc126600b77dd4636375f063cfaf84d5dff7a2b300bc0"
+    },
+    {
+      "path": "src/world/frontierPlacement.js",
+      "before": "59cc216179fb9a5ef1b3aa7c26c4eb24ac957b8807f3eb8691406a4a6654e762",
+      "after": "59cc216179fb9a5ef1b3aa7c26c4eb24ac957b8807f3eb8691406a4a6654e762"
+    },
+    {
+      "path": "src/world/frontierWorld.js",
+      "before": "d258dca20c469f952bdb7858fc7e8b8c596ee18ccdedb14d0103c8e753cb529c",
+      "after": "d258dca20c469f952bdb7858fc7e8b8c596ee18ccdedb14d0103c8e753cb529c"
+    }
+  ]
+}

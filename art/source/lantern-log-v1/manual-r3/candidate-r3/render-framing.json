@@ -1,0 +1,51 @@
+{
+  "front-near-end": {
+    "ortho_scale": 1.622333288192749,
+    "projected_width": 1.3665974140167236,
+    "projected_height": 1.4276533126831055,
+    "margin_x": 0.07881730469233936,
+    "margin_y": 0.059999994121588185
+  },
+  "opposite-end": {
+    "ortho_scale": 1.5904173851013184,
+    "projected_width": 1.366597592830658,
+    "projected_height": 1.3995673060417175,
+    "margin_x": 0.07036511118633233,
+    "margin_y": 0.059999997751358405
+  },
+  "near-side": {
+    "ortho_scale": 1.842613697052002,
+    "projected_width": 1.621500015258789,
+    "projected_height": 0.9923475980758667,
+    "margin_x": 0.060000010351321256,
+    "margin_y": 0.2307228314693623
+  },
+  "far-side": {
+    "ortho_scale": 1.8426138162612915,
+    "projected_width": 1.6215001344680786,
+    "projected_height": 0.9923478066921234,
+    "margin_x": 0.060000006469575366,
+    "margin_y": 0.2307227922816672
+  },
+  "top": {
+    "ortho_scale": 1.842613697052002,
+    "projected_width": 1.621500015258789,
+    "projected_height": 0.5614455938339233,
+    "margin_x": 0.060000010351321256,
+    "margin_y": 0.3476496742827375
+  },
+  "underside": {
+    "ortho_scale": 1.8426138162612915,
+    "projected_width": 1.6215001344680786,
+    "projected_height": 0.56144580245018,
+    "margin_x": 0.060000006469575366,
+    "margin_y": 0.3476496275303722
+  },
+  "principal-threequarter": {
+    "ortho_scale": 1.7116284370422363,
+    "projected_width": 1.4336613416671753,
+    "projected_height": 1.5062329769134521,
+    "margin_x": 0.08119960189940507,
+    "margin_y": 0.06000001392934202
+  }
+}

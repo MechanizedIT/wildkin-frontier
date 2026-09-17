@@ -1,0 +1,23 @@
+{
+  "source": "fresh exported GLBs imported into a neutral Blender review scene",
+  "engine": "Cycles CPU",
+  "threads": 2,
+  "samples": 10,
+  "resolution": [
+    640,
+    512
+  ],
+  "views": [
+    "family-front3q.png",
+    "family-front.png",
+    "family-back3q.png",
+    "family-orthographic.png",
+    "verdant-cliff-toe-front.png",
+    "verdant-cliff-toe-back.png",
+    "verdant-cliff-buttress-front.png",
+    "verdant-cliff-buttress-back.png",
+    "verdant-cliff-ledge-front.png",
+    "verdant-cliff-ledge-back.png"
+  ],
+  "review": "PENDING independent exact-export visual review; implementer did not self-admit"
+}

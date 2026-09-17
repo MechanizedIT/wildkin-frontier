@@ -28,7 +28,21 @@ function bake(assetId, createVisual) {
   return true;
 }
 
+// A reviewed single-asset repair must not rebake unrelated kit experiments.
+// Validate the complete selection before the first mutation or file write.
+const args = process.argv.slice(2), selected = [];
+for (let i = 0; i < args.length; i += 2) {
+  if (args[i] !== '--asset' || !args[i + 1] || args[i + 1].startsWith('--')) {
+    throw new Error('Usage: bake-visual-kits.mjs [--asset <existing-kit-id>]...');
+  }
+  const id = args[i + 1], asset = world.visualAssets.find(entry => entry.id === id);
+  if (!VISUAL_KIT_BUILDERS.has(id) || !asset || asset.model || selected.includes(id)) {
+    throw new Error(`Asset selection must be an existing unique code-native kit: ${id}`);
+  }
+  selected.push(id);
+}
+const builders = selected.length ? selected.map(id => [id, VISUAL_KIT_BUILDERS.get(id)]) : VISUAL_KIT_BUILDERS;
 let count = 0;
-for (const [assetId,build] of VISUAL_KIT_BUILDERS) count += Number(bake(assetId,build));
+for (const [assetId,build] of builders) count += Number(bake(assetId,build));
 writeGeneratedFile(WORLD_PATH, `${JSON.stringify(world)}\n`);
 console.log(`Baked ${count} focused visual asset recipes into world.json.`);

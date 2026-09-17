@@ -1,0 +1,268 @@
+{
+  "note": "Triangle count independent of scale. Conservative full-geometry circle; primary6m/branch4m lane clear of new visual groups. Existing collision unchanged.",
+  "assets": [
+    {
+      "id": "asset_rootbound_block_leaf",
+      "triangleCount": 4560,
+      "parts": 15,
+      "localRadius": 1,
+      "height": 1.8
+    },
+    {
+      "id": "asset_rootbound_block_root",
+      "triangleCount": 1770,
+      "parts": 8,
+      "localRadius": 1,
+      "height": 0.6
+    },
+    {
+      "id": "asset_rootbound_block_thorn",
+      "triangleCount": 1172,
+      "parts": 5,
+      "localRadius": 1,
+      "height": 1.5
+    }
+  ],
+  "rows": [
+    {
+      "key": "meadow-west-edge",
+      "assetId": "asset_rootbound_block_leaf",
+      "x": -490,
+      "z": 600.5,
+      "scale": 3.4,
+      "yaw": 0.2,
+      "kind": "low",
+      "fullVisualRadius": 3.4,
+      "primaryEdgeClearance": 3.099642306266491,
+      "branchEdgeClearance": 81.63675675847473
+    },
+    {
+      "key": "meadow-east-rootline",
+      "assetId": "asset_rootbound_block_root",
+      "x": -469,
+      "z": 603,
+      "scale": 3.1,
+      "yaw": -0.4,
+      "kind": "low",
+      "fullVisualRadius": 3.1,
+      "primaryEdgeClearance": 4.531011859998316,
+      "branchEdgeClearance": 71.62616676907763
+    },
+    {
+      "key": "gallery-west-rib",
+      "assetId": "asset_rootbound_block_root",
+      "x": -487,
+      "z": 645,
+      "scale": 2.7,
+      "yaw": 0.2,
+      "kind": "low",
+      "fullVisualRadius": 2.7,
+      "primaryEdgeClearance": 4.221094884781241,
+      "branchEdgeClearance": 45.71487374764082
+    },
+    {
+      "key": "gallery-east-rib",
+      "assetId": "asset_rootbound_block_leaf",
+      "x": -470,
+      "z": 649,
+      "scale": 2.7,
+      "yaw": -0.3,
+      "kind": "low",
+      "fullVisualRadius": 2.7,
+      "primaryEdgeClearance": 4.35642285072797,
+      "branchEdgeClearance": 30.721549934136807
+    },
+    {
+      "key": "gallery-north-collar",
+      "assetId": "asset_rootbound_block_leaf",
+      "x": -480,
+      "z": 697,
+      "scale": 2.7,
+      "yaw": 0.1,
+      "kind": "low",
+      "fullVisualRadius": 2.7,
+      "primaryEdgeClearance": 10.287730058615772,
+      "branchEdgeClearance": 25.317851452243797
+    },
+    {
+      "key": "verge-west-seam",
+      "assetId": "asset_rootbound_block_thorn",
+      "x": -424,
+      "z": 675,
+      "scale": 1.8,
+      "yaw": 0.2,
+      "kind": "low",
+      "fullVisualRadius": 1.8,
+      "primaryEdgeClearance": 23.2,
+      "branchEdgeClearance": 4.0309518948453
+    },
+    {
+      "key": "verge-east-shards",
+      "assetId": "asset_rootbound_block_thorn",
+      "x": -409,
+      "z": 694,
+      "scale": 2,
+      "yaw": -0.2,
+      "kind": "low",
+      "fullVisualRadius": 2,
+      "primaryEdgeClearance": 40.284985514955544,
+      "branchEdgeClearance": 4
+    },
+    {
+      "key": "heartroot-crown-base",
+      "assetId": "asset_rootbound_block_root",
+      "x": -482.5,
+      "z": 726,
+      "scale": 3.4,
+      "yaw": 0.25,
+      "kind": "low",
+      "fullVisualRadius": 3.4,
+      "primaryEdgeClearance": 3.1,
+      "branchEdgeClearance": 39.38142120126446
+    },
+    {
+      "key": "heartroot-crown-left",
+      "assetId": "asset_rootbound_block_leaf",
+      "x": -478,
+      "z": 729,
+      "scale": 3.8,
+      "yaw": 0.1,
+      "kind": "low",
+      "fullVisualRadius": 3.8,
+      "primaryEdgeClearance": 5.419544457292889,
+      "branchEdgeClearance": 38.21190307520001
+    },
+    {
+      "key": "heartroot-crown-right",
+      "assetId": "asset_rootbound_block_leaf",
+      "x": -467,
+      "z": 729,
+      "scale": 3.4,
+      "yaw": -0.2,
+      "kind": "low",
+      "fullVisualRadius": 3.4,
+      "primaryEdgeClearance": 11.893597276215258,
+      "branchEdgeClearance": 32.31555468227172
+    },
+    {
+      "key": "gallery-west-rib-2",
+      "assetId": "asset_rootbound_block_root",
+      "x": -488.5,
+      "z": 656,
+      "scale": 2.7,
+      "yaw": 0.1,
+      "kind": "low",
+      "fullVisualRadius": 2.7,
+      "primaryEdgeClearance": 3.166348190816021,
+      "branchEdgeClearance": 41.13206588788623
+    },
+    {
+      "key": "gallery-west-rib-3",
+      "assetId": "asset_rootbound_block_leaf",
+      "x": -489,
+      "z": 676.5,
+      "scale": 2.7,
+      "yaw": 0.2,
+      "kind": "low",
+      "fullVisualRadius": 2.7,
+      "primaryEdgeClearance": 3.035387524026727,
+      "branchEdgeClearance": 37.32811511925087
+    },
+    {
+      "key": "gallery-east-rib-2",
+      "assetId": "asset_rootbound_block_leaf",
+      "x": -457.5,
+      "z": 664,
+      "scale": 2.7,
+      "yaw": -0.25,
+      "kind": "low",
+      "fullVisualRadius": 2.7,
+      "primaryEdgeClearance": 3.1206222509123336,
+      "branchEdgeClearance": 11.201438774457845
+    },
+    {
+      "key": "gallery-east-rib-3",
+      "assetId": "asset_rootbound_block_root",
+      "x": -462,
+      "z": 691,
+      "scale": 2.7,
+      "yaw": -0.2,
+      "kind": "low",
+      "fullVisualRadius": 2.7,
+      "primaryEdgeClearance": 7.60419674638617,
+      "branchEdgeClearance": 8.48033988749895
+    },
+    {
+      "key": "verge-seam-2",
+      "assetId": "asset_rootbound_block_thorn",
+      "x": -405,
+      "z": 704,
+      "scale": 1.6,
+      "yaw": 0.2,
+      "kind": "low",
+      "fullVisualRadius": 1.6,
+      "primaryEdgeClearance": 46.075989764240866,
+      "branchEdgeClearance": 12.51459492451939
+    },
+    {
+      "key": "verge-seam-3",
+      "assetId": "asset_rootbound_block_thorn",
+      "x": -416,
+      "z": 701,
+      "scale": 1.5,
+      "yaw": -0.2,
+      "kind": "low",
+      "fullVisualRadius": 1.5,
+      "primaryEdgeClearance": 34.84528855298854,
+      "branchEdgeClearance": 2.381513604242832
+    },
+    {
+      "key": "heartroot-crown-web-1",
+      "assetId": "asset_rootbound_block_root",
+      "x": -474.5,
+      "z": 723.5,
+      "scale": 3.2,
+      "yaw": 0.1,
+      "kind": "low",
+      "fullVisualRadius": 3.2,
+      "primaryEdgeClearance": 3.036750662286364,
+      "branchEdgeClearance": 32.33167600887974
+    },
+    {
+      "key": "heartroot-crown-web-2",
+      "assetId": "asset_rootbound_block_root",
+      "x": -470,
+      "z": 726,
+      "scale": 3.1,
+      "yaw": -0.2,
+      "kind": "low",
+      "fullVisualRadius": 3.1,
+      "primaryEdgeClearance": 7.9634533487514645,
+      "branchEdgeClearance": 31.8268831277736
+    },
+    {
+      "key": "heartroot-crown-wing-1",
+      "assetId": "asset_rootbound_block_leaf",
+      "x": -481,
+      "z": 731,
+      "scale": 3.1,
+      "yaw": 0.2,
+      "kind": "low",
+      "fullVisualRadius": 3.1,
+      "primaryEdgeClearance": 7.9453610171872615,
+      "branchEdgeClearance": 42.35327270945405
+    },
+    {
+      "key": "heartroot-crown-wing-2",
+      "assetId": "asset_rootbound_block_leaf",
+      "x": -463,
+      "z": 731,
+      "scale": 3,
+      "yaw": -0.2,
+      "kind": "low",
+      "fullVisualRadius": 3,
+      "primaryEdgeClearance": 16.41527597476973,
+      "branchEdgeClearance": 32.11466206932077
+    }
+  ]
+}

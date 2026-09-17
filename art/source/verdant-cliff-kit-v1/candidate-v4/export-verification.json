@@ -1,0 +1,39 @@
+{
+  "status": "PASS",
+  "assets": [
+    {
+      "file": "verdant-cliff-toe.glb",
+      "sha256": "d5d6990dc01f8414840eeeb103a45317d1702eb0dd3673aa8ba088b42342ab9c",
+      "paletteExact16Swatches": true,
+      "opaqueEmbeddedSingleMaterial": true,
+      "glbGroundedYUp": true,
+      "colliderMaxOutsideMeters": 0.0,
+      "colliderVertices": 18,
+      "colliderIndices": 96,
+      "triangles": 264
+    },
+    {
+      "file": "verdant-cliff-buttress.glb",
+      "sha256": "d54d10aed7b6afc2fdb4dd332d4853451b2c2fde2e62ea004976062fc68357db",
+      "paletteExact16Swatches": true,
+      "opaqueEmbeddedSingleMaterial": true,
+      "glbGroundedYUp": true,
+      "colliderMaxOutsideMeters": 0.0,
+      "colliderVertices": 25,
+      "colliderIndices": 138,
+      "triangles": 442
+    },
+    {
+      "file": "verdant-cliff-ledge.glb",
+      "sha256": "e4b8889e0fe31c894fb519057229ebe6b6c8ee3a38d4d1f9415bd55b54277ae4",
+      "paletteExact16Swatches": true,
+      "opaqueEmbeddedSingleMaterial": true,
+      "glbGroundedYUp": true,
+      "colliderMaxOutsideMeters": 0.0,
+      "colliderVertices": 25,
+      "colliderIndices": 138,
+      "triangles": 362
+    }
+  ],
+  "scope": "Structural exact export only; independent art and native gameplay remain pending."
+}

@@ -1,0 +1,5393 @@
+{
+  "generatedAt": "2026-09-14T14:10:03.302Z",
+  "note": "Read-only, default-world numerical scan. It uses the current accepted buttress convex hull, exact Three.js yaw transform, complete hull-boundary samples, all nearby generated sources/homes/solid scenery, and the full locked R2 lattice. It is not a native projection, collision, or placement approval.",
+  "asset": {
+    "id": "asset_verdant_cliff_buttress",
+    "scale": 0.65,
+    "localHullVertexCount": 19,
+    "localMaxRadius": 1.2083
+  },
+  "arrival": {
+    "x": -2080,
+    "z": -3160,
+    "yaw": -2.783,
+    "groundForward": {
+      "x": 0.3509567538134246,
+      "z": 0.9363916685622226
+    }
+  },
+  "method": {
+    "support": "all transformed hull vertices + three samples per hull edge + origin; free-standing span <= .32m",
+    "embedded": "span > .32m recorded as embedded-only rather than lowering the free-standing guard; baseY is full footprint minimum",
+    "route": "minimum hull-boundary to every R2 lattice segment >=1.2m",
+    "sources": "resource footprint +1.2m approach buffer against hull boundary",
+    "homes": "max(roamRadius, leashRadius)+1.2m against hull boundary",
+    "scenery": "no overlap with current solid canopy/Fen-stone owner footprint"
+  },
+  "hypotheses": [
+    {
+      "side": "west",
+      "transform": {
+        "x": -2085,
+        "z": -3153,
+        "yaw": 1.5707963267948966,
+        "scale": 0.65
+      },
+      "projectionPrecheck": {
+        "forwardMeters": 4.8,
+        "screenSideMeters": 7.139,
+        "inFront": true
+      },
+      "support": {
+        "sampleCount": 77,
+        "minHeight": 9.1286,
+        "maxHeight": 9.3831,
+        "span": 0.2545,
+        "freeStandingPass": true,
+        "embeddedOnly": false,
+        "baseY": 9.1286
+      },
+      "clearance": {
+        "minHullBoundaryToRoute": 4.5112,
+        "routeShoulderPass": true,
+        "resourceConflicts": [],
+        "homeConflicts": [],
+        "solidSceneryOverlaps": []
+      },
+      "pass": true
+    },
+    {
+      "side": "east",
+      "transform": {
+        "x": -2073,
+        "z": -3152,
+        "yaw": -1.5707963267948966,
+        "scale": 0.65
+      },
+      "projectionPrecheck": {
+        "forwardMeters": 9.948,
+        "screenSideMeters": -3.747,
+        "inFront": true
+      },
+      "support": {
+        "sampleCount": 77,
+        "minHeight": 9.6598,
+        "maxHeight": 9.9789,
+        "span": 0.319,
+        "freeStandingPass": true,
+        "embeddedOnly": false,
+        "baseY": 9.6598
+      },
+      "clearance": {
+        "minHullBoundaryToRoute": 1.8311,
+        "routeShoulderPass": true,
+        "resourceConflicts": [],
+        "homeConflicts": [],
+        "solidSceneryOverlaps": []
+      },
+      "pass": true
+    }
+  ],
+  "scan": {
+    "bounds": [
+      {
+        "side": "west",
+        "x": [
+          -2089,
+          -2081
+        ],
+        "z": [
+          -3157,
+          -3149
+        ]
+      },
+      {
+        "side": "east",
+        "x": [
+          -2077,
+          -2069
+        ],
+        "z": [
+          -3156,
+          -3148
+        ]
+      }
+    ],
+    "candidateCount": 162,
+    "viableForNativePreview": [
+      {
+        "side": "west",
+        "transform": {
+          "x": -2088,
+          "z": -3157,
+          "yaw": 1.5707963267948966,
+          "scale": 0.65
+        },
+        "projectionPrecheck": {
+          "forwardMeters": 0.002,
+          "screenSideMeters": 8.544,
+          "inFront": true
+        },
+        "support": {
+          "sampleCount": 77,
+          "minHeight": 8.6991,
+          "maxHeight": 8.8893,
+          "span": 0.1902,
+          "freeStandingPass": true,
+          "embeddedOnly": false,
+          "baseY": 8.6991
+        },
+        "clearance": {
+          "minHullBoundaryToRoute": 7.2808,
+          "routeShoulderPass": true,
+          "resourceConflicts": [],
+          "homeConflicts": [],
+          "solidSceneryOverlaps": []
+        },
+        "pass": true
+      },
+      {
+        "side": "west",
+        "transform": {
+          "x": -2087,
+          "z": -3157,
+          "yaw": 1.5707963267948966,
+          "scale": 0.65
+        },
+        "projectionPrecheck": {
+          "forwardMeters": 0.352,
+          "screenSideMeters": 7.608,
+          "inFront": true
+        },
+        "support": {
+          "sampleCount": 77,
+          "minHeight": 8.7248,
+          "maxHeight": 8.9182,
+          "span": 0.1934,
+          "freeStandingPass": true,
+          "embeddedOnly": false,
+          "baseY": 8.7248
+        },
+        "clearance": {
+          "minHullBoundaryToRoute": 6.2808,
+          "routeShoulderPass": true,
+          "resourceConflicts": [],
+          "homeConflicts": [],
+          "solidSceneryOverlaps": []
+        },
+        "pass": true
+      },
+      {
+        "side": "west",
+        "transform": {
+          "x": -2086,
+          "z": -3157,
+          "yaw": 1.5707963267948966,
+          "scale": 0.65
+        },
+        "projectionPrecheck": {
+          "forwardMeters": 0.703,
+          "screenSideMeters": 6.671,
+          "inFront": true
+        },
+        "support": {
+          "sampleCount": 77,
+          "minHeight": 8.7508,
+          "maxHeight": 8.9474,
+          "span": 0.1966,
+          "freeStandingPass": true,
+          "embeddedOnly": false,
+          "baseY": 8.7508
+        },
+        "clearance": {
+          "minHullBoundaryToRoute": 5.2808,
+          "routeShoulderPass": true,
+          "resourceConflicts": [],
+          "homeConflicts": [],
+          "solidSceneryOverlaps": []
+        },
+        "pass": true
+      },
+      {
+        "side": "west",
+        "transform": {
+          "x": -2089,
+          "z": -3156,
+          "yaw": 1.5707963267948966,
+          "scale": 0.65
+        },
+        "projectionPrecheck": {
+          "forwardMeters": 0.587,
+          "screenSideMeters": 9.831,
+          "inFront": true
+        },
+        "support": {
+          "sampleCount": 77,
+          "minHeight": 8.7477,
+          "maxHeight": 8.9472,
+          "span": 0.1994,
+          "freeStandingPass": true,
+          "embeddedOnly": false,
+          "baseY": 8.7477
+        },
+        "clearance": {
+          "minHullBoundaryToRoute": 8.2808,
+          "routeShoulderPass": true,
+          "resourceConflicts": [],
+          "homeConflicts": [],
+          "solidSceneryOverlaps": []
+        },
+        "pass": true
+      },
+      {
+        "side": "west",
+        "transform": {
+          "x": -2085,
+          "z": -3157,
+          "yaw": 1.5707963267948966,
+          "scale": 0.65
+        },
+        "projectionPrecheck": {
+          "forwardMeters": 1.054,
+          "screenSideMeters": 5.735,
+          "inFront": true
+        },
+        "support": {
+          "sampleCount": 77,
+          "minHeight": 8.7771,
+          "maxHeight": 8.9769,
+          "span": 0.1998,
+          "freeStandingPass": true,
+          "embeddedOnly": false,
+          "baseY": 8.7771
+        },
+        "clearance": {
+          "minHullBoundaryToRoute": 4.2808,
+          "routeShoulderPass": true,
+          "resourceConflicts": [],
+          "homeConflicts": [],
+          "solidSceneryOverlaps": []
+        },
+        "pass": true
+      },
+      {
+        "side": "west",
+        "transform": {
+          "x": -2088,
+          "z": -3156,
+          "yaw": 1.5707963267948966,
+          "scale": 0.65
+        },
+        "projectionPrecheck": {
+          "forwardMeters": 0.938,
+          "screenSideMeters": 8.895,
+          "inFront": true
+        },
+        "support": {
+          "sampleCount": 77,
+          "minHeight": 8.7745,
+          "maxHeight": 8.9772,
+          "span": 0.2027,
+          "freeStandingPass": true,
+          "embeddedOnly": false,
+          "baseY": 8.7745
+        },
+        "clearance": {
+          "minHullBoundaryToRoute": 7.2808,
+          "routeShoulderPass": true,
+          "resourceConflicts": [],
+          "homeConflicts": [],
+          "solidSceneryOverlaps": []
+        },
+        "pass": true
+      },
+      {
+        "side": "west",
+        "transform": {
+          "x": -2084,
+          "z": -3157,
+          "yaw": 1.5707963267948966,
+          "scale": 0.65
+        },
+        "projectionPrecheck": {
+          "forwardMeters": 1.405,
+          "screenSideMeters": 4.798,
+          "inFront": true
+        },
+        "support": {
+          "sampleCount": 77,
+          "minHeight": 8.8037,
+          "maxHeight": 9.0067,
+          "span": 0.2031,
+          "freeStandingPass": true,
+          "embeddedOnly": false,
+          "baseY": 8.8037
+        },
+        "clearance": {
+          "minHullBoundaryToRoute": 3.2808,
+          "routeShoulderPass": true,
+          "resourceConflicts": [],
+          "homeConflicts": [],
+          "solidSceneryOverlaps": []
+        },
+        "pass": true
+      },
+      {
+        "side": "west",
+        "transform": {
+          "x": -2087,
+          "z": -3156,
+          "yaw": 1.5707963267948966,
+          "scale": 0.65
+        },
+        "projectionPrecheck": {
+          "forwardMeters": 1.289,
+          "screenSideMeters": 7.959,
+          "inFront": true
+        },
+        "support": {
+          "sampleCount": 77,
+          "minHeight": 8.8016,
+          "maxHeight": 9.0076,
+          "span": 0.206,
+          "freeStandingPass": true,
+          "embeddedOnly": false,
+          "baseY": 8.8016
+        },
+        "clearance": {
+          "minHullBoundaryToRoute": 6.2808,
+          "routeShoulderPass": true,
+          "resourceConflicts": [],
+          "homeConflicts": [],
+          "solidSceneryOverlaps": []
+        },
+        "pass": true
+      }
+    ],
+    "viableCount": 121,
+    "allCandidates": [
+      {
+        "side": "west",
+        "transform": {
+          "x": -2089,
+          "z": -3157,
+          "yaw": 1.5707963267948966,
+          "scale": 0.65
+        },
+        "projectionPrecheck": {
+          "forwardMeters": -0.349,
+          "screenSideMeters": 9.48,
+          "inFront": false
+        },
+        "support": {
+          "sampleCount": 77,
+          "minHeight": 8.6737,
+          "maxHeight": 8.8608,
+          "span": 0.1871,
+          "freeStandingPass": true,
+          "embeddedOnly": false,
+          "baseY": 8.6737
+        },
+        "clearance": {
+          "minHullBoundaryToRoute": 8.2808,
+          "routeShoulderPass": true,
+          "resourceConflicts": [],
+          "homeConflicts": [],
+          "solidSceneryOverlaps": []
+        },
+        "pass": true
+      },
+      {
+        "side": "west",
+        "transform": {
+          "x": -2089,
+          "z": -3156,
+          "yaw": 1.5707963267948966,
+          "scale": 0.65
+        },
+        "projectionPrecheck": {
+          "forwardMeters": 0.587,
+          "screenSideMeters": 9.831,
+          "inFront": true
+        },
+        "support": {
+          "sampleCount": 77,
+          "minHeight": 8.7477,
+          "maxHeight": 8.9472,
+          "span": 0.1994,
+          "freeStandingPass": true,
+          "embeddedOnly": false,
+          "baseY": 8.7477
+        },
+        "clearance": {
+          "minHullBoundaryToRoute": 8.2808,
+          "routeShoulderPass": true,
+          "resourceConflicts": [],
+          "homeConflicts": [],
+          "solidSceneryOverlaps": []
+        },
+        "pass": true
+      },
+      {
+        "side": "west",
+        "transform": {
+          "x": -2089,
+          "z": -3155,
+          "yaw": 1.5707963267948966,
+          "scale": 0.65
+        },
+        "projectionPrecheck": {
+          "forwardMeters": 1.523,
+          "screenSideMeters": 10.182,
+          "inFront": true
+        },
+        "support": {
+          "sampleCount": 77,
+          "minHeight": 8.827,
+          "maxHeight": 9.0392,
+          "span": 0.2122,
+          "freeStandingPass": true,
+          "embeddedOnly": false,
+          "baseY": 8.827
+        },
+        "clearance": {
+          "minHullBoundaryToRoute": 8.2808,
+          "routeShoulderPass": true,
+          "resourceConflicts": [],
+          "homeConflicts": [],
+          "solidSceneryOverlaps": []
+        },
+        "pass": true
+      },
+      {
+        "side": "west",
+        "transform": {
+          "x": -2089,
+          "z": -3154,
+          "yaw": 1.5707963267948966,
+          "scale": 0.65
+        },
+        "projectionPrecheck": {
+          "forwardMeters": 2.46,
+          "screenSideMeters": 10.533,
+          "inFront": true
+        },
+        "support": {
+          "sampleCount": 77,
+          "minHeight": 8.9116,
+          "maxHeight": 9.1371,
+          "span": 0.2256,
+          "freeStandingPass": true,
+          "embeddedOnly": false,
+          "baseY": 8.9116
+        },
+        "clearance": {
+          "minHullBoundaryToRoute": 8.2916,
+          "routeShoulderPass": true,
+          "resourceConflicts": [],
+          "homeConflicts": [],
+          "solidSceneryOverlaps": []
+        },
+        "pass": true
+      },
+      {
+        "side": "west",
+        "transform": {
+          "x": -2089,
+          "z": -3153,
+          "yaw": 1.5707963267948966,
+          "scale": 0.65
+        },
+        "projectionPrecheck": {
+          "forwardMeters": 3.396,
+          "screenSideMeters": 10.884,
+          "inFront": true
+        },
+        "support": {
+          "sampleCount": 77,
+          "minHeight": 9.0018,
+          "maxHeight": 9.2411,
+          "span": 0.2394,
+          "freeStandingPass": true,
+          "embeddedOnly": false,
+          "baseY": 9.0018
+        },
+        "clearance": {
+          "minHullBoundaryToRoute": 8.4022,
+          "routeShoulderPass": true,
+          "resourceConflicts": [],
+          "homeConflicts": [],
+          "solidSceneryOverlaps": []
+        },
+        "pass": true
+      },
+      {
+        "side": "west",
+        "transform": {
+          "x": -2089,
+          "z": -3152,
+          "yaw": 1.5707963267948966,
+          "scale": 0.65
+        },
+        "projectionPrecheck": {
+          "forwardMeters": 4.333,
+          "screenSideMeters": 11.235,
+          "inFront": true
+        },
+        "support": {
+          "sampleCount": 77,
+          "minHeight": 9.0978,
+          "maxHeight": 9.3514,
+          "span": 0.2536,
+          "freeStandingPass": true,
+          "embeddedOnly": false,
+          "baseY": 9.0978
+        },
+        "clearance": {
+          "minHullBoundaryToRoute": 8.6281,
+          "routeShoulderPass": true,
+          "resourceConflicts": [],
+          "homeConflicts": [],
+          "solidSceneryOverlaps": []
+        },
+        "pass": true
+      },
+      {
+        "side": "west",
+        "transform": {
+          "x": -2089,
+          "z": -3151,
+          "yaw": 1.5707963267948966,
+          "scale": 0.65
+        },
+        "projectionPrecheck": {
+          "forwardMeters": 5.269,
+          "screenSideMeters": 11.586,
+          "inFront": true
+        },
+        "support": {
+          "sampleCount": 77,
+          "minHeight": 9.1997,
+          "maxHeight": 9.4681,
+          "span": 0.2684,
+          "freeStandingPass": true,
+          "embeddedOnly": false,
+          "baseY": 9.1997
+        },
+        "clearance": {
+          "minHullBoundaryToRoute": 8.9605,
+          "routeShoulderPass": true,
+          "resourceConflicts": [],
+          "homeConflicts": [],
+          "solidSceneryOverlaps": []
+        },
+        "pass": true
+      },
+      {
+        "side": "west",
+        "transform": {
+          "x": -2089,
+          "z": -3150,
+          "yaw": 1.5707963267948966,
+          "scale": 0.65
+        },
+        "projectionPrecheck": {
+          "forwardMeters": 6.205,
+          "screenSideMeters": 11.937,
+          "inFront": true
+        },
+        "support": {
+          "sampleCount": 77,
+          "minHeight": 9.3079,
+          "maxHeight": 9.5915,
+          "span": 0.2837,
+          "freeStandingPass": true,
+          "embeddedOnly": false,
+          "baseY": 9.3079
+        },
+        "clearance": {
+          "minHullBoundaryToRoute": 9.3881,
+          "routeShoulderPass": true,
+          "resourceConflicts": [],
+          "homeConflicts": [],
+          "solidSceneryOverlaps": []
+        },
+        "pass": true
+      },
+      {
+        "side": "west",
+        "transform": {
+          "x": -2089,
+          "z": -3149,
+          "yaw": 1.5707963267948966,
+          "scale": 0.65
+        },
+        "projectionPrecheck": {
+          "forwardMeters": 7.142,
+          "screenSideMeters": 12.288,
+          "inFront": true
+        },
+        "support": {
+          "sampleCount": 77,
+          "minHeight": 9.4224,
+          "maxHeight": 9.7218,
+          "span": 0.2994,
+          "freeStandingPass": true,
+          "embeddedOnly": false,
+          "baseY": 9.4224
+        },
+        "clearance": {
+          "minHullBoundaryToRoute": 9.8986,
+          "routeShoulderPass": true,
+          "resourceConflicts": [],
+          "homeConflicts": [],
+          "solidSceneryOverlaps": []
+        },
+        "pass": true
+      },
+      {
+        "side": "west",
+        "transform": {
+          "x": -2088,
+          "z": -3157,
+          "yaw": 1.5707963267948966,
+          "scale": 0.65
+        },
+        "projectionPrecheck": {
+          "forwardMeters": 0.002,
+          "screenSideMeters": 8.544,
+          "inFront": true
+        },
+        "support": {
+          "sampleCount": 77,
+          "minHeight": 8.6991,
+          "maxHeight": 8.8893,
+          "span": 0.1902,
+          "freeStandingPass": true,
+          "embeddedOnly": false,
+          "baseY": 8.6991
+        },
+        "clearance": {
+          "minHullBoundaryToRoute": 7.2808,
+          "routeShoulderPass": true,
+          "resourceConflicts": [],
+          "homeConflicts": [],
+          "solidSceneryOverlaps": []
+        },
+        "pass": true
+      },
+      {
+        "side": "west",
+        "transform": {
+          "x": -2088,
+          "z": -3156,
+          "yaw": 1.5707963267948966,
+          "scale": 0.65
+        },
+        "projectionPrecheck": {
+          "forwardMeters": 0.938,
+          "screenSideMeters": 8.895,
+          "inFront": true
+        },
+        "support": {
+          "sampleCount": 77,
+          "minHeight": 8.7745,
+          "maxHeight": 8.9772,
+          "span": 0.2027,
+          "freeStandingPass": true,
+          "embeddedOnly": false,
+          "baseY": 8.7745
+        },
+        "clearance": {
+          "minHullBoundaryToRoute": 7.2808,
+          "routeShoulderPass": true,
+          "resourceConflicts": [],
+          "homeConflicts": [],
+          "solidSceneryOverlaps": []
+        },
+        "pass": true
+      },
+      {
+        "side": "west",
+        "transform": {
+          "x": -2088,
+          "z": -3155,
+          "yaw": 1.5707963267948966,
+          "scale": 0.65
+        },
+        "projectionPrecheck": {
+          "forwardMeters": 1.874,
+          "screenSideMeters": 9.246,
+          "inFront": true
+        },
+        "support": {
+          "sampleCount": 77,
+          "minHeight": 8.8552,
+          "maxHeight": 9.0708,
+          "span": 0.2157,
+          "freeStandingPass": true,
+          "embeddedOnly": false,
+          "baseY": 8.8552
+        },
+        "clearance": {
+          "minHullBoundaryToRoute": 7.2808,
+          "routeShoulderPass": true,
+          "resourceConflicts": [],
+          "homeConflicts": [],
+          "solidSceneryOverlaps": []
+        },
+        "pass": true
+      },
+      {
+        "side": "west",
+        "transform": {
+          "x": -2088,
+          "z": -3154,
+          "yaw": 1.5707963267948966,
+          "scale": 0.65
+        },
+        "projectionPrecheck": {
+          "forwardMeters": 2.811,
+          "screenSideMeters": 9.597,
+          "inFront": true
+        },
+        "support": {
+          "sampleCount": 77,
+          "minHeight": 8.9412,
+          "maxHeight": 9.1704,
+          "span": 0.2291,
+          "freeStandingPass": true,
+          "embeddedOnly": false,
+          "baseY": 8.9412
+        },
+        "clearance": {
+          "minHullBoundaryToRoute": 7.2931,
+          "routeShoulderPass": true,
+          "resourceConflicts": [],
+          "homeConflicts": [],
+          "solidSceneryOverlaps": []
+        },
+        "pass": true
+      },
+      {
+        "side": "west",
+        "transform": {
+          "x": -2088,
+          "z": -3153,
+          "yaw": 1.5707963267948966,
+          "scale": 0.65
+        },
+        "projectionPrecheck": {
+          "forwardMeters": 3.747,
+          "screenSideMeters": 9.948,
+          "inFront": true
+        },
+        "support": {
+          "sampleCount": 77,
+          "minHeight": 9.033,
+          "maxHeight": 9.2761,
+          "span": 0.2431,
+          "freeStandingPass": true,
+          "embeddedOnly": false,
+          "baseY": 9.033
+        },
+        "clearance": {
+          "minHullBoundaryToRoute": 7.4186,
+          "routeShoulderPass": true,
+          "resourceConflicts": [],
+          "homeConflicts": [],
+          "solidSceneryOverlaps": []
+        },
+        "pass": true
+      },
+      {
+        "side": "west",
+        "transform": {
+          "x": -2088,
+          "z": -3152,
+          "yaw": 1.5707963267948966,
+          "scale": 0.65
+        },
+        "projectionPrecheck": {
+          "forwardMeters": 4.683,
+          "screenSideMeters": 10.299,
+          "inFront": true
+        },
+        "support": {
+          "sampleCount": 77,
+          "minHeight": 9.1306,
+          "maxHeight": 9.3881,
+          "span": 0.2575,
+          "freeStandingPass": true,
+          "embeddedOnly": false,
+          "baseY": 9.1306
+        },
+        "clearance": {
+          "minHullBoundaryToRoute": 7.6735,
+          "routeShoulderPass": true,
+          "resourceConflicts": [],
+          "homeConflicts": [],
+          "solidSceneryOverlaps": []
+        },
+        "pass": true
+      },
+      {
+        "side": "west",
+        "transform": {
+          "x": -2088,
+          "z": -3151,
+          "yaw": 1.5707963267948966,
+          "scale": 0.65
+        },
+        "projectionPrecheck": {
+          "forwardMeters": 5.62,
+          "screenSideMeters": 10.65,
+          "inFront": true
+        },
+        "support": {
+          "sampleCount": 77,
+          "minHeight": 9.2342,
+          "maxHeight": 9.5066,
+          "span": 0.2724,
+          "freeStandingPass": true,
+          "embeddedOnly": false,
+          "baseY": 9.2342
+        },
+        "clearance": {
+          "minHullBoundaryToRoute": 8.0454,
+          "routeShoulderPass": true,
+          "resourceConflicts": [],
+          "homeConflicts": [],
+          "solidSceneryOverlaps": []
+        },
+        "pass": true
+      },
+      {
+        "side": "west",
+        "transform": {
+          "x": -2088,
+          "z": -3150,
+          "yaw": 1.5707963267948966,
+          "scale": 0.65
+        },
+        "projectionPrecheck": {
+          "forwardMeters": 6.556,
+          "screenSideMeters": 11.001,
+          "inFront": true
+        },
+        "support": {
+          "sampleCount": 77,
+          "minHeight": 9.3441,
+          "maxHeight": 9.6319,
+          "span": 0.2878,
+          "freeStandingPass": true,
+          "embeddedOnly": false,
+          "baseY": 9.3441
+        },
+        "clearance": {
+          "minHullBoundaryToRoute": 8.5191,
+          "routeShoulderPass": true,
+          "resourceConflicts": [],
+          "homeConflicts": [],
+          "solidSceneryOverlaps": []
+        },
+        "pass": true
+      },
+      {
+        "side": "west",
+        "transform": {
+          "x": -2088,
+          "z": -3149,
+          "yaw": 1.5707963267948966,
+          "scale": 0.65
+        },
+        "projectionPrecheck": {
+          "forwardMeters": 7.493,
+          "screenSideMeters": 11.352,
+          "inFront": true
+        },
+        "support": {
+          "sampleCount": 77,
+          "minHeight": 9.4604,
+          "maxHeight": 9.7642,
+          "span": 0.3037,
+          "freeStandingPass": true,
+          "embeddedOnly": false,
+          "baseY": 9.4604
+        },
+        "clearance": {
+          "minHullBoundaryToRoute": 9.0786,
+          "routeShoulderPass": true,
+          "resourceConflicts": [],
+          "homeConflicts": [],
+          "solidSceneryOverlaps": []
+        },
+        "pass": true
+      },
+      {
+        "side": "west",
+        "transform": {
+          "x": -2087,
+          "z": -3157,
+          "yaw": 1.5707963267948966,
+          "scale": 0.65
+        },
+        "projectionPrecheck": {
+          "forwardMeters": 0.352,
+          "screenSideMeters": 7.608,
+          "inFront": true
+        },
+        "support": {
+          "sampleCount": 77,
+          "minHeight": 8.7248,
+          "maxHeight": 8.9182,
+          "span": 0.1934,
+          "freeStandingPass": true,
+          "embeddedOnly": false,
+          "baseY": 8.7248
+        },
+        "clearance": {
+          "minHullBoundaryToRoute": 6.2808,
+          "routeShoulderPass": true,
+          "resourceConflicts": [],
+          "homeConflicts": [],
+          "solidSceneryOverlaps": []
+        },
+        "pass": true
+      },
+      {
+        "side": "west",
+        "transform": {
+          "x": -2087,
+          "z": -3156,
+          "yaw": 1.5707963267948966,
+          "scale": 0.65
+        },
+        "projectionPrecheck": {
+          "forwardMeters": 1.289,
+          "screenSideMeters": 7.959,
+          "inFront": true
+        },
+        "support": {
+          "sampleCount": 77,
+          "minHeight": 8.8016,
+          "maxHeight": 9.0076,
+          "span": 0.206,
+          "freeStandingPass": true,
+          "embeddedOnly": false,
+          "baseY": 8.8016
+        },
+        "clearance": {
+          "minHullBoundaryToRoute": 6.2808,
+          "routeShoulderPass": true,
+          "resourceConflicts": [],
+          "homeConflicts": [],
+          "solidSceneryOverlaps": []
+        },
+        "pass": true
+      },
+      {
+        "side": "west",
+        "transform": {
+          "x": -2087,
+          "z": -3155,
+          "yaw": 1.5707963267948966,
+          "scale": 0.65
+        },
+        "projectionPrecheck": {
+          "forwardMeters": 2.225,
+          "screenSideMeters": 8.31,
+          "inFront": true
+        },
+        "support": {
+          "sampleCount": 77,
+          "minHeight": 8.8836,
+          "maxHeight": 9.1028,
+          "span": 0.2191,
+          "freeStandingPass": true,
+          "embeddedOnly": false,
+          "baseY": 8.8836
+        },
+        "clearance": {
+          "minHullBoundaryToRoute": 6.2808,
+          "routeShoulderPass": true,
+          "resourceConflicts": [],
+          "homeConflicts": [],
+          "solidSceneryOverlaps": []
+        },
+        "pass": true
+      },
+      {
+        "side": "west",
+        "transform": {
+          "x": -2087,
+          "z": -3154,
+          "yaw": 1.5707963267948966,
+          "scale": 0.65
+        },
+        "projectionPrecheck": {
+          "forwardMeters": 3.162,
+          "screenSideMeters": 8.66,
+          "inFront": true
+        },
+        "support": {
+          "sampleCount": 77,
+          "minHeight": 8.9712,
+          "maxHeight": 9.204,
+          "span": 0.2327,
+          "freeStandingPass": true,
+          "embeddedOnly": false,
+          "baseY": 8.9712
+        },
+        "clearance": {
+          "minHullBoundaryToRoute": 6.2951,
+          "routeShoulderPass": true,
+          "resourceConflicts": [],
+          "homeConflicts": [],
+          "solidSceneryOverlaps": []
+        },
+        "pass": true
+      },
+      {
+        "side": "west",
+        "transform": {
+          "x": -2087,
+          "z": -3153,
+          "yaw": 1.5707963267948966,
+          "scale": 0.65
+        },
+        "projectionPrecheck": {
+          "forwardMeters": 4.098,
+          "screenSideMeters": 9.011,
+          "inFront": true
+        },
+        "support": {
+          "sampleCount": 77,
+          "minHeight": 9.0645,
+          "maxHeight": 9.3114,
+          "span": 0.2468,
+          "freeStandingPass": true,
+          "embeddedOnly": false,
+          "baseY": 9.0645
+        },
+        "clearance": {
+          "minHullBoundaryToRoute": 6.4401,
+          "routeShoulderPass": true,
+          "resourceConflicts": [],
+          "homeConflicts": [],
+          "solidSceneryOverlaps": []
+        },
+        "pass": true
+      },
+      {
+        "side": "west",
+        "transform": {
+          "x": -2087,
+          "z": -3152,
+          "yaw": 1.5707963267948966,
+          "scale": 0.65
+        },
+        "projectionPrecheck": {
+          "forwardMeters": 5.034,
+          "screenSideMeters": 9.362,
+          "inFront": true
+        },
+        "support": {
+          "sampleCount": 77,
+          "minHeight": 9.1637,
+          "maxHeight": 9.4251,
+          "span": 0.2614,
+          "freeStandingPass": true,
+          "embeddedOnly": false,
+          "baseY": 9.1637
+        },
+        "clearance": {
+          "minHullBoundaryToRoute": 6.7321,
+          "routeShoulderPass": true,
+          "resourceConflicts": [],
+          "homeConflicts": [],
+          "solidSceneryOverlaps": []
+        },
+        "pass": true
+      },
+      {
+        "side": "west",
+        "transform": {
+          "x": -2087,
+          "z": -3151,
+          "yaw": 1.5707963267948966,
+          "scale": 0.65
+        },
+        "projectionPrecheck": {
+          "forwardMeters": 5.971,
+          "screenSideMeters": 9.713,
+          "inFront": true
+        },
+        "support": {
+          "sampleCount": 77,
+          "minHeight": 9.269,
+          "maxHeight": 9.5455,
+          "span": 0.2765,
+          "freeStandingPass": true,
+          "embeddedOnly": false,
+          "baseY": 9.269
+        },
+        "clearance": {
+          "minHullBoundaryToRoute": 7.1531,
+          "routeShoulderPass": true,
+          "resourceConflicts": [],
+          "homeConflicts": [],
+          "solidSceneryOverlaps": []
+        },
+        "pass": true
+      },
+      {
+        "side": "west",
+        "transform": {
+          "x": -2087,
+          "z": -3150,
+          "yaw": 1.5707963267948966,
+          "scale": 0.65
+        },
+        "projectionPrecheck": {
+          "forwardMeters": 6.907,
+          "screenSideMeters": 10.064,
+          "inFront": true
+        },
+        "support": {
+          "sampleCount": 77,
+          "minHeight": 9.3807,
+          "maxHeight": 9.6728,
+          "span": 0.2921,
+          "freeStandingPass": true,
+          "embeddedOnly": false,
+          "baseY": 9.3807
+        },
+        "clearance": {
+          "minHullBoundaryToRoute": 7.682,
+          "routeShoulderPass": true,
+          "resourceConflicts": [],
+          "homeConflicts": [],
+          "solidSceneryOverlaps": []
+        },
+        "pass": true
+      },
+      {
+        "side": "west",
+        "transform": {
+          "x": -2087,
+          "z": -3149,
+          "yaw": 1.5707963267948966,
+          "scale": 0.65
+        },
+        "projectionPrecheck": {
+          "forwardMeters": 7.844,
+          "screenSideMeters": 10.415,
+          "inFront": true
+        },
+        "support": {
+          "sampleCount": 77,
+          "minHeight": 9.4989,
+          "maxHeight": 9.807,
+          "span": 0.3081,
+          "freeStandingPass": true,
+          "embeddedOnly": false,
+          "baseY": 9.4989
+        },
+        "clearance": {
+          "minHullBoundaryToRoute": 8.2926,
+          "routeShoulderPass": true,
+          "resourceConflicts": [],
+          "homeConflicts": [],
+          "solidSceneryOverlaps": []
+        },
+        "pass": true
+      },
+      {
+        "side": "west",
+        "transform": {
+          "x": -2086,
+          "z": -3157,
+          "yaw": 1.5707963267948966,
+          "scale": 0.65
+        },
+        "projectionPrecheck": {
+          "forwardMeters": 0.703,
+          "screenSideMeters": 6.671,
+          "inFront": true
+        },
+        "support": {
+          "sampleCount": 77,
+          "minHeight": 8.7508,
+          "maxHeight": 8.9474,
+          "span": 0.1966,
+          "freeStandingPass": true,
+          "embeddedOnly": false,
+          "baseY": 8.7508
+        },
+        "clearance": {
+          "minHullBoundaryToRoute": 5.2808,
+          "routeShoulderPass": true,
+          "resourceConflicts": [],
+          "homeConflicts": [],
+          "solidSceneryOverlaps": []
+        },
+        "pass": true
+      },
+      {
+        "side": "west",
+        "transform": {
+          "x": -2086,
+          "z": -3156,
+          "yaw": 1.5707963267948966,
+          "scale": 0.65
+        },
+        "projectionPrecheck": {
+          "forwardMeters": 1.64,
+          "screenSideMeters": 7.022,
+          "inFront": true
+        },
+        "support": {
+          "sampleCount": 77,
+          "minHeight": 8.829,
+          "maxHeight": 9.0383,
+          "span": 0.2093,
+          "freeStandingPass": true,
+          "embeddedOnly": false,
+          "baseY": 8.829
+        },
+        "clearance": {
+          "minHullBoundaryToRoute": 5.2808,
+          "routeShoulderPass": true,
+          "resourceConflicts": [],
+          "homeConflicts": [],
+          "solidSceneryOverlaps": []
+        },
+        "pass": true
+      },
+      {
+        "side": "west",
+        "transform": {
+          "x": -2086,
+          "z": -3155,
+          "yaw": 1.5707963267948966,
+          "scale": 0.65
+        },
+        "projectionPrecheck": {
+          "forwardMeters": 2.576,
+          "screenSideMeters": 7.373,
+          "inFront": true
+        },
+        "support": {
+          "sampleCount": 77,
+          "minHeight": 8.9125,
+          "maxHeight": 9.1351,
+          "span": 0.2226,
+          "freeStandingPass": true,
+          "embeddedOnly": false,
+          "baseY": 8.9125
+        },
+        "clearance": {
+          "minHullBoundaryToRoute": 5.2808,
+          "routeShoulderPass": true,
+          "resourceConflicts": [],
+          "homeConflicts": [],
+          "solidSceneryOverlaps": []
+        },
+        "pass": true
+      },
+      {
+        "side": "west",
+        "transform": {
+          "x": -2086,
+          "z": -3154,
+          "yaw": 1.5707963267948966,
+          "scale": 0.65
+        },
+        "projectionPrecheck": {
+          "forwardMeters": 3.513,
+          "screenSideMeters": 7.724,
+          "inFront": true
+        },
+        "support": {
+          "sampleCount": 77,
+          "minHeight": 9.0015,
+          "maxHeight": 9.2379,
+          "span": 0.2364,
+          "freeStandingPass": true,
+          "embeddedOnly": false,
+          "baseY": 9.0015
+        },
+        "clearance": {
+          "minHullBoundaryToRoute": 5.2978,
+          "routeShoulderPass": true,
+          "resourceConflicts": [],
+          "homeConflicts": [],
+          "solidSceneryOverlaps": []
+        },
+        "pass": true
+      },
+      {
+        "side": "west",
+        "transform": {
+          "x": -2086,
+          "z": -3153,
+          "yaw": 1.5707963267948966,
+          "scale": 0.65
+        },
+        "projectionPrecheck": {
+          "forwardMeters": 4.449,
+          "screenSideMeters": 8.075,
+          "inFront": true
+        },
+        "support": {
+          "sampleCount": 77,
+          "minHeight": 9.0964,
+          "maxHeight": 9.347,
+          "span": 0.2506,
+          "freeStandingPass": true,
+          "embeddedOnly": false,
+          "baseY": 9.0964
+        },
+        "clearance": {
+          "minHullBoundaryToRoute": 5.4692,
+          "routeShoulderPass": true,
+          "resourceConflicts": [],
+          "homeConflicts": [],
+          "solidSceneryOverlaps": []
+        },
+        "pass": true
+      },
+      {
+        "side": "west",
+        "transform": {
+          "x": -2086,
+          "z": -3152,
+          "yaw": 1.5707963267948966,
+          "scale": 0.65
+        },
+        "projectionPrecheck": {
+          "forwardMeters": 5.385,
+          "screenSideMeters": 8.426,
+          "inFront": true
+        },
+        "support": {
+          "sampleCount": 77,
+          "minHeight": 9.1972,
+          "maxHeight": 9.4626,
+          "span": 0.2654,
+          "freeStandingPass": true,
+          "embeddedOnly": false,
+          "baseY": 9.1972
+        },
+        "clearance": {
+          "minHullBoundaryToRoute": 5.8102,
+          "routeShoulderPass": true,
+          "resourceConflicts": [],
+          "homeConflicts": [],
+          "solidSceneryOverlaps": []
+        },
+        "pass": true
+      },
+      {
+        "side": "west",
+        "transform": {
+          "x": -2086,
+          "z": -3151,
+          "yaw": 1.5707963267948966,
+          "scale": 0.65
+        },
+        "projectionPrecheck": {
+          "forwardMeters": 6.322,
+          "screenSideMeters": 8.777,
+          "inFront": true
+        },
+        "support": {
+          "sampleCount": 77,
+          "minHeight": 9.3042,
+          "maxHeight": 9.5849,
+          "span": 0.2806,
+          "freeStandingPass": true,
+          "embeddedOnly": false,
+          "baseY": 9.3042
+        },
+        "clearance": {
+          "minHullBoundaryToRoute": 6.2933,
+          "routeShoulderPass": true,
+          "resourceConflicts": [],
+          "homeConflicts": [],
+          "solidSceneryOverlaps": []
+        },
+        "pass": true
+      },
+      {
+        "side": "west",
+        "transform": {
+          "x": -2086,
+          "z": -3150,
+          "yaw": 1.5707963267948966,
+          "scale": 0.65
+        },
+        "projectionPrecheck": {
+          "forwardMeters": 7.258,
+          "screenSideMeters": 9.128,
+          "inFront": true
+        },
+        "support": {
+          "sampleCount": 77,
+          "minHeight": 9.4177,
+          "maxHeight": 9.714,
+          "span": 0.2963,
+          "freeStandingPass": true,
+          "embeddedOnly": false,
+          "baseY": 9.4177
+        },
+        "clearance": {
+          "minHullBoundaryToRoute": 6.8885,
+          "routeShoulderPass": true,
+          "resourceConflicts": [],
+          "homeConflicts": [],
+          "solidSceneryOverlaps": []
+        },
+        "pass": true
+      },
+      {
+        "side": "west",
+        "transform": {
+          "x": -2086,
+          "z": -3149,
+          "yaw": 1.5707963267948966,
+          "scale": 0.65
+        },
+        "projectionPrecheck": {
+          "forwardMeters": 8.195,
+          "screenSideMeters": 9.479,
+          "inFront": true
+        },
+        "support": {
+          "sampleCount": 77,
+          "minHeight": 9.5377,
+          "maxHeight": 9.8502,
+          "span": 0.3125,
+          "freeStandingPass": true,
+          "embeddedOnly": false,
+          "baseY": 9.5377
+        },
+        "clearance": {
+          "minHullBoundaryToRoute": 7.5089,
+          "routeShoulderPass": true,
+          "resourceConflicts": [],
+          "homeConflicts": [],
+          "solidSceneryOverlaps": []
+        },
+        "pass": true
+      },
+      {
+        "side": "west",
+        "transform": {
+          "x": -2085,
+          "z": -3157,
+          "yaw": 1.5707963267948966,
+          "scale": 0.65
+        },
+        "projectionPrecheck": {
+          "forwardMeters": 1.054,
+          "screenSideMeters": 5.735,
+          "inFront": true
+        },
+        "support": {
+          "sampleCount": 77,
+          "minHeight": 8.7771,
+          "maxHeight": 8.9769,
+          "span": 0.1998,
+          "freeStandingPass": true,
+          "embeddedOnly": false,
+          "baseY": 8.7771
+        },
+        "clearance": {
+          "minHullBoundaryToRoute": 4.2808,
+          "routeShoulderPass": true,
+          "resourceConflicts": [],
+          "homeConflicts": [],
+          "solidSceneryOverlaps": []
+        },
+        "pass": true
+      },
+      {
+        "side": "west",
+        "transform": {
+          "x": -2085,
+          "z": -3156,
+          "yaw": 1.5707963267948966,
+          "scale": 0.65
+        },
+        "projectionPrecheck": {
+          "forwardMeters": 1.991,
+          "screenSideMeters": 6.086,
+          "inFront": true
+        },
+        "support": {
+          "sampleCount": 77,
+          "minHeight": 8.8566,
+          "maxHeight": 9.0693,
+          "span": 0.2127,
+          "freeStandingPass": true,
+          "embeddedOnly": false,
+          "baseY": 8.8566
+        },
+        "clearance": {
+          "minHullBoundaryToRoute": 4.2808,
+          "routeShoulderPass": true,
+          "resourceConflicts": [],
+          "homeConflicts": [],
+          "solidSceneryOverlaps": []
+        },
+        "pass": true
+      },
+      {
+        "side": "west",
+        "transform": {
+          "x": -2085,
+          "z": -3155,
+          "yaw": 1.5707963267948966,
+          "scale": 0.65
+        },
+        "projectionPrecheck": {
+          "forwardMeters": 2.927,
+          "screenSideMeters": 6.437,
+          "inFront": true
+        },
+        "support": {
+          "sampleCount": 77,
+          "minHeight": 8.9416,
+          "maxHeight": 9.1677,
+          "span": 0.2262,
+          "freeStandingPass": true,
+          "embeddedOnly": false,
+          "baseY": 8.9416
+        },
+        "clearance": {
+          "minHullBoundaryToRoute": 4.2808,
+          "routeShoulderPass": true,
+          "resourceConflicts": [],
+          "homeConflicts": [],
+          "solidSceneryOverlaps": []
+        },
+        "pass": true
+      },
+      {
+        "side": "west",
+        "transform": {
+          "x": -2085,
+          "z": -3154,
+          "yaw": 1.5707963267948966,
+          "scale": 0.65
+        },
+        "projectionPrecheck": {
+          "forwardMeters": 3.864,
+          "screenSideMeters": 6.788,
+          "inFront": true
+        },
+        "support": {
+          "sampleCount": 77,
+          "minHeight": 9.0322,
+          "maxHeight": 9.2722,
+          "span": 0.2401,
+          "freeStandingPass": true,
+          "embeddedOnly": false,
+          "baseY": 9.0322
+        },
+        "clearance": {
+          "minHullBoundaryToRoute": 4.3017,
+          "routeShoulderPass": true,
+          "resourceConflicts": [],
+          "homeConflicts": [],
+          "solidSceneryOverlaps": []
+        },
+        "pass": true
+      },
+      {
+        "side": "west",
+        "transform": {
+          "x": -2085,
+          "z": -3153,
+          "yaw": 1.5707963267948966,
+          "scale": 0.65
+        },
+        "projectionPrecheck": {
+          "forwardMeters": 4.8,
+          "screenSideMeters": 7.139,
+          "inFront": true
+        },
+        "support": {
+          "sampleCount": 77,
+          "minHeight": 9.1286,
+          "maxHeight": 9.3831,
+          "span": 0.2545,
+          "freeStandingPass": true,
+          "embeddedOnly": false,
+          "baseY": 9.1286
+        },
+        "clearance": {
+          "minHullBoundaryToRoute": 4.5112,
+          "routeShoulderPass": true,
+          "resourceConflicts": [],
+          "homeConflicts": [],
+          "solidSceneryOverlaps": []
+        },
+        "pass": true
+      },
+      {
+        "side": "west",
+        "transform": {
+          "x": -2085,
+          "z": -3152,
+          "yaw": 1.5707963267948966,
+          "scale": 0.65
+        },
+        "projectionPrecheck": {
+          "forwardMeters": 5.736,
+          "screenSideMeters": 7.49,
+          "inFront": true
+        },
+        "support": {
+          "sampleCount": 77,
+          "minHeight": 9.2311,
+          "maxHeight": 9.5005,
+          "span": 0.2694,
+          "freeStandingPass": true,
+          "embeddedOnly": false,
+          "baseY": 9.2311
+        },
+        "clearance": {
+          "minHullBoundaryToRoute": 4.9191,
+          "routeShoulderPass": true,
+          "resourceConflicts": [],
+          "homeConflicts": [],
+          "solidSceneryOverlaps": []
+        },
+        "pass": true
+      },
+      {
+        "side": "west",
+        "transform": {
+          "x": -2085,
+          "z": -3151,
+          "yaw": 1.5707963267948966,
+          "scale": 0.65
+        },
+        "projectionPrecheck": {
+          "forwardMeters": 6.673,
+          "screenSideMeters": 7.841,
+          "inFront": true
+        },
+        "support": {
+          "sampleCount": 77,
+          "minHeight": 9.3398,
+          "maxHeight": 9.6246,
+          "span": 0.2848,
+          "freeStandingPass": true,
+          "embeddedOnly": false,
+          "baseY": 9.3398
+        },
+        "clearance": {
+          "minHullBoundaryToRoute": 5.4812,
+          "routeShoulderPass": true,
+          "resourceConflicts": [],
+          "homeConflicts": [],
+          "solidSceneryOverlaps": []
+        },
+        "pass": true
+      },
+      {
+        "side": "west",
+        "transform": {
+          "x": -2085,
+          "z": -3150,
+          "yaw": 1.5707963267948966,
+          "scale": 0.65
+        },
+        "projectionPrecheck": {
+          "forwardMeters": 7.609,
+          "screenSideMeters": 8.192,
+          "inFront": true
+        },
+        "support": {
+          "sampleCount": 77,
+          "minHeight": 9.455,
+          "maxHeight": 9.7557,
+          "span": 0.3006,
+          "freeStandingPass": true,
+          "embeddedOnly": false,
+          "baseY": 9.455
+        },
+        "clearance": {
+          "minHullBoundaryToRoute": 6.0996,
+          "routeShoulderPass": true,
+          "resourceConflicts": [],
+          "homeConflicts": [],
+          "solidSceneryOverlaps": []
+        },
+        "pass": true
+      },
+      {
+        "side": "west",
+        "transform": {
+          "x": -2085,
+          "z": -3149,
+          "yaw": 1.5707963267948966,
+          "scale": 0.65
+        },
+        "projectionPrecheck": {
+          "forwardMeters": 8.546,
+          "screenSideMeters": 8.542,
+          "inFront": true
+        },
+        "support": {
+          "sampleCount": 77,
+          "minHeight": 9.5769,
+          "maxHeight": 9.8939,
+          "span": 0.317,
+          "freeStandingPass": true,
+          "embeddedOnly": false,
+          "baseY": 9.5769
+        },
+        "clearance": {
+          "minHullBoundaryToRoute": 6.7809,
+          "routeShoulderPass": true,
+          "resourceConflicts": [],
+          "homeConflicts": [],
+          "solidSceneryOverlaps": []
+        },
+        "pass": true
+      },
+      {
+        "side": "west",
+        "transform": {
+          "x": -2084,
+          "z": -3157,
+          "yaw": 1.5707963267948966,
+          "scale": 0.65
+        },
+        "projectionPrecheck": {
+          "forwardMeters": 1.405,
+          "screenSideMeters": 4.798,
+          "inFront": true
+        },
+        "support": {
+          "sampleCount": 77,
+          "minHeight": 8.8037,
+          "maxHeight": 9.0067,
+          "span": 0.2031,
+          "freeStandingPass": true,
+          "embeddedOnly": false,
+          "baseY": 8.8037
+        },
+        "clearance": {
+          "minHullBoundaryToRoute": 3.2808,
+          "routeShoulderPass": true,
+          "resourceConflicts": [],
+          "homeConflicts": [],
+          "solidSceneryOverlaps": []
+        },
+        "pass": true
+      },
+      {
+        "side": "west",
+        "transform": {
+          "x": -2084,
+          "z": -3156,
+          "yaw": 1.5707963267948966,
+          "scale": 0.65
+        },
+        "projectionPrecheck": {
+          "forwardMeters": 2.342,
+          "screenSideMeters": 5.149,
+          "inFront": true
+        },
+        "support": {
+          "sampleCount": 77,
+          "minHeight": 8.8846,
+          "maxHeight": 9.1007,
+          "span": 0.2161,
+          "freeStandingPass": true,
+          "embeddedOnly": false,
+          "baseY": 8.8846
+        },
+        "clearance": {
+          "minHullBoundaryToRoute": 3.2808,
+          "routeShoulderPass": true,
+          "resourceConflicts": [],
+          "homeConflicts": [],
+          "solidSceneryOverlaps": []
+        },
+        "pass": true
+      },
+      {
+        "side": "west",
+        "transform": {
+          "x": -2084,
+          "z": -3155,
+          "yaw": 1.5707963267948966,
+          "scale": 0.65
+        },
+        "projectionPrecheck": {
+          "forwardMeters": 3.278,
+          "screenSideMeters": 5.5,
+          "inFront": true
+        },
+        "support": {
+          "sampleCount": 77,
+          "minHeight": 8.971,
+          "maxHeight": 9.2007,
+          "span": 0.2297,
+          "freeStandingPass": true,
+          "embeddedOnly": false,
+          "baseY": 8.971
+        },
+        "clearance": {
+          "minHullBoundaryToRoute": 3.2808,
+          "routeShoulderPass": true,
+          "resourceConflicts": [],
+          "homeConflicts": [],
+          "solidSceneryOverlaps": []
+        },
+        "pass": true
+      },
+      {
+        "side": "west",
+        "transform": {
+          "x": -2084,
+          "z": -3154,
+          "yaw": 1.5707963267948966,
+          "scale": 0.65
+        },
+        "projectionPrecheck": {
+          "forwardMeters": 4.215,
+          "screenSideMeters": 5.851,
+          "inFront": true
+        },
+        "support": {
+          "sampleCount": 77,
+          "minHeight": 9.0631,
+          "maxHeight": 9.3069,
+          "span": 0.2438,
+          "freeStandingPass": true,
+          "embeddedOnly": false,
+          "baseY": 9.0631
+        },
+        "clearance": {
+          "minHullBoundaryToRoute": 3.308,
+          "routeShoulderPass": true,
+          "resourceConflicts": [],
+          "homeConflicts": [],
+          "solidSceneryOverlaps": []
+        },
+        "pass": true
+      },
+      {
+        "side": "west",
+        "transform": {
+          "x": -2084,
+          "z": -3153,
+          "yaw": 1.5707963267948966,
+          "scale": 0.65
+        },
+        "projectionPrecheck": {
+          "forwardMeters": 5.151,
+          "screenSideMeters": 6.202,
+          "inFront": true
+        },
+        "support": {
+          "sampleCount": 77,
+          "minHeight": 9.1612,
+          "maxHeight": 9.4195,
+          "span": 0.2583,
+          "freeStandingPass": true,
+          "embeddedOnly": false,
+          "baseY": 9.1612
+        },
+        "clearance": {
+          "minHullBoundaryToRoute": 3.5762,
+          "routeShoulderPass": true,
+          "resourceConflicts": [],
+          "homeConflicts": [],
+          "solidSceneryOverlaps": []
+        },
+        "pass": true
+      },
+      {
+        "side": "west",
+        "transform": {
+          "x": -2084,
+          "z": -3152,
+          "yaw": 1.5707963267948966,
+          "scale": 0.65
+        },
+        "projectionPrecheck": {
+          "forwardMeters": 6.087,
+          "screenSideMeters": 6.553,
+          "inFront": true
+        },
+        "support": {
+          "sampleCount": 77,
+          "minHeight": 9.2653,
+          "maxHeight": 9.5387,
+          "span": 0.2734,
+          "freeStandingPass": true,
+          "embeddedOnly": false,
+          "baseY": 9.2653
+        },
+        "clearance": {
+          "minHullBoundaryToRoute": 4.0787,
+          "routeShoulderPass": true,
+          "resourceConflicts": [],
+          "homeConflicts": [],
+          "solidSceneryOverlaps": []
+        },
+        "pass": true
+      },
+      {
+        "side": "west",
+        "transform": {
+          "x": -2084,
+          "z": -3151,
+          "yaw": 1.5707963267948966,
+          "scale": 0.65
+        },
+        "projectionPrecheck": {
+          "forwardMeters": 7.024,
+          "screenSideMeters": 6.904,
+          "inFront": true
+        },
+        "support": {
+          "sampleCount": 77,
+          "minHeight": 9.3758,
+          "maxHeight": 9.6647,
+          "span": 0.2889,
+          "freeStandingPass": true,
+          "embeddedOnly": false,
+          "baseY": 9.3758
+        },
+        "clearance": {
+          "minHullBoundaryToRoute": 4.6932,
+          "routeShoulderPass": true,
+          "resourceConflicts": [],
+          "homeConflicts": [],
+          "solidSceneryOverlaps": []
+        },
+        "pass": true
+      },
+      {
+        "side": "west",
+        "transform": {
+          "x": -2084,
+          "z": -3150,
+          "yaw": 1.5707963267948966,
+          "scale": 0.65
+        },
+        "projectionPrecheck": {
+          "forwardMeters": 7.96,
+          "screenSideMeters": 7.255,
+          "inFront": true
+        },
+        "support": {
+          "sampleCount": 77,
+          "minHeight": 9.4928,
+          "maxHeight": 9.7978,
+          "span": 0.305,
+          "freeStandingPass": true,
+          "embeddedOnly": false,
+          "baseY": 9.4928
+        },
+        "clearance": {
+          "minHullBoundaryToRoute": 5.3667,
+          "routeShoulderPass": true,
+          "resourceConflicts": [],
+          "homeConflicts": [],
+          "solidSceneryOverlaps": []
+        },
+        "pass": true
+      },
+      {
+        "side": "west",
+        "transform": {
+          "x": -2084,
+          "z": -3149,
+          "yaw": 1.5707963267948966,
+          "scale": 0.65
+        },
+        "projectionPrecheck": {
+          "forwardMeters": 8.896,
+          "screenSideMeters": 7.606,
+          "inFront": true
+        },
+        "support": {
+          "sampleCount": 77,
+          "minHeight": 9.6165,
+          "maxHeight": 9.938,
+          "span": 0.3215,
+          "freeStandingPass": false,
+          "embeddedOnly": true,
+          "baseY": 9.6165
+        },
+        "clearance": {
+          "minHullBoundaryToRoute": 6.0738,
+          "routeShoulderPass": true,
+          "resourceConflicts": [],
+          "homeConflicts": [],
+          "solidSceneryOverlaps": []
+        },
+        "pass": false
+      },
+      {
+        "side": "west",
+        "transform": {
+          "x": -2083,
+          "z": -3157,
+          "yaw": 1.5707963267948966,
+          "scale": 0.65
+        },
+        "projectionPrecheck": {
+          "forwardMeters": 1.756,
+          "screenSideMeters": 3.862,
+          "inFront": true
+        },
+        "support": {
+          "sampleCount": 77,
+          "minHeight": 8.8305,
+          "maxHeight": 9.0369,
+          "span": 0.2063,
+          "freeStandingPass": true,
+          "embeddedOnly": false,
+          "baseY": 8.8305
+        },
+        "clearance": {
+          "minHullBoundaryToRoute": 2.2808,
+          "routeShoulderPass": true,
+          "resourceConflicts": [],
+          "homeConflicts": [],
+          "solidSceneryOverlaps": []
+        },
+        "pass": true
+      },
+      {
+        "side": "west",
+        "transform": {
+          "x": -2083,
+          "z": -3156,
+          "yaw": 1.5707963267948966,
+          "scale": 0.65
+        },
+        "projectionPrecheck": {
+          "forwardMeters": 2.693,
+          "screenSideMeters": 4.213,
+          "inFront": true
+        },
+        "support": {
+          "sampleCount": 77,
+          "minHeight": 8.9128,
+          "maxHeight": 9.1324,
+          "span": 0.2196,
+          "freeStandingPass": true,
+          "embeddedOnly": false,
+          "baseY": 8.9128
+        },
+        "clearance": {
+          "minHullBoundaryToRoute": 2.2808,
+          "routeShoulderPass": true,
+          "resourceConflicts": [],
+          "homeConflicts": [],
+          "solidSceneryOverlaps": []
+        },
+        "pass": true
+      },
+      {
+        "side": "west",
+        "transform": {
+          "x": -2083,
+          "z": -3155,
+          "yaw": 1.5707963267948966,
+          "scale": 0.65
+        },
+        "projectionPrecheck": {
+          "forwardMeters": 3.629,
+          "screenSideMeters": 4.564,
+          "inFront": true
+        },
+        "support": {
+          "sampleCount": 77,
+          "minHeight": 9.0007,
+          "maxHeight": 9.2341,
+          "span": 0.2333,
+          "freeStandingPass": true,
+          "embeddedOnly": false,
+          "baseY": 9.0007
+        },
+        "clearance": {
+          "minHullBoundaryToRoute": 2.2808,
+          "routeShoulderPass": true,
+          "resourceConflicts": [],
+          "homeConflicts": [],
+          "solidSceneryOverlaps": []
+        },
+        "pass": true
+      },
+      {
+        "side": "west",
+        "transform": {
+          "x": -2083,
+          "z": -3154,
+          "yaw": 1.5707963267948966,
+          "scale": 0.65
+        },
+        "projectionPrecheck": {
+          "forwardMeters": 4.565,
+          "screenSideMeters": 4.915,
+          "inFront": true
+        },
+        "support": {
+          "sampleCount": 77,
+          "minHeight": 9.0944,
+          "maxHeight": 9.3419,
+          "span": 0.2475,
+          "freeStandingPass": true,
+          "embeddedOnly": false,
+          "baseY": 9.0944
+        },
+        "clearance": {
+          "minHullBoundaryToRoute": 2.3198,
+          "routeShoulderPass": true,
+          "resourceConflicts": [],
+          "homeConflicts": [],
+          "solidSceneryOverlaps": []
+        },
+        "pass": true
+      },
+      {
+        "side": "west",
+        "transform": {
+          "x": -2083,
+          "z": -3153,
+          "yaw": 1.5707963267948966,
+          "scale": 0.65
+        },
+        "projectionPrecheck": {
+          "forwardMeters": 5.502,
+          "screenSideMeters": 5.266,
+          "inFront": true
+        },
+        "support": {
+          "sampleCount": 77,
+          "minHeight": 9.1941,
+          "maxHeight": 9.4563,
+          "span": 0.2622,
+          "freeStandingPass": true,
+          "embeddedOnly": false,
+          "baseY": 9.1941
+        },
+        "clearance": {
+          "minHullBoundaryToRoute": 2.6884,
+          "routeShoulderPass": true,
+          "resourceConflicts": [],
+          "homeConflicts": [],
+          "solidSceneryOverlaps": []
+        },
+        "pass": true
+      },
+      {
+        "side": "west",
+        "transform": {
+          "x": -2083,
+          "z": -3152,
+          "yaw": 1.5707963267948966,
+          "scale": 0.65
+        },
+        "projectionPrecheck": {
+          "forwardMeters": 6.438,
+          "screenSideMeters": 5.617,
+          "inFront": true
+        },
+        "support": {
+          "sampleCount": 77,
+          "minHeight": 9.2999,
+          "maxHeight": 9.5774,
+          "span": 0.2774,
+          "freeStandingPass": true,
+          "embeddedOnly": false,
+          "baseY": 9.2999
+        },
+        "clearance": {
+          "minHullBoundaryToRoute": 3.2934,
+          "routeShoulderPass": true,
+          "resourceConflicts": [],
+          "homeConflicts": [],
+          "solidSceneryOverlaps": []
+        },
+        "pass": true
+      },
+      {
+        "side": "west",
+        "transform": {
+          "x": -2083,
+          "z": -3151,
+          "yaw": 1.5707963267948966,
+          "scale": 0.65
+        },
+        "projectionPrecheck": {
+          "forwardMeters": 7.375,
+          "screenSideMeters": 5.968,
+          "inFront": true
+        },
+        "support": {
+          "sampleCount": 77,
+          "minHeight": 9.4121,
+          "maxHeight": 9.7053,
+          "span": 0.2931,
+          "freeStandingPass": true,
+          "embeddedOnly": false,
+          "baseY": 9.4121
+        },
+        "clearance": {
+          "minHullBoundaryToRoute": 3.9525,
+          "routeShoulderPass": true,
+          "resourceConflicts": [],
+          "homeConflicts": [],
+          "solidSceneryOverlaps": []
+        },
+        "pass": true
+      },
+      {
+        "side": "west",
+        "transform": {
+          "x": -2083,
+          "z": -3150,
+          "yaw": 1.5707963267948966,
+          "scale": 0.65
+        },
+        "projectionPrecheck": {
+          "forwardMeters": 8.311,
+          "screenSideMeters": 6.319,
+          "inFront": true
+        },
+        "support": {
+          "sampleCount": 77,
+          "minHeight": 9.531,
+          "maxHeight": 9.8403,
+          "span": 0.3093,
+          "freeStandingPass": true,
+          "embeddedOnly": false,
+          "baseY": 9.531
+        },
+        "clearance": {
+          "minHullBoundaryToRoute": 4.6596,
+          "routeShoulderPass": true,
+          "resourceConflicts": [],
+          "homeConflicts": [],
+          "solidSceneryOverlaps": []
+        },
+        "pass": true
+      },
+      {
+        "side": "west",
+        "transform": {
+          "x": -2083,
+          "z": -3149,
+          "yaw": 1.5707963267948966,
+          "scale": 0.65
+        },
+        "projectionPrecheck": {
+          "forwardMeters": 9.247,
+          "screenSideMeters": 6.67,
+          "inFront": true
+        },
+        "support": {
+          "sampleCount": 77,
+          "minHeight": 9.6566,
+          "maxHeight": 9.9826,
+          "span": 0.326,
+          "freeStandingPass": false,
+          "embeddedOnly": true,
+          "baseY": 9.6566
+        },
+        "clearance": {
+          "minHullBoundaryToRoute": 5.3667,
+          "routeShoulderPass": true,
+          "resourceConflicts": [],
+          "homeConflicts": [],
+          "solidSceneryOverlaps": []
+        },
+        "pass": false
+      },
+      {
+        "side": "west",
+        "transform": {
+          "x": -2082,
+          "z": -3157,
+          "yaw": 1.5707963267948966,
+          "scale": 0.65
+        },
+        "projectionPrecheck": {
+          "forwardMeters": 2.107,
+          "screenSideMeters": 2.926,
+          "inFront": true
+        },
+        "support": {
+          "sampleCount": 77,
+          "minHeight": 8.8576,
+          "maxHeight": 9.0673,
+          "span": 0.2097,
+          "freeStandingPass": true,
+          "embeddedOnly": false,
+          "baseY": 8.8576
+        },
+        "clearance": {
+          "minHullBoundaryToRoute": 1.2808,
+          "routeShoulderPass": true,
+          "resourceConflicts": [],
+          "homeConflicts": [],
+          "solidSceneryOverlaps": []
+        },
+        "pass": true
+      },
+      {
+        "side": "west",
+        "transform": {
+          "x": -2082,
+          "z": -3156,
+          "yaw": 1.5707963267948966,
+          "scale": 0.65
+        },
+        "projectionPrecheck": {
+          "forwardMeters": 3.044,
+          "screenSideMeters": 3.277,
+          "inFront": true
+        },
+        "support": {
+          "sampleCount": 77,
+          "minHeight": 8.9414,
+          "maxHeight": 9.1645,
+          "span": 0.2231,
+          "freeStandingPass": true,
+          "embeddedOnly": false,
+          "baseY": 8.9414
+        },
+        "clearance": {
+          "minHullBoundaryToRoute": 1.2808,
+          "routeShoulderPass": true,
+          "resourceConflicts": [],
+          "homeConflicts": [],
+          "solidSceneryOverlaps": []
+        },
+        "pass": true
+      },
+      {
+        "side": "west",
+        "transform": {
+          "x": -2082,
+          "z": -3155,
+          "yaw": 1.5707963267948966,
+          "scale": 0.65
+        },
+        "projectionPrecheck": {
+          "forwardMeters": 3.98,
+          "screenSideMeters": 3.628,
+          "inFront": true
+        },
+        "support": {
+          "sampleCount": 77,
+          "minHeight": 9.0308,
+          "maxHeight": 9.2677,
+          "span": 0.2369,
+          "freeStandingPass": true,
+          "embeddedOnly": false,
+          "baseY": 9.0308
+        },
+        "clearance": {
+          "minHullBoundaryToRoute": 1.2808,
+          "routeShoulderPass": true,
+          "resourceConflicts": [],
+          "homeConflicts": [],
+          "solidSceneryOverlaps": []
+        },
+        "pass": true
+      },
+      {
+        "side": "west",
+        "transform": {
+          "x": -2082,
+          "z": -3154,
+          "yaw": 1.5707963267948966,
+          "scale": 0.65
+        },
+        "projectionPrecheck": {
+          "forwardMeters": 4.916,
+          "screenSideMeters": 3.979,
+          "inFront": true
+        },
+        "support": {
+          "sampleCount": 77,
+          "minHeight": 9.1261,
+          "maxHeight": 9.3774,
+          "span": 0.2513,
+          "freeStandingPass": true,
+          "embeddedOnly": false,
+          "baseY": 9.1261
+        },
+        "clearance": {
+          "minHullBoundaryToRoute": 1.3489,
+          "routeShoulderPass": true,
+          "resourceConflicts": [],
+          "homeConflicts": [],
+          "solidSceneryOverlaps": []
+        },
+        "pass": true
+      },
+      {
+        "side": "west",
+        "transform": {
+          "x": -2082,
+          "z": -3153,
+          "yaw": 1.5707963267948966,
+          "scale": 0.65
+        },
+        "projectionPrecheck": {
+          "forwardMeters": 5.853,
+          "screenSideMeters": 4.329,
+          "inFront": true
+        },
+        "support": {
+          "sampleCount": 77,
+          "minHeight": 9.2273,
+          "maxHeight": 9.4935,
+          "span": 0.2662,
+          "freeStandingPass": true,
+          "embeddedOnly": false,
+          "baseY": 9.2273
+        },
+        "clearance": {
+          "minHullBoundaryToRoute": 1.912,
+          "routeShoulderPass": true,
+          "resourceConflicts": [],
+          "homeConflicts": [],
+          "solidSceneryOverlaps": []
+        },
+        "pass": true
+      },
+      {
+        "side": "west",
+        "transform": {
+          "x": -2082,
+          "z": -3152,
+          "yaw": 1.5707963267948966,
+          "scale": 0.65
+        },
+        "projectionPrecheck": {
+          "forwardMeters": 6.789,
+          "screenSideMeters": 4.68,
+          "inFront": true
+        },
+        "support": {
+          "sampleCount": 77,
+          "minHeight": 9.3349,
+          "maxHeight": 9.6164,
+          "span": 0.2815,
+          "freeStandingPass": true,
+          "embeddedOnly": false,
+          "baseY": 9.3349
+        },
+        "clearance": {
+          "minHullBoundaryToRoute": 2.5382,
+          "routeShoulderPass": true,
+          "resourceConflicts": [],
+          "homeConflicts": [],
+          "solidSceneryOverlaps": []
+        },
+        "pass": true
+      },
+      {
+        "side": "west",
+        "transform": {
+          "x": -2082,
+          "z": -3151,
+          "yaw": 1.5707963267948966,
+          "scale": 0.65
+        },
+        "projectionPrecheck": {
+          "forwardMeters": 7.726,
+          "screenSideMeters": 5.031,
+          "inFront": true
+        },
+        "support": {
+          "sampleCount": 77,
+          "minHeight": 9.4489,
+          "maxHeight": 9.7462,
+          "span": 0.2974,
+          "freeStandingPass": true,
+          "embeddedOnly": false,
+          "baseY": 9.4489
+        },
+        "clearance": {
+          "minHullBoundaryToRoute": 3.2453,
+          "routeShoulderPass": true,
+          "resourceConflicts": [],
+          "homeConflicts": [],
+          "solidSceneryOverlaps": []
+        },
+        "pass": true
+      },
+      {
+        "side": "west",
+        "transform": {
+          "x": -2082,
+          "z": -3150,
+          "yaw": 1.5707963267948966,
+          "scale": 0.65
+        },
+        "projectionPrecheck": {
+          "forwardMeters": 8.662,
+          "screenSideMeters": 5.382,
+          "inFront": true
+        },
+        "support": {
+          "sampleCount": 77,
+          "minHeight": 9.5695,
+          "maxHeight": 9.8832,
+          "span": 0.3137,
+          "freeStandingPass": true,
+          "embeddedOnly": false,
+          "baseY": 9.5695
+        },
+        "clearance": {
+          "minHullBoundaryToRoute": 3.9525,
+          "routeShoulderPass": true,
+          "resourceConflicts": [],
+          "homeConflicts": [],
+          "solidSceneryOverlaps": []
+        },
+        "pass": true
+      },
+      {
+        "side": "west",
+        "transform": {
+          "x": -2082,
+          "z": -3149,
+          "yaw": 1.5707963267948966,
+          "scale": 0.65
+        },
+        "projectionPrecheck": {
+          "forwardMeters": 9.598,
+          "screenSideMeters": 5.733,
+          "inFront": true
+        },
+        "support": {
+          "sampleCount": 77,
+          "minHeight": 9.697,
+          "maxHeight": 10.0276,
+          "span": 0.3305,
+          "freeStandingPass": false,
+          "embeddedOnly": true,
+          "baseY": 9.697
+        },
+        "clearance": {
+          "minHullBoundaryToRoute": 4.6596,
+          "routeShoulderPass": true,
+          "resourceConflicts": [],
+          "homeConflicts": [],
+          "solidSceneryOverlaps": []
+        },
+        "pass": false
+      },
+      {
+        "side": "west",
+        "transform": {
+          "x": -2081,
+          "z": -3157,
+          "yaw": 1.5707963267948966,
+          "scale": 0.65
+        },
+        "projectionPrecheck": {
+          "forwardMeters": 2.458,
+          "screenSideMeters": 1.989,
+          "inFront": true
+        },
+        "support": {
+          "sampleCount": 77,
+          "minHeight": 8.8851,
+          "maxHeight": 9.0981,
+          "span": 0.213,
+          "freeStandingPass": true,
+          "embeddedOnly": false,
+          "baseY": 8.8851
+        },
+        "clearance": {
+          "minHullBoundaryToRoute": 0.2808,
+          "routeShoulderPass": false,
+          "resourceConflicts": [],
+          "homeConflicts": [],
+          "solidSceneryOverlaps": []
+        },
+        "pass": false
+      },
+      {
+        "side": "west",
+        "transform": {
+          "x": -2081,
+          "z": -3156,
+          "yaw": 1.5707963267948966,
+          "scale": 0.65
+        },
+        "projectionPrecheck": {
+          "forwardMeters": 3.395,
+          "screenSideMeters": 2.34,
+          "inFront": true
+        },
+        "support": {
+          "sampleCount": 77,
+          "minHeight": 8.9703,
+          "maxHeight": 9.1969,
+          "span": 0.2266,
+          "freeStandingPass": true,
+          "embeddedOnly": false,
+          "baseY": 8.9703
+        },
+        "clearance": {
+          "minHullBoundaryToRoute": 0.2808,
+          "routeShoulderPass": false,
+          "resourceConflicts": [],
+          "homeConflicts": [],
+          "solidSceneryOverlaps": []
+        },
+        "pass": false
+      },
+      {
+        "side": "west",
+        "transform": {
+          "x": -2081,
+          "z": -3155,
+          "yaw": 1.5707963267948966,
+          "scale": 0.65
+        },
+        "projectionPrecheck": {
+          "forwardMeters": 4.331,
+          "screenSideMeters": 2.691,
+          "inFront": true
+        },
+        "support": {
+          "sampleCount": 77,
+          "minHeight": 9.0612,
+          "maxHeight": 9.3018,
+          "span": 0.2406,
+          "freeStandingPass": true,
+          "embeddedOnly": false,
+          "baseY": 9.0612
+        },
+        "clearance": {
+          "minHullBoundaryToRoute": 0.2808,
+          "routeShoulderPass": false,
+          "resourceConflicts": [],
+          "homeConflicts": [],
+          "solidSceneryOverlaps": []
+        },
+        "pass": false
+      },
+      {
+        "side": "west",
+        "transform": {
+          "x": -2081,
+          "z": -3154,
+          "yaw": 1.5707963267948966,
+          "scale": 0.65
+        },
+        "projectionPrecheck": {
+          "forwardMeters": 5.267,
+          "screenSideMeters": 3.042,
+          "inFront": true
+        },
+        "support": {
+          "sampleCount": 77,
+          "minHeight": 9.158,
+          "maxHeight": 9.4131,
+          "span": 0.2551,
+          "freeStandingPass": true,
+          "embeddedOnly": false,
+          "baseY": 9.158
+        },
+        "clearance": {
+          "minHullBoundaryToRoute": 0.4978,
+          "routeShoulderPass": false,
+          "resourceConflicts": [],
+          "homeConflicts": [],
+          "solidSceneryOverlaps": []
+        },
+        "pass": false
+      },
+      {
+        "side": "west",
+        "transform": {
+          "x": -2081,
+          "z": -3153,
+          "yaw": 1.5707963267948966,
+          "scale": 0.65
+        },
+        "projectionPrecheck": {
+          "forwardMeters": 6.204,
+          "screenSideMeters": 3.393,
+          "inFront": true
+        },
+        "support": {
+          "sampleCount": 77,
+          "minHeight": 9.2609,
+          "maxHeight": 9.5311,
+          "span": 0.2701,
+          "freeStandingPass": true,
+          "embeddedOnly": false,
+          "baseY": 9.2609
+        },
+        "clearance": {
+          "minHullBoundaryToRoute": 1.124,
+          "routeShoulderPass": false,
+          "resourceConflicts": [],
+          "homeConflicts": [],
+          "solidSceneryOverlaps": []
+        },
+        "pass": false
+      },
+      {
+        "side": "west",
+        "transform": {
+          "x": -2081,
+          "z": -3152,
+          "yaw": 1.5707963267948966,
+          "scale": 0.65
+        },
+        "projectionPrecheck": {
+          "forwardMeters": 7.14,
+          "screenSideMeters": 3.744,
+          "inFront": true
+        },
+        "support": {
+          "sampleCount": 77,
+          "minHeight": 9.3702,
+          "maxHeight": 9.6558,
+          "span": 0.2856,
+          "freeStandingPass": true,
+          "embeddedOnly": false,
+          "baseY": 9.3702
+        },
+        "clearance": {
+          "minHullBoundaryToRoute": 1.8311,
+          "routeShoulderPass": true,
+          "resourceConflicts": [],
+          "homeConflicts": [],
+          "solidSceneryOverlaps": []
+        },
+        "pass": true
+      },
+      {
+        "side": "west",
+        "transform": {
+          "x": -2081,
+          "z": -3151,
+          "yaw": 1.5707963267948966,
+          "scale": 0.65
+        },
+        "projectionPrecheck": {
+          "forwardMeters": 8.077,
+          "screenSideMeters": 4.095,
+          "inFront": true
+        },
+        "support": {
+          "sampleCount": 77,
+          "minHeight": 9.486,
+          "maxHeight": 9.7876,
+          "span": 0.3016,
+          "freeStandingPass": true,
+          "embeddedOnly": false,
+          "baseY": 9.486
+        },
+        "clearance": {
+          "minHullBoundaryToRoute": 2.5382,
+          "routeShoulderPass": true,
+          "resourceConflicts": [],
+          "homeConflicts": [],
+          "solidSceneryOverlaps": []
+        },
+        "pass": true
+      },
+      {
+        "side": "west",
+        "transform": {
+          "x": -2081,
+          "z": -3150,
+          "yaw": 1.5707963267948966,
+          "scale": 0.65
+        },
+        "projectionPrecheck": {
+          "forwardMeters": 9.013,
+          "screenSideMeters": 4.446,
+          "inFront": true
+        },
+        "support": {
+          "sampleCount": 77,
+          "minHeight": 9.6085,
+          "maxHeight": 9.9266,
+          "span": 0.3181,
+          "freeStandingPass": true,
+          "embeddedOnly": false,
+          "baseY": 9.6085
+        },
+        "clearance": {
+          "minHullBoundaryToRoute": 3.2453,
+          "routeShoulderPass": true,
+          "resourceConflicts": [],
+          "homeConflicts": [],
+          "solidSceneryOverlaps": []
+        },
+        "pass": true
+      },
+      {
+        "side": "west",
+        "transform": {
+          "x": -2081,
+          "z": -3149,
+          "yaw": 1.5707963267948966,
+          "scale": 0.65
+        },
+        "projectionPrecheck": {
+          "forwardMeters": 9.949,
+          "screenSideMeters": 4.797,
+          "inFront": true
+        },
+        "support": {
+          "sampleCount": 77,
+          "minHeight": 9.7379,
+          "maxHeight": 10.073,
+          "span": 0.3351,
+          "freeStandingPass": false,
+          "embeddedOnly": true,
+          "baseY": 9.7379
+        },
+        "clearance": {
+          "minHullBoundaryToRoute": 3.9525,
+          "routeShoulderPass": true,
+          "resourceConflicts": [],
+          "homeConflicts": [],
+          "solidSceneryOverlaps": []
+        },
+        "pass": false
+      },
+      {
+        "side": "east",
+        "transform": {
+          "x": -2077,
+          "z": -3156,
+          "yaw": -1.5707963267948966,
+          "scale": 0.65
+        },
+        "projectionPrecheck": {
+          "forwardMeters": 4.798,
+          "screenSideMeters": -1.405,
+          "inFront": true
+        },
+        "support": {
+          "sampleCount": 77,
+          "minHeight": 9.0838,
+          "maxHeight": 9.3241,
+          "span": 0.2403,
+          "freeStandingPass": true,
+          "embeddedOnly": false,
+          "baseY": 9.0838
+        },
+        "clearance": {
+          "minHullBoundaryToRoute": 1.8311,
+          "routeShoulderPass": true,
+          "resourceConflicts": [],
+          "homeConflicts": [],
+          "solidSceneryOverlaps": []
+        },
+        "pass": true
+      },
+      {
+        "side": "east",
+        "transform": {
+          "x": -2077,
+          "z": -3155,
+          "yaw": -1.5707963267948966,
+          "scale": 0.65
+        },
+        "projectionPrecheck": {
+          "forwardMeters": 5.735,
+          "screenSideMeters": -1.054,
+          "inFront": true
+        },
+        "support": {
+          "sampleCount": 77,
+          "minHeight": 9.1807,
+          "maxHeight": 9.4356,
+          "span": 0.2549,
+          "freeStandingPass": true,
+          "embeddedOnly": false,
+          "baseY": 9.1807
+        },
+        "clearance": {
+          "minHullBoundaryToRoute": 1.124,
+          "routeShoulderPass": false,
+          "resourceConflicts": [],
+          "homeConflicts": [],
+          "solidSceneryOverlaps": []
+        },
+        "pass": false
+      },
+      {
+        "side": "east",
+        "transform": {
+          "x": -2077,
+          "z": -3154,
+          "yaw": -1.5707963267948966,
+          "scale": 0.65
+        },
+        "projectionPrecheck": {
+          "forwardMeters": 6.671,
+          "screenSideMeters": -0.703,
+          "inFront": true
+        },
+        "support": {
+          "sampleCount": 77,
+          "minHeight": 9.2837,
+          "maxHeight": 9.5537,
+          "span": 0.27,
+          "freeStandingPass": true,
+          "embeddedOnly": false,
+          "baseY": 9.2837
+        },
+        "clearance": {
+          "minHullBoundaryToRoute": 0.4169,
+          "routeShoulderPass": false,
+          "resourceConflicts": [],
+          "homeConflicts": [],
+          "solidSceneryOverlaps": []
+        },
+        "pass": false
+      },
+      {
+        "side": "east",
+        "transform": {
+          "x": -2077,
+          "z": -3153,
+          "yaw": -1.5707963267948966,
+          "scale": 0.65
+        },
+        "projectionPrecheck": {
+          "forwardMeters": 7.608,
+          "screenSideMeters": -0.352,
+          "inFront": true
+        },
+        "support": {
+          "sampleCount": 77,
+          "minHeight": 9.393,
+          "maxHeight": 9.6787,
+          "span": 0.2856,
+          "freeStandingPass": true,
+          "embeddedOnly": false,
+          "baseY": 9.393
+        },
+        "clearance": {
+          "minHullBoundaryToRoute": 0.0333,
+          "routeShoulderPass": false,
+          "resourceConflicts": [],
+          "homeConflicts": [],
+          "solidSceneryOverlaps": []
+        },
+        "pass": false
+      },
+      {
+        "side": "east",
+        "transform": {
+          "x": -2077,
+          "z": -3152,
+          "yaw": -1.5707963267948966,
+          "scale": 0.65
+        },
+        "projectionPrecheck": {
+          "forwardMeters": 8.544,
+          "screenSideMeters": -0.002,
+          "inFront": true
+        },
+        "support": {
+          "sampleCount": 77,
+          "minHeight": 9.509,
+          "maxHeight": 9.8107,
+          "span": 0.3017,
+          "freeStandingPass": true,
+          "embeddedOnly": false,
+          "baseY": 9.509
+        },
+        "clearance": {
+          "minHullBoundaryToRoute": 0.0744,
+          "routeShoulderPass": false,
+          "resourceConflicts": [],
+          "homeConflicts": [],
+          "solidSceneryOverlaps": []
+        },
+        "pass": false
+      },
+      {
+        "side": "east",
+        "transform": {
+          "x": -2077,
+          "z": -3151,
+          "yaw": -1.5707963267948966,
+          "scale": 0.65
+        },
+        "projectionPrecheck": {
+          "forwardMeters": 9.48,
+          "screenSideMeters": 0.349,
+          "inFront": true
+        },
+        "support": {
+          "sampleCount": 77,
+          "minHeight": 9.6317,
+          "maxHeight": 9.9501,
+          "span": 0.3183,
+          "freeStandingPass": true,
+          "embeddedOnly": false,
+          "baseY": 9.6317
+        },
+        "clearance": {
+          "minHullBoundaryToRoute": 0.0632,
+          "routeShoulderPass": false,
+          "resourceConflicts": [],
+          "homeConflicts": [],
+          "solidSceneryOverlaps": []
+        },
+        "pass": false
+      },
+      {
+        "side": "east",
+        "transform": {
+          "x": -2077,
+          "z": -3150,
+          "yaw": -1.5707963267948966,
+          "scale": 0.65
+        },
+        "projectionPrecheck": {
+          "forwardMeters": 10.417,
+          "screenSideMeters": 0.7,
+          "inFront": true
+        },
+        "support": {
+          "sampleCount": 77,
+          "minHeight": 9.7614,
+          "maxHeight": 10.0969,
+          "span": 0.3354,
+          "freeStandingPass": false,
+          "embeddedOnly": true,
+          "baseY": 9.7614
+        },
+        "clearance": {
+          "minHullBoundaryToRoute": 0.3517,
+          "routeShoulderPass": false,
+          "resourceConflicts": [],
+          "homeConflicts": [],
+          "solidSceneryOverlaps": []
+        },
+        "pass": false
+      },
+      {
+        "side": "east",
+        "transform": {
+          "x": -2077,
+          "z": -3149,
+          "yaw": -1.5707963267948966,
+          "scale": 0.65
+        },
+        "projectionPrecheck": {
+          "forwardMeters": 11.353,
+          "screenSideMeters": 1.051,
+          "inFront": true
+        },
+        "support": {
+          "sampleCount": 77,
+          "minHeight": 9.8984,
+          "maxHeight": 10.2514,
+          "span": 0.353,
+          "freeStandingPass": false,
+          "embeddedOnly": true,
+          "baseY": 9.8984
+        },
+        "clearance": {
+          "minHullBoundaryToRoute": 1.0588,
+          "routeShoulderPass": false,
+          "resourceConflicts": [],
+          "homeConflicts": [],
+          "solidSceneryOverlaps": []
+        },
+        "pass": false
+      },
+      {
+        "side": "east",
+        "transform": {
+          "x": -2077,
+          "z": -3148,
+          "yaw": -1.5707963267948966,
+          "scale": 0.65
+        },
+        "projectionPrecheck": {
+          "forwardMeters": 12.29,
+          "screenSideMeters": 1.402,
+          "inFront": true
+        },
+        "support": {
+          "sampleCount": 77,
+          "minHeight": 10.0427,
+          "maxHeight": 10.4138,
+          "span": 0.3711,
+          "freeStandingPass": false,
+          "embeddedOnly": true,
+          "baseY": 10.0427
+        },
+        "clearance": {
+          "minHullBoundaryToRoute": 1.7659,
+          "routeShoulderPass": true,
+          "resourceConflicts": [],
+          "homeConflicts": [],
+          "solidSceneryOverlaps": []
+        },
+        "pass": false
+      },
+      {
+        "side": "east",
+        "transform": {
+          "x": -2076,
+          "z": -3156,
+          "yaw": -1.5707963267948966,
+          "scale": 0.65
+        },
+        "projectionPrecheck": {
+          "forwardMeters": 5.149,
+          "screenSideMeters": -2.342,
+          "inFront": true
+        },
+        "support": {
+          "sampleCount": 77,
+          "minHeight": 9.1142,
+          "maxHeight": 9.3582,
+          "span": 0.244,
+          "freeStandingPass": true,
+          "embeddedOnly": false,
+          "baseY": 9.1142
+        },
+        "clearance": {
+          "minHullBoundaryToRoute": 2.5382,
+          "routeShoulderPass": true,
+          "resourceConflicts": [],
+          "homeConflicts": [],
+          "solidSceneryOverlaps": []
+        },
+        "pass": true
+      },
+      {
+        "side": "east",
+        "transform": {
+          "x": -2076,
+          "z": -3155,
+          "yaw": -1.5707963267948966,
+          "scale": 0.65
+        },
+        "projectionPrecheck": {
+          "forwardMeters": 6.086,
+          "screenSideMeters": -1.991,
+          "inFront": true
+        },
+        "support": {
+          "sampleCount": 77,
+          "minHeight": 9.2127,
+          "maxHeight": 9.4714,
+          "span": 0.2588,
+          "freeStandingPass": true,
+          "embeddedOnly": false,
+          "baseY": 9.2127
+        },
+        "clearance": {
+          "minHullBoundaryToRoute": 1.8311,
+          "routeShoulderPass": true,
+          "resourceConflicts": [],
+          "homeConflicts": [],
+          "solidSceneryOverlaps": []
+        },
+        "pass": true
+      },
+      {
+        "side": "east",
+        "transform": {
+          "x": -2076,
+          "z": -3154,
+          "yaw": -1.5707963267948966,
+          "scale": 0.65
+        },
+        "projectionPrecheck": {
+          "forwardMeters": 7.022,
+          "screenSideMeters": -1.64,
+          "inFront": true
+        },
+        "support": {
+          "sampleCount": 77,
+          "minHeight": 9.3173,
+          "maxHeight": 9.5913,
+          "span": 0.274,
+          "freeStandingPass": true,
+          "embeddedOnly": false,
+          "baseY": 9.3173
+        },
+        "clearance": {
+          "minHullBoundaryToRoute": 1.124,
+          "routeShoulderPass": false,
+          "resourceConflicts": [],
+          "homeConflicts": [],
+          "solidSceneryOverlaps": []
+        },
+        "pass": false
+      },
+      {
+        "side": "east",
+        "transform": {
+          "x": -2076,
+          "z": -3153,
+          "yaw": -1.5707963267948966,
+          "scale": 0.65
+        },
+        "projectionPrecheck": {
+          "forwardMeters": 7.959,
+          "screenSideMeters": -1.289,
+          "inFront": true
+        },
+        "support": {
+          "sampleCount": 77,
+          "minHeight": 9.4284,
+          "maxHeight": 9.7182,
+          "span": 0.2898,
+          "freeStandingPass": true,
+          "embeddedOnly": false,
+          "baseY": 9.4284
+        },
+        "clearance": {
+          "minHullBoundaryToRoute": 0.4169,
+          "routeShoulderPass": false,
+          "resourceConflicts": [],
+          "homeConflicts": [],
+          "solidSceneryOverlaps": []
+        },
+        "pass": false
+      },
+      {
+        "side": "east",
+        "transform": {
+          "x": -2076,
+          "z": -3152,
+          "yaw": -1.5707963267948966,
+          "scale": 0.65
+        },
+        "projectionPrecheck": {
+          "forwardMeters": 8.895,
+          "screenSideMeters": -0.938,
+          "inFront": true
+        },
+        "support": {
+          "sampleCount": 77,
+          "minHeight": 9.5461,
+          "maxHeight": 9.8522,
+          "span": 0.306,
+          "freeStandingPass": true,
+          "embeddedOnly": false,
+          "baseY": 9.5461
+        },
+        "clearance": {
+          "minHullBoundaryToRoute": 0.0333,
+          "routeShoulderPass": false,
+          "resourceConflicts": [],
+          "homeConflicts": [],
+          "solidSceneryOverlaps": []
+        },
+        "pass": false
+      },
+      {
+        "side": "east",
+        "transform": {
+          "x": -2076,
+          "z": -3151,
+          "yaw": -1.5707963267948966,
+          "scale": 0.65
+        },
+        "projectionPrecheck": {
+          "forwardMeters": 9.831,
+          "screenSideMeters": -0.587,
+          "inFront": true
+        },
+        "support": {
+          "sampleCount": 77,
+          "minHeight": 9.6707,
+          "maxHeight": 9.9935,
+          "span": 0.3228,
+          "freeStandingPass": false,
+          "embeddedOnly": true,
+          "baseY": 9.6707
+        },
+        "clearance": {
+          "minHullBoundaryToRoute": 0.0744,
+          "routeShoulderPass": false,
+          "resourceConflicts": [],
+          "homeConflicts": [],
+          "solidSceneryOverlaps": []
+        },
+        "pass": false
+      },
+      {
+        "side": "east",
+        "transform": {
+          "x": -2076,
+          "z": -3150,
+          "yaw": -1.5707963267948966,
+          "scale": 0.65
+        },
+        "projectionPrecheck": {
+          "forwardMeters": 10.768,
+          "screenSideMeters": -0.236,
+          "inFront": true
+        },
+        "support": {
+          "sampleCount": 77,
+          "minHeight": 9.8024,
+          "maxHeight": 10.1424,
+          "span": 0.34,
+          "freeStandingPass": false,
+          "embeddedOnly": true,
+          "baseY": 9.8024
+        },
+        "clearance": {
+          "minHullBoundaryToRoute": 0.0632,
+          "routeShoulderPass": false,
+          "resourceConflicts": [],
+          "homeConflicts": [],
+          "solidSceneryOverlaps": []
+        },
+        "pass": false
+      },
+      {
+        "side": "east",
+        "transform": {
+          "x": -2076,
+          "z": -3149,
+          "yaw": -1.5707963267948966,
+          "scale": 0.65
+        },
+        "projectionPrecheck": {
+          "forwardMeters": 11.704,
+          "screenSideMeters": 0.115,
+          "inFront": true
+        },
+        "support": {
+          "sampleCount": 77,
+          "minHeight": 9.9413,
+          "maxHeight": 10.299,
+          "span": 0.3578,
+          "freeStandingPass": false,
+          "embeddedOnly": true,
+          "baseY": 9.9413
+        },
+        "clearance": {
+          "minHullBoundaryToRoute": 0.3517,
+          "routeShoulderPass": false,
+          "resourceConflicts": [],
+          "homeConflicts": [],
+          "solidSceneryOverlaps": []
+        },
+        "pass": false
+      },
+      {
+        "side": "east",
+        "transform": {
+          "x": -2076,
+          "z": -3148,
+          "yaw": -1.5707963267948966,
+          "scale": 0.65
+        },
+        "projectionPrecheck": {
+          "forwardMeters": 12.641,
+          "screenSideMeters": 0.466,
+          "inFront": true
+        },
+        "support": {
+          "sampleCount": 77,
+          "minHeight": 10.0876,
+          "maxHeight": 10.4636,
+          "span": 0.376,
+          "freeStandingPass": false,
+          "embeddedOnly": true,
+          "baseY": 10.0876
+        },
+        "clearance": {
+          "minHullBoundaryToRoute": 1.0588,
+          "routeShoulderPass": false,
+          "resourceConflicts": [],
+          "homeConflicts": [],
+          "solidSceneryOverlaps": []
+        },
+        "pass": false
+      },
+      {
+        "side": "east",
+        "transform": {
+          "x": -2075,
+          "z": -3156,
+          "yaw": -1.5707963267948966,
+          "scale": 0.65
+        },
+        "projectionPrecheck": {
+          "forwardMeters": 5.5,
+          "screenSideMeters": -3.278,
+          "inFront": true
+        },
+        "support": {
+          "sampleCount": 77,
+          "minHeight": 9.1449,
+          "maxHeight": 9.3926,
+          "span": 0.2477,
+          "freeStandingPass": true,
+          "embeddedOnly": false,
+          "baseY": 9.1449
+        },
+        "clearance": {
+          "minHullBoundaryToRoute": 3.2453,
+          "routeShoulderPass": true,
+          "resourceConflicts": [],
+          "homeConflicts": [],
+          "solidSceneryOverlaps": []
+        },
+        "pass": true
+      },
+      {
+        "side": "east",
+        "transform": {
+          "x": -2075,
+          "z": -3155,
+          "yaw": -1.5707963267948966,
+          "scale": 0.65
+        },
+        "projectionPrecheck": {
+          "forwardMeters": 6.437,
+          "screenSideMeters": -2.927,
+          "inFront": true
+        },
+        "support": {
+          "sampleCount": 77,
+          "minHeight": 9.245,
+          "maxHeight": 9.5076,
+          "span": 0.2626,
+          "freeStandingPass": true,
+          "embeddedOnly": false,
+          "baseY": 9.245
+        },
+        "clearance": {
+          "minHullBoundaryToRoute": 2.5382,
+          "routeShoulderPass": true,
+          "resourceConflicts": [],
+          "homeConflicts": [],
+          "solidSceneryOverlaps": []
+        },
+        "pass": true
+      },
+      {
+        "side": "east",
+        "transform": {
+          "x": -2075,
+          "z": -3154,
+          "yaw": -1.5707963267948966,
+          "scale": 0.65
+        },
+        "projectionPrecheck": {
+          "forwardMeters": 7.373,
+          "screenSideMeters": -2.576,
+          "inFront": true
+        },
+        "support": {
+          "sampleCount": 77,
+          "minHeight": 9.3513,
+          "maxHeight": 9.6293,
+          "span": 0.278,
+          "freeStandingPass": true,
+          "embeddedOnly": false,
+          "baseY": 9.3513
+        },
+        "clearance": {
+          "minHullBoundaryToRoute": 1.8311,
+          "routeShoulderPass": true,
+          "resourceConflicts": [],
+          "homeConflicts": [],
+          "solidSceneryOverlaps": []
+        },
+        "pass": true
+      },
+      {
+        "side": "east",
+        "transform": {
+          "x": -2075,
+          "z": -3153,
+          "yaw": -1.5707963267948966,
+          "scale": 0.65
+        },
+        "projectionPrecheck": {
+          "forwardMeters": 8.31,
+          "screenSideMeters": -2.225,
+          "inFront": true
+        },
+        "support": {
+          "sampleCount": 77,
+          "minHeight": 9.4641,
+          "maxHeight": 9.758,
+          "span": 0.2939,
+          "freeStandingPass": true,
+          "embeddedOnly": false,
+          "baseY": 9.4641
+        },
+        "clearance": {
+          "minHullBoundaryToRoute": 1.124,
+          "routeShoulderPass": false,
+          "resourceConflicts": [],
+          "homeConflicts": [],
+          "solidSceneryOverlaps": []
+        },
+        "pass": false
+      },
+      {
+        "side": "east",
+        "transform": {
+          "x": -2075,
+          "z": -3152,
+          "yaw": -1.5707963267948966,
+          "scale": 0.65
+        },
+        "projectionPrecheck": {
+          "forwardMeters": 9.246,
+          "screenSideMeters": -1.874,
+          "inFront": true
+        },
+        "support": {
+          "sampleCount": 77,
+          "minHeight": 9.5836,
+          "maxHeight": 9.894,
+          "span": 0.3103,
+          "freeStandingPass": true,
+          "embeddedOnly": false,
+          "baseY": 9.5836
+        },
+        "clearance": {
+          "minHullBoundaryToRoute": 0.4169,
+          "routeShoulderPass": false,
+          "resourceConflicts": [],
+          "homeConflicts": [],
+          "solidSceneryOverlaps": []
+        },
+        "pass": false
+      },
+      {
+        "side": "east",
+        "transform": {
+          "x": -2075,
+          "z": -3151,
+          "yaw": -1.5707963267948966,
+          "scale": 0.65
+        },
+        "projectionPrecheck": {
+          "forwardMeters": 10.182,
+          "screenSideMeters": -1.523,
+          "inFront": true
+        },
+        "support": {
+          "sampleCount": 77,
+          "minHeight": 9.7101,
+          "maxHeight": 10.0373,
+          "span": 0.3272,
+          "freeStandingPass": false,
+          "embeddedOnly": true,
+          "baseY": 9.7101
+        },
+        "clearance": {
+          "minHullBoundaryToRoute": 0.0333,
+          "routeShoulderPass": false,
+          "resourceConflicts": [],
+          "homeConflicts": [],
+          "solidSceneryOverlaps": []
+        },
+        "pass": false
+      },
+      {
+        "side": "east",
+        "transform": {
+          "x": -2075,
+          "z": -3150,
+          "yaw": -1.5707963267948966,
+          "scale": 0.65
+        },
+        "projectionPrecheck": {
+          "forwardMeters": 11.119,
+          "screenSideMeters": -1.172,
+          "inFront": true
+        },
+        "support": {
+          "sampleCount": 77,
+          "minHeight": 9.8437,
+          "maxHeight": 10.1883,
+          "span": 0.3446,
+          "freeStandingPass": false,
+          "embeddedOnly": true,
+          "baseY": 9.8437
+        },
+        "clearance": {
+          "minHullBoundaryToRoute": 0.0744,
+          "routeShoulderPass": false,
+          "resourceConflicts": [],
+          "homeConflicts": [],
+          "solidSceneryOverlaps": []
+        },
+        "pass": false
+      },
+      {
+        "side": "east",
+        "transform": {
+          "x": -2075,
+          "z": -3149,
+          "yaw": -1.5707963267948966,
+          "scale": 0.65
+        },
+        "projectionPrecheck": {
+          "forwardMeters": 12.055,
+          "screenSideMeters": -0.821,
+          "inFront": true
+        },
+        "support": {
+          "sampleCount": 77,
+          "minHeight": 9.9846,
+          "maxHeight": 10.3471,
+          "span": 0.3625,
+          "freeStandingPass": false,
+          "embeddedOnly": true,
+          "baseY": 9.9846
+        },
+        "clearance": {
+          "minHullBoundaryToRoute": 0.0632,
+          "routeShoulderPass": false,
+          "resourceConflicts": [],
+          "homeConflicts": [],
+          "solidSceneryOverlaps": []
+        },
+        "pass": false
+      },
+      {
+        "side": "east",
+        "transform": {
+          "x": -2075,
+          "z": -3148,
+          "yaw": -1.5707963267948966,
+          "scale": 0.65
+        },
+        "projectionPrecheck": {
+          "forwardMeters": 12.991,
+          "screenSideMeters": -0.47,
+          "inFront": true
+        },
+        "support": {
+          "sampleCount": 77,
+          "minHeight": 10.133,
+          "maxHeight": 10.5139,
+          "span": 0.3809,
+          "freeStandingPass": false,
+          "embeddedOnly": true,
+          "baseY": 10.133
+        },
+        "clearance": {
+          "minHullBoundaryToRoute": 0.3517,
+          "routeShoulderPass": false,
+          "resourceConflicts": [],
+          "homeConflicts": [],
+          "solidSceneryOverlaps": []
+        },
+        "pass": false
+      },
+      {
+        "side": "east",
+        "transform": {
+          "x": -2074,
+          "z": -3156,
+          "yaw": -1.5707963267948966,
+          "scale": 0.65
+        },
+        "projectionPrecheck": {
+          "forwardMeters": 5.851,
+          "screenSideMeters": -4.215,
+          "inFront": true
+        },
+        "support": {
+          "sampleCount": 77,
+          "minHeight": 9.176,
+          "maxHeight": 9.4274,
+          "span": 0.2514,
+          "freeStandingPass": true,
+          "embeddedOnly": false,
+          "baseY": 9.176
+        },
+        "clearance": {
+          "minHullBoundaryToRoute": 3.9525,
+          "routeShoulderPass": true,
+          "resourceConflicts": [],
+          "homeConflicts": [],
+          "solidSceneryOverlaps": []
+        },
+        "pass": true
+      },
+      {
+        "side": "east",
+        "transform": {
+          "x": -2074,
+          "z": -3155,
+          "yaw": -1.5707963267948966,
+          "scale": 0.65
+        },
+        "projectionPrecheck": {
+          "forwardMeters": 6.788,
+          "screenSideMeters": -3.864,
+          "inFront": true
+        },
+        "support": {
+          "sampleCount": 77,
+          "minHeight": 9.2776,
+          "maxHeight": 9.5441,
+          "span": 0.2665,
+          "freeStandingPass": true,
+          "embeddedOnly": false,
+          "baseY": 9.2776
+        },
+        "clearance": {
+          "minHullBoundaryToRoute": 3.2453,
+          "routeShoulderPass": true,
+          "resourceConflicts": [],
+          "homeConflicts": [],
+          "solidSceneryOverlaps": []
+        },
+        "pass": true
+      },
+      {
+        "side": "east",
+        "transform": {
+          "x": -2074,
+          "z": -3154,
+          "yaw": -1.5707963267948966,
+          "scale": 0.65
+        },
+        "projectionPrecheck": {
+          "forwardMeters": 7.724,
+          "screenSideMeters": -3.513,
+          "inFront": true
+        },
+        "support": {
+          "sampleCount": 77,
+          "minHeight": 9.3856,
+          "maxHeight": 9.6677,
+          "span": 0.282,
+          "freeStandingPass": true,
+          "embeddedOnly": false,
+          "baseY": 9.3856
+        },
+        "clearance": {
+          "minHullBoundaryToRoute": 2.5382,
+          "routeShoulderPass": true,
+          "resourceConflicts": [],
+          "homeConflicts": [],
+          "solidSceneryOverlaps": []
+        },
+        "pass": true
+      },
+      {
+        "side": "east",
+        "transform": {
+          "x": -2074,
+          "z": -3153,
+          "yaw": -1.5707963267948966,
+          "scale": 0.65
+        },
+        "projectionPrecheck": {
+          "forwardMeters": 8.66,
+          "screenSideMeters": -3.162,
+          "inFront": true
+        },
+        "support": {
+          "sampleCount": 77,
+          "minHeight": 9.5002,
+          "maxHeight": 9.7983,
+          "span": 0.2981,
+          "freeStandingPass": true,
+          "embeddedOnly": false,
+          "baseY": 9.5002
+        },
+        "clearance": {
+          "minHullBoundaryToRoute": 1.8311,
+          "routeShoulderPass": true,
+          "resourceConflicts": [],
+          "homeConflicts": [],
+          "solidSceneryOverlaps": []
+        },
+        "pass": true
+      },
+      {
+        "side": "east",
+        "transform": {
+          "x": -2074,
+          "z": -3152,
+          "yaw": -1.5707963267948966,
+          "scale": 0.65
+        },
+        "projectionPrecheck": {
+          "forwardMeters": 9.597,
+          "screenSideMeters": -2.811,
+          "inFront": true
+        },
+        "support": {
+          "sampleCount": 77,
+          "minHeight": 9.6215,
+          "maxHeight": 9.9362,
+          "span": 0.3147,
+          "freeStandingPass": true,
+          "embeddedOnly": false,
+          "baseY": 9.6215
+        },
+        "clearance": {
+          "minHullBoundaryToRoute": 1.124,
+          "routeShoulderPass": false,
+          "resourceConflicts": [],
+          "homeConflicts": [],
+          "solidSceneryOverlaps": []
+        },
+        "pass": false
+      },
+      {
+        "side": "east",
+        "transform": {
+          "x": -2074,
+          "z": -3151,
+          "yaw": -1.5707963267948966,
+          "scale": 0.65
+        },
+        "projectionPrecheck": {
+          "forwardMeters": 10.533,
+          "screenSideMeters": -2.46,
+          "inFront": true
+        },
+        "support": {
+          "sampleCount": 77,
+          "minHeight": 9.7499,
+          "maxHeight": 10.0816,
+          "span": 0.3317,
+          "freeStandingPass": false,
+          "embeddedOnly": true,
+          "baseY": 9.7499
+        },
+        "clearance": {
+          "minHullBoundaryToRoute": 0.4169,
+          "routeShoulderPass": false,
+          "resourceConflicts": [],
+          "homeConflicts": [],
+          "solidSceneryOverlaps": []
+        },
+        "pass": false
+      },
+      {
+        "side": "east",
+        "transform": {
+          "x": -2074,
+          "z": -3150,
+          "yaw": -1.5707963267948966,
+          "scale": 0.65
+        },
+        "projectionPrecheck": {
+          "forwardMeters": 11.47,
+          "screenSideMeters": -2.109,
+          "inFront": true
+        },
+        "support": {
+          "sampleCount": 77,
+          "minHeight": 9.8854,
+          "maxHeight": 10.2347,
+          "span": 0.3493,
+          "freeStandingPass": false,
+          "embeddedOnly": true,
+          "baseY": 9.8854
+        },
+        "clearance": {
+          "minHullBoundaryToRoute": 0.0333,
+          "routeShoulderPass": false,
+          "resourceConflicts": [],
+          "homeConflicts": [],
+          "solidSceneryOverlaps": []
+        },
+        "pass": false
+      },
+      {
+        "side": "east",
+        "transform": {
+          "x": -2074,
+          "z": -3149,
+          "yaw": -1.5707963267948966,
+          "scale": 0.65
+        },
+        "projectionPrecheck": {
+          "forwardMeters": 12.406,
+          "screenSideMeters": -1.758,
+          "inFront": true
+        },
+        "support": {
+          "sampleCount": 77,
+          "minHeight": 10.0283,
+          "maxHeight": 10.3957,
+          "span": 0.3673,
+          "freeStandingPass": false,
+          "embeddedOnly": true,
+          "baseY": 10.0283
+        },
+        "clearance": {
+          "minHullBoundaryToRoute": 0.0744,
+          "routeShoulderPass": false,
+          "resourceConflicts": [],
+          "homeConflicts": [],
+          "solidSceneryOverlaps": []
+        },
+        "pass": false
+      },
+      {
+        "side": "east",
+        "transform": {
+          "x": -2074,
+          "z": -3148,
+          "yaw": -1.5707963267948966,
+          "scale": 0.65
+        },
+        "projectionPrecheck": {
+          "forwardMeters": 13.342,
+          "screenSideMeters": -1.407,
+          "inFront": true
+        },
+        "support": {
+          "sampleCount": 77,
+          "minHeight": 10.1789,
+          "maxHeight": 10.5647,
+          "span": 0.3859,
+          "freeStandingPass": false,
+          "embeddedOnly": true,
+          "baseY": 10.1789
+        },
+        "clearance": {
+          "minHullBoundaryToRoute": 0.0632,
+          "routeShoulderPass": false,
+          "resourceConflicts": [],
+          "homeConflicts": [],
+          "solidSceneryOverlaps": []
+        },
+        "pass": false
+      },
+      {
+        "side": "east",
+        "transform": {
+          "x": -2073,
+          "z": -3156,
+          "yaw": -1.5707963267948966,
+          "scale": 0.65
+        },
+        "projectionPrecheck": {
+          "forwardMeters": 6.202,
+          "screenSideMeters": -5.151,
+          "inFront": true
+        },
+        "support": {
+          "sampleCount": 77,
+          "minHeight": 9.2074,
+          "maxHeight": 9.4625,
+          "span": 0.2552,
+          "freeStandingPass": true,
+          "embeddedOnly": false,
+          "baseY": 9.2074
+        },
+        "clearance": {
+          "minHullBoundaryToRoute": 4.6596,
+          "routeShoulderPass": true,
+          "resourceConflicts": [],
+          "homeConflicts": [],
+          "solidSceneryOverlaps": []
+        },
+        "pass": true
+      },
+      {
+        "side": "east",
+        "transform": {
+          "x": -2073,
+          "z": -3155,
+          "yaw": -1.5707963267948966,
+          "scale": 0.65
+        },
+        "projectionPrecheck": {
+          "forwardMeters": 7.139,
+          "screenSideMeters": -4.8,
+          "inFront": true
+        },
+        "support": {
+          "sampleCount": 77,
+          "minHeight": 9.3106,
+          "maxHeight": 9.581,
+          "span": 0.2704,
+          "freeStandingPass": true,
+          "embeddedOnly": false,
+          "baseY": 9.3106
+        },
+        "clearance": {
+          "minHullBoundaryToRoute": 3.9525,
+          "routeShoulderPass": true,
+          "resourceConflicts": [],
+          "homeConflicts": [],
+          "solidSceneryOverlaps": []
+        },
+        "pass": true
+      },
+      {
+        "side": "east",
+        "transform": {
+          "x": -2073,
+          "z": -3154,
+          "yaw": -1.5707963267948966,
+          "scale": 0.65
+        },
+        "projectionPrecheck": {
+          "forwardMeters": 8.075,
+          "screenSideMeters": -4.449,
+          "inFront": true
+        },
+        "support": {
+          "sampleCount": 77,
+          "minHeight": 9.4203,
+          "maxHeight": 9.7064,
+          "span": 0.2861,
+          "freeStandingPass": true,
+          "embeddedOnly": false,
+          "baseY": 9.4203
+        },
+        "clearance": {
+          "minHullBoundaryToRoute": 3.2453,
+          "routeShoulderPass": true,
+          "resourceConflicts": [],
+          "homeConflicts": [],
+          "solidSceneryOverlaps": []
+        },
+        "pass": true
+      },
+      {
+        "side": "east",
+        "transform": {
+          "x": -2073,
+          "z": -3153,
+          "yaw": -1.5707963267948966,
+          "scale": 0.65
+        },
+        "projectionPrecheck": {
+          "forwardMeters": 9.011,
+          "screenSideMeters": -4.098,
+          "inFront": true
+        },
+        "support": {
+          "sampleCount": 77,
+          "minHeight": 9.5367,
+          "maxHeight": 9.839,
+          "span": 0.3023,
+          "freeStandingPass": true,
+          "embeddedOnly": false,
+          "baseY": 9.5367
+        },
+        "clearance": {
+          "minHullBoundaryToRoute": 2.5382,
+          "routeShoulderPass": true,
+          "resourceConflicts": [],
+          "homeConflicts": [],
+          "solidSceneryOverlaps": []
+        },
+        "pass": true
+      },
+      {
+        "side": "east",
+        "transform": {
+          "x": -2073,
+          "z": -3152,
+          "yaw": -1.5707963267948966,
+          "scale": 0.65
+        },
+        "projectionPrecheck": {
+          "forwardMeters": 9.948,
+          "screenSideMeters": -3.747,
+          "inFront": true
+        },
+        "support": {
+          "sampleCount": 77,
+          "minHeight": 9.6598,
+          "maxHeight": 9.9789,
+          "span": 0.319,
+          "freeStandingPass": true,
+          "embeddedOnly": false,
+          "baseY": 9.6598
+        },
+        "clearance": {
+          "minHullBoundaryToRoute": 1.8311,
+          "routeShoulderPass": true,
+          "resourceConflicts": [],
+          "homeConflicts": [],
+          "solidSceneryOverlaps": []
+        },
+        "pass": true
+      },
+      {
+        "side": "east",
+        "transform": {
+          "x": -2073,
+          "z": -3151,
+          "yaw": -1.5707963267948966,
+          "scale": 0.65
+        },
+        "projectionPrecheck": {
+          "forwardMeters": 10.884,
+          "screenSideMeters": -3.396,
+          "inFront": true
+        },
+        "support": {
+          "sampleCount": 77,
+          "minHeight": 9.7901,
+          "maxHeight": 10.1263,
+          "span": 0.3363,
+          "freeStandingPass": false,
+          "embeddedOnly": true,
+          "baseY": 9.7901
+        },
+        "clearance": {
+          "minHullBoundaryToRoute": 1.124,
+          "routeShoulderPass": false,
+          "resourceConflicts": [],
+          "homeConflicts": [],
+          "solidSceneryOverlaps": []
+        },
+        "pass": false
+      },
+      {
+        "side": "east",
+        "transform": {
+          "x": -2073,
+          "z": -3150,
+          "yaw": -1.5707963267948966,
+          "scale": 0.65
+        },
+        "projectionPrecheck": {
+          "forwardMeters": 11.821,
+          "screenSideMeters": -3.045,
+          "inFront": true
+        },
+        "support": {
+          "sampleCount": 77,
+          "minHeight": 9.9275,
+          "maxHeight": 10.2815,
+          "span": 0.354,
+          "freeStandingPass": false,
+          "embeddedOnly": true,
+          "baseY": 9.9275
+        },
+        "clearance": {
+          "minHullBoundaryToRoute": 0.4169,
+          "routeShoulderPass": false,
+          "resourceConflicts": [],
+          "homeConflicts": [],
+          "solidSceneryOverlaps": []
+        },
+        "pass": false
+      },
+      {
+        "side": "east",
+        "transform": {
+          "x": -2073,
+          "z": -3149,
+          "yaw": -1.5707963267948966,
+          "scale": 0.65
+        },
+        "projectionPrecheck": {
+          "forwardMeters": 12.757,
+          "screenSideMeters": -2.694,
+          "inFront": true
+        },
+        "support": {
+          "sampleCount": 77,
+          "minHeight": 10.0725,
+          "maxHeight": 10.4447,
+          "span": 0.3722,
+          "freeStandingPass": false,
+          "embeddedOnly": true,
+          "baseY": 10.0725
+        },
+        "clearance": {
+          "minHullBoundaryToRoute": 0.0333,
+          "routeShoulderPass": false,
+          "resourceConflicts": [],
+          "homeConflicts": [],
+          "solidSceneryOverlaps": []
+        },
+        "pass": false
+      },
+      {
+        "side": "east",
+        "transform": {
+          "x": -2073,
+          "z": -3148,
+          "yaw": -1.5707963267948966,
+          "scale": 0.65
+        },
+        "projectionPrecheck": {
+          "forwardMeters": 13.693,
+          "screenSideMeters": -2.343,
+          "inFront": true
+        },
+        "support": {
+          "sampleCount": 77,
+          "minHeight": 10.2251,
+          "maxHeight": 10.616,
+          "span": 0.3908,
+          "freeStandingPass": false,
+          "embeddedOnly": true,
+          "baseY": 10.2251
+        },
+        "clearance": {
+          "minHullBoundaryToRoute": 0.0744,
+          "routeShoulderPass": false,
+          "resourceConflicts": [],
+          "homeConflicts": [],
+          "solidSceneryOverlaps": []
+        },
+        "pass": false
+      },
+      {
+        "side": "east",
+        "transform": {
+          "x": -2072,
+          "z": -3156,
+          "yaw": -1.5707963267948966,
+          "scale": 0.65
+        },
+        "projectionPrecheck": {
+          "forwardMeters": 6.553,
+          "screenSideMeters": -6.087,
+          "inFront": true
+        },
+        "support": {
+          "sampleCount": 77,
+          "minHeight": 9.2391,
+          "maxHeight": 9.498,
+          "span": 0.259,
+          "freeStandingPass": true,
+          "embeddedOnly": false,
+          "baseY": 9.2391
+        },
+        "clearance": {
+          "minHullBoundaryToRoute": 5.3667,
+          "routeShoulderPass": true,
+          "resourceConflicts": [],
+          "homeConflicts": [],
+          "solidSceneryOverlaps": []
+        },
+        "pass": true
+      },
+      {
+        "side": "east",
+        "transform": {
+          "x": -2072,
+          "z": -3155,
+          "yaw": -1.5707963267948966,
+          "scale": 0.65
+        },
+        "projectionPrecheck": {
+          "forwardMeters": 7.49,
+          "screenSideMeters": -5.736,
+          "inFront": true
+        },
+        "support": {
+          "sampleCount": 77,
+          "minHeight": 9.344,
+          "maxHeight": 9.6183,
+          "span": 0.2743,
+          "freeStandingPass": true,
+          "embeddedOnly": false,
+          "baseY": 9.344
+        },
+        "clearance": {
+          "minHullBoundaryToRoute": 4.6596,
+          "routeShoulderPass": true,
+          "resourceConflicts": [],
+          "homeConflicts": [],
+          "solidSceneryOverlaps": []
+        },
+        "pass": true
+      },
+      {
+        "side": "east",
+        "transform": {
+          "x": -2072,
+          "z": -3154,
+          "yaw": -1.5707963267948966,
+          "scale": 0.65
+        },
+        "projectionPrecheck": {
+          "forwardMeters": 8.426,
+          "screenSideMeters": -5.385,
+          "inFront": true
+        },
+        "support": {
+          "sampleCount": 77,
+          "minHeight": 9.4554,
+          "maxHeight": 9.7456,
+          "span": 0.2902,
+          "freeStandingPass": true,
+          "embeddedOnly": false,
+          "baseY": 9.4554
+        },
+        "clearance": {
+          "minHullBoundaryToRoute": 3.9525,
+          "routeShoulderPass": true,
+          "resourceConflicts": [],
+          "homeConflicts": [],
+          "solidSceneryOverlaps": []
+        },
+        "pass": true
+      },
+      {
+        "side": "east",
+        "transform": {
+          "x": -2072,
+          "z": -3153,
+          "yaw": -1.5707963267948966,
+          "scale": 0.65
+        },
+        "projectionPrecheck": {
+          "forwardMeters": 9.362,
+          "screenSideMeters": -5.034,
+          "inFront": true
+        },
+        "support": {
+          "sampleCount": 77,
+          "minHeight": 9.5735,
+          "maxHeight": 9.8801,
+          "span": 0.3066,
+          "freeStandingPass": true,
+          "embeddedOnly": false,
+          "baseY": 9.5735
+        },
+        "clearance": {
+          "minHullBoundaryToRoute": 3.2453,
+          "routeShoulderPass": true,
+          "resourceConflicts": [],
+          "homeConflicts": [],
+          "solidSceneryOverlaps": []
+        },
+        "pass": true
+      },
+      {
+        "side": "east",
+        "transform": {
+          "x": -2072,
+          "z": -3152,
+          "yaw": -1.5707963267948966,
+          "scale": 0.65
+        },
+        "projectionPrecheck": {
+          "forwardMeters": 10.299,
+          "screenSideMeters": -4.683,
+          "inFront": true
+        },
+        "support": {
+          "sampleCount": 77,
+          "minHeight": 9.6985,
+          "maxHeight": 10.0219,
+          "span": 0.3234,
+          "freeStandingPass": false,
+          "embeddedOnly": true,
+          "baseY": 9.6985
+        },
+        "clearance": {
+          "minHullBoundaryToRoute": 2.5382,
+          "routeShoulderPass": true,
+          "resourceConflicts": [],
+          "homeConflicts": [],
+          "solidSceneryOverlaps": []
+        },
+        "pass": false
+      },
+      {
+        "side": "east",
+        "transform": {
+          "x": -2072,
+          "z": -3151,
+          "yaw": -1.5707963267948966,
+          "scale": 0.65
+        },
+        "projectionPrecheck": {
+          "forwardMeters": 11.235,
+          "screenSideMeters": -4.333,
+          "inFront": true
+        },
+        "support": {
+          "sampleCount": 77,
+          "minHeight": 9.8306,
+          "maxHeight": 10.1714,
+          "span": 0.3408,
+          "freeStandingPass": false,
+          "embeddedOnly": true,
+          "baseY": 9.8306
+        },
+        "clearance": {
+          "minHullBoundaryToRoute": 1.8311,
+          "routeShoulderPass": true,
+          "resourceConflicts": [],
+          "homeConflicts": [],
+          "solidSceneryOverlaps": []
+        },
+        "pass": false
+      },
+      {
+        "side": "east",
+        "transform": {
+          "x": -2072,
+          "z": -3150,
+          "yaw": -1.5707963267948966,
+          "scale": 0.65
+        },
+        "projectionPrecheck": {
+          "forwardMeters": 12.172,
+          "screenSideMeters": -3.982,
+          "inFront": true
+        },
+        "support": {
+          "sampleCount": 77,
+          "minHeight": 9.9701,
+          "maxHeight": 10.3288,
+          "span": 0.3587,
+          "freeStandingPass": false,
+          "embeddedOnly": true,
+          "baseY": 9.9701
+        },
+        "clearance": {
+          "minHullBoundaryToRoute": 1.124,
+          "routeShoulderPass": false,
+          "resourceConflicts": [],
+          "homeConflicts": [],
+          "solidSceneryOverlaps": []
+        },
+        "pass": false
+      },
+      {
+        "side": "east",
+        "transform": {
+          "x": -2072,
+          "z": -3149,
+          "yaw": -1.5707963267948966,
+          "scale": 0.65
+        },
+        "projectionPrecheck": {
+          "forwardMeters": 13.108,
+          "screenSideMeters": -3.631,
+          "inFront": true
+        },
+        "support": {
+          "sampleCount": 77,
+          "minHeight": 10.1171,
+          "maxHeight": 10.4941,
+          "span": 0.377,
+          "freeStandingPass": false,
+          "embeddedOnly": true,
+          "baseY": 10.1171
+        },
+        "clearance": {
+          "minHullBoundaryToRoute": 0.4169,
+          "routeShoulderPass": false,
+          "resourceConflicts": [],
+          "homeConflicts": [],
+          "solidSceneryOverlaps": []
+        },
+        "pass": false
+      },
+      {
+        "side": "east",
+        "transform": {
+          "x": -2072,
+          "z": -3148,
+          "yaw": -1.5707963267948966,
+          "scale": 0.65
+        },
+        "projectionPrecheck": {
+          "forwardMeters": 14.044,
+          "screenSideMeters": -3.28,
+          "inFront": true
+        },
+        "support": {
+          "sampleCount": 77,
+          "minHeight": 10.2719,
+          "maxHeight": 10.6677,
+          "span": 0.3959,
+          "freeStandingPass": false,
+          "embeddedOnly": true,
+          "baseY": 10.2719
+        },
+        "clearance": {
+          "minHullBoundaryToRoute": 0.0333,
+          "routeShoulderPass": false,
+          "resourceConflicts": [],
+          "homeConflicts": [],
+          "solidSceneryOverlaps": []
+        },
+        "pass": false
+      },
+      {
+        "side": "east",
+        "transform": {
+          "x": -2071,
+          "z": -3156,
+          "yaw": -1.5707963267948966,
+          "scale": 0.65
+        },
+        "projectionPrecheck": {
+          "forwardMeters": 6.904,
+          "screenSideMeters": -7.024,
+          "inFront": true
+        },
+        "support": {
+          "sampleCount": 77,
+          "minHeight": 9.2711,
+          "maxHeight": 9.5339,
+          "span": 0.2628,
+          "freeStandingPass": true,
+          "embeddedOnly": false,
+          "baseY": 9.2711
+        },
+        "clearance": {
+          "minHullBoundaryToRoute": 6.0738,
+          "routeShoulderPass": true,
+          "resourceConflicts": [],
+          "homeConflicts": [],
+          "solidSceneryOverlaps": []
+        },
+        "pass": true
+      },
+      {
+        "side": "east",
+        "transform": {
+          "x": -2071,
+          "z": -3155,
+          "yaw": -1.5707963267948966,
+          "scale": 0.65
+        },
+        "projectionPrecheck": {
+          "forwardMeters": 7.841,
+          "screenSideMeters": -6.673,
+          "inFront": true
+        },
+        "support": {
+          "sampleCount": 77,
+          "minHeight": 9.3777,
+          "maxHeight": 9.656,
+          "span": 0.2783,
+          "freeStandingPass": true,
+          "embeddedOnly": false,
+          "baseY": 9.3777
+        },
+        "clearance": {
+          "minHullBoundaryToRoute": 5.3667,
+          "routeShoulderPass": true,
+          "resourceConflicts": [],
+          "homeConflicts": [],
+          "solidSceneryOverlaps": []
+        },
+        "pass": true
+      },
+      {
+        "side": "east",
+        "transform": {
+          "x": -2071,
+          "z": -3154,
+          "yaw": -1.5707963267948966,
+          "scale": 0.65
+        },
+        "projectionPrecheck": {
+          "forwardMeters": 8.777,
+          "screenSideMeters": -6.322,
+          "inFront": true
+        },
+        "support": {
+          "sampleCount": 77,
+          "minHeight": 9.4908,
+          "maxHeight": 9.7851,
+          "span": 0.2943,
+          "freeStandingPass": true,
+          "embeddedOnly": false,
+          "baseY": 9.4908
+        },
+        "clearance": {
+          "minHullBoundaryToRoute": 4.6596,
+          "routeShoulderPass": true,
+          "resourceConflicts": [],
+          "homeConflicts": [],
+          "solidSceneryOverlaps": []
+        },
+        "pass": true
+      },
+      {
+        "side": "east",
+        "transform": {
+          "x": -2071,
+          "z": -3153,
+          "yaw": -1.5707963267948966,
+          "scale": 0.65
+        },
+        "projectionPrecheck": {
+          "forwardMeters": 9.713,
+          "screenSideMeters": -5.971,
+          "inFront": true
+        },
+        "support": {
+          "sampleCount": 77,
+          "minHeight": 9.6107,
+          "maxHeight": 9.9215,
+          "span": 0.3109,
+          "freeStandingPass": true,
+          "embeddedOnly": false,
+          "baseY": 9.6107
+        },
+        "clearance": {
+          "minHullBoundaryToRoute": 3.9525,
+          "routeShoulderPass": true,
+          "resourceConflicts": [],
+          "homeConflicts": [],
+          "solidSceneryOverlaps": []
+        },
+        "pass": true
+      },
+      {
+        "side": "east",
+        "transform": {
+          "x": -2071,
+          "z": -3152,
+          "yaw": -1.5707963267948966,
+          "scale": 0.65
+        },
+        "projectionPrecheck": {
+          "forwardMeters": 10.65,
+          "screenSideMeters": -5.62,
+          "inFront": true
+        },
+        "support": {
+          "sampleCount": 77,
+          "minHeight": 9.7376,
+          "maxHeight": 10.0654,
+          "span": 0.3279,
+          "freeStandingPass": false,
+          "embeddedOnly": true,
+          "baseY": 9.7376
+        },
+        "clearance": {
+          "minHullBoundaryToRoute": 3.2453,
+          "routeShoulderPass": true,
+          "resourceConflicts": [],
+          "homeConflicts": [],
+          "solidSceneryOverlaps": []
+        },
+        "pass": false
+      },
+      {
+        "side": "east",
+        "transform": {
+          "x": -2071,
+          "z": -3151,
+          "yaw": -1.5707963267948966,
+          "scale": 0.65
+        },
+        "projectionPrecheck": {
+          "forwardMeters": 11.586,
+          "screenSideMeters": -5.269,
+          "inFront": true
+        },
+        "support": {
+          "sampleCount": 77,
+          "minHeight": 9.8716,
+          "maxHeight": 10.217,
+          "span": 0.3454,
+          "freeStandingPass": false,
+          "embeddedOnly": true,
+          "baseY": 9.8716
+        },
+        "clearance": {
+          "minHullBoundaryToRoute": 2.5382,
+          "routeShoulderPass": true,
+          "resourceConflicts": [],
+          "homeConflicts": [],
+          "solidSceneryOverlaps": []
+        },
+        "pass": false
+      },
+      {
+        "side": "east",
+        "transform": {
+          "x": -2071,
+          "z": -3150,
+          "yaw": -1.5707963267948966,
+          "scale": 0.65
+        },
+        "projectionPrecheck": {
+          "forwardMeters": 12.523,
+          "screenSideMeters": -4.918,
+          "inFront": true
+        },
+        "support": {
+          "sampleCount": 77,
+          "minHeight": 10.0131,
+          "maxHeight": 10.3765,
+          "span": 0.3634,
+          "freeStandingPass": false,
+          "embeddedOnly": true,
+          "baseY": 10.0131
+        },
+        "clearance": {
+          "minHullBoundaryToRoute": 1.8311,
+          "routeShoulderPass": true,
+          "resourceConflicts": [],
+          "homeConflicts": [],
+          "solidSceneryOverlaps": []
+        },
+        "pass": false
+      },
+      {
+        "side": "east",
+        "transform": {
+          "x": -2071,
+          "z": -3149,
+          "yaw": -1.5707963267948966,
+          "scale": 0.65
+        },
+        "projectionPrecheck": {
+          "forwardMeters": 13.459,
+          "screenSideMeters": -4.567,
+          "inFront": true
+        },
+        "support": {
+          "sampleCount": 77,
+          "minHeight": 10.1621,
+          "maxHeight": 10.5441,
+          "span": 0.3819,
+          "freeStandingPass": false,
+          "embeddedOnly": true,
+          "baseY": 10.1621
+        },
+        "clearance": {
+          "minHullBoundaryToRoute": 1.124,
+          "routeShoulderPass": false,
+          "resourceConflicts": [],
+          "homeConflicts": [],
+          "solidSceneryOverlaps": []
+        },
+        "pass": false
+      },
+      {
+        "side": "east",
+        "transform": {
+          "x": -2071,
+          "z": -3148,
+          "yaw": -1.5707963267948966,
+          "scale": 0.65
+        },
+        "projectionPrecheck": {
+          "forwardMeters": 14.395,
+          "screenSideMeters": -4.216,
+          "inFront": true
+        },
+        "support": {
+          "sampleCount": 77,
+          "minHeight": 10.319,
+          "maxHeight": 10.7199,
+          "span": 0.4009,
+          "freeStandingPass": false,
+          "embeddedOnly": true,
+          "baseY": 10.319
+        },
+        "clearance": {
+          "minHullBoundaryToRoute": 0.4169,
+          "routeShoulderPass": false,
+          "resourceConflicts": [],
+          "homeConflicts": [],
+          "solidSceneryOverlaps": []
+        },
+        "pass": false
+      },
+      {
+        "side": "east",
+        "transform": {
+          "x": -2070,
+          "z": -3156,
+          "yaw": -1.5707963267948966,
+          "scale": 0.65
+        },
+        "projectionPrecheck": {
+          "forwardMeters": 7.255,
+          "screenSideMeters": -7.96,
+          "inFront": true
+        },
+        "support": {
+          "sampleCount": 77,
+          "minHeight": 9.3035,
+          "maxHeight": 9.5701,
+          "span": 0.2667,
+          "freeStandingPass": true,
+          "embeddedOnly": false,
+          "baseY": 9.3035
+        },
+        "clearance": {
+          "minHullBoundaryToRoute": 6.7809,
+          "routeShoulderPass": true,
+          "resourceConflicts": [],
+          "homeConflicts": [],
+          "solidSceneryOverlaps": []
+        },
+        "pass": true
+      },
+      {
+        "side": "east",
+        "transform": {
+          "x": -2070,
+          "z": -3155,
+          "yaw": -1.5707963267948966,
+          "scale": 0.65
+        },
+        "projectionPrecheck": {
+          "forwardMeters": 8.192,
+          "screenSideMeters": -7.609,
+          "inFront": true
+        },
+        "support": {
+          "sampleCount": 77,
+          "minHeight": 9.4117,
+          "maxHeight": 9.694,
+          "span": 0.2823,
+          "freeStandingPass": true,
+          "embeddedOnly": false,
+          "baseY": 9.4117
+        },
+        "clearance": {
+          "minHullBoundaryToRoute": 6.0738,
+          "routeShoulderPass": true,
+          "resourceConflicts": [],
+          "homeConflicts": [],
+          "solidSceneryOverlaps": []
+        },
+        "pass": true
+      },
+      {
+        "side": "east",
+        "transform": {
+          "x": -2070,
+          "z": -3154,
+          "yaw": -1.5707963267948966,
+          "scale": 0.65
+        },
+        "projectionPrecheck": {
+          "forwardMeters": 9.128,
+          "screenSideMeters": -7.258,
+          "inFront": true
+        },
+        "support": {
+          "sampleCount": 77,
+          "minHeight": 9.5266,
+          "maxHeight": 9.8251,
+          "span": 0.2985,
+          "freeStandingPass": true,
+          "embeddedOnly": false,
+          "baseY": 9.5266
+        },
+        "clearance": {
+          "minHullBoundaryToRoute": 5.3667,
+          "routeShoulderPass": true,
+          "resourceConflicts": [],
+          "homeConflicts": [],
+          "solidSceneryOverlaps": []
+        },
+        "pass": true
+      },
+      {
+        "side": "east",
+        "transform": {
+          "x": -2070,
+          "z": -3153,
+          "yaw": -1.5707963267948966,
+          "scale": 0.65
+        },
+        "projectionPrecheck": {
+          "forwardMeters": 10.064,
+          "screenSideMeters": -6.907,
+          "inFront": true
+        },
+        "support": {
+          "sampleCount": 77,
+          "minHeight": 9.6483,
+          "maxHeight": 9.9634,
+          "span": 0.3152,
+          "freeStandingPass": true,
+          "embeddedOnly": false,
+          "baseY": 9.6483
+        },
+        "clearance": {
+          "minHullBoundaryToRoute": 4.6596,
+          "routeShoulderPass": true,
+          "resourceConflicts": [],
+          "homeConflicts": [],
+          "solidSceneryOverlaps": []
+        },
+        "pass": true
+      },
+      {
+        "side": "east",
+        "transform": {
+          "x": -2070,
+          "z": -3152,
+          "yaw": -1.5707963267948966,
+          "scale": 0.65
+        },
+        "projectionPrecheck": {
+          "forwardMeters": 11.001,
+          "screenSideMeters": -6.556,
+          "inFront": true
+        },
+        "support": {
+          "sampleCount": 77,
+          "minHeight": 9.777,
+          "maxHeight": 10.1093,
+          "span": 0.3323,
+          "freeStandingPass": false,
+          "embeddedOnly": true,
+          "baseY": 9.777
+        },
+        "clearance": {
+          "minHullBoundaryToRoute": 3.9525,
+          "routeShoulderPass": true,
+          "resourceConflicts": [],
+          "homeConflicts": [],
+          "solidSceneryOverlaps": []
+        },
+        "pass": false
+      },
+      {
+        "side": "east",
+        "transform": {
+          "x": -2070,
+          "z": -3151,
+          "yaw": -1.5707963267948966,
+          "scale": 0.65
+        },
+        "projectionPrecheck": {
+          "forwardMeters": 11.937,
+          "screenSideMeters": -6.205,
+          "inFront": true
+        },
+        "support": {
+          "sampleCount": 77,
+          "minHeight": 9.913,
+          "maxHeight": 10.263,
+          "span": 0.35,
+          "freeStandingPass": false,
+          "embeddedOnly": true,
+          "baseY": 9.913
+        },
+        "clearance": {
+          "minHullBoundaryToRoute": 3.2453,
+          "routeShoulderPass": true,
+          "resourceConflicts": [],
+          "homeConflicts": [],
+          "solidSceneryOverlaps": []
+        },
+        "pass": false
+      },
+      {
+        "side": "east",
+        "transform": {
+          "x": -2070,
+          "z": -3150,
+          "yaw": -1.5707963267948966,
+          "scale": 0.65
+        },
+        "projectionPrecheck": {
+          "forwardMeters": 12.873,
+          "screenSideMeters": -5.854,
+          "inFront": true
+        },
+        "support": {
+          "sampleCount": 77,
+          "minHeight": 10.0565,
+          "maxHeight": 10.4247,
+          "span": 0.3682,
+          "freeStandingPass": false,
+          "embeddedOnly": true,
+          "baseY": 10.0565
+        },
+        "clearance": {
+          "minHullBoundaryToRoute": 2.5382,
+          "routeShoulderPass": true,
+          "resourceConflicts": [],
+          "homeConflicts": [],
+          "solidSceneryOverlaps": []
+        },
+        "pass": false
+      },
+      {
+        "side": "east",
+        "transform": {
+          "x": -2070,
+          "z": -3149,
+          "yaw": -1.5707963267948966,
+          "scale": 0.65
+        },
+        "projectionPrecheck": {
+          "forwardMeters": 13.81,
+          "screenSideMeters": -5.503,
+          "inFront": true
+        },
+        "support": {
+          "sampleCount": 77,
+          "minHeight": 10.2076,
+          "maxHeight": 10.5945,
+          "span": 0.3869,
+          "freeStandingPass": false,
+          "embeddedOnly": true,
+          "baseY": 10.2076
+        },
+        "clearance": {
+          "minHullBoundaryToRoute": 1.8311,
+          "routeShoulderPass": true,
+          "resourceConflicts": [],
+          "homeConflicts": [],
+          "solidSceneryOverlaps": []
+        },
+        "pass": false
+      },
+      {
+        "side": "east",
+        "transform": {
+          "x": -2070,
+          "z": -3148,
+          "yaw": -1.5707963267948966,
+          "scale": 0.65
+        },
+        "projectionPrecheck": {
+          "forwardMeters": 14.746,
+          "screenSideMeters": -5.152,
+          "inFront": true
+        },
+        "support": {
+          "sampleCount": 77,
+          "minHeight": 10.3666,
+          "maxHeight": 10.7726,
+          "span": 0.406,
+          "freeStandingPass": false,
+          "embeddedOnly": true,
+          "baseY": 10.3666
+        },
+        "clearance": {
+          "minHullBoundaryToRoute": 1.124,
+          "routeShoulderPass": false,
+          "resourceConflicts": [],
+          "homeConflicts": [],
+          "solidSceneryOverlaps": []
+        },
+        "pass": false
+      },
+      {
+        "side": "east",
+        "transform": {
+          "x": -2069,
+          "z": -3156,
+          "yaw": -1.5707963267948966,
+          "scale": 0.65
+        },
+        "projectionPrecheck": {
+          "forwardMeters": 7.606,
+          "screenSideMeters": -8.896,
+          "inFront": true
+        },
+        "support": {
+          "sampleCount": 77,
+          "minHeight": 9.3362,
+          "maxHeight": 9.6067,
+          "span": 0.2705,
+          "freeStandingPass": true,
+          "embeddedOnly": false,
+          "baseY": 9.3362
+        },
+        "clearance": {
+          "minHullBoundaryToRoute": 7.488,
+          "routeShoulderPass": true,
+          "resourceConflicts": [],
+          "homeConflicts": [],
+          "solidSceneryOverlaps": []
+        },
+        "pass": true
+      },
+      {
+        "side": "east",
+        "transform": {
+          "x": -2069,
+          "z": -3155,
+          "yaw": -1.5707963267948966,
+          "scale": 0.65
+        },
+        "projectionPrecheck": {
+          "forwardMeters": 8.542,
+          "screenSideMeters": -8.546,
+          "inFront": true
+        },
+        "support": {
+          "sampleCount": 77,
+          "minHeight": 9.4461,
+          "maxHeight": 9.7325,
+          "span": 0.2864,
+          "freeStandingPass": true,
+          "embeddedOnly": false,
+          "baseY": 9.4461
+        },
+        "clearance": {
+          "minHullBoundaryToRoute": 6.7809,
+          "routeShoulderPass": true,
+          "resourceConflicts": [],
+          "homeConflicts": [],
+          "solidSceneryOverlaps": []
+        },
+        "pass": true
+      },
+      {
+        "side": "east",
+        "transform": {
+          "x": -2069,
+          "z": -3154,
+          "yaw": -1.5707963267948966,
+          "scale": 0.65
+        },
+        "projectionPrecheck": {
+          "forwardMeters": 9.479,
+          "screenSideMeters": -8.195,
+          "inFront": true
+        },
+        "support": {
+          "sampleCount": 77,
+          "minHeight": 9.5627,
+          "maxHeight": 9.8654,
+          "span": 0.3027,
+          "freeStandingPass": true,
+          "embeddedOnly": false,
+          "baseY": 9.5627
+        },
+        "clearance": {
+          "minHullBoundaryToRoute": 6.0738,
+          "routeShoulderPass": true,
+          "resourceConflicts": [],
+          "homeConflicts": [],
+          "solidSceneryOverlaps": []
+        },
+        "pass": true
+      },
+      {
+        "side": "east",
+        "transform": {
+          "x": -2069,
+          "z": -3153,
+          "yaw": -1.5707963267948966,
+          "scale": 0.65
+        },
+        "projectionPrecheck": {
+          "forwardMeters": 10.415,
+          "screenSideMeters": -7.844,
+          "inFront": true
+        },
+        "support": {
+          "sampleCount": 77,
+          "minHeight": 9.6862,
+          "maxHeight": 10.0057,
+          "span": 0.3195,
+          "freeStandingPass": true,
+          "embeddedOnly": false,
+          "baseY": 9.6862
+        },
+        "clearance": {
+          "minHullBoundaryToRoute": 5.3667,
+          "routeShoulderPass": true,
+          "resourceConflicts": [],
+          "homeConflicts": [],
+          "solidSceneryOverlaps": []
+        },
+        "pass": true
+      },
+      {
+        "side": "east",
+        "transform": {
+          "x": -2069,
+          "z": -3152,
+          "yaw": -1.5707963267948966,
+          "scale": 0.65
+        },
+        "projectionPrecheck": {
+          "forwardMeters": 11.352,
+          "screenSideMeters": -7.493,
+          "inFront": true
+        },
+        "support": {
+          "sampleCount": 77,
+          "minHeight": 9.8168,
+          "maxHeight": 10.1537,
+          "span": 0.3368,
+          "freeStandingPass": false,
+          "embeddedOnly": true,
+          "baseY": 9.8168
+        },
+        "clearance": {
+          "minHullBoundaryToRoute": 4.6596,
+          "routeShoulderPass": true,
+          "resourceConflicts": [],
+          "homeConflicts": [],
+          "solidSceneryOverlaps": []
+        },
+        "pass": false
+      },
+      {
+        "side": "east",
+        "transform": {
+          "x": -2069,
+          "z": -3151,
+          "yaw": -1.5707963267948966,
+          "scale": 0.65
+        },
+        "projectionPrecheck": {
+          "forwardMeters": 12.288,
+          "screenSideMeters": -7.142,
+          "inFront": true
+        },
+        "support": {
+          "sampleCount": 77,
+          "minHeight": 9.9548,
+          "maxHeight": 10.3095,
+          "span": 0.3547,
+          "freeStandingPass": false,
+          "embeddedOnly": true,
+          "baseY": 9.9548
+        },
+        "clearance": {
+          "minHullBoundaryToRoute": 3.9525,
+          "routeShoulderPass": true,
+          "resourceConflicts": [],
+          "homeConflicts": [],
+          "solidSceneryOverlaps": []
+        },
+        "pass": false
+      },
+      {
+        "side": "east",
+        "transform": {
+          "x": -2069,
+          "z": -3150,
+          "yaw": -1.5707963267948966,
+          "scale": 0.65
+        },
+        "projectionPrecheck": {
+          "forwardMeters": 13.224,
+          "screenSideMeters": -6.791,
+          "inFront": true
+        },
+        "support": {
+          "sampleCount": 77,
+          "minHeight": 10.1003,
+          "maxHeight": 10.4733,
+          "span": 0.373,
+          "freeStandingPass": false,
+          "embeddedOnly": true,
+          "baseY": 10.1003
+        },
+        "clearance": {
+          "minHullBoundaryToRoute": 3.2453,
+          "routeShoulderPass": true,
+          "resourceConflicts": [],
+          "homeConflicts": [],
+          "solidSceneryOverlaps": []
+        },
+        "pass": false
+      },
+      {
+        "side": "east",
+        "transform": {
+          "x": -2069,
+          "z": -3149,
+          "yaw": -1.5707963267948966,
+          "scale": 0.65
+        },
+        "projectionPrecheck": {
+          "forwardMeters": 14.161,
+          "screenSideMeters": -6.44,
+          "inFront": true
+        },
+        "support": {
+          "sampleCount": 77,
+          "minHeight": 10.2535,
+          "maxHeight": 10.6453,
+          "span": 0.3918,
+          "freeStandingPass": false,
+          "embeddedOnly": true,
+          "baseY": 10.2535
+        },
+        "clearance": {
+          "minHullBoundaryToRoute": 2.5382,
+          "routeShoulderPass": true,
+          "resourceConflicts": [],
+          "homeConflicts": [],
+          "solidSceneryOverlaps": []
+        },
+        "pass": false
+      },
+      {
+        "side": "east",
+        "transform": {
+          "x": -2069,
+          "z": -3148,
+          "yaw": -1.5707963267948966,
+          "scale": 0.65
+        },
+        "projectionPrecheck": {
+          "forwardMeters": 15.097,
+          "screenSideMeters": -6.089,
+          "inFront": true
+        },
+        "support": {
+          "sampleCount": 77,
+          "minHeight": 10.4147,
+          "maxHeight": 10.8258,
+          "span": 0.4111,
+          "freeStandingPass": false,
+          "embeddedOnly": true,
+          "baseY": 10.4147
+        },
+        "clearance": {
+          "minHullBoundaryToRoute": 1.8311,
+          "routeShoulderPass": true,
+          "resourceConflicts": [],
+          "homeConflicts": [],
+          "solidSceneryOverlaps": []
+        },
+        "pass": false
+      }
+    ]
+  }
+}

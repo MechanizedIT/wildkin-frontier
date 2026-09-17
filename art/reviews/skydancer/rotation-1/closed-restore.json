@@ -1,0 +1,12 @@
+{
+  "decision": "Closed HOLD after three native candidates; original authoring restored, no Skydancer bake or runtime change.",
+  "restoredSourceSha256": "d8dc1a460992ff69da9eba75bcd44679b7bbd5a4b44bb0a1601a22ec8f96a141",
+  "candidateSourceRetained": "art/reviews/skydancer/rotation-1/r3-anatomy-source.js",
+  "tests": "Four meaningful candidate checks passed; retained as historical executed code, not tests of restored baseline.",
+  "unchangedRuntimeFiles": [
+    "src/world/data/world.json",
+    "src/world/data/world.generated.js"
+  ],
+  "allSevenNativeSpeciesExact": true,
+  "runtimeSourceAndCatalogGitDiffEmpty": true
+}

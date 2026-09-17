@@ -1,0 +1,18 @@
+{
+  "reference": {
+    "role": "identity and anatomy reference",
+    "path": "../reviews/cinderjaw/rotation-1/baseline-threequarter.png",
+    "sha256": "6897606baaef3b628dac3ca756c40f873c567f6e6a530682a20d833fba018357"
+  },
+  "tool": "built-in image_gen",
+  "status": "UNREVIEWED_TARGET",
+  "notes": "One generated direction sheet. Complementary perspective views are not recovered orthographic measurements. Separate independent selection/review is required.",
+  "promptFile": "prompt-v1.txt",
+  "outputSha256": "0c640714b1f3ea4236bbdc47611be2099ec8a5033665d51fc319eae4f6200056",
+  "output": "cinderjaw-construction-target-v1.png",
+  "envelopeMeters": {
+    "width": 1.56,
+    "length": 3.29,
+    "height": 1.23
+  }
+}

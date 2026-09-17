@@ -1,0 +1,281 @@
+{
+  "status": "HOLD",
+  "score": 3.4,
+  "retained": "R1: one embedded buttress A; no further cosmetic repair",
+  "journey": {
+    "complete": true,
+    "wholeSeconds": 401.724,
+    "wholeDistance": 590.3655839764325,
+    "localCircuit": {
+      "from": "Skybreak western base",
+      "to": "West side of old terrace",
+      "seconds": 185.563,
+      "distance": 256.0905507212231,
+      "traceStart": 498,
+      "traceEnd": 1310
+    },
+    "interactions": [
+      {
+        "name": "Western supply berries",
+        "before": [
+          {
+            "count": 1,
+            "id": "fiber"
+          },
+          {
+            "count": 17,
+            "id": "berries"
+          },
+          {
+            "count": 3,
+            "id": "wood"
+          },
+          {
+            "count": 6,
+            "id": "wildflower"
+          },
+          {
+            "count": 2,
+            "id": "crystal_shard"
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "eligible": [
+          {
+            "id": "f1:r:-1:-4:100",
+            "pos": {
+              "x": -20,
+              "y": 7.3863606452941895,
+              "z": -166
+            },
+            "remaining": 4
+          }
+        ],
+        "after": [
+          {
+            "count": 1,
+            "id": "fiber"
+          },
+          {
+            "count": 20,
+            "id": "berries"
+          },
+          {
+            "count": 3,
+            "id": "wood"
+          },
+          {
+            "count": 6,
+            "id": "wildflower"
+          },
+          {
+            "count": 2,
+            "id": "crystal_shard"
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ]
+      },
+      {
+        "name": "East cap crystal approach",
+        "before": [
+          {
+            "count": 1,
+            "id": "fiber"
+          },
+          {
+            "count": 20,
+            "id": "berries"
+          },
+          {
+            "count": 3,
+            "id": "wood"
+          },
+          {
+            "count": 6,
+            "id": "wildflower"
+          },
+          {
+            "count": 2,
+            "id": "crystal_shard"
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "eligible": [
+          {
+            "id": "f1:r:0:-5:100",
+            "pos": {
+              "x": 32,
+              "y": 28.41777801513672,
+              "z": -214
+            },
+            "remaining": 4
+          }
+        ],
+        "after": [
+          {
+            "count": 1,
+            "id": "fiber"
+          },
+          {
+            "count": 20,
+            "id": "berries"
+          },
+          {
+            "count": 3,
+            "id": "wood"
+          },
+          {
+            "count": 6,
+            "id": "wildflower"
+          },
+          {
+            "count": 2,
+            "id": "crystal_shard"
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ]
+      }
+    ],
+    "reload": {
+      "progressExact": true,
+      "inventoryExact": true,
+      "ecologyExact": true
+    },
+    "health": 5,
+    "detours": 1,
+    "errors": []
+  },
+  "validation": [
+    {
+      "label": "test",
+      "command": "npm test",
+      "exitCode": 0,
+      "seconds": 108.374,
+      "tests": 1419,
+      "failures": 0,
+      "tail": "  ---\n  duration_ms: 1.7433\n  type: 'test'\n  ...\n# Subtest: cached targets exclude their own geometry and recover after retirement and recreation\nok 938 - cached targets exclude their own geometry and recover after retirement and recreation\n  ---\n  duration_ms: 1.3097\n  type: 'test'\n  ...\n1..938\n# tests 1419\n# suites 174\n# pass 1419\n# fail 0\n# cancelled 0\n# skipped 0\n# todo 0\n# duration_ms 107459.5919\n"
+    },
+    {
+      "label": "verify",
+      "command": "npm run verify",
+      "exitCode": 0,
+      "seconds": 111.645,
+      "tests": 1419,
+      "failures": 0,
+      "tail": "# cancelled 0\n# skipped 0\n# todo 0\n# duration_ms 107277.7414\n[check-world] PASS — world.json and world.generated.js in sync\n[check-campaign] PASS — route, carried renewable economy, companion identity, finale order, and coarse walkability are coherent.\nsection_1: XP 62 (L2), reachable renewable harvest {\"wood\":26,\"stone\":12,\"fiber\":9,\"berries\":16,\"iron_ore\":10,\"crystal_shard\":0,\"wildflower\":3}\nsection_2: XP 263 (L3), reachable renewable harvest {\"wood\":36,\"stone\":24,\"fiber\":15,\"berries\":16,\"iron_ore\":10,\"crystal_shard\":8,\"wildflower\":6}\nsection_3: XP 503 (L4), reachable renewable harvest {\"wood\":41,\"stone\":28,\"fiber\":18,\"berries\":16,\"iron_ore\":35,\"crystal_shard\":12,\"wildflower\":6}\nsection_4: XP 865 (L5), reachable renewable harvest {\"wood\":46,\"stone\":32,\"fiber\":21,\"berries\":16,\"iron_ore\":50,\"crystal_shard\":32,\"wildflower\":9}\nsection_5: XP 1145 (L5), reachable renewable harvest {\"wood\":51,\"stone\":36,\"fiber\":24,\"berries\":16,\"iron_ore\":50,\"crystal_shard\":76,\"wildflower\":9}\n[check-campaign] Coarse walkability is an estimate only; run a physical playtest before release.\n[build] wrote dist\\submission\\index.html (15995.7 KB)\n[build] vendor/three.module.js 1243.1 KB\n[build] vendor/rapier.js 2790.6 KB\n[build] submission dir: dist\\submission\n[build] next: npm run validate  |  npm run zip\n[validate] submission size 45492.3 KB (44.43 MB)\n[validate] PASS — submission looks compliant\n"
+    },
+    {
+      "label": "zip",
+      "command": "npm run zip",
+      "exitCode": 0,
+      "seconds": 7.51,
+      "tests": 0,
+      "failures": 0,
+      "tail": "\n> wildkin-frontier@0.3.0-alpha.1 zip\n> node tools/zip-submission.mjs\n\n[zip] created dist\\submission.zip (21093.4 KB, 20.60 MB)\n"
+    }
+  ],
+  "portable": [
+    {
+      "label": "portable-route",
+      "url": "http://localhost:8081/",
+      "setup": "Isolated browser, public validated importSave API then literal reload and Start; no user browser storage touched.",
+      "imported": true,
+      "exportOk": true,
+      "exact": true,
+      "inventoryExact": true,
+      "ecologyExact": true,
+      "errors": [],
+      "external": [],
+      "positionDelta": 0
+    },
+    {
+      "label": "developer-original",
+      "url": "http://localhost:8080/",
+      "setup": "Isolated browser, public validated importSave API then literal reload and Start; no user browser storage touched.",
+      "imported": true,
+      "exportOk": true,
+      "exact": true,
+      "inventoryExact": true,
+      "ecologyExact": true,
+      "errors": [],
+      "external": [],
+      "positionDelta": null
+    },
+    {
+      "label": "portable-original",
+      "url": "http://localhost:8081/",
+      "setup": "Isolated browser, public validated importSave API then literal reload and Start; no user browser storage touched.",
+      "imported": true,
+      "exportOk": true,
+      "exact": true,
+      "inventoryExact": true,
+      "ecologyExact": true,
+      "errors": [],
+      "external": [],
+      "positionDelta": null
+    }
+  ],
+  "zip": {
+    "bytes": 21599671,
+    "sha256": "205c98af51dcc3075be7a57c7b61023f672a384dcbfaffd64acf6008e68b3cb4",
+    "unpackedBytes": 46584105
+  },
+  "sourceHashes": {
+    "src/world/frontierLandformVisual.js": "d608cb66a533759d3f7bc075e275ebad10eb2331dad5ce1437b8155c2d980174",
+    "src/world/frontierChunkRuntime.js": "7ed0f6e1de276a6d015e1a733cfdaf546ac2e7999488441213693decc446da07",
+    "tests/frontierLandformVisual.test.js": "fa7da852ca6a0dd5ef2afba49ed1e46311e571efc6cf1294348c47ccf10d2055"
+  },
+  "limits": [
+    "Crystal depleted without observed shard gain on complete outing; see separate witness/limitation.",
+    "Browser phone viewport is not physical-phone performance proof.",
+    "Trailgloam manual visit closed HOLD; small abstract port proof does not admit creature."
+  ],
+  "rewardWitness": {
+    "crystalBefore": 2,
+    "crystalAfter": 6,
+    "pendingAfter": 0,
+    "reloadExact": true,
+    "errors": [],
+    "fixture": "Isolated earned-save copy, diagnostic supported start beside exact crystal; ordinary F and movement only after placement. No inventory grants."
+  }
+}

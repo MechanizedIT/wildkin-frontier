@@ -1,0 +1,46 @@
+{
+  "schema": "trailgloam-method-probe-r5-v1",
+  "status": "CPU_GEOMETRY_PROOF_ONLY_PENDING_SOURCE_REVIEW",
+  "axis": "Blender metres; X=right, Y=rear, Z=up; ground Z=0",
+  "reference": {
+    "path": "art/source/trailgloam-v1/multiview/trailgloam-orthographic-v1.png",
+    "sha256": "ba0b19c941f58b2468fb9aed3d62a995acedeb431fedd3e5932e5f1668da24a8"
+  },
+  "host": {
+    "sides": 8,
+    "rings_z_rx_ry": [[0.4, 0.4, 0.55], [0.48, 0.65, 0.73], [0.65, 0.68, 0.79], [0.95, 0.56, 0.67], [1.15, 0.25, 0.35], [1.18, 0.05, 0.1]],
+    "construction": "closed faceted ring loft with capped end rings; its generated face halfspaces must prove convex before host containment is claimed"
+  },
+  "chain": {
+    "id": "PX",
+    "side": "+X representative only; not a full six-leg species",
+    "anchors": [[0.42, 0.0, 0.6], [0.76, 0.0, 0.51], [0.94, 0.01, 0.28], [0.95, -0.035, 0.14]],
+    "link_radii": [[0.12, 0.115], [0.115, 0.105], [0.105, 0.095]],
+    "link_sides": 6,
+    "cuff_radius": 0.18,
+    "cuff_length": 0.2,
+    "final_cuff_center_lift_z": 0.04,
+    "cuff_sides": 6,
+    "hoof": {
+      "x_min": 0.77,
+      "x_max": 1.19,
+      "y_min": -0.22,
+      "y_max": 0.13,
+      "sole_z": 0.0,
+      "rear_top_z": 0.2,
+      "front_top_z": 0.3,
+      "construction": "closed tapered wedge; top contains the final link endpoint/cuff overlap"
+    }
+  },
+  "frond": {
+    "collar_base": [0.2, 0.2, 1.08],
+    "collar_tip": [0.32, 0.4, 1.65],
+    "collar_radius": 0.12,
+    "collar_sides": 6,
+    "blade_centers": [[0.23, 0.25, 1.22], [0.31, 0.39, 1.52], [0.36, 0.43, 1.75]],
+    "blade_full_widths": [0.05, 0.18, 0.02],
+    "blade_full_thicknesses": [0.1, 0.14, 0.1],
+    "construction": "one separately closed folded diamond-section loft; its root diamond lies inside the separate closed collar"
+  },
+  "limits": ["No Blender render before independent source GO and root heavy-job release.", "No head, mirrored legs, remaining legs, rig, motion, export, collider, runtime, or gameplay work."]
+}

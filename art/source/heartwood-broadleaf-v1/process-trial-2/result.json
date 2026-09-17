@@ -1,0 +1,13 @@
+{
+  "status": "HOLD",
+  "stage": "decode face guard",
+  "completedStages": ["background", "conditioning", "sparse", "shape-flow", "texture-flow", "decode numerical operation"],
+  "decodedFaces": 7057316,
+  "decodedVertices": 3672570,
+  "maximumDecodedFaces": 750000,
+  "freeGiBAtDecodedFaceCheck": 11.621231079101562,
+  "freeGiBAfterChildExit": 17.793354034423828,
+  "rawGlbProduced": false,
+  "runtimeAdmission": false,
+  "decision": "Close this generation study without lowering the guard or exporting the oversized decoded mesh. No further TRELLIS retry this Heartwood visit. Missing broadleaf target role remains deferred/HOLD; later changed method should simplify reference foliage into coarse faceted masses or use independently planned manual construction."
+}

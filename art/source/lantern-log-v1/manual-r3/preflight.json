@@ -1,0 +1,21 @@
+{
+  "status": "CPU_ONLY_PREPARED_NOT_BLENDER_EXECUTED",
+  "note": "Counts describe the planned literal construction only. Closure, normals, finite triangles, actual contact and footprint proof are Blender execution audits.",
+  "parameters_sha256": "7d04105d455170836a2d3056f654f03a4603b58af6ad818114852e452c06e7e3",
+  "literal_counts": {
+    "log_sections": 5,
+    "log_sides": 12,
+    "bark_strips": 6,
+    "moss_patches": 3,
+    "stems": 6,
+    "caps": 6,
+    "mushroom_parts": 12
+  },
+  "required_execution_audits": [
+    "final_vertex_bounds",
+    "closed_manifold_edges",
+    "positive_outward_signed_volume",
+    "six_stem_and_cap_contacts",
+    "all_angle_neutral_renders"
+  ]
+}

@@ -1,0 +1,1995 @@
+{
+  "sourceSHA256": "e223fdd1e9ca1d5d7299d756a142915d54107af7a10a91103338ee5c531c1933",
+  "builderSHA256": "e1f83442265c8699107d7d59aa2535f503edb1b890a850a277c8aebef9d0786c",
+  "glbSHA256": "d3163edb5536dfd4d1fa39895f2a8e2bac71372d83cbe854913c667786f4dab7",
+  "uniformScale": 1.819557524224725,
+  "groundShift": 0.45138146095598897,
+  "vertices": 40868,
+  "triangles": 59376,
+  "bones": 29,
+  "coverage": {
+    "body": 15807,
+    "head": 3474,
+    "front_left_upper": 1770,
+    "front_left_lower": 1679,
+    "front_left_foot": 982,
+    "front_right_upper": 1519,
+    "front_right_lower": 1632,
+    "front_right_foot": 976,
+    "mid_front_left_upper": 1889,
+    "mid_front_left_lower": 1613,
+    "mid_front_left_foot": 911,
+    "mid_front_right_upper": 1806,
+    "mid_front_right_lower": 1574,
+    "mid_front_right_foot": 980,
+    "mid_rear_left_upper": 1870,
+    "mid_rear_left_lower": 1776,
+    "mid_rear_left_foot": 1033,
+    "mid_rear_right_upper": 1949,
+    "mid_rear_right_lower": 1590,
+    "mid_rear_right_foot": 1027,
+    "rear_left_upper": 2521,
+    "rear_left_lower": 1735,
+    "rear_left_foot": 1007,
+    "rear_right_upper": 2502,
+    "rear_right_lower": 1739,
+    "rear_right_foot": 1095,
+    "frond_left": 439,
+    "frond_right": 443
+  },
+  "soleVertexCounts": {
+    "front_left": 306,
+    "front_right": 304,
+    "mid_front_left": 315,
+    "mid_front_right": 312,
+    "mid_rear_left": 320,
+    "mid_rear_right": 303,
+    "rear_left": 111,
+    "rear_right": 135
+  },
+  "sourceUVPreserved": true,
+  "sourceTopologyPreserved": true,
+  "onlyUniformGeometryTransform": true,
+  "maxInfluences": 3,
+  "clips": {
+    "Loaded": {
+      "start": 0,
+      "end": 0.03333333333333333
+    },
+    "Neutral": {
+      "start": 0,
+      "end": 0.03333333333333333
+    },
+    "WalkDiagnostic": {
+      "start": 0,
+      "end": 1.1
+    }
+  },
+  "authoredWalkSpeed": 0.21212121212121213,
+  "diagnosticOnly": true,
+  "poses": {
+    "Neutral": [
+      {
+        "phase": 0.0,
+        "feet": {}
+      },
+      {
+        "phase": 1.0,
+        "feet": {}
+      }
+    ],
+    "Loaded": [
+      {
+        "phase": 0.0,
+        "feet": {
+          "front_left": {
+            "stance": true,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0,
+            "actualSoleZ": 1.1175870895385742e-08
+          },
+          "front_right": {
+            "stance": true,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0,
+            "actualSoleZ": 7.450580596923828e-09
+          },
+          "mid_front_left": {
+            "stance": true,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0,
+            "actualSoleZ": -1.1175870895385742e-08
+          },
+          "mid_front_right": {
+            "stance": true,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0,
+            "actualSoleZ": 7.450580596923828e-09
+          },
+          "mid_rear_left": {
+            "stance": true,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0,
+            "actualSoleZ": 3.725290298461914e-08
+          },
+          "mid_rear_right": {
+            "stance": true,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0,
+            "actualSoleZ": -2.9802322387695312e-08
+          },
+          "rear_left": {
+            "stance": true,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0,
+            "actualSoleZ": 7.450580596923828e-09
+          },
+          "rear_right": {
+            "stance": true,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0,
+            "actualSoleZ": 2.2351741790771484e-08
+          }
+        }
+      },
+      {
+        "phase": 1.0,
+        "feet": {
+          "front_left": {
+            "stance": true,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0,
+            "actualSoleZ": 1.1175870895385742e-08
+          },
+          "front_right": {
+            "stance": true,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0,
+            "actualSoleZ": 7.450580596923828e-09
+          },
+          "mid_front_left": {
+            "stance": true,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0,
+            "actualSoleZ": -1.1175870895385742e-08
+          },
+          "mid_front_right": {
+            "stance": true,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0,
+            "actualSoleZ": 7.450580596923828e-09
+          },
+          "mid_rear_left": {
+            "stance": true,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0,
+            "actualSoleZ": 3.725290298461914e-08
+          },
+          "mid_rear_right": {
+            "stance": true,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0,
+            "actualSoleZ": -2.9802322387695312e-08
+          },
+          "rear_left": {
+            "stance": true,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0,
+            "actualSoleZ": 7.450580596923828e-09
+          },
+          "rear_right": {
+            "stance": true,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0,
+            "actualSoleZ": 2.2351741790771484e-08
+          }
+        }
+      }
+    ],
+    "WalkDiagnostic": [
+      {
+        "phase": 0.0,
+        "feet": {
+          "front_left": {
+            "stance": true,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0,
+            "actualSoleZ": 1.1175870895385742e-08
+          },
+          "front_right": {
+            "stance": true,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0,
+            "actualSoleZ": 7.450580596923828e-09
+          },
+          "mid_front_left": {
+            "stance": true,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0,
+            "actualSoleZ": -4.0978193283081055e-08
+          },
+          "mid_front_right": {
+            "stance": true,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0,
+            "actualSoleZ": 7.450580596923828e-09
+          },
+          "mid_rear_left": {
+            "stance": true,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0,
+            "actualSoleZ": -2.2351741790771484e-08
+          },
+          "mid_rear_right": {
+            "stance": true,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0,
+            "actualSoleZ": 0.0
+          },
+          "rear_left": {
+            "stance": true,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0,
+            "actualSoleZ": 7.450580596923828e-09
+          },
+          "rear_right": {
+            "stance": true,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0,
+            "actualSoleZ": -7.450580596923828e-09
+          }
+        }
+      },
+      {
+        "phase": 0.030303030303030304,
+        "feet": {
+          "front_left": {
+            "stance": true,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0,
+            "actualSoleZ": 1.1175870895385742e-08
+          },
+          "front_right": {
+            "stance": true,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0,
+            "actualSoleZ": 7.450580596923828e-09
+          },
+          "mid_front_left": {
+            "stance": true,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0,
+            "actualSoleZ": 1.862645149230957e-08
+          },
+          "mid_front_right": {
+            "stance": true,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0,
+            "actualSoleZ": 7.450580596923828e-09
+          },
+          "mid_rear_left": {
+            "stance": true,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0,
+            "actualSoleZ": 7.450580596923828e-09
+          },
+          "mid_rear_right": {
+            "stance": true,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0,
+            "actualSoleZ": 0.0
+          },
+          "rear_left": {
+            "stance": true,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0,
+            "actualSoleZ": -2.2351741790771484e-08
+          },
+          "rear_right": {
+            "stance": true,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0,
+            "actualSoleZ": -3.725290298461914e-08
+          }
+        }
+      },
+      {
+        "phase": 0.06060606060606061,
+        "feet": {
+          "front_left": {
+            "stance": true,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0,
+            "actualSoleZ": 1.1175870895385742e-08
+          },
+          "front_right": {
+            "stance": true,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0,
+            "actualSoleZ": 7.450580596923828e-09
+          },
+          "mid_front_left": {
+            "stance": true,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0,
+            "actualSoleZ": -1.1175870895385742e-08
+          },
+          "mid_front_right": {
+            "stance": true,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0,
+            "actualSoleZ": 3.725290298461914e-08
+          },
+          "mid_rear_left": {
+            "stance": true,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0,
+            "actualSoleZ": 7.450580596923828e-09
+          },
+          "mid_rear_right": {
+            "stance": true,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0,
+            "actualSoleZ": 0.0
+          },
+          "rear_left": {
+            "stance": true,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0,
+            "actualSoleZ": -2.2351741790771484e-08
+          },
+          "rear_right": {
+            "stance": true,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0,
+            "actualSoleZ": -7.450580596923828e-09
+          }
+        }
+      },
+      {
+        "phase": 0.09090909090909091,
+        "feet": {
+          "front_left": {
+            "stance": true,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0,
+            "actualSoleZ": 1.1175870895385742e-08
+          },
+          "front_right": {
+            "stance": true,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0,
+            "actualSoleZ": 7.450580596923828e-09
+          },
+          "mid_front_left": {
+            "stance": true,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0,
+            "actualSoleZ": 1.862645149230957e-08
+          },
+          "mid_front_right": {
+            "stance": true,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0,
+            "actualSoleZ": 7.450580596923828e-09
+          },
+          "mid_rear_left": {
+            "stance": true,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0,
+            "actualSoleZ": -2.2351741790771484e-08
+          },
+          "mid_rear_right": {
+            "stance": true,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0,
+            "actualSoleZ": -2.9802322387695312e-08
+          },
+          "rear_left": {
+            "stance": true,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0,
+            "actualSoleZ": 7.450580596923828e-09
+          },
+          "rear_right": {
+            "stance": true,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0,
+            "actualSoleZ": -7.450580596923828e-09
+          }
+        }
+      },
+      {
+        "phase": 0.12121212121212122,
+        "feet": {
+          "front_left": {
+            "stance": true,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0,
+            "actualSoleZ": 1.1175870895385742e-08
+          },
+          "front_right": {
+            "stance": false,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0.009120650288990588,
+            "actualSoleZ": 0.009120650589466095
+          },
+          "mid_front_left": {
+            "stance": false,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0.009120650288990588,
+            "actualSoleZ": 0.00912066176533699
+          },
+          "mid_front_right": {
+            "stance": true,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0,
+            "actualSoleZ": 7.450580596923828e-09
+          },
+          "mid_rear_left": {
+            "stance": true,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0,
+            "actualSoleZ": 7.450580596923828e-09
+          },
+          "mid_rear_right": {
+            "stance": false,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0.009120650288990588,
+            "actualSoleZ": 0.00912061333656311
+          },
+          "rear_left": {
+            "stance": false,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0.009120650288990588,
+            "actualSoleZ": 0.009120650589466095
+          },
+          "rear_right": {
+            "stance": true,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0,
+            "actualSoleZ": -3.725290298461914e-08
+          }
+        }
+      },
+      {
+        "phase": 0.15151515151515152,
+        "feet": {
+          "front_left": {
+            "stance": true,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0,
+            "actualSoleZ": -1.862645149230957e-08
+          },
+          "front_right": {
+            "stance": false,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0.021650761998906774,
+            "actualSoleZ": 0.0216507688164711
+          },
+          "mid_front_left": {
+            "stance": false,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0.021650761998906774,
+            "actualSoleZ": 0.021650750190019608
+          },
+          "mid_front_right": {
+            "stance": true,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0,
+            "actualSoleZ": 7.450580596923828e-09
+          },
+          "mid_rear_left": {
+            "stance": true,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0,
+            "actualSoleZ": -2.2351741790771484e-08
+          },
+          "mid_rear_right": {
+            "stance": false,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0.021650761998906774,
+            "actualSoleZ": 0.02165079116821289
+          },
+          "rear_left": {
+            "stance": false,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0.021650761998906774,
+            "actualSoleZ": 0.0216507688164711
+          },
+          "rear_right": {
+            "stance": true,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0,
+            "actualSoleZ": -7.450580596923828e-09
+          }
+        }
+      },
+      {
+        "phase": 0.18181818181818182,
+        "feet": {
+          "front_left": {
+            "stance": true,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0,
+            "actualSoleZ": 1.1175870895385742e-08
+          },
+          "front_right": {
+            "stance": false,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0.03296027165812411,
+            "actualSoleZ": 0.03296027332544327
+          },
+          "mid_front_left": {
+            "stance": false,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0.03296027165812411,
+            "actualSoleZ": 0.032960254698991776
+          },
+          "mid_front_right": {
+            "stance": true,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0,
+            "actualSoleZ": 7.450580596923828e-09
+          },
+          "mid_rear_left": {
+            "stance": true,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0,
+            "actualSoleZ": 7.450580596923828e-09
+          },
+          "mid_rear_right": {
+            "stance": false,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0.03296027165812411,
+            "actualSoleZ": 0.03296026587486267
+          },
+          "rear_left": {
+            "stance": false,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0.03296027165812411,
+            "actualSoleZ": 0.03296027332544327
+          },
+          "rear_right": {
+            "stance": true,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0,
+            "actualSoleZ": -7.450580596923828e-09
+          }
+        }
+      },
+      {
+        "phase": 0.21212121212121213,
+        "feet": {
+          "front_left": {
+            "stance": true,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0,
+            "actualSoleZ": 1.1175870895385742e-08
+          },
+          "front_right": {
+            "stance": false,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0.04241158458599633,
+            "actualSoleZ": 0.042411573231220245
+          },
+          "mid_front_left": {
+            "stance": false,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0.04241158458599633,
+            "actualSoleZ": 0.04241158440709114
+          },
+          "mid_front_right": {
+            "stance": true,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0,
+            "actualSoleZ": 7.450580596923828e-09
+          },
+          "mid_rear_left": {
+            "stance": true,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0,
+            "actualSoleZ": 7.450580596923828e-09
+          },
+          "mid_rear_right": {
+            "stance": false,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0.04241158458599633,
+            "actualSoleZ": 0.042411595582962036
+          },
+          "rear_left": {
+            "stance": false,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0.04241158458599633,
+            "actualSoleZ": 0.042411573231220245
+          },
+          "rear_right": {
+            "stance": true,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0,
+            "actualSoleZ": -7.450580596923828e-09
+          }
+        }
+      },
+      {
+        "phase": 0.24242424242424243,
+        "feet": {
+          "front_left": {
+            "stance": true,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0,
+            "actualSoleZ": 1.1175870895385742e-08
+          },
+          "front_right": {
+            "stance": false,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0.04947186540508318,
+            "actualSoleZ": 0.049471862614154816
+          },
+          "mid_front_left": {
+            "stance": false,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0.04947186540508318,
+            "actualSoleZ": 0.04947187379002571
+          },
+          "mid_front_right": {
+            "stance": true,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0,
+            "actualSoleZ": 7.450580596923828e-09
+          },
+          "mid_rear_left": {
+            "stance": true,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0,
+            "actualSoleZ": 7.450580596923828e-09
+          },
+          "mid_rear_right": {
+            "stance": false,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0.04947186540508318,
+            "actualSoleZ": 0.049471884965896606
+          },
+          "rear_left": {
+            "stance": false,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0.04947186540508318,
+            "actualSoleZ": 0.049471840262413025
+          },
+          "rear_right": {
+            "stance": true,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0,
+            "actualSoleZ": -7.450580596923828e-09
+          }
+        }
+      },
+      {
+        "phase": 0.2727272727272727,
+        "feet": {
+          "front_left": {
+            "stance": true,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0,
+            "actualSoleZ": 1.1175870895385742e-08
+          },
+          "front_right": {
+            "stance": false,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0.05374307762841377,
+            "actualSoleZ": 0.053743042051792145
+          },
+          "mid_front_left": {
+            "stance": false,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0.05374307762841377,
+            "actualSoleZ": 0.05374308302998543
+          },
+          "mid_front_right": {
+            "stance": true,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0,
+            "actualSoleZ": 7.450580596923828e-09
+          },
+          "mid_rear_left": {
+            "stance": true,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0,
+            "actualSoleZ": 7.450580596923828e-09
+          },
+          "mid_rear_right": {
+            "stance": false,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0.05374307762841377,
+            "actualSoleZ": 0.05374309420585632
+          },
+          "rear_left": {
+            "stance": false,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0.05374307762841377,
+            "actualSoleZ": 0.05374307930469513
+          },
+          "rear_right": {
+            "stance": true,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0,
+            "actualSoleZ": -7.450580596923828e-09
+          }
+        }
+      },
+      {
+        "phase": 0.30303030303030304,
+        "feet": {
+          "front_left": {
+            "stance": true,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0,
+            "actualSoleZ": 1.1175870895385742e-08
+          },
+          "front_right": {
+            "stance": false,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0.0549844237081221,
+            "actualSoleZ": 0.05498445779085159
+          },
+          "mid_front_left": {
+            "stance": false,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0.0549844237081221,
+            "actualSoleZ": 0.054984379559755325
+          },
+          "mid_front_right": {
+            "stance": true,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0,
+            "actualSoleZ": 7.450580596923828e-09
+          },
+          "mid_rear_left": {
+            "stance": true,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0,
+            "actualSoleZ": 7.450580596923828e-09
+          },
+          "mid_rear_right": {
+            "stance": false,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0.0549844237081221,
+            "actualSoleZ": 0.05498442053794861
+          },
+          "rear_left": {
+            "stance": false,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0.0549844237081221,
+            "actualSoleZ": 0.0549844354391098
+          },
+          "rear_right": {
+            "stance": true,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0,
+            "actualSoleZ": -7.450580596923828e-09
+          }
+        }
+      },
+      {
+        "phase": 0.3333333333333333,
+        "feet": {
+          "front_left": {
+            "stance": true,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0,
+            "actualSoleZ": 1.1175870895385742e-08
+          },
+          "front_right": {
+            "stance": false,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0.05312592044589876,
+            "actualSoleZ": 0.05312592536211014
+          },
+          "mid_front_left": {
+            "stance": false,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0.05312592044589876,
+            "actualSoleZ": 0.053125906735658646
+          },
+          "mid_front_right": {
+            "stance": true,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0,
+            "actualSoleZ": 7.450580596923828e-09
+          },
+          "mid_rear_left": {
+            "stance": true,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0,
+            "actualSoleZ": 7.450580596923828e-09
+          },
+          "mid_rear_right": {
+            "stance": false,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0.05312592044589876,
+            "actualSoleZ": 0.05312591791152954
+          },
+          "rear_left": {
+            "stance": false,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0.05312592044589876,
+            "actualSoleZ": 0.053125932812690735
+          },
+          "rear_right": {
+            "stance": true,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0,
+            "actualSoleZ": -3.725290298461914e-08
+          }
+        }
+      },
+      {
+        "phase": 0.36363636363636365,
+        "feet": {
+          "front_left": {
+            "stance": true,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0,
+            "actualSoleZ": 1.1175870895385742e-08
+          },
+          "front_right": {
+            "stance": false,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0.04827234442619906,
+            "actualSoleZ": 0.048272378742694855
+          },
+          "mid_front_left": {
+            "stance": false,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0.04827234442619906,
+            "actualSoleZ": 0.048272330313920975
+          },
+          "mid_front_right": {
+            "stance": true,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0,
+            "actualSoleZ": 7.450580596923828e-09
+          },
+          "mid_rear_left": {
+            "stance": true,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0,
+            "actualSoleZ": 7.450580596923828e-09
+          },
+          "mid_rear_right": {
+            "stance": false,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0.04827234442619906,
+            "actualSoleZ": 0.04827234148979187
+          },
+          "rear_left": {
+            "stance": false,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0.04827234442619906,
+            "actualSoleZ": 0.048272356390953064
+          },
+          "rear_right": {
+            "stance": true,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0,
+            "actualSoleZ": -7.450580596923828e-09
+          }
+        }
+      },
+      {
+        "phase": 0.3939393939393939,
+        "feet": {
+          "front_left": {
+            "stance": true,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0,
+            "actualSoleZ": 1.1175870895385742e-08
+          },
+          "front_right": {
+            "stance": false,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0.04069732504105861,
+            "actualSoleZ": 0.04069734364748001
+          },
+          "mid_front_left": {
+            "stance": false,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0.04069732504105861,
+            "actualSoleZ": 0.04069732502102852
+          },
+          "mid_front_right": {
+            "stance": true,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0,
+            "actualSoleZ": -2.2351741790771484e-08
+          },
+          "mid_rear_left": {
+            "stance": true,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0,
+            "actualSoleZ": 7.450580596923828e-09
+          },
+          "mid_rear_right": {
+            "stance": false,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0.04069732504105861,
+            "actualSoleZ": 0.040697306394577026
+          },
+          "rear_left": {
+            "stance": false,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0.04069732504105861,
+            "actualSoleZ": 0.04069731384515762
+          },
+          "rear_right": {
+            "stance": true,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0,
+            "actualSoleZ": -7.450580596923828e-09
+          }
+        }
+      },
+      {
+        "phase": 0.42424242424242425,
+        "feet": {
+          "front_left": {
+            "stance": true,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0,
+            "actualSoleZ": 1.1175870895385742e-08
+          },
+          "front_right": {
+            "stance": false,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0.030827918123249146,
+            "actualSoleZ": 0.030827917158603668
+          },
+          "mid_front_left": {
+            "stance": false,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0.030827918123249146,
+            "actualSoleZ": 0.030827928334474564
+          },
+          "mid_front_right": {
+            "stance": true,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0,
+            "actualSoleZ": 7.450580596923828e-09
+          },
+          "mid_rear_left": {
+            "stance": true,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0,
+            "actualSoleZ": 7.450580596923828e-09
+          },
+          "mid_rear_right": {
+            "stance": false,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0.030827918123249146,
+            "actualSoleZ": 0.03082790970802307
+          },
+          "rear_left": {
+            "stance": false,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0.030827918123249146,
+            "actualSoleZ": 0.030827917158603668
+          },
+          "rear_right": {
+            "stance": true,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0,
+            "actualSoleZ": -7.450580596923828e-09
+          }
+        }
+      },
+      {
+        "phase": 0.45454545454545453,
+        "feet": {
+          "front_left": {
+            "stance": true,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0,
+            "actualSoleZ": 1.1175870895385742e-08
+          },
+          "front_right": {
+            "stance": false,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0.019220529877950403,
+            "actualSoleZ": 0.019220538437366486
+          },
+          "mid_front_left": {
+            "stance": false,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0.019220529877950403,
+            "actualSoleZ": 0.019220519810914993
+          },
+          "mid_front_right": {
+            "stance": true,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0,
+            "actualSoleZ": 7.450580596923828e-09
+          },
+          "mid_rear_left": {
+            "stance": true,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0,
+            "actualSoleZ": -2.2351741790771484e-08
+          },
+          "mid_rear_right": {
+            "stance": false,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0.019220529877950403,
+            "actualSoleZ": 0.0192205011844635
+          },
+          "rear_left": {
+            "stance": false,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0.019220529877950403,
+            "actualSoleZ": 0.019220508635044098
+          },
+          "rear_right": {
+            "stance": true,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0,
+            "actualSoleZ": -3.725290298461914e-08
+          }
+        }
+      },
+      {
+        "phase": 0.48484848484848486,
+        "feet": {
+          "front_left": {
+            "stance": true,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0,
+            "actualSoleZ": -1.862645149230957e-08
+          },
+          "front_right": {
+            "stance": false,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0.006529548446151781,
+            "actualSoleZ": 0.006529547274112701
+          },
+          "mid_front_left": {
+            "stance": false,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0.006529548446151781,
+            "actualSoleZ": 0.006529558449983597
+          },
+          "mid_front_right": {
+            "stance": true,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0,
+            "actualSoleZ": -2.2351741790771484e-08
+          },
+          "mid_rear_left": {
+            "stance": true,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0,
+            "actualSoleZ": 7.450580596923828e-09
+          },
+          "mid_rear_right": {
+            "stance": false,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0.006529548446151781,
+            "actualSoleZ": 0.006529569625854492
+          },
+          "rear_left": {
+            "stance": false,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0.006529548446151781,
+            "actualSoleZ": 0.006529547274112701
+          },
+          "rear_right": {
+            "stance": true,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0,
+            "actualSoleZ": 2.2351741790771484e-08
+          }
+        }
+      },
+      {
+        "phase": 0.5151515151515151,
+        "feet": {
+          "front_left": {
+            "stance": true,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0,
+            "actualSoleZ": 1.1175870895385742e-08
+          },
+          "front_right": {
+            "stance": true,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0,
+            "actualSoleZ": 7.450580596923828e-09
+          },
+          "mid_front_left": {
+            "stance": true,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0,
+            "actualSoleZ": 1.862645149230957e-08
+          },
+          "mid_front_right": {
+            "stance": true,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0,
+            "actualSoleZ": 7.450580596923828e-09
+          },
+          "mid_rear_left": {
+            "stance": true,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0,
+            "actualSoleZ": 7.450580596923828e-09
+          },
+          "mid_rear_right": {
+            "stance": true,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0,
+            "actualSoleZ": 2.9802322387695312e-08
+          },
+          "rear_left": {
+            "stance": true,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0,
+            "actualSoleZ": 7.450580596923828e-09
+          },
+          "rear_right": {
+            "stance": true,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0,
+            "actualSoleZ": -7.450580596923828e-09
+          }
+        }
+      },
+      {
+        "phase": 0.5454545454545454,
+        "feet": {
+          "front_left": {
+            "stance": true,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0,
+            "actualSoleZ": 1.1175870895385742e-08
+          },
+          "front_right": {
+            "stance": true,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0,
+            "actualSoleZ": -5.21540641784668e-08
+          },
+          "mid_front_left": {
+            "stance": true,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0,
+            "actualSoleZ": -4.0978193283081055e-08
+          },
+          "mid_front_right": {
+            "stance": true,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0,
+            "actualSoleZ": 7.450580596923828e-09
+          },
+          "mid_rear_left": {
+            "stance": true,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0,
+            "actualSoleZ": 7.450580596923828e-09
+          },
+          "mid_rear_right": {
+            "stance": true,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0,
+            "actualSoleZ": 0.0
+          },
+          "rear_left": {
+            "stance": true,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0,
+            "actualSoleZ": 3.725290298461914e-08
+          },
+          "rear_right": {
+            "stance": true,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0,
+            "actualSoleZ": -7.450580596923828e-09
+          }
+        }
+      },
+      {
+        "phase": 0.5757575757575758,
+        "feet": {
+          "front_left": {
+            "stance": true,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0,
+            "actualSoleZ": 1.1175870895385742e-08
+          },
+          "front_right": {
+            "stance": true,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0,
+            "actualSoleZ": -2.2351741790771484e-08
+          },
+          "mid_front_left": {
+            "stance": true,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0,
+            "actualSoleZ": -1.1175870895385742e-08
+          },
+          "mid_front_right": {
+            "stance": true,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0,
+            "actualSoleZ": 7.450580596923828e-09
+          },
+          "mid_rear_left": {
+            "stance": true,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0,
+            "actualSoleZ": 7.450580596923828e-09
+          },
+          "mid_rear_right": {
+            "stance": true,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0,
+            "actualSoleZ": 0.0
+          },
+          "rear_left": {
+            "stance": true,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0,
+            "actualSoleZ": 7.450580596923828e-09
+          },
+          "rear_right": {
+            "stance": true,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0,
+            "actualSoleZ": -7.450580596923828e-09
+          }
+        }
+      },
+      {
+        "phase": 0.6060606060606061,
+        "feet": {
+          "front_left": {
+            "stance": false,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0.002617005370305843,
+            "actualSoleZ": 0.0026169829070568085
+          },
+          "front_right": {
+            "stance": true,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0,
+            "actualSoleZ": 7.450580596923828e-09
+          },
+          "mid_front_left": {
+            "stance": true,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0,
+            "actualSoleZ": -1.1175870895385742e-08
+          },
+          "mid_front_right": {
+            "stance": false,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0.002617005370305843,
+            "actualSoleZ": 0.0026170387864112854
+          },
+          "mid_rear_left": {
+            "stance": false,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0.002617005370305843,
+            "actualSoleZ": 0.00261697918176651
+          },
+          "mid_rear_right": {
+            "stance": true,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0,
+            "actualSoleZ": 0.0
+          },
+          "rear_left": {
+            "stance": true,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0,
+            "actualSoleZ": -2.2351741790771484e-08
+          },
+          "rear_right": {
+            "stance": false,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0.002617005370305843,
+            "actualSoleZ": 0.002616994082927704
+          }
+        }
+      },
+      {
+        "phase": 0.6363636363636364,
+        "feet": {
+          "front_left": {
+            "stance": false,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0.015495290626278638,
+            "actualSoleZ": 0.015495281666517258
+          },
+          "front_right": {
+            "stance": true,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0,
+            "actualSoleZ": 7.450580596923828e-09
+          },
+          "mid_front_left": {
+            "stance": true,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0,
+            "actualSoleZ": -1.1175870895385742e-08
+          },
+          "mid_front_right": {
+            "stance": false,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0.015495290626278638,
+            "actualSoleZ": 0.01549527794122696
+          },
+          "mid_rear_left": {
+            "stance": false,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0.015495290626278638,
+            "actualSoleZ": 0.015495307743549347
+          },
+          "mid_rear_right": {
+            "stance": true,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0,
+            "actualSoleZ": 0.0
+          },
+          "rear_left": {
+            "stance": true,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0,
+            "actualSoleZ": 7.450580596923828e-09
+          },
+          "rear_right": {
+            "stance": false,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0.015495290626278638,
+            "actualSoleZ": 0.015495292842388153
+          }
+        }
+      },
+      {
+        "phase": 0.6666666666666666,
+        "feet": {
+          "front_left": {
+            "stance": false,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0.02749999999999999,
+            "actualSoleZ": 0.02750004455447197
+          },
+          "front_right": {
+            "stance": true,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0,
+            "actualSoleZ": -2.2351741790771484e-08
+          },
+          "mid_front_left": {
+            "stance": true,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0,
+            "actualSoleZ": 1.862645149230957e-08
+          },
+          "mid_front_right": {
+            "stance": false,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0.02749999999999999,
+            "actualSoleZ": 0.027500011026859283
+          },
+          "mid_rear_left": {
+            "stance": false,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0.02749999999999999,
+            "actualSoleZ": 0.027499951422214508
+          },
+          "mid_rear_right": {
+            "stance": true,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0,
+            "actualSoleZ": 0.0
+          },
+          "rear_left": {
+            "stance": true,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0,
+            "actualSoleZ": 3.725290298461914e-08
+          },
+          "rear_right": {
+            "stance": false,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0.02749999999999999,
+            "actualSoleZ": 0.027499966323375702
+          }
+        }
+      },
+      {
+        "phase": 0.696969696969697,
+        "feet": {
+          "front_left": {
+            "stance": false,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0.03795434563151618,
+            "actualSoleZ": 0.03795434162020683
+          },
+          "front_right": {
+            "stance": true,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0,
+            "actualSoleZ": 7.450580596923828e-09
+          },
+          "mid_front_left": {
+            "stance": true,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0,
+            "actualSoleZ": -1.1175870895385742e-08
+          },
+          "mid_front_right": {
+            "stance": false,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0.03795434563151618,
+            "actualSoleZ": 0.037954337894916534
+          },
+          "mid_rear_left": {
+            "stance": false,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0.03795434563151618,
+            "actualSoleZ": 0.03795430809259415
+          },
+          "mid_rear_right": {
+            "stance": true,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0,
+            "actualSoleZ": 0.0
+          },
+          "rear_left": {
+            "stance": true,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0,
+            "actualSoleZ": -2.2351741790771484e-08
+          },
+          "rear_right": {
+            "stance": false,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0.03795434563151618,
+            "actualSoleZ": 0.03795435279607773
+          }
+        }
+      },
+      {
+        "phase": 0.7272727272727273,
+        "feet": {
+          "front_left": {
+            "stance": false,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0.046268944305714974,
+            "actualSoleZ": 0.046268921345472336
+          },
+          "front_right": {
+            "stance": true,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0,
+            "actualSoleZ": 7.450580596923828e-09
+          },
+          "mid_front_left": {
+            "stance": true,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0,
+            "actualSoleZ": -1.1175870895385742e-08
+          },
+          "mid_front_right": {
+            "stance": false,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0.046268944305714974,
+            "actualSoleZ": 0.046268947422504425
+          },
+          "mid_rear_left": {
+            "stance": false,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0.046268944305714974,
+            "actualSoleZ": 0.046268947422504425
+          },
+          "mid_rear_right": {
+            "stance": true,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0,
+            "actualSoleZ": 0.0
+          },
+          "rear_left": {
+            "stance": true,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0,
+            "actualSoleZ": 7.450580596923828e-09
+          },
+          "rear_right": {
+            "stance": false,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0.046268944305714974,
+            "actualSoleZ": 0.04626893252134323
+          }
+        }
+      },
+      {
+        "phase": 0.7575757575757576,
+        "feet": {
+          "front_left": {
+            "stance": false,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0.05197504502930676,
+            "actualSoleZ": 0.051975052803754807
+          },
+          "front_right": {
+            "stance": true,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0,
+            "actualSoleZ": -2.2351741790771484e-08
+          },
+          "mid_front_left": {
+            "stance": true,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0,
+            "actualSoleZ": -1.1175870895385742e-08
+          },
+          "mid_front_right": {
+            "stance": false,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0.05197504502930676,
+            "actualSoleZ": 0.05197504907846451
+          },
+          "mid_rear_left": {
+            "stance": false,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0.05197504502930676,
+            "actualSoleZ": 0.05197504907846451
+          },
+          "mid_rear_right": {
+            "stance": true,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0,
+            "actualSoleZ": -2.9802322387695312e-08
+          },
+          "rear_left": {
+            "stance": true,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0,
+            "actualSoleZ": -2.2351741790771484e-08
+          },
+          "rear_right": {
+            "stance": false,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0.05197504502930676,
+            "actualSoleZ": 0.051975004374980927
+          }
+        }
+      },
+      {
+        "phase": 0.7878787878787878,
+        "feet": {
+          "front_left": {
+            "stance": false,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0.054750955741519655,
+            "actualSoleZ": 0.05475093051791191
+          },
+          "front_right": {
+            "stance": true,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0,
+            "actualSoleZ": 7.450580596923828e-09
+          },
+          "mid_front_left": {
+            "stance": true,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0,
+            "actualSoleZ": -1.1175870895385742e-08
+          },
+          "mid_front_right": {
+            "stance": false,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0.054750955741519655,
+            "actualSoleZ": 0.054750956594944
+          },
+          "mid_rear_left": {
+            "stance": false,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0.054750955741519655,
+            "actualSoleZ": 0.054750956594944
+          },
+          "mid_rear_right": {
+            "stance": true,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0,
+            "actualSoleZ": 0.0
+          },
+          "rear_left": {
+            "stance": true,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0,
+            "actualSoleZ": 7.450580596923828e-09
+          },
+          "rear_right": {
+            "stance": false,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0.054750955741519655,
+            "actualSoleZ": 0.054750941693782806
+          }
+        }
+      },
+      {
+        "phase": 0.8181818181818182,
+        "feet": {
+          "front_left": {
+            "stance": false,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0.0544401793034513,
+            "actualSoleZ": 0.054440151900053024
+          },
+          "front_right": {
+            "stance": true,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0,
+            "actualSoleZ": -2.2351741790771484e-08
+          },
+          "mid_front_left": {
+            "stance": true,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0,
+            "actualSoleZ": -4.0978193283081055e-08
+          },
+          "mid_front_right": {
+            "stance": false,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0.0544401793034513,
+            "actualSoleZ": 0.054440177977085114
+          },
+          "mid_rear_left": {
+            "stance": false,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0.0544401793034513,
+            "actualSoleZ": 0.054440177977085114
+          },
+          "mid_rear_right": {
+            "stance": true,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0,
+            "actualSoleZ": -2.9802322387695312e-08
+          },
+          "rear_left": {
+            "stance": true,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0,
+            "actualSoleZ": 3.725290298461914e-08
+          },
+          "rear_right": {
+            "stance": false,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0.0544401793034513,
+            "actualSoleZ": 0.05444019287824631
+          }
+        }
+      },
+      {
+        "phase": 0.8484848484848485,
+        "feet": {
+          "front_left": {
+            "stance": false,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0.05106023631588399,
+            "actualSoleZ": 0.05106024071574211
+          },
+          "front_right": {
+            "stance": true,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0,
+            "actualSoleZ": 3.725290298461914e-08
+          },
+          "mid_front_left": {
+            "stance": true,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0,
+            "actualSoleZ": -1.1175870895385742e-08
+          },
+          "mid_front_right": {
+            "stance": false,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0.05106023631588399,
+            "actualSoleZ": 0.05106023699045181
+          },
+          "mid_rear_left": {
+            "stance": false,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0.05106023631588399,
+            "actualSoleZ": 0.0510602667927742
+          },
+          "mid_rear_right": {
+            "stance": true,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0,
+            "actualSoleZ": -5.960464477539063e-08
+          },
+          "rear_left": {
+            "stance": true,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0,
+            "actualSoleZ": 7.450580596923828e-09
+          },
+          "rear_right": {
+            "stance": false,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0.05106023631588399,
+            "actualSoleZ": 0.05106022208929062
+          }
+        }
+      },
+      {
+        "phase": 0.8787878787878788,
+        "feet": {
+          "front_left": {
+            "stance": false,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0.044801677362768466,
+            "actualSoleZ": 0.04480169340968132
+          },
+          "front_right": {
+            "stance": true,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0,
+            "actualSoleZ": 7.450580596923828e-09
+          },
+          "mid_front_left": {
+            "stance": true,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0,
+            "actualSoleZ": -1.1175870895385742e-08
+          },
+          "mid_front_right": {
+            "stance": false,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0.044801677362768466,
+            "actualSoleZ": 0.04480168968439102
+          },
+          "mid_rear_left": {
+            "stance": false,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0.044801677362768466,
+            "actualSoleZ": 0.044801630079746246
+          },
+          "mid_rear_right": {
+            "stance": true,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0,
+            "actualSoleZ": 0.0
+          },
+          "rear_left": {
+            "stance": true,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0,
+            "actualSoleZ": 7.450580596923828e-09
+          },
+          "rear_right": {
+            "stance": false,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0.044801677362768466,
+            "actualSoleZ": 0.04480167478322983
+          }
+        }
+      },
+      {
+        "phase": 0.9090909090909091,
+        "feet": {
+          "front_left": {
+            "stance": false,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0.03601734036699069,
+            "actualSoleZ": 0.036017339676618576
+          },
+          "front_right": {
+            "stance": true,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0,
+            "actualSoleZ": -2.2351741790771484e-08
+          },
+          "mid_front_left": {
+            "stance": true,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0,
+            "actualSoleZ": -1.1175870895385742e-08
+          },
+          "mid_front_right": {
+            "stance": false,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0.03601734036699069,
+            "actualSoleZ": 0.03601733595132828
+          },
+          "mid_rear_left": {
+            "stance": false,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0.03601734036699069,
+            "actualSoleZ": 0.03601733595132828
+          },
+          "mid_rear_right": {
+            "stance": true,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0,
+            "actualSoleZ": 0.0
+          },
+          "rear_left": {
+            "stance": true,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0,
+            "actualSoleZ": 7.450580596923828e-09
+          },
+          "rear_right": {
+            "stance": false,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0.03601734036699069,
+            "actualSoleZ": 0.036017321050167084
+          }
+        }
+      },
+      {
+        "phase": 0.9393939393939394,
+        "feet": {
+          "front_left": {
+            "stance": false,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0.02520245869500756,
+            "actualSoleZ": 0.025202464312314987
+          },
+          "front_right": {
+            "stance": true,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0,
+            "actualSoleZ": 7.450580596923828e-09
+          },
+          "mid_front_left": {
+            "stance": true,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0,
+            "actualSoleZ": -1.1175870895385742e-08
+          },
+          "mid_front_right": {
+            "stance": false,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0.02520245869500756,
+            "actualSoleZ": 0.0252024307847023
+          },
+          "mid_rear_left": {
+            "stance": false,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0.02520245869500756,
+            "actualSoleZ": 0.02520246058702469
+          },
+          "mid_rear_right": {
+            "stance": true,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0,
+            "actualSoleZ": 0.0
+          },
+          "rear_left": {
+            "stance": true,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0,
+            "actualSoleZ": 7.450580596923828e-09
+          },
+          "rear_right": {
+            "stance": false,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0.02520245869500756,
+            "actualSoleZ": 0.025202415883541107
+          }
+        }
+      },
+      {
+        "phase": 0.9696969696969697,
+        "feet": {
+          "front_left": {
+            "stance": false,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0.01296674145301848,
+            "actualSoleZ": 0.012966733425855637
+          },
+          "front_right": {
+            "stance": true,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0,
+            "actualSoleZ": 7.450580596923828e-09
+          },
+          "mid_front_left": {
+            "stance": true,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0,
+            "actualSoleZ": -4.0978193283081055e-08
+          },
+          "mid_front_right": {
+            "stance": false,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0.01296674145301848,
+            "actualSoleZ": 0.012966759502887726
+          },
+          "mid_rear_left": {
+            "stance": false,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0.01296674145301848,
+            "actualSoleZ": 0.012966759502887726
+          },
+          "mid_rear_right": {
+            "stance": true,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0,
+            "actualSoleZ": 0.0
+          },
+          "rear_left": {
+            "stance": true,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0,
+            "actualSoleZ": 7.450580596923828e-09
+          },
+          "rear_right": {
+            "stance": false,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0.01296674145301848,
+            "actualSoleZ": 0.01296677440404892
+          }
+        }
+      },
+      {
+        "phase": 1.0,
+        "feet": {
+          "front_left": {
+            "stance": true,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0,
+            "actualSoleZ": 1.1175870895385742e-08
+          },
+          "front_right": {
+            "stance": true,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0,
+            "actualSoleZ": 7.450580596923828e-09
+          },
+          "mid_front_left": {
+            "stance": true,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0,
+            "actualSoleZ": -4.0978193283081055e-08
+          },
+          "mid_front_right": {
+            "stance": true,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0,
+            "actualSoleZ": 7.450580596923828e-09
+          },
+          "mid_rear_left": {
+            "stance": true,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0,
+            "actualSoleZ": -2.2351741790771484e-08
+          },
+          "mid_rear_right": {
+            "stance": true,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0,
+            "actualSoleZ": 0.0
+          },
+          "rear_left": {
+            "stance": true,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0,
+            "actualSoleZ": 7.450580596923828e-09
+          },
+          "rear_right": {
+            "stance": true,
+            "reachClamp": 0.0,
+            "targetSoleZ": 0,
+            "actualSoleZ": -7.450580596923828e-09
+          }
+        }
+      }
+    ]
+  },
+  "bodyDropM": 0.08
+}

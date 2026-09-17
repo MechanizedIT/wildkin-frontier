@@ -1,0 +1,68 @@
+{
+  "tests": 1435,
+  "test": "PASS",
+  "verify": "PASS",
+  "zip": "PASS",
+  "zipBytes": 21807333,
+  "zipSha256": "caa38d08e44216910f88dff9d58904e805b959e6d89fa1d36ba8a0b2c50b4c5c",
+  "meadow": {
+    "render": {
+      "frame": 1116,
+      "calls": 90,
+      "triangles": 174588,
+      "points": 0,
+      "lines": 0
+    },
+    "residentCount": 1191
+  },
+  "galleries": {
+    "render": {
+      "frame": 1187,
+      "calls": 83,
+      "triangles": 178204,
+      "points": 0,
+      "lines": 0
+    },
+    "residentCount": 730
+  },
+  "lantern": {
+    "render": {
+      "frame": 1253,
+      "calls": 73,
+      "triangles": 156926,
+      "points": 0,
+      "lines": 0
+    },
+    "residentCount": 379
+  },
+  "verge": {
+    "render": {
+      "frame": 1321,
+      "calls": 65,
+      "triangles": 115781,
+      "points": 0,
+      "lines": 0
+    },
+    "residentCount": 379
+  },
+  "crown": {
+    "render": {
+      "frame": 1387,
+      "calls": 160,
+      "triangles": 295652,
+      "points": 0,
+      "lines": 0
+    },
+    "residentCount": 1370
+  },
+  "overview": {
+    "render": {
+      "frame": 1838,
+      "calls": 891,
+      "triangles": 768925,
+      "points": 0,
+      "lines": 0
+    },
+    "residentCount": 835
+  }
+}

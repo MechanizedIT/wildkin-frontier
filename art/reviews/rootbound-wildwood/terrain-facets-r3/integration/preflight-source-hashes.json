@@ -1,0 +1,30 @@
+[
+  {
+    "path": "src\\world\\frontierRootbound.js",
+    "sha256": "1f585a3e19536af43e2ad73adecd1619989483703484d3be1fb9e0bff1c2354f"
+  },
+  {
+    "path": "src\\world\\frontierRegion.js",
+    "sha256": "f4311070347484c907290e90169d5b395de896ad6418f609072a478a3a25f04a"
+  },
+  {
+    "path": "src\\world\\frontierTerrain.js",
+    "sha256": "af1c5d20d463420ff3c84fe44deee492abdab608c188ae5013c9db981426a32c"
+  },
+  {
+    "path": "src\\world\\frontierChunkRuntime.js",
+    "sha256": "7ed0f6e1de276a6d015e1a733cfdaf546ac2e7999488441213693decc446da07"
+  },
+  {
+    "path": "tests\\rootboundCircuit.test.js",
+    "sha256": "ca9da8520ea2522c3e36d6bd709bd27a54f4dd6081bf48d0b2f259ea6c693e2e"
+  },
+  {
+    "path": "art\\reviews\\rootbound-wildwood\\terrain-facets-r3\\parameters.json",
+    "sha256": "67d037bb9ed9cfc4746f7278dc26b9c318abc0fdcff16811026c1c70ea7c41f5"
+  },
+  {
+    "path": "art\\reviews\\rootbound-wildwood\\terrain-facets-r3\\feasibility.json",
+    "sha256": "c8654b5cb12d9bb21a376cb264135ae4c0eadfb8cca9160d5a2b258cd3bc6647"
+  }
+]

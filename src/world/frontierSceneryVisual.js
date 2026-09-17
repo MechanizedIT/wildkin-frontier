@@ -9,6 +9,9 @@ const CANOPY_TRUNK = Object.freeze({ width: 1.1, height: 2.45, depth: 1.1 });
 // its physical core narrow enough to match the stone rather than becoming a
 // broad invisible obstacle around the moss and scattered foot pieces.
 const FEN_STONE_CORE = Object.freeze({ width: .92, height: 2.15, depth: .78 });
+// Thornstone's normalized 1.94 × 1.5 × 1.28m mesh includes projecting chips.
+// Only the substantial central body is solid; decorative foot rubble stays out.
+const ROOTBOUND_THORN_CORE = Object.freeze({ width: 1.18, height: 1.16, depth: .78 });
 export const FRONTIER_SCENERY_LOW_RENDER_CELL_SIZE = 12.5;
 const MAX_GROUND_CLUSTERS = 640;
 const MAX_GROUND_PATCH_CACHE_ENTRIES = 512;
@@ -165,6 +168,7 @@ function* buildFrontierSceneryVisual({ specs = [], visualAssets = [], getHeight,
   group.name = 'frontier_scenery';
   const terrainSurfaces = [];
   const canopyRoots = [];
+  const occlusionRoots = [];
   const lowAssetGeometries = new Map();
   const lowBatches = new Map();
   const lowMeshes = [];
@@ -339,15 +343,29 @@ function* buildFrontierSceneryVisual({ specs = [], visualAssets = [], getHeight,
 
     if (spec.kind !== 'low' || !asset.parts?.length) return;
     if (!geometryFor(asset)) return;
-    const cellX = Math.floor(spec.x / FRONTIER_SCENERY_LOW_RENDER_CELL_SIZE);
-    const cellZ = Math.floor(spec.z / FRONTIER_SCENERY_LOW_RENDER_CELL_SIZE);
-    const renderCellId = `${cellX},${cellZ}`;
+    const renderCellSize = spec.rootboundForest ? 25 : FRONTIER_SCENERY_LOW_RENDER_CELL_SIZE;
+    const cellX = Math.floor(spec.x / renderCellSize);
+    const cellZ = Math.floor(spec.z / renderCellSize);
+    const renderCellId = spec.rootboundForest ? `forest:${cellX},${cellZ}` : `${cellX},${cellZ}`;
     const batchKey = `${renderCellId}\u0000${asset.id}`;
     if (!lowBatches.has(batchKey)) lowBatches.set(batchKey, { asset, renderCellId, specs: [] });
     lowBatches.get(batchKey).specs.push({ ...spec, scale, yaw });
     lowCount++;
+    if (spec.rootboundTree && asset.collision?.shape === 'box') {
+      const { size, offset = {} } = asset.collision;
+      const cos = Math.cos(yaw), sin = Math.sin(yaw);
+      const ox = (offset.x ?? 0) * scale, oz = (offset.z ?? 0) * scale;
+      terrainSurfaces.push(surfaceBox({ id: `f2c:${spec.id}:trunk`,
+        x: spec.x + ox * cos + oz * sin, z: spec.z - ox * sin + oz * cos,
+        y: spec.y + ((offset.y ?? size.h / 2) - size.h / 2) * scale, yaw, scale,
+        size: { width: size.w, height: size.h, depth: size.d } }));
+    }
     if (spec.assetId === 'asset_fen_stone') {
       terrainSurfaces.push(surfaceBox({ id: `f2c:${spec.id}:stone`, x: spec.x, y: spec.y, z: spec.z, yaw, scale, size: FEN_STONE_CORE }));
+      stoneSolidCount++;
+    }
+    if (spec.rootboundRock && spec.assetId === 'asset_rootbound_block_thorn') {
+      terrainSurfaces.push(surfaceBox({ id: `f2c:${spec.id}:stone`, x: spec.x, y: spec.y, z: spec.z, yaw, scale, size: ROOTBOUND_THORN_CORE }));
       stoneSolidCount++;
     }
   }
@@ -359,11 +377,12 @@ function* buildFrontierSceneryVisual({ specs = [], visualAssets = [], getHeight,
     }
 
     const patchSpecs = [...specs].filter(spec => spec?.id && Number.isFinite(spec.x) && Number.isFinite(spec.z))
-    .sort((a, b) => Number(b.id.includes(':stage-') || b.id.startsWith('f1:s:fungal-hollow:'))
-      - Number(a.id.includes(':stage-') || a.id.startsWith('f1:s:fungal-hollow:'))
+    .sort((a, b) => Number(b.id.includes(':stage-') || b.id.startsWith('f1:s:fungal-hollow:') || b.heartwoodGroundCover)
+      - Number(a.id.includes(':stage-') || a.id.startsWith('f1:s:fungal-hollow:') || a.heartwoodGroundCover)
       || Number(a.id.startsWith('f2c:i:')) - Number(b.id.startsWith('f2c:i:'))
       || a.id.localeCompare(b.id));
-    for (const spec of patchSpecs) yield* addGroundClusters(spec, spec.id.includes(':stage-') ? 28 : 13);
+    for (const spec of patchSpecs) yield* addGroundClusters(spec,
+      spec.id.includes(':stage-') ? 28 : spec.heartwoodGroundCover ? 18 : 13);
     if (groundClusterCount) {
       groundMesh.count = groundClusterCount;
       groundMesh.instanceMatrix.needsUpdate = true;
@@ -380,6 +399,13 @@ function* buildFrontierSceneryVisual({ specs = [], visualAssets = [], getHeight,
         lowMeshes.push(mesh);
         mesh.name = 'frontier_scenery_low_props';
         mesh.userData.frontierScenery = { assetId: asset.id, renderCellId, specIds: batchSpecs.map(spec => spec.id) };
+        if (!geometry.boundingBox) geometry.computeBoundingBox();
+        const localHeight = geometry.boundingBox.max.y - geometry.boundingBox.min.y;
+        // Earlier Crown/Grove assemblies are instanced too. Large roots,
+        // foliage and deadwood must reveal the player just like newer trees;
+        // otherwise the summit's old placeholder forms hide the whole body.
+        if (batchSpecs.some(spec => spec.rootboundTree ||
+          (spec.id.startsWith('f1:s:rootbound-wildwood:') && localHeight * spec.scale >= .9))) occlusionRoots.push(mesh);
         mesh.castShadow = mesh.receiveShadow = true;
         for (let index = 0; index < batchSpecs.length; index++) mesh.setMatrixAt(index, placementMatrix(batchSpecs[index]));
         mesh.instanceMatrix.needsUpdate = true;
@@ -405,7 +431,7 @@ function* buildFrontierSceneryVisual({ specs = [], visualAssets = [], getHeight,
     groundClusterCount,
     groundClusterTriangleCount: groundClusterCount * GROUND_CLUSTER_TRIANGLES,
     });
-    const result = { group, terrainSurfaces, canopyRoots, stats, dispose: disposeAll };
+    const result = { group, terrainSurfaces, canopyRoots, occlusionRoots, stats, dispose: disposeAll };
     transferred = true;
     return result;
   } finally {

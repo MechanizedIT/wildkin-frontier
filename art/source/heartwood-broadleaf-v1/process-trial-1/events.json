@@ -1,0 +1,133 @@
+[
+  {
+    "label": "background:parent-before-child",
+    "time": "2026-09-14T11:33:23.906864+00:00",
+    "free_gib": 18.94283676147461,
+    "required_free_gib": 9.646280284970999
+  },
+  {
+    "label": "background:child-start",
+    "time": "2026-09-14T11:33:27.450323+00:00",
+    "free_gib": 18.556095123291016,
+    "pid": 29104
+  },
+  {
+    "label": "background:complete",
+    "time": "2026-09-14T11:33:39.183927+00:00",
+    "free_gib": 16.822559356689453,
+    "output_sha256": "8bf0fea1e3b8c9dca29bdf5433f642cd38440c43ff13d1af3d761b5cf6270ec3"
+  },
+  {
+    "label": "background:child-exited",
+    "time": "2026-09-14T11:33:40.605288+00:00",
+    "free_gib": 19.008384704589844,
+    "exit_code": 0
+  },
+  {
+    "label": "conditioning:parent-before-child",
+    "time": "2026-09-14T11:33:40.617287+00:00",
+    "free_gib": 19.00733184814453,
+    "required_free_gib": 10.258530080318451
+  },
+  {
+    "label": "conditioning:child-start",
+    "time": "2026-09-14T11:33:44.019354+00:00",
+    "free_gib": 18.52178192138672,
+    "pid": 5016
+  },
+  {
+    "label": "handoff:conditioning.pt",
+    "time": "2026-09-14T11:33:52.996550+00:00",
+    "free_gib": 17.941383361816406,
+    "sha256": "e87aa3674813ee581224ce8c1f7c728e4147d91363222954f8ec8359e8665b6f",
+    "bytes": 8431501
+  },
+  {
+    "label": "conditioning:child-exited",
+    "time": "2026-09-14T11:33:54.279562+00:00",
+    "free_gib": 18.95665740966797,
+    "exit_code": 0
+  },
+  {
+    "label": "sparse:parent-before-child",
+    "time": "2026-09-14T11:33:54.292083+00:00",
+    "free_gib": 18.956451416015625,
+    "required_free_gib": 15.632583007216454
+  },
+  {
+    "label": "sparse:child-start",
+    "time": "2026-09-14T11:33:57.685234+00:00",
+    "free_gib": 18.493011474609375,
+    "pid": 27132
+  },
+  {
+    "label": "handoff:coords.pt",
+    "time": "2026-09-14T11:34:49.828382+00:00",
+    "free_gib": 12.162799835205078,
+    "sha256": "13e4a71c88fe72c684299d3c821f3c8cd3b94f2987d1e193ca88e3f2bb1c81f1",
+    "bytes": 110050
+  },
+  {
+    "label": "handoff:rng-after-sparse.pt",
+    "time": "2026-09-14T11:34:49.855081+00:00",
+    "free_gib": 12.161762237548828,
+    "sha256": "7681cdf36d45b3e4ac6541778084a42d220c75646e8b954bea76e90c9f11ad28",
+    "bytes": 6957
+  },
+  {
+    "label": "sparse:child-exited",
+    "time": "2026-09-14T11:34:51.991433+00:00",
+    "free_gib": 18.868240356445312,
+    "exit_code": 0
+  },
+  {
+    "label": "shape-flow:parent-before-child",
+    "time": "2026-09-14T11:34:52.003717+00:00",
+    "free_gib": 18.868244171142578,
+    "required_free_gib": 15.221092782914639
+  },
+  {
+    "label": "shape-flow:child-start",
+    "time": "2026-09-14T11:34:55.412378+00:00",
+    "free_gib": 18.28201675415039,
+    "pid": 26784
+  },
+  {
+    "label": "handoff:shape.pt",
+    "time": "2026-09-14T11:35:58.712799+00:00",
+    "free_gib": 13.26546859741211,
+    "sha256": "5e73f2d8c60b30f243c72e4c6651f31ea6662302df6f081b5917d4726113dfaa",
+    "bytes": 978389
+  },
+  {
+    "label": "handoff:rng-after-shape.pt",
+    "time": "2026-09-14T11:35:58.741883+00:00",
+    "free_gib": 13.264083862304688,
+    "sha256": "d6c4f70b12971a5340683b2c8476d5d80cb6c65f230d34bd1d79757054099edc",
+    "bytes": 6949
+  },
+  {
+    "label": "shape-flow:child-exited",
+    "time": "2026-09-14T11:36:00.723765+00:00",
+    "free_gib": 18.852413177490234,
+    "exit_code": 0
+  },
+  {
+    "label": "texture-flow:parent-before-child",
+    "time": "2026-09-14T11:36:00.738238+00:00",
+    "free_gib": 18.854713439941406,
+    "required_free_gib": 15.221367441117764
+  },
+  {
+    "label": "texture-flow:child-start",
+    "time": "2026-09-14T11:36:04.172302+00:00",
+    "free_gib": 18.393295288085938,
+    "pid": 39628
+  },
+  {
+    "label": "texture-flow:child-failed",
+    "time": "2026-09-14T11:36:04.789911+00:00",
+    "free_gib": 18.848861694335938,
+    "exit_code": 1
+  }
+]

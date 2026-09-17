@@ -1,0 +1,103 @@
+{
+  "schema": "thornprowler-candidate-audit/v1",
+  "status": "candidate ready for independent visual review; no bake/world generated/runtime admission performed",
+  "input": {
+    "path": "docs/species/thornprowler/anatomy-plan-v1.json",
+    "sha256": "FC8FD1107F53D624E9DD6770E637C41942E58AE9D03D06D77256013D4BF795A7",
+    "requiredSha256": "FC8FD1107F53D624E9DD6770E637C41942E58AE9D03D06D77256013D4BF795A7"
+  },
+  "source": {
+    "path": "src/world/wildkinMeshKit.js",
+    "sha256": "B1B34688B902BAF7BB502EC9C6E190126BAD14AC9DDDEC081A85DFB0B301AC70"
+  },
+  "expected": {
+    "meshes": 23,
+    "triangles": 770,
+    "limbs": 4,
+    "thorns": 7
+  },
+  "actual": {
+    "meshes": 23,
+    "triangles": 770,
+    "limbs": [
+      {
+        "vertices": 32,
+        "triangles": 60,
+        "directedEdges": true,
+        "signedVolume": 0.04558003579710214
+      },
+      {
+        "vertices": 32,
+        "triangles": 60,
+        "directedEdges": true,
+        "signedVolume": 0.04474400087899088
+      },
+      {
+        "vertices": 32,
+        "triangles": 60,
+        "directedEdges": true,
+        "signedVolume": 0.029537486773681364
+      },
+      {
+        "vertices": 32,
+        "triangles": 60,
+        "directedEdges": true,
+        "signedVolume": 0.029769903266121372
+      }
+    ],
+    "thorns": [
+      {
+        "vertices": 7,
+        "triangles": 10,
+        "directedEdges": true,
+        "signedVolume": 0.0011046306287482758
+      },
+      {
+        "vertices": 7,
+        "triangles": 10,
+        "directedEdges": true,
+        "signedVolume": 0.0011432136726457372
+      },
+      {
+        "vertices": 7,
+        "triangles": 10,
+        "directedEdges": true,
+        "signedVolume": 0.0010334448427286112
+      },
+      {
+        "vertices": 7,
+        "triangles": 10,
+        "directedEdges": true,
+        "signedVolume": 0.0011116995295395028
+      },
+      {
+        "vertices": 7,
+        "triangles": 10,
+        "directedEdges": true,
+        "signedVolume": 0.0010019309958547997
+      },
+      {
+        "vertices": 7,
+        "triangles": 10,
+        "directedEdges": true,
+        "signedVolume": 0.0011072733918163723
+      },
+      {
+        "vertices": 7,
+        "triangles": 10,
+        "directedEdges": true,
+        "signedVolume": 0.001254045381512806
+      }
+    ]
+  },
+  "preserved": {
+    "protectedComponents": 12,
+    "siblings": 6,
+    "fitBuiltinModel": "visualFactory fitBuiltinModel remains unmodified; source visual geometry stays within its existing rusher-fit contract. Root must later verify both direct factory and generic builtin rusher paths."
+  },
+  "proof": {
+    "allLimbDirectedEdges": true,
+    "allThornDirectedEdges": true,
+    "allPositiveVolumes": true
+  }
+}

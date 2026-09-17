@@ -1,0 +1,927 @@
+{
+  "status": "BUILT_PENDING_VISUAL_REVIEW",
+  "r4_parameters_sha256": "797d79dd9b4d407b9abaf48ba2fd1a88554c6a5d4a101bffc36be87bc5703952",
+  "r3_parameters_sha256": "7d04105d455170836a2d3056f654f03a4603b58af6ad818114852e452c06e7e3",
+  "repair_plan_sha256": "ea67844829f66aa54d73561cf0fc56dd1b1e8db80232cf754a0bfdd1f9a80e81",
+  "outer_angles_deg": [
+    0,
+    30,
+    60,
+    90,
+    120,
+    150,
+    165,
+    175,
+    180,
+    185,
+    210,
+    215,
+    225,
+    235,
+    240,
+    270,
+    290,
+    300,
+    310,
+    330,
+    335,
+    345,
+    355
+  ],
+  "r3_preserved_colony": [
+    {
+      "name": "cap_back_medium",
+      "vertex_count": 62,
+      "polygon_count": 72,
+      "identity_sha256": "8f1da2dbaeda8f52157314d260f71c0ced8120b3d242efca3d7500d3b2bbe606",
+      "matrix_world": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ]
+    },
+    {
+      "name": "cap_far_medium",
+      "vertex_count": 62,
+      "polygon_count": 72,
+      "identity_sha256": "56a3e4e125347e01c669d7ed9715567836fa4b414cab041b1cfa0e14b01b76a4",
+      "matrix_world": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ]
+    },
+    {
+      "name": "cap_hero",
+      "vertex_count": 62,
+      "polygon_count": 72,
+      "identity_sha256": "69e69cf368498371478af085f9d633f6960a7fca4d185c2aa4e8dcdbb3ed0680",
+      "matrix_world": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ]
+    },
+    {
+      "name": "cap_near_medium",
+      "vertex_count": 62,
+      "polygon_count": 72,
+      "identity_sha256": "4bb4ea6f2a125de335e1f959f84b5027a7a4e66487b8ac59c858f2cd2d4fc1e8",
+      "matrix_world": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ]
+    },
+    {
+      "name": "cap_near_young_a",
+      "vertex_count": 62,
+      "polygon_count": 72,
+      "identity_sha256": "6b81f37dddcaceb437f7782f802bbcac8c7835ff16778c8f9da8dcfe64810d65",
+      "matrix_world": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ]
+    },
+    {
+      "name": "cap_near_young_b",
+      "vertex_count": 62,
+      "polygon_count": 72,
+      "identity_sha256": "e2c96451cab1a1fb70b40e9531c2fcf0b8b830c130c412dda597d669eb20033a",
+      "matrix_world": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ]
+    },
+    {
+      "name": "stem_back_medium",
+      "vertex_count": 26,
+      "polygon_count": 32,
+      "identity_sha256": "ff5da9bd33ef2e791515d6865c7f68a7e5ed6346387336367d86e6413f8016ff",
+      "matrix_world": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ]
+    },
+    {
+      "name": "stem_far_medium",
+      "vertex_count": 26,
+      "polygon_count": 32,
+      "identity_sha256": "ea9deb9cd29cb3cc94381696ede938b1386f05c50eb5a66e0bc3b7b3a9c36228",
+      "matrix_world": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ]
+    },
+    {
+      "name": "stem_hero",
+      "vertex_count": 26,
+      "polygon_count": 32,
+      "identity_sha256": "482c09508a0d97003c7d77c7f165bca9a4c99118018452d1074bdde87020a123",
+      "matrix_world": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ]
+    },
+    {
+      "name": "stem_near_medium",
+      "vertex_count": 26,
+      "polygon_count": 32,
+      "identity_sha256": "fa531cab041c778f86386ec42b7e380d8983fe2c74ac53db850eda6eb6d67ca6",
+      "matrix_world": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ]
+    },
+    {
+      "name": "stem_near_young_a",
+      "vertex_count": 26,
+      "polygon_count": 32,
+      "identity_sha256": "8a9b96e77e63849553677b38a3e0d9b5ea8fbcc7444072a5dade77d6d8b0170a",
+      "matrix_world": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ]
+    },
+    {
+      "name": "stem_near_young_b",
+      "vertex_count": 26,
+      "polygon_count": 32,
+      "identity_sha256": "6810df04a923d10e22c5d18840432c2e96425ca95e64da60e6074aa154a1f8f3",
+      "matrix_world": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ]
+    }
+  ],
+  "r4_ground_plane_log": {
+    "triangle_count": 27,
+    "area_m2": 0.35501036244359124,
+    "bounds_xy": [
+      [
+        -0.9449999928474426,
+        0.8450000286102295
+      ],
+      [
+        -0.14527404308319092,
+        0.11621157824993134
+      ]
+    ]
+  },
+  "r4_components": {
+    "r4_log": {
+      "vertices": 163,
+      "triangles": 322,
+      "signed_volume": 0.1941068819983324,
+      "bounds": [
+        [
+          -0.9449999928474426,
+          0.8799999952316284
+        ],
+        [
+          -0.23499999940395355,
+          0.2549999952316284
+        ],
+        [
+          2.9802322831784522e-09,
+          0.3850000202655792
+        ]
+      ],
+      "edge_use_counts": {
+        "2": 345
+      },
+      "finite": true,
+      "min_triangle_area": 0.0004344212473754789,
+      "directed_edge_failures": 0,
+      "footprint_area_xy": 0.7509547905566404
+    },
+    "r4_cap_back_medium": {
+      "vertices": 62,
+      "triangles": 120,
+      "signed_volume": 0.0030881563185024166,
+      "bounds": [
+        [
+          -0.41700002551078796,
+          -0.12300001084804535
+        ],
+        [
+          -0.01230000238865614,
+          0.2522999942302704
+        ],
+        [
+          0.5014000535011292,
+          0.6150000095367432
+        ]
+      ],
+      "edge_use_counts": {
+        "2": 132
+      },
+      "finite": true,
+      "min_triangle_area": 0.0001396536539527119,
+      "directed_edge_failures": 0,
+      "footprint_area_xy": 0.053779949116653375
+    },
+    "r4_cap_far_medium": {
+      "vertices": 62,
+      "triangles": 120,
+      "signed_volume": 0.0037666401192382086,
+      "bounds": [
+        [
+          0.0925000011920929,
+          0.4074999988079071
+        ],
+        [
+          -0.15174999833106995,
+          0.13175000250339508
+        ],
+        [
+          0.5392999649047852,
+          0.6599999666213989
+        ]
+      ],
+      "edge_use_counts": {
+        "2": 132
+      },
+      "finite": true,
+      "min_triangle_area": 0.00016031033242533706,
+      "directed_edge_failures": 0,
+      "footprint_area_xy": 0.061737187196960586
+    },
+    "r4_cap_hero": {
+      "vertices": 62,
+      "triangles": 120,
+      "signed_volume": 0.01846391936730167,
+      "bounds": [
+        [
+          -0.762499988079071,
+          -0.23749999701976776
+        ],
+        [
+          -0.22425000369548798,
+          0.24824999272823334
+        ],
+        [
+          0.6119999885559082,
+          0.824999988079071
+        ]
+      ],
+      "edge_use_counts": {
+        "2": 132
+      },
+      "finite": true,
+      "min_triangle_area": 0.00044543591535027875,
+      "directed_edge_failures": 0,
+      "footprint_area_xy": 0.1714921831787513
+    },
+    "r4_cap_near_medium": {
+      "vertices": 62,
+      "triangles": 120,
+      "signed_volume": 0.003988209561309004,
+      "bounds": [
+        [
+          -0.8075000047683716,
+          -0.492499977350235
+        ],
+        [
+          -0.2917500138282776,
+          -0.008250005543231964
+        ],
+        [
+          0.4472000002861023,
+          0.574999988079071
+        ]
+      ],
+      "edge_use_counts": {
+        "2": 132
+      },
+      "finite": true,
+      "min_triangle_area": 0.000160357224532295,
+      "directed_edge_failures": 0,
+      "footprint_area_xy": 0.061737190706771805
+    },
+    "r4_cap_near_young_a": {
+      "vertices": 62,
+      "triangles": 120,
+      "signed_volume": 0.0007114764754684696,
+      "bounds": [
+        [
+          -0.659250020980835,
+          -0.4807499945163727
+        ],
+        [
+          -0.2703250050544739,
+          -0.10967499762773514
+        ],
+        [
+          0.33900001645088196,
+          0.4100000262260437
+        ]
+      ],
+      "edge_use_counts": {
+        "2": 132
+      },
+      "finite": true,
+      "min_triangle_area": 5.1487112751321534e-05,
+      "directed_edge_failures": 0,
+      "footprint_area_xy": 0.019824498826572504
+    },
+    "r4_cap_near_young_b": {
+      "vertices": 62,
+      "triangles": 120,
+      "signed_volume": 0.0004985264987074831,
+      "bounds": [
+        [
+          -0.46875,
+          -0.3112499713897705
+        ],
+        [
+          -0.28087499737739563,
+          -0.13912498950958252
+        ],
+        [
+          0.3411000072956085,
+          0.4050000011920929
+        ]
+      ],
+      "edge_use_counts": {
+        "2": 132
+      },
+      "finite": true,
+      "min_triangle_area": 4.0089261644562084e-05,
+      "directed_edge_failures": 0,
+      "footprint_area_xy": 0.015434297582194497
+    },
+    "r4_stem_back_medium": {
+      "vertices": 26,
+      "triangles": 48,
+      "signed_volume": 0.0006373987428863378,
+      "bounds": [
+        [
+          -0.32999998331069946,
+          -0.23095253109931946
+        ],
+        [
+          0.06054424121975899,
+          0.15994130074977875
+        ],
+        [
+          0.32842403650283813,
+          0.5236771702766418
+        ]
+      ],
+      "edge_use_counts": {
+        "2": 56
+      },
+      "finite": true,
+      "min_triangle_area": 0.0005656852161742881,
+      "directed_edge_failures": 0,
+      "footprint_area_xy": 0.006697585828069046
+    },
+    "r4_stem_far_medium": {
+      "vertices": 26,
+      "triangles": 48,
+      "signed_volume": 0.0008894018255887206,
+      "bounds": [
+        [
+          0.18700000643730164,
+          0.2890474796295166
+        ],
+        [
+          -0.04976675659418106,
+          0.047966185957193375
+        ],
+        [
+          0.3372949957847595,
+          0.5641130805015564
+        ]
+      ],
+      "edge_use_counts": {
+        "2": 56
+      },
+      "finite": true,
+      "min_triangle_area": 0.000565685018146269,
+      "directed_edge_failures": 0,
+      "footprint_area_xy": 0.006858993313185044
+    },
+    "r4_stem_hero": {
+      "vertices": 26,
+      "triangles": 48,
+      "signed_volume": 0.003229610633449435,
+      "bounds": [
+        [
+          -0.5638867020606995,
+          -0.3901452422142029
+        ],
+        [
+          -0.06996376067399979,
+          0.07693999260663986
+        ],
+        [
+          0.3352240025997162,
+          0.6669787764549255
+        ]
+      ],
+      "edge_use_counts": {
+        "2": 56
+      },
+      "finite": true,
+      "min_triangle_area": 0.001493762857168582,
+      "directed_edge_failures": 0,
+      "footprint_area_xy": 0.01819685345107859
+    },
+    "r4_stem_near_medium": {
+      "vertices": 26,
+      "triangles": 48,
+      "signed_volume": 0.0008826063106729028,
+      "bounds": [
+        [
+          -0.6929522156715393,
+          -0.5676935911178589
+        ],
+        [
+          -0.19374343752861023,
+          -0.0730362981557846
+        ],
+        [
+          0.2530328929424286,
+          0.47502440214157104
+        ]
+      ],
+      "edge_use_counts": {
+        "2": 56
+      },
+      "finite": true,
+      "min_triangle_area": 0.0006537201363789789,
+      "directed_edge_failures": 0,
+      "footprint_area_xy": 0.009769057624845458
+    },
+    "r4_stem_near_young_a": {
+      "vertices": 26,
+      "triangles": 48,
+      "signed_volume": 0.00019388568459059266,
+      "bounds": [
+        [
+          -0.5946598649024963,
+          -0.5233673453330994
+        ],
+        [
+          -0.21491596102714539,
+          -0.14378531277179718
+        ],
+        [
+          0.22735242545604706,
+          0.35933470726013184
+        ]
+      ],
+      "edge_use_counts": {
+        "2": 56
+      },
+      "finite": true,
+      "min_triangle_area": 0.00022097060996485065,
+      "directed_edge_failures": 0,
+      "footprint_area_xy": 0.0033245554646002262
+    },
+    "r4_stem_near_young_b": {
+      "vertices": 26,
+      "triangles": 48,
+      "signed_volume": 0.00013817564710431424,
+      "bounds": [
+        [
+          -0.41265401244163513,
+          -0.3480244576931
+        ],
+        [
+          -0.2326641082763672,
+          -0.15881729125976562
+        ],
+        [
+          0.24432013928890228,
+          0.3625379502773285
+        ]
+      ],
+      "edge_use_counts": {
+        "2": 56
+      },
+      "finite": true,
+      "min_triangle_area": 0.0001870297412996459,
+      "directed_edge_failures": 0,
+      "footprint_area_xy": 0.003129682799473163
+    },
+    "r4_moss_0": {
+      "vertices": 12,
+      "triangles": 20,
+      "signed_volume": 0.002000008319252327,
+      "bounds": [
+        [
+          -0.6899999976158142,
+          -0.28999999165534973
+        ],
+        [
+          -0.1443517953157425,
+          0.11778037250041962
+        ],
+        [
+          0.3210738003253937,
+          0.38598620891571045
+        ]
+      ],
+      "edge_use_counts": {
+        "2": 18
+      },
+      "finite": true,
+      "min_triangle_area": 0.0014526721743155576,
+      "directed_edge_failures": 0,
+      "footprint_area_xy": 0.07891461050305705
+    },
+    "r4_moss_1": {
+      "vertices": 12,
+      "triangles": 20,
+      "signed_volume": 0.0007669289954416556,
+      "bounds": [
+        [
+          0.10000000149011612,
+          0.3400000035762787
+        ],
+        [
+          -0.06526122242212296,
+          0.11015010625123978
+        ],
+        [
+          0.32638052105903625,
+          0.3821948766708374
+        ]
+      ],
+      "edge_use_counts": {
+        "2": 18
+      },
+      "finite": true,
+      "min_triangle_area": 0.0010445498618682169,
+      "directed_edge_failures": 0,
+      "footprint_area_xy": 0.03151327774831706
+    },
+    "r4_moss_2": {
+      "vertices": 12,
+      "triangles": 20,
+      "signed_volume": 0.000506732306954897,
+      "bounds": [
+        [
+          0.5199999809265137,
+          0.7400000095367432
+        ],
+        [
+          -0.11743592470884323,
+          -0.0013851741096004844
+        ],
+        [
+          0.23734121024608612,
+          0.3506087064743042
+        ]
+      ],
+      "edge_use_counts": {
+        "2": 18
+      },
+      "finite": true,
+      "min_triangle_area": 0.0006363082791050771,
+      "directed_edge_failures": 0,
+      "footprint_area_xy": 0.019087591501886582
+    }
+  },
+  "contacts": [
+    {
+      "id": "hero",
+      "log_surface_z": 0.3799271583557129,
+      "stem_base_z": 0.3400000035762787,
+      "log_embed_m": 0.039927154779434204,
+      "stem_top_center_z": 0.6550000309944153,
+      "cap_underside_axis_hit_z": 0.6119999885559082,
+      "cap_axis_embed_m": 0.04300004243850708
+    },
+    {
+      "id": "near_medium",
+      "log_surface_z": 0.3351619243621826,
+      "stem_base_z": 0.26500001549720764,
+      "log_embed_m": 0.07016190886497498,
+      "stem_top_center_z": 0.4650000333786011,
+      "cap_underside_axis_hit_z": 0.4472000002861023,
+      "cap_axis_embed_m": 0.01780003309249878
+    },
+    {
+      "id": "back_medium",
+      "log_surface_z": 0.3588547706604004,
+      "stem_base_z": 0.33500000834465027,
+      "log_embed_m": 0.023854762315750122,
+      "stem_top_center_z": 0.5149999856948853,
+      "cap_underside_axis_hit_z": 0.5014000535011292,
+      "cap_axis_embed_m": 0.013599932193756104
+    },
+    {
+      "id": "near_young_a",
+      "log_surface_z": 0.29296445846557617,
+      "stem_base_z": 0.23499999940395355,
+      "log_embed_m": 0.05796445906162262,
+      "stem_top_center_z": 0.35500001907348633,
+      "cap_underside_axis_hit_z": 0.33900001645088196,
+      "cap_axis_embed_m": 0.01600000262260437
+    },
+    {
+      "id": "near_young_b",
+      "log_surface_z": 0.29906606674194336,
+      "stem_base_z": 0.2550000250339508,
+      "log_embed_m": 0.044066041707992554,
+      "stem_top_center_z": 0.3570000231266022,
+      "cap_underside_axis_hit_z": 0.3411000072956085,
+      "cap_axis_embed_m": 0.015900015830993652
+    },
+    {
+      "id": "far_medium",
+      "log_surface_z": 0.3528411388397217,
+      "stem_base_z": 0.33900001645088196,
+      "log_embed_m": 0.013841122388839722,
+      "stem_top_center_z": 0.5550000071525574,
+      "cap_underside_axis_hit_z": 0.5392999649047852,
+      "cap_axis_embed_m": 0.015700042247772217
+    }
+  ],
+  "shared_bounds": [
+    [
+      -0.9449999928474426,
+      0.8799999952316284
+    ],
+    [
+      -0.2917500138282776,
+      0.26969558000564575
+    ],
+    [
+      2.9802322831784522e-09,
+      0.824999988079071
+    ]
+  ],
+  "counts": {
+    "r3_meshes": 22,
+    "r4_meshes": 16,
+    "r4_stems": 6,
+    "r4_caps": 6,
+    "r4_moss": 3,
+    "r4_bark": 0
+  }
+}

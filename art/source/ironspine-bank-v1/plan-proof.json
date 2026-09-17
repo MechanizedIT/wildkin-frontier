@@ -1,0 +1,162 @@
+{
+  "schema": "ironspine-bank-plan-proof/v2",
+  "status": "numerical construction-plan proof only; V2 corrects coordinate/material contract; not a Blender/model/runtime proof",
+  "computedFrom": "construction-data.json literal vertices/faces",
+  "bounds": {
+    "min": [
+      -1.8,
+      -0.38,
+      -0.5
+    ],
+    "max": [
+      1.8,
+      1.62,
+      0.5
+    ],
+    "dimensions": [
+      3.6,
+      2,
+      1
+    ]
+  },
+  "topology": {
+    "vertices": 63,
+    "triangles": 122,
+    "edges": 183,
+    "edgeUseHistogram": {
+      "2": 183
+    },
+    "allEdgesExactlyTwice": true,
+    "zeroAreaTriangleCount": 0,
+    "signedVolume": 1.733651999999999,
+    "positiveOutwardWinding": true,
+    "components": 1
+  },
+  "caps": {
+    "leftFaceIndices": [
+      108,
+      109,
+      110,
+      111,
+      112,
+      113,
+      114
+    ],
+    "rightFaceIndices": [
+      115,
+      116,
+      117,
+      118,
+      119,
+      120,
+      121
+    ],
+    "individualBoundaryOnly": true,
+    "combinedLoopFill": false
+  },
+  "supportEmbedding": {
+    "minTerrainY": 8.880348675115647,
+    "maxTerrainY": 9.226700643057336,
+    "span": 0.34635196794168976,
+    "objectOriginWorldY": 8.880348675115647,
+    "localMinY": -0.38,
+    "localMaxY": 1.62,
+    "baseBelowMinimumTerrain": 0.38,
+    "baseBelowMaximumTerrain": 0.7263519679416898,
+    "crestExposedAboveMinimumTerrain": 1.62,
+    "crestExposedAboveMaximumTerrain": 1.2736480320583101,
+    "statement": "This is intentional conservative burial. It is not a claim that the 2m full mesh remains exposed, nor proof of finished-hull contact."
+  },
+  "reviewRequired": [
+    "inspect untextured front/rear/end/three-quarter massing",
+    "compare game-scale native projection after builder export",
+    "verify actual Blender mesh.calc_loop_triangles count equals stored 122 triangles",
+    "verify opaque coverage and terrain/hull contact later"
+  ],
+  "frozenConstructionData": {
+    "path": "construction-data.json",
+    "sha256": "0C403C94DC9AFAD763F0761BB95D1744DB8072E15F6C9C4D9C2BEA5E55C94252"
+  },
+  "validationMethod": "Read literal UTF-8 JSON; derive bounds, unique undirected edge uses, triangle areas, and signed tetrahedral volume directly from stored vertices/faces. No Blender scene or runtime was opened.",
+  "coordinateRoundTrip": {
+    "mapping": "game (x,y,z) -> Blender native Z-up (x,-z,y) -> glTF/Three Y-up (x,y,z)",
+    "vertexCount": 63,
+    "maxAbsoluteCoordinateError": 0,
+    "allVerticesExact": true,
+    "examples": [
+      {
+        "game": [
+          -1.8,
+          -0.38,
+          -0.5
+        ],
+        "blender": [
+          -1.8,
+          0.5,
+          -0.38
+        ],
+        "exportedGame": [
+          -1.8,
+          -0.38,
+          -0.5
+        ],
+        "error": [
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "game": [
+          -1.32,
+          0.66,
+          -0.12
+        ],
+        "blender": [
+          -1.32,
+          0.12,
+          0.66
+        ],
+        "exportedGame": [
+          -1.32,
+          0.66,
+          -0.12
+        ],
+        "error": [
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "game": [
+          1.8,
+          -0.38,
+          0.45
+        ],
+        "blender": [
+          1.8,
+          -0.45,
+          -0.38
+        ],
+        "exportedGame": [
+          1.8,
+          -0.38,
+          0.45
+        ],
+        "error": [
+          0,
+          0,
+          0
+        ]
+      }
+    ]
+  },
+  "materialApi": {
+    "blender": "single node-based Blender material using Principled BSDF + bank_palette Color Attribute",
+    "notBlender": "MeshStandardMaterial is not a Blender API and is intentionally absent from V2."
+  },
+  "geometryIdentityCheck": {
+    "heldV1VerticesFacesEqual": true
+  }
+}

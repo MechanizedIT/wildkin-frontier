@@ -1,0 +1,16 @@
+Blender 4.5.3 LTS (hash 67807e1800cc built 2025-09-09 01:33:33)
+Fra:1 Mem:40.20M (Peak 40.24M) | Time:00:01.17 | Rendering 1 / 64 samples
+Fra:1 Mem:40.20M (Peak 40.24M) | Time:00:01.22 | Rendering 25 / 64 samples
+Fra:1 Mem:40.20M (Peak 40.24M) | Time:00:01.28 | Rendering 50 / 64 samples
+Fra:1 Mem:40.20M (Peak 40.24M) | Time:00:01.31 | Rendering 64 / 64 samples
+Saved: 'C:\Users\cwood\Documents\mobile-rpg\.dream-loop\anatomy-port-method\r2\one-port-probe.png'
+Time: 00:01.53 (Saving: 00:00.19)
+
+BlenderMCP: cannot start server in background mode (blender -b) - commands would never execute
+BlenderMCP: run Blender with a GUI, or use a virtual display: xvfb-run -a blender
+BlenderMCP addon registered
+Info: Saved as "one-port-probe.blend"
+BlenderMCP server stopped
+BlenderMCP addon unregistered
+
+Blender quit

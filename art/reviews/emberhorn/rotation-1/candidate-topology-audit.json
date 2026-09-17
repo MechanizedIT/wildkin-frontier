@@ -1,0 +1,424 @@
+{
+  "status": "UNREVIEWED_INITIAL_NATIVE_CANDIDATE",
+  "method": "literal plan coordinates embedded at build time; runtime makes no JSON fetch",
+  "input": {
+    "path": "docs/species/emberhorn/anatomy-plan-v1.json",
+    "sha256": "b77727baa84d80965672703a012c4f7bd789c48435ed2e9f5dd374e77bb6af7f"
+  },
+  "source": {
+    "path": "src/world/wildkinMeshKit.js",
+    "sha256": "419960d32a84827869cb70bd8ac054eddfe7515aca0f1fb3f540bf5115dbd8d4"
+  },
+  "topology": {
+    "legs": [
+      {
+        "index": 0,
+        "vertices": 24,
+        "triangles": 44,
+        "closedTwoFaceEdges": true,
+        "signedVolume": 0.0508745607180468,
+        "localBounds": {
+          "min": [
+            -0.20999999344348907,
+            0.18000000715255737,
+            0.11999999731779099
+          ],
+          "max": [
+            0.20999999344348907,
+            0.7799999713897705,
+            0.5849999785423279
+          ]
+        }
+      },
+      {
+        "index": 1,
+        "vertices": 24,
+        "triangles": 44,
+        "closedTwoFaceEdges": true,
+        "signedVolume": 0.0508745607180468,
+        "localBounds": {
+          "min": [
+            -0.20999999344348907,
+            0.18000000715255737,
+            0.11999999731779099
+          ],
+          "max": [
+            0.20999999344348907,
+            0.7799999713897705,
+            0.5849999785423279
+          ]
+        }
+      },
+      {
+        "index": 2,
+        "vertices": 24,
+        "triangles": 44,
+        "closedTwoFaceEdges": true,
+        "signedVolume": 0.049925859865590616,
+        "localBounds": {
+          "min": [
+            -0.20999999344348907,
+            0.18000000715255737,
+            -0.6600000262260437
+          ],
+          "max": [
+            0.20999999344348907,
+            0.7799999713897705,
+            -0.23999999463558197
+          ]
+        }
+      },
+      {
+        "index": 3,
+        "vertices": 24,
+        "triangles": 44,
+        "closedTwoFaceEdges": true,
+        "signedVolume": 0.049925859865590616,
+        "localBounds": {
+          "min": [
+            -0.20999999344348907,
+            0.18000000715255737,
+            -0.6600000262260437
+          ],
+          "max": [
+            0.20999999344348907,
+            0.7799999713897705,
+            -0.23999999463558197
+          ]
+        }
+      }
+    ],
+    "mane": [
+      {
+        "index": 0,
+        "vertices": 10,
+        "triangles": 16,
+        "closedTwoFaceEdges": true,
+        "signedVolume": 0.017526599743086076,
+        "localBounds": {
+          "min": [
+            -0.125,
+            0,
+            -0.12999999523162842
+          ],
+          "max": [
+            0.125,
+            0.36000001430511475,
+            0.12999999523162842
+          ]
+        }
+      },
+      {
+        "index": 1,
+        "vertices": 10,
+        "triangles": 16,
+        "closedTwoFaceEdges": true,
+        "signedVolume": 0.019230573864685754,
+        "localBounds": {
+          "min": [
+            -0.125,
+            0,
+            -0.12999999523162842
+          ],
+          "max": [
+            0.125,
+            0.39500001072883606,
+            0.12999999523162842
+          ]
+        }
+      },
+      {
+        "index": 2,
+        "vertices": 10,
+        "triangles": 16,
+        "closedTwoFaceEdges": true,
+        "signedVolume": 0.02093454895486087,
+        "localBounds": {
+          "min": [
+            -0.125,
+            0,
+            -0.12999999523162842
+          ],
+          "max": [
+            0.125,
+            0.4300000071525574,
+            0.12999999523162842
+          ]
+        }
+      },
+      {
+        "index": 3,
+        "vertices": 10,
+        "triangles": 16,
+        "closedTwoFaceEdges": true,
+        "signedVolume": 0.019230573864685754,
+        "localBounds": {
+          "min": [
+            -0.125,
+            0,
+            -0.12999999523162842
+          ],
+          "max": [
+            0.125,
+            0.39500001072883606,
+            0.12999999523162842
+          ]
+        }
+      },
+      {
+        "index": 4,
+        "vertices": 10,
+        "triangles": 16,
+        "closedTwoFaceEdges": true,
+        "signedVolume": 0.017526599743086076,
+        "localBounds": {
+          "min": [
+            -0.125,
+            0,
+            -0.12999999523162842
+          ],
+          "max": [
+            0.125,
+            0.36000001430511475,
+            0.12999999523162842
+          ]
+        }
+      },
+      {
+        "index": 5,
+        "vertices": 10,
+        "triangles": 16,
+        "closedTwoFaceEdges": true,
+        "signedVolume": 0.02044769841851894,
+        "localBounds": {
+          "min": [
+            -0.125,
+            0,
+            -0.12999999523162842
+          ],
+          "max": [
+            0.125,
+            0.41999998688697815,
+            0.12999999523162842
+          ]
+        }
+      },
+      {
+        "index": 6,
+        "vertices": 10,
+        "triangles": 16,
+        "closedTwoFaceEdges": true,
+        "signedVolume": 0.02215167425449713,
+        "localBounds": {
+          "min": [
+            -0.125,
+            0,
+            -0.12999999523162842
+          ],
+          "max": [
+            0.125,
+            0.45500001311302185,
+            0.12999999523162842
+          ]
+        }
+      },
+      {
+        "index": 7,
+        "vertices": 10,
+        "triangles": 16,
+        "closedTwoFaceEdges": true,
+        "signedVolume": 0.023855648937870566,
+        "localBounds": {
+          "min": [
+            -0.125,
+            0,
+            -0.12999999523162842
+          ],
+          "max": [
+            0.125,
+            0.49000000953674316,
+            0.12999999523162842
+          ]
+        }
+      },
+      {
+        "index": 8,
+        "vertices": 10,
+        "triangles": 16,
+        "closedTwoFaceEdges": true,
+        "signedVolume": 0.02215167425449713,
+        "localBounds": {
+          "min": [
+            -0.125,
+            0,
+            -0.12999999523162842
+          ],
+          "max": [
+            0.125,
+            0.45500001311302185,
+            0.12999999523162842
+          ]
+        }
+      },
+      {
+        "index": 9,
+        "vertices": 10,
+        "triangles": 16,
+        "closedTwoFaceEdges": true,
+        "signedVolume": 0.02044769841851894,
+        "localBounds": {
+          "min": [
+            -0.125,
+            0,
+            -0.12999999523162842
+          ],
+          "max": [
+            0.125,
+            0.41999998688697815,
+            0.12999999523162842
+          ]
+        }
+      },
+      {
+        "index": 10,
+        "vertices": 10,
+        "triangles": 16,
+        "closedTwoFaceEdges": true,
+        "signedVolume": 0.016066049470694354,
+        "localBounds": {
+          "min": [
+            -0.125,
+            0,
+            -0.12999999523162842
+          ],
+          "max": [
+            0.125,
+            0.33000001311302185,
+            0.12999999523162842
+          ]
+        }
+      },
+      {
+        "index": 11,
+        "vertices": 10,
+        "triangles": 16,
+        "closedTwoFaceEdges": true,
+        "signedVolume": 0.017770024357468626,
+        "localBounds": {
+          "min": [
+            -0.125,
+            0,
+            -0.12999999523162842
+          ],
+          "max": [
+            0.125,
+            0.36500000953674316,
+            0.12999999523162842
+          ]
+        }
+      },
+      {
+        "index": 12,
+        "vertices": 10,
+        "triangles": 16,
+        "closedTwoFaceEdges": true,
+        "signedVolume": 0.019473999244242906,
+        "localBounds": {
+          "min": [
+            -0.125,
+            0,
+            -0.12999999523162842
+          ],
+          "max": [
+            0.125,
+            0.4000000059604645,
+            0.12999999523162842
+          ]
+        }
+      },
+      {
+        "index": 13,
+        "vertices": 10,
+        "triangles": 16,
+        "closedTwoFaceEdges": true,
+        "signedVolume": 0.017770024357468626,
+        "localBounds": {
+          "min": [
+            -0.125,
+            0,
+            -0.12999999523162842
+          ],
+          "max": [
+            0.125,
+            0.36500000953674316,
+            0.12999999523162842
+          ]
+        }
+      },
+      {
+        "index": 14,
+        "vertices": 10,
+        "triangles": 16,
+        "closedTwoFaceEdges": true,
+        "signedVolume": 0.016066049470694354,
+        "localBounds": {
+          "min": [
+            -0.125,
+            0,
+            -0.12999999523162842
+          ],
+          "max": [
+            0.125,
+            0.33000001311302185,
+            0.12999999523162842
+          ]
+        }
+      }
+    ]
+  },
+  "modelBounds": {
+    "min": [
+      -0.8556354641914368,
+      -0.007705714702606198,
+      -0.699999988079071
+    ],
+    "max": [
+      0.8556354641914368,
+      2.065474033355713,
+      1.308
+    ],
+    "size": [
+      1.7112709283828735,
+      2.073179748058319,
+      2.007999988079071
+    ]
+  },
+  "baselineBounds": {
+    "min": [
+      -0.8556354641914368,
+      -0.009232433512806892,
+      -0.699999988079071
+    ],
+    "max": [
+      0.8556354641914368,
+      2.065474033355713,
+      1.308
+    ],
+    "size": [
+      1.7112709283828735,
+      2.07470646686852,
+      2.007999988079071
+    ]
+  },
+  "checks": {
+    "legCount": 4,
+    "maneCount": 15,
+    "hoofCount": 4,
+    "hornCount": 2,
+    "withinBaselineEnvelopeWith01mTolerance": true
+  },
+  "evidenceLimits": [
+    "Topology and bounds are code-native measurements only. Root-owned browser captures must establish actual all-angle torso/hoof contact, mobile readability, and portrait/charge presentation.",
+    "Sibling freeze receipt is preserved at art/reviews/emberhorn/rotation-1/baseline-sibling-hashes.json; this candidate did not modify sibling constructors."
+  ]
+}

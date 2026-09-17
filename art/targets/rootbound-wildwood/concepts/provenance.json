@@ -1,0 +1,37 @@
+[
+  {
+    "path": "art/targets/rootbound-wildwood/concepts/owner-references/photo-1.jpg",
+    "source": "Owner-supplied concept image 1",
+    "sha256": "b5c41f1557106ce450bd16d65e42ae0ca9a763751ede13ecb2d80287370044eb"
+  },
+  {
+    "path": "art/targets/rootbound-wildwood/concepts/owner-references/photo-2.jpg",
+    "source": "Owner-supplied concept image 2",
+    "sha256": "250685535c170eac353c4a15929e50133b7919dabe686adba7830fdfc6b0670b"
+  },
+  {
+    "path": "art/targets/rootbound-wildwood/concepts/owner-references/photo-3.jpg",
+    "source": "Owner-supplied concept image 3",
+    "sha256": "a3068fe0c045dacca9dc0317404c9d160ce1f9478cf24ab0d2bd25cf3a36f696"
+  },
+  {
+    "path": "art/targets/rootbound-wildwood/concepts/owner-references/photo-4.jpg",
+    "source": "Owner-supplied concept image 4",
+    "sha256": "1bd886d759753ca0654d41cb3e107e025cb2986c5dbe26597173deda7b84336d"
+  },
+  {
+    "path": "art/targets/rootbound-wildwood/concepts/root-gallery-heartroot-target.png",
+    "source": "Built-in imagegen; backend model undisclosed; selected is a byte-identical reviewed candidate copy",
+    "sha256": "7cce793488b6d15cd488a10fab7faba63947248b80f56b26e94b23c2c9d54360"
+  },
+  {
+    "path": "art/targets/rootbound-wildwood/concepts/lantern-hollow-thornstone-target.png",
+    "source": "Built-in imagegen; backend model undisclosed; selected is a byte-identical reviewed candidate copy",
+    "sha256": "a777ef424e0189c98a7c4cfa77968e12fb7547fbeb63a83a9944bfe99d7a3454"
+  },
+  {
+    "path": "art/targets/rootbound-wildwood/concepts/selected.png",
+    "source": "Built-in imagegen; backend model undisclosed; selected is a byte-identical reviewed candidate copy",
+    "sha256": "a777ef424e0189c98a7c4cfa77968e12fb7547fbeb63a83a9944bfe99d7a3454"
+  }
+]

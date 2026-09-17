@@ -1,0 +1,20 @@
+# Independent Rootbound terrain-and-coverage R1 plan review
+
+**HOLD pending one sampled, camera-projected replacement profile.** The terrain/coverage direction is the right next structural work, but the literal bands currently collide with their own protected route/plate contract, so the final profile would erase key shoulders rather than establish rooms.
+
+1. **Gallery west shoulder:** `x=-493, z620..700` repeatedly occupies the retained western return spine (`x≈-492..-495, z615..701`). The required 3m primary rejection will remove much or all of its inner band. Move the relief/coverage centreline west beyond the return side (a candidate outer strip around `x≤-506`, still within the Rootbound world bounds) and choose its width only after final 2m samples show its inner edge stays at least 3m from every return segment. Do not call a band continuous if the lane filter removes it.
+2. **Verge seam:** its stated centreline is exactly the optional branch. Derive a literal outward offset from each branch segment and place the seam entirely on the chosen outside side; require its inner edge to stay at least 2m from the full branch polyline. “East-side only” without an offset does not make the lane clear.
+3. **Crown:** the entire rear arc (`x=-486..-451`, `z≈724..733`) is inside the existing protected plate `x[-500,-450], z[700,750]`, so its height contribution is expected to attenuate to zero. Search and sample a visible flank outside that plate—most plausibly west of `x=-500`—or explicitly retain a visual-only coverage backdrop there. Keep the reveal and route unchanged; do not weaken the plate.
+4. **Camera input:** correct Arrival yaw to `3.012`; the draft’s `-1.743` is stale. Use the actual recorded Meadow, Gallery, Lantern, Verge, and Crown matrices/cameras, not world-direction labels.
+
+Before approval, append one finite candidate table: literal offset polylines/ellipses, all changed 2m vertices with final post-preservation height and triangle slope, lane distances, life/plate results, and projected full-group screen bounds for every fixed normal-HUD camera. This is the needed feasible redesign, not a request for another abstract validation pass or an asset experiment.
+
+## Revised finite-geometry re-review
+
+**HOLD the next implementation.** The revision correctly identifies the earlier conflicts and fixes the stale Arrival yaw. The west Gallery, offset Verge, and west-of-plate Crown candidates are now finite positions, and the receipt genuinely calls `sampleFrontierRootboundProfile(... protectDefaultLife:true)` rather than hand-waving about masks.
+
+That receipt is **baseline reconnaissance, not final-candidate proof**: every west/Verge/Crown sample is zero because it samples the unmodified current profile. It cannot establish the proposed new shoulder/backdrop heights, final two-metre vertex values, or triangle slopes. The four centreline samples also do not prove that the declared 5–8m feathers/coverage strips preserve lane width. Finally, no camera projection numbers establish that the far west Crown flank (22–30m from the route) is visible as a backdrop instead of another off-frame island.
+
+One concrete planning deliverable is still needed before source work: a small standalone candidate evaluator that applies the literal proposed profile/coverage formulas to the finite offset bands, then emits (a) every changed 2m vertex's **post-preservation** height and adjacent triangle slopes, (b) the full strip boundary's minimum primary/optional-lane distance, and (c) projected full bounds for each planned coverage group in the five corrected native cameras. It must show an actual nonzero terrain result where terrain is claimed; if west/Verge/Crown remain visual-only, label this pass coverage-only and omit terrain-shape claims. Search only the named finite strips, not a new broad region.
+
+The Crown plate is handled honestly only if the final output preserves the visual-only west flank and demonstrates its screen contribution. Do not weaken the plate or carry the old rear-arc terrain assertion forward.

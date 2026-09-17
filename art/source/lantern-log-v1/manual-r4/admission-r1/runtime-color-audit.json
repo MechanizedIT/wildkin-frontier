@@ -1,0 +1,17 @@
+{
+  "schema": "lantern-r4-runtime-color-audit/v1",
+  "input": "assets/models/lantern-log-manual-r4-v1/model.glb",
+  "sha256": "D5037FD475DD5EAF78DBC22E595679AE4CD3E68DB81D568B1888D5A97B1053F6",
+  "bytes": 118984,
+  "materialCount": 1,
+  "meshCount": 16,
+  "primitiveCount": 16,
+  "colorAttribute": "COLOR_0",
+  "primitivesWithColor": 16,
+  "missingColorPrimitives": [],
+  "missingPositionPrimitives": [],
+  "sourceMaterialIndices": [
+    0
+  ],
+  "result": "PASS"
+}

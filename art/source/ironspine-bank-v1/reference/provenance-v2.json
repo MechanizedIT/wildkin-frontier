@@ -1,0 +1,39 @@
+{
+  "schema": "ironspine-bank-reference-v2",
+  "status": "pending-independent-target-review",
+  "tool": "built-in image_gen edit",
+  "generatedAt": "2026-09-14T15:03:13.0367326Z",
+  "repairSource": {
+    "path": "ironspine-narrow-rockbank-construction-target.png",
+    "sha256": "E390B58EEFEA6E68B4FAE8F2E32E22E5B3E564DB78349E3D8CD9B66131C300FE"
+  },
+  "holdReview": {
+    "path": "target-review.md",
+    "sha256": "D21911F6853975D3F246AD192D718122B5D0692037779FCCE344C027BA530A6F"
+  },
+  "output": {
+    "path": "ironspine-narrow-rockbank-construction-target-v2.png",
+    "sha256": "928578B9E7A6AFA26EA07FFED2FEA44E1919951C5C4DD909ABACCD7A6FF96E49"
+  },
+  "prompt": {
+    "path": "prompt-v2.txt",
+    "sha256": "A2E4306E99F5F552F995A644981C1A5CB52539DC4068EF39EEFF6AD2E8C71C9F"
+  },
+  "silhouetteRatios": {
+    "sideLengthToHeight": "1.8:1",
+    "topLengthToDepth": "3.6:1",
+    "endWidthToHeight": "0.5:1"
+  },
+  "declaredEnvelopeMeters": {
+    "localZ": 1.0,
+    "localX": 3.6,
+    "Y": 2.0
+  },
+  "placementNote": "Support/route values are deliberately omitted: target art makes no placement, support, collision, or runtime-fit claim.",
+  "constraints": [
+    "one connected opaque grounded rock mass",
+    "3-4 broad irregular ledges",
+    "no masonry courses or bench stairs",
+    "review pending"
+  ]
+}

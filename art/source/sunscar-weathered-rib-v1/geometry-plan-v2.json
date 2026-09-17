@@ -1,0 +1,232 @@
+{
+  "schemaVersion": 2,
+  "asset": "sunscar-weathered-rib-v1",
+  "status": "v2 deterministic detail topology; independent re-review required before builder use",
+  "axes": {
+    "blender": {
+      "x": "long left(-) to blunt right(+)",
+      "y": "front(-) to rear(+), inferred",
+      "z": "up"
+    },
+    "gltf": "Blender exporter converts Z-up to glTF Y-up; builder must audit exported bounds rather than pre-swizzle vertices."
+  },
+  "envelopeMeters": {
+    "x": 4.4,
+    "y": 2.1,
+    "z": 1.6
+  },
+  "budget": {
+    "maxTriangles": 700,
+    "materials": 1,
+    "opaque": true
+  },
+  "primaryLoft": {
+    "ringVertexCount": 8,
+    "stations": [
+      {
+        "x": -2.2,
+        "depth": 1.55,
+        "height": 0.88
+      },
+      {
+        "x": -1.72,
+        "depth": 2.02,
+        "height": 1.6
+      },
+      {
+        "x": -1.05,
+        "depth": 2.1,
+        "height": 1.46
+      },
+      {
+        "x": -0.25,
+        "depth": 2.04,
+        "height": 1.27
+      },
+      {
+        "x": 0.65,
+        "depth": 1.92,
+        "height": 1.12
+      },
+      {
+        "x": 1.45,
+        "depth": 1.83,
+        "height": 0.98
+      },
+      {
+        "x": 2.2,
+        "depth": 1.62,
+        "height": 0.84
+      }
+    ],
+    "loopCoordinates": [
+      [
+        -0.5,
+        0
+      ],
+      [
+        -0.5,
+        0.46
+      ],
+      [
+        -0.33,
+        0.76
+      ],
+      [
+        -0.1,
+        1.0
+      ],
+      [
+        0.22,
+        0.96
+      ],
+      [
+        0.5,
+        0.7
+      ],
+      [
+        0.5,
+        0.28
+      ],
+      [
+        0.5,
+        0
+      ]
+    ]
+  },
+  "connectedTerraces": [
+    {
+      "name": "upper_cap_facets",
+      "inclusiveStationFaceRange": [
+        1,
+        3
+      ],
+      "loopEdgeIndices": [
+        2,
+        3
+      ],
+      "hostQuads": [
+        "Q[s][2]",
+        "Q[s][3]"
+      ],
+      "sequence": [
+        "build primary loft side quads",
+        "for s=1..3 and i in [2,3], replace Q[s][i] with C[s][i] four-triangle fan",
+        "leave ring vertices unchanged",
+        "cap end rings after every replacement"
+      ],
+      "centerOffsetBlenderXYZ": [
+        0,
+        0,
+        -0.045
+      ],
+      "meaning": "a recessed, faceted cap band; negative Z only, so station 1 remains the 1.60m maximum",
+      "sharedAttachment": "C[s][i] is welded to all four original Q corners; adjacent unaffected quads retain their original shared ring edges"
+    },
+    {
+      "name": "front_bedding_ledge",
+      "inclusiveStationFaceRange": [
+        0,
+        5
+      ],
+      "loopEdgeIndices": [
+        1
+      ],
+      "hostQuads": [
+        "Q[s][1]"
+      ],
+      "sequence": [
+        "for s=0..5 replace Q[s][1] with C[s][1] four-triangle fan",
+        "offset only C[s][1] by [0,+0.090,-0.020]",
+        "triangulate with fixed winding shown in topologyConvention"
+      ],
+      "centerOffsetBlenderXYZ": [
+        0,
+        0.09,
+        -0.02
+      ],
+      "meaning": "a continuous recessed upper-front band, leaving loop 1/adjacent lower face proud as the shallow bedding ledge; +Y is inward because the front is -Y",
+      "sharedAttachment": "each C shares its four original host-ring corners; no new perimeter loop or separate slab"
+    },
+    {
+      "name": "vertical_erosion_gullies",
+      "hostQuads": [
+        "Q[1][0]",
+        "Q[2][0]",
+        "Q[4][0]",
+        "Q[5][0]"
+      ],
+      "sequence": [
+        "replace only those four Q faces using the common centre-fan recipe",
+        "offset C[1][0],C[2][0] by [0,+0.120,-0.035]",
+        "offset C[4][0],C[5][0] by [0,+0.080,-0.030]",
+        "do not alter Q[3][0], creating a broad intact central plane between gully groups"
+      ],
+      "centerOffsetsBlenderXYZ": {
+        "C[1][0]": [
+          0,
+          0.12,
+          -0.035
+        ],
+        "C[2][0]": [
+          0,
+          0.12,
+          -0.035
+        ],
+        "C[4][0]": [
+          0,
+          0.08,
+          -0.03
+        ],
+        "C[5][0]": [
+          0,
+          0.08,
+          -0.03
+        ]
+      },
+      "meaning": "two shallow lower-front gully groups beneath the separate bedding band, separated by an intact central plane; all moves are inward/downward and retain the envelope",
+      "sharedAttachment": "each centre fan uses only the pre-existing host quad perimeter"
+    }
+  ],
+  "ground": {
+    "allBottomRingVerticesZ": 0,
+    "baseMustBeClosed": true,
+    "noOverhangOrWalkUnderGap": true
+  },
+  "inputHashes": {
+    "targetPng": "157070274fef13f6449840c9acfdce4ec660d50e84d1244e74a3b7c3dd2a5529",
+    "provenance": "e0b5d41ad1593cbcb784fb80b27ac4caaccf507469b1431670bd34c5dd1a7168",
+    "scaleDeclaration": "6b22ac1096a358a8dea8cc06d5b3568c4224da37fce4c55240108bb80059b5dd",
+    "referenceReview": "e002a126be51b8026748aebdfd59c58dd8e16e9eec4d8ed24dda51a5fdf33ad8"
+  },
+  "topologyConvention": {
+    "ringOrder": "R[s][i], station s=0..6 left-to-right and loop i=0..7 in declared primaryLoft order",
+    "quad": "Q[s][i]=[R[s][i], R[s+1][i], R[s+1][(i+1)%8], R[s][(i+1)%8]], s=0..5",
+    "faceCenter": "C[s][i]=mean(Q[s][i]) plus its listed local offset; replace Q with four triangles [R0,R1,C], [R1,R2,C], [R2,R3,C], [R3,R0,C]. C is shared by all four replacement triangles.",
+    "caps": "Generate after all listed face replacements: cap station 0 with ordered fan [R[0][0]..R[0][7]], cap station 6 reversed. No detail operation touches end-cap faces.",
+    "attachment": "All detail is an in-place replacement of an existing primary-loft quad. No duplicate shell, detached slab, boolean, or intersecting volume is allowed."
+  },
+  "envelopeProof": {
+    "xExtremaFromStations": [
+      -2.2,
+      2.2
+    ],
+    "maxDepthStation": {
+      "station": 2,
+      "depth": 2.1,
+      "detailOffsets": "all detail offsets are +Y inward from the front or -Z downward; no operation expands \u00b11.05m Y extent"
+    },
+    "maxHeightStation": {
+      "station": 1,
+      "height": 1.6,
+      "detailOffsets": "all detail offsets are -Z downward; no operation exceeds 1.60m"
+    },
+    "maxTriangleEstimate": {
+      "primarySideTriangles": 96,
+      "endCapTriangles": 12,
+      "detailFaceReplacementsNetIncrease": 48,
+      "totalBeforeOptionalAdditionalTriangulation": 156,
+      "budget": 700
+    }
+  }
+}

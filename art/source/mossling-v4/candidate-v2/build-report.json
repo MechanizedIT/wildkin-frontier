@@ -1,0 +1,16 @@
+{
+  "input": "C:\\Users\\cwood\\Documents\\mobile-rpg\\assets\\models\\mossling-v3\\model.glb",
+  "inputSHA256": "ca044bb9321423c8d4e83aedce7697d98109eafbeeafbefbdf3d0e13a58e9cf9",
+  "output": "C:\\Users\\cwood\\Documents\\mobile-rpg\\art\\source\\mossling-v4\\candidate-v2\\model.glb",
+  "outputSHA256": "2d5a981940c77efdf0c619342919150a6b460f7523d05ae6a52791bcc9418255",
+  "overlay": {
+    "object": "mossling_v4_iris_overlay",
+    "mesh": "mossling_v4_iris_overlay_mesh",
+    "vertices": 34,
+    "triangles": 48,
+    "material": "wildkin_iris",
+    "headBone": "head"
+  },
+  "bodyMaterial": "wildkin_body",
+  "notes": "V3 body texture/rig/actions imported unchanged; iris overlay uses vertex colors teal + black pupil."
+}

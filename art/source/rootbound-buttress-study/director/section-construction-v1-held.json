@@ -1,0 +1,117 @@
+{
+  "schema": "rootbound-buttress-section-construction/v1",
+  "status": "Proposed fresh manual construction sections inferred from one perspective target; not recovered 3D truth.",
+  "source": {
+    "target": "art/source/rootbound-buttress-v1/reference/target-v1.png",
+    "sha256": "0e8dc741e4124e7af3feb5b46f911cfb7a56cde01bd08a9aa6669bf470af6ab6",
+    "visibleCurveContract": "art/source/rootbound-buttress-study/director/curvature-review-addendum.md"
+  },
+  "unitsAndAxes": {
+    "units": "meters",
+    "authoringAxes": "Blender X right, Y depth, Z up",
+    "sectionAxes": "All values are full diameters. Trunk uses [X width, Y depth]. Branch/root uses [U width, V thickness] in a local tangent frame.",
+    "tangentRule": "Endpoint tangent uses its adjacent segment. Interior tangent is normalize(nextPoint - previousPoint).",
+    "branchRootOrientationRule": "Let H be normalized XY projection of tangent; U=normalize(cross([0,0,1],H)); V=normalize(cross(tangent,U)). Carry forward U only if H is degenerate. Keep U/V continuous between sections; do not reset to world axes.",
+    "trunkOrientationRule": "Loft trunk ellipses near-horizontal; cumulative Z rotations at T0–T4 are [0,8,17,27,35] degrees. Do not substitute section rotation for the leader return.",
+    "calculationRule": "Segment length is Euclidean distance. Intersegment bend is acos(dot(normalized adjacent segments)) in degrees, rounded to 0.1."
+  },
+  "contract": {
+    "totalAssetHeightTargetM": 5.6,
+    "hardHeightRangeM": [5.0,6.0],
+    "targetFootprintMaxM": [6.2,5.4],
+    "hardLateralMaximumM": 7.0,
+    "materialCountMax": 1,
+    "triangleCountMax": 5000,
+    "geometryMethod": "Fresh connected lofts and bridged sections only; no held candidate or Trial A geometry reuse."
+  },
+  "trunk": {
+    "attachmentContinuity": "Root sections bridge into T0/T1 collar faces. Right branch shares split-ring T3. Left branch and upper leader share split-ring T4.",
+    "points": [
+      {"id":"T0","positionM":[-0.06,0.00,0.45],"fullSectionAxesM":[1.45,1.25]},
+      {"id":"T1","positionM":[0.00,0.02,1.20],"fullSectionAxesM":[1.10,0.98]},
+      {"id":"T2","positionM":[0.12,0.03,1.90],"fullSectionAxesM":[0.80,0.70]},
+      {"id":"T3","positionM":[0.25,0.02,2.50],"fullSectionAxesM":[0.66,0.58]},
+      {"id":"T4","positionM":[0.22,0.02,2.88],"fullSectionAxesM":[0.58,0.52]}
+    ],
+    "segmentLengthsM":[0.753,0.710,0.614,0.381],
+    "intersegmentBendDeg":[5.2,3.0,16.8],
+    "pathLengthM":2.458,
+    "visibleCurveChecks":["T0→T3 is the restrained lower rightward sweep.","T3→T4 begins the return; leader continues it visibly under the high lobe.","Source-facing outer contours must show the sequence, not merely an offset centerline."]
+  },
+  "majorBranches": [
+    {
+      "id":"left",
+      "sharedAttachment":"Split/bridge from T4; L0 matches T4 collar dimensions before tapering.",
+      "points":[
+        {"id":"L0","positionM":[0.22,0.02,2.88],"fullSectionAxesM":[0.58,0.52]},
+        {"id":"L1","positionM":[-0.18,0.05,3.05],"fullSectionAxesM":[0.48,0.43]},
+        {"id":"L2","positionM":[-0.68,0.12,3.23],"fullSectionAxesM":[0.39,0.35]},
+        {"id":"L3","positionM":[-1.08,0.08,3.55],"fullSectionAxesM":[0.31,0.28]},
+        {"id":"L4","positionM":[-1.28,0.01,3.78],"fullSectionAxesM":[0.26,0.24]}
+      ],
+      "segmentLengthsM":[0.436,0.536,0.514,0.313],"intersegmentBendDeg":[4.8,22.3,13.3],"pathLengthM":1.798,
+      "sourceFacingCheck":"L0→L2 shallow up-left departure, then L2→L4 upward elbow remains visible under left lobe; a straight diagonal fails."
+    },
+    {
+      "id":"right",
+      "sharedAttachment":"Split/bridge from T3; R0 matches T3 collar dimensions before tapering.",
+      "points":[
+        {"id":"R0","positionM":[0.25,0.02,2.50],"fullSectionAxesM":[0.66,0.58]},
+        {"id":"R1","positionM":[0.55,-0.05,2.80],"fullSectionAxesM":[0.53,0.46]},
+        {"id":"R2","positionM":[1.05,-0.15,3.00],"fullSectionAxesM":[0.40,0.35]},
+        {"id":"R3","positionM":[1.40,-0.12,3.28],"fullSectionAxesM":[0.30,0.27]},
+        {"id":"R4","positionM":[1.56,-0.05,3.55],"fullSectionAxesM":[0.24,0.22]}
+      ],
+      "segmentLengthsM":[0.430,0.548,0.449,0.322],"intersegmentBendDeg":[22.9,22.1,22.2],"pathLengthM":1.749,
+      "sourceFacingCheck":"R0→R2 forms lower lateral counterweight; R2→R4 turns upward under right lobe. A mirrored left limb or one-segment rod fails."
+    },
+    {
+      "id":"upperLeader",
+      "sharedAttachment":"Split/bridge from T4; U0 matches T4 collar dimensions before tapering.",
+      "points":[
+        {"id":"U0","positionM":[0.22,0.02,2.88],"fullSectionAxesM":[0.58,0.52]},
+        {"id":"U1","positionM":[0.36,-0.05,3.28],"fullSectionAxesM":[0.47,0.41]},
+        {"id":"U2","positionM":[0.38,-0.14,3.65],"fullSectionAxesM":[0.36,0.32]},
+        {"id":"U3","positionM":[0.28,-0.20,4.05],"fullSectionAxesM":[0.28,0.25]},
+        {"id":"U4","positionM":[0.18,-0.18,4.25],"fullSectionAxesM":[0.23,0.21]}
+      ],
+      "segmentLengthsM":[0.430,0.381,0.417,0.224],"intersegmentBendDeg":[16.4,17.6,18.3],"pathLengthM":1.452,
+      "sourceFacingCheck":"U0→U2 follows lower rightward sweep; U2→U4 visibly returns left toward high-lobe support. A monotonic +X leader fails."
+    }
+  ],
+  "roots": [
+    {
+      "id":"frontLeft","sharedAttachment":"Bridge to left-front T0/T1 collar face; no separate wedge.",
+      "points":[{"id":"FL0","positionM":[-0.35,0.28,1.20],"fullSectionAxesM":[0.72,0.42]},{"id":"FL1","positionM":[-0.85,0.55,0.90],"fullSectionAxesM":[0.67,0.34]},{"id":"FL2","positionM":[-1.55,0.75,0.42],"fullSectionAxesM":[0.58,0.29]},{"id":"FL3","positionM":[-2.15,0.85,0.08],"fullSectionAxesM":[0.46,0.24]}],
+      "segmentLengthsM":[0.643,0.872,0.697],"intersegmentBendDeg":[12.0,6.9],"pathLengthM":2.211,"sourceFacingCheck":"Visible left toe turns outward/down from collar and remains broad; straight fin fails."
+    },
+    {
+      "id":"frontCenterRight","sharedAttachment":"Bridge to right-front T0/T1 collar face; largest readable source-facing toe.",
+      "points":[{"id":"FR0","positionM":[0.35,0.30,1.28],"fullSectionAxesM":[0.78,0.46]},{"id":"FR1","positionM":[0.78,0.55,0.92],"fullSectionAxesM":[0.72,0.38]},{"id":"FR2","positionM":[1.55,0.65,0.46],"fullSectionAxesM":[0.61,0.32]},{"id":"FR3","positionM":[2.20,0.45,0.08],"fullSectionAxesM":[0.50,0.27]}],
+      "segmentLengthsM":[0.614,0.902,0.779],"intersegmentBendDeg":[19.7,21.2],"pathLengthM":2.296,"sourceFacingCheck":"Widest front toe turns forward/outward at FR2→FR3; radial straight wedge fails."
+    },
+    {
+      "id":"rearLeft","sharedAttachment":"Bridge to rear-left T0/T1 collar face; rear stabilizer.",
+      "points":[{"id":"RL0","positionM":[-0.48,-0.35,1.15],"fullSectionAxesM":[0.62,0.39]},{"id":"RL1","positionM":[-0.95,-0.72,0.75],"fullSectionAxesM":[0.57,0.33]},{"id":"RL2","positionM":[-1.55,-1.20,0.30],"fullSectionAxesM":[0.49,0.27]},{"id":"RL3","positionM":[-1.85,-1.35,0.06],"fullSectionAxesM":[0.40,0.24]}],
+      "segmentLengthsM":[0.720,0.890,0.412],"intersegmentBendDeg":[3.4,11.4],"pathLengthM":2.022,"sourceFacingCheck":"Rear/left view proves grounded counter-root and shallow collar valley."
+    },
+    {
+      "id":"rearRight","sharedAttachment":"Bridge to rear-right T0/T1 collar face; rear counterbalance.",
+      "points":[{"id":"RR0","positionM":[0.48,-0.32,1.05],"fullSectionAxesM":[0.60,0.38]},{"id":"RR1","positionM":[0.90,-0.68,0.72],"fullSectionAxesM":[0.54,0.32]},{"id":"RR2","positionM":[1.40,-1.20,0.30],"fullSectionAxesM":[0.46,0.27]},{"id":"RR3","positionM":[1.75,-1.35,0.06],"fullSectionAxesM":[0.39,0.24]}],
+      "segmentLengthsM":[0.644,0.835,0.450],"intersegmentBendDeg":[4.8,19.7],"pathLengthM":1.929,"sourceFacingCheck":"Rear/right view proves rounded counter-root, not copied front fin."
+    },
+    {
+      "id":"rearCenter","sharedAttachment":"Bridge to rear T0/T1 collar face and close valley at trunk/ground; no tunnel.",
+      "points":[{"id":"RC0","positionM":[0.00,-0.52,1.05],"fullSectionAxesM":[0.58,0.37]},{"id":"RC1","positionM":[0.10,-1.00,0.72],"fullSectionAxesM":[0.53,0.31]},{"id":"RC2","positionM":[-0.05,-1.45,0.30],"fullSectionAxesM":[0.45,0.27]},{"id":"RC3","positionM":[-0.20,-1.75,0.06],"fullSectionAxesM":[0.38,0.24]}],
+      "segmentLengthsM":[0.591,0.634,0.412],"intersegmentBendDeg":[24.9,8.7],"pathLengthM":1.637,"sourceFacingCheck":"Rear view proves fifth grounded root without source-facing toe fan."
+    }
+  ],
+  "aggregateChecks": {
+    "trunkPathLengthM":2.458,
+    "majorBranchPathLengthsM":{"left":1.798,"right":1.749,"upperLeader":1.452},
+    "rootPathLengthsM":{"frontLeft":2.211,"frontCenterRight":2.296,"rearLeft":2.022,"rearRight":1.929,"rearCenter":1.637},
+    "sectionCount":{"trunk":5,"eachMajorBranch":5,"eachRoot":4},
+    "attachmentRule":"At named shared attachments, split/bridge parent loft faces. Match attachment center and parent section dimensions before tapering; no rods, detached wedges, or Boolean gaps.",
+    "preflightFailureConditions":["Any major limb reads as chord from first to last point in source-facing review.","Leader continues monotonically right instead of returning from U2 through U4.","Root reads as razor fin/radial fan or leaves tunnel-like collar gap.","All-angle mesh cannot show five distinct grounded closed buttresses and supported branch junctions."]
+  }
+}

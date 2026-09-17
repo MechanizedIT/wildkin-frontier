@@ -1,0 +1,5 @@
+
+> wildkin-frontier@0.3.0-alpha.1 zip
+> node tools/zip-submission.mjs
+
+[zip] created dist\submission.zip (22086.9 KB, 21.57 MB)

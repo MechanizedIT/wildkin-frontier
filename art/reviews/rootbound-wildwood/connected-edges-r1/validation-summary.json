@@ -1,0 +1,68 @@
+{
+  "baseline": "6f03132",
+  "status": "retained partial region gain; stopped by owner",
+  "newVisualGroups": 14,
+  "totalCurated": 57,
+  "prior43AndTerrainPreserved": true,
+  "finalSourceSHA256": "9c0ed6a6f9b92eb1a35f868d968ffe38298a350b33319fbf828b1456eb12a536",
+  "tests": {
+    "focused": 8,
+    "integrated": 1438,
+    "failed": 0,
+    "finalEvidence": "verify.log",
+    "developmentEvidence": "npm-test.log predates final east-mid correction; final verify reruns the identical full suite"
+  },
+  "verify": "PASS",
+  "zip": {
+    "bytes": 25940341,
+    "sha256": "7dd6e7adf3ff15b306097a9ce00948eff6ee629592c79fac2c8b2939d8d55a40",
+    "unpackedBytes": 65730487
+  },
+  "clearance": {
+    "mainHalfWidthRequired": 2,
+    "minimumMain": 2.075,
+    "optionalHalfWidthRequired": 1.5,
+    "minimumOptional": 3.538,
+    "source": "repair-support-clearance.json"
+  },
+  "actualCaptureUnion": [
+    "f1:s:rootbound-wildwood:edge-gallery-east-01",
+    "f1:s:rootbound-wildwood:edge-gallery-east-02",
+    "f1:s:rootbound-wildwood:edge-gallery-east-03",
+    "f1:s:rootbound-wildwood:edge-gallery-east-04",
+    "f1:s:rootbound-wildwood:edge-gallery-west-01",
+    "f1:s:rootbound-wildwood:edge-gallery-west-02",
+    "f1:s:rootbound-wildwood:edge-gallery-west-03",
+    "f1:s:rootbound-wildwood:edge-gallery-west-04",
+    "f1:s:rootbound-wildwood:edge-grove-east-01",
+    "f1:s:rootbound-wildwood:edge-grove-east-02",
+    "f1:s:rootbound-wildwood:edge-grove-rear-01",
+    "f1:s:rootbound-wildwood:edge-grove-rear-02",
+    "f1:s:rootbound-wildwood:edge-grove-west-01",
+    "f1:s:rootbound-wildwood:edge-grove-west-02"
+  ],
+  "streaming": {
+    "away": 0,
+    "returned": 14
+  },
+  "walk": {
+    "samples": 42,
+    "allGrounded": true,
+    "durationMs": 4003,
+    "distance": 9.186527303899853
+  },
+  "packageParity": {
+    "packaged": true,
+    "player": true,
+    "camera": true,
+    "residentIds": true
+  },
+  "limitations": [
+    "Full Rootbound showcase remains unfinished; broad floor and distant sparse bands remain.",
+    "Four matching portraits and a diagnostic overview are actual runtime evidence; concept targets are direction only.",
+    "Short walk is focused support evidence, not a new complete 3–5 minute circuit playtest.",
+    "No measured performance benchmark or perfect prop grounding claim.",
+    "Previously observed MutationObserver error remains unlocated; no clean-console claim."
+  ],
+  "ownerStop": "At next checkpoint go ahead and stop. No new pass; await fresh direction."
+}

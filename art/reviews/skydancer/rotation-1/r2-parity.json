@@ -1,0 +1,79 @@
+{
+  "note": "Actual native output comparisons, complete attributes/indices/material flags/transforms, excluding runtime UUIDs. Six sibling species and nine protected Skydancer components remain exact.",
+  "siblings": [
+    {
+      "id": "asset_wildkin_mossling",
+      "exact": true
+    },
+    {
+      "id": "asset_wildkin_tidefin",
+      "exact": true
+    },
+    {
+      "id": "asset_wildkin_emberhorn",
+      "exact": true
+    },
+    {
+      "id": "asset_thornprowler",
+      "exact": true
+    },
+    {
+      "id": "asset_cinderjaw",
+      "exact": true
+    },
+    {
+      "id": "asset_heartwood_guardian",
+      "exact": true
+    }
+  ],
+  "protectedComponents": 9,
+  "protectedExact": true,
+  "sourceSha256": "1af4fad5e725263e629b386a80d6b3f470ae7597375c78521e9588993baedaf3",
+  "anatomySha256": "a7fd7b2b6d1057536878b057d7f8705284053af036ed12ef16b7ddebbc5bcfca",
+  "pass": true,
+  "r1LowerAnatomy": {
+    "parts": [
+      {
+        "name": "right_bent_avian_leg",
+        "exact": true
+      },
+      {
+        "name": "right_talon_foot",
+        "exact": true
+      },
+      {
+        "name": "right_toe_1",
+        "exact": true
+      },
+      {
+        "name": "right_toe_2",
+        "exact": true
+      },
+      {
+        "name": "right_toe_3",
+        "exact": true
+      },
+      {
+        "name": "left_bent_avian_leg",
+        "exact": true
+      },
+      {
+        "name": "left_talon_foot",
+        "exact": true
+      },
+      {
+        "name": "left_toe_1",
+        "exact": true
+      },
+      {
+        "name": "left_toe_2",
+        "exact": true
+      },
+      {
+        "name": "left_toe_3",
+        "exact": true
+      }
+    ],
+    "exact": true
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "asset": "sunscar-weathered-rib-v1",
+  "reviewInput": "construction-plan-review.md",
+  "constructionInput": {
+    "path": "geometry-plan-v2.json",
+    "sha256": "cc5c00067a646da96919144cd92fe2699e721b204a81d546db755dfcec567492"
+  },
+  "v1Preserved": {
+    "geometryPlan": "67012e6f303b3e910b3b84d9c5868d609b14a10405aa00554091157c257e6c1e",
+    "constructionPlan": "d7b44225d295efdd448b1c4fa10ecfe22d13b6bd6b04da6911a21d315ea99a6e",
+    "manifest": "4f581f01a32fc808b058cded7f5e625a3a0056802468d8a1ceaec2fbc617086f"
+  },
+  "reference": {
+    "path": "reference/weathered-rib-target-v1.png",
+    "sha256": "157070274fef13f6449840c9acfdce4ec660d50e84d1244e74a3b7c3dd2a5529"
+  },
+  "schemaVersion": 2,
+  "status": "v2 deterministic detail input pending independent re-review"
+}

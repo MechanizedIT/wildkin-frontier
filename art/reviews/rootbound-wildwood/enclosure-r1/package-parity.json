@@ -1,0 +1,18 @@
+[
+  {
+    "station": "galleries",
+    "residentIdsEqual": true,
+    "playerPositionEqual": true,
+    "supportRaysEqual": true,
+    "developerCount": 733,
+    "packagedCount": 733
+  },
+  {
+    "station": "crown",
+    "residentIdsEqual": true,
+    "playerPositionEqual": true,
+    "supportRaysEqual": true,
+    "developerCount": 1374,
+    "packagedCount": 1374
+  }
+]

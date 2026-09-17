@@ -44,6 +44,12 @@ export function createPlayerVisuals(playerMesh) {
         bobAmp = 0.09;
         lean = 0.18;
         break;
+      case "SLIDE":
+        bobFreq = 4.2;
+        bobAmp = 0.025;
+        lean = 0.22;
+        heightScale = 0.94;
+        break;
       case "DODGE":
         bobFreq = 12;
         bobAmp = 0.06;
@@ -133,8 +139,8 @@ export function createPlayerVisuals(playerMesh) {
     }
 
     // Limb motion is visual-only. Keep the Field Tool's right-hand chain untouched.
-    const moving = mode === "WALK" || mode === "RUN" || mode === "SNEAK" || mode === "WADE";
-    const stride = moving ? Math.sin(bobPhase) * (mode === "RUN" ? 0.54 : mode === "WALK" ? 0.34 : 0.18) : 0;
+    const moving = mode === "WALK" || mode === "RUN" || mode === "SNEAK" || mode === "WADE" || mode === "SLIDE";
+    const stride = moving ? Math.sin(bobPhase) * (mode === "RUN" ? 0.54 : mode === "WALK" ? 0.34 : mode === "SLIDE" ? 0.14 : 0.18) : 0;
     const limbBlend = 1 - Math.exp(-14 * dt);
     if (leftLeg) leftLeg.rotation.x += (stride - leftLeg.rotation.x) * limbBlend;
     if (rightLeg) rightLeg.rotation.x += (-stride - rightLeg.rotation.x) * limbBlend;

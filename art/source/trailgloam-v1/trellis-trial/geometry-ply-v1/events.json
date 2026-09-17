@@ -1,0 +1,184 @@
+[
+  {
+    "label": "background:parent-before-child",
+    "time": "2026-09-14T23:13:00.629135+00:00",
+    "free_gib": 17.67169952392578,
+    "required_free_gib": 9.646280284970999
+  },
+  {
+    "label": "background:child-start",
+    "time": "2026-09-14T23:13:04.293998+00:00",
+    "free_gib": 17.232627868652344,
+    "pid": 10276
+  },
+  {
+    "label": "background:complete",
+    "time": "2026-09-14T23:13:17.928745+00:00",
+    "free_gib": 15.503894805908203,
+    "output_sha256": "6c0858ae9f8a645adc6691ee8e4eaacbf70acc600ab36c69e4eef86b290f5a9d"
+  },
+  {
+    "label": "background:child-exited",
+    "time": "2026-09-14T23:13:19.883410+00:00",
+    "free_gib": 17.635677337646484,
+    "exit_code": 0
+  },
+  {
+    "label": "conditioning:parent-before-child",
+    "time": "2026-09-14T23:13:19.895358+00:00",
+    "free_gib": 17.63562774658203,
+    "required_free_gib": 10.258530080318451
+  },
+  {
+    "label": "conditioning:child-start",
+    "time": "2026-09-14T23:13:23.362783+00:00",
+    "free_gib": 17.203861236572266,
+    "pid": 42416
+  },
+  {
+    "label": "handoff:conditioning.pt",
+    "time": "2026-09-14T23:13:33.663022+00:00",
+    "free_gib": 16.700756072998047,
+    "sha256": "1bfa3d17343e6e93d2829f4ade676fc84a47ef7656f803917f879617fd145b42",
+    "bytes": 8431501
+  },
+  {
+    "label": "conditioning:child-exited",
+    "time": "2026-09-14T23:13:35.104733+00:00",
+    "free_gib": 17.723094940185547,
+    "exit_code": 0
+  },
+  {
+    "label": "sparse:parent-before-child",
+    "time": "2026-09-14T23:13:35.115730+00:00",
+    "free_gib": 17.72414779663086,
+    "required_free_gib": 15.632583007216454
+  },
+  {
+    "label": "sparse:child-start",
+    "time": "2026-09-14T23:13:38.530389+00:00",
+    "free_gib": 17.260581970214844,
+    "pid": 21584
+  },
+  {
+    "label": "handoff:coords.pt",
+    "time": "2026-09-14T23:14:35.209810+00:00",
+    "free_gib": 12.08181381225586,
+    "sha256": "afce98b7f9bab905279454e78af49d0a39996a61de853089e86c1a49cadc57b4",
+    "bytes": 45218
+  },
+  {
+    "label": "handoff:rng-after-sparse.pt",
+    "time": "2026-09-14T23:14:35.236701+00:00",
+    "free_gib": 12.081501007080078,
+    "sha256": "510f638d8c17eacc94e8e5f38c2cd483d9bc3f4cefa92a420755050aea4c2fcb",
+    "bytes": 6957
+  },
+  {
+    "label": "sparse:child-exited",
+    "time": "2026-09-14T23:14:37.457771+00:00",
+    "free_gib": 17.773456573486328,
+    "exit_code": 0
+  },
+  {
+    "label": "shape-flow:parent-before-child",
+    "time": "2026-09-14T23:14:37.469773+00:00",
+    "free_gib": 17.77342987060547,
+    "required_free_gib": 15.221092782914639
+  },
+  {
+    "label": "shape-flow:child-start",
+    "time": "2026-09-14T23:14:41.022335+00:00",
+    "free_gib": 17.33447265625,
+    "pid": 40396
+  },
+  {
+    "label": "handoff:shape.pt",
+    "time": "2026-09-14T23:15:31.599024+00:00",
+    "free_gib": 12.258846282958984,
+    "sha256": "e67fd766272970221f23501be5ab98c5882d58e9246697620958c7361347b1c8",
+    "bytes": 395029
+  },
+  {
+    "label": "handoff:rng-after-shape.pt",
+    "time": "2026-09-14T23:15:31.619142+00:00",
+    "free_gib": 12.258731842041016,
+    "sha256": "d1ab7479e18f557e504bd55ccb9bd0c3be917f5033e00adb9fb5a692828f1620",
+    "bytes": 6949
+  },
+  {
+    "label": "shape-flow:child-exited",
+    "time": "2026-09-14T23:15:33.611138+00:00",
+    "free_gib": 17.81985855102539,
+    "exit_code": 0
+  },
+  {
+    "label": "texture-flow:parent-before-child",
+    "time": "2026-09-14T23:15:33.624072+00:00",
+    "free_gib": 17.819984436035156,
+    "required_free_gib": 15.221367441117764
+  },
+  {
+    "label": "texture-flow:child-start",
+    "time": "2026-09-14T23:15:37.067732+00:00",
+    "free_gib": 17.374141693115234,
+    "pid": 45428
+  },
+  {
+    "label": "handoff:texture.pt",
+    "time": "2026-09-14T23:16:26.107674+00:00",
+    "free_gib": 12.369152069091797,
+    "sha256": "b1a207b828433c68ae97cef3615fec56eff92dc7228f3e3b5fdfeec070d13fbc",
+    "bytes": 395045
+  },
+  {
+    "label": "texture-flow:child-exited",
+    "time": "2026-09-14T23:16:27.809653+00:00",
+    "free_gib": 17.791812896728516,
+    "exit_code": 0
+  },
+  {
+    "label": "decode:parent-before-child",
+    "time": "2026-09-14T23:16:27.824512+00:00",
+    "free_gib": 17.791759490966797,
+    "required_free_gib": 13.299913866445422
+  },
+  {
+    "label": "decode:child-start",
+    "time": "2026-09-14T23:16:31.342535+00:00",
+    "free_gib": 17.34461212158203,
+    "pid": 23748
+  },
+  {
+    "label": "decode:geometry-budget",
+    "time": "2026-09-14T23:16:54.655913+00:00",
+    "free_gib": 12.225494384765625,
+    "decoded_faces": 1804432,
+    "decoded_vertices": 889679,
+    "face_limit": 1900000,
+    "mode": "trailgloam-geometry-ply-v1"
+  },
+  {
+    "label": "geometry-ply:complete",
+    "time": "2026-09-14T23:17:05.579895+00:00",
+    "free_gib": 12.289020538330078,
+    "output_sha256": "38b6173aa7a38f8c407f9c2a700016608504e2c949fe513323703afad595cb3f",
+    "bytes": 34134163,
+    "vertex_scalar": "float32",
+    "copied_vertex_bytes": 10676148,
+    "copied_index_bytes": 43306368
+  },
+  {
+    "label": "decode:child-exited",
+    "time": "2026-09-14T23:17:07.318124+00:00",
+    "free_gib": 17.895652770996094,
+    "exit_code": 0
+  },
+  {
+    "label": "complete",
+    "time": "2026-09-14T23:17:07.392656+00:00",
+    "free_gib": 17.894935607910156,
+    "artifact_path": "C:\\Users\\cwood\\Documents\\mobile-rpg\\.dream-loop\\trailgloam-trellis\\geometry-ply-v1-run\\raw-geometry.ply",
+    "output_sha256": "38b6173aa7a38f8c407f9c2a700016608504e2c949fe513323703afad595cb3f"
+  }
+]

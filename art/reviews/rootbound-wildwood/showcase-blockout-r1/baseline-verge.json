@@ -1,0 +1,206 @@
+{
+  "packaged": true,
+  "station": "verge",
+  "view": "normal portrait",
+  "player": {
+    "pos": {
+      "x": -422,
+      "y": 9.238862991333008,
+      "z": 688
+    },
+    "grounded": true,
+    "mode": "IDLE"
+  },
+  "camera": [
+    -427.61210091481297,
+    16.952354824339483,
+    680.4873716145315
+  ],
+  "cameraFollow": {
+    "yaw": -2.5,
+    "pitch": 0.6283185307179586,
+    "portrait": true,
+    "portraitPitch": 0.6283185307179586,
+    "landscapePitch": 0.5585053606381855,
+    "zoom": 1,
+    "userZoom": 1,
+    "requestedDistance": 11.59107954420122,
+    "collisionDistance": 11.59107954420122,
+    "effectiveDistance": 11.59107954420122,
+    "focusRecovery": "clear",
+    "horizontalDistance": 6.55,
+    "height": 5,
+    "center": [
+      -422,
+      10.139289210109045,
+      688
+    ]
+  },
+  "render": {
+    "frame": 1291,
+    "calls": 56,
+    "triangles": 93939,
+    "points": 0,
+    "lines": 0
+  },
+  "scenery": {
+    "residentCount": 42,
+    "residentIds": [
+      "f1:s:rootbound-wildwood:lantern-colony-lily",
+      "f1:s:rootbound-wildwood:lantern-colony-pebbles",
+      "f1:s:rootbound-wildwood:lantern-colony-r4",
+      "f1:s:rootbound-wildwood:lantern-colony-ring",
+      "f1:s:rootbound-wildwood:lantern-log",
+      "f1:s:rootbound-wildwood:lantern-margin-back-spread",
+      "f1:s:rootbound-wildwood:lantern-margin-back-tall",
+      "f1:s:rootbound-wildwood:lantern-margin-left-spread",
+      "f1:s:rootbound-wildwood:lantern-ring-a",
+      "f1:s:rootbound-wildwood:lantern-ring-b",
+      "f1:s:rootbound-wildwood:thorn-a",
+      "f1:s:rootbound-wildwood:thorn-b",
+      "f1:s:rootbound-wildwood:gallery-canopy",
+      "f1:s:rootbound-wildwood:gallery-log",
+      "f1:s:rootbound-wildwood:gallery-tall",
+      "f2c:p:f1:p:-10:12:lush-root-cache:lush-root-cache:-10:12:canopy-left",
+      "f2c:p:f1:p:-10:12:lush-root-cache:lush-root-cache:-10:12:canopy-rear",
+      "f2c:p:f1:p:-10:12:lush-root-cache:lush-root-cache:-10:12:canopy-right",
+      "f2c:p:f1:p:-10:12:lush-root-cache:lush-root-cache:-10:12:log-left",
+      "f2c:p:f1:p:-10:12:lush-root-cache:lush-root-cache:-10:12:log-right",
+      "f2c:p:f1:p:-10:12:lush-root-cache:lush-root-cache:-10:12:ruin-arch",
+      "f2c:p:f1:p:-10:12:lush-root-cache:lush-root-cache:-10:12:stone",
+      "f2c:i:-9:13:118",
+      "f2c:i:-10:13:113",
+      "f2c:i:-10:14:161",
+      "f2c:i:-9:13:177",
+      "f2c:i:-10:14:168",
+      "f2c:i:-9:13:198",
+      "f2c:i:-10:14:175",
+      "f2c:i:-10:14:182",
+      "f2c:i:-10:14:193",
+      "f2c:i:-10:14:200",
+      "f2c:i:-10:14:239",
+      "f2c:i:-10:14:38",
+      "f2c:i:-10:14:49",
+      "f2c:i:-10:14:70",
+      "f2c:i:-10:14:81",
+      "f2c:i:-10:14:88",
+      "f2c:s:-9:15:seed-0",
+      "f1:s:rootbound-wildwood:arrival-canopy",
+      "f2c:s:-10:15:seed-1",
+      "f2c:s:-11:12:seed-0"
+    ],
+    "canopyCount": 12,
+    "colliderCount": 15,
+    "clearanceRecipeCache": {
+      "forageCount": 62,
+      "wildlifeCount": 62
+    },
+    "sceneryRecipeCache": {
+      "ordinaryCount": 39,
+      "infillCount": 17
+    },
+    "groundPatchCache": {
+      "entryCount": 42,
+      "maxEntries": 512,
+      "maxPatchRecords": 13
+    },
+    "streaming": {
+      "preparedPublications": 0,
+      "unfinishedPublications": 0,
+      "synchronousPublications": 4,
+      "cancelled": 0,
+      "preparationFailures": 0,
+      "lastWorkMs": 0,
+      "maxWorkMs": 0,
+      "phase": null,
+      "target": null
+    },
+    "lowCount": 30,
+    "stoneSolidCount": 3,
+    "surfaceCount": 15,
+    "lowDrawCount": 22,
+    "lowTriangleCount": 25730,
+    "lowGeometryCount": 8,
+    "lowGeometryVertexCount": 19320,
+    "lowInstanceCount": 30,
+    "groundDrawCount": 1,
+    "groundClusterCount": 486,
+    "groundClusterTriangleCount": 7776
+  },
+  "visuals": [
+    {
+      "assetId": "asset_fen_lily",
+      "renderCellId": "-36,55",
+      "specIds": [
+        "f1:s:rootbound-wildwood:lantern-colony-lily"
+      ],
+      "vertices": 1932,
+      "instances": 1,
+      "visible": true
+    },
+    {
+      "assetId": "asset_pebble_cluster",
+      "renderCellId": "-36,55",
+      "specIds": [
+        "f1:s:rootbound-wildwood:lantern-colony-pebbles"
+      ],
+      "vertices": 576,
+      "instances": 1,
+      "visible": true
+    },
+    {
+      "assetId": "asset_lantern_log_manual_r4",
+      "renderCellId": "-36,55",
+      "specIds": [
+        "f1:s:rootbound-wildwood:lantern-colony-r4"
+      ],
+      "vertices": 4170,
+      "instances": 1,
+      "visible": true
+    },
+    {
+      "assetId": "asset_mushroom_ring",
+      "renderCellId": "-36,54",
+      "specIds": [
+        "f1:s:rootbound-wildwood:lantern-colony-ring",
+        "f1:s:rootbound-wildwood:lantern-ring-a",
+        "f1:s:rootbound-wildwood:lantern-ring-b"
+      ],
+      "vertices": 5280,
+      "instances": 3,
+      "visible": true
+    },
+    {
+      "assetId": "asset_fallen_log",
+      "renderCellId": "-36,54",
+      "specIds": [
+        "f1:s:rootbound-wildwood:lantern-log"
+      ],
+      "vertices": 1770,
+      "instances": 1,
+      "visible": true
+    },
+    {
+      "assetId": "asset_fen_stone",
+      "renderCellId": "-36,54",
+      "specIds": [
+        "f1:s:rootbound-wildwood:thorn-a",
+        "f1:s:rootbound-wildwood:thorn-b"
+      ],
+      "vertices": 1758,
+      "instances": 2,
+      "visible": true
+    },
+    {
+      "assetId": "asset_fallen_log",
+      "renderCellId": "-39,56",
+      "specIds": [
+        "f1:s:rootbound-wildwood:gallery-log"
+      ],
+      "vertices": 1770,
+      "instances": 1,
+      "visible": true
+    }
+  ],
+  "scoutPanelHidden": true
+}

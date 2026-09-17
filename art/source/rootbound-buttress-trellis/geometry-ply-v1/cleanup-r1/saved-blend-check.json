@@ -1,0 +1,415 @@
+{
+  "check": "reopened saved Blender file; read-only",
+  "mesh_objects": 1,
+  "mesh_name": "BUTTRESS_DERIVATIVE_R1",
+  "vertices": 76290,
+  "triangles": 154468,
+  "connected_vertex_components": 99,
+  "components": [
+    {
+      "vertices": 76192,
+      "faces": 154468
+    },
+    {
+      "vertices": 1,
+      "faces": 0
+    },
+    {
+      "vertices": 1,
+      "faces": 0
+    },
+    {
+      "vertices": 1,
+      "faces": 0
+    },
+    {
+      "vertices": 1,
+      "faces": 0
+    },
+    {
+      "vertices": 1,
+      "faces": 0
+    },
+    {
+      "vertices": 1,
+      "faces": 0
+    },
+    {
+      "vertices": 1,
+      "faces": 0
+    },
+    {
+      "vertices": 1,
+      "faces": 0
+    },
+    {
+      "vertices": 1,
+      "faces": 0
+    },
+    {
+      "vertices": 1,
+      "faces": 0
+    },
+    {
+      "vertices": 1,
+      "faces": 0
+    },
+    {
+      "vertices": 1,
+      "faces": 0
+    },
+    {
+      "vertices": 1,
+      "faces": 0
+    },
+    {
+      "vertices": 1,
+      "faces": 0
+    },
+    {
+      "vertices": 1,
+      "faces": 0
+    },
+    {
+      "vertices": 1,
+      "faces": 0
+    },
+    {
+      "vertices": 1,
+      "faces": 0
+    },
+    {
+      "vertices": 1,
+      "faces": 0
+    },
+    {
+      "vertices": 1,
+      "faces": 0
+    },
+    {
+      "vertices": 1,
+      "faces": 0
+    },
+    {
+      "vertices": 1,
+      "faces": 0
+    },
+    {
+      "vertices": 1,
+      "faces": 0
+    },
+    {
+      "vertices": 1,
+      "faces": 0
+    },
+    {
+      "vertices": 1,
+      "faces": 0
+    },
+    {
+      "vertices": 1,
+      "faces": 0
+    },
+    {
+      "vertices": 1,
+      "faces": 0
+    },
+    {
+      "vertices": 1,
+      "faces": 0
+    },
+    {
+      "vertices": 1,
+      "faces": 0
+    },
+    {
+      "vertices": 1,
+      "faces": 0
+    },
+    {
+      "vertices": 1,
+      "faces": 0
+    },
+    {
+      "vertices": 1,
+      "faces": 0
+    },
+    {
+      "vertices": 1,
+      "faces": 0
+    },
+    {
+      "vertices": 1,
+      "faces": 0
+    },
+    {
+      "vertices": 1,
+      "faces": 0
+    },
+    {
+      "vertices": 1,
+      "faces": 0
+    },
+    {
+      "vertices": 1,
+      "faces": 0
+    },
+    {
+      "vertices": 1,
+      "faces": 0
+    },
+    {
+      "vertices": 1,
+      "faces": 0
+    },
+    {
+      "vertices": 1,
+      "faces": 0
+    },
+    {
+      "vertices": 1,
+      "faces": 0
+    },
+    {
+      "vertices": 1,
+      "faces": 0
+    },
+    {
+      "vertices": 1,
+      "faces": 0
+    },
+    {
+      "vertices": 1,
+      "faces": 0
+    },
+    {
+      "vertices": 1,
+      "faces": 0
+    },
+    {
+      "vertices": 1,
+      "faces": 0
+    },
+    {
+      "vertices": 1,
+      "faces": 0
+    },
+    {
+      "vertices": 1,
+      "faces": 0
+    },
+    {
+      "vertices": 1,
+      "faces": 0
+    },
+    {
+      "vertices": 1,
+      "faces": 0
+    },
+    {
+      "vertices": 1,
+      "faces": 0
+    },
+    {
+      "vertices": 1,
+      "faces": 0
+    },
+    {
+      "vertices": 1,
+      "faces": 0
+    },
+    {
+      "vertices": 1,
+      "faces": 0
+    },
+    {
+      "vertices": 1,
+      "faces": 0
+    },
+    {
+      "vertices": 1,
+      "faces": 0
+    },
+    {
+      "vertices": 1,
+      "faces": 0
+    },
+    {
+      "vertices": 1,
+      "faces": 0
+    },
+    {
+      "vertices": 1,
+      "faces": 0
+    },
+    {
+      "vertices": 1,
+      "faces": 0
+    },
+    {
+      "vertices": 1,
+      "faces": 0
+    },
+    {
+      "vertices": 1,
+      "faces": 0
+    },
+    {
+      "vertices": 1,
+      "faces": 0
+    },
+    {
+      "vertices": 1,
+      "faces": 0
+    },
+    {
+      "vertices": 1,
+      "faces": 0
+    },
+    {
+      "vertices": 1,
+      "faces": 0
+    },
+    {
+      "vertices": 1,
+      "faces": 0
+    },
+    {
+      "vertices": 1,
+      "faces": 0
+    },
+    {
+      "vertices": 1,
+      "faces": 0
+    },
+    {
+      "vertices": 1,
+      "faces": 0
+    },
+    {
+      "vertices": 1,
+      "faces": 0
+    },
+    {
+      "vertices": 1,
+      "faces": 0
+    },
+    {
+      "vertices": 1,
+      "faces": 0
+    },
+    {
+      "vertices": 1,
+      "faces": 0
+    },
+    {
+      "vertices": 1,
+      "faces": 0
+    },
+    {
+      "vertices": 1,
+      "faces": 0
+    },
+    {
+      "vertices": 1,
+      "faces": 0
+    },
+    {
+      "vertices": 1,
+      "faces": 0
+    },
+    {
+      "vertices": 1,
+      "faces": 0
+    },
+    {
+      "vertices": 1,
+      "faces": 0
+    },
+    {
+      "vertices": 1,
+      "faces": 0
+    },
+    {
+      "vertices": 1,
+      "faces": 0
+    },
+    {
+      "vertices": 1,
+      "faces": 0
+    },
+    {
+      "vertices": 1,
+      "faces": 0
+    },
+    {
+      "vertices": 1,
+      "faces": 0
+    },
+    {
+      "vertices": 1,
+      "faces": 0
+    },
+    {
+      "vertices": 1,
+      "faces": 0
+    },
+    {
+      "vertices": 1,
+      "faces": 0
+    },
+    {
+      "vertices": 1,
+      "faces": 0
+    },
+    {
+      "vertices": 1,
+      "faces": 0
+    },
+    {
+      "vertices": 1,
+      "faces": 0
+    },
+    {
+      "vertices": 1,
+      "faces": 0
+    },
+    {
+      "vertices": 1,
+      "faces": 0
+    },
+    {
+      "vertices": 1,
+      "faces": 0
+    },
+    {
+      "vertices": 1,
+      "faces": 0
+    },
+    {
+      "vertices": 1,
+      "faces": 0
+    },
+    {
+      "vertices": 1,
+      "faces": 0
+    },
+    {
+      "vertices": 1,
+      "faces": 0
+    },
+    {
+      "vertices": 1,
+      "faces": 0
+    }
+  ],
+  "status": "HOLD: derivative connectivity changed",
+  "raw_master_sha256_unchanged": "3005ad1a1f3039a946db633b323ace8bc73856e91f38bfef4fc1faaf59ce223c",
+  "blend_sha256": "c8128d5b773d832c121a90f928aec7bacd683a84182bcc8257a0ae350367bd4a",
+  "blend_bytes": 7671495,
+  "not_checked": [
+    "manifold/winding certification",
+    "surface self-intersections",
+    "runtime collision or rendering"
+  ]
+}

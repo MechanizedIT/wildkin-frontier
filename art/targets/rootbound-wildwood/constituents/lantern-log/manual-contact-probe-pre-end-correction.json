@@ -1,0 +1,125 @@
+{
+  "parameters_sha256": "e65df488e76b4c6c4c47c134fcb123c6dfd8c6512c1f99471d8fe982b9486043",
+  "log_side_triangles": 96,
+  "source_ground_plane_m": 0.075,
+  "ground_plane_triangle_count": 16,
+  "centerline_measures": {
+    "log": {
+      "segment_lengths_m": [
+        0.3525975042452797,
+        0.4513867521316947,
+        0.4510266067539697,
+        0.35185224171518364
+      ],
+      "direction_change_degrees": [
+        9.053564642384778,
+        5.856018052062517,
+        4.041964332393476
+      ]
+    },
+    "hero": {
+      "segment_lengths_m": [
+        0.1554027026792005,
+        0.1629386387570487
+      ],
+      "direction_change_degrees": [
+        6.950907164752805
+      ]
+    },
+    "near_medium": {
+      "segment_lengths_m": [
+        0.114564392373896,
+        0.09273618495495707
+      ],
+      "direction_change_degrees": [
+        6.778485208837668
+      ]
+    },
+    "back_medium": {
+      "segment_lengths_m": [
+        0.09124143795447331,
+        0.0923309265630969
+      ],
+      "direction_change_degrees": [
+        13.976524026832827
+      ]
+    },
+    "near_young_a": {
+      "segment_lengths_m": [
+        0.06264982043070834,
+        0.0610327780786685
+      ],
+      "direction_change_degrees": [
+        9.153549296392226
+      ]
+    },
+    "near_young_b": {
+      "segment_lengths_m": [
+        0.050249378105604446,
+        0.058728187440104086
+      ],
+      "direction_change_degrees": [
+        13.870682411818821
+      ]
+    },
+    "far_medium": {
+      "segment_lengths_m": [
+        0.1260991673247687,
+        0.092736184954957
+      ],
+      "direction_change_degrees": [
+        13.092038490791275
+      ]
+    }
+  },
+  "contacts": [
+    {
+      "id": "hero",
+      "log_surface_at_stem_center_m": 0.4547557624740165,
+      "stem_base_z_m": 0.415,
+      "base_center_inside_log_m": 0.03975576247401652,
+      "stem_top_above_cap_center_bottom_m": 0.04299999999999993
+    },
+    {
+      "id": "near_medium",
+      "log_surface_at_stem_center_m": 0.40494325545650434,
+      "stem_base_z_m": 0.34,
+      "base_center_inside_log_m": 0.06494325545650431,
+      "stem_top_above_cap_center_bottom_m": 0.017800000000000038
+    },
+    {
+      "id": "back_medium",
+      "log_surface_at_stem_center_m": 0.4340813287472875,
+      "stem_base_z_m": 0.41,
+      "base_center_inside_log_m": 0.024081328747287523,
+      "stem_top_above_cap_center_bottom_m": 0.013599999999999945
+    },
+    {
+      "id": "near_young_a",
+      "log_surface_at_stem_center_m": 0.3629183658988365,
+      "stem_base_z_m": 0.31,
+      "base_center_inside_log_m": 0.05291836589883653,
+      "stem_top_above_cap_center_bottom_m": 0.016000000000000014
+    },
+    {
+      "id": "near_young_b",
+      "log_surface_at_stem_center_m": 0.3727867725658459,
+      "stem_base_z_m": 0.33,
+      "base_center_inside_log_m": 0.0427867725658459,
+      "stem_top_above_cap_center_bottom_m": 0.01589999999999997
+    },
+    {
+      "id": "far_medium",
+      "log_surface_at_stem_center_m": 0.4276853171608205,
+      "stem_base_z_m": 0.414,
+      "base_center_inside_log_m": 0.013685317160820498,
+      "stem_top_above_cap_center_bottom_m": 0.015699999999999936
+    }
+  ],
+  "status": "PASS for literal log-side center penetrations and cap-axis overlap only",
+  "limits": [
+    "Probe triangulates log sides only; it is not a full asset or closed-mesh audit.",
+    "Cap-axis overlap does not prove complete rim coverage; actual Blender views must inspect it.",
+    "No hidden cap visibility, underside closure, global intersections or runtime fit is claimed."
+  ]
+}

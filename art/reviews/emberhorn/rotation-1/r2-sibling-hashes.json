@@ -1,0 +1,1193 @@
+{
+  "note": "Actual code-native meshes after Emberhorn R2 candidate edits; stable geometry/material/transform hashes exclude runtime UUIDs.",
+  "sourceSha256": "b53ac3e824a6fc6d6e16c5fa29cc3563b5d42fbf324909e8da90383166002262",
+  "species": [
+    {
+      "id": "asset_wildkin_mossling",
+      "rootScale": [
+        1,
+        1,
+        1
+      ],
+      "hash": "f669b2e599b79e35dc7446545154515360896fa784d787d8f460094c91bbb349",
+      "parts": [
+        {
+          "index": 0,
+          "name": "tapered_torso",
+          "hash": "d224b4a2bf11dd1111c761a21c1b2908b14fdcf19d47bad2956c5af34d85bb78"
+        },
+        {
+          "index": 1,
+          "name": "faceted_fox_head",
+          "hash": "55f1878f117129f5d92ea7957f94752ced6217394c711b75a3128e0866da9d22"
+        },
+        {
+          "index": 2,
+          "name": "chest_ruff",
+          "hash": "d1ceb0e8481b8a8b81cb58b75e9a590d98f9fcad14d6a41cb36ba11c67c79347"
+        },
+        {
+          "index": 3,
+          "name": "connected_leg",
+          "hash": "4c6cd9afc2f647f1f75f92f7a008fab375dd8cc456b25f52378376a72d889527"
+        },
+        {
+          "index": 4,
+          "name": "grounded_paw",
+          "hash": "a3e2669acad633e9f45e9995924822ae594fcd2daaa4dfa4e95a5325d47e6f64"
+        },
+        {
+          "index": 5,
+          "name": "connected_leg",
+          "hash": "fd0879973b85819b528f75b043de173a14476242d08bbe83a5415bc6a43f3f3c"
+        },
+        {
+          "index": 6,
+          "name": "grounded_paw",
+          "hash": "a38ee9f0683f98c6ebe2d45823e4d8f7b44e75118e7e0ea6b241b8c7291393ed"
+        },
+        {
+          "index": 7,
+          "name": "connected_leg",
+          "hash": "82987685276bf5da6e86d2d378ce28985b48456fefd78828e58e3fa96e8b2c27"
+        },
+        {
+          "index": 8,
+          "name": "grounded_paw",
+          "hash": "fa48cac40a2b6d7659a08d0f30fdc03542a10eb6cf4fd2771e81a803e23a8a27"
+        },
+        {
+          "index": 9,
+          "name": "connected_leg",
+          "hash": "a86b385e7f2cfd021e37536a6d3ba422ad9eb32f653e9441eaaf6701fcad19e9"
+        },
+        {
+          "index": 10,
+          "name": "grounded_paw",
+          "hash": "b8e9cb9b1d8b670ec1ed018e135bd52cf9eb693c7b9bf0de85885108f674fdbb"
+        },
+        {
+          "index": 11,
+          "name": "angular_muzzle",
+          "hash": "247b5ebb2c1e2b94e424354794d6ec5300b94ac609e881bb9b829ebfc8d944da"
+        },
+        {
+          "index": 12,
+          "name": "inset_almond_eye",
+          "hash": "2f6b3c3327880b9750cfef39a59ece06dd37377b841a49fd39a4891e6dbced01"
+        },
+        {
+          "index": 13,
+          "name": "eye_glint",
+          "hash": "a14c8d794764e8a9848b3e7db7d52ed1d0f8dc4489fc49e2e1586eba2e194b47"
+        },
+        {
+          "index": 14,
+          "name": "inset_almond_eye",
+          "hash": "b68c53d2c37f654955defc368c6da592648f85010249f8262b4131fdf5b7cfa8"
+        },
+        {
+          "index": 15,
+          "name": "eye_glint",
+          "hash": "66037b9141ce847fef33cfefc7363b5efdf95acdcec055c8bf3da12a84855dff"
+        },
+        {
+          "index": 16,
+          "name": "nose",
+          "hash": "39d995543e6ac81883dac91e8600f8a7372f1c2b897ef7c4198dc1c595237078"
+        },
+        {
+          "index": 17,
+          "name": "pointed_ear",
+          "hash": "c55a2b3a1de03bda50320f2af41cc5f47c148fd023d728b2e54d4879a9364bdc"
+        },
+        {
+          "index": 18,
+          "name": "pointed_ear",
+          "hash": "42a99778546e8df8b92aaf7c8c92970c0c41559a34682f629eaf45f266f2fc10"
+        },
+        {
+          "index": 19,
+          "name": "layered_leaf_mantle",
+          "hash": "f18a1f62d834a1775325a79d3856d93e90c8e304cee8eafdb9c74c555dda3dfa"
+        },
+        {
+          "index": 20,
+          "name": "layered_leaf_mantle",
+          "hash": "8dfb67227e23d695239f3cca168ced1687f2f7cbadd5c7c6f85cbcaedf0a8195"
+        },
+        {
+          "index": 21,
+          "name": "layered_leaf_mantle",
+          "hash": "c035b76bc92bf16432cd6b3e38e3fc39c326cea08302f648872d865a6d3da5f0"
+        },
+        {
+          "index": 22,
+          "name": "layered_leaf_mantle",
+          "hash": "6e65c8c9228d70958b32c1d6dd14277914730086e593fe2aff33712793df36e7"
+        },
+        {
+          "index": 23,
+          "name": "layered_leaf_mantle",
+          "hash": "247fd6e98557bda2d6820acb08ee53705be062e77355e81134f2bc4dde6b8419"
+        },
+        {
+          "index": 24,
+          "name": "layered_leaf_mantle",
+          "hash": "24f1c18866024ccf310a8f236a6c0fc1e441e39af221f212dc1998bbfda6652a"
+        },
+        {
+          "index": 25,
+          "name": "layered_leaf_mantle",
+          "hash": "090270ecc21fb6d0824a4bf16b49230655e642ce27c3120f8efe13ef17457fb9"
+        },
+        {
+          "index": 26,
+          "name": "layered_leaf_mantle",
+          "hash": "d1c045932db380b1dc15d13c7defe617911f15a6f9f0c763c9f1ba50e5f88ddd"
+        },
+        {
+          "index": 27,
+          "name": "layered_leaf_mantle",
+          "hash": "3b1b96d249b460808f0ed5441790dda9650ed9b5f50fe522e9b22d56eacf138b"
+        },
+        {
+          "index": 28,
+          "name": "layered_leaf_mantle",
+          "hash": "1ed100eb170807f25618cab1d6eacd5f80217c9caf189c48997cb7345a952fdc"
+        },
+        {
+          "index": 29,
+          "name": "layered_leaf_mantle",
+          "hash": "b60c900228f358f627f91fab0a0137c728ed569ba6c86536987857facf91856b"
+        },
+        {
+          "index": 30,
+          "name": "layered_leaf_mantle",
+          "hash": "88746a59a27ce59b9ab960cd30d5c2450ca670bd22ddbbf66b39c581faaf80b9"
+        },
+        {
+          "index": 31,
+          "name": "layered_leaf_mantle",
+          "hash": "4aead5f5c0bdf791137b3a762c17e4b6c8f61dbf63dfb5f62355e9b5d8ae0c92"
+        },
+        {
+          "index": 32,
+          "name": "layered_leaf_mantle",
+          "hash": "9ac6c571807a8aa0b51b267fbe2c8f0f8c92d51570aaeae0e872fef26261737b"
+        },
+        {
+          "index": 33,
+          "name": "layered_leaf_mantle",
+          "hash": "0c91f681d56b10f8afebf846d44fdc92e27e245742e950b7adc074ed6bf91ef3"
+        },
+        {
+          "index": 34,
+          "name": "layered_leaf_mantle",
+          "hash": "1ef7b0c10603b3b7156408563ee1c527012ffe99c004c17d11282dccd1ee716c"
+        },
+        {
+          "index": 35,
+          "name": "layered_leaf_mantle",
+          "hash": "f70d1a6c16851752eb8a726b6706fad9563c332fc975bd5e2d86a86b67e8b36e"
+        },
+        {
+          "index": 36,
+          "name": "layered_leaf_mantle",
+          "hash": "5c49634281f42a82d4e9fcbdf4d379d19c71f2d2e85324bb3c696f04c1834d0c"
+        },
+        {
+          "index": 37,
+          "name": "bright_crown_leaf",
+          "hash": "bdfc040c7710a926f246d6e3ee5cff8bff403ee55c1aabbe8c4f16c625850268"
+        },
+        {
+          "index": 38,
+          "name": "bright_crown_leaf",
+          "hash": "613f611594c7d45ede0994ba9cced5ef91dbe521b2e3f3692bfc31e4a9304bdf"
+        },
+        {
+          "index": 39,
+          "name": "bright_crown_leaf",
+          "hash": "caebfe36a8698bf5f003ff3250550994c32fb4e771fb13abcfe2836ee273e82d"
+        },
+        {
+          "index": 40,
+          "name": "bright_crown_leaf",
+          "hash": "62c8310b1db078ff6af178df912e641740d6b7e7b3a3eebf7f0823c6be0eceef"
+        },
+        {
+          "index": 41,
+          "name": "bright_crown_leaf",
+          "hash": "364fd037e76f7508af8d767060e563f1630def2855a0674299a35215463e3354"
+        },
+        {
+          "index": 42,
+          "name": "lifted_leaf_tail",
+          "hash": "60d2af2969b6012654b398b2c571e83b7ff552e8e68be8ad905ce9e33816f8bb"
+        },
+        {
+          "index": 43,
+          "name": "tail_leaf",
+          "hash": "0c6fc00489e425fea8ed53965ec7caf763324d0281f93672d41b7e2a2629f783"
+        },
+        {
+          "index": 44,
+          "name": "tail_leaf",
+          "hash": "525eaa555546112fa6a0ace497616643207493f7b1e304babc43330ec7c102ad"
+        },
+        {
+          "index": 45,
+          "name": "tail_leaf",
+          "hash": "4e53e9b64b8d546e3c51a8b89c6cdde0d53dacf0cb3270b623e49aa1f9cddd47"
+        },
+        {
+          "index": 46,
+          "name": "tail_leaf",
+          "hash": "56c60ce06fa5b59d5e11ee9cd9490d05e86067f87395e9793a174dbe80c0ae4f"
+        }
+      ]
+    },
+    {
+      "id": "asset_wildkin_tidefin",
+      "rootScale": [
+        1,
+        1,
+        1
+      ],
+      "hash": "d3bd7ac61ed98272e7e82fe176dc71e15d63365522a8e946268762f8e61ef808",
+      "parts": [
+        {
+          "index": 0,
+          "name": "tapered_amphibian_torso",
+          "hash": "2f858ec2d82eca7fa1ad361ec1f4cba6b40f71bae4944022e59b3c0141dce33b"
+        },
+        {
+          "index": 1,
+          "name": "narrowed_head",
+          "hash": "5194a1b318e2b77f891c9b957cd031d13b654a1a26e792bb7620955c65f753e0"
+        },
+        {
+          "index": 2,
+          "name": "pale_chest_wedge",
+          "hash": "e9d7c6451dbec03fa67275b283707fc0ee3905c5023df5859467de3165651f4e"
+        },
+        {
+          "index": 3,
+          "name": "connected_amphibian_leg",
+          "hash": "ee892c7f7a8b530af1fa4067a64c6535aca0c00b37230d53ccad8a4c04a65118"
+        },
+        {
+          "index": 4,
+          "name": "cyan_toed_paw",
+          "hash": "3b16a03b616834201edd24ad0de19c752a2cc2954dc8cd6b91248c2974b817c6"
+        },
+        {
+          "index": 5,
+          "name": "connected_amphibian_leg",
+          "hash": "8dd58495cd4fc692a9543d567d0d2a8b8636d4ad7c3babea1a930ab34fd5a9b9"
+        },
+        {
+          "index": 6,
+          "name": "cyan_toed_paw",
+          "hash": "1b07551b8517890127fc31fc4a0a947b14a00244428ebe3dfd23048787960b58"
+        },
+        {
+          "index": 7,
+          "name": "connected_amphibian_leg",
+          "hash": "d9cc9f2c0443be074ad3de89fc4381e99d66d8ef3d40fda143793541775b0a4a"
+        },
+        {
+          "index": 8,
+          "name": "cyan_toed_paw",
+          "hash": "02744bf5f5069faeb99f7c3ccf4aa58144e0267a56d63d3946ee04ea880c0d66"
+        },
+        {
+          "index": 9,
+          "name": "connected_amphibian_leg",
+          "hash": "3102435f92326d0f3f0a0100c8c79f1b9420bb5d4a980fc121af79b897310711"
+        },
+        {
+          "index": 10,
+          "name": "cyan_toed_paw",
+          "hash": "317baecd1f70c8e8924caa5530d9ae035d6bdc67f5399f5e881e17e4ebe2b2b1"
+        },
+        {
+          "index": 11,
+          "name": "inset_almond_eye",
+          "hash": "1b0a4d409827c80cb1cd8ad3b6bcc5cd3a504a63eb1c85ac3bf8f861e8604738"
+        },
+        {
+          "index": 12,
+          "name": "eye_glint",
+          "hash": "b80d920c796e6898b895d7f71488074024c718f2040791b9737df12b5fb364e7"
+        },
+        {
+          "index": 13,
+          "name": "inset_almond_eye",
+          "hash": "27069f908a282da393b0a6de4a786b72b1c4ab45f3ff0b221aa3ef21fda95320"
+        },
+        {
+          "index": 14,
+          "name": "eye_glint",
+          "hash": "445c8dd6978d8f7589d3fc2d636a4919283058e5d9f52d90e6cdf07b2e369527"
+        },
+        {
+          "index": 15,
+          "name": "pale_jaw",
+          "hash": "717d107f66d664d16d25738b17e9bc8a7a4adc2ab13bf313d670a73da617f9d0"
+        },
+        {
+          "index": 16,
+          "name": "continuous_fin_crest",
+          "hash": "d9a530279ce47e755f7a3dd3ed5cd9c21e52967e26ca6d9968416382358a0eac"
+        },
+        {
+          "index": 17,
+          "name": "continuous_fin_crest",
+          "hash": "65606d914702267f53beb046238a60df22b66fb299057ba3d765916e7cd80b62"
+        },
+        {
+          "index": 18,
+          "name": "continuous_fin_crest",
+          "hash": "50ce1103fe10046615d18cbaa55a5724b682aae15ca5b00accd0f742f7327c8f"
+        },
+        {
+          "index": 19,
+          "name": "continuous_fin_crest",
+          "hash": "9f31aa6a67c7a1477e5a18a343becaac733172b88e628a42fbf37eaba537623d"
+        },
+        {
+          "index": 20,
+          "name": "continuous_fin_crest",
+          "hash": "cbc5aac2ff928f54503b30facfe6a53ca039a32fcf37c8407e9d555115161303"
+        },
+        {
+          "index": 21,
+          "name": "continuous_fin_crest",
+          "hash": "23a53b11742d13f489321f5301023241b1b1484761eb5ec00cbb6ead221115e3"
+        },
+        {
+          "index": 22,
+          "name": "continuous_fin_crest",
+          "hash": "0023f21ef73dd1fde3ec165dd0a22c0aa0afcff47fc2c62543048b8759aceb13"
+        },
+        {
+          "index": 23,
+          "name": "tapered_tail",
+          "hash": "dbaca92b106ed4db34825e0186c7dc71ed49eb628d12c3d80120971a107ce300"
+        },
+        {
+          "index": 24,
+          "name": "tail_fin",
+          "hash": "ed65112f1005154bc3df6a26af428ab0e10f2613c9facd49b4c52f7577e9ed07"
+        },
+        {
+          "index": 25,
+          "name": "tail_fin",
+          "hash": "c193bcb8d5ad776aa7928d118233ca8ee19371d3d9e0f4b2ee5842f01a8b31a0"
+        },
+        {
+          "index": 26,
+          "name": "tail_fin",
+          "hash": "946c65e447a841457e331a11d5bfe4bd8748da9f9161ec27a6033548a9f56d6e"
+        },
+        {
+          "index": 27,
+          "name": "tail_fin",
+          "hash": "ec6000ab5610af6dba243c51414f19fcb3b8b27292f07a591be6059a827000c7"
+        },
+        {
+          "index": 28,
+          "name": "tail_fin",
+          "hash": "6293766c3f719a06b9c5e5a8aa80272c99a080c6326ca966eb9765bc8079cfb7"
+        }
+      ]
+    },
+    {
+      "id": "asset_wildkin_emberhorn",
+      "rootScale": [
+        1,
+        1,
+        1
+      ],
+      "hash": "2778e7ebcc5064d4b7fad583e693b4607cf27ce62037ad5e099f8c590da6ea9b",
+      "parts": [
+        {
+          "index": 0,
+          "name": "heavy_feline_torso",
+          "hash": "e7b376d3f078f34222f1d2bcbd6e4425cac9b8e70477a9c86a8b5b17b4b86c1d"
+        },
+        {
+          "index": 1,
+          "name": "broad_brow_head",
+          "hash": "99173f1591a562e15dc9e8b2259707a63252414b16f424d601c9c862622de14f"
+        },
+        {
+          "index": 2,
+          "name": "ivory_chest_muzzle",
+          "hash": "7056f1b3e761097db93fe13ffb5ece6e35a52cab1e5954834da4d2c422984cec"
+        },
+        {
+          "index": 3,
+          "name": "heavy_leg",
+          "hash": "48757fc667a4ddd0fb740693a5aaa0daf7bc21a3707ee8a2293de4448d8f8929"
+        },
+        {
+          "index": 4,
+          "name": "heavy_leg",
+          "hash": "438c8806f3c40c92541dc95615c1eb3c08db4981db4c83d59046180f3e4f7036"
+        },
+        {
+          "index": 5,
+          "name": "heavy_leg",
+          "hash": "4cd4b0f04d78e55f624f29b953a029551012c66efee8e648cce80bc08169c39a"
+        },
+        {
+          "index": 6,
+          "name": "heavy_leg",
+          "hash": "9ada85d4f468b96b45b97a9b61ab46959f204aef6d1cca32385f7531f239cd5c"
+        },
+        {
+          "index": 7,
+          "name": "dark_hoof",
+          "hash": "d1cb155ceb91e9e914c6c76fca992f8145fd7f9ac8c21e38ea4f14a04146987d"
+        },
+        {
+          "index": 8,
+          "name": "dark_hoof",
+          "hash": "ad0ce7fd0cc8bf2659f8924e1d05474b0124e6597fcf57c57f0df61c1c50f412"
+        },
+        {
+          "index": 9,
+          "name": "dark_hoof",
+          "hash": "feb238d941e5b213c335509097a131ac25b3a3105e9ee0358f8af5655acebe7f"
+        },
+        {
+          "index": 10,
+          "name": "dark_hoof",
+          "hash": "7c43578a0ce5c3177aa5af9703875b74dd2742546c839f12e277ce46ed23b1ac"
+        },
+        {
+          "index": 11,
+          "name": "inset_almond_eye",
+          "hash": "4950a1b807a1523dc061a1826b424c32662a53cd9e7aa692ad1c9608916b7f03"
+        },
+        {
+          "index": 12,
+          "name": "eye_glint",
+          "hash": "1d56bf83035069bb83946a1222be10fd23bad340fa2387fd2506fd35076c0b25"
+        },
+        {
+          "index": 13,
+          "name": "inset_almond_eye",
+          "hash": "8cc5778226dd144c72dde5748b7818bcb4d04f534d75ba0810f8ded0bfc3a575"
+        },
+        {
+          "index": 14,
+          "name": "eye_glint",
+          "hash": "a9576b5e2d24bf6be6db13abd81bf8d45b009476163124594dfb0f78b3dfc9d6"
+        },
+        {
+          "index": 15,
+          "name": "asymmetric_horn",
+          "hash": "4b027e6dd33f1eb01c03e73b8b4cd4c784b921b2c0222f8b6c0fa680c082bdfd"
+        },
+        {
+          "index": 16,
+          "name": "asymmetric_horn",
+          "hash": "0b458c6f867b2f0ea1412d09d75044cad1ebeaf696f108dda2d2e895514b0dfd"
+        },
+        {
+          "index": 17,
+          "name": "layered_mane",
+          "hash": "35fb776f8afd659fa0ac29e892ba1208d618d09201395fe5d92fb0467acb4715"
+        },
+        {
+          "index": 18,
+          "name": "layered_mane",
+          "hash": "c8ec7c1e7cfa53b846a43641b61876c0fda377f2a531651cb6a4a415ad97f45a"
+        },
+        {
+          "index": 19,
+          "name": "layered_mane",
+          "hash": "88171d30d8a661e11aa2b41f5c1c8cd85db38bad7b84e5a102f607da8de5fec1"
+        },
+        {
+          "index": 20,
+          "name": "layered_mane",
+          "hash": "3cf0db10943bbdcc8593b0fafcef950795bd404d44cdcee209dfe0a7a6f4a18b"
+        },
+        {
+          "index": 21,
+          "name": "layered_mane",
+          "hash": "c0620857d53e033e75721d64861dc5f1b73706b981257f9cf204433bb9351545"
+        },
+        {
+          "index": 22,
+          "name": "layered_mane",
+          "hash": "ef6ea386561be77972a3342f60c5bbbd8f7c821f246746498b7ae995a9234408"
+        },
+        {
+          "index": 23,
+          "name": "layered_mane",
+          "hash": "2423b5376377d427ac1f34ddf504b682bd1b8737bb1829115339ccbe3052227a"
+        },
+        {
+          "index": 24,
+          "name": "layered_mane",
+          "hash": "0c6b57685d256c506826b796baff7169a4aa00e3ecfd5b879f522386fe08b61d"
+        },
+        {
+          "index": 25,
+          "name": "layered_mane",
+          "hash": "f9bb60ee7f4c2864afd1645f1ee2e73acd586f2e0c201c0559ea722a33124e19"
+        },
+        {
+          "index": 26,
+          "name": "layered_mane",
+          "hash": "f65703225d00bd6c5dd8dfcec78d60212fc64871afaef704be120b248691c206"
+        },
+        {
+          "index": 27,
+          "name": "layered_mane",
+          "hash": "6862b773b8646e38907c99a25b044d56edcf79aabb3313dafe45a8d9fef0c802"
+        },
+        {
+          "index": 28,
+          "name": "layered_mane",
+          "hash": "93038c191fdccbbfe3f11b7ff0efc8b7fbacf2f816f803c4f52317e209bbb2f9"
+        },
+        {
+          "index": 29,
+          "name": "layered_mane",
+          "hash": "cf001e780bf7f0609580b7c80292948be9d1988b9f24a5324fe93525896d03f0"
+        },
+        {
+          "index": 30,
+          "name": "layered_mane",
+          "hash": "ffad786e8decd9dfdcfd8fa151b28c248aaf6ed63a05eab867cd763b356c462b"
+        },
+        {
+          "index": 31,
+          "name": "layered_mane",
+          "hash": "a63d39486edb703c9704a2d23cd2f1bf30949ca2d1e9c2350af102f452e2c9d1"
+        }
+      ]
+    },
+    {
+      "id": "asset_wildkin_skydancer",
+      "rootScale": [
+        1,
+        1,
+        1
+      ],
+      "hash": "8ed86397cfb9a28b97974d32332deac5917742f784281fb72ced385adf36b7d9",
+      "parts": [
+        {
+          "index": 0,
+          "name": "slender_avian_torso",
+          "hash": "c5486dccc5d0b1b4ff0c0448ef2f7b8a32ca21c9ad616f7fcbcbcd381cb673a5"
+        },
+        {
+          "index": 1,
+          "name": "crested_avian_head",
+          "hash": "2f632bfc3af18606136115d1dfd181de00215ba5b1a6910bf224aba768196f05"
+        },
+        {
+          "index": 2,
+          "name": "beak",
+          "hash": "8a230bf8c2570d4082ffceb6db88434f931331212296bc3457d3738a9bd39c77"
+        },
+        {
+          "index": 3,
+          "name": "inset_almond_eye",
+          "hash": "e08d3056ef16e3274d81f3ee482cc5da7c6f66b03acfd8ea9fd30f541773d96c"
+        },
+        {
+          "index": 4,
+          "name": "eye_glint",
+          "hash": "48adb96c6f695d8cf1f802f1c692bab7edb213c7c4f93a5f85b6907131308b8c"
+        },
+        {
+          "index": 5,
+          "name": "inset_almond_eye",
+          "hash": "8f924634397c067d2ca40a242db93851b541b97c84e421edc8eb4c000e29bf1e"
+        },
+        {
+          "index": 6,
+          "name": "eye_glint",
+          "hash": "7bbd6a0ddb5f32cf3f458cc077b4c667bdcfc42c9b214266862d031daf8749d7"
+        },
+        {
+          "index": 7,
+          "name": "layered_wing_feather",
+          "hash": "1587df1fed8ee887ed22823a19a321f04fb4682f4c959fb54f4c574c26bd4d67"
+        },
+        {
+          "index": 8,
+          "name": "layered_wing_feather",
+          "hash": "cd6ec3ee367f0f9642624ab7fa187aebf31e6b0977bbc49c65dcacfb2d428b30"
+        },
+        {
+          "index": 9,
+          "name": "layered_wing_feather",
+          "hash": "02ac20e22efcf4e56da1fc29d89473fd8ea325bb559ad29f6ff32aa75d96a89d"
+        },
+        {
+          "index": 10,
+          "name": "layered_wing_feather",
+          "hash": "53358b77a526ab0249c538df2baf68f2f094ec96e38c35be53310eae1b4308a3"
+        },
+        {
+          "index": 11,
+          "name": "layered_wing_feather",
+          "hash": "4e7b637dd5e4e49060bdb76446f61d62b4522593f46b0e3c24a48191545734cd"
+        },
+        {
+          "index": 12,
+          "name": "layered_wing_feather",
+          "hash": "ab5898f8daeb8f9ea12f615e6402707946bcd7451956a96b8527aaeeb8a29b02"
+        },
+        {
+          "index": 13,
+          "name": "layered_wing_feather",
+          "hash": "91da8bd4fd1272cbcd052fc7a33eb8173cd9900a6cf845a8661a1f8a5ea1bd95"
+        },
+        {
+          "index": 14,
+          "name": "layered_wing_feather",
+          "hash": "2eea1c17af61116c24b37028288ab954e1a6dfe9f86103d7b255cba6b6a9baeb"
+        },
+        {
+          "index": 15,
+          "name": "layered_wing_feather",
+          "hash": "70828dc352f2525aca475912cf74bf6d455746f393c3ce31e69bbd8cfb802009"
+        },
+        {
+          "index": 16,
+          "name": "layered_wing_feather",
+          "hash": "94b00c526b6daaef2a96f6edf0fb636b500ad83200926002d5c1b0af51c36055"
+        },
+        {
+          "index": 17,
+          "name": "bent_avian_leg",
+          "hash": "e8d252e8d46aa1a0e61f1ed66e6159233ddcb5708c1240ad88862d3a221b605f"
+        },
+        {
+          "index": 18,
+          "name": "talon",
+          "hash": "3ae37acee80dce976bb03986f91b208751960819c8aa04644ddee66e5d4ebbe9"
+        },
+        {
+          "index": 19,
+          "name": "bent_avian_leg",
+          "hash": "a5aa393baa141ee52f459baf382a307a15c1c72154b699e3280b61a03a46f2eb"
+        },
+        {
+          "index": 20,
+          "name": "talon",
+          "hash": "e9706bc5f92e987dcb6f8212babf1703423f2174934ea4e0b6b67750c099cd70"
+        },
+        {
+          "index": 21,
+          "name": "split_ribbon_tail",
+          "hash": "d2a2db76781e748dbd6f672e2095f1c0718ee245799216adeb6783cb0d0da3a7"
+        },
+        {
+          "index": 22,
+          "name": "split_ribbon_tail",
+          "hash": "f97a75f97b968d3183a7fd694bfbc22b1428fa2bc33e841ab811146622d7e069"
+        }
+      ]
+    },
+    {
+      "id": "asset_thornprowler",
+      "rootScale": [
+        1,
+        1,
+        1
+      ],
+      "hash": "dc803ca602ca8d88ffa3aa45e9217c1ea884440b304bce9d6a9170d2ff148c3b",
+      "parts": [
+        {
+          "index": 0,
+          "name": "crouched_predator_torso",
+          "hash": "52c84e042b2ff091ec56626d7aa78f9186c2b47b8436818aa86e0d12846eadb5"
+        },
+        {
+          "index": 1,
+          "name": "low_brow_head",
+          "hash": "509685b634640c8f57efdf0b4e264b16373c5da40cbe440e9b5d254a6253d982"
+        },
+        {
+          "index": 2,
+          "name": "angular_jaw",
+          "hash": "e4f088255c3533047931f3c4317b5832fe4b46ac0c0c71f84c576c1ee547bf3f"
+        },
+        {
+          "index": 3,
+          "name": "articulated_leg",
+          "hash": "00049340c18539a9ec1624a628a85856fc5c6cce4890500c24b145e4d9caf077"
+        },
+        {
+          "index": 4,
+          "name": "clawed_paw",
+          "hash": "aa12106cfc4bcf36635e5ded9254f93847fb6d6501c644c1efa01f170c7fab47"
+        },
+        {
+          "index": 5,
+          "name": "articulated_leg",
+          "hash": "4a49c02485d57be9274f4fcba5ef59d898cfe8c1559c12a4853aab52fa0b4d64"
+        },
+        {
+          "index": 6,
+          "name": "clawed_paw",
+          "hash": "b51efc29043758f8e170d6b4786b924717661e46aadab8eda1a873a3d7e0e613"
+        },
+        {
+          "index": 7,
+          "name": "articulated_leg",
+          "hash": "657eee542f9cd78a421a05af37704cc0ee3329ee4c97c5fc6e52b4a77e4977cd"
+        },
+        {
+          "index": 8,
+          "name": "clawed_paw",
+          "hash": "7976b90868210ea179d55584f81d64d702bdc1a43b213479586651664fabafd9"
+        },
+        {
+          "index": 9,
+          "name": "articulated_leg",
+          "hash": "066cc72dc68f4f2c462e962ad53ee8dacb6510aaf9372e79f44a8672a372ef02"
+        },
+        {
+          "index": 10,
+          "name": "clawed_paw",
+          "hash": "8796ce4aac3bdd4e2acd23df5589cf6aadaa5740c281fe416ce3b9ce82a9889f"
+        },
+        {
+          "index": 11,
+          "name": "inset_almond_eye",
+          "hash": "6b47b4e2e9d0d19e2d0867eea7af58d56ee9901862b0fb384a0205f8371f528a"
+        },
+        {
+          "index": 12,
+          "name": "eye_glint",
+          "hash": "2c630b02fc58108fe3e84ed1d62799f3af489fcfb3325e55e4c2f8d153ae51ba"
+        },
+        {
+          "index": 13,
+          "name": "inset_almond_eye",
+          "hash": "6ee4afdc5ad6a9a7990ab1eb97b7be284ccdc7b7e99918389898952002fb5f5c"
+        },
+        {
+          "index": 14,
+          "name": "eye_glint",
+          "hash": "92f5a885f3075da4eb23d2fe1a1707c723291861f387e4bee41c0191d1828769"
+        },
+        {
+          "index": 15,
+          "name": "staggered_dorsal_thorn",
+          "hash": "c16d4f2212f73fa554a2204437c99c8b92ae37651bd6cededf9759c0b555a2b2"
+        },
+        {
+          "index": 16,
+          "name": "staggered_dorsal_thorn",
+          "hash": "1473ea0aef3f068920e795ea898fe2b84d2d4b0c8581aa8f27d29d81e61ad693"
+        },
+        {
+          "index": 17,
+          "name": "staggered_dorsal_thorn",
+          "hash": "da9006882dd19b26cf53d2429a82216a48bccb17472b90edc8e3c628dfcf97c4"
+        },
+        {
+          "index": 18,
+          "name": "staggered_dorsal_thorn",
+          "hash": "9bede8144fcf9bf57f0366c67f8ce156a305c6f6b728689801c276964f52850f"
+        },
+        {
+          "index": 19,
+          "name": "staggered_dorsal_thorn",
+          "hash": "2d510651cd35ebeb962f56cda6b15b259f2851c474f1aa23edb6c47de9a21317"
+        },
+        {
+          "index": 20,
+          "name": "staggered_dorsal_thorn",
+          "hash": "d68eaac3b308c17f73d871c2ac20e4ad19db57876c4a9f51c4cd6e8ba047a8dd"
+        },
+        {
+          "index": 21,
+          "name": "staggered_dorsal_thorn",
+          "hash": "27afbed3d4c1ebcb4e6e79e5bb05fda73250674cbecbfc31dc2d37aebecb3933"
+        },
+        {
+          "index": 22,
+          "name": "sweeping_tail",
+          "hash": "3a732f8cba18ebed3c1d7a7328b1d3e0a88f5ac427f001ea496a55f8412cbf71"
+        }
+      ]
+    },
+    {
+      "id": "asset_cinderjaw",
+      "rootScale": [
+        1,
+        1,
+        1
+      ],
+      "hash": "4b5224d358cd0fffe293933ff6897adf837db57e2fc6cb307d33fc54cef7d858",
+      "parts": [
+        {
+          "index": 0,
+          "name": "armored_reptile_torso",
+          "hash": "4874682200bf1ef4f51bd1a7bb46c8bea15330fa1695285ddc09f7654b8f27bc"
+        },
+        {
+          "index": 1,
+          "name": "wide_armored_skull",
+          "hash": "31f19f7220e8d3271ecb0986ebaa88b06de28397f0de319b838474ac96dfe0e6"
+        },
+        {
+          "index": 2,
+          "name": "broad_cream_jaw",
+          "hash": "59d2c476c67e42244613357b90629c6d0435b06e08f1af3ebd83a952bc9f1557"
+        },
+        {
+          "index": 3,
+          "name": "low_clawed_leg",
+          "hash": "8fbe7ea96d9b3f5f3aa316b25ee0e08c40a486a480d610b66b74f43d4179c769"
+        },
+        {
+          "index": 4,
+          "name": "claw",
+          "hash": "3c4492f102e5af9dbfe9e5985f3da429f45609cb3e2f08253f2592fbae8a5ea1"
+        },
+        {
+          "index": 5,
+          "name": "low_clawed_leg",
+          "hash": "26763808a9cd0dd6ded5d3bdedd1994519d2c7f457a1c6fc616eeac6e7054037"
+        },
+        {
+          "index": 6,
+          "name": "claw",
+          "hash": "f532740c181680ebaf2e774e042863598daf4fb647840fc4200fe3f9f9649f0f"
+        },
+        {
+          "index": 7,
+          "name": "low_clawed_leg",
+          "hash": "e81b33d97005fe20d69a3b9d79217594a08d651e0973dd50d02013e6ae31f3d4"
+        },
+        {
+          "index": 8,
+          "name": "claw",
+          "hash": "07bc85568be60ab789e79307f8bac1c98a92b63502a25ff1286ed1e25a019455"
+        },
+        {
+          "index": 9,
+          "name": "low_clawed_leg",
+          "hash": "dec7bf20642ff744ff961b5cce2561c716d523b1df018eb6353ba1ba1a6637da"
+        },
+        {
+          "index": 10,
+          "name": "claw",
+          "hash": "a89af4fbe1224719faa97775df83e1589e0098c537058a53e61ec3f3e91ea73a"
+        },
+        {
+          "index": 11,
+          "name": "inset_almond_eye",
+          "hash": "4b2f1f1d2988111afef377f3cbf01b33e3868ff05ba788f33e976a9e4e3eac36"
+        },
+        {
+          "index": 12,
+          "name": "eye_glint",
+          "hash": "f89555b914841292f050022831f347ae3c2b15f4d0c53e7e0a46909873ac3765"
+        },
+        {
+          "index": 13,
+          "name": "inset_almond_eye",
+          "hash": "450100b668bb94b6a69eb8f3d6afbee605a672b2106b5a0293f99e7690af1c75"
+        },
+        {
+          "index": 14,
+          "name": "eye_glint",
+          "hash": "1c8d2ad473c2b19c1dda94c3674b7a612864140bfd8300a460839c00ce3d8745"
+        },
+        {
+          "index": 15,
+          "name": "overlap_cara_tile",
+          "hash": "aa15c0db22e8a036c0f66b40a813f99b39915d4b32cd4aef1a67162dc00f8671"
+        },
+        {
+          "index": 16,
+          "name": "overlap_cara_tile",
+          "hash": "c0e3d6cc9a88316fb7e736b86c00f3610f84bc3e9ca65d64bb38e8f09d87bc2d"
+        },
+        {
+          "index": 17,
+          "name": "overlap_cara_tile",
+          "hash": "d326c6bde885d09624e0776d4d4acd3d1e0a11d27bd6d057bcf9c3d1b384fb59"
+        },
+        {
+          "index": 18,
+          "name": "overlap_cara_tile",
+          "hash": "adae4661fc37e9849afe76938d21789c11d38314dea7a1436b6f9f3a4899a72c"
+        },
+        {
+          "index": 19,
+          "name": "overlap_cara_tile",
+          "hash": "48f88b5e08317635699cdcf7c93d30ad336f6eaa426edabcbc1baa721ca38770"
+        },
+        {
+          "index": 20,
+          "name": "overlap_cara_tile",
+          "hash": "49119eb5c4afba37afb6195e40a4b80ba7ac0d30f8254eca0f45ca3b994033fb"
+        },
+        {
+          "index": 21,
+          "name": "overlap_cara_tile",
+          "hash": "a73f4b371766b8890911f65b3cfdd8387848fd7902fc4ec7331fbc6132be4494"
+        },
+        {
+          "index": 22,
+          "name": "overlap_cara_tile",
+          "hash": "5f73df8edeac306680ef7c04fdab614b646f4928f174f8b77bf265f69011571d"
+        },
+        {
+          "index": 23,
+          "name": "overlap_cara_tile",
+          "hash": "7d7bbdee4469ca4605ac0ad187222b7e175c0688fcc36151392bcada9c95d3da"
+        },
+        {
+          "index": 24,
+          "name": "overlap_cara_tile",
+          "hash": "54f4a6f216c132721044d613ed3fcbf3ff00aa5c3f0712d7fb42db5dd511817d"
+        },
+        {
+          "index": 25,
+          "name": "overlap_cara_tile",
+          "hash": "3f5917721a02c1f4a6fc34a4b2864930b72d28e27c3a6f2bd0feae14e272fa52"
+        },
+        {
+          "index": 26,
+          "name": "overlap_cara_tile",
+          "hash": "30766548ea0b522d8262363f067bb0d4d2eb17b05aea72195c3020c414b749a8"
+        },
+        {
+          "index": 27,
+          "name": "heavy_reptile_tail",
+          "hash": "5ca5d27d81bd47a15dde0a00e771d1d84d3cecfb22843404a266d52e5450912e"
+        }
+      ]
+    },
+    {
+      "id": "asset_heartwood_guardian",
+      "rootScale": [
+        1.2,
+        1.2,
+        1.2
+      ],
+      "hash": "2833086d962d3ee5e71f04c519da529c26a77da15b25ee2a5f3322c93afb2781",
+      "parts": [
+        {
+          "index": 0,
+          "name": "massive_guardian_body",
+          "hash": "20d5c4316f3fde1191d088860dffd7508f23bb334c0608296ea83fcfc527d007"
+        },
+        {
+          "index": 1,
+          "name": "guardian_brow_head",
+          "hash": "20072571329dc19423dde8654385bc154047e66112a6f7472b4d696dad559172"
+        },
+        {
+          "index": 2,
+          "name": "guardian_muzzle_bib",
+          "hash": "6f616273286e5319d390476a51b478a20679ede8470760f750938f5a3e4cd387"
+        },
+        {
+          "index": 3,
+          "name": "heavy_guardian_leg",
+          "hash": "c6c47e0476a17afcb86f72e715c2117cffd4dd99cc046be50287b5b7794e1bed"
+        },
+        {
+          "index": 4,
+          "name": "massive_paw",
+          "hash": "32bfea4e00b469f13c40765af04fa748c3a1e3f0adb251f264b8152549b85f23"
+        },
+        {
+          "index": 5,
+          "name": "heavy_guardian_leg",
+          "hash": "1cf08e14eca875debb608f03cc66e76cf29fc6803318d4f765e2f1cc1005e701"
+        },
+        {
+          "index": 6,
+          "name": "massive_paw",
+          "hash": "1d692ca53a9633ae6e6d857ad1b499df030621f83603feea5e23bca78cb07d42"
+        },
+        {
+          "index": 7,
+          "name": "heavy_guardian_leg",
+          "hash": "381da1315ba3fc7514368bd9393551a07702fcf2e1059a6a8accc74347d7668f"
+        },
+        {
+          "index": 8,
+          "name": "massive_paw",
+          "hash": "da9be5c8cd460bf666df6fa7a0f37b0a29f37f904bd08b402f36298c6f678d12"
+        },
+        {
+          "index": 9,
+          "name": "heavy_guardian_leg",
+          "hash": "573e852f0f5e4e18f21c5c623a395af1bb830937624e3a1bd37d6fdd45adbf1b"
+        },
+        {
+          "index": 10,
+          "name": "massive_paw",
+          "hash": "b4d302d8502cc989d82326d07670055ce461d7adadfa418a741819af318b7789"
+        },
+        {
+          "index": 11,
+          "name": "inset_almond_eye",
+          "hash": "8de1094c08d5a23fdfe96686dbb388dc78608dafaa0a1f2663fe3782fcf80013"
+        },
+        {
+          "index": 12,
+          "name": "eye_glint",
+          "hash": "c76376a75a5116a342c3a865fd106891c4b8a510b35e12cf6abd8cea101de7fe"
+        },
+        {
+          "index": 13,
+          "name": "inset_almond_eye",
+          "hash": "abdb7e70b0dc609870d8508cdd33b77956903a7c877893c6ae8f6f09b00a0f50"
+        },
+        {
+          "index": 14,
+          "name": "eye_glint",
+          "hash": "05d3c1ba1dc3a58f761ade38f8c103412464db468580d298fcf0a339b80202b0"
+        },
+        {
+          "index": 15,
+          "name": "branching_antler",
+          "hash": "b0e77775cf39ad71dcdb10e8e2e1ca48c488ec862b854eea6eb1164349c4306a"
+        },
+        {
+          "index": 16,
+          "name": "antler_branch",
+          "hash": "5a749453c28963aa794a9912676814e8c6070d1c21552ad95be2ae461a28e37f"
+        },
+        {
+          "index": 17,
+          "name": "branching_antler",
+          "hash": "250b5e20f3b077ff961693eff48c1be65f8e728ca812479156ac17d8c45ce0e3"
+        },
+        {
+          "index": 18,
+          "name": "antler_branch",
+          "hash": "0bc8fc9137e3dffcddc8b9313d30ae5606a95b2b057d0b74a10371e4d827deab"
+        },
+        {
+          "index": 19,
+          "name": "layered_guardian_mantle",
+          "hash": "d5c8f44eab3dc10b0bfb28e4202df8ce6af54b20ec0c2a62e1e17ac9b6c75bd8"
+        },
+        {
+          "index": 20,
+          "name": "layered_guardian_mantle",
+          "hash": "ae032f9e04783ba761758c4fc62c80ae6e3e12829df468a5a8a65a91753dd3de"
+        },
+        {
+          "index": 21,
+          "name": "layered_guardian_mantle",
+          "hash": "ac2e289edcb305e02e862caf0b04c3be1d35be69f49a751336a62e25791e5654"
+        },
+        {
+          "index": 22,
+          "name": "layered_guardian_mantle",
+          "hash": "e36cbdab551a6c3aa33cc7a3eab87ba121f4d06b15b1aaee7f49218d8d12b953"
+        },
+        {
+          "index": 23,
+          "name": "layered_guardian_mantle",
+          "hash": "239cd8136fedb9e439dc4a113921ff78a0d40e26ef9e2013dbd36923a6bc0f17"
+        },
+        {
+          "index": 24,
+          "name": "layered_guardian_mantle",
+          "hash": "ba61cd17cb49cdd047ed82b78527cb1c9cee6acd454dbc17ca79c6b1af2c530d"
+        },
+        {
+          "index": 25,
+          "name": "layered_guardian_mantle",
+          "hash": "d4496d205a59cf34ce4633748d65bd2339e48209dbc47116aa10697901a320fe"
+        },
+        {
+          "index": 26,
+          "name": "layered_guardian_mantle",
+          "hash": "cc080cc7730ebcd04bd6ded73b25ffb98fc05a44241e43db08c5291c22c1ad91"
+        },
+        {
+          "index": 27,
+          "name": "layered_guardian_mantle",
+          "hash": "a0b3dbda2320e9f59a3d34898c2143a8238f363563cf9831504c983b537dd270"
+        },
+        {
+          "index": 28,
+          "name": "layered_guardian_mantle",
+          "hash": "639a60dae5c18d4c54930919aaa812462bd56e9136c0d0366b3ad8df149170c3"
+        },
+        {
+          "index": 29,
+          "name": "layered_guardian_mantle",
+          "hash": "c969020b349063ce9f101e79d1c5c7369914b54f0c480465f62e3f60ff47c400"
+        },
+        {
+          "index": 30,
+          "name": "layered_guardian_mantle",
+          "hash": "f9ccf30acef472b5c5788b8d18780c8474ad210bf78beac8920f678286636897"
+        },
+        {
+          "index": 31,
+          "name": "layered_guardian_mantle",
+          "hash": "a3c1e924397300a36101614411319393367d01228ea0387ed68099e4441aab64"
+        },
+        {
+          "index": 32,
+          "name": "layered_guardian_mantle",
+          "hash": "b252f26b2577c94cc5002cf2d2bf29ff2d56761d65f434a4d168b72d4e83a535"
+        },
+        {
+          "index": 33,
+          "name": "layered_guardian_mantle",
+          "hash": "b2047bcecf526b46fcf07660528c3791ae0691e0b45ecca64cd1bae15e5cab5e"
+        },
+        {
+          "index": 34,
+          "name": "layered_guardian_mantle",
+          "hash": "b32fd1b06e91cb670b651c22ca5f8fac3c772b3b060149436fbcae381a0e43b8"
+        },
+        {
+          "index": 35,
+          "name": "layered_guardian_mantle",
+          "hash": "dcd37585628680ff3caa745380be82665aafa9bdc414420f6d4b627aef75ba80"
+        },
+        {
+          "index": 36,
+          "name": "layered_guardian_mantle",
+          "hash": "4677f311b29220e44aa392b6a49b3041ed61c96fd902f7ba0b46dde5fa054c9b"
+        },
+        {
+          "index": 37,
+          "name": "layered_guardian_mantle",
+          "hash": "e8e0abb80de8df2f5093b41a8cea6a9f5279d73875d8d7ff413c86360f8a867c"
+        },
+        {
+          "index": 38,
+          "name": "layered_guardian_mantle",
+          "hash": "ca0f4dfc2b4b88e5887a203d1850784ffd7ed9afd310e72dd815d6cb20ef29f6"
+        },
+        {
+          "index": 39,
+          "name": "layered_guardian_mantle",
+          "hash": "1ec2c4035114075d3b39bb6c4c977cf167a6fc2d6cdcfe307f52bacbba9e42b0"
+        }
+      ]
+    }
+  ]
+}

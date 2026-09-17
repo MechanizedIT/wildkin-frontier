@@ -1,13 +1,17 @@
 # Rootbound Wildwood — habitat packet
 
-**Status:** production target and review contract, not accepted runtime content.  
-**Priority:** exploration first; Wildkin collection second; Camp/building consequences later.  
-**Primary surface:** ordinary portrait mobile play, with landscape/desktop support.  
+**Status:** production target and review contract, not accepted runtime content.
+**Priority:** exploration first; Wildkin collection second; Camp/building consequences later.
+**Primary surface:** ordinary portrait mobile play, with landscape/desktop support.
 **Related skill:** [habitat-development](../../../.agents/skills/habitat-development/SKILL.md).
 
-![Rootbound top-down structure target](../../../art/targets/rootbound-wildwood/layout-target.svg)
+## Current spatial direction
 
-![Current-pattern critique and target composition](../../../art/targets/rootbound-wildwood/composition-target.svg)
+The focused Rootbound dossier work revises the earlier conceptual arrangement below. Use the [V2 spatial plan](SPATIAL_PLAN.md) and its [independent review](spatial-plan-review.md) for the current proposed zone locations and map. The technical map records actual source markers and cameras separately from proposed rooms/routes. Its concept-authoring approval is not runtime placement or traversal approval. Historical V1 diagrams remain preserved.
+
+![Rootbound V2 coordinate map — proposed zones and circuit, current source overlays](../../../art/targets/rootbound-wildwood/layout-target-v2.svg)
+
+The [V1 composition critique](../../../art/targets/rootbound-wildwood/composition-target.svg) is historical context. The [V2 portrait composition study](../../../art/targets/rootbound-wildwood/composition-target-v2.svg) is under independent review.
 
 ## One-line fantasy
 

@@ -1,0 +1,10 @@
+<!doctype html><html><meta charset="utf-8"><script type="importmap">{"imports":{"three":"/vendor/three.module.js"}}</script><body style="margin:0"><script type="module">
+import * as T from '/vendor/three.module.js';
+import {createWildkinMeshVisual} from '/src/world/wildkinMeshKit.js';
+const renderer=new T.WebGLRenderer({antialias:true,preserveDrawingBuffer:true});renderer.setSize(512,512);renderer.setPixelRatio(1);renderer.setClearColor(0xdce1de);renderer.outputColorSpace=T.SRGBColorSpace;document.body.appendChild(renderer.domElement);
+const scene=new T.Scene();scene.add(new T.HemisphereLight(0xffffff,0x5b5550,2));const light=new T.DirectionalLight(0xffefda,2.4);light.position.set(-4,8,6);scene.add(light);
+const model=createWildkinMeshVisual('asset_wildkin_emberhorn');scene.add(model);model.updateMatrixWorld(true);const box=new T.Box3().setFromObject(model),size=box.getSize(new T.Vector3()),center=box.getCenter(new T.Vector3());
+const camera=new T.PerspectiveCamera(38,1,.05,100);let triangles=0,meshes=0;model.traverse(o=>{if(o.isMesh){meshes++;triangles+=(o.geometry.index?.count??o.geometry.attributes.position.count)/3;}});
+window.__neutral={metrics:{bounds:{min:box.min.toArray(),max:box.max.toArray(),size:size.toArray()},triangles,meshes},render(direction,pixels=512){renderer.setSize(pixels,pixels);camera.position.copy(center).add(new T.Vector3(...direction).normalize().multiplyScalar(Math.max(size.x,size.y,size.z)*2.05));camera.lookAt(center);renderer.render(scene,camera);}};
+window.__neutral.render([.8,.42,1]);
+</script></body></html>

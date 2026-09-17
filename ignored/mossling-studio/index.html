@@ -1,0 +1,35 @@
+<!doctype html>
+<meta charset="utf-8">
+<link rel="icon" href="data:,">
+<style>html,body{margin:0;background:#b8b8b8}canvas{display:block}</style>
+<script type="importmap">{"imports":{"three":"/vendor/three.module.js"}}</script>
+<script type="module">
+import * as THREE from 'three';
+import { createMosslingPreview } from '/src/world/models/createMosslingPreview.js';
+
+const scene = new THREE.Scene();
+scene.background = new THREE.Color('#b8b8b8');
+const renderer = new THREE.WebGLRenderer({ antialias: true, preserveDrawingBuffer: true });
+renderer.setSize(900, 900);
+renderer.shadowMap.enabled = true;
+renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+renderer.outputColorSpace = THREE.SRGBColorSpace;
+document.body.append(renderer.domElement);
+scene.add(new THREE.HemisphereLight('#fff4e9', '#85838c', 1.6));
+const key = new THREE.DirectionalLight('#fff3e2', 2.3);
+key.position.set(-3, 5, 5); key.castShadow = true; key.shadow.mapSize.set(2048, 2048);
+key.shadow.camera.left = -4; key.shadow.camera.right = 4; key.shadow.camera.top = 4; key.shadow.camera.bottom = -4;
+key.shadow.normalBias = .012; scene.add(key);
+const fill = new THREE.DirectionalLight('#cddfff', .5); fill.position.set(4, 2, -4); scene.add(fill);
+const root = createMosslingPreview(); root.rotation.y = -0.45; scene.add(root); root.updateMatrixWorld(true);
+const bounds = new THREE.Box3().setFromObject(root), size = bounds.getSize(new THREE.Vector3()), center = bounds.getCenter(new THREE.Vector3());
+root.position.sub(new THREE.Vector3(center.x, bounds.min.y, center.z));
+const span = Math.max(size.y, size.x * 1.125, size.z * .6) * 1.12;
+const camera = new THREE.OrthographicCamera(-span*.5, span*.5, span*.5, -span*.5, .01, 100);
+camera.position.set(2.8, size.y * .68 + 1.05, 6); camera.lookAt(0, size.y * .48, 0);
+const floor = new THREE.Mesh(new THREE.PlaneGeometry(100,100), new THREE.MeshStandardMaterial({color:'#b8b8b8',roughness:1,metalness:0}));
+floor.rotation.x = -Math.PI/2; floor.receiveShadow = true; floor.position.y = -.006; scene.add(floor);
+renderer.render(scene, camera);
+window.ready = true;
+window.report = { size: size.toArray(), triangles: renderer.info.render.triangles, calls: renderer.info.render.calls };
+</script>

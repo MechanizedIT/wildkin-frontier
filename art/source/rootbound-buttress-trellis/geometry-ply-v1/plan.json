@@ -1,0 +1,446 @@
+{
+  "profile": "fresh-process-per-stage-512-geometry-ply-v1",
+  "installed_config": "C:\\Users\\cwood\\Tools\\trellis2-stableprojectorz\\code\\models\\hub\\models--microsoft--TRELLIS.2-4B\\snapshots\\af44b45f2e35a493886929c6d786e563ec68364d\\pipeline.json",
+  "config_sha256": "222c359ab1ed9bc6735a640a34f95d47f8681b9bc4aaa101bfb80274676253c6",
+  "installed_source_sha256": {
+    "trellis2/pipelines/trellis2_image_to_3d.py": "b0d29b5a4562aaabe2824761f909669602ae43a8ff262e5e16343f209f46ab75",
+    "trellis2/models/__init__.py": "030b271e5c1f2e4cc46965815d0dbd5b78a2c994726d49644d068a2562cdbbb8",
+    "trellis2/modules/utils.py": "4e2ebc1d53929a6bff8d1abab17634549abbe80c43030d96a95b0ead169d93d1",
+    "api_spz/core/state_manage.py": "3c16dbcb47d253eec77fb1f2fdfee01d8edf370705bdc5e7e2904af55e9c3e33"
+  },
+  "models": {
+    "sparse_structure_decoder": {
+      "path": "C:\\Users\\cwood\\Tools\\trellis2-stableprojectorz\\code\\models\\hub\\models--microsoft--TRELLIS-image-large\\snapshots\\25e0d31ffbebe4b5a97464dd851910efc3002d96\\ckpts\\ss_dec_conv3d_16l8_fp16.safetensors",
+      "file_bytes": 147591972,
+      "header_sha256": "6add9b37125ee2973b61e08893187d8910ccf0829950ea0a2efbbee7d9fa51f6",
+      "tensor_bytes": 147585412,
+      "bytes_by_dtype": {
+        "F32": 486020,
+        "F16": 147099392
+      },
+      "fp32_constructor_bytes": 294684804,
+      "prefix": "C:\\Users\\cwood\\Tools\\trellis2-stableprojectorz\\code\\models\\hub\\models--microsoft--TRELLIS-image-large\\snapshots\\25e0d31ffbebe4b5a97464dd851910efc3002d96\\ckpts\\ss_dec_conv3d_16l8_fp16",
+      "model_class": "SparseStructureDecoder",
+      "config_sha256": "646781293f1cda74720de85d1cef50a957fb4aebd9a4bd014e454e32f2330ac5"
+    },
+    "sparse_structure_flow_model": {
+      "path": "C:\\Users\\cwood\\Tools\\trellis2-stableprojectorz\\code\\models\\hub\\models--microsoft--TRELLIS.2-4B\\snapshots\\af44b45f2e35a493886929c6d786e563ec68364d\\ckpts\\ss_flow_img_dit_1_3B_64_bf16.safetensors",
+      "file_bytes": 2584426920,
+      "header_sha256": "eadcc6c616db95eab21996aa2da2e835b959f0784b22a370bc5dd9269190eed4",
+      "tensor_bytes": 2584359952,
+      "bytes_by_dtype": {
+        "BF16": 2584359952
+      },
+      "fp32_constructor_bytes": 5168719904,
+      "prefix": "C:\\Users\\cwood\\Tools\\trellis2-stableprojectorz\\code\\models\\hub\\models--microsoft--TRELLIS.2-4B\\snapshots\\af44b45f2e35a493886929c6d786e563ec68364d\\ckpts\\ss_flow_img_dit_1_3B_64_bf16",
+      "model_class": "SparseStructureFlowModel",
+      "config_sha256": "6cdfb636854f60ffcadd8c49244169cd449f34c5ccdb55b5ff7c04678f9c399e"
+    },
+    "shape_slat_decoder": {
+      "path": "C:\\Users\\cwood\\Tools\\trellis2-stableprojectorz\\code\\models\\hub\\models--microsoft--TRELLIS.2-4B\\snapshots\\af44b45f2e35a493886929c6d786e563ec68364d\\ckpts\\shape_dec_next_dc_f16c32_fp16.safetensors",
+      "file_bytes": 948490494,
+      "header_sha256": "fa87665c604012a8168f518604a20eaa2fc9f117dc69d2f5f23e1ca3d270f3dc",
+      "tensor_bytes": 948462926,
+      "bytes_by_dtype": {
+        "F16": 948462926
+      },
+      "fp32_constructor_bytes": 1896925852,
+      "prefix": "C:\\Users\\cwood\\Tools\\trellis2-stableprojectorz\\code\\models\\hub\\models--microsoft--TRELLIS.2-4B\\snapshots\\af44b45f2e35a493886929c6d786e563ec68364d\\ckpts\\shape_dec_next_dc_f16c32_fp16",
+      "model_class": "FlexiDualGridVaeDecoder",
+      "config_sha256": "5f1b856dffce79466fb18f5f0eefc08f08c673b24b3c05b20359c0b6d318a209"
+    },
+    "shape_slat_flow_model_512": {
+      "path": "C:\\Users\\cwood\\Tools\\trellis2-stableprojectorz\\code\\models\\hub\\models--microsoft--TRELLIS.2-4B\\snapshots\\af44b45f2e35a493886929c6d786e563ec68364d\\ckpts\\slat_flow_img2shape_dit_1_3B_512_bf16.safetensors",
+      "file_bytes": 2584574424,
+      "header_sha256": "67606173488fc22d0db6bcd086787623fe6fd4a99e8686e0b651c4a15ece4cb8",
+      "tensor_bytes": 2584507456,
+      "bytes_by_dtype": {
+        "BF16": 2584507456
+      },
+      "fp32_constructor_bytes": 5169014912,
+      "prefix": "C:\\Users\\cwood\\Tools\\trellis2-stableprojectorz\\code\\models\\hub\\models--microsoft--TRELLIS.2-4B\\snapshots\\af44b45f2e35a493886929c6d786e563ec68364d\\ckpts\\slat_flow_img2shape_dit_1_3B_512_bf16",
+      "model_class": "SLatFlowModel",
+      "config_sha256": "ddbd7a1d34ce9a8e7af2f6ef9ae686d9ab49f69e62dacb98d8409b511cdbd5e2"
+    },
+    "tex_slat_decoder": {
+      "path": "C:\\Users\\cwood\\Tools\\trellis2-stableprojectorz\\code\\models\\hub\\models--microsoft--TRELLIS.2-4B\\snapshots\\af44b45f2e35a493886929c6d786e563ec68364d\\ckpts\\tex_dec_next_dc_f16c32_fp16.safetensors",
+      "file_bytes": 948458812,
+      "header_sha256": "46577afb9087543271d0e1fa25747bf76d86f5b0f2b0764a429f912abe2fa96d",
+      "tensor_bytes": 948432012,
+      "bytes_by_dtype": {
+        "F16": 948432012
+      },
+      "fp32_constructor_bytes": 1896864024,
+      "prefix": "C:\\Users\\cwood\\Tools\\trellis2-stableprojectorz\\code\\models\\hub\\models--microsoft--TRELLIS.2-4B\\snapshots\\af44b45f2e35a493886929c6d786e563ec68364d\\ckpts\\tex_dec_next_dc_f16c32_fp16",
+      "model_class": "SparseUnetVaeDecoder",
+      "config_sha256": "22074e4ab5b28e2b72d33a3fe61bf416134b89e12d0fc5c729f37da75da0c4d1"
+    },
+    "tex_slat_flow_model_512": {
+      "path": "C:\\Users\\cwood\\Tools\\trellis2-stableprojectorz\\code\\models\\hub\\models--microsoft--TRELLIS.2-4B\\snapshots\\af44b45f2e35a493886929c6d786e563ec68364d\\ckpts\\slat_flow_imgshape2tex_dit_1_3B_512_bf16.safetensors",
+      "file_bytes": 2584672728,
+      "header_sha256": "5ce438562f0980dec5f9f7e222272ef08047ffec739e643e559f9e59612b973e",
+      "tensor_bytes": 2584605760,
+      "bytes_by_dtype": {
+        "BF16": 2584605760
+      },
+      "fp32_constructor_bytes": 5169211520,
+      "prefix": "C:\\Users\\cwood\\Tools\\trellis2-stableprojectorz\\code\\models\\hub\\models--microsoft--TRELLIS.2-4B\\snapshots\\af44b45f2e35a493886929c6d786e563ec68364d\\ckpts\\slat_flow_imgshape2tex_dit_1_3B_512_bf16",
+      "model_class": "SLatFlowModel",
+      "config_sha256": "3093796257a62f838d2e5578ac4580ca3b7d88d10b87d348065d3fdfcc4c2077"
+    },
+    "dino": {
+      "path": "C:\\Users\\cwood\\Tools\\trellis2-stableprojectorz\\code\\MODELS\\dinov3\\model.safetensors",
+      "file_bytes": 1212559808,
+      "header_sha256": "ffc77b4e254a1d950b97726ecf41bcfa41e64b7e550f1a83ab579bbcd73ef090",
+      "tensor_bytes": 1212518400,
+      "bytes_by_dtype": {
+        "F32": 1212518400
+      },
+      "fp32_constructor_bytes": 1212518400,
+      "local_folder": "C:\\Users\\cwood\\Tools\\trellis2-stableprojectorz\\code\\MODELS\\dinov3"
+    },
+    "rembg": {
+      "path": "C:\\Users\\cwood\\Tools\\trellis2-stableprojectorz\\code\\MODELS\\RMBG-2.0\\model.safetensors",
+      "file_bytes": 884878856,
+      "header_sha256": "1d1780bf40aa02717eb7aa61d230231586df6a8fad86481b37ab5623567c7778",
+      "tensor_bytes": 884791968,
+      "bytes_by_dtype": {
+        "I64": 3981656,
+        "F32": 880810312
+      },
+      "fp32_constructor_bytes": 882801140,
+      "local_folder": "C:\\Users\\cwood\\Tools\\trellis2-stableprojectorz\\code\\MODELS\\RMBG-2.0"
+    }
+  },
+  "stages": [
+    {
+      "name": "background",
+      "keys": [
+        "rembg"
+      ],
+      "constructor_gib": 0.8221726305782795,
+      "checkpoint_gib": 0.8241076543927193,
+      "workspace_gib": 2.0,
+      "estimated_increment_gib": 3.6462802849709988,
+      "required_free_gib": 9.646280284970999
+    },
+    {
+      "name": "conditioning",
+      "keys": [
+        "dino"
+      ],
+      "constructor_gib": 1.1292457580566406,
+      "checkpoint_gib": 1.1292843222618103,
+      "workspace_gib": 2.0,
+      "estimated_increment_gib": 4.258530080318451,
+      "required_free_gib": 10.258530080318451
+    },
+    {
+      "name": "sparse",
+      "keys": [
+        "sparse_structure_flow_model",
+        "sparse_structure_decoder"
+      ],
+      "constructor_gib": 5.088192138820887,
+      "checkpoint_gib": 2.544390868395567,
+      "workspace_gib": 2.0,
+      "estimated_increment_gib": 9.632583007216454,
+      "required_free_gib": 15.632583007216454
+    },
+    {
+      "name": "shape-flow",
+      "keys": [
+        "shape_slat_flow_model_512"
+      ],
+      "constructor_gib": 4.814020276069641,
+      "checkpoint_gib": 2.4070725068449974,
+      "workspace_gib": 2.0,
+      "estimated_increment_gib": 9.221092782914639,
+      "required_free_gib": 15.221092782914639
+    },
+    {
+      "name": "texture-flow",
+      "keys": [
+        "tex_slat_flow_model_512"
+      ],
+      "constructor_gib": 4.814203381538391,
+      "checkpoint_gib": 2.4071640595793724,
+      "workspace_gib": 2.0,
+      "estimated_increment_gib": 9.221367441117764,
+      "required_free_gib": 15.221367441117764
+    },
+    {
+      "name": "decode",
+      "keys": [
+        "shape_slat_decoder",
+        "tex_slat_decoder"
+      ],
+      "constructor_gib": 3.533242154866457,
+      "checkpoint_gib": 1.7666717115789652,
+      "workspace_gib": 2.0,
+      "estimated_increment_gib": 7.299913866445422,
+      "required_free_gib": 13.299913866445422
+    }
+  ],
+  "reserve_gib": 6.0,
+  "bootstrap_required_free_gib": 16.632583007216454,
+  "notes": [
+    "Metadata-only estimates, not measured peak memory or generation proof.",
+    "Existing Small51218GiB startup/6GiB reserve settings remain untouched.",
+    "This distinct runner checks actual free RAM before import and every stage.",
+    "512 one-image only; real stage modules released after numerical methods return.",
+    "Decode keeps two small decoders together to preserve installed internal references.",
+    "Export uses clean/simplify without voxel remeshing; quality/topology may differ from earlier remeshed assets.",
+    "Decoded meshes above 750000 faces are refused before export, never pre-simplified from millions.",
+    "This count guard cannot bound the decoder peak before its result exists; RAM watchdog and external GPU headroom review remain required.",
+    "Earlier 512 trial export inputs contain roughly 1.9M faces (possibly already pre-simplified); this stricter experiment may explicitly refuse them."
+  ],
+  "config": {
+    "models": {
+      "sparse_structure_decoder": "microsoft/TRELLIS-image-large/ckpts/ss_dec_conv3d_16l8_fp16",
+      "sparse_structure_flow_model": "ckpts/ss_flow_img_dit_1_3B_64_bf16",
+      "shape_slat_decoder": "ckpts/shape_dec_next_dc_f16c32_fp16",
+      "shape_slat_flow_model_512": "ckpts/slat_flow_img2shape_dit_1_3B_512_bf16",
+      "shape_slat_flow_model_1024": "ckpts/slat_flow_img2shape_dit_1_3B_1024_bf16",
+      "tex_slat_decoder": "ckpts/tex_dec_next_dc_f16c32_fp16",
+      "tex_slat_flow_model_512": "ckpts/slat_flow_imgshape2tex_dit_1_3B_512_bf16",
+      "tex_slat_flow_model_1024": "ckpts/slat_flow_imgshape2tex_dit_1_3B_1024_bf16"
+    },
+    "sparse_structure_sampler": {
+      "name": "FlowEulerGuidanceIntervalSampler",
+      "args": {
+        "sigma_min": 1e-05
+      },
+      "params": {
+        "steps": 12,
+        "guidance_strength": 7.5,
+        "guidance_rescale": 0.7,
+        "guidance_interval": [
+          0.6,
+          1.0
+        ],
+        "rescale_t": 5.0
+      }
+    },
+    "shape_slat_sampler": {
+      "name": "FlowEulerGuidanceIntervalSampler",
+      "args": {
+        "sigma_min": 1e-05
+      },
+      "params": {
+        "steps": 12,
+        "guidance_strength": 7.5,
+        "guidance_rescale": 0.5,
+        "guidance_interval": [
+          0.6,
+          1.0
+        ],
+        "rescale_t": 3.0
+      }
+    },
+    "shape_slat_normalization": {
+      "mean": [
+        0.781296,
+        0.018091,
+        -0.495192,
+        -0.558457,
+        1.06053,
+        0.093252,
+        1.518149,
+        -0.933218,
+        -0.732996,
+        2.604095,
+        -0.118341,
+        -2.143904,
+        0.495076,
+        -2.179512,
+        -2.130751,
+        -0.996944,
+        0.261421,
+        -2.217463,
+        1.260067,
+        -0.150213,
+        3.790713,
+        1.481266,
+        -1.046058,
+        -1.523667,
+        -0.059621,
+        2.22078,
+        1.621212,
+        0.87723,
+        0.567247,
+        -3.175944,
+        -3.186688,
+        1.578665
+      ],
+      "std": [
+        5.972266,
+        4.706852,
+        5.44501,
+        5.209927,
+        5.32022,
+        4.547237,
+        5.020802,
+        5.444004,
+        5.226681,
+        5.683095,
+        4.831436,
+        5.286469,
+        5.652043,
+        5.367606,
+        5.525084,
+        4.730578,
+        4.805265,
+        5.124013,
+        5.530808,
+        5.619001,
+        5.10393,
+        5.41767,
+        5.269677,
+        5.547194,
+        5.634698,
+        5.235274,
+        6.110351,
+        5.511298,
+        6.237273,
+        4.879207,
+        5.347008,
+        5.405691
+      ]
+    },
+    "tex_slat_sampler": {
+      "name": "FlowEulerGuidanceIntervalSampler",
+      "args": {
+        "sigma_min": 1e-05
+      },
+      "params": {
+        "steps": 12,
+        "guidance_strength": 1.0,
+        "guidance_rescale": 0.0,
+        "guidance_interval": [
+          0.6,
+          0.9
+        ],
+        "rescale_t": 3.0
+      }
+    },
+    "tex_slat_normalization": {
+      "mean": [
+        3.501659,
+        2.212398,
+        2.226094,
+        0.251093,
+        -0.026248,
+        -0.687364,
+        0.439898,
+        -0.928075,
+        0.029398,
+        -0.339596,
+        -0.869527,
+        1.038479,
+        -0.972385,
+        0.126042,
+        -1.129303,
+        0.455149,
+        -1.209521,
+        2.069067,
+        0.544735,
+        2.569128,
+        -0.323407,
+        2.293,
+        -1.925608,
+        -1.217717,
+        1.213905,
+        0.971588,
+        -0.023631,
+        0.10675,
+        2.021786,
+        0.250524,
+        -0.662387,
+        -0.768862
+      ],
+      "std": [
+        2.665652,
+        2.743913,
+        2.765121,
+        2.595319,
+        3.037293,
+        2.291316,
+        2.144656,
+        2.911822,
+        2.969419,
+        2.501689,
+        2.154811,
+        3.163343,
+        2.621215,
+        2.381943,
+        3.186697,
+        3.021588,
+        2.295916,
+        3.234985,
+        3.233086,
+        2.26014,
+        2.874801,
+        2.810596,
+        3.29272,
+        2.674999,
+        2.680878,
+        2.372054,
+        2.451546,
+        2.353556,
+        2.995195,
+        2.379849,
+        2.786195,
+        2.77519
+      ]
+    },
+    "image_cond_model": {
+      "name": "DinoV3FeatureExtractor",
+      "args": {
+        "model_name": "facebook/dinov3-vitl16-pretrain-lvd1689m"
+      }
+    },
+    "rembg_model": {
+      "name": "BiRefNet",
+      "args": {
+        "model_name": "briaai/RMBG-2.0"
+      }
+    },
+    "default_pipeline_type": "1024_cascade"
+  },
+  "parent_torch_imported": false,
+  "process_boundary": "one child exit per stage",
+  "handoff_format": "torch.save tensor-only dictionaries; weights_only load",
+  "observed_free_gib": 17.048107147216797,
+  "requested_run": {
+    "seed": 1234,
+    "steps": 12,
+    "faces": 30000,
+    "texture_size": 1024,
+    "pipeline_type": "512",
+    "num_samples": 1,
+    "export_remesh": false,
+    "max_decoded_faces": 1100000,
+    "max_coordinates": 32768,
+    "input": "C:\\Users\\cwood\\Documents\\mobile-rpg\\art\\targets\\rootbound-wildwood\\constituents\\buttress-root\\selected.png",
+    "input_sha256": "65d8f8c63be4a3c98738aabe72cad21ce9399f3950914b559f8d1dc80abd457a",
+    "plan_profile": "fresh-process-per-stage-512-geometry-ply-v1",
+    "mode": "geometry-ply-v1",
+    "output_name": "raw-geometry.ply"
+  },
+  "geometry_only_contract": {
+    "version": "trellis-geometry-ply-v1",
+    "allowed_input_sha256": "65d8f8c63be4a3c98738aabe72cad21ce9399f3950914b559f8d1dc80abd457a",
+    "forbidden_operations": [
+      "o_voxel",
+      "CuMesh",
+      "BVH",
+      "UV",
+      "bake",
+      "simplification",
+      "GLB export"
+    ],
+    "ply_schema": "binary_little_endian; float32/float64 XYZ; uchar-3 uint32[3] triangles"
+  },
+  "bootstrap_currently_fits": true
+}

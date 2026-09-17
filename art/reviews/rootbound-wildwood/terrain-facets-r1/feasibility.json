@@ -1,0 +1,1551 @@
+{
+  "schema": "rootbound-terrain-facets-r1-feasibility-v2",
+  "historical": {
+    "v1Directory": "./v1",
+    "reason": "v1 crossed the chunk boundary and reconstructed a camera from nominal horizontal/vertical dimensions."
+  },
+  "inputs": {
+    "terrainChunk": {
+      "cx": -9,
+      "cz": 13,
+      "originX": -450,
+      "originZ": 650,
+      "stepM": 2,
+      "actualGrid": {
+        "nx": 26,
+        "nz": 26
+      },
+      "proposalLocalIndices": {
+        "ix": [
+          5,
+          9
+        ],
+        "iz": [
+          17,
+          21
+        ]
+      }
+    },
+    "meshStepM": 2,
+    "materialAlreadyFlatShaded": true,
+    "nativeCamera": {
+      "capture": "restart-r2 destination",
+      "player": [
+        -449,
+        9.559901237487793,
+        675
+      ],
+      "center": [
+        -449,
+        10.459936929465313,
+        675
+      ],
+      "yaw": -2.3,
+      "pitch": 0.6283185307179586,
+      "effectiveDistanceM": 11.59107954420122,
+      "horizontalDistanceM": 6.55,
+      "configuredHeightM": 5,
+      "fovDeg": 52,
+      "framePx": [
+        412,
+        915
+      ],
+      "orbitDirection": [
+        -0.6032881894449427,
+        0.5877852522924731,
+        -0.5390286241599017
+      ],
+      "calculatedCameraPosition": [
+        -455.99276139193347,
+        17.273002543695753,
+        668.7520763407613
+      ],
+      "forward": [
+        0.6032881894449427,
+        -0.5877852522924731,
+        0.5390286241599017
+      ],
+      "right": [
+        -0.6662760212798241,
+        0,
+        0.7457052121767204
+      ],
+      "up": [
+        0.4383145262751057,
+        0.8090169943749472,
+        0.3916272192643865
+      ]
+    }
+  },
+  "proposal": {
+    "id": "rootbound-lantern-threshold-facet-r1",
+    "bounds": {
+      "minX": -440,
+      "maxX": -432,
+      "minZ": 684,
+      "maxZ": 692
+    },
+    "center": {
+      "x": -436,
+      "z": 688
+    },
+    "halfExtentM": {
+      "x": 4,
+      "z": 4
+    },
+    "amplitudeM": 0.095,
+    "chunk": {
+      "cx": -9,
+      "cz": 13,
+      "originX": -450,
+      "originZ": 650,
+      "stepM": 2
+    }
+  },
+  "meshVertices": [
+    {
+      "ix": 5,
+      "iz": 17,
+      "localIndex": 447,
+      "x": -440,
+      "z": 684,
+      "baselineHeight": 9.902782440185547,
+      "queryHeight": 9.902782429945116,
+      "queryMinusMeshM": -1.0240430725616534e-8,
+      "deltaM": 0,
+      "candidateHeight": 9.902782440185547
+    },
+    {
+      "ix": 6,
+      "iz": 17,
+      "localIndex": 448,
+      "x": -438,
+      "z": 684,
+      "baselineHeight": 10.633254051208496,
+      "queryHeight": 10.633253933197318,
+      "queryMinusMeshM": -1.1801117771881309e-7,
+      "deltaM": 0,
+      "candidateHeight": 10.633254051208496
+    },
+    {
+      "ix": 7,
+      "iz": 17,
+      "localIndex": 449,
+      "x": -436,
+      "z": 684,
+      "baselineHeight": 10.959957122802734,
+      "queryHeight": 10.959957065634196,
+      "queryMinusMeshM": -5.7168538347696085e-8,
+      "deltaM": 0,
+      "candidateHeight": 10.959957122802734
+    },
+    {
+      "ix": 8,
+      "iz": 17,
+      "localIndex": 450,
+      "x": -434,
+      "z": 684,
+      "baselineHeight": 10.344796180725098,
+      "queryHeight": 10.344795946710532,
+      "queryMinusMeshM": -2.3401456594740466e-7,
+      "deltaM": 0,
+      "candidateHeight": 10.344796180725098
+    },
+    {
+      "ix": 9,
+      "iz": 17,
+      "localIndex": 451,
+      "x": -432,
+      "z": 684,
+      "baselineHeight": 9.12883472442627,
+      "queryHeight": 9.128835181103002,
+      "queryMinusMeshM": 4.566767319857945e-7,
+      "deltaM": 0,
+      "candidateHeight": 9.12883472442627
+    },
+    {
+      "ix": 5,
+      "iz": 18,
+      "localIndex": 473,
+      "x": -440,
+      "z": 686,
+      "baselineHeight": 8.025457382202148,
+      "queryHeight": 8.025457411503632,
+      "queryMinusMeshM": 2.930148390589693e-8,
+      "deltaM": 0,
+      "candidateHeight": 8.025457382202148
+    },
+    {
+      "ix": 6,
+      "iz": 18,
+      "localIndex": 474,
+      "x": -438,
+      "z": 686,
+      "baselineHeight": 8.653569221496582,
+      "queryHeight": 8.653568843573549,
+      "queryMinusMeshM": -3.779230333122996e-7,
+      "deltaM": 0.06412499999999999,
+      "candidateHeight": 8.717694221496583
+    },
+    {
+      "ix": 7,
+      "iz": 18,
+      "localIndex": 475,
+      "x": -436,
+      "z": 686,
+      "baselineHeight": 9.7717924118042,
+      "queryHeight": 9.771792059012714,
+      "queryMinusMeshM": -3.5279148491440537e-7,
+      "deltaM": 0.05462499999999999,
+      "candidateHeight": 9.826417411804199
+    },
+    {
+      "ix": 8,
+      "iz": 18,
+      "localIndex": 476,
+      "x": -434,
+      "z": 686,
+      "baselineHeight": 10.762396812438965,
+      "queryHeight": 10.762396495096896,
+      "queryMinusMeshM": -3.1734206906719464e-7,
+      "deltaM": 0.045125000000000005,
+      "candidateHeight": 10.807521812438965
+    },
+    {
+      "ix": 9,
+      "iz": 18,
+      "localIndex": 477,
+      "x": -432,
+      "z": 686,
+      "baselineHeight": 10.708115577697754,
+      "queryHeight": 10.708115779890239,
+      "queryMinusMeshM": 2.0219248497710396e-7,
+      "deltaM": 0,
+      "candidateHeight": 10.708115577697754
+    },
+    {
+      "ix": 5,
+      "iz": 19,
+      "localIndex": 499,
+      "x": -440,
+      "z": 688,
+      "baselineHeight": 7.877562522888184,
+      "queryHeight": 7.87756252988604,
+      "queryMinusMeshM": 6.997856516477441e-9,
+      "deltaM": 0,
+      "candidateHeight": 7.877562522888184
+    },
+    {
+      "ix": 6,
+      "iz": 19,
+      "localIndex": 500,
+      "x": -438,
+      "z": 688,
+      "baselineHeight": 7.845666408538818,
+      "queryHeight": 7.845666170772331,
+      "queryMinusMeshM": -2.3776648738760287e-7,
+      "deltaM": 0.056999999999999995,
+      "candidateHeight": 7.902666408538819
+    },
+    {
+      "ix": 7,
+      "iz": 19,
+      "localIndex": 501,
+      "x": -436,
+      "z": 688,
+      "baselineHeight": 8.140007972717285,
+      "queryHeight": 8.1400076311237,
+      "queryMinusMeshM": -3.4159358541785423e-7,
+      "deltaM": 0.095,
+      "candidateHeight": 8.235007972717286
+    },
+    {
+      "ix": 8,
+      "iz": 19,
+      "localIndex": 502,
+      "x": -434,
+      "z": 688,
+      "baselineHeight": 9.4492769241333,
+      "queryHeight": 9.4492766903865,
+      "queryMinusMeshM": -2.3374680147014715e-7,
+      "deltaM": 0.038000000000000006,
+      "candidateHeight": 9.487276924133301
+    },
+    {
+      "ix": 9,
+      "iz": 19,
+      "localIndex": 503,
+      "x": -432,
+      "z": 688,
+      "baselineHeight": 9.816192626953125,
+      "queryHeight": 9.81619220317268,
+      "queryMinusMeshM": -4.237804454021443e-7,
+      "deltaM": 0,
+      "candidateHeight": 9.816192626953125
+    },
+    {
+      "ix": 5,
+      "iz": 20,
+      "localIndex": 525,
+      "x": -440,
+      "z": 690,
+      "baselineHeight": 8.034207344055176,
+      "queryHeight": 8.034207747773248,
+      "queryMinusMeshM": 4.037180723059919e-7,
+      "deltaM": 0,
+      "candidateHeight": 8.034207344055176
+    },
+    {
+      "ix": 6,
+      "iz": 20,
+      "localIndex": 526,
+      "x": -438,
+      "z": 690,
+      "baselineHeight": 8.190824508666992,
+      "queryHeight": 8.190824709522927,
+      "queryMinusMeshM": 2.0085593455121398e-7,
+      "deltaM": 0.049875,
+      "candidateHeight": 8.240699508666992
+    },
+    {
+      "ix": 7,
+      "iz": 20,
+      "localIndex": 527,
+      "x": -436,
+      "z": 690,
+      "baselineHeight": 8.432405471801758,
+      "queryHeight": 8.432405881501603,
+      "queryMinusMeshM": 4.09699845604905e-7,
+      "deltaM": 0.040375,
+      "candidateHeight": 8.472780471801757
+    },
+    {
+      "ix": 8,
+      "iz": 20,
+      "localIndex": 528,
+      "x": -434,
+      "z": 690,
+      "baselineHeight": 8.693293571472168,
+      "queryHeight": 8.693293570536325,
+      "queryMinusMeshM": -9.358434027717522e-10,
+      "deltaM": 0.030875000000000003,
+      "candidateHeight": 8.724168571472168
+    },
+    {
+      "ix": 9,
+      "iz": 20,
+      "localIndex": 529,
+      "x": -432,
+      "z": 690,
+      "baselineHeight": 8.831299781799316,
+      "queryHeight": 8.831299692202029,
+      "queryMinusMeshM": -8.959728781121612e-8,
+      "deltaM": 0,
+      "candidateHeight": 8.831299781799316
+    },
+    {
+      "ix": 5,
+      "iz": 21,
+      "localIndex": 551,
+      "x": -440,
+      "z": 692,
+      "baselineHeight": 8.677858352661133,
+      "queryHeight": 8.677857943489785,
+      "queryMinusMeshM": -4.0917134747076034e-7,
+      "deltaM": 0,
+      "candidateHeight": 8.677858352661133
+    },
+    {
+      "ix": 6,
+      "iz": 21,
+      "localIndex": 552,
+      "x": -438,
+      "z": 692,
+      "baselineHeight": 8.793622016906738,
+      "queryHeight": 8.793621630501763,
+      "queryMinusMeshM": -3.864049755719634e-7,
+      "deltaM": 0,
+      "candidateHeight": 8.793622016906738
+    },
+    {
+      "ix": 7,
+      "iz": 21,
+      "localIndex": 553,
+      "x": -436,
+      "z": 692,
+      "baselineHeight": 8.872173309326172,
+      "queryHeight": 8.872173762365772,
+      "queryMinusMeshM": 4.530396005009152e-7,
+      "deltaM": 0,
+      "candidateHeight": 8.872173309326172
+    },
+    {
+      "ix": 8,
+      "iz": 21,
+      "localIndex": 554,
+      "x": -434,
+      "z": 692,
+      "baselineHeight": 8.851292610168457,
+      "queryHeight": 8.851292638981198,
+      "queryMinusMeshM": 2.8812740637818024e-8,
+      "deltaM": 0,
+      "candidateHeight": 8.851292610168457
+    },
+    {
+      "ix": 9,
+      "iz": 21,
+      "localIndex": 555,
+      "x": -432,
+      "z": 692,
+      "baselineHeight": 8.820178985595703,
+      "queryHeight": 8.820179329845628,
+      "queryMinusMeshM": 3.442499245664976e-7,
+      "deltaM": 0,
+      "candidateHeight": 8.820178985595703
+    }
+  ],
+  "triangles": [
+    {
+      "gridVertices": [
+        [
+          5,
+          17
+        ],
+        [
+          5,
+          18
+        ],
+        [
+          6,
+          17
+        ]
+      ],
+      "normalAngleDeg": 0
+    },
+    {
+      "gridVertices": [
+        [
+          6,
+          17
+        ],
+        [
+          5,
+          18
+        ],
+        [
+          6,
+          18
+        ]
+      ],
+      "normalAngleDeg": 1.7175830321267223
+    },
+    {
+      "gridVertices": [
+        [
+          6,
+          17
+        ],
+        [
+          6,
+          18
+        ],
+        [
+          7,
+          17
+        ]
+      ],
+      "normalAngleDeg": 0.9425195637959302
+    },
+    {
+      "gridVertices": [
+        [
+          7,
+          17
+        ],
+        [
+          6,
+          18
+        ],
+        [
+          7,
+          18
+        ]
+      ],
+      "normalAngleDeg": 1.0572811080363747
+    },
+    {
+      "gridVertices": [
+        [
+          7,
+          17
+        ],
+        [
+          7,
+          18
+        ],
+        [
+          8,
+          17
+        ]
+      ],
+      "normalAngleDeg": 1.1437218693020803
+    },
+    {
+      "gridVertices": [
+        [
+          8,
+          17
+        ],
+        [
+          7,
+          18
+        ],
+        [
+          8,
+          18
+        ]
+      ],
+      "normalAngleDeg": 1.1566207291389774
+    },
+    {
+      "gridVertices": [
+        [
+          8,
+          17
+        ],
+        [
+          8,
+          18
+        ],
+        [
+          9,
+          17
+        ]
+      ],
+      "normalAngleDeg": 1.0668473722845198
+    },
+    {
+      "gridVertices": [
+        [
+          9,
+          17
+        ],
+        [
+          8,
+          18
+        ],
+        [
+          9,
+          18
+        ]
+      ],
+      "normalAngleDeg": 1.0136158994063242
+    },
+    {
+      "gridVertices": [
+        [
+          5,
+          18
+        ],
+        [
+          5,
+          19
+        ],
+        [
+          6,
+          18
+        ]
+      ],
+      "normalAngleDeg": 1.6528472418258173
+    },
+    {
+      "gridVertices": [
+        [
+          6,
+          18
+        ],
+        [
+          5,
+          19
+        ],
+        [
+          6,
+          19
+        ]
+      ],
+      "normalAngleDeg": 1.523262389350612
+    },
+    {
+      "gridVertices": [
+        [
+          6,
+          18
+        ],
+        [
+          6,
+          19
+        ],
+        [
+          7,
+          18
+        ]
+      ],
+      "normalAngleDeg": 0.27624959305213054
+    },
+    {
+      "gridVertices": [
+        [
+          7,
+          18
+        ],
+        [
+          6,
+          19
+        ],
+        [
+          7,
+          19
+        ]
+      ],
+      "normalAngleDeg": 1.1402926748931392
+    },
+    {
+      "gridVertices": [
+        [
+          7,
+          18
+        ],
+        [
+          7,
+          19
+        ],
+        [
+          8,
+          18
+        ]
+      ],
+      "normalAngleDeg": 0.6547500493105561
+    },
+    {
+      "gridVertices": [
+        [
+          8,
+          18
+        ],
+        [
+          7,
+          19
+        ],
+        [
+          8,
+          19
+        ]
+      ],
+      "normalAngleDeg": 1.1066170684979963
+    },
+    {
+      "gridVertices": [
+        [
+          8,
+          18
+        ],
+        [
+          8,
+          19
+        ],
+        [
+          9,
+          18
+        ]
+      ],
+      "normalAngleDeg": 1.0849802423058332
+    },
+    {
+      "gridVertices": [
+        [
+          9,
+          18
+        ],
+        [
+          8,
+          19
+        ],
+        [
+          9,
+          19
+        ]
+      ],
+      "normalAngleDeg": 0.9697335094939369
+    },
+    {
+      "gridVertices": [
+        [
+          5,
+          19
+        ],
+        [
+          5,
+          20
+        ],
+        [
+          6,
+          19
+        ]
+      ],
+      "normalAngleDeg": 1.6278299502725007
+    },
+    {
+      "gridVertices": [
+        [
+          6,
+          19
+        ],
+        [
+          5,
+          20
+        ],
+        [
+          6,
+          20
+        ]
+      ],
+      "normalAngleDeg": 1.4140323103997505
+    },
+    {
+      "gridVertices": [
+        [
+          6,
+          19
+        ],
+        [
+          6,
+          20
+        ],
+        [
+          7,
+          19
+        ]
+      ],
+      "normalAngleDeg": 1.071247217307189
+    },
+    {
+      "gridVertices": [
+        [
+          7,
+          19
+        ],
+        [
+          6,
+          20
+        ],
+        [
+          7,
+          20
+        ]
+      ],
+      "normalAngleDeg": 1.5464338405107756
+    },
+    {
+      "gridVertices": [
+        [
+          7,
+          19
+        ],
+        [
+          7,
+          20
+        ],
+        [
+          8,
+          19
+        ]
+      ],
+      "normalAngleDeg": 1.67705800214382
+    },
+    {
+      "gridVertices": [
+        [
+          8,
+          19
+        ],
+        [
+          7,
+          20
+        ],
+        [
+          8,
+          20
+        ]
+      ],
+      "normalAngleDeg": 0.31362875163517234
+    },
+    {
+      "gridVertices": [
+        [
+          8,
+          19
+        ],
+        [
+          8,
+          20
+        ],
+        [
+          9,
+          19
+        ]
+      ],
+      "normalAngleDeg": 1.01753585470144
+    },
+    {
+      "gridVertices": [
+        [
+          9,
+          19
+        ],
+        [
+          8,
+          20
+        ],
+        [
+          9,
+          20
+        ]
+      ],
+      "normalAngleDeg": 0.7911032659255343
+    },
+    {
+      "gridVertices": [
+        [
+          5,
+          20
+        ],
+        [
+          5,
+          21
+        ],
+        [
+          6,
+          20
+        ]
+      ],
+      "normalAngleDeg": 1.3499719509485373
+    },
+    {
+      "gridVertices": [
+        [
+          6,
+          20
+        ],
+        [
+          5,
+          21
+        ],
+        [
+          6,
+          21
+        ]
+      ],
+      "normalAngleDeg": 1.3168173330844475
+    },
+    {
+      "gridVertices": [
+        [
+          6,
+          20
+        ],
+        [
+          6,
+          21
+        ],
+        [
+          7,
+          20
+        ]
+      ],
+      "normalAngleDeg": 1.3278067599386958
+    },
+    {
+      "gridVertices": [
+        [
+          7,
+          20
+        ],
+        [
+          6,
+          21
+        ],
+        [
+          7,
+          21
+        ]
+      ],
+      "normalAngleDeg": 1.1070863018423314
+    },
+    {
+      "gridVertices": [
+        [
+          7,
+          20
+        ],
+        [
+          7,
+          21
+        ],
+        [
+          8,
+          20
+        ]
+      ],
+      "normalAngleDeg": 1.1238027795842438
+    },
+    {
+      "gridVertices": [
+        [
+          8,
+          20
+        ],
+        [
+          7,
+          21
+        ],
+        [
+          8,
+          21
+        ]
+      ],
+      "normalAngleDeg": 0.8799676910449762
+    },
+    {
+      "gridVertices": [
+        [
+          8,
+          20
+        ],
+        [
+          8,
+          21
+        ],
+        [
+          9,
+          20
+        ]
+      ],
+      "normalAngleDeg": 1.2399040147815275
+    },
+    {
+      "gridVertices": [
+        [
+          9,
+          20
+        ],
+        [
+          8,
+          21
+        ],
+        [
+          9,
+          21
+        ]
+      ],
+      "normalAngleDeg": 0
+    }
+  ],
+  "summary": {
+    "selectedMeshVertices": 25,
+    "selectedMeshTriangles": 32,
+    "changedVertices": 9,
+    "maxAbsDeltaM": 0.095,
+    "boundaryMaxAbsDeltaM": 0,
+    "queryMeshHeightMaxAbsDeltaM": 4.566767319857945e-7,
+    "normalAngleDeg": {
+      "min": 0,
+      "max": 1.7175830321267223,
+      "mean": 1.0722233864669342
+    },
+    "projection": {
+      "changedVerticesInFront": 9,
+      "changedVerticesInFrame": 9,
+      "maxVerticalPixelDelta": 3.203058392837846
+    }
+  },
+  "protection": {
+    "nearestLifeVertex": {
+      "point": [
+        -435.5,
+        677.8
+      ],
+      "distanceM": 6.220128616033639
+    },
+    "curatedCenterDistances": [
+      {
+        "key": "lantern-ring-b",
+        "x": -444,
+        "z": 681,
+        "centerToChangedVertexM": 5
+      },
+      {
+        "key": "lantern-ring-a",
+        "x": -442,
+        "z": 678,
+        "centerToChangedVertexM": 6.324555320336759
+      },
+      {
+        "key": "lantern-log",
+        "x": -444,
+        "z": 678,
+        "centerToChangedVertexM": 7.211102550927979
+      },
+      {
+        "key": "thorn-b",
+        "x": -446,
+        "z": 679,
+        "centerToChangedVertexM": 7.810249675906656
+      },
+      {
+        "key": "thorn-a",
+        "x": -448,
+        "z": 679,
+        "centerToChangedVertexM": 9.433981132056603
+      },
+      {
+        "key": "gallery-canopy",
+        "x": -464,
+        "z": 716,
+        "centerToChangedVertexM": 33.941125496954285
+      },
+      {
+        "key": "gallery-tall",
+        "x": -466,
+        "z": 716,
+        "centerToChangedVertexM": 35.38361202590826
+      },
+      {
+        "key": "gallery-log",
+        "x": -479,
+        "z": 708,
+        "centerToChangedVertexM": 42.15447781671599
+      },
+      {
+        "key": "arrival-canopy",
+        "x": -470,
+        "z": 590,
+        "centerToChangedVertexM": 98.67117106835208
+      },
+      {
+        "key": "arrival-log",
+        "x": -465,
+        "z": 587,
+        "centerToChangedVertexM": 100.16985574512924
+      }
+    ],
+    "scope": "Center-to-changed-vertex distances only. Complete transformed visual/collider hull, source/home, route footprint, and terrain-support checks remain source-pass gates."
+  },
+  "projection": [
+    {
+      "x": -440,
+      "z": 684,
+      "deltaM": 0,
+      "baseline": {
+        "depthM": 22.19941805869199,
+        "xNdc": 0.1466301104284866,
+        "yNdc": 0.6482388626350909,
+        "xPx": 236.20580274826824,
+        "yPx": 160.93072034444592
+      },
+      "candidate": {
+        "depthM": 22.19941805869199,
+        "xNdc": 0.1466301104284866,
+        "yNdc": 0.6482388626350909,
+        "xPx": 236.20580274826824,
+        "yPx": 160.93072034444592
+      },
+      "verticalPixelDelta": 0
+    },
+    {
+      "x": -438,
+      "z": 684,
+      "deltaM": 0,
+      "baseline": {
+        "depthM": 22.976633997404264,
+        "xNdc": -0.12241250709243535,
+        "yNdc": 0.7572709336280129,
+        "xPx": 180.78302353895833,
+        "yPx": 111.0485478651841
+      },
+      "candidate": {
+        "depthM": 22.976633997404264,
+        "xNdc": -0.12241250709243535,
+        "yNdc": 0.7572709336280129,
+        "xPx": 180.78302353895833,
+        "yPx": 111.0485478651841
+      },
+      "verticalPixelDelta": 0
+    },
+    {
+      "x": -436,
+      "z": 684,
+      "deltaM": 0,
+      "baseline": {
+        "depthM": 23.9911791289324,
+        "xNdc": -0.3701509549824445,
+        "yNdc": 0.8227526161023784,
+        "xPx": 129.74890327361643,
+        "yPx": 81.09067813316189
+      },
+      "candidate": {
+        "depthM": 23.9911791289324,
+        "xNdc": -0.3701509549824445,
+        "yNdc": 0.8227526161023784,
+        "xPx": 129.74890327361643,
+        "yPx": 81.09067813316189
+      },
+      "verticalPixelDelta": 0
+    },
+    {
+      "x": -434,
+      "z": 684,
+      "deltaM": 0,
+      "baseline": {
+        "depthM": 25.55933803736187,
+        "xNdc": -0.5848386346094032,
+        "yNdc": 0.8026723918120657,
+        "xPx": 85.52324127046293,
+        "yPx": 90.27738074597993
+      },
+      "candidate": {
+        "depthM": 25.55933803736187,
+        "xNdc": -0.5848386346094032,
+        "yNdc": 0.8026723918120657,
+        "xPx": 85.52324127046293,
+        "yPx": 90.27738074597993
+      },
+      "verticalPixelDelta": 0
+    },
+    {
+      "x": -432,
+      "z": 684,
+      "deltaM": 0,
+      "baseline": {
+        "depthM": 27.48063862762028,
+        "xNdc": -0.764750016825663,
+        "yNdc": 0.7385628349516569,
+        "xPx": 48.46149653391342,
+        "yPx": 119.60750300961698
+      },
+      "candidate": {
+        "depthM": 27.48063862762028,
+        "xNdc": -0.764750016825663,
+        "yNdc": 0.7385628349516569,
+        "xPx": 48.46149653391342,
+        "yPx": 119.60750300961698
+      },
+      "verticalPixelDelta": 0
+    },
+    {
+      "x": -440,
+      "z": 686,
+      "deltaM": 0,
+      "baseline": {
+        "depthM": 24.380939289853547,
+        "xNdc": 0.41205097739345165,
+        "yNdc": 0.5283823698576137,
+        "xPx": 290.88250134305105,
+        "yPx": 215.76506579014176
+      },
+      "candidate": {
+        "depthM": 24.380939289853547,
+        "xNdc": 0.41205097739345165,
+        "yNdc": 0.5283823698576137,
+        "xPx": 290.88250134305105,
+        "yPx": 215.76506579014176
+      },
+      "verticalPixelDelta": 0
+    },
+    {
+      "x": -438,
+      "z": 686,
+      "deltaM": 0.06412499999999999,
+      "baseline": {
+        "depthM": 25.218320792815867,
+        "xNdc": 0.15776067737730773,
+        "yNdc": 0.6234230615497087,
+        "xPx": 238.49869953972538,
+        "yPx": 172.28394934100825
+      },
+      "candidate": {
+        "depthM": 25.18062906351261,
+        "xNdc": 0.15799682210313667,
+        "yNdc": 0.6285803590888327,
+        "xPx": 238.54734535324616,
+        "yPx": 169.92448571685904
+      },
+      "verticalPixelDelta": 2.359463624149214
+    },
+    {
+      "x": -436,
+      "z": 686,
+      "deltaM": 0.05462499999999999,
+      "baseline": {
+        "depthM": 25.767622071671497,
+        "xNdc": -0.08108125449673191,
+        "yNdc": 0.7518687481888627,
+        "xPx": 189.29726157367324,
+        "yPx": 113.5200477035953
+      },
+      "candidate": {
+        "depthM": 25.735514302265017,
+        "xNdc": -0.08118241191647464,
+        "yNdc": 0.7563275279466555,
+        "xPx": 189.27642314520622,
+        "yPx": 111.48015596440511
+      },
+      "verticalPixelDelta": 2.039891739190182
+    },
+    {
+      "x": -434,
+      "z": 686,
+      "deltaM": 0.045125000000000005,
+      "baseline": {
+        "depthM": 26.391935793012237,
+        "xNdc": -0.3090717437517487,
+        "yNdc": 0.8644447958140855,
+        "xPx": 142.33122078713976,
+        "yPx": 62.01650591505588
+      },
+      "candidate": {
+        "depthM": 26.36541198350254,
+        "xNdc": -0.3093826723297367,
+        "yNdc": 0.8681533890954871,
+        "xPx": 142.26716950007423,
+        "yPx": 60.319824488814646
+      },
+      "verticalPixelDelta": 1.6966814262412342
+    },
+    {
+      "x": -432,
+      "z": 686,
+      "deltaM": 0,
+      "baseline": {
+        "depthM": 27.630417881159232,
+        "xNdc": -0.5148214613066634,
+        "yNdc": 0.887488912379741,
+        "xPx": 99.94677897082734,
+        "yPx": 51.473822586268476
+      },
+      "candidate": {
+        "depthM": 27.630417881159232,
+        "xNdc": -0.5148214613066634,
+        "yNdc": 0.887488912379741,
+        "xPx": 99.94677897082734,
+        "yPx": 51.473822586268476
+      },
+      "verticalPixelDelta": 0
+    },
+    {
+      "x": -440,
+      "z": 688,
+      "deltaM": 0,
+      "baseline": {
+        "depthM": 25.54592695536797,
+        "xNdc": 0.659098283508438,
+        "yNdc": 0.5575468196602356,
+        "xPx": 341.77424640273824,
+        "yPx": 202.42233000544223
+      },
+      "candidate": {
+        "depthM": 25.54592695536797,
+        "xNdc": 0.659098283508438,
+        "yNdc": 0.5575468196602356,
+        "xPx": 341.77424640273824,
+        "yPx": 202.42233000544223
+      },
+      "verticalPixelDelta": 0
+    },
+    {
+      "x": -438,
+      "z": 688,
+      "deltaM": 0.056999999999999995,
+      "baseline": {
+        "depthM": 26.771251399877848,
+        "xNdc": 0.4022802652177262,
+        "yNdc": 0.5971890869793515,
+        "xPx": 288.8697346348516,
+        "yPx": 184.2859927069467
+      },
+      "candidate": {
+        "depthM": 26.737747640497176,
+        "xNdc": 0.40278434287567494,
+        "yNdc": 0.6014735064506159,
+        "xPx": 288.97357463238905,
+        "yPx": 182.32587079884323
+      },
+      "verticalPixelDelta": 1.9601219081034742
+    },
+    {
+      "x": -436,
+      "z": 688,
+      "deltaM": 0.095,
+      "baseline": {
+        "depthM": 27.804818148206934,
+        "xNdc": 0.169100750622777,
+        "yNdc": 0.6571914396985277,
+        "xPx": 240.83475462829207,
+        "yPx": 156.8349163379236
+      },
+      "candidate": {
+        "depthM": 27.748978549239148,
+        "xNdc": 0.16944103407080274,
+        "yNdc": 0.6641926602293208,
+        "xPx": 240.90485301858538,
+        "yPx": 153.63185794508576
+      },
+      "verticalPixelDelta": 3.203058392837846
+    },
+    {
+      "x": -434,
+      "z": 688,
+      "deltaM": 0.038000000000000006,
+      "baseline": {
+        "depthM": 28.241825546170055,
+        "xNdc": -0.04836496392689135,
+        "yNdc": 0.7875613029274409,
+        "xPx": 196.03681743106037,
+        "yPx": 97.1907039106958
+      },
+      "candidate": {
+        "depthM": 28.21948970658294,
+        "xNdc": -0.048403244990338636,
+        "yNdc": 0.790418286116058,
+        "xPx": 196.02893153199022,
+        "yPx": 95.88363410190345
+      },
+      "verticalPixelDelta": 1.307069808792349
+    },
+    {
+      "x": -432,
+      "z": 688,
+      "deltaM": 0,
+      "baseline": {
+        "depthM": 29.23273428610792,
+        "xNdc": -0.25429182554655494,
+        "yNdc": 0.8431691308726164,
+        "xPx": 153.61588393740968,
+        "yPx": 71.75012262577802
+      },
+      "candidate": {
+        "depthM": 29.23273428610792,
+        "xNdc": -0.25429182554655494,
+        "yNdc": 0.8431691308726164,
+        "xPx": 153.61588393740968,
+        "yPx": 71.75012262577802
+      },
+      "verticalPixelDelta": 0
+    },
+    {
+      "x": -440,
+      "z": 690,
+      "deltaM": 0,
+      "baseline": {
+        "depthM": 26.531910687957826,
+        "xNdc": 0.8905639562702022,
+        "yNdc": 0.6071478103935712,
+        "xPx": 389.45617499166167,
+        "yPx": 179.72987674494115
+      },
+      "candidate": {
+        "depthM": 26.531910687957826,
+        "xNdc": 0.8905639562702022,
+        "yNdc": 0.6071478103935712,
+        "xPx": 389.45617499166167,
+        "yPx": 179.72987674494115
+      },
+      "verticalPixelDelta": 0
+    },
+    {
+      "x": -438,
+      "z": 690,
+      "deltaM": 0.049875,
+      "baseline": {
+        "depthM": 27.64642980723302,
+        "xNdc": 0.6351862782484625,
+        "yNdc": 0.6570806144585928,
+        "xPx": 336.8483733191833,
+        "yPx": 156.8856188851938
+      },
+      "candidate": {
+        "depthM": 27.617114017774934,
+        "xNdc": 0.635860533610113,
+        "yNdc": 0.6607736878234229,
+        "xPx": 336.9872699236833,
+        "yPx": 155.196037820784
+      },
+      "verticalPixelDelta": 1.6895810644097935
+    },
+    {
+      "x": -436,
+      "z": 690,
+      "deltaM": 0.040375,
+      "baseline": {
+        "depthM": 28.711008458757682,
+        "xNdc": 0.4002960181305075,
+        "yNdc": 0.709275216752562,
+        "xPx": 288.4609797348846,
+        "yPx": 133.00658833570287
+      },
+      "candidate": {
+        "depthM": 28.687276629196372,
+        "xNdc": 0.4006271669181438,
+        "yNdc": 0.7121964995809167,
+        "xPx": 288.52919638513765,
+        "yPx": 131.67010144173062
+      },
+      "verticalPixelDelta": 1.3364868939722498
+    },
+    {
+      "x": -434,
+      "z": 690,
+      "deltaM": 0.030875000000000003,
+      "baseline": {
+        "depthM": 29.76423866016269,
+        "xNdc": 0.18227148125416517,
+        "yNdc": 0.7591024251401852,
+        "xPx": 243.54792513835804,
+        "yPx": 110.21064049836527
+      },
+      "candidate": {
+        "depthM": 29.746090790498158,
+        "xNdc": 0.18238268373480906,
+        "yNdc": 0.7612872298997528,
+        "xPx": 243.57083284937067,
+        "yPx": 109.21109232086307
+      },
+      "verticalPixelDelta": 0.9995481775021915
+    },
+    {
+      "x": -432,
+      "z": 690,
+      "deltaM": 0,
+      "baseline": {
+        "depthM": 30.889697023897504,
+        "xNdc": -0.02080171340218153,
+        "yNdc": 0.7970417053809238,
+        "xPx": 201.7148470391506,
+        "yPx": 92.85341978822737
+      },
+      "candidate": {
+        "depthM": 30.889697023897504,
+        "xNdc": -0.02080171340218153,
+        "yNdc": 0.7970417053809238,
+        "xPx": 201.7148470391506,
+        "yPx": 92.85341978822737
+      },
+      "verticalPixelDelta": 0
+    },
+    {
+      "x": -440,
+      "z": 692,
+      "deltaM": 0,
+      "baseline": {
+        "depthM": 27.23163936579587,
+        "xNdc": 1.1170627549747871,
+        "yNdc": 0.6897250829642163,
+        "xPx": 436.1149275248062,
+        "yPx": 141.95077454387103
+      },
+      "candidate": {
+        "depthM": 27.23163936579587,
+        "xNdc": 1.1170627549747871,
+        "yNdc": 0.6897250829642163,
+        "xPx": 436.1149275248062,
+        "yPx": 141.95077454387103
+      },
+      "verticalPixelDelta": 0
+    },
+    {
+      "x": -438,
+      "z": 692,
+      "deltaM": 0,
+      "baseline": {
+        "depthM": 28.370171570090854,
+        "xNdc": 0.858356444504087,
+        "yNdc": 0.7321676332411771,
+        "xPx": 382.8214275678419,
+        "yPx": 122.5333077921615
+      },
+      "candidate": {
+        "depthM": 28.370171570090854,
+        "xNdc": 0.858356444504087,
+        "yNdc": 0.7321676332411771,
+        "xPx": 382.8214275678419,
+        "yPx": 122.5333077921615
+      },
+      "verticalPixelDelta": 0
+    },
+    {
+      "x": -436,
+      "z": 692,
+      "deltaM": 0,
+      "baseline": {
+        "depthM": 29.530576657748078,
+        "xNdc": 0.6191544891662377,
+        "yNdc": 0.7686735341043944,
+        "xPx": 333.545824768245,
+        "yPx": 105.83185814723954
+      },
+      "candidate": {
+        "depthM": 29.530576657748078,
+        "xNdc": 0.6191544891662377,
+        "yNdc": 0.7686735341043944,
+        "xPx": 333.545824768245,
+        "yPx": 105.83185814723954
+      },
+      "verticalPixelDelta": 0
+    },
+    {
+      "x": -434,
+      "z": 692,
+      "deltaM": 0,
+      "baseline": {
+        "depthM": 30.74942640366043,
+        "xNdc": 0.3972841135760675,
+        "yNdc": 0.7955300648829882,
+        "xPx": 287.8405273966699,
+        "yPx": 93.54499531603291
+      },
+      "candidate": {
+        "depthM": 30.74942640366043,
+        "xNdc": 0.3972841135760675,
+        "yNdc": 0.7955300648829882,
+        "xPx": 287.8405273966699,
+        "yPx": 93.54499531603291
+      },
+      "verticalPixelDelta": 0
+    },
+    {
+      "x": -432,
+      "z": 692,
+      "deltaM": 0,
+      "baseline": {
+        "depthM": 31.974290912219537,
+        "xNdc": 0.19229599602596073,
+        "yNdc": 0.8196535161731898,
+        "xPx": 245.6129751813479,
+        "yPx": 82.50851635076566
+      },
+      "candidate": {
+        "depthM": 31.974290912219537,
+        "xNdc": 0.19229599602596073,
+        "yNdc": 0.8196535161731898,
+        "xPx": 245.6129751813479,
+        "yPx": 82.50851635076566
+      },
+      "verticalPixelDelta": 0
+    }
+  ],
+  "limits": [
+    "Read-only proposal: no runtime sampler includes this delta.",
+    "This receipt samples actual chunk (-10,13) Float32 mesh vertices and compares sampleFrontier query height at those exact vertices.",
+    "A source pass must place one final local term in the shared rootbound height chain so mesh, query, collisions, and terrain support agree.",
+    "The native projection uses the recorded destination center/yaw/pitch/effectiveDistance and cameraFollow orbit convention; it is a vertex cue only, not a full geometry/HUD readability proof."
+  ]
+}

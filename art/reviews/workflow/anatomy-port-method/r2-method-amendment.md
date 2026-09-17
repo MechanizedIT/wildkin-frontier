@@ -1,0 +1,3 @@
+# One-port probe: one focused bridge repair
+
+Root proposes one counted R2 of this abstract method, not a creature rebuild. All four rings are generated with identical increasing angular order. Use the corresponding quad `a[i], a[i+1], b[i+1], b[i]`; recalculate surface normals after construction. The old reversed expression paired different edges in adjacent quads, yielding 36 open edges. The pure 24-vertex/20-face incidence proof now has zero unmatched edges. Geometry dimensions, gates and output remain unchanged; actual Blender topology/BVH/render still require independent source review and execution. Preserve prior failed source and logs.

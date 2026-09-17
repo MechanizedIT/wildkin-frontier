@@ -1,0 +1,39 @@
+{
+  "schema": "ironspine-bank-reference-v1",
+  "status": "unreviewed-target",
+  "tool": "built-in image_gen",
+  "generatedAt": "2026-09-14T14:58:55.0889671Z",
+  "sourceImages": [
+    {
+      "sha256": "E93B0F4183EF2ABE13A6CA96BD2454DFB4D1DC9B936F75122DC237B878A7B26C",
+      "path": "art/targets/ironspine-range/concepts/selected.png",
+      "role": "selected gully target palette/composition context"
+    },
+    {
+      "sha256": "C6AFC40D509E522335C2C6CA13A612405962472C3E3C4EDDE3B8EFE4F190F6F6",
+      "path": "art/reviews/ironspine-range/rotation-1/bank-pair-preview-arrival.png",
+      "role": "gap diagnosis: isolated upright props"
+    }
+  ],
+  "output": {
+    "sha256": "E390B58EEFEA6E68B4FAE8F2E32E22E5B3E564DB78349E3D8CD9B66131C300FE",
+    "path": "ironspine-narrow-rockbank-construction-target.png"
+  },
+  "prompt": {
+    "sha256": "2E88ADD2DB520A43F2F655A0DCE5633892D9148DB94324A278FA74CE40D219A7",
+    "path": "prompt.txt"
+  },
+  "declaredEnvelopeMeters": {
+    "localX": 3.6,
+    "localZ": 1.0,
+    "Y": 2.0
+  },
+  "placementNote": "Planned support between (-2078,-3159) and (-2077,-3156) remains unverified; this target makes no runtime-fit claim.",
+  "constraints": [
+    "single connected opaque grounded rock mass",
+    "closed ends",
+    "no holes or deep concave cuts",
+    "no vegetation crystals scene HUD or other objects",
+    "target author cannot select admit or build"
+  ]
+}

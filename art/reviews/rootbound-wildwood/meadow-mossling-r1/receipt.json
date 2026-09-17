@@ -1,0 +1,582 @@
+{
+  "sourceId": "f1:w:-10:11:701",
+  "input": "one initial setup placement; ordinary keyboard W/S thereafter",
+  "errors": [],
+  "initial": {
+    "player": {
+      "x": -458,
+      "y": 13.861313819885254,
+      "z": 601
+    },
+    "active": true,
+    "creature": {
+      "originId": "f1:w:-10:11:701",
+      "id": "f1:w:-10:11:701",
+      "ai": "ROAM",
+      "pos": {
+        "x": -458.0000208933834,
+        "y": 14.225548225454986,
+        "z": 590.9417493734509
+      },
+      "home": {
+        "x": -458,
+        "y": 13.707377690951205,
+        "z": 591
+      },
+      "generated": true
+    },
+    "residency": {
+      "liveResidentCount": 2,
+      "residentChunkIds": [
+        "-10,11",
+        "-10,13"
+      ]
+    }
+  },
+  "approachTrace": [
+    {
+      "player": {
+        "x": -458,
+        "z": 601
+      },
+      "distance": 10,
+      "ai": "ROAM",
+      "creature": {
+        "x": -458.0000103607781,
+        "z": 590.7238593203947
+      }
+    },
+    {
+      "player": {
+        "x": -458.0000305175781,
+        "z": 600.4948120117188
+      },
+      "distance": 9.494812011767793,
+      "ai": "ROAM",
+      "creature": {
+        "x": -458.0000096647491,
+        "z": 590.4769084323198
+      }
+    },
+    {
+      "player": {
+        "x": -458.00030517578125,
+        "z": 599.8653564453125
+      },
+      "distance": 8.865356450565095,
+      "ai": "ROAM",
+      "creature": {
+        "x": -458,
+        "z": 590.2154340464622
+      }
+    },
+    {
+      "player": {
+        "x": -458.00042724609375,
+        "z": 599.2002563476562
+      },
+      "distance": 8.200256358786342,
+      "ai": "ROAM",
+      "creature": {
+        "x": -458.0000059699196,
+        "z": 589.9394172439352
+      }
+    },
+    {
+      "player": {
+        "x": -458.000732421875,
+        "z": 598.568603515625
+      },
+      "distance": 7.5686035510636245,
+      "ai": "ROAM",
+      "creature": {
+        "x": -458.00182698573917,
+        "z": 589.6778998980299
+      }
+    },
+    {
+      "player": {
+        "x": -458.0008544921875,
+        "z": 597.96484375
+      },
+      "distance": 6.96484380241732,
+      "ai": "ROAM",
+      "creature": {
+        "x": -458.0080216548231,
+        "z": 589.4309532623738
+      }
+    },
+    {
+      "player": {
+        "x": -458.00103759765625,
+        "z": 597.3710327148438
+      },
+      "distance": 6.371032799336244,
+      "ai": "ROAM",
+      "creature": {
+        "x": -458.0142469946295,
+        "z": 589.1840042760596
+      }
+    },
+    {
+      "player": {
+        "x": -458.0009460449219,
+        "z": 596.7772216796875
+      },
+      "distance": 5.777221757146965,
+      "ai": "FLEE",
+      "creature": {
+        "x": -458.01882405680954,
+        "z": 588.4691228121519
+      }
+    }
+  ],
+  "flee": {
+    "player": {
+      "x": -458.0009460449219,
+      "y": 13.952832221984863,
+      "z": 596.7301025390625
+    },
+    "active": true,
+    "creature": {
+      "originId": "f1:w:-10:11:701",
+      "id": "f1:w:-10:11:701",
+      "ai": "FLEE",
+      "pos": {
+        "x": -458.0239941721229,
+        "y": 14.433725487207994,
+        "z": 586.6064573526382
+      },
+      "home": {
+        "x": -458,
+        "y": 13.707377690951205,
+        "z": 591
+      },
+      "generated": true
+    },
+    "residency": {
+      "liveResidentCount": 2,
+      "residentChunkIds": [
+        "-10,11",
+        "-10,13"
+      ]
+    }
+  },
+  "withdrawTrace": [
+    {
+      "player": {
+        "x": -458.0009460449219,
+        "z": 596.7301025390625
+      },
+      "distance": 8.269897515049477,
+      "ai": "FLEE",
+      "creature": {
+        "x": -458.0253072871419,
+        "z": 586.1408150494099
+      }
+    },
+    {
+      "player": {
+        "x": -458.0009460449219,
+        "z": 597.3701171875
+      },
+      "distance": 7.629882871151031,
+      "ai": "FLEE",
+      "creature": {
+        "x": -458.02897472413315,
+        "z": 584.8102447465062
+      }
+    },
+    {
+      "player": {
+        "x": -458.0009460449219,
+        "z": 597.9658813476562
+      },
+      "distance": 7.034118715962309,
+      "ai": "FLEE",
+      "creature": {
+        "x": -458.0321511641814,
+        "z": 583.6793734878302
+      }
+    },
+    {
+      "player": {
+        "x": -458.0009460449219,
+        "z": 598.5716552734375
+      },
+      "distance": 6.428344796176144,
+      "ai": "FLEE",
+      "creature": {
+        "x": -458.03551101809717,
+        "z": 582.6210437566042
+      }
+    },
+    {
+      "player": {
+        "x": -458.0009460449219,
+        "z": 599.1931762695312
+      },
+      "distance": 5.806823807533341,
+      "ai": "FLEE",
+      "creature": {
+        "x": -458.03877946150897,
+        "z": 581.6102944463491
+      }
+    },
+    {
+      "player": {
+        "x": -458.0009460449219,
+        "z": 599.7889404296875
+      },
+      "distance": 5.211059656187644,
+      "ai": "FLEE",
+      "creature": {
+        "x": -458.0418943801924,
+        "z": 580.6557027325034
+      }
+    },
+    {
+      "player": {
+        "x": -458.0009460449219,
+        "z": 600.3947143554688
+      },
+      "distance": 4.6052857417023105,
+      "ai": "FLEE",
+      "creature": {
+        "x": -458.0450091136445,
+        "z": 579.7011051811278
+      }
+    },
+    {
+      "player": {
+        "x": -458.0009460449219,
+        "z": 601.0262451171875
+      },
+      "distance": 3.973754995426515,
+      "ai": "FLEE",
+      "creature": {
+        "x": -458.04830655510887,
+        "z": 578.6903604082763
+      }
+    },
+    {
+      "player": {
+        "x": -458.0009460449219,
+        "z": 601.624267578125
+      },
+      "distance": 3.375732554438969,
+      "ai": "FLEE",
+      "creature": {
+        "x": -458.05142052941665,
+        "z": 577.7357632219791
+      }
+    },
+    {
+      "player": {
+        "x": -458.0009460449219,
+        "z": 602.2200317382812
+      },
+      "distance": 2.7799684226919847,
+      "ai": "FLEE",
+      "creature": {
+        "x": -458.05453749917797,
+        "z": 576.781118478626
+      }
+    },
+    {
+      "player": {
+        "x": -458.0009460449219,
+        "z": 602.8157958984375
+      },
+      "distance": 2.1842043064428385,
+      "ai": "RETURN",
+      "creature": {
+        "x": -458.0551930418442,
+        "z": 576.5589149445295
+      }
+    },
+    {
+      "player": {
+        "x": -458.00048828125,
+        "z": 603.3858032226562
+      },
+      "distance": 1.6141968511942795,
+      "ai": "RETURN",
+      "creature": {
+        "x": -458.0532393806352,
+        "z": 577.1253211908042
+      }
+    },
+    {
+      "player": {
+        "x": -458.00048828125,
+        "z": 604.017333984375
+      },
+      "distance": 0.9826661369371044,
+      "ai": "RETURN",
+      "creature": {
+        "x": -458.05104145723453,
+        "z": 577.762528218329
+      }
+    }
+  ],
+  "returned": {
+    "player": {
+      "x": -458.00048828125,
+      "y": 13.550881385803223,
+      "z": 604.0645751953125
+    },
+    "active": true,
+    "creature": {
+      "originId": "f1:w:-10:11:701",
+      "id": "f1:w:-10:11:701",
+      "ai": "RETURN",
+      "pos": {
+        "x": -458.0248565403599,
+        "y": 14.525532722473145,
+        "z": 584.594803608954
+      },
+      "home": {
+        "x": -458,
+        "y": 13.707377690951205,
+        "z": 591
+      },
+      "generated": true
+    },
+    "residency": {
+      "liveResidentCount": 2,
+      "residentChunkIds": [
+        "-10,11",
+        "-10,13"
+      ]
+    }
+  },
+  "streamedOut": {
+    "player": {
+      "x": -300,
+      "y": 13.756199836730957,
+      "z": 500
+    },
+    "active": false,
+    "residency": {
+      "liveResidentCount": 1,
+      "residentChunkIds": [
+        "-5,11"
+      ]
+    }
+  },
+  "streamedBack": {
+    "player": {
+      "x": -458,
+      "y": 13.881314277648926,
+      "z": 601
+    },
+    "active": true,
+    "creature": {
+      "originId": "f1:w:-10:11:701",
+      "id": "f1:w:-10:11:701",
+      "ai": "ROAM",
+      "pos": {
+        "x": -458,
+        "y": 14.257377624511719,
+        "z": 591
+      },
+      "home": {
+        "x": -458,
+        "y": 13.707377690951205,
+        "z": 591
+      },
+      "generated": true
+    },
+    "residency": {
+      "liveResidentCount": 2,
+      "residentChunkIds": [
+        "-10,11",
+        "-10,13"
+      ]
+    }
+  },
+  "portable": {
+    "imported": {
+      "ok": true,
+      "state": {
+        "version": 3,
+        "skillUnlocks": [],
+        "skillPointsAvailable": 1,
+        "inventory": {
+          "packTier": 0,
+          "pack": [
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null
+          ],
+          "containers": [
+            {
+              "id": "pod_locker",
+              "type": "pod",
+              "label": "Pod locker",
+              "slots": [
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null
+              ]
+            }
+          ],
+          "legacy": {},
+          "totals": {
+            "gathered": 0,
+            "returned": 0
+          }
+        },
+        "activeRun": {
+          "runId": "26e8bc1a-d78d-45a5-8bb4-ceb7d0a3f671",
+          "startAnchorId": "gate_camp_frontier",
+          "sectionId": "camp",
+          "feet": {
+            "x": -458.00048828125,
+            "y": 13.010849373123627,
+            "z": 604.0645751953125
+          },
+          "facingYaw": 0.0003024917667668557,
+          "health": 5,
+          "xp": 0,
+          "companions": [],
+          "corePending": false,
+          "kills": 0,
+          "maxDepth": 0,
+          "frontierDeparted": true,
+          "newWaypoints": [],
+          "newBeacons": []
+        },
+        "bankedResources": {
+          "wood": 0,
+          "stone": 0,
+          "fiber": 0,
+          "berries": 0,
+          "iron_ore": 0,
+          "crystal_shard": 0,
+          "wildflower": 0
+        },
+        "bankedXp": 0,
+        "unlockedMajorWaypointIds": [],
+        "discoveredBeaconIds": [],
+        "repairedPortalGateIds": [],
+        "claimedLootChestIds": [],
+        "lootChestReadyAt": {},
+        "hasDepartedOnce": true,
+        "upgrades": {
+          "matter_attractor": 0,
+          "field_tool": 0,
+          "vitality": 0,
+          "capture_capacity": 0,
+          "field_medicine": 0
+        },
+        "matterAttractorI": false,
+        "securedCompanions": [],
+        "activeCompanionId": null,
+        "ownedWildkin": [],
+        "activeWildkinId": null,
+        "capturedWildkinSources": {},
+        "discoveredSpecies": [
+          "mossling"
+        ],
+        "observationClues": {},
+        "completedObjectives": [],
+        "completedPoiIds": [],
+        "campaignCompleted": false,
+        "craftedConsumables": {
+          "medkit": 0
+        },
+        "fieldSupplies": {
+          "trail_ration": 0,
+          "berry_lure": 0,
+          "woven_snare": 0,
+          "calming_chime": 0,
+          "reinforced_tether": 0
+        },
+        "base": {
+          "tier": 0,
+          "layout": {
+            "version": 1,
+            "yardExpanded": false,
+            "clearedDebrisIds": [],
+            "legacyApron": false
+          },
+          "structures": []
+        },
+        "campCare": null,
+        "campCrop": null,
+        "campBreeding": null,
+        "nextCampBreedingSequence": 1,
+        "loadout": {
+          "slots": [
+            "omni_tool",
+            "medkit",
+            "berry_lure",
+            "woven_snare",
+            "build_tool"
+          ],
+          "selected": 0
+        },
+        "ecology": {
+          "edition": 1,
+          "seed": 1327115068,
+          "resources": {}
+        },
+        "atlas": {
+          "edition": 1,
+          "seed": 1327115068,
+          "chunks": {
+            "f1:a:-1:-1": 25690112,
+            "f1:a:0:-1": 3178496,
+            "f1:a:-1:0": 536,
+            "f1:a:0:0": 35,
+            "f1:a:-10:11": 30146560,
+            "f1:a:-9:11": 1048576,
+            "f1:a:-10:12": 796,
+            "f1:a:-9:12": 1,
+            "f1:a:-7:9": 25690112,
+            "f1:a:-6:9": 3178496,
+            "f1:a:-7:10": 536,
+            "f1:a:-6:10": 35
+          }
+        }
+      }
+    },
+    "sourceId": "f1:w:-10:11:701"
+  }
+}

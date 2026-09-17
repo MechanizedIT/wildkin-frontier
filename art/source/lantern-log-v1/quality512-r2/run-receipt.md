@@ -1,0 +1,3 @@
+# Lantern log quality512 R2 — terminal HOLD
+
+One fresh V2 reference run used the unchanged 512/12/seed1234/30k/1K full-export profile and all existing reserve/offline/stage/decoded-face guards. Background, conditioning, sparse, shape and texture children completed. Decode child 37312 exited 1 at 20:17:27Z after the guard measured **2,218,798 faces / 1,077,634 vertices**, above the unchanged 750,000-face limit. Parent PID 12272 then exited. No GLB/export, Blender inspection, runtime admission or third TRELLIS attempt exists. Public files are plan/events/preprocessed reference; no tensor handoffs are published.

@@ -9,6 +9,7 @@ import { createCharacterPhysics } from '../src/physics/createCharacterPhysics.js
 import { SKYBREAK_ANCHORS, SKYBREAK_BOUNDS, sampleFrontierLandform } from '../src/world/frontierLandform.js';
 import { DEFAULT_FRONTIER_WORLD, normalizeFrontierWorld } from '../src/world/frontierWorld.js';
 import { sampleFrontierRegion, createFrontierRegionSampler } from '../src/world/frontierRegion.js';
+import { heartwoodProtectedSupport, sampleFrontierHeartwoodProfile } from '../src/world/frontierHeartwood.js';
 
 await RAPIER.init();
 
@@ -265,6 +266,16 @@ test('both staged Mossling clearings and the northbound route remain safely grad
     }
   }
   assert.ok(steepestRoute <= .32, `northbound route slope ${steepestRoute.toFixed(3)}`);
+});
+
+test('Heartwood banks stay finite, neutral in alternate worlds, and level at full source/home support disks', () => {
+  assert.ok(sampleFrontierHeartwoodProfile(-8.4, -70.8).heightOffset > .3, 'one side bank has visible relief');
+  assert.equal(sampleFrontierHeartwoodProfile(-8.4, -70.8, { world: { edition: 1, seed: DEFAULT_FRONTIER_WORLD.seed + 17 } }).heightOffset, 0);
+  assert.equal(sampleFrontierHeartwoodProfile(-22, -70).heightOffset, 0, 'profile remains inside its finite rooms');
+  for (const [x, z] of [[-4.681, -58.906], [-13.916, -83.928], [-16.862, -82.506], [7, -85], [17, -79]]) {
+    assert.equal(heartwoodProtectedSupport(x, z), true, `static support witness ${x},${z} remains level`);
+    assert.equal(sampleFrontierHeartwoodProfile(x, z).heightOffset, 0);
+  }
 });
 
 test('mesh vertices, normals and colors are finite and repeatable', () => {

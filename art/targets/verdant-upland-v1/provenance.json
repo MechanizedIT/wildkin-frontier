@@ -1,0 +1,29 @@
+{
+  "status": "generated candidate, independent review pending",
+  "generator": "built-in image_gen",
+  "calls": 1,
+  "createdAt": "2026-09-12T01:11:06.3542204-05:00",
+  "target": "art/targets/verdant-upland-v1/target.png",
+  "sha256": "6f2118af7ccda24dc9dfcf919a307a226c307445058559793818c8f1f9a14a8f",
+  "width": 1563,
+  "height": 1006,
+  "bytes": 2597411,
+  "originalOutput": "C:/Users/cwood/.codex/generated_images/01a093b1-2ec4-75e3-ab7e-2f72fd980dbe/exec-38c9896d-d19e-485f-b04d-5ce02d83721c.png",
+  "prompt": "art/targets/verdant-upland-v1/prompt.txt",
+  "promptSHA256": "a3fb6c0efdf291f33977ff963d013e029f9294508454808cdcc9be411870f81b",
+  "referenced_image_paths": [
+    {
+      "path": "C:\\Users\\cwood\\Documents\\mobile-rpg\\.dream-loop\\visual-atlas\\2026-09-12\\maps\\section_1.png",
+      "sha256": "4f5cceeb54a84a5d0a708230fc4ddd34ed86318c10cd47c001245079dd5f8123"
+    },
+    {
+      "path": "C:\\Users\\cwood\\Documents\\mobile-rpg\\.dream-loop\\visual-atlas\\2026-09-12\\maps\\section_1-planning.png",
+      "sha256": "ee8c2e93950055359a02bb4d03ca2a83cefb8e9365d10b4e7a7cf7888bd402b8"
+    },
+    {
+      "path": "C:\\Users\\cwood\\Documents\\mobile-rpg\\art\\style\\explorer-master.png",
+      "sha256": "a5c6d707832bb3fd0b21289be540e3fd75970befca66a442b65ebf673543adff"
+    }
+  ],
+  "postprocessing": "none; original bytes copied"
+}

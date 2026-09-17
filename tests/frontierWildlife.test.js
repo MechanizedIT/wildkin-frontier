@@ -5,7 +5,7 @@ import WORLD_DATA from '../src/world/data/world.js';
 import { createCreatureSystem } from '../src/creatures/creatureSystem.js';
 import { createWildkinGenome } from '../src/creatures/wildkinGenome.js';
 import { identifyCompanion } from '../src/companions/companionCatalog.js';
-import { FRONTIER_CALDERA_WILDLIFE_ANCHOR, FRONTIER_FUNGAL_WILDLIFE_ANCHOR, sampleFrontierWildlifeChunk } from '../src/world/frontierWildlife.js';
+import { FRONTIER_CALDERA_WILDLIFE_ANCHOR, FRONTIER_FUNGAL_WILDLIFE_ANCHOR, FRONTIER_ROOTBOUND_TRAILGLOAM_ANCHOR, sampleFrontierWildlifeChunk } from '../src/world/frontierWildlife.js';
 import { createFrontierWildlifeRuntime } from '../src/world/frontierWildlifeRuntime.js';
 import { hasFootprintSupport } from '../src/world/frontierPlacement.js';
 import { sampleFrontier } from '../src/world/frontierTerrain.js';
@@ -39,6 +39,20 @@ function owner() {
     },
   };
 }
+
+const TRAILGLOAM_ASSET = Object.freeze({
+  id: 'asset_wildkin_trailgloam',
+  gameplay: Object.freeze({ role: 'wildkin', wildkin: Object.freeze({
+    speciesTag: 'trailgloam', archetype: 'rusher', temperament: 'SKITTISH',
+    health: 6, moveSpeed: .6060606060606061, damage: 1, respawnSeconds: 28,
+    roamRadius: 1.8, noticeRadius: 7, personalSpace: 2, leashRadius: 3, hostileSpecies: Object.freeze([]),
+  }) }),
+  model: Object.freeze({
+    path: 'assets/models/trailgloam-fitted-r1/model.glb', scale: 1, pivot: Object.freeze({ x: 0, y: 0, z: 0 }),
+    clips: Object.freeze({ idle: 'Loaded', walk: 'WalkDiagnostic' }),
+    locomotion: Object.freeze({ walk: .21212121212121213 }),
+  }),
+});
 
 test('wildlife rejects a home whose complete movement disk reaches the wet margin', () => {
   const wet = () => ({ height: 4, coastDistance: 1, habitatBlend: { wetland: 0, fernUpland: 1 }, surfaceKind: null });
@@ -341,6 +355,93 @@ test('Fungal resident priority loads the Thornprowler once and normal retirement
   snapshot = residency(-58, -26);
   runtime.update();
   assert.equal(creatures.actors.filter(actor => actor.state.originId === 'f1:w:-58:-26:450').length, 1);
+  runtime.dispose();
+});
+
+test('Rootbound admits one exact, cadence-correct Trailgloam source without changing Mossling identities', () => {
+  const anchor = FRONTIER_ROOTBOUND_TRAILGLOAM_ANCHOR;
+  assert.deepEqual(sampleFrontierWildlifeChunk(anchor.cx, anchor.cz), [], 'missing art leaves no invisible Trailgloam resident');
+  const [source] = sampleFrontierWildlifeChunk(anchor.cx, anchor.cz, { visualAssets: [TRAILGLOAM_ASSET] });
+  assert.deepEqual({
+    id: source.originId, chunk: source.generatedChunkId, species: source.speciesTag, asset: source.visualAssetId,
+    type: source.type, temperament: source.temperament, x: source.homePos.x, z: source.homePos.z,
+    roam: source.roamRadius, leash: source.leashRadius, fleeLeash: source.fleeLeashRadius,
+    priority: source.residentPriority, feature: source.rootboundTrailgloamFeature, genome: source.genome,
+    overrides: source.configOverrides,
+  }, {
+    id: 'f1:w:-10:13:700', chunk: '-10,13', species: 'trailgloam', asset: 'asset_wildkin_trailgloam',
+    type: 'rusher', temperament: 'SKITTISH', x: -463, z: 685,
+    roam: 1.8, leash: 3, fleeLeash: 3.3,
+    priority: 1, feature: true, genome: null,
+    overrides: {
+      health: 6, moveSpeed: .6060606060606061, damage: 1, respawnSeconds: 28,
+      capsuleRadius: .48, capsuleHalfHeight: .02,
+    },
+  });
+  assert.equal(source.configOverrides.moveSpeed * .35, TRAILGLOAM_ASSET.model.locomotion.walk,
+    'the existing rusher ROAM multiplier preserves the fitted WalkDiagnostic cadence');
+  assert.deepEqual({
+    type: source.type, speciesTag: source.speciesTag, temperament: source.temperament,
+    health: source.configOverrides.health, moveSpeed: source.configOverrides.moveSpeed,
+    damage: source.configOverrides.damage, respawnSeconds: source.configOverrides.respawnSeconds,
+    roamRadius: source.roamRadius, noticeRadius: source.noticeRadius,
+    personalSpace: source.personalSpace, leashRadius: source.leashRadius, hostileSpecies: source.hostileSpecies,
+  }, {
+    type: TRAILGLOAM_ASSET.gameplay.wildkin.archetype, speciesTag: TRAILGLOAM_ASSET.gameplay.wildkin.speciesTag,
+    temperament: TRAILGLOAM_ASSET.gameplay.wildkin.temperament, health: TRAILGLOAM_ASSET.gameplay.wildkin.health,
+    moveSpeed: TRAILGLOAM_ASSET.gameplay.wildkin.moveSpeed, damage: TRAILGLOAM_ASSET.gameplay.wildkin.damage,
+    respawnSeconds: TRAILGLOAM_ASSET.gameplay.wildkin.respawnSeconds, roamRadius: TRAILGLOAM_ASSET.gameplay.wildkin.roamRadius,
+    noticeRadius: TRAILGLOAM_ASSET.gameplay.wildkin.noticeRadius, personalSpace: TRAILGLOAM_ASSET.gameplay.wildkin.personalSpace,
+    leashRadius: TRAILGLOAM_ASSET.gameplay.wildkin.leashRadius, hostileSpecies: TRAILGLOAM_ASSET.gameplay.wildkin.hostileSpecies,
+  }, 'the fixed source mirrors the admitted gameplay recipe except its deliberate flee/capsule boundary');
+  assert.ok(Math.abs(source.configOverrides.moveSpeed * 1.6 - .9696969696969697) < 1e-12,
+    'existing early SKITTISH FLEE remains intentionally faster than ROAM');
+  assert.ok(Math.abs(source.configOverrides.moveSpeed * .85 - .5151515151515151) < 1e-12,
+    'existing RETURN remains intentionally faster than ROAM');
+  assert.equal(hasFootprintSupport(anchor.x, anchor.z, {
+    getHeight: (x, z) => sampleFrontier(x, z).height, radius: anchor.fleeLeashRadius, maxSlope: .32,
+  }), true, 'the complete fixed movement disk is supported by current Rootbound terrain');
+  assert.deepEqual(sampleFrontierWildlifeChunk(-9, 14).map(entry => entry.originId), ['f1:w:-9:14:0']);
+  assert.deepEqual(sampleFrontierWildlifeChunk(-8, 13).map(entry => entry.originId), ['f1:w:-8:13:0']);
+});
+
+test('Rootbound Trailgloam fails closed for alternate worlds, recipe drift, and unsafe home support', () => {
+  const anchor = FRONTIER_ROOTBOUND_TRAILGLOAM_ANCHOR;
+  const sample = options => sampleFrontierWildlifeChunk(anchor.cx, anchor.cz, options);
+  const defaultFallback = sample({ visualAssets: [] });
+  const alternateFallback = sample({ visualAssets: [], world: { edition: 1, seed: 17 } });
+  assert.deepEqual(sample({ visualAssets: [TRAILGLOAM_ASSET], world: { edition: 1, seed: 17 } }), alternateFallback,
+    'an alternate world retains its normal deterministic sampler output');
+  assert.deepEqual(sample({ visualAssets: [{ ...TRAILGLOAM_ASSET, id: 'asset_wildkin_mossling' }] }), defaultFallback,
+    'a wrong asset identity falls through to the pre-existing default sampler');
+  assert.deepEqual(sample({ visualAssets: [{ ...TRAILGLOAM_ASSET, model: { ...TRAILGLOAM_ASSET.model, locomotion: { walk: .3 } } }] }), defaultFallback,
+    'a locomotion-contract mismatch also leaves the prior sampler untouched');
+  assert.deepEqual(sample({ visualAssets: [{ ...TRAILGLOAM_ASSET, model: { ...TRAILGLOAM_ASSET.model, path: 'assets/models/other/model.glb' } }] }), defaultFallback,
+    'a model-package path mismatch also leaves the prior sampler untouched');
+  assert.deepEqual(sample({ visualAssets: [{ ...TRAILGLOAM_ASSET, gameplay: { ...TRAILGLOAM_ASSET.gameplay, wildkin: { ...TRAILGLOAM_ASSET.gameplay.wildkin, moveSpeed: .7 } } }] }), defaultFallback,
+    'a gameplay recipe drift also leaves the prior sampler untouched');
+  assert.deepEqual(sample({
+    visualAssets: [TRAILGLOAM_ASSET],
+    getTerrainSample: (x, z) => ({
+      ...sampleFrontier(x, z),
+      height: x > anchor.x + 1 ? 12 : 8,
+    }),
+  }), defaultFallback, 'one unsafe half-metre interior step falls through instead of suppressing prior sampling');
+});
+
+test('Rootbound Trailgloam has one stable resident across ordinary stream retirement', () => {
+  let snapshot = residency(-10, 13);
+  const creatures = owner();
+  const runtime = createFrontierWildlifeRuntime({
+    terrainRuntime: { getResidency: () => snapshot, sample: sampleFrontier },
+    creatureSystem: creatures, visualAssets: [TRAILGLOAM_ASSET],
+  });
+  runtime.update();
+  assert.equal(creatures.actors.filter(actor => actor.state.originId === 'f1:w:-10:13:700').length, 1);
+  snapshot = residency(8, 8); runtime.update();
+  assert.equal(creatures.actors.some(actor => actor.state.originId === 'f1:w:-10:13:700'), false);
+  snapshot = residency(-10, 13); runtime.update();
+  assert.equal(creatures.actors.filter(actor => actor.state.originId === 'f1:w:-10:13:700').length, 1);
   runtime.dispose();
 });
 

@@ -1,0 +1,34 @@
+{
+  "note": "Actual native output comparisons, complete attributes/indices/material flags/transforms, excluding runtime UUIDs. Six sibling species and nine protected Skydancer components remain exact.",
+  "siblings": [
+    {
+      "id": "asset_wildkin_mossling",
+      "exact": true
+    },
+    {
+      "id": "asset_wildkin_tidefin",
+      "exact": true
+    },
+    {
+      "id": "asset_wildkin_emberhorn",
+      "exact": true
+    },
+    {
+      "id": "asset_thornprowler",
+      "exact": true
+    },
+    {
+      "id": "asset_cinderjaw",
+      "exact": true
+    },
+    {
+      "id": "asset_heartwood_guardian",
+      "exact": true
+    }
+  ],
+  "protectedComponents": 9,
+  "protectedExact": true,
+  "sourceSha256": "1af4fad5e725263e629b386a80d6b3f470ae7597375c78521e9588993baedaf3",
+  "anatomySha256": "dd26324e8c238353a70a1e9adedf045164d56b87303b9484c2fb8d83a2a04c28",
+  "pass": true
+}

@@ -1,0 +1,58 @@
+{
+  "status": "Source placement census, not live residency, capture state or play evidence",
+  "bounds": {
+    "minX": -525,
+    "maxX": -325,
+    "minZ": 550,
+    "maxZ": 750
+  },
+  "world": {
+    "edition": 1,
+    "seed": 1327115068
+  },
+  "source": "src/world/frontierWildlife.js",
+  "assetData": "src/world/data/world.generated.js",
+  "counts": {
+    "mossling": 2
+  },
+  "placements": [
+    {
+      "id": "f1:w:-9:14:0",
+      "originId": "f1:w:-9:14:0",
+      "speciesTag": "mossling",
+      "visualAssetId": "asset_wildkin_mossling",
+      "pos": {
+        "x": -416.0278912752466,
+        "y": 9.051011356677536,
+        "z": 739.9093865125694
+      },
+      "homePos": {
+        "x": -416.0278912752466,
+        "y": 9.051011356677536,
+        "z": 739.9093865125694
+      },
+      "roamRadius": 4.4,
+      "leashRadius": 8.5,
+      "temperament": "SKITTISH"
+    },
+    {
+      "id": "f1:w:-8:13:0",
+      "originId": "f1:w:-8:13:0",
+      "speciesTag": "mossling",
+      "visualAssetId": "asset_wildkin_mossling",
+      "pos": {
+        "x": -380.0769573508475,
+        "y": 8.361135536153236,
+        "z": 686.4566774646418
+      },
+      "homePos": {
+        "x": -380.0769573508475,
+        "y": 8.361135536153236,
+        "z": 686.4566774646418
+      },
+      "roamRadius": 4.4,
+      "leashRadius": 8.5,
+      "temperament": "SKITTISH"
+    }
+  ]
+}

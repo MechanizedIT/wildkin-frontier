@@ -1,0 +1,485 @@
+{
+  "note": "Single proposed direct southern-shelf extension. Actual Float32 2m terrain triangles, center plus16 player-radius samples every.5m. This is passability planning only: full scenery/resource/creature clearance and ordinary play remain required.",
+  "points": [
+    {
+      "name": "Southern volcanic shelf",
+      "x": 850,
+      "z": -1800
+    },
+    {
+      "name": "Outer approach",
+      "x": 850,
+      "z": -1936
+    },
+    {
+      "name": "Breach approach",
+      "x": 850,
+      "z": -1966
+    },
+    {
+      "name": "Crystal side approach",
+      "x": 845.1,
+      "z": -1973.5
+    },
+    {
+      "name": "Crystal gathering edge",
+      "x": 845.1,
+      "z": -1975.6
+    },
+    {
+      "name": "Back to crossing",
+      "x": 845.1,
+      "z": -1973.5
+    },
+    {
+      "name": "Mineral crossing",
+      "x": 854,
+      "z": -1973.5
+    },
+    {
+      "name": "Iron gathering edge",
+      "x": 854,
+      "z": -1978.7
+    },
+    {
+      "name": "Back from iron",
+      "x": 854,
+      "z": -1973.5
+    },
+    {
+      "name": "Breach retreat",
+      "x": 850,
+      "z": -1966
+    },
+    {
+      "name": "Returned to southern shelf",
+      "x": 850,
+      "z": -1800
+    }
+  ],
+  "habitats": [
+    {
+      "name": "Southern volcanic shelf",
+      "habitat": "emberglass-caldera",
+      "height": 10.852357864379883
+    },
+    {
+      "name": "Outer approach",
+      "habitat": "emberglass-caldera",
+      "height": 12.243814468383789
+    },
+    {
+      "name": "Breach approach",
+      "habitat": "emberglass-caldera",
+      "height": 10.939013481140137
+    },
+    {
+      "name": "Crystal side approach",
+      "habitat": "emberglass-caldera",
+      "height": 10.494165039062498
+    },
+    {
+      "name": "Crystal gathering edge",
+      "habitat": "emberglass-caldera",
+      "height": 10.437047147750853
+    },
+    {
+      "name": "Back to crossing",
+      "habitat": "emberglass-caldera",
+      "height": 10.494165039062498
+    },
+    {
+      "name": "Mineral crossing",
+      "habitat": "emberglass-caldera",
+      "height": 10.607677221298218
+    },
+    {
+      "name": "Iron gathering edge",
+      "habitat": "emberglass-caldera",
+      "height": 10.299610948562622
+    },
+    {
+      "name": "Back from iron",
+      "habitat": "emberglass-caldera",
+      "height": 10.607677221298218
+    },
+    {
+      "name": "Breach retreat",
+      "habitat": "emberglass-caldera",
+      "height": 10.939013481140137
+    },
+    {
+      "name": "Returned to southern shelf",
+      "habitat": "emberglass-caldera",
+      "height": 10.852357864379883
+    }
+  ],
+  "distance": 372.9587945617699,
+  "idealWalkSeconds": 173.873563898261,
+  "legs": [
+    {
+      "from": "Southern volcanic shelf",
+      "to": "Outer approach",
+      "length": 136,
+      "maxSlope": 0.03054076921795589,
+      "failureCount": 0,
+      "firstFailures": []
+    },
+    {
+      "from": "Outer approach",
+      "to": "Breach approach",
+      "length": 30,
+      "maxSlope": 0.13842496017952702,
+      "failureCount": 0,
+      "firstFailures": []
+    },
+    {
+      "from": "Breach approach",
+      "to": "Crystal side approach",
+      "length": 8.958794561770004,
+      "maxSlope": 1.1721280105326637,
+      "failureCount": 146,
+      "firstFailures": [
+        {
+          "x": 847.55,
+          "z": -1969.75,
+          "angle": -1,
+          "slope": 1.1721280105326637
+        },
+        {
+          "x": 847.55,
+          "z": -1969.75,
+          "angle": 5,
+          "slope": 1.1721280105326637
+        },
+        {
+          "x": 847.55,
+          "z": -1969.75,
+          "angle": 6,
+          "slope": 1.1721280105326637
+        },
+        {
+          "x": 847.55,
+          "z": -1969.75,
+          "angle": 7,
+          "slope": 1.1721280105326637
+        },
+        {
+          "x": 847.55,
+          "z": -1969.75,
+          "angle": 8,
+          "slope": 1.1721280105326637
+        },
+        {
+          "x": 847.55,
+          "z": -1969.75,
+          "angle": 9,
+          "slope": 1.1721280105326637
+        },
+        {
+          "x": 847.55,
+          "z": -1969.75,
+          "angle": 10,
+          "slope": 1.1721280105326637
+        },
+        {
+          "x": 847.55,
+          "z": -1969.75,
+          "angle": 11,
+          "slope": 0.8817733831616055
+        }
+      ]
+    },
+    {
+      "from": "Crystal side approach",
+      "to": "Crystal gathering edge",
+      "length": 2.099999999999909,
+      "maxSlope": 0.7919690414806987,
+      "failureCount": 3,
+      "firstFailures": [
+        {
+          "x": 845.1,
+          "z": -1973.5,
+          "angle": 1,
+          "slope": 0.7919690414806987
+        },
+        {
+          "x": 845.1,
+          "z": -1973.5,
+          "angle": 2,
+          "slope": 0.7919690414806987
+        },
+        {
+          "x": 845.1,
+          "z": -1973.5,
+          "angle": 3,
+          "slope": 0.7919690414806987
+        }
+      ]
+    },
+    {
+      "from": "Crystal gathering edge",
+      "to": "Back to crossing",
+      "length": 2.099999999999909,
+      "maxSlope": 0.7919690414806987,
+      "failureCount": 3,
+      "firstFailures": [
+        {
+          "x": 845.1,
+          "z": -1973.5,
+          "angle": 1,
+          "slope": 0.7919690414806987
+        },
+        {
+          "x": 845.1,
+          "z": -1973.5,
+          "angle": 2,
+          "slope": 0.7919690414806987
+        },
+        {
+          "x": 845.1,
+          "z": -1973.5,
+          "angle": 3,
+          "slope": 0.7919690414806987
+        }
+      ]
+    },
+    {
+      "from": "Back to crossing",
+      "to": "Mineral crossing",
+      "length": 8.899999999999977,
+      "maxSlope": 0.7919690414806987,
+      "failureCount": 115,
+      "firstFailures": [
+        {
+          "x": 845.1,
+          "z": -1973.5,
+          "angle": 1,
+          "slope": 0.7919690414806987
+        },
+        {
+          "x": 845.1,
+          "z": -1973.5,
+          "angle": 2,
+          "slope": 0.7919690414806987
+        },
+        {
+          "x": 845.1,
+          "z": -1973.5,
+          "angle": 3,
+          "slope": 0.7919690414806987
+        },
+        {
+          "x": 845.5944444444444,
+          "z": -1973.5,
+          "angle": -1,
+          "slope": 0.7919690414806987
+        },
+        {
+          "x": 845.5944444444444,
+          "z": -1973.5,
+          "angle": 0,
+          "slope": 0.7919690414806987
+        },
+        {
+          "x": 845.5944444444444,
+          "z": -1973.5,
+          "angle": 1,
+          "slope": 0.7919690414806987
+        },
+        {
+          "x": 845.5944444444444,
+          "z": -1973.5,
+          "angle": 2,
+          "slope": 0.7919690414806987
+        },
+        {
+          "x": 845.5944444444444,
+          "z": -1973.5,
+          "angle": 3,
+          "slope": 0.7919690414806987
+        }
+      ]
+    },
+    {
+      "from": "Mineral crossing",
+      "to": "Iron gathering edge",
+      "length": 5.2000000000000455,
+      "maxSlope": 0.7506319294176781,
+      "failureCount": 25,
+      "firstFailures": [
+        {
+          "x": 854,
+          "z": -1973.5,
+          "angle": -1,
+          "slope": 0.5851561270921485
+        },
+        {
+          "x": 854,
+          "z": -1973.5,
+          "angle": 0,
+          "slope": 0.5851561270921485
+        },
+        {
+          "x": 854,
+          "z": -1973.5,
+          "angle": 1,
+          "slope": 0.5851561270921485
+        },
+        {
+          "x": 854,
+          "z": -1973.5,
+          "angle": 2,
+          "slope": 0.5851561270921485
+        },
+        {
+          "x": 854,
+          "z": -1973.5,
+          "angle": 3,
+          "slope": 0.5851561270921485
+        },
+        {
+          "x": 854,
+          "z": -1973.5,
+          "angle": 4,
+          "slope": 0.5851561270921485
+        },
+        {
+          "x": 854,
+          "z": -1973.5,
+          "angle": 5,
+          "slope": 0.7506319294176781
+        },
+        {
+          "x": 854,
+          "z": -1973.5,
+          "angle": 6,
+          "slope": 0.7506319294176781
+        }
+      ]
+    },
+    {
+      "from": "Iron gathering edge",
+      "to": "Back from iron",
+      "length": 5.2000000000000455,
+      "maxSlope": 0.7506319294176781,
+      "failureCount": 25,
+      "firstFailures": [
+        {
+          "x": 854,
+          "z": -1973.9727272727273,
+          "angle": -1,
+          "slope": 0.5851561270921485
+        },
+        {
+          "x": 854,
+          "z": -1973.9727272727273,
+          "angle": 0,
+          "slope": 0.5851561270921485
+        },
+        {
+          "x": 854,
+          "z": -1973.9727272727273,
+          "angle": 1,
+          "slope": 0.5851561270921485
+        },
+        {
+          "x": 854,
+          "z": -1973.9727272727273,
+          "angle": 2,
+          "slope": 0.5851561270921485
+        },
+        {
+          "x": 854,
+          "z": -1973.9727272727273,
+          "angle": 3,
+          "slope": 0.5851561270921485
+        },
+        {
+          "x": 854,
+          "z": -1973.9727272727273,
+          "angle": 4,
+          "slope": 0.5851561270921485
+        },
+        {
+          "x": 854,
+          "z": -1973.9727272727273,
+          "angle": 5,
+          "slope": 0.7506319294176781
+        },
+        {
+          "x": 854,
+          "z": -1973.9727272727273,
+          "angle": 6,
+          "slope": 0.7506319294176781
+        }
+      ]
+    },
+    {
+      "from": "Back from iron",
+      "to": "Breach retreat",
+      "length": 8.5,
+      "maxSlope": 0.7506319294176781,
+      "failureCount": 126,
+      "firstFailures": [
+        {
+          "x": 854,
+          "z": -1973.5,
+          "angle": -1,
+          "slope": 0.5851561270921485
+        },
+        {
+          "x": 854,
+          "z": -1973.5,
+          "angle": 0,
+          "slope": 0.5851561270921485
+        },
+        {
+          "x": 854,
+          "z": -1973.5,
+          "angle": 1,
+          "slope": 0.5851561270921485
+        },
+        {
+          "x": 854,
+          "z": -1973.5,
+          "angle": 2,
+          "slope": 0.5851561270921485
+        },
+        {
+          "x": 854,
+          "z": -1973.5,
+          "angle": 3,
+          "slope": 0.5851561270921485
+        },
+        {
+          "x": 854,
+          "z": -1973.5,
+          "angle": 4,
+          "slope": 0.5851561270921485
+        },
+        {
+          "x": 854,
+          "z": -1973.5,
+          "angle": 5,
+          "slope": 0.7506319294176781
+        },
+        {
+          "x": 854,
+          "z": -1973.5,
+          "angle": 6,
+          "slope": 0.7506319294176781
+        }
+      ]
+    },
+    {
+      "from": "Breach retreat",
+      "to": "Returned to southern shelf",
+      "length": 166,
+      "maxSlope": 0.13842496017952702,
+      "failureCount": 0,
+      "firstFailures": []
+    }
+  ],
+  "pass": false
+}

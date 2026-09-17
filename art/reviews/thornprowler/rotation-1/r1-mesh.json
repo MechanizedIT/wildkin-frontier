@@ -1,0 +1,28 @@
+{
+  "note": "Actual selected native Thornprowler path (baseline=baked factory; authoring-baseline=constructor) in isolated neutral Three.js scene; not generated art or gameplay/motion proof.",
+  "source": "src/world/wildkinMeshKit.js",
+  "sourceSha256": "b1b34688b902baf7bb502ec9c6e190126bad14ac9dddec081a85dfb0b301ac70",
+  "metrics": {
+    "bounds": {
+      "min": [
+        -0.7321636125445367,
+        0.00993707209825516,
+        -1.649611234664917
+      ],
+      "max": [
+        0.7321636125445367,
+        1.1984412670135498,
+        1.340000033378601
+      ],
+      "size": [
+        1.4643272250890733,
+        1.1885041949152946,
+        2.989611268043518
+      ]
+    },
+    "triangles": 770,
+    "meshes": 23,
+    "framing": "Actual selected path bounds, FOV38, distance2.05x longest baseline dimension"
+  },
+  "errors": []
+}

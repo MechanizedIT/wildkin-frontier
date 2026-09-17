@@ -1,0 +1,2533 @@
+{
+  "input": "ordinary keyboard s",
+  "rows": [
+    {
+      "ms": 8.599999994039536,
+      "packaged": false,
+      "actor": {
+        "id": "f1:w:-10:13:700",
+        "originId": "f1:w:-10:13:700",
+        "species": "trailgloam",
+        "ai": "RETURN",
+        "hp": 4.85,
+        "dead": false,
+        "pos": {
+          "x": -463.43445953540504,
+          "y": 9.839854327321518,
+          "z": 688.977001234889
+        },
+        "base": [
+          -463.43445953540504,
+          9.339854327321518,
+          688.977001234889
+        ],
+        "home": {
+          "x": -463,
+          "y": 9.364417419238817,
+          "z": 685
+        },
+        "cfg": {
+          "moveSpeed": 0.6060606060606061,
+          "capsuleRadius": 0.48,
+          "capsuleHalfHeight": 0.02
+        },
+        "distanceHome": 4.000661684048432,
+        "terrain": 9.324308317799625,
+        "groundGap": 0.015546009521893112,
+        "bondable": null,
+        "models": [
+          {
+            "path": "assets/models/trailgloam-fitted-r1/model.glb",
+            "clip": "idle",
+            "timeScale": 1,
+            "clipTime": 0.0166643127798934,
+            "clipName": "Loaded",
+            "bounds": {
+              "isBox3": true,
+              "min": {
+                "x": -464.3556789589255,
+                "y": 9.331512454609456,
+                "z": 688.07552826396
+              },
+              "max": {
+                "x": -462.53305448039214,
+                "y": 10.159854414214829,
+                "z": 689.8816514099141
+              }
+            }
+          }
+        ]
+      },
+      "player": {
+        "pos": {
+          "x": -463.4353942871094,
+          "y": 9.884329795837402,
+          "z": 686.9354858398438
+        },
+        "facing": 0,
+        "grounded": true,
+        "health": 7
+      },
+      "render": {
+        "frame": 7498,
+        "calls": 87,
+        "triangles": 256090,
+        "points": 0,
+        "lines": 0
+      },
+      "sourceIds": [
+        "f1:w:-10:13:700",
+        "f1:w:-9:14:0"
+      ]
+    },
+    {
+      "ms": 127.70000000298023,
+      "packaged": false,
+      "actor": {
+        "id": "f1:w:-10:13:700",
+        "originId": "f1:w:-10:13:700",
+        "species": "trailgloam",
+        "ai": "RETURN",
+        "hp": 4.85,
+        "dead": false,
+        "pos": {
+          "x": -463.43445953540504,
+          "y": 9.839854327321518,
+          "z": 688.977001234889
+        },
+        "base": [
+          -463.43445953540504,
+          9.339854327321518,
+          688.977001234889
+        ],
+        "home": {
+          "x": -463,
+          "y": 9.364417419238817,
+          "z": 685
+        },
+        "cfg": {
+          "moveSpeed": 0.6060606060606061,
+          "capsuleRadius": 0.48,
+          "capsuleHalfHeight": 0.02
+        },
+        "distanceHome": 4.000661684048432,
+        "terrain": 9.324308317799625,
+        "groundGap": 0.015546009521893112,
+        "bondable": null,
+        "models": [
+          {
+            "path": "assets/models/trailgloam-fitted-r1/model.glb",
+            "clip": "idle",
+            "timeScale": 1,
+            "clipTime": 0.016664305826018147,
+            "clipName": "Loaded",
+            "bounds": {
+              "isBox3": true,
+              "min": {
+                "x": -464.3556789589255,
+                "y": 9.331512454609456,
+                "z": 688.07552826396
+              },
+              "max": {
+                "x": -462.53305448039214,
+                "y": 10.159854414214829,
+                "z": 689.8816514099141
+              }
+            }
+          }
+        ]
+      },
+      "player": {
+        "pos": {
+          "x": -463.4353942871094,
+          "y": 9.88716983795166,
+          "z": 686.7033081054688
+        },
+        "facing": 1.866666666666667,
+        "grounded": true,
+        "health": 7
+      },
+      "render": {
+        "frame": 7498,
+        "calls": 87,
+        "triangles": 256090,
+        "points": 0,
+        "lines": 0
+      },
+      "sourceIds": [
+        "f1:w:-10:13:700",
+        "f1:w:-9:14:0"
+      ]
+    },
+    {
+      "ms": 268.79999999701977,
+      "packaged": false,
+      "actor": {
+        "id": "f1:w:-10:13:700",
+        "originId": "f1:w:-10:13:700",
+        "species": "trailgloam",
+        "ai": "RETURN",
+        "hp": 4.85,
+        "dead": false,
+        "pos": {
+          "x": -463.43445953540504,
+          "y": 9.839854327321518,
+          "z": 688.977001234889
+        },
+        "base": [
+          -463.43445953540504,
+          9.339854327321518,
+          688.977001234889
+        ],
+        "home": {
+          "x": -463,
+          "y": 9.364417419238817,
+          "z": 685
+        },
+        "cfg": {
+          "moveSpeed": 0.6060606060606061,
+          "capsuleRadius": 0.48,
+          "capsuleHalfHeight": 0.02
+        },
+        "distanceHome": 4.000661684048432,
+        "terrain": 9.324308317799625,
+        "groundGap": 0.015546009521893112,
+        "bondable": null,
+        "models": [
+          {
+            "path": "assets/models/trailgloam-fitted-r1/model.glb",
+            "clip": "idle",
+            "timeScale": 1,
+            "clipTime": 0.016664298872142894,
+            "clipName": "Loaded",
+            "bounds": {
+              "isBox3": true,
+              "min": {
+                "x": -464.3556789589255,
+                "y": 9.331512454609456,
+                "z": 688.07552826396
+              },
+              "max": {
+                "x": -462.53305448039214,
+                "y": 10.159854414214829,
+                "z": 689.8816514099141
+              }
+            }
+          }
+        ]
+      },
+      "player": {
+        "pos": {
+          "x": -463.4353942871094,
+          "y": 9.890815734863281,
+          "z": 686.39453125
+        },
+        "facing": 3.141592653589793,
+        "grounded": true,
+        "health": 7
+      },
+      "render": {
+        "frame": 7498,
+        "calls": 87,
+        "triangles": 256090,
+        "points": 0,
+        "lines": 0
+      },
+      "sourceIds": [
+        "f1:w:-10:13:700",
+        "f1:w:-9:14:0"
+      ]
+    },
+    {
+      "ms": 327.59999999403954,
+      "packaged": false,
+      "actor": {
+        "id": "f1:w:-10:13:700",
+        "originId": "f1:w:-10:13:700",
+        "species": "trailgloam",
+        "ai": "RETURN",
+        "hp": 4.85,
+        "dead": false,
+        "pos": {
+          "x": -463.43445953540504,
+          "y": 9.839854327321518,
+          "z": 688.977001234889
+        },
+        "base": [
+          -463.43445953540504,
+          9.339854327321518,
+          688.977001234889
+        ],
+        "home": {
+          "x": -463,
+          "y": 9.364417419238817,
+          "z": 685
+        },
+        "cfg": {
+          "moveSpeed": 0.6060606060606061,
+          "capsuleRadius": 0.48,
+          "capsuleHalfHeight": 0.02
+        },
+        "distanceHome": 4.000661684048432,
+        "terrain": 9.324308317799625,
+        "groundGap": 0.015546009521893112,
+        "bondable": null,
+        "models": [
+          {
+            "path": "assets/models/trailgloam-fitted-r1/model.glb",
+            "clip": "idle",
+            "timeScale": 1,
+            "clipTime": 0.016664295395205267,
+            "clipName": "Loaded",
+            "bounds": {
+              "isBox3": true,
+              "min": {
+                "x": -464.3556789589255,
+                "y": 9.331512454609456,
+                "z": 688.07552826396
+              },
+              "max": {
+                "x": -462.53305448039214,
+                "y": 10.159854414214829,
+                "z": 689.8816514099141
+              }
+            }
+          }
+        ]
+      },
+      "player": {
+        "pos": {
+          "x": -463.4353942871094,
+          "y": 9.892661094665527,
+          "z": 686.2400512695312
+        },
+        "facing": 3.141592653589793,
+        "grounded": true,
+        "health": 7
+      },
+      "render": {
+        "frame": 7498,
+        "calls": 87,
+        "triangles": 256090,
+        "points": 0,
+        "lines": 0
+      },
+      "sourceIds": [
+        "f1:w:-10:13:700",
+        "f1:w:-9:14:0"
+      ]
+    },
+    {
+      "ms": 432,
+      "packaged": false,
+      "actor": {
+        "id": "f1:w:-10:13:700",
+        "originId": "f1:w:-10:13:700",
+        "species": "trailgloam",
+        "ai": "RETURN",
+        "hp": 4.85,
+        "dead": false,
+        "pos": {
+          "x": -463.43445953540504,
+          "y": 9.839854327321518,
+          "z": 688.977001234889
+        },
+        "base": [
+          -463.43445953540504,
+          9.339854327321518,
+          688.977001234889
+        ],
+        "home": {
+          "x": -463,
+          "y": 9.364417419238817,
+          "z": 685
+        },
+        "cfg": {
+          "moveSpeed": 0.6060606060606061,
+          "capsuleRadius": 0.48,
+          "capsuleHalfHeight": 0.02
+        },
+        "distanceHome": 4.000661684048432,
+        "terrain": 9.324308317799625,
+        "groundGap": 0.015546009521893112,
+        "bondable": null,
+        "models": [
+          {
+            "path": "assets/models/trailgloam-fitted-r1/model.glb",
+            "clip": "idle",
+            "timeScale": 1,
+            "clipTime": 0.016664290179798827,
+            "clipName": "Loaded",
+            "bounds": {
+              "isBox3": true,
+              "min": {
+                "x": -464.3556789589255,
+                "y": 9.331512454609456,
+                "z": 688.07552826396
+              },
+              "max": {
+                "x": -462.53305448039214,
+                "y": 10.159854414214829,
+                "z": 689.8816514099141
+              }
+            }
+          }
+        ]
+      },
+      "player": {
+        "pos": {
+          "x": -463.4353942871094,
+          "y": 9.895228385925293,
+          "z": 686.0084228515625
+        },
+        "facing": 3.141592653589793,
+        "grounded": true,
+        "health": 7
+      },
+      "render": {
+        "frame": 7498,
+        "calls": 87,
+        "triangles": 256090,
+        "points": 0,
+        "lines": 0
+      },
+      "sourceIds": [
+        "f1:w:-10:13:700",
+        "f1:w:-9:14:0"
+      ]
+    },
+    {
+      "ms": 527.3999999910593,
+      "packaged": false,
+      "actor": {
+        "id": "f1:w:-10:13:700",
+        "originId": "f1:w:-10:13:700",
+        "species": "trailgloam",
+        "ai": "RETURN",
+        "hp": 4.85,
+        "dead": false,
+        "pos": {
+          "x": -463.43445953540504,
+          "y": 9.839854327321518,
+          "z": 688.977001234889
+        },
+        "base": [
+          -463.43445953540504,
+          9.339854327321518,
+          688.977001234889
+        ],
+        "home": {
+          "x": -463,
+          "y": 9.364417419238817,
+          "z": 685
+        },
+        "cfg": {
+          "moveSpeed": 0.6060606060606061,
+          "capsuleRadius": 0.48,
+          "capsuleHalfHeight": 0.02
+        },
+        "distanceHome": 4.000661684048432,
+        "terrain": 9.324308317799625,
+        "groundGap": 0.015546009521893112,
+        "bondable": null,
+        "models": [
+          {
+            "path": "assets/models/trailgloam-fitted-r1/model.glb",
+            "clip": "idle",
+            "timeScale": 1,
+            "clipTime": 0.016664284964392387,
+            "clipName": "Loaded",
+            "bounds": {
+              "isBox3": true,
+              "min": {
+                "x": -464.3556789589255,
+                "y": 9.331512454609456,
+                "z": 688.07552826396
+              },
+              "max": {
+                "x": -462.53305448039214,
+                "y": 10.159854414214829,
+                "z": 689.8816514099141
+              }
+            }
+          }
+        ]
+      },
+      "player": {
+        "pos": {
+          "x": -463.4353942871094,
+          "y": 9.88024616241455,
+          "z": 685.7766723632812
+        },
+        "facing": 3.141592653589793,
+        "grounded": true,
+        "health": 7
+      },
+      "render": {
+        "frame": 7498,
+        "calls": 87,
+        "triangles": 256090,
+        "points": 0,
+        "lines": 0
+      },
+      "sourceIds": [
+        "f1:w:-10:13:700",
+        "f1:w:-9:14:0"
+      ]
+    },
+    {
+      "ms": 619,
+      "packaged": false,
+      "actor": {
+        "id": "f1:w:-10:13:700",
+        "originId": "f1:w:-10:13:700",
+        "species": "trailgloam",
+        "ai": "RETURN",
+        "hp": 4.85,
+        "dead": false,
+        "pos": {
+          "x": -463.43445953540504,
+          "y": 9.839854327321518,
+          "z": 688.977001234889
+        },
+        "base": [
+          -463.43445953540504,
+          9.339854327321518,
+          688.977001234889
+        ],
+        "home": {
+          "x": -463,
+          "y": 9.364417419238817,
+          "z": 685
+        },
+        "cfg": {
+          "moveSpeed": 0.6060606060606061,
+          "capsuleRadius": 0.48,
+          "capsuleHalfHeight": 0.02
+        },
+        "distanceHome": 4.000661684048432,
+        "terrain": 9.324308317799625,
+        "groundGap": 0.015546009521893112,
+        "bondable": null,
+        "models": [
+          {
+            "path": "assets/models/trailgloam-fitted-r1/model.glb",
+            "clip": "idle",
+            "timeScale": 1,
+            "clipTime": 0.01666428148745476,
+            "clipName": "Loaded",
+            "bounds": {
+              "isBox3": true,
+              "min": {
+                "x": -464.3556789589255,
+                "y": 9.331512454609456,
+                "z": 688.07552826396
+              },
+              "max": {
+                "x": -462.53305448039214,
+                "y": 10.159854414214829,
+                "z": 689.8816514099141
+              }
+            }
+          }
+        ]
+      },
+      "player": {
+        "pos": {
+          "x": -463.4353942871094,
+          "y": 9.8693265914917,
+          "z": 685.6221313476562
+        },
+        "facing": 3.141592653589793,
+        "grounded": true,
+        "health": 7
+      },
+      "render": {
+        "frame": 7498,
+        "calls": 87,
+        "triangles": 256090,
+        "points": 0,
+        "lines": 0
+      },
+      "sourceIds": [
+        "f1:w:-10:13:700",
+        "f1:w:-9:14:0"
+      ]
+    },
+    {
+      "ms": 733.3999999910593,
+      "packaged": false,
+      "actor": {
+        "id": "f1:w:-10:13:700",
+        "originId": "f1:w:-10:13:700",
+        "species": "trailgloam",
+        "ai": "RETURN",
+        "hp": 4.85,
+        "dead": false,
+        "pos": {
+          "x": -463.43445953540504,
+          "y": 9.839854327321518,
+          "z": 688.977001234889
+        },
+        "base": [
+          -463.43445953540504,
+          9.339854327321518,
+          688.977001234889
+        ],
+        "home": {
+          "x": -463,
+          "y": 9.364417419238817,
+          "z": 685
+        },
+        "cfg": {
+          "moveSpeed": 0.6060606060606061,
+          "capsuleRadius": 0.48,
+          "capsuleHalfHeight": 0.02
+        },
+        "distanceHome": 4.000661684048432,
+        "terrain": 9.324308317799625,
+        "groundGap": 0.015546009521893112,
+        "bondable": null,
+        "models": [
+          {
+            "path": "assets/models/trailgloam-fitted-r1/model.glb",
+            "clip": "idle",
+            "timeScale": 1,
+            "clipTime": 0.016664274533579507,
+            "clipName": "Loaded",
+            "bounds": {
+              "isBox3": true,
+              "min": {
+                "x": -464.3556789589255,
+                "y": 9.331512454609456,
+                "z": 688.07552826396
+              },
+              "max": {
+                "x": -462.53305448039214,
+                "y": 10.159854414214829,
+                "z": 689.8816514099141
+              }
+            }
+          }
+        ]
+      },
+      "player": {
+        "pos": {
+          "x": -463.4352111816406,
+          "y": 9.858821868896484,
+          "z": 685.3131713867188
+        },
+        "facing": 3.141592653589793,
+        "grounded": true,
+        "health": 7
+      },
+      "render": {
+        "frame": 7498,
+        "calls": 87,
+        "triangles": 256090,
+        "points": 0,
+        "lines": 0
+      },
+      "sourceIds": [
+        "f1:w:-10:13:700",
+        "f1:w:-9:14:0"
+      ]
+    },
+    {
+      "ms": 821.7000000029802,
+      "packaged": false,
+      "actor": {
+        "id": "f1:w:-10:13:700",
+        "originId": "f1:w:-10:13:700",
+        "species": "trailgloam",
+        "ai": "RETURN",
+        "hp": 4.85,
+        "dead": false,
+        "pos": {
+          "x": -463.43445953540504,
+          "y": 9.839854327321518,
+          "z": 688.977001234889
+        },
+        "base": [
+          -463.43445953540504,
+          9.339854327321518,
+          688.977001234889
+        ],
+        "home": {
+          "x": -463,
+          "y": 9.364417419238817,
+          "z": 685
+        },
+        "cfg": {
+          "moveSpeed": 0.6060606060606061,
+          "capsuleRadius": 0.48,
+          "capsuleHalfHeight": 0.02
+        },
+        "distanceHome": 4.000661684048432,
+        "terrain": 9.324308317799625,
+        "groundGap": 0.015546009521893112,
+        "bondable": null,
+        "models": [
+          {
+            "path": "assets/models/trailgloam-fitted-r1/model.glb",
+            "clip": "idle",
+            "timeScale": 1,
+            "clipTime": 0.01666427105664188,
+            "clipName": "Loaded",
+            "bounds": {
+              "isBox3": true,
+              "min": {
+                "x": -464.3556789589255,
+                "y": 9.331512454609456,
+                "z": 688.07552826396
+              },
+              "max": {
+                "x": -462.53305448039214,
+                "y": 10.159854414214829,
+                "z": 689.8816514099141
+              }
+            }
+          }
+        ]
+      },
+      "player": {
+        "pos": {
+          "x": -463.43499755859375,
+          "y": 9.860873222351074,
+          "z": 685.1588745117188
+        },
+        "facing": 3.141592653589793,
+        "grounded": true,
+        "health": 7
+      },
+      "render": {
+        "frame": 7498,
+        "calls": 87,
+        "triangles": 256090,
+        "points": 0,
+        "lines": 0
+      },
+      "sourceIds": [
+        "f1:w:-10:13:700",
+        "f1:w:-9:14:0"
+      ]
+    },
+    {
+      "ms": 927.5,
+      "packaged": false,
+      "actor": {
+        "id": "f1:w:-10:13:700",
+        "originId": "f1:w:-10:13:700",
+        "species": "trailgloam",
+        "ai": "RETURN",
+        "hp": 4.85,
+        "dead": false,
+        "pos": {
+          "x": -463.43445953540504,
+          "y": 9.839854327321518,
+          "z": 688.977001234889
+        },
+        "base": [
+          -463.43445953540504,
+          9.339854327321518,
+          688.977001234889
+        ],
+        "home": {
+          "x": -463,
+          "y": 9.364417419238817,
+          "z": 685
+        },
+        "cfg": {
+          "moveSpeed": 0.6060606060606061,
+          "capsuleRadius": 0.48,
+          "capsuleHalfHeight": 0.02
+        },
+        "distanceHome": 4.000661684048432,
+        "terrain": 9.324308317799625,
+        "groundGap": 0.015546009521893112,
+        "bondable": null,
+        "models": [
+          {
+            "path": "assets/models/trailgloam-fitted-r1/model.glb",
+            "clip": "idle",
+            "timeScale": 1,
+            "clipTime": 0.016664264102766627,
+            "clipName": "Loaded",
+            "bounds": {
+              "isBox3": true,
+              "min": {
+                "x": -464.3556789589255,
+                "y": 9.331512454609456,
+                "z": 688.07552826396
+              },
+              "max": {
+                "x": -462.53305448039214,
+                "y": 10.159854414214829,
+                "z": 689.8816514099141
+              }
+            }
+          }
+        ]
+      },
+      "player": {
+        "pos": {
+          "x": -463.4345703125,
+          "y": 9.864989280700684,
+          "z": 684.8502807617188
+        },
+        "facing": 3.141592653589793,
+        "grounded": true,
+        "health": 7
+      },
+      "render": {
+        "frame": 7498,
+        "calls": 87,
+        "triangles": 256090,
+        "points": 0,
+        "lines": 0
+      },
+      "sourceIds": [
+        "f1:w:-10:13:700",
+        "f1:w:-9:14:0"
+      ]
+    },
+    {
+      "ms": 1033.5,
+      "packaged": false,
+      "actor": {
+        "id": "f1:w:-10:13:700",
+        "originId": "f1:w:-10:13:700",
+        "species": "trailgloam",
+        "ai": "RETURN",
+        "hp": 4.85,
+        "dead": false,
+        "pos": {
+          "x": -463.43445953540504,
+          "y": 9.839854327321518,
+          "z": 688.977001234889
+        },
+        "base": [
+          -463.43445953540504,
+          9.339854327321518,
+          688.977001234889
+        ],
+        "home": {
+          "x": -463,
+          "y": 9.364417419238817,
+          "z": 685
+        },
+        "cfg": {
+          "moveSpeed": 0.6060606060606061,
+          "capsuleRadius": 0.48,
+          "capsuleHalfHeight": 0.02
+        },
+        "distanceHome": 4.000661684048432,
+        "terrain": 9.324308317799625,
+        "groundGap": 0.015546009521893112,
+        "bondable": null,
+        "models": [
+          {
+            "path": "assets/models/trailgloam-fitted-r1/model.glb",
+            "clip": "idle",
+            "timeScale": 1,
+            "clipTime": 0.016664258887360187,
+            "clipName": "Loaded",
+            "bounds": {
+              "isBox3": true,
+              "min": {
+                "x": -464.3556789589255,
+                "y": 9.331512454609456,
+                "z": 688.07552826396
+              },
+              "max": {
+                "x": -462.53305448039214,
+                "y": 10.159854414214829,
+                "z": 689.8816514099141
+              }
+            }
+          }
+        ]
+      },
+      "player": {
+        "pos": {
+          "x": -463.4342346191406,
+          "y": 9.86819076538086,
+          "z": 684.6188354492188
+        },
+        "facing": 3.141592653589793,
+        "grounded": true,
+        "health": 7
+      },
+      "render": {
+        "frame": 7498,
+        "calls": 87,
+        "triangles": 256090,
+        "points": 0,
+        "lines": 0
+      },
+      "sourceIds": [
+        "f1:w:-10:13:700",
+        "f1:w:-9:14:0"
+      ]
+    },
+    {
+      "ms": 1134.2000000029802,
+      "packaged": false,
+      "actor": {
+        "id": "f1:w:-10:13:700",
+        "originId": "f1:w:-10:13:700",
+        "species": "trailgloam",
+        "ai": "RETURN",
+        "hp": 4.85,
+        "dead": false,
+        "pos": {
+          "x": -463.43445953540504,
+          "y": 9.839854327321518,
+          "z": 688.977001234889
+        },
+        "base": [
+          -463.43445953540504,
+          9.339854327321518,
+          688.977001234889
+        ],
+        "home": {
+          "x": -463,
+          "y": 9.364417419238817,
+          "z": 685
+        },
+        "cfg": {
+          "moveSpeed": 0.6060606060606061,
+          "capsuleRadius": 0.48,
+          "capsuleHalfHeight": 0.02
+        },
+        "distanceHome": 4.000661684048432,
+        "terrain": 9.324308317799625,
+        "groundGap": 0.015546009521893112,
+        "bondable": null,
+        "models": [
+          {
+            "path": "assets/models/trailgloam-fitted-r1/model.glb",
+            "clip": "idle",
+            "timeScale": 1,
+            "clipTime": 0.016664253671953747,
+            "clipName": "Loaded",
+            "bounds": {
+              "isBox3": true,
+              "min": {
+                "x": -464.3556789589255,
+                "y": 9.331512454609456,
+                "z": 688.07552826396
+              },
+              "max": {
+                "x": -462.53305448039214,
+                "y": 10.159854414214829,
+                "z": 689.8816514099141
+              }
+            }
+          }
+        ]
+      },
+      "player": {
+        "pos": {
+          "x": -463.4339294433594,
+          "y": 9.871188163757324,
+          "z": 684.3872680664062
+        },
+        "facing": 3.141592653589793,
+        "grounded": true,
+        "health": 7
+      },
+      "render": {
+        "frame": 7498,
+        "calls": 87,
+        "triangles": 256090,
+        "points": 0,
+        "lines": 0
+      },
+      "sourceIds": [
+        "f1:w:-10:13:700",
+        "f1:w:-9:14:0"
+      ]
+    },
+    {
+      "ms": 1230.2999999970198,
+      "packaged": false,
+      "actor": {
+        "id": "f1:w:-10:13:700",
+        "originId": "f1:w:-10:13:700",
+        "species": "trailgloam",
+        "ai": "RETURN",
+        "hp": 4.85,
+        "dead": false,
+        "pos": {
+          "x": -463.43445953540504,
+          "y": 9.839854327321518,
+          "z": 688.977001234889
+        },
+        "base": [
+          -463.43445953540504,
+          9.339854327321518,
+          688.977001234889
+        ],
+        "home": {
+          "x": -463,
+          "y": 9.364417419238817,
+          "z": 685
+        },
+        "cfg": {
+          "moveSpeed": 0.6060606060606061,
+          "capsuleRadius": 0.48,
+          "capsuleHalfHeight": 0.02
+        },
+        "distanceHome": 4.000661684048432,
+        "terrain": 9.324308317799625,
+        "groundGap": 0.015546009521893112,
+        "bondable": null,
+        "models": [
+          {
+            "path": "assets/models/trailgloam-fitted-r1/model.glb",
+            "clip": "idle",
+            "timeScale": 1,
+            "clipTime": 0.016664248456547306,
+            "clipName": "Loaded",
+            "bounds": {
+              "isBox3": true,
+              "min": {
+                "x": -464.3556789589255,
+                "y": 9.331512454609456,
+                "z": 688.07552826396
+              },
+              "max": {
+                "x": -462.53305448039214,
+                "y": 10.159854414214829,
+                "z": 689.8816514099141
+              }
+            }
+          }
+        ]
+      },
+      "player": {
+        "pos": {
+          "x": -463.43353271484375,
+          "y": 9.874181747436523,
+          "z": 684.15576171875
+        },
+        "facing": 3.141592653589793,
+        "grounded": true,
+        "health": 7
+      },
+      "render": {
+        "frame": 7498,
+        "calls": 87,
+        "triangles": 256090,
+        "points": 0,
+        "lines": 0
+      },
+      "sourceIds": [
+        "f1:w:-10:13:700",
+        "f1:w:-9:14:0"
+      ]
+    },
+    {
+      "ms": 1325.2000000029802,
+      "packaged": false,
+      "actor": {
+        "id": "f1:w:-10:13:700",
+        "originId": "f1:w:-10:13:700",
+        "species": "trailgloam",
+        "ai": "RETURN",
+        "hp": 4.85,
+        "dead": false,
+        "pos": {
+          "x": -463.43445953540504,
+          "y": 9.839854327321518,
+          "z": 688.977001234889
+        },
+        "base": [
+          -463.43445953540504,
+          9.339854327321518,
+          688.977001234889
+        ],
+        "home": {
+          "x": -463,
+          "y": 9.364417419238817,
+          "z": 685
+        },
+        "cfg": {
+          "moveSpeed": 0.6060606060606061,
+          "capsuleRadius": 0.48,
+          "capsuleHalfHeight": 0.02
+        },
+        "distanceHome": 4.000661684048432,
+        "terrain": 9.324308317799625,
+        "groundGap": 0.015546009521893112,
+        "bondable": null,
+        "models": [
+          {
+            "path": "assets/models/trailgloam-fitted-r1/model.glb",
+            "clip": "idle",
+            "timeScale": 1,
+            "clipTime": 0.01666424497960968,
+            "clipName": "Loaded",
+            "bounds": {
+              "isBox3": true,
+              "min": {
+                "x": -464.3556789589255,
+                "y": 9.331512454609456,
+                "z": 688.07552826396
+              },
+              "max": {
+                "x": -462.53305448039214,
+                "y": 10.159854414214829,
+                "z": 689.8816514099141
+              }
+            }
+          }
+        ]
+      },
+      "player": {
+        "pos": {
+          "x": -463.4333190917969,
+          "y": 9.876347541809082,
+          "z": 684.00146484375
+        },
+        "facing": 3.141592653589793,
+        "grounded": true,
+        "health": 7
+      },
+      "render": {
+        "frame": 7498,
+        "calls": 87,
+        "triangles": 256090,
+        "points": 0,
+        "lines": 0
+      },
+      "sourceIds": [
+        "f1:w:-10:13:700",
+        "f1:w:-9:14:0"
+      ]
+    },
+    {
+      "ms": 1431.7000000029802,
+      "packaged": false,
+      "actor": {
+        "id": "f1:w:-10:13:700",
+        "originId": "f1:w:-10:13:700",
+        "species": "trailgloam",
+        "ai": "RETURN",
+        "hp": 4.85,
+        "dead": false,
+        "pos": {
+          "x": -463.43445953540504,
+          "y": 9.839854327321518,
+          "z": 688.977001234889
+        },
+        "base": [
+          -463.43445953540504,
+          9.339854327321518,
+          688.977001234889
+        ],
+        "home": {
+          "x": -463,
+          "y": 9.364417419238817,
+          "z": 685
+        },
+        "cfg": {
+          "moveSpeed": 0.6060606060606061,
+          "capsuleRadius": 0.48,
+          "capsuleHalfHeight": 0.02
+        },
+        "distanceHome": 4.000661684048432,
+        "terrain": 9.324308317799625,
+        "groundGap": 0.015546009521893112,
+        "bondable": null,
+        "models": [
+          {
+            "path": "assets/models/trailgloam-fitted-r1/model.glb",
+            "clip": "idle",
+            "timeScale": 1,
+            "clipTime": 0.016664238025734426,
+            "clipName": "Loaded",
+            "bounds": {
+              "isBox3": true,
+              "min": {
+                "x": -464.3556789589255,
+                "y": 9.331512454609456,
+                "z": 688.07552826396
+              },
+              "max": {
+                "x": -462.53305448039214,
+                "y": 10.159854414214829,
+                "z": 689.8816514099141
+              }
+            }
+          }
+        ]
+      },
+      "player": {
+        "pos": {
+          "x": -463.4333190917969,
+          "y": 9.848346710205078,
+          "z": 683.6923828125
+        },
+        "facing": 3.141592653589793,
+        "grounded": true,
+        "health": 7
+      },
+      "render": {
+        "frame": 7498,
+        "calls": 87,
+        "triangles": 256090,
+        "points": 0,
+        "lines": 0
+      },
+      "sourceIds": [
+        "f1:w:-10:13:700",
+        "f1:w:-9:14:0"
+      ]
+    },
+    {
+      "ms": 1539.7000000029802,
+      "packaged": false,
+      "actor": {
+        "id": "f1:w:-10:13:700",
+        "originId": "f1:w:-10:13:700",
+        "species": "trailgloam",
+        "ai": "RETURN",
+        "hp": 4.85,
+        "dead": false,
+        "pos": {
+          "x": -463.43445953540504,
+          "y": 9.839854327321518,
+          "z": 688.977001234889
+        },
+        "base": [
+          -463.43445953540504,
+          9.339854327321518,
+          688.977001234889
+        ],
+        "home": {
+          "x": -463,
+          "y": 9.364417419238817,
+          "z": 685
+        },
+        "cfg": {
+          "moveSpeed": 0.6060606060606061,
+          "capsuleRadius": 0.48,
+          "capsuleHalfHeight": 0.02
+        },
+        "distanceHome": 4.000661684048432,
+        "terrain": 9.324308317799625,
+        "groundGap": 0.015546009521893112,
+        "bondable": null,
+        "models": [
+          {
+            "path": "assets/models/trailgloam-fitted-r1/model.glb",
+            "clip": "idle",
+            "timeScale": 1,
+            "clipTime": 0.016664232810327986,
+            "clipName": "Loaded",
+            "bounds": {
+              "isBox3": true,
+              "min": {
+                "x": -464.3556789589255,
+                "y": 9.331512454609456,
+                "z": 688.07552826396
+              },
+              "max": {
+                "x": -462.53305448039214,
+                "y": 10.159854414214829,
+                "z": 689.8816514099141
+              }
+            }
+          }
+        ]
+      },
+      "player": {
+        "pos": {
+          "x": -463.4333190917969,
+          "y": 9.827215194702148,
+          "z": 683.4605712890625
+        },
+        "facing": 3.141592653589793,
+        "grounded": true,
+        "health": 7
+      },
+      "render": {
+        "frame": 7498,
+        "calls": 87,
+        "triangles": 256090,
+        "points": 0,
+        "lines": 0
+      },
+      "sourceIds": [
+        "f1:w:-10:13:700",
+        "f1:w:-9:14:0"
+      ]
+    },
+    {
+      "ms": 1626.7999999970198,
+      "packaged": false,
+      "actor": {
+        "id": "f1:w:-10:13:700",
+        "originId": "f1:w:-10:13:700",
+        "species": "trailgloam",
+        "ai": "RETURN",
+        "hp": 4.85,
+        "dead": false,
+        "pos": {
+          "x": -463.43445953540504,
+          "y": 9.839854327321518,
+          "z": 688.977001234889
+        },
+        "base": [
+          -463.43445953540504,
+          9.339854327321518,
+          688.977001234889
+        ],
+        "home": {
+          "x": -463,
+          "y": 9.364417419238817,
+          "z": 685
+        },
+        "cfg": {
+          "moveSpeed": 0.6060606060606061,
+          "capsuleRadius": 0.48,
+          "capsuleHalfHeight": 0.02
+        },
+        "distanceHome": 4.000661684048432,
+        "terrain": 9.324308317799625,
+        "groundGap": 0.015546009521893112,
+        "bondable": null,
+        "models": [
+          {
+            "path": "assets/models/trailgloam-fitted-r1/model.glb",
+            "clip": "idle",
+            "timeScale": 1,
+            "clipTime": 0.016664227594921546,
+            "clipName": "Loaded",
+            "bounds": {
+              "isBox3": true,
+              "min": {
+                "x": -464.3556789589255,
+                "y": 9.331512454609456,
+                "z": 688.07552826396
+              },
+              "max": {
+                "x": -462.53305448039214,
+                "y": 10.159854414214829,
+                "z": 689.8816514099141
+              }
+            }
+          }
+        ]
+      },
+      "player": {
+        "pos": {
+          "x": -463.4328308105469,
+          "y": 9.829388618469238,
+          "z": 683.2288208007812
+        },
+        "facing": 3.141592653589793,
+        "grounded": true,
+        "health": 7
+      },
+      "render": {
+        "frame": 7498,
+        "calls": 87,
+        "triangles": 256090,
+        "points": 0,
+        "lines": 0
+      },
+      "sourceIds": [
+        "f1:w:-10:13:700",
+        "f1:w:-9:14:0"
+      ]
+    },
+    {
+      "ms": 1727.0999999940395,
+      "packaged": false,
+      "actor": {
+        "id": "f1:w:-10:13:700",
+        "originId": "f1:w:-10:13:700",
+        "species": "trailgloam",
+        "ai": "RETURN",
+        "hp": 4.85,
+        "dead": false,
+        "pos": {
+          "x": -463.43445953540504,
+          "y": 9.839854327321518,
+          "z": 688.977001234889
+        },
+        "base": [
+          -463.43445953540504,
+          9.339854327321518,
+          688.977001234889
+        ],
+        "home": {
+          "x": -463,
+          "y": 9.364417419238817,
+          "z": 685
+        },
+        "cfg": {
+          "moveSpeed": 0.6060606060606061,
+          "capsuleRadius": 0.48,
+          "capsuleHalfHeight": 0.02
+        },
+        "distanceHome": 4.000661684048432,
+        "terrain": 9.324308317799625,
+        "groundGap": 0.015546009521893112,
+        "bondable": null,
+        "models": [
+          {
+            "path": "assets/models/trailgloam-fitted-r1/model.glb",
+            "clip": "idle",
+            "timeScale": 1,
+            "clipTime": 0.016664222379515106,
+            "clipName": "Loaded",
+            "bounds": {
+              "isBox3": true,
+              "min": {
+                "x": -464.3556789589255,
+                "y": 9.331512454609456,
+                "z": 688.07552826396
+              },
+              "max": {
+                "x": -462.53305448039214,
+                "y": 10.159854414214829,
+                "z": 689.8816514099141
+              }
+            }
+          }
+        ]
+      },
+      "player": {
+        "pos": {
+          "x": -463.43243408203125,
+          "y": 9.831442832946777,
+          "z": 682.9970092773438
+        },
+        "facing": 3.141592653589793,
+        "grounded": true,
+        "health": 7
+      },
+      "render": {
+        "frame": 7498,
+        "calls": 87,
+        "triangles": 256090,
+        "points": 0,
+        "lines": 0
+      },
+      "sourceIds": [
+        "f1:w:-10:13:700",
+        "f1:w:-9:14:0"
+      ]
+    },
+    {
+      "ms": 1826.7999999970198,
+      "packaged": false,
+      "actor": {
+        "id": "f1:w:-10:13:700",
+        "originId": "f1:w:-10:13:700",
+        "species": "trailgloam",
+        "ai": "RETURN",
+        "hp": 4.85,
+        "dead": false,
+        "pos": {
+          "x": -463.43445953540504,
+          "y": 9.839854327321518,
+          "z": 688.977001234889
+        },
+        "base": [
+          -463.43445953540504,
+          9.339854327321518,
+          688.977001234889
+        ],
+        "home": {
+          "x": -463,
+          "y": 9.364417419238817,
+          "z": 685
+        },
+        "cfg": {
+          "moveSpeed": 0.6060606060606061,
+          "capsuleRadius": 0.48,
+          "capsuleHalfHeight": 0.02
+        },
+        "distanceHome": 4.000661684048432,
+        "terrain": 9.324308317799625,
+        "groundGap": 0.015546009521893112,
+        "bondable": null,
+        "models": [
+          {
+            "path": "assets/models/trailgloam-fitted-r1/model.glb",
+            "clip": "idle",
+            "timeScale": 1,
+            "clipTime": 0.016664217164108666,
+            "clipName": "Loaded",
+            "bounds": {
+              "isBox3": true,
+              "min": {
+                "x": -464.3556789589255,
+                "y": 9.331512454609456,
+                "z": 688.07552826396
+              },
+              "max": {
+                "x": -462.53305448039214,
+                "y": 10.159854414214829,
+                "z": 689.8816514099141
+              }
+            }
+          }
+        ]
+      },
+      "player": {
+        "pos": {
+          "x": -463.4319763183594,
+          "y": 9.833500862121582,
+          "z": 682.7651977539062
+        },
+        "facing": 3.141592653589793,
+        "grounded": true,
+        "health": 7
+      },
+      "render": {
+        "frame": 7498,
+        "calls": 87,
+        "triangles": 256090,
+        "points": 0,
+        "lines": 0
+      },
+      "sourceIds": [
+        "f1:w:-10:13:700",
+        "f1:w:-9:14:0"
+      ]
+    },
+    {
+      "ms": 1939.5,
+      "packaged": false,
+      "actor": {
+        "id": "f1:w:-10:13:700",
+        "originId": "f1:w:-10:13:700",
+        "species": "trailgloam",
+        "ai": "RETURN",
+        "hp": 4.85,
+        "dead": false,
+        "pos": {
+          "x": -463.43445953540504,
+          "y": 9.839854327321518,
+          "z": 688.977001234889
+        },
+        "base": [
+          -463.43445953540504,
+          9.339854327321518,
+          688.977001234889
+        ],
+        "home": {
+          "x": -463,
+          "y": 9.364417419238817,
+          "z": 685
+        },
+        "cfg": {
+          "moveSpeed": 0.6060606060606061,
+          "capsuleRadius": 0.48,
+          "capsuleHalfHeight": 0.02
+        },
+        "distanceHome": 4.000661684048432,
+        "terrain": 9.324308317799625,
+        "groundGap": 0.015546009521893112,
+        "bondable": null,
+        "models": [
+          {
+            "path": "assets/models/trailgloam-fitted-r1/model.glb",
+            "clip": "idle",
+            "timeScale": 1,
+            "clipTime": 0.016664211948702226,
+            "clipName": "Loaded",
+            "bounds": {
+              "isBox3": true,
+              "min": {
+                "x": -464.3556789589255,
+                "y": 9.331512454609456,
+                "z": 688.07552826396
+              },
+              "max": {
+                "x": -462.53305448039214,
+                "y": 10.159854414214829,
+                "z": 689.8816514099141
+              }
+            }
+          }
+        ]
+      },
+      "player": {
+        "pos": {
+          "x": -463.43157958984375,
+          "y": 9.835543632507324,
+          "z": 682.5333862304688
+        },
+        "facing": 3.141592653589793,
+        "grounded": true,
+        "health": 7
+      },
+      "render": {
+        "frame": 7498,
+        "calls": 87,
+        "triangles": 256090,
+        "points": 0,
+        "lines": 0
+      },
+      "sourceIds": [
+        "f1:w:-10:13:700",
+        "f1:w:-9:14:0"
+      ]
+    },
+    {
+      "ms": 2028.0999999940395,
+      "packaged": false,
+      "actor": {
+        "id": "f1:w:-10:13:700",
+        "originId": "f1:w:-10:13:700",
+        "species": "trailgloam",
+        "ai": "RETURN",
+        "hp": 4.85,
+        "dead": false,
+        "pos": {
+          "x": -463.43445953540504,
+          "y": 9.839854327321518,
+          "z": 688.977001234889
+        },
+        "base": [
+          -463.43445953540504,
+          9.339854327321518,
+          688.977001234889
+        ],
+        "home": {
+          "x": -463,
+          "y": 9.364417419238817,
+          "z": 685
+        },
+        "cfg": {
+          "moveSpeed": 0.6060606060606061,
+          "capsuleRadius": 0.48,
+          "capsuleHalfHeight": 0.02
+        },
+        "distanceHome": 4.000661684048432,
+        "terrain": 9.324308317799625,
+        "groundGap": 0.015546009521893112,
+        "bondable": null,
+        "models": [
+          {
+            "path": "assets/models/trailgloam-fitted-r1/model.glb",
+            "clip": "idle",
+            "timeScale": 1,
+            "clipTime": 0.016664206733295786,
+            "clipName": "Loaded",
+            "bounds": {
+              "isBox3": true,
+              "min": {
+                "x": -464.3556789589255,
+                "y": 9.331512454609456,
+                "z": 688.07552826396
+              },
+              "max": {
+                "x": -462.53305448039214,
+                "y": 10.159854414214829,
+                "z": 689.8816514099141
+              }
+            }
+          }
+        ]
+      },
+      "player": {
+        "pos": {
+          "x": -463.43109130859375,
+          "y": 9.837732315063477,
+          "z": 682.3015747070312
+        },
+        "facing": 3.141592653589793,
+        "grounded": true,
+        "health": 7
+      },
+      "render": {
+        "frame": 7498,
+        "calls": 87,
+        "triangles": 256090,
+        "points": 0,
+        "lines": 0
+      },
+      "sourceIds": [
+        "f1:w:-10:13:700",
+        "f1:w:-9:14:0"
+      ]
+    },
+    {
+      "ms": 2126.8999999910593,
+      "packaged": false,
+      "actor": {
+        "id": "f1:w:-10:13:700",
+        "originId": "f1:w:-10:13:700",
+        "species": "trailgloam",
+        "ai": "RETURN",
+        "hp": 4.85,
+        "dead": false,
+        "pos": {
+          "x": -463.43445953540504,
+          "y": 9.839854327321518,
+          "z": 688.977001234889
+        },
+        "base": [
+          -463.43445953540504,
+          9.339854327321518,
+          688.977001234889
+        ],
+        "home": {
+          "x": -463,
+          "y": 9.364417419238817,
+          "z": 685
+        },
+        "cfg": {
+          "moveSpeed": 0.6060606060606061,
+          "capsuleRadius": 0.48,
+          "capsuleHalfHeight": 0.02
+        },
+        "distanceHome": 4.000661684048432,
+        "terrain": 9.324308317799625,
+        "groundGap": 0.015546009521893112,
+        "bondable": null,
+        "models": [
+          {
+            "path": "assets/models/trailgloam-fitted-r1/model.glb",
+            "clip": "idle",
+            "timeScale": 1,
+            "clipTime": 0.016664201517889346,
+            "clipName": "Loaded",
+            "bounds": {
+              "isBox3": true,
+              "min": {
+                "x": -464.3556789589255,
+                "y": 9.331512454609456,
+                "z": 688.07552826396
+              },
+              "max": {
+                "x": -462.53305448039214,
+                "y": 10.159854414214829,
+                "z": 689.8816514099141
+              }
+            }
+          }
+        ]
+      },
+      "player": {
+        "pos": {
+          "x": -463.4306640625,
+          "y": 9.83981990814209,
+          "z": 682.0697631835938
+        },
+        "facing": 3.141592653589793,
+        "grounded": true,
+        "health": 7
+      },
+      "render": {
+        "frame": 7498,
+        "calls": 87,
+        "triangles": 256090,
+        "points": 0,
+        "lines": 0
+      },
+      "sourceIds": [
+        "f1:w:-10:13:700",
+        "f1:w:-9:14:0"
+      ]
+    },
+    {
+      "ms": 2226.5999999940395,
+      "packaged": false,
+      "actor": {
+        "id": "f1:w:-10:13:700",
+        "originId": "f1:w:-10:13:700",
+        "species": "trailgloam",
+        "ai": "RETURN",
+        "hp": 4.85,
+        "dead": false,
+        "pos": {
+          "x": -463.43445953540504,
+          "y": 9.839854327321518,
+          "z": 688.977001234889
+        },
+        "base": [
+          -463.43445953540504,
+          9.339854327321518,
+          688.977001234889
+        ],
+        "home": {
+          "x": -463,
+          "y": 9.364417419238817,
+          "z": 685
+        },
+        "cfg": {
+          "moveSpeed": 0.6060606060606061,
+          "capsuleRadius": 0.48,
+          "capsuleHalfHeight": 0.02
+        },
+        "distanceHome": 4.000661684048432,
+        "terrain": 9.324308317799625,
+        "groundGap": 0.015546009521893112,
+        "bondable": null,
+        "models": [
+          {
+            "path": "assets/models/trailgloam-fitted-r1/model.glb",
+            "clip": "idle",
+            "timeScale": 1,
+            "clipTime": 0.016664196302482906,
+            "clipName": "Loaded",
+            "bounds": {
+              "isBox3": true,
+              "min": {
+                "x": -464.3556789589255,
+                "y": 9.331512454609456,
+                "z": 688.07552826396
+              },
+              "max": {
+                "x": -462.53305448039214,
+                "y": 10.159854414214829,
+                "z": 689.8816514099141
+              }
+            }
+          }
+        ]
+      },
+      "player": {
+        "pos": {
+          "x": -463.4305114746094,
+          "y": 9.830964088439941,
+          "z": 681.8379516601562
+        },
+        "facing": 3.141592653589793,
+        "grounded": true,
+        "health": 7
+      },
+      "render": {
+        "frame": 7498,
+        "calls": 87,
+        "triangles": 256090,
+        "points": 0,
+        "lines": 0
+      },
+      "sourceIds": [
+        "f1:w:-10:13:700",
+        "f1:w:-9:14:0"
+      ]
+    },
+    {
+      "ms": 2328.8999999910593,
+      "packaged": false,
+      "actor": {
+        "id": "f1:w:-10:13:700",
+        "originId": "f1:w:-10:13:700",
+        "species": "trailgloam",
+        "ai": "RETURN",
+        "hp": 4.85,
+        "dead": false,
+        "pos": {
+          "x": -463.43445953540504,
+          "y": 9.839854327321518,
+          "z": 688.977001234889
+        },
+        "base": [
+          -463.43445953540504,
+          9.339854327321518,
+          688.977001234889
+        ],
+        "home": {
+          "x": -463,
+          "y": 9.364417419238817,
+          "z": 685
+        },
+        "cfg": {
+          "moveSpeed": 0.6060606060606061,
+          "capsuleRadius": 0.48,
+          "capsuleHalfHeight": 0.02
+        },
+        "distanceHome": 4.000661684048432,
+        "terrain": 9.324308317799625,
+        "groundGap": 0.015546009521893112,
+        "bondable": null,
+        "models": [
+          {
+            "path": "assets/models/trailgloam-fitted-r1/model.glb",
+            "clip": "idle",
+            "timeScale": 1,
+            "clipTime": 0.016664191087076466,
+            "clipName": "Loaded",
+            "bounds": {
+              "isBox3": true,
+              "min": {
+                "x": -464.3556789589255,
+                "y": 9.331512454609456,
+                "z": 688.07552826396
+              },
+              "max": {
+                "x": -462.53305448039214,
+                "y": 10.159854414214829,
+                "z": 689.8816514099141
+              }
+            }
+          }
+        ]
+      },
+      "player": {
+        "pos": {
+          "x": -463.4305114746094,
+          "y": 9.816898345947266,
+          "z": 681.6061401367188
+        },
+        "facing": 3.141592653589793,
+        "grounded": true,
+        "health": 7
+      },
+      "render": {
+        "frame": 7498,
+        "calls": 87,
+        "triangles": 256090,
+        "points": 0,
+        "lines": 0
+      },
+      "sourceIds": [
+        "f1:w:-10:13:700",
+        "f1:w:-9:14:0"
+      ]
+    },
+    {
+      "ms": 2429.8999999910593,
+      "packaged": false,
+      "actor": {
+        "id": "f1:w:-10:13:700",
+        "originId": "f1:w:-10:13:700",
+        "species": "trailgloam",
+        "ai": "RETURN",
+        "hp": 4.85,
+        "dead": false,
+        "pos": {
+          "x": -463.43445953540504,
+          "y": 9.839854327321518,
+          "z": 688.977001234889
+        },
+        "base": [
+          -463.43445953540504,
+          9.339854327321518,
+          688.977001234889
+        ],
+        "home": {
+          "x": -463,
+          "y": 9.364417419238817,
+          "z": 685
+        },
+        "cfg": {
+          "moveSpeed": 0.6060606060606061,
+          "capsuleRadius": 0.48,
+          "capsuleHalfHeight": 0.02
+        },
+        "distanceHome": 4.000661684048432,
+        "terrain": 9.324308317799625,
+        "groundGap": 0.015546009521893112,
+        "bondable": null,
+        "models": [
+          {
+            "path": "assets/models/trailgloam-fitted-r1/model.glb",
+            "clip": "idle",
+            "timeScale": 1,
+            "clipTime": 0.01666418761013884,
+            "clipName": "Loaded",
+            "bounds": {
+              "isBox3": true,
+              "min": {
+                "x": -464.3556789589255,
+                "y": 9.331512454609456,
+                "z": 688.07552826396
+              },
+              "max": {
+                "x": -462.53305448039214,
+                "y": 10.159854414214829,
+                "z": 689.8816514099141
+              }
+            }
+          }
+        ]
+      },
+      "player": {
+        "pos": {
+          "x": -463.4305114746094,
+          "y": 9.809813499450684,
+          "z": 681.4515991210938
+        },
+        "facing": 3.141592653589793,
+        "grounded": true,
+        "health": 7
+      },
+      "render": {
+        "frame": 7498,
+        "calls": 87,
+        "triangles": 256090,
+        "points": 0,
+        "lines": 0
+      },
+      "sourceIds": [
+        "f1:w:-10:13:700",
+        "f1:w:-9:14:0"
+      ]
+    },
+    {
+      "ms": 2527.8999999910593,
+      "packaged": false,
+      "actor": {
+        "id": "f1:w:-10:13:700",
+        "originId": "f1:w:-10:13:700",
+        "species": "trailgloam",
+        "ai": "RETURN",
+        "hp": 4.85,
+        "dead": false,
+        "pos": {
+          "x": -463.43445953540504,
+          "y": 9.839854327321518,
+          "z": 688.977001234889
+        },
+        "base": [
+          -463.43445953540504,
+          9.339854327321518,
+          688.977001234889
+        ],
+        "home": {
+          "x": -463,
+          "y": 9.364417419238817,
+          "z": 685
+        },
+        "cfg": {
+          "moveSpeed": 0.6060606060606061,
+          "capsuleRadius": 0.48,
+          "capsuleHalfHeight": 0.02
+        },
+        "distanceHome": 4.000661684048432,
+        "terrain": 9.324308317799625,
+        "groundGap": 0.015546009521893112,
+        "bondable": null,
+        "models": [
+          {
+            "path": "assets/models/trailgloam-fitted-r1/model.glb",
+            "clip": "idle",
+            "timeScale": 1,
+            "clipTime": 0.016664180656263586,
+            "clipName": "Loaded",
+            "bounds": {
+              "isBox3": true,
+              "min": {
+                "x": -464.3556789589255,
+                "y": 9.331512454609456,
+                "z": 688.07552826396
+              },
+              "max": {
+                "x": -462.53305448039214,
+                "y": 10.159854414214829,
+                "z": 689.8816514099141
+              }
+            }
+          }
+        ]
+      },
+      "player": {
+        "pos": {
+          "x": -463.4305114746094,
+          "y": 9.806965827941895,
+          "z": 681.1425170898438
+        },
+        "facing": 3.141592653589793,
+        "grounded": true,
+        "health": 7
+      },
+      "render": {
+        "frame": 7498,
+        "calls": 87,
+        "triangles": 256090,
+        "points": 0,
+        "lines": 0
+      },
+      "sourceIds": [
+        "f1:w:-10:13:700",
+        "f1:w:-9:14:0"
+      ]
+    },
+    {
+      "ms": 2638.5,
+      "packaged": false,
+      "actor": {
+        "id": "f1:w:-10:13:700",
+        "originId": "f1:w:-10:13:700",
+        "species": "trailgloam",
+        "ai": "RETURN",
+        "hp": 4.85,
+        "dead": false,
+        "pos": {
+          "x": -463.43445953540504,
+          "y": 9.839854327321518,
+          "z": 688.977001234889
+        },
+        "base": [
+          -463.43445953540504,
+          9.339854327321518,
+          688.977001234889
+        ],
+        "home": {
+          "x": -463,
+          "y": 9.364417419238817,
+          "z": 685
+        },
+        "cfg": {
+          "moveSpeed": 0.6060606060606061,
+          "capsuleRadius": 0.48,
+          "capsuleHalfHeight": 0.02
+        },
+        "distanceHome": 4.000661684048432,
+        "terrain": 9.324308317799625,
+        "groundGap": 0.015546009521893112,
+        "bondable": null,
+        "models": [
+          {
+            "path": "assets/models/trailgloam-fitted-r1/model.glb",
+            "clip": "idle",
+            "timeScale": 1,
+            "clipTime": 0.016664175440857146,
+            "clipName": "Loaded",
+            "bounds": {
+              "isBox3": true,
+              "min": {
+                "x": -464.3556789589255,
+                "y": 9.331512454609456,
+                "z": 688.07552826396
+              },
+              "max": {
+                "x": -462.53305448039214,
+                "y": 10.159854414214829,
+                "z": 689.8816514099141
+              }
+            }
+          }
+        ]
+      },
+      "player": {
+        "pos": {
+          "x": -463.4305114746094,
+          "y": 9.804841995239258,
+          "z": 680.9107055664062
+        },
+        "facing": 3.141592653589793,
+        "grounded": true,
+        "health": 7
+      },
+      "render": {
+        "frame": 7498,
+        "calls": 87,
+        "triangles": 256090,
+        "points": 0,
+        "lines": 0
+      },
+      "sourceIds": [
+        "f1:w:-10:13:700",
+        "f1:w:-9:14:0"
+      ]
+    },
+    {
+      "ms": 2728.7999999970198,
+      "packaged": false,
+      "actor": {
+        "id": "f1:w:-10:13:700",
+        "originId": "f1:w:-10:13:700",
+        "species": "trailgloam",
+        "ai": "RETURN",
+        "hp": 4.85,
+        "dead": false,
+        "pos": {
+          "x": -463.43445953540504,
+          "y": 9.839854327321518,
+          "z": 688.977001234889
+        },
+        "base": [
+          -463.43445953540504,
+          9.339854327321518,
+          688.977001234889
+        ],
+        "home": {
+          "x": -463,
+          "y": 9.364417419238817,
+          "z": 685
+        },
+        "cfg": {
+          "moveSpeed": 0.6060606060606061,
+          "capsuleRadius": 0.48,
+          "capsuleHalfHeight": 0.02
+        },
+        "distanceHome": 4.000661684048432,
+        "terrain": 9.324308317799625,
+        "groundGap": 0.015546009521893112,
+        "bondable": null,
+        "models": [
+          {
+            "path": "assets/models/trailgloam-fitted-r1/model.glb",
+            "clip": "idle",
+            "timeScale": 1,
+            "clipTime": 0.016664170225450706,
+            "clipName": "Loaded",
+            "bounds": {
+              "isBox3": true,
+              "min": {
+                "x": -464.3556789589255,
+                "y": 9.331512454609456,
+                "z": 688.07552826396
+              },
+              "max": {
+                "x": -462.53305448039214,
+                "y": 10.159854414214829,
+                "z": 689.8816514099141
+              }
+            }
+          }
+        ]
+      },
+      "player": {
+        "pos": {
+          "x": -463.4305114746094,
+          "y": 9.802705764770508,
+          "z": 680.6788940429688
+        },
+        "facing": 3.141592653589793,
+        "grounded": true,
+        "health": 7
+      },
+      "render": {
+        "frame": 7498,
+        "calls": 87,
+        "triangles": 256090,
+        "points": 0,
+        "lines": 0
+      },
+      "sourceIds": [
+        "f1:w:-10:13:700",
+        "f1:w:-9:14:0"
+      ]
+    },
+    {
+      "ms": 2821.5999999940395,
+      "packaged": false,
+      "actor": {
+        "id": "f1:w:-10:13:700",
+        "originId": "f1:w:-10:13:700",
+        "species": "trailgloam",
+        "ai": "RETURN",
+        "hp": 4.85,
+        "dead": false,
+        "pos": {
+          "x": -463.43445953540504,
+          "y": 9.839854327321518,
+          "z": 688.977001234889
+        },
+        "base": [
+          -463.43445953540504,
+          9.339854327321518,
+          688.977001234889
+        ],
+        "home": {
+          "x": -463,
+          "y": 9.364417419238817,
+          "z": 685
+        },
+        "cfg": {
+          "moveSpeed": 0.6060606060606061,
+          "capsuleRadius": 0.48,
+          "capsuleHalfHeight": 0.02
+        },
+        "distanceHome": 4.000661684048432,
+        "terrain": 9.324308317799625,
+        "groundGap": 0.015546009521893112,
+        "bondable": null,
+        "models": [
+          {
+            "path": "assets/models/trailgloam-fitted-r1/model.glb",
+            "clip": "idle",
+            "timeScale": 1,
+            "clipTime": 0.01666416674851308,
+            "clipName": "Loaded",
+            "bounds": {
+              "isBox3": true,
+              "min": {
+                "x": -464.3556789589255,
+                "y": 9.331512454609456,
+                "z": 688.07552826396
+              },
+              "max": {
+                "x": -462.53305448039214,
+                "y": 10.159854414214829,
+                "z": 689.8816514099141
+              }
+            }
+          }
+        ]
+      },
+      "player": {
+        "pos": {
+          "x": -463.4305114746094,
+          "y": 9.801289558410645,
+          "z": 680.5243530273438
+        },
+        "facing": 3.141592653589793,
+        "grounded": true,
+        "health": 7
+      },
+      "render": {
+        "frame": 7498,
+        "calls": 87,
+        "triangles": 256090,
+        "points": 0,
+        "lines": 0
+      },
+      "sourceIds": [
+        "f1:w:-10:13:700",
+        "f1:w:-9:14:0"
+      ]
+    },
+    {
+      "ms": 2936.8999999910593,
+      "packaged": false,
+      "actor": {
+        "id": "f1:w:-10:13:700",
+        "originId": "f1:w:-10:13:700",
+        "species": "trailgloam",
+        "ai": "RETURN",
+        "hp": 4.85,
+        "dead": false,
+        "pos": {
+          "x": -463.43445953540504,
+          "y": 9.839854327321518,
+          "z": 688.977001234889
+        },
+        "base": [
+          -463.43445953540504,
+          9.339854327321518,
+          688.977001234889
+        ],
+        "home": {
+          "x": -463,
+          "y": 9.364417419238817,
+          "z": 685
+        },
+        "cfg": {
+          "moveSpeed": 0.6060606060606061,
+          "capsuleRadius": 0.48,
+          "capsuleHalfHeight": 0.02
+        },
+        "distanceHome": 4.000661684048432,
+        "terrain": 9.324308317799625,
+        "groundGap": 0.015546009521893112,
+        "bondable": null,
+        "models": [
+          {
+            "path": "assets/models/trailgloam-fitted-r1/model.glb",
+            "clip": "idle",
+            "timeScale": 1,
+            "clipTime": 0.016664159794637826,
+            "clipName": "Loaded",
+            "bounds": {
+              "isBox3": true,
+              "min": {
+                "x": -464.3556789589255,
+                "y": 9.331512454609456,
+                "z": 688.07552826396
+              },
+              "max": {
+                "x": -462.53305448039214,
+                "y": 10.159854414214829,
+                "z": 689.8816514099141
+              }
+            }
+          }
+        ]
+      },
+      "player": {
+        "pos": {
+          "x": -463.4305114746094,
+          "y": 9.798442840576172,
+          "z": 680.2152709960938
+        },
+        "facing": 3.141592653589793,
+        "grounded": true,
+        "health": 7
+      },
+      "render": {
+        "frame": 7498,
+        "calls": 87,
+        "triangles": 256090,
+        "points": 0,
+        "lines": 0
+      },
+      "sourceIds": [
+        "f1:w:-10:13:700",
+        "f1:w:-9:14:0"
+      ]
+    },
+    {
+      "ms": 3035.3999999910593,
+      "packaged": false,
+      "actor": {
+        "id": "f1:w:-10:13:700",
+        "originId": "f1:w:-10:13:700",
+        "species": "trailgloam",
+        "ai": "RETURN",
+        "hp": 4.85,
+        "dead": false,
+        "pos": {
+          "x": -463.43445953540504,
+          "y": 9.839854327321518,
+          "z": 688.977001234889
+        },
+        "base": [
+          -463.43445953540504,
+          9.339854327321518,
+          688.977001234889
+        ],
+        "home": {
+          "x": -463,
+          "y": 9.364417419238817,
+          "z": 685
+        },
+        "cfg": {
+          "moveSpeed": 0.6060606060606061,
+          "capsuleRadius": 0.48,
+          "capsuleHalfHeight": 0.02
+        },
+        "distanceHome": 4.000661684048432,
+        "terrain": 9.324308317799625,
+        "groundGap": 0.015546009521893112,
+        "bondable": null,
+        "models": [
+          {
+            "path": "assets/models/trailgloam-fitted-r1/model.glb",
+            "clip": "idle",
+            "timeScale": 1,
+            "clipTime": 0.016664154579231386,
+            "clipName": "Loaded",
+            "bounds": {
+              "isBox3": true,
+              "min": {
+                "x": -464.3556789589255,
+                "y": 9.331512454609456,
+                "z": 688.07552826396
+              },
+              "max": {
+                "x": -462.53305448039214,
+                "y": 10.159854414214829,
+                "z": 689.8816514099141
+              }
+            }
+          }
+        ]
+      },
+      "player": {
+        "pos": {
+          "x": -463.4305114746094,
+          "y": 9.796337127685547,
+          "z": 679.9834594726562
+        },
+        "facing": 3.141592653589793,
+        "grounded": true,
+        "health": 7
+      },
+      "render": {
+        "frame": 7498,
+        "calls": 87,
+        "triangles": 256090,
+        "points": 0,
+        "lines": 0
+      },
+      "sourceIds": [
+        "f1:w:-10:13:700",
+        "f1:w:-9:14:0"
+      ]
+    },
+    {
+      "ms": 3051.2999999970198,
+      "packaged": false,
+      "actor": {
+        "id": "f1:w:-10:13:700",
+        "originId": "f1:w:-10:13:700",
+        "species": "trailgloam",
+        "ai": "RETURN",
+        "hp": 4.85,
+        "dead": false,
+        "pos": {
+          "x": -463.43445953540504,
+          "y": 9.839854327321518,
+          "z": 688.977001234889
+        },
+        "base": [
+          -463.43445953540504,
+          9.339854327321518,
+          688.977001234889
+        ],
+        "home": {
+          "x": -463,
+          "y": 9.364417419238817,
+          "z": 685
+        },
+        "cfg": {
+          "moveSpeed": 0.6060606060606061,
+          "capsuleRadius": 0.48,
+          "capsuleHalfHeight": 0.02
+        },
+        "distanceHome": 4.000661684048432,
+        "terrain": 9.324308317799625,
+        "groundGap": 0.015546009521893112,
+        "bondable": null,
+        "models": [
+          {
+            "path": "assets/models/trailgloam-fitted-r1/model.glb",
+            "clip": "idle",
+            "timeScale": 1,
+            "clipTime": 0.016664154579231386,
+            "clipName": "Loaded",
+            "bounds": {
+              "isBox3": true,
+              "min": {
+                "x": -464.3556789589255,
+                "y": 9.331512454609456,
+                "z": 688.07552826396
+              },
+              "max": {
+                "x": -462.53305448039214,
+                "y": 10.159854414214829,
+                "z": 689.8816514099141
+              }
+            }
+          }
+        ]
+      },
+      "player": {
+        "pos": {
+          "x": -463.4305114746094,
+          "y": 9.796337127685547,
+          "z": 679.9834594726562
+        },
+        "facing": 3.141592653589793,
+        "grounded": true,
+        "health": 7
+      },
+      "render": {
+        "frame": 7498,
+        "calls": 87,
+        "triangles": 256090,
+        "points": 0,
+        "lines": 0
+      },
+      "sourceIds": [
+        "f1:w:-10:13:700",
+        "f1:w:-9:14:0"
+      ]
+    }
+  ]
+}

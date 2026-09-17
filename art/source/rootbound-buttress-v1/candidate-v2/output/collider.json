@@ -1,0 +1,14 @@
+{
+  "type": "box",
+  "dimensions": [
+    2.8,
+    2.2,
+    2.6
+  ],
+  "offset": [
+    0.0,
+    1.1,
+    0.0
+  ],
+  "scope": "lower trunk/root core only; buttress tips and canopy are non-solid"
+}

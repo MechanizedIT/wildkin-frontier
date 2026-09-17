@@ -4,6 +4,33 @@ import fs from 'node:fs';
 import * as THREE from '../vendor/three.module.js';
 import {initializePlayerOcclusion} from '../src/presentation/playerOcclusion.js';
 
+test('forest visibility fades only the blocking instance and releases owned rendering resources', () => {
+  const scene = new THREE.Scene(), camera = new THREE.PerspectiveCamera();
+  camera.position.set(0, 4, 7); camera.updateMatrixWorld(true);
+  const geometry = new THREE.BoxGeometry(3, 6, 3), material = new THREE.MeshStandardMaterial();
+  const forest = new THREE.InstancedMesh(geometry, material, 2);
+  forest.setMatrixAt(0, new THREE.Matrix4().makeTranslation(0, 3, 3));
+  forest.setMatrixAt(1, new THREE.Matrix4().makeTranslation(14, 3, 3));
+  scene.add(forest); scene.updateMatrixWorld(true);
+  const system = initializePlayerOcclusion({ scene, camera, getPlayerPosition: () => ({ x: 0, y: .52, z: 0 }) });
+  system.register(forest); system.update(.11);
+  const visibility = forest.geometry.getAttribute('playerVisibility');
+  assert.deepEqual([...visibility.array], [.25, 1]);
+  assert.equal(geometry.getAttribute('playerVisibility'), undefined, 'shared recipe is untouched');
+  assert.equal(material.opacity, 1, 'other batches retain the source material');
+  camera.position.set(0, 3, 3); camera.updateMatrixWorld(true); system.update(.11);
+  assert.deepEqual([...visibility.array], [.25, 1], 'camera inside one crown stays visible');
+  system.reset(); assert.deepEqual([...visibility.array], [1, 1]);
+  const ownedGeometry = forest.geometry, ownedMaterial = forest.material;
+  let geometryDisposed = false, materialDisposed = false;
+  ownedGeometry.addEventListener('dispose', () => { geometryDisposed = true; });
+  ownedMaterial.addEventListener('dispose', () => { materialDisposed = true; });
+  system.unregister(forest);
+  assert.equal(forest.geometry, geometry); assert.equal(forest.material, material);
+  assert.ok(geometryDisposed && materialDisposed);
+  system.dispose(); geometry.dispose(); material.dispose();
+});
+
 test('sloped foreground rock fades when the upper sightline clears it but the body is hidden',()=>{
   // Exact approved rock surface and the failed native foreground camera/position.
   const hull=JSON.parse(fs.readFileSync(new URL('../art/source/fen-bank-outcrop-right-v1/collider.json',import.meta.url),'utf8'));

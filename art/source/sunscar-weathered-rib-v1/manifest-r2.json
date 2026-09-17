@@ -1,0 +1,17 @@
+{
+  "reference": {
+    "sha256": "157070274fef13f6449840c9acfdce4ec660d50e84d1244e74a3b7c3dd2a5529",
+    "path": "reference/weathered-rib-target-v1.png"
+  },
+  "asset": "sunscar-weathered-rib-v1",
+  "repairGeometry": {
+    "sha256": "d6bd4f21ad76b9901712c9c9ba2bec2148472e4fe1f439dc480d83f4fd6e1d5b",
+    "path": "geometry-plan-r2.json"
+  },
+  "status": "focused R2 repair input pending independent review",
+  "schemaVersion": 1,
+  "preservedInputs": {
+    "v2Geometry": "cc5c00067a646da96919144cd92fe2699e721b204a81d546db755dfcec567492",
+    "massingV1Review": "massing-v1/independent-massing-review.md"
+  }
+}

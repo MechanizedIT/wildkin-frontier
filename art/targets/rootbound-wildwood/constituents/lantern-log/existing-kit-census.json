@@ -1,0 +1,102 @@
+{
+  "status": "Source-only kit inventory; no render, live residency, harvestability or placement proof",
+  "axis": "Three.js Y-up metres; source part transforms applied",
+  "assets": [
+    {
+      "id": "asset_fallen_log",
+      "displayName": "Mossy Fallen Log",
+      "role": "prop",
+      "collision": null,
+      "partCount": 27,
+      "triangles": 590,
+      "bounds": {
+        "min": [
+          -1.32,
+          -0.02999999999999997,
+          -1.1848
+        ],
+        "max": [
+          1.5243,
+          1.1063,
+          1.1323
+        ],
+        "extent": [
+          2.8443,
+          1.1363,
+          2.3171
+        ]
+      },
+      "palette": [
+        "#583c2d",
+        "#aa7440",
+        "#263541",
+        "#855333",
+        "#829b45",
+        "#89af49",
+        "#5d893c",
+        "#7b8072"
+      ]
+    },
+    {
+      "id": "asset_mushroom_ring",
+      "displayName": "Mooncap Mushroom Ring",
+      "role": "prop",
+      "collision": null,
+      "partCount": 30,
+      "triangles": 1760,
+      "bounds": {
+        "min": [
+          -0.9677,
+          -0.0215,
+          -0.9470000000000001
+        ],
+        "max": [
+          0.9036,
+          1.02,
+          0.6453
+        ],
+        "extent": [
+          1.8713,
+          1.0415,
+          1.5923
+        ]
+      },
+      "palette": [
+        "#ead9b7",
+        "#b875c1",
+        "#f4cae1",
+        "#8651a1",
+        "#62a84d"
+      ]
+    }
+  ],
+  "lanternRecords": [
+    {
+      "key": "lantern-log",
+      "assetId": "asset_fallen_log",
+      "x": -444,
+      "z": 678,
+      "scale": 0.95,
+      "yaw": 0.45,
+      "kind": "low"
+    },
+    {
+      "key": "lantern-ring-a",
+      "assetId": "asset_mushroom_ring",
+      "x": -442,
+      "z": 678,
+      "scale": 0.9,
+      "yaw": 0.2,
+      "kind": "low"
+    },
+    {
+      "key": "lantern-ring-b",
+      "assetId": "asset_mushroom_ring",
+      "x": -444,
+      "z": 681,
+      "scale": 0.85,
+      "yaw": -0.4,
+      "kind": "low"
+    }
+  ]
+}

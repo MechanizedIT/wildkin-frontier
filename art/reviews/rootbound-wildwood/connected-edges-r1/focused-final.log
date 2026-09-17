@@ -1,0 +1,58 @@
+TAP version 13
+# Subtest: Rootbound circuit has finite room grammar and neutral exterior
+ok 1 - Rootbound circuit has finite room grammar and neutral exterior
+  ---
+  duration_ms: 7.3274
+  type: 'test'
+  ...
+# Subtest: Rootbound terrain preserves every existing source in the circuit border
+ok 2 - Rootbound terrain preserves every existing source in the circuit border
+  ---
+  duration_ms: 1052.3308
+  type: 'test'
+  ...
+# Subtest: Rootbound profile colors apply only to the protected default world
+ok 3 - Rootbound profile colors apply only to the protected default world
+  ---
+  duration_ms: 1463.772
+  type: 'test'
+  ...
+# Subtest: resident protection plates fade without a terrain step at their boundaries
+ok 4 - resident protection plates fade without a terrain step at their boundaries
+  ---
+  duration_ms: 0.9189
+  type: 'test'
+  ...
+# Subtest: curated Rootbound props use existing admission and remain localized
+ok 5 - curated Rootbound props use existing admission and remain localized
+  ---
+  duration_ms: 797.1383
+  type: 'test'
+  ...
+# Subtest: Rootbound facet field is a shared default-world height surface with exact chunk seams
+ok 6 - Rootbound facet field is a shared default-world height surface with exact chunk seams
+  ---
+  duration_ms: 520.0139
+  type: 'test'
+  ...
+# Subtest: Rootbound facet chunks use a render-only per-face material while physics keeps the shared chunk
+ok 7 - Rootbound facet chunks use a render-only per-face material while physics keeps the shared chunk
+  ---
+  duration_ms: 2601.9521
+  type: 'test'
+  ...
+# Subtest: Rootbound shoulders change real terrain while full and height-only samplers agree with mesh vertices
+ok 8 - Rootbound shoulders change real terrain while full and height-only samplers agree with mesh vertices
+  ---
+  duration_ms: 145.2929
+  type: 'test'
+  ...
+1..8
+# tests 8
+# suites 0
+# pass 8
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 7269.4613

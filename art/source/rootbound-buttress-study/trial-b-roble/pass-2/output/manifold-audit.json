@@ -1,0 +1,25 @@
+{
+  "status": "INVALID / SUPERSEDED: woodComponents was hardcoded from object count and does not measure mesh connectivity. See component-audit.json for the authoritative graph result.",
+  "woodComponentsClaim": 1,
+  "boundaryEdges": 0,
+  "nonManifoldEdges": 0,
+  "inputSectionContract": "C:\\Users\\cwood\\Documents\\mobile-rpg\\art\\source\\rootbound-buttress-study\\director\\section-construction.json",
+  "triangleCount": 976,
+  "bounds": {
+    "x": [
+      -2.162238836288452,
+      2.2032599449157715
+    ],
+    "y": [
+      -1.2189613580703735,
+      0.7564195990562439
+    ],
+    "z": [
+      0.15999996662139893,
+      5.526400089263916
+    ]
+  },
+  "repairMethod": "exact-unioned partial-arc/saddle equivalents plus explicit collar-web volumes; child paths transition to full rings after branch separation",
+  "supersededBy": "component-audit.json",
+  "actualConnectedComponents": 2
+}

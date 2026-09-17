@@ -1,0 +1,53 @@
+{
+  "status": {
+    "path": "/art/source/trailgloam-v1/rig-prep-r1/fitted-r1a/trailgloam-fitted.glb",
+    "clips": [
+      {
+        "name": "Loaded",
+        "duration": 0.03333333507180214,
+        "tracks": 87
+      },
+      {
+        "name": "Neutral",
+        "duration": 0.03333333507180214,
+        "tracks": 87
+      },
+      {
+        "name": "WalkDiagnostic",
+        "duration": 1.100000023841858,
+        "tracks": 87
+      }
+    ],
+    "selected": "WalkDiagnostic",
+    "time": 0.6995994516372736,
+    "playing": true,
+    "frames": 3775,
+    "skins": [
+      {
+        "name": "TrailgloamSkin",
+        "vertices": 40908,
+        "bones": 29
+      }
+    ]
+  },
+  "mesh": {
+    "clip": "WalkDiagnostic",
+    "time": 0.6995994516372736,
+    "vertices": 40908,
+    "nonfinite": 0,
+    "bounds": {
+      "min": [
+        -0.909104941475442,
+        -0.008343102470257203,
+        -0.9189959363683166
+      ],
+      "max": [
+        0.9115518217763389,
+        0.8200000868933116,
+        0.8924444263780797
+      ]
+    },
+    "height": 0.8283431893635688
+  },
+  "logs": []
+}

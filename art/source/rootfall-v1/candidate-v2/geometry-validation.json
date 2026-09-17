@@ -1,0 +1,334 @@
+{
+  "status": "geometry contract checks passed; independent visual/native gates separate",
+  "checks": {
+    "rootfall-left": {
+      "valid": true,
+      "points": 19,
+      "triangles": 34,
+      "bounds": {
+        "size": {
+          "w": 5.2225,
+          "h": 3.141356,
+          "d": 4.65
+        },
+        "offset": {
+          "x": -4.2612499999999995,
+          "y": 1.570678,
+          "z": 0.17500000000000004
+        }
+      },
+      "sha256": "a350297e97209c3965fd576ad8915a26d4c2eb1c2d45056b10ede1a3e42fb505",
+      "glbBounds": {
+        "min": [
+          -6.910261154174805,
+          -0.08427438139915466,
+          -2.2272191047668457
+        ],
+        "max": [
+          -1.649999976158142,
+          3.384230613708496,
+          2.553112745285034
+        ]
+      },
+      "transforms": [
+        {
+          "name": "rootfall-left",
+          "translation": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        }
+      ]
+    },
+    "rootfall-right": {
+      "valid": true,
+      "points": 16,
+      "triangles": 28,
+      "bounds": {
+        "size": {
+          "w": 5.199999999999999,
+          "h": 2.11247,
+          "d": 4.25
+        },
+        "offset": {
+          "x": 4.25,
+          "y": 1.056235,
+          "z": -0.125
+        }
+      },
+      "sha256": "aee62de205044de58403b9dad374757277d64598dfba86f3d86c4aea75d6733d",
+      "glbBounds": {
+        "min": [
+          1.649999976158142,
+          -0.11763298511505127,
+          -2.286644697189331
+        ],
+        "max": [
+          6.872871398925781,
+          2.530486583709717,
+          2.059976100921631
+        ]
+      },
+      "transforms": [
+        {
+          "name": "rootfall-right",
+          "translation": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        }
+      ]
+    },
+    "rootfall-center": {
+      "valid": true,
+      "points": 16,
+      "triangles": 28,
+      "bounds": {
+        "size": {
+          "w": 3.3,
+          "h": 2.59563,
+          "d": 2.174104
+        },
+        "offset": {
+          "x": 0,
+          "y": 1.297815,
+          "z": 0.023396000000000083
+        }
+      },
+      "sha256": "ba6cfe051261db1420e72b950ee14c0e578d015224eb0ab2a0932b9d9592d1e4",
+      "glbBounds": {
+        "min": [
+          -1.649999976158142,
+          0,
+          -1.0800364017486572
+        ],
+        "max": [
+          1.649999976158142,
+          2.595630168914795,
+          1.120065689086914
+        ]
+      },
+      "transforms": [
+        {
+          "name": "rootfall-center",
+          "translation": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        }
+      ]
+    },
+    "rootfall-brace-left": {
+      "valid": true,
+      "points": 52,
+      "triangles": 100,
+      "bounds": {
+        "size": {
+          "w": 1.16597,
+          "h": 1.538918,
+          "d": 1.427533
+        },
+        "offset": {
+          "x": -2.51846,
+          "y": 0.7599999999999999,
+          "z": 1.5116015
+        }
+      },
+      "sha256": "b3dfea34652a8864b55762b636d76e382235857f8d51d22afbe6b93c8e827a53",
+      "glbBounds": {
+        "min": [
+          -3.101445436477661,
+          -0.00945901870727539,
+          0.7978346943855286
+        ],
+        "max": [
+          -1.9354753494262695,
+          1.5294591188430786,
+          2.225367546081543
+        ]
+      },
+      "transforms": [
+        {
+          "name": "rootfall-brace-left",
+          "translation": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        }
+      ]
+    },
+    "rootfall-brace-right": {
+      "valid": true,
+      "points": 52,
+      "triangles": 100,
+      "bounds": {
+        "size": {
+          "w": 1.16597,
+          "h": 1.538918,
+          "d": 1.427533
+        },
+        "offset": {
+          "x": 2.51846,
+          "y": 0.7599999999999999,
+          "z": 1.5116015
+        }
+      },
+      "sha256": "abba670fcfad78e13914819b70832dc8611288e201049fe5bddc3793feb22c32",
+      "glbBounds": {
+        "min": [
+          1.9354753494262695,
+          -0.00945901870727539,
+          0.7978346943855286
+        ],
+        "max": [
+          3.101445436477661,
+          1.5294591188430786,
+          2.225367546081543
+        ]
+      },
+      "transforms": [
+        {
+          "name": "rootfall-brace-right",
+          "translation": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        }
+      ]
+    },
+    "rootfall-seam": {
+      "sha256": "a40b3004e9d073a1aadbe95d0a9305a65f8a82f2d8e2c3636504af115ad59f19",
+      "glbBounds": {
+        "min": [
+          -0.3400000035762787,
+          0.949999988079071,
+          -0.04500000178813934
+        ],
+        "max": [
+          0.3499999940395355,
+          1.2400000095367432,
+          0.009967953898012638
+        ]
+      },
+      "transforms": [
+        {
+          "name": "RootfallBark_chunk_0",
+          "translation": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        {
+          "name": "RootfallBark_chunk_1",
+          "translation": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        {
+          "name": "RootfallBark_chunk_2",
+          "translation": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,79 @@
+{
+  "status": "neutral exact raw Lantern geometry inspection; not a runtime asset or derivative",
+  "source": "C:\\Users\\cwood\\Documents\\mobile-rpg\\art\\source\\lantern-log-v1\\geometry-ply-r5\\raw-geometry.ply",
+  "source_sha256": "e25bdd049cf9a7d8d4e1a7df9e4193e9840b0b550c6052b134d3d88cd6276120",
+  "source_receipt_sha256": "d7e41cd6befe5a4fccfce3aa4ccccf36874d65dcf5168bc4b231776a42499dad",
+  "source_plan_sha256": "858726be3395d7f8c6117e78feb64dc2c5825b373052ec53cd547f4e295fe264",
+  "profile": "fresh-process-per-stage-512-lantern-geometry-ply-v1",
+  "mode": "lantern-geometry-ply-v1",
+  "pinned_input_sha256": "85bd175a6b102cf183b50ff5ca45a1afd6847a6920a28b0039bd8e1e98d6b2ac",
+  "face_limit": 2300000,
+  "vertices": 1077634,
+  "triangles": 2218798,
+  "receipt_vertex_count": 1077634,
+  "receipt_face_count": 2218798,
+  "binary_bytes": 41776379,
+  "bounds": {
+    "min": [
+      -0.5003722906112671,
+      -0.2924528121948242,
+      -0.2969053387641907
+    ],
+    "max": [
+      0.4995916485786438,
+      0.2899187207221985,
+      0.2909446358680725
+    ]
+  },
+  "axes": "Imported Blender XYZ and triangle order exactly match raw PLY; no transform, normalization, welding, normal recalculation, reduction, or export.",
+  "float64_policy": "Rejected before import because Blender mesh coordinates are float32; this inspection makes no float64-preservation claim.",
+  "underside_floor_policy": "The neutral floor is hidden only for underside renders so it cannot occlude raw geometry; it is restored afterward.",
+  "source_schema_counts_indices_verified": true,
+  "imported_xyz_float32_sha256": "905fc3f935f110894255d2f3125406a13ea805b176ae8caed5b42cfdc2773445",
+  "renders": [
+    "end-positive-y-512.png",
+    "end-negative-y-512.png",
+    "side-positive-x-512.png",
+    "side-negative-x-512.png",
+    "top-512.png",
+    "underside-512.png",
+    "three-quarter-512.png",
+    "end-positive-y-96.png",
+    "end-negative-y-96.png",
+    "side-positive-x-96.png",
+    "side-negative-x-96.png",
+    "top-96.png",
+    "underside-96.png",
+    "three-quarter-96.png",
+    "end-positive-y-48.png",
+    "end-negative-y-48.png",
+    "side-positive-x-48.png",
+    "side-negative-x-48.png",
+    "top-48.png",
+    "underside-48.png",
+    "three-quarter-48.png"
+  ],
+  "render_directions": [
+    "end-positive-y",
+    "end-negative-y",
+    "side-positive-x",
+    "side-negative-x",
+    "top",
+    "underside",
+    "three-quarter"
+  ],
+  "render_sizes": [
+    512,
+    96,
+    48
+  ],
+  "min_sampled_host_free_gib": 18.807666778564453,
+  "elapsed_seconds": 22.047000000005937,
+  "blender_exit_code": 0,
+  "blender_version": "4.5.3 LTS",
+  "inspector_sha256": "3fbd02403ec74a5ba2e5ee7f6ff2d6868db7493379bba27cb8690355e83f73e1",
+  "blend_bytes": 104175928,
+  "blend_sha256": "be621ce66a07d8cadbe3a06eb0dbd748c21b1d07ccc5233c006fab847b506fbb",
+  "all_21_render_files_verified": true,
+  "view_label_note": "Names encode camera axes only: actual longest raw axis is X, so the side-X filenames look toward log ends. No orientation normalization was performed."
+}

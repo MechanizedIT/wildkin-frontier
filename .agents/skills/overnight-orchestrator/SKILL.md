@@ -5,7 +5,15 @@ description: Run a bounded unattended Wildkin Frontier production session as one
 
 # Overnight orchestrator
 
+**Latest owner review direction:** apply [Rootbound practical asset reuse and showcase review](../../../docs/ROOTBOUND_ASSET_REUSE_REVIEW.md). Attractive, useful actual results may be used despite target differences or lower scores; older fixed score thresholds below are superseded for this focused run. Review reusable components, material-yield ideas, arrangement/rotation/scale/tint variants, and useful curve-authored roots/trunks. Preserve focused correctness and actual gameplay proof.
+
+
+**Focused Rootbound override (latest September 14 owner direction):** use [ROOTBOUND_FOCUSED_GOAL.md](../../../docs/ROOTBOUND_FOCUSED_GOAL.md). Work continuously within Rootbound and its constituents; up to six substantial attempts per constituent/composition experiment, independent review each time, method change after two repeated defects. After six unsuccessful attempts, work on another Rootbound constituent and revisit with a concrete new approach. Keep useful partial gains against the retained baseline; preserve held candidates and reusable parts. Earlier three-pass/rotate-away rules below are historical for this focused run.
+
+
 Use only when Chris explicitly authorizes a long-running or unattended session and supplies or approves a production plan. This skill does not turn an old handoff into permission to resume. It coordinates several bounded batches and then stops.
+
+**Explicit continuous-goal exception:** when Chris expressly authorizes repeated habitat rotations until stopped, use goal mode and the current rotation queue instead of the default three-batch/session stop below. Keep every individual visit bounded, commit coherent checkpoints, continue parallel Wildkin work, and advance past exhausted/HOLD candidates. A blocked lane does not stop unrelated authorized progress. Preserve independent review, ownership, resource guards, no-push constraints and frequent actual-image updates. Only fresh owner direction activates this exception; it must be recorded in CURRENT_SLICE.
 
 The safest pattern for this repository is **one root Codex session per worktree**. Do not run two independent root sessions that both edit `main` in the same working tree. Use the root session's subagents as lanes with explicit file ownership. A separate asset-only process is acceptable only when it writes to an isolated candidate directory and root alone integrates it.
 
@@ -44,7 +52,7 @@ When agent capacity is lower than requested, reduce concurrency rather than drop
 
 ### Lane A — world/habitat
 
-Use `habitat-development`. Work on one habitat or one cross-habitat tool that directly enables the selected habitat. Default maximum: one structural pass, one focused repair, one independent judge.
+Use `habitat-development`. Work on one habitat or one cross-habitat tool that directly enables the selected habitat. Default maximum: one structural pass and up to two focused repairs, with independent review after each substantial pass.
 
 ### Lane B — Wildkin/species
 
@@ -99,9 +107,9 @@ Use `game-feature-development` with the general `wildkin-development` and `docs/
 
 Outcome limits matter more than guessed wall-clock estimates:
 
-- two substantial implementation rounds per habitat or species by default;
-- three only for an explicitly designated hero surface and only with a structural method change;
-- one consolidated review/repair for ordinary feature batches;
+- three substantial passes per habitat, species, asset or feature loop: one initial implementation and up to two focused repairs, under [the project loop policy](../../../docs/PRODUCTION_LOOP_POLICY.md);
+- stop early on PASS; repeated consequential gaps require a changed method within the remaining allowance;
+- one consolidated independent review packet per substantial candidate;
 - no more than three integrated batches in one unattended session;
 - no repeated aggregate suite after every visual round or documentation-only change.
 

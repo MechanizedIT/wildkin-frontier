@@ -1,0 +1,8 @@
+import fs from 'node:fs';import crypto from 'node:crypto';import {execFileSync} from 'node:child_process';
+const hash=b=>crypto.createHash('sha256').update(b).digest('hex');
+const preserved=['src/world/frontierTerrain.js','src/world/frontierLandform.js','src/world/frontierEcology.js','src/world/frontierWildlife.js','src/world/frontierScenery.js','src/world/frontierSceneryVisual.js','src/world/frontierPlacement.js','src/world/frontierWorld.js'];
+const normalized=b=>b.toString('utf8').replaceAll('\r\n','\n');
+const checks=preserved.map(path=>({path,before:hash(normalized(execFileSync('git',['show','0bbdee1:'+path]))),after:hash(normalized(fs.readFileSync(path)))}));if(checks.some(r=>r.before!==r.after))throw Error('Protected source owner changed: '+checks.filter(r=>r.before!==r.after).map(r=>r.path).join(','));
+const sources=['src/world/frontierLandformVisual.js','src/world/frontierChunkRuntime.js','tests/frontierLandformVisual.test.js'];
+fs.writeFileSync('art/reviews/skybreak-tablelands/rotation-1/source-hashes.json',JSON.stringify(Object.fromEntries(sources.map(p=>[p,hash(fs.readFileSync(p))])),null,2));
+fs.writeFileSync('art/reviews/skybreak-tablelands/rotation-1/owner-parity.json',JSON.stringify({checkpoint:'0bbdee1',note:'Source contents match after Windows CRLF-to-LF normalization, preserving terrain/routes, finite ecology and wildlife identities, scenery and footprint selection. New one-asset resident path separately tested for transform/lifecycle/world gating.',checks},null,2));console.log('All eight protected source owners match committed checkpoint after line-ending normalization.');

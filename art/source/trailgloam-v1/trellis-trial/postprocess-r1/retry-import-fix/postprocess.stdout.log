@@ -1,0 +1,18 @@
+[INIT] flex_gemm EXPLICIT_GEMM patch applied.
+[INIT] flex_gemm Triton fallback patch applied.
+Original mesh: 889679 vertices, 1804432 faces
+Initial mesh: 889679 vertices, 1804432 faces
+Building BVH for current mesh...Done
+Cleaning mesh...
+Running Dual Contouring...
+After remeshing: 1686629 vertices, 3375296 faces
+After simplifying: 29858 vertices, 59412 faces
+After cleanup: 29881 vertices, 59378 faces
+Done
+Parameterizing new mesh...
+Removed 2 degenerate faces
+Get 539 clusters after fast clustering
+Done
+Sampling attributes...Building BVH for texture baking...Done
+Done
+Finalizing mesh...Done

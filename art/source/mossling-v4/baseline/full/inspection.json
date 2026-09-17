@@ -1,0 +1,167 @@
+{
+  "object_count": 3,
+  "mesh_object_count": 2,
+  "material_count": 1,
+  "vertices": 23720,
+  "triangles": 20079,
+  "bounds": {
+    "min": [
+      -0.9510578513145447,
+      -0.9999999403953552,
+      -1.0
+    ],
+    "max": [
+      0.9510578513145447,
+      0.9999999403953552,
+      1.1947343349456787
+    ],
+    "size": [
+      1.9021157026290894,
+      1.9999998807907104,
+      2.1947343349456787
+    ]
+  },
+  "meshes": [
+    {
+      "object": "mossling-neutral-textured-20000",
+      "mesh": "mossling-neutral-textured-20000",
+      "vertices": 23678,
+      "triangles": 19999,
+      "topology": {
+        "uv_layers": [
+          "UVMap"
+        ],
+        "loose_vertices": 0,
+        "connected_vertex_components": 2285,
+        "largest_component_vertices": 171,
+        "boundary_edges": 23051,
+        "nonmanifold_edges": 0,
+        "wire_edges": 0
+      },
+      "position_welded_diagnostic": {
+        "label": "diagnostic position-welded copy; raw mesh, UVs, and materials unchanged",
+        "tolerance": 1.5060383081436156e-06,
+        "vertices": 9215,
+        "triangles": 19999,
+        "topology": {
+          "uv_layers": [
+            "UVMap"
+          ],
+          "loose_vertices": 0,
+          "connected_vertex_components": 32,
+          "largest_component_vertices": 8071,
+          "boundary_edges": 26,
+          "nonmanifold_edges": 436,
+          "wire_edges": 0
+        }
+      }
+    },
+    {
+      "object": "Icosphere",
+      "mesh": "Icosphere",
+      "vertices": 42,
+      "triangles": 80,
+      "topology": {
+        "uv_layers": [
+          "UVMap"
+        ],
+        "loose_vertices": 0,
+        "connected_vertex_components": 1,
+        "largest_component_vertices": 42,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "wire_edges": 0
+      },
+      "position_welded_diagnostic": {
+        "label": "diagnostic position-welded copy; raw mesh, UVs, and materials unchanged",
+        "tolerance": 2e-06,
+        "vertices": 42,
+        "triangles": 80,
+        "topology": {
+          "uv_layers": [
+            "UVMap"
+          ],
+          "loose_vertices": 0,
+          "connected_vertex_components": 1,
+          "largest_component_vertices": 42,
+          "boundary_edges": 0,
+          "nonmanifold_edges": 0,
+          "wire_edges": 0
+        }
+      }
+    }
+  ],
+  "textures": [
+    {
+      "name": "base-color",
+      "width": 1024,
+      "height": 1024,
+      "filepath": ""
+    }
+  ],
+  "armatures": [
+    {
+      "object": "MosslingAnatomyStudyRig",
+      "bones": 23
+    }
+  ],
+  "actions": [
+    {
+      "name": "Attack",
+      "frame_range": [
+        0.0,
+        16.799999237060547
+      ]
+    },
+    {
+      "name": "Hurt",
+      "frame_range": [
+        0.0,
+        10.799999237060547
+      ]
+    },
+    {
+      "name": "Idle",
+      "frame_range": [
+        0.0,
+        57.60000228881836
+      ]
+    },
+    {
+      "name": "Run",
+      "frame_range": [
+        0.0,
+        12.0
+      ]
+    },
+    {
+      "name": "Walk",
+      "frame_range": [
+        0.0,
+        18.0
+      ]
+    }
+  ],
+  "source_glb": "C:\\Users\\cwood\\Documents\\mobile-rpg\\assets\\models\\mossling-v3\\model.glb",
+  "review_renders": [
+    "front.png",
+    "three-quarter.png",
+    "rear.png"
+  ],
+  "review_material_policy": "Copied imported materials; retained texture nodes; metallic 0 and roughness 0.88 for review only.",
+  "review_shading_mode": "matte",
+  "review_frame_bounds": {
+    "min": [
+      -0.9510578513145447,
+      -0.9999999403953552,
+      -1.0
+    ],
+    "max": [
+      0.9510578513145447,
+      0.9999999403953552,
+      1.1947343349456787
+    ],
+    "source": "imported bounds"
+  },
+  "front_yaw_degrees": 90.0
+}

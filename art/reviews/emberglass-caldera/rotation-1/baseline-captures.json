@@ -1,0 +1,583 @@
+{
+  "phase": "baseline",
+  "date": "2026-09-14T16:26:28.248Z",
+  "fixture": "Fresh current-source captures in isolated copied earned-save context; diagnostic fixed positioning, not ordinary route proof.",
+  "viewport": {
+    "width": 412,
+    "height": 915
+  },
+  "seed": 1327115068,
+  "views": [
+    {
+      "name": "arrival",
+      "requested": {
+        "name": "arrival",
+        "x": 850,
+        "z": -1936,
+        "yaw": 0
+      },
+      "state": {
+        "pos": {
+          "x": 850,
+          "y": 12.783825874328613,
+          "z": -1936
+        },
+        "camera": {
+          "yaw": 0,
+          "pitch": 0.6283185307179586,
+          "portrait": true,
+          "portraitPitch": 0.6283185307179586,
+          "landscapePitch": 0.5585053606381855,
+          "zoom": 1,
+          "userZoom": 1,
+          "requestedDistance": 11.59107954420122,
+          "collisionDistance": 11.59107954420122,
+          "effectiveDistance": 11.59107954420122,
+          "focusRecovery": "clear",
+          "horizontalDistance": 6.55,
+          "height": 5,
+          "center": [
+            850,
+            13.683825874329223,
+            -1936
+          ]
+        },
+        "terrain": {
+          "residentCount": 25,
+          "center": {
+            "cx": 17,
+            "cz": -39
+          },
+          "residentIds": [
+            "15,-41",
+            "16,-41",
+            "17,-41",
+            "18,-41",
+            "19,-41",
+            "15,-40",
+            "16,-40",
+            "17,-40",
+            "18,-40",
+            "19,-40",
+            "15,-39",
+            "16,-39",
+            "17,-39",
+            "18,-39",
+            "19,-39",
+            "15,-38",
+            "16,-38",
+            "17,-38",
+            "18,-38",
+            "19,-38",
+            "15,-37",
+            "16,-37",
+            "17,-37",
+            "18,-37",
+            "19,-37"
+          ],
+          "preparedCount": 0,
+          "preparedIds": []
+        },
+        "scenery": {
+          "residentCount": 18,
+          "residentIds": [
+            "f2c:s:17:-40:stage-caldera-bloom-right-back",
+            "f2c:s:17:-40:stage-caldera-bloom-right-front",
+            "f2c:s:17:-40:stage-caldera-rubble-right",
+            "f2c:s:17:-40:stage-caldera-spire-right",
+            "f2c:s:16:-40:stage-caldera-bloom-left-back",
+            "f2c:s:16:-40:stage-caldera-bloom-left-front",
+            "f2c:s:16:-40:stage-caldera-rubble-left",
+            "f2c:s:16:-40:stage-caldera-spire-left",
+            "f2c:s:17:-39:seed-0",
+            "f2c:s:17:-39:seed-1",
+            "f2c:s:17:-39:seed-2",
+            "f2c:s:17:-39:seed-3",
+            "f2c:s:17:-39:seed-4",
+            "f2c:s:17:-39:seed-5",
+            "f2c:s:16:-39:seed-0",
+            "f2c:s:16:-39:seed-1",
+            "f2c:s:16:-39:seed-2",
+            "f2c:s:16:-39:seed-3"
+          ],
+          "canopyCount": 0,
+          "colliderCount": 0,
+          "clearanceRecipeCache": {
+            "forageCount": 49,
+            "wildlifeCount": 49
+          },
+          "sceneryRecipeCache": {
+            "ordinaryCount": 25,
+            "infillCount": 0
+          },
+          "groundPatchCache": {
+            "entryCount": 18,
+            "maxEntries": 512,
+            "maxPatchRecords": 2
+          },
+          "streaming": {
+            "preparedPublications": 0,
+            "unfinishedPublications": 0,
+            "synchronousPublications": 2,
+            "cancelled": 0,
+            "preparationFailures": 0,
+            "lastWorkMs": 0,
+            "maxWorkMs": 0,
+            "phase": null,
+            "target": null
+          },
+          "lowCount": 18,
+          "stoneSolidCount": 0,
+          "surfaceCount": 0,
+          "lowDrawCount": 15,
+          "lowTriangleCount": 5768,
+          "lowGeometryCount": 3,
+          "lowGeometryVertexCount": 3636,
+          "lowInstanceCount": 18,
+          "groundDrawCount": 1,
+          "groundClusterCount": 22,
+          "groundClusterTriangleCount": 352
+        },
+        "render": {
+          "frame": 1171,
+          "calls": 52,
+          "triangles": 77519,
+          "points": 0,
+          "lines": 0
+        }
+      }
+    },
+    {
+      "name": "interior",
+      "requested": {
+        "name": "interior",
+        "x": 850,
+        "z": -1962,
+        "yaw": 0
+      },
+      "state": {
+        "pos": {
+          "x": 850,
+          "y": 11.780385971069336,
+          "z": -1962
+        },
+        "camera": {
+          "yaw": 0,
+          "pitch": 0.6283185307179586,
+          "portrait": true,
+          "portraitPitch": 0.6283185307179586,
+          "landscapePitch": 0.5585053606381855,
+          "zoom": 1,
+          "userZoom": 1,
+          "requestedDistance": 11.59107954420122,
+          "collisionDistance": 11.59107954420122,
+          "effectiveDistance": 11.59107954420122,
+          "focusRecovery": "clear",
+          "horizontalDistance": 6.55,
+          "height": 5,
+          "center": [
+            850,
+            12.680385971069366,
+            -1962
+          ]
+        },
+        "terrain": {
+          "residentCount": 25,
+          "center": {
+            "cx": 17,
+            "cz": -40
+          },
+          "residentIds": [
+            "15,-42",
+            "16,-42",
+            "17,-42",
+            "18,-42",
+            "19,-42",
+            "15,-41",
+            "16,-41",
+            "17,-41",
+            "18,-41",
+            "19,-41",
+            "15,-40",
+            "16,-40",
+            "17,-40",
+            "18,-40",
+            "19,-40",
+            "15,-39",
+            "16,-39",
+            "17,-39",
+            "18,-39",
+            "19,-39",
+            "15,-38",
+            "16,-38",
+            "17,-38",
+            "18,-38",
+            "19,-38"
+          ],
+          "preparedCount": 0,
+          "preparedIds": []
+        },
+        "scenery": {
+          "residentCount": 18,
+          "residentIds": [
+            "f2c:s:17:-40:stage-caldera-bloom-right-back",
+            "f2c:s:17:-40:stage-caldera-bloom-right-front",
+            "f2c:s:17:-40:stage-caldera-rubble-right",
+            "f2c:s:17:-40:stage-caldera-spire-right",
+            "f2c:s:16:-40:stage-caldera-bloom-left-back",
+            "f2c:s:16:-40:stage-caldera-bloom-left-front",
+            "f2c:s:16:-40:stage-caldera-rubble-left",
+            "f2c:s:16:-40:stage-caldera-spire-left",
+            "f2c:s:17:-41:stage-caldera-spire-rear",
+            "f2c:s:17:-40:seed-1",
+            "f2c:s:17:-40:seed-4",
+            "f2c:s:16:-40:seed-1",
+            "f2c:s:16:-40:seed-2",
+            "f2c:s:17:-39:seed-0",
+            "f2c:s:17:-39:seed-1",
+            "f2c:s:17:-39:seed-2",
+            "f2c:s:17:-39:seed-3",
+            "f2c:s:17:-39:seed-4"
+          ],
+          "canopyCount": 0,
+          "colliderCount": 0,
+          "clearanceRecipeCache": {
+            "forageCount": 56,
+            "wildlifeCount": 56
+          },
+          "sceneryRecipeCache": {
+            "ordinaryCount": 30,
+            "infillCount": 0
+          },
+          "groundPatchCache": {
+            "entryCount": 18,
+            "maxEntries": 512,
+            "maxPatchRecords": 3
+          },
+          "streaming": {
+            "preparedPublications": 0,
+            "unfinishedPublications": 0,
+            "synchronousPublications": 3,
+            "cancelled": 0,
+            "preparationFailures": 0,
+            "lastWorkMs": 0,
+            "maxWorkMs": 0,
+            "phase": null,
+            "target": null
+          },
+          "lowCount": 18,
+          "stoneSolidCount": 0,
+          "surfaceCount": 0,
+          "lowDrawCount": 16,
+          "lowTriangleCount": 6664,
+          "lowGeometryCount": 3,
+          "lowGeometryVertexCount": 3636,
+          "lowInstanceCount": 18,
+          "groundDrawCount": 1,
+          "groundClusterCount": 23,
+          "groundClusterTriangleCount": 368
+        },
+        "render": {
+          "frame": 2675,
+          "calls": 88,
+          "triangles": 89257,
+          "points": 0,
+          "lines": 0
+        }
+      }
+    },
+    {
+      "name": "destination",
+      "requested": {
+        "name": "destination",
+        "x": 862,
+        "z": -1982,
+        "yaw": 0.982793723247329
+      },
+      "state": {
+        "pos": {
+          "x": 862,
+          "y": 10.780694961547852,
+          "z": -1982
+        },
+        "camera": {
+          "yaw": 0.982793723247329,
+          "pitch": 0.6283185307179586,
+          "portrait": true,
+          "portraitPitch": 0.6283185307179586,
+          "landscapePitch": 0.5585053606381855,
+          "zoom": 1,
+          "userZoom": 1,
+          "requestedDistance": 11.59107954420122,
+          "collisionDistance": 11.59107954420122,
+          "effectiveDistance": 11.59107954420122,
+          "focusRecovery": "clear",
+          "horizontalDistance": 6.55,
+          "height": 5,
+          "center": [
+            862,
+            11.680694961547886,
+            -1982
+          ]
+        },
+        "terrain": {
+          "residentCount": 25,
+          "center": {
+            "cx": 17,
+            "cz": -40
+          },
+          "residentIds": [
+            "15,-42",
+            "16,-42",
+            "17,-42",
+            "18,-42",
+            "19,-42",
+            "15,-41",
+            "16,-41",
+            "17,-41",
+            "18,-41",
+            "19,-41",
+            "15,-40",
+            "16,-40",
+            "17,-40",
+            "18,-40",
+            "19,-40",
+            "15,-39",
+            "16,-39",
+            "17,-39",
+            "18,-39",
+            "19,-39",
+            "15,-38",
+            "16,-38",
+            "17,-38",
+            "18,-38",
+            "19,-38"
+          ],
+          "preparedCount": 0,
+          "preparedIds": []
+        },
+        "scenery": {
+          "residentCount": 18,
+          "residentIds": [
+            "f2c:s:17:-40:stage-caldera-bloom-right-back",
+            "f2c:s:17:-40:stage-caldera-bloom-right-front",
+            "f2c:s:17:-40:stage-caldera-rubble-right",
+            "f2c:s:17:-40:stage-caldera-spire-right",
+            "f2c:s:16:-40:stage-caldera-bloom-left-back",
+            "f2c:s:16:-40:stage-caldera-bloom-left-front",
+            "f2c:s:16:-40:stage-caldera-rubble-left",
+            "f2c:s:16:-40:stage-caldera-spire-left",
+            "f2c:s:17:-41:stage-caldera-spire-rear",
+            "f2c:s:17:-40:seed-1",
+            "f2c:s:17:-40:seed-4",
+            "f2c:s:16:-40:seed-1",
+            "f2c:s:16:-40:seed-2",
+            "f2c:s:17:-39:seed-0",
+            "f2c:s:17:-39:seed-1",
+            "f2c:s:17:-39:seed-2",
+            "f2c:s:17:-39:seed-3",
+            "f2c:s:17:-39:seed-4"
+          ],
+          "canopyCount": 0,
+          "colliderCount": 0,
+          "clearanceRecipeCache": {
+            "forageCount": 56,
+            "wildlifeCount": 56
+          },
+          "sceneryRecipeCache": {
+            "ordinaryCount": 30,
+            "infillCount": 0
+          },
+          "groundPatchCache": {
+            "entryCount": 18,
+            "maxEntries": 512,
+            "maxPatchRecords": 3
+          },
+          "streaming": {
+            "preparedPublications": 0,
+            "unfinishedPublications": 0,
+            "synchronousPublications": 3,
+            "cancelled": 0,
+            "preparationFailures": 0,
+            "lastWorkMs": 0,
+            "maxWorkMs": 0,
+            "phase": null,
+            "target": null
+          },
+          "lowCount": 18,
+          "stoneSolidCount": 0,
+          "surfaceCount": 0,
+          "lowDrawCount": 16,
+          "lowTriangleCount": 6664,
+          "lowGeometryCount": 3,
+          "lowGeometryVertexCount": 3636,
+          "lowInstanceCount": 18,
+          "groundDrawCount": 1,
+          "groundClusterCount": 23,
+          "groundClusterTriangleCount": 368
+        },
+        "render": {
+          "frame": 4318,
+          "calls": 24,
+          "triangles": 67637,
+          "points": 0,
+          "lines": 0
+        }
+      }
+    },
+    {
+      "name": "overhead",
+      "requested": {
+        "name": "overhead",
+        "x": 850,
+        "z": -2000,
+        "yaw": 0,
+        "height": 155
+      },
+      "state": {
+        "pos": {
+          "x": 850,
+          "y": 10.838894844055176,
+          "z": -2000
+        },
+        "camera": {
+          "yaw": 0,
+          "pitch": 0.5585053606381855,
+          "portrait": false,
+          "portraitPitch": 0.6283185307179586,
+          "landscapePitch": 0.5585053606381855,
+          "zoom": 1,
+          "userZoom": 1,
+          "requestedDistance": 6.568278408380691,
+          "collisionDistance": 6.568278408380691,
+          "effectiveDistance": 6.568278408380691,
+          "focusRecovery": "clear",
+          "horizontalDistance": 6.55,
+          "height": 5,
+          "center": [
+            850,
+            11.738894844055205,
+            -2000
+          ]
+        },
+        "terrain": {
+          "residentCount": 25,
+          "center": {
+            "cx": 17,
+            "cz": -40
+          },
+          "residentIds": [
+            "15,-42",
+            "16,-42",
+            "17,-42",
+            "18,-42",
+            "19,-42",
+            "15,-41",
+            "16,-41",
+            "17,-41",
+            "18,-41",
+            "19,-41",
+            "15,-40",
+            "16,-40",
+            "17,-40",
+            "18,-40",
+            "19,-40",
+            "15,-39",
+            "16,-39",
+            "17,-39",
+            "18,-39",
+            "19,-39",
+            "15,-38",
+            "16,-38",
+            "17,-38",
+            "18,-38",
+            "19,-38"
+          ],
+          "preparedCount": 9,
+          "preparedIds": [
+            "14,-43",
+            "15,-43",
+            "16,-43",
+            "17,-43",
+            "18,-43",
+            "14,-42",
+            "14,-41",
+            "14,-40",
+            "14,-39"
+          ]
+        },
+        "scenery": {
+          "residentCount": 18,
+          "residentIds": [
+            "f2c:s:17:-40:stage-caldera-bloom-right-back",
+            "f2c:s:17:-40:stage-caldera-bloom-right-front",
+            "f2c:s:17:-40:stage-caldera-rubble-right",
+            "f2c:s:17:-40:stage-caldera-spire-right",
+            "f2c:s:16:-40:stage-caldera-bloom-left-back",
+            "f2c:s:16:-40:stage-caldera-bloom-left-front",
+            "f2c:s:16:-40:stage-caldera-rubble-left",
+            "f2c:s:16:-40:stage-caldera-spire-left",
+            "f2c:s:17:-41:stage-caldera-spire-rear",
+            "f2c:s:17:-40:seed-1",
+            "f2c:s:17:-40:seed-4",
+            "f2c:s:16:-40:seed-1",
+            "f2c:s:16:-40:seed-2",
+            "f2c:s:17:-39:seed-0",
+            "f2c:s:17:-39:seed-1",
+            "f2c:s:17:-39:seed-2",
+            "f2c:s:17:-39:seed-3",
+            "f2c:s:17:-39:seed-4"
+          ],
+          "canopyCount": 0,
+          "colliderCount": 0,
+          "clearanceRecipeCache": {
+            "forageCount": 62,
+            "wildlifeCount": 62
+          },
+          "sceneryRecipeCache": {
+            "ordinaryCount": 39,
+            "infillCount": 0
+          },
+          "groundPatchCache": {
+            "entryCount": 27,
+            "maxEntries": 512,
+            "maxPatchRecords": 3
+          },
+          "streaming": {
+            "preparedPublications": 0,
+            "unfinishedPublications": 0,
+            "synchronousPublications": 3,
+            "cancelled": 0,
+            "preparationFailures": 0,
+            "lastWorkMs": 0,
+            "maxWorkMs": 4.899999998509884,
+            "phase": "ready",
+            "target": {
+              "cx": 16,
+              "cz": -41
+            }
+          },
+          "lowCount": 18,
+          "stoneSolidCount": 0,
+          "surfaceCount": 0,
+          "lowDrawCount": 16,
+          "lowTriangleCount": 6664,
+          "lowGeometryCount": 3,
+          "lowGeometryVertexCount": 3636,
+          "lowInstanceCount": 18,
+          "groundDrawCount": 1,
+          "groundClusterCount": 23,
+          "groundClusterTriangleCount": 368
+        },
+        "render": {
+          "frame": 6009,
+          "calls": 156,
+          "triangles": 155765,
+          "points": 0,
+          "lines": 1
+        }
+      }
+    }
+  ],
+  "errors": []
+}

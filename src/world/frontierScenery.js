@@ -1,7 +1,9 @@
+import { sampleRootboundShoulder } from './rootboundShoulders.js';
+import { rootboundForestForChunk, rootboundRouteClearance, ROOTBOUND_FOREST_ASSETS, ROOTBOUND_FOREST_LIMITS } from './rootboundForest.js';
 import { FRONTIER_TERRAIN_CONFIG, isCampChunk, sampleFrontier } from './frontierTerrain.js';
 import { sampleFrontierForageChunk } from './frontierEcology.js';
 import { sampleFrontierWildlifeChunk } from './frontierWildlife.js';
-import { DEFAULT_FRONTIER_WORLD, frontierDomainSeed } from './frontierWorld.js';
+import { DEFAULT_FRONTIER_WORLD, frontierDomainSeed, normalizeFrontierWorld } from './frontierWorld.js';
 import { isSkybreakArea } from './frontierLandform.js';
 import { hasFootprintSupport } from './frontierPlacement.js';
 import { hasRegionalPlaceAssets, sampleFrontierRegionalPlaceChunk } from './frontierRegionalPlace.js';
@@ -9,6 +11,7 @@ import { hasFrontierLandFootprint } from './frontierContinent.js';
 import { FRONTIER_SIGNAL_CACHE } from './frontierFixedSites.js';
 import { overlapsFrontierCalderaClearLane } from './frontierCaldera.js';
 import { FRONTIER_FUNGAL_CONFIG, overlapsFrontierFungalRoute } from './frontierFungalHollow.js';
+import { ROOTBOUND_CURATED_SCENERY, rootboundCircuitChunk, sampleFrontierRootboundFeature } from './frontierRootbound.js';
 
 export const FRONTIER_SCENERY_CONFIG = Object.freeze({
   maxNear: 2304,
@@ -57,6 +60,15 @@ const SOLID_ROUTE_CLEARANCE = 2.1;
 const GROUND_COVER_CLEARANCE = Object.freeze({ route: .65, forage: 1.4, wildlife: 1.4 });
 const EXCLUSION_RECIPE_CACHE = Symbol('frontier-scenery-exclusion-recipe-cache');
 const INCOMPLETE_FIXED_SCENERY = Symbol('frontier-scenery-incomplete-fixed-group');
+// Reviewed Sunscar room cleanup. Keep these in the ordinary recipes and infill
+// exclusions; remove them only after selection/caps so other props do not refill
+// their slots. The Fen stone's solid collider is intentionally removed with it.
+const SUNSCAR_ROOM_REMOVALS = new Set([
+  'f2c:s:-40:-1:seed-1', 'f2c:s:-40:-1:seed-3', 'f2c:s:-40:-1:seed-4',
+  'f2c:s:-40:-1:seed-5', 'f2c:s:-40:-1:seed-6', 'f2c:s:-40:-1:seed-7',
+  'f2c:s:-39:1:seed-0', 'f2c:s:-39:1:seed-1', 'f2c:s:-39:1:seed-2',
+  'f2c:s:-39:1:seed-3', 'f2c:s:-39:1:seed-5', 'f2c:s:-39:1:seed-6',
+]);
 const RECIPE_CACHE_ACCESS = Symbol('frontier-scenery-recipe-cache-access');
 const RELEASE_CHUNK_POINT_MEMO = Symbol('frontier-scenery-release-chunk-point-memo');
 const REGIONAL_PLACE_LOOKUP = Symbol('frontier-scenery-regional-place-lookup');
@@ -141,38 +153,44 @@ const HEARTWOOD_CIRCUIT = Object.freeze(new Map([
   ['0,-2', Object.freeze([
     Object.freeze({ key: 'departure-tree-left', assetId: 'asset_verge_canopy', x: .5, z: -63.5, scale: .92, yaw: -.24, kind: 'canopy' }),
     Object.freeze({ key: 'departure-tree-right', assetId: 'asset_verge_canopy_tall', x: 3.5, z: -72, scale: .86, yaw: .31, kind: 'canopy' }),
-    Object.freeze({ key: 'departure-reed-left', assetId: 'asset_fen_reed', x: 0, z: -61.5, scale: .9, yaw: -.35, kind: 'low' }),
-    Object.freeze({ key: 'departure-reed-right', assetId: 'asset_fen_reed', x: 2, z: -70, scale: .96, yaw: .42, kind: 'low' }),
-    Object.freeze({ key: 'departure-cloud-right', assetId: 'asset_cloudflower', x: 5, z: -73, scale: .88, yaw: -.27, kind: 'low' }),
-    Object.freeze({ key: 'departure-trail-right', assetId: 'asset_trail_stones', x: 2, z: -74, scale: .72, yaw: .54, kind: 'low' }),
-    Object.freeze({ key: 'departure-lily-right', assetId: 'asset_fen_lily', x: 5, z: -70, scale: .78, yaw: -.41, kind: 'low' }),
-    Object.freeze({ key: 'starter-lily-front', assetId: 'asset_fen_lily', x: .4, z: -80.2, scale: 1.08, yaw: -.22, kind: 'low' }),
-    Object.freeze({ key: 'starter-reed-rear', assetId: 'asset_fen_reed', x: 1, z: -84.1, scale: 1.12, yaw: -.37, kind: 'low' }),
-    Object.freeze({ key: 'starter-pebbles-rear', assetId: 'asset_pebble_cluster', x: 1, z: -88.2, scale: 1.28, yaw: -.58, kind: 'low' }),
+    Object.freeze({ key: 'departure-reed-left', assetId: 'asset_fen_reed', x: 0, z: -61.5, scale: .9, yaw: -.35, kind: 'low', heartwoodGroundCover: true }),
+    Object.freeze({ key: 'departure-reed-right', assetId: 'asset_fen_reed', x: 2, z: -70, scale: .96, yaw: .42, kind: 'low', heartwoodGroundCover: true }),
+    Object.freeze({ key: 'departure-cloud-right', assetId: 'asset_cloudflower', x: 5, z: -73, scale: .88, yaw: -.27, kind: 'low', heartwoodGroundCover: true }),
+    Object.freeze({ key: 'departure-trail-right', assetId: 'asset_trail_stones', x: 2, z: -74, scale: .72, yaw: .54, kind: 'low', heartwoodGroundCover: true }),
+    Object.freeze({ key: 'departure-lily-right', assetId: 'asset_fen_lily', x: 5, z: -70, scale: .78, yaw: -.41, kind: 'low', heartwoodGroundCover: true }),
+    Object.freeze({ key: 'starter-lily-front', assetId: 'asset_fen_lily', x: .4, z: -80.2, scale: 1.08, yaw: -.22, kind: 'low', heartwoodGroundCover: true }),
+    Object.freeze({ key: 'starter-reed-rear', assetId: 'asset_fen_reed', x: 1, z: -84.1, scale: 1.12, yaw: -.37, kind: 'low', heartwoodGroundCover: true }),
+    Object.freeze({ key: 'starter-pebbles-rear', assetId: 'asset_pebble_cluster', x: 1, z: -88.2, scale: 1.28, yaw: -.58, kind: 'low', heartwoodGroundCover: true }),
   ])],
   ['-1,-2', Object.freeze([
-    Object.freeze({ key: 'departure-lily-left', assetId: 'asset_fen_lily', x: -2, z: -65, scale: .84, yaw: .24, kind: 'low' }),
-    Object.freeze({ key: 'departure-pebbles-left', assetId: 'asset_pebble_cluster', x: -1, z: -66, scale: 1.02, yaw: -.18, kind: 'low' }),
+    Object.freeze({ key: 'departure-lily-left', assetId: 'asset_fen_lily', x: -2, z: -65, scale: .84, yaw: .24, kind: 'low', heartwoodGroundCover: true }),
+    Object.freeze({ key: 'departure-pebbles-left', assetId: 'asset_pebble_cluster', x: -1, z: -66, scale: 1.02, yaw: -.18, kind: 'low', heartwoodGroundCover: true }),
     Object.freeze({ key: 'starter-tree-front', assetId: 'asset_verge_canopy_spread', x: -1.7, z: -81, scale: .82, yaw: -.33, kind: 'canopy' }),
     Object.freeze({ key: 'starter-tree-rear', assetId: 'asset_verge_canopy_tall', x: -.8, z: -90, scale: .9, yaw: .22, kind: 'canopy' }),
-    Object.freeze({ key: 'starter-reed-front', assetId: 'asset_fen_reed', x: -1.8, z: -78.2, scale: 1.15, yaw: .31, kind: 'low' }),
-    Object.freeze({ key: 'starter-trail-front', assetId: 'asset_trail_stones', x: -1.4, z: -82.8, scale: .9, yaw: .63, kind: 'low' }),
-    Object.freeze({ key: 'starter-cloud-rear', assetId: 'asset_cloudflower', x: -1, z: -86.2, scale: 1.1, yaw: .18, kind: 'low' }),
-    Object.freeze({ key: 'starter-lily-rear', assetId: 'asset_fen_lily', x: -2, z: -89.2, scale: 1.04, yaw: .39, kind: 'low' }),
+    Object.freeze({ key: 'starter-reed-front', assetId: 'asset_fen_reed', x: -4.5, z: -84.5, scale: .88, yaw: .31, kind: 'low', heartwoodGroundCover: true }),
+    Object.freeze({ key: 'starter-trail-front', assetId: 'asset_trail_stones', x: -1.4, z: -82.8, scale: .9, yaw: .63, kind: 'low', heartwoodGroundCover: true }),
+    Object.freeze({ key: 'starter-cloud-rear', assetId: 'asset_fen_lily', x: -4, z: -81.5, scale: .74, yaw: .18, kind: 'low', heartwoodGroundCover: true }),
+    Object.freeze({ key: 'starter-lily-rear', assetId: 'asset_fen_lily', x: -2, z: -89.2, scale: 1.04, yaw: .39, kind: 'low', heartwoodGroundCover: true }),
     Object.freeze({ key: 'forage-tree-front', assetId: 'asset_verge_canopy', x: -6, z: -99, scale: .88, yaw: .28, kind: 'canopy' }),
-    Object.freeze({ key: 'forage-reed-front', assetId: 'asset_fen_reed', x: -8, z: -95, scale: 1.1, yaw: -.22, kind: 'low' }),
-    Object.freeze({ key: 'forage-lily-front', assetId: 'asset_fen_lily', x: -6.5, z: -97, scale: 1.05, yaw: .34, kind: 'low' }),
-    Object.freeze({ key: 'forage-trail-front', assetId: 'asset_trail_stones', x: -9, z: -98.5, scale: .85, yaw: -.52, kind: 'low' }),
+    Object.freeze({ key: 'forage-reed-front', assetId: 'asset_fen_reed', x: -8, z: -95, scale: 1.1, yaw: -.22, kind: 'low', heartwoodGroundCover: true }),
+    Object.freeze({ key: 'forage-lily-front', assetId: 'asset_fen_lily', x: -10, z: -88.5, scale: .74, yaw: .34, kind: 'low', heartwoodGroundCover: true }),
+    // The selected berry-room frame gets its grounded left edge from the
+    // already admitted log, never a new asset or a solid lane obstruction.
+    Object.freeze({ key: 'forage-log-left', assetId: 'asset_fallen_log', x: -16, z: -90, scale: .8, yaw: .18, kind: 'low', heartwoodGroundCover: true }),
+    Object.freeze({ key: 'forage-reed-left', assetId: 'asset_fen_reed', x: -9.5, z: -92.5, scale: .78, yaw: .41, kind: 'low', heartwoodGroundCover: true }),
+    Object.freeze({ key: 'forage-lily-right', assetId: 'asset_trail_stones', x: -10.5, z: -91, scale: .68, yaw: .26, kind: 'low', heartwoodGroundCover: true }),
+    Object.freeze({ key: 'forage-pebbles-right', assetId: 'asset_pebble_cluster', x: -9.8, z: -93.6, scale: .82, yaw: -.16, kind: 'low', heartwoodGroundCover: true }),
   ])],
   ['-1,-3', Object.freeze([
     Object.freeze({ key: 'forage-tree-left', assetId: 'asset_verge_canopy_spread', x: -12, z: -105, scale: .82, yaw: -.46, kind: 'canopy' }),
     Object.freeze({ key: 'forage-tree-right', assetId: 'asset_verge_canopy_tall', x: -8, z: -102.5, scale: .82, yaw: .16, kind: 'canopy' }),
-    Object.freeze({ key: 'forage-reed-left', assetId: 'asset_fen_reed', x: -13.5, z: -103, scale: .94, yaw: .41, kind: 'low' }),
-    Object.freeze({ key: 'forage-cloud-left', assetId: 'asset_cloudflower', x: -10.5, z: -107, scale: .9, yaw: -.31, kind: 'low' }),
-    Object.freeze({ key: 'forage-lily-right', assetId: 'asset_fen_lily', x: -3.5, z: -102, scale: .8, yaw: .26, kind: 'low' }),
-    Object.freeze({ key: 'forage-pebbles-right', assetId: 'asset_pebble_cluster', x: -6, z: -107, scale: 1.06, yaw: -.16, kind: 'low' }),
+    Object.freeze({ key: 'forage-cloud-left', assetId: 'asset_cloudflower', x: -10.5, z: -107, scale: .9, yaw: -.31, kind: 'low', heartwoodGroundCover: true }),
   ])],
 ]));
+
+export const HEARTWOOD_BROADLEAF_REPLACEMENT_KEYS = Object.freeze([
+  'departure-tree-left', 'starter-tree-front', 'forage-tree-left',
+]);
 
 // One finite shelf garden gives the ordinary south approach a foreground,
 // middle and rear fungal rhythm. Terrain owns the banks and support toes;
@@ -207,7 +225,7 @@ const FUNGAL_FIXED_CHUNKS = Object.freeze(new Set(FUNGAL_FIXED_SCENERY.map(candi
 
 function priorityFixedScenery(spec) {
   return Boolean(spec?.id?.includes(':stage-') || spec?.id?.startsWith('f1:s:fungal-hollow:')
-    || isHeartwoodCircuitScenery(spec));
+    || spec?.id?.startsWith('f1:s:rootbound-wildwood:') || isHeartwoodCircuitScenery(spec));
 }
 
 function isHeartwoodCircuitScenery(spec) {
@@ -216,6 +234,46 @@ function isHeartwoodCircuitScenery(spec) {
 
 function withoutHeartwoodCircuit(specs) {
   return specs.filter(spec => !isHeartwoodCircuitScenery(spec));
+}
+
+function rootboundCuratedScenery(spec) {
+  return spec?.id?.startsWith('f1:s:rootbound-wildwood:');
+}
+
+function rootboundProfileEnabled(options = {}) {
+  if (options.disableRootbound || options.terrainOptions?.disableRootbound) return false;
+  const world = normalizeFrontierWorld(options.world ?? options.terrainOptions?.world ?? DEFAULT_FRONTIER_WORLD);
+  return world === DEFAULT_FRONTIER_WORLD;
+}
+
+// Rootbound replaces even infill with small, authored density families while
+// leaving regional-place scenery and every gameplay owner untouched.
+function rootboundVisibleScenery(spec, rootboundEnabled) {
+  if (!rootboundEnabled) return true;
+  if (!spec || spec.regionalPlaceId || rootboundCuratedScenery(spec)) return true;
+  const feature = sampleFrontierRootboundFeature(spec.x, spec.z);
+  if (!feature.active) return true;
+  // Retain the original pockets, then join them with admitted soft low cover.
+  // Ordinary trunks and solid thornstone remain excluded; full low-prop
+  // footprints leave a4m main walk lane and3m optional branch.
+  if (spec.kind !== 'low' || spec.assetId === 'asset_fen_stone') return false;
+  const pocket = [[-470, 590, 7], [-464, 716, 8], [-443, 679, 7], [-447, 681, 6]]
+    .some(([x, z, radius]) => Math.hypot(spec.x - x, spec.z - z) <= radius);
+  if (pocket) return true;
+  const shoulder = sampleRootboundShoulder(spec.x, spec.z), radius = footprintRadius(spec);
+  return shoulder.coverage > .015 && shoulder.primary >= 2 + radius && shoulder.branch >= 1.5 + radius;
+}
+
+// Presentation-only repair after admission: keep positions, IDs and quotas.
+// Smaller dry shapes fit inside the previously admitted plant footprints.
+function rootboundVergePresentation(spec) {
+  if (spec.kind !== 'low' || spec.regionalPlaceId || rootboundCuratedScenery(spec)
+    || !['asset_fen_reed', 'asset_fen_lily', 'asset_mushroom_ring'].includes(spec.assetId)) return spec;
+  const shoulder = sampleRootboundShoulder(spec.x, spec.z);
+  if (shoulder.band !== 'verge-outer' || shoulder.coverage <= .015) return spec;
+  const shard = Math.abs(Math.round(spec.x * 10) + Math.round(spec.z * 10)) % 4 === 0;
+  return Object.freeze({ ...spec, assetId: shard ? 'asset_rootbound_block_thorn' : 'asset_pebble_cluster',
+    scale: spec.scale * (shard ? .55 : 1) });
 }
 
 function random(cx, cz, index, salt = 0, world = DEFAULT_FRONTIER_WORLD) {
@@ -585,6 +643,7 @@ function makeSpec(cx, cz, key, candidate, options, sample = terrainSample(candid
     scale: candidate.scale,
     yaw: candidate.yaw ?? random(cx, cz, Math.round((candidate.x + candidate.z) * 10), 211, options.world) * Math.PI * 2,
     kind: candidate.kind,
+    ...(candidate.heartwoodGroundCover ? { heartwoodGroundCover: true } : {}),
     ...(groundCover ? { groundCover } : {}),
   });
 }
@@ -614,6 +673,21 @@ function admittedFungalAsset(assetId, visualAssets) {
 
 function hasCompleteFungalKit(visualAssets) {
   return [...FUNGAL_ASSET_IDS].every(assetId => admittedFungalAsset(assetId, visualAssets));
+}
+
+function admittedRootboundAsset(assetId, visualAssets) {
+  const asset = Array.isArray(visualAssets) ? visualAssets.find(entry => entry?.id === assetId) : null;
+  if (asset?.gameplay?.role !== 'prop') return null;
+  if (typeof asset.model?.path === 'string' && asset.model.path.length > 0) return asset;
+  if (!Array.isArray(asset.parts)) return null;
+  return asset.parts.some(part => part?.shape === 'mesh'
+    && Array.isArray(part.geometry?.positions) && part.geometry.positions.length >= 9
+    && Array.isArray(part.geometry?.indices) && part.geometry.indices.length >= 3) ? asset : null;
+}
+
+function hasCompleteRootboundKit(visualAssets) {
+  return [...new Set(ROOTBOUND_CURATED_SCENERY.map(candidate => candidate.assetId))]
+    .every(assetId => admittedRootboundAsset(assetId, visualAssets));
 }
 
 function admittedHeartwoodCloudflower(visualAssets) {
@@ -737,6 +811,11 @@ export function sampleFrontierSceneryChunk(cx, cz, options = {}) {
   }
   const fungalOwner = FUNGAL_FIXED_CHUNKS.has(`${cx},${cz}`);
   const fixedFungal = fungalOwner ? fixedFungalScenerySpecs(sampleOptions) : Object.freeze([]);
+  const rootboundEnabled = rootboundProfileEnabled(sampleOptions);
+  const rootboundCandidates = rootboundEnabled && rootboundCircuitChunk(cx, cz)
+    && hasCompleteRootboundKit(sampleOptions.visualAssets)
+    ? ROOTBOUND_CURATED_SCENERY.filter(candidate => Math.floor(candidate.x / size) === cx && Math.floor(candidate.z / size) === cz)
+    : [];
   const place = placeLookup(sampleOptions).get(cx, cz);
 
   const coastCandidates = coastContourCandidates(cx, cz, centerSample, roll, sampleOptions);
@@ -771,12 +850,45 @@ export function sampleFrontierSceneryChunk(cx, cz, options = {}) {
       { curated: true, heartwoodCloudflower: true })) continue;
     specs.push(Object.freeze({ ...admitted[0], id: `${HEARTWOOD_CIRCUIT_ID_PREFIX}${cx}:${cz}:${candidate.key}` }));
   }
+  for (const candidate of rootboundCandidates) {
+    const admitted = [];
+    if (!admitScenerySpec(cx, cz, candidate.key, candidate, sampleOptions, exclusions, admitted, { curated: true })) continue;
+    specs.push(Object.freeze({ ...admitted[0], id: `f1:s:rootbound-wildwood:${candidate.key}` }));
+  }
+  // Mature trees can grow on a bank. Check their small root footprint rather
+  // than demanding a flat disk under the whole canopy, then embed the base.
+  // Trees still clear actual forage, complete wildlife homes and the route.
+  if (rootboundEnabled && rootboundCircuitChunk(cx, cz)
+    && ROOTBOUND_FOREST_ASSETS.every(id => options.visualAssets?.some(a => a.id === id && a.parts?.length))) {
+    for (const candidate of rootboundForestForChunk(cx, cz)) {
+      const routeRadius = (candidate.tree ? .75 : candidate.rock ? 1.15
+        : candidate.assetId === 'asset_rootbound_fallen_log' ? 1.6 : .65) * candidate.scale;
+      if (rootboundRouteClearance(candidate.x, candidate.z) < routeRadius) continue;
+      const sample = terrainSample(candidate.x, candidate.z, sampleOptions);
+      if (!Number.isFinite(sample.height) || sample.habitatId !== 'rootbound-wildwood') continue;
+      if (!options.visualAssets.some(a => a.id === candidate.assetId && a.parts?.length)) continue;
+      const clearanceCandidate = { ...candidate, kind: candidate.tree || candidate.rock ? 'canopy' : 'ground-cover' };
+      if (!isClear(candidate.x, candidate.z, clearanceCandidate, exclusions, sample.surfaceKind, sample)) continue;
+      const rootRadius = (candidate.tree ? .55 : candidate.rock ? .75 : .35) * candidate.scale;
+      const supports = [[0, 0], [rootRadius, 0], [-rootRadius, 0], [0, rootRadius], [0, -rootRadius]]
+        .map(([dx, dz]) => heightAt(candidate.x + dx, candidate.z + dz, sampleOptions));
+      if (!supports.every(Number.isFinite) || Math.max(...supports) - Math.min(...supports) > (candidate.tree || candidate.rock ? 1.5 : .6)) continue;
+      specs.push(Object.freeze({ ...makeSpec(cx, cz, candidate.key, candidate, sampleOptions, sample),
+        id: `f1:s:rootbound-wildwood:${candidate.key}`, y: Math.min(...supports) - .06,
+        rootboundForest: true, rootboundTree: Boolean(candidate.tree), rootboundRock: Boolean(candidate.rock), rootboundLandmark: Boolean(candidate.landmark) }));
+    }
+  }
   // A coherent regional formation must not consume this chunk's established
   // ordinary attempt budget. Safe old props remain eligible and compete only
   // at the existing residency cap; footprint overlaps were already rejected.
   if (fixedFungal) specs.push(...fixedFungal.filter(spec => spec.chunkId === `${cx},${cz}`));
   specs.push(...regionalPlaceScenerySpecs(place, sampleOptions));
-  if (!fixedCalderaReady || (fungalOwner && !fixedFungal)) Object.defineProperty(specs, INCOMPLETE_FIXED_SCENERY, { value: true });
+  if (!fixedCalderaReady || (fungalOwner && !fixedFungal)
+    || (rootboundEnabled && rootboundCircuitChunk(cx, cz) && !hasCompleteRootboundKit(sampleOptions.visualAssets))) Object.defineProperty(specs, INCOMPLETE_FIXED_SCENERY, { value: true });
+  if (!specs[INCOMPLETE_FIXED_SCENERY] && rootboundEnabled && rootboundCircuitChunk(cx, cz)
+    && options.visualAssets?.some(asset => asset.id === 'asset_rootbound_oak')
+    && !ROOTBOUND_FOREST_ASSETS.every(id => options.visualAssets.some(asset => asset.id === id && asset.parts?.length)))
+    Object.defineProperty(specs, INCOMPLETE_FIXED_SCENERY, { value: true });
   return specs;
 }
 
@@ -872,6 +984,7 @@ export function selectFrontierScenery(residency, options = {}) {
   if (!Number.isSafeInteger(center?.cx) || !Number.isSafeInteger(center?.cz)) return [];
   const chunks = [...new Map((residency.chunks ?? []).filter(chunk => Number.isSafeInteger(chunk?.cx) && Number.isSafeInteger(chunk?.cz)).map(chunk => [`${chunk.cx},${chunk.cz}`, chunk])).values()];
   const protection = sceneryResidencyProtection(center, chunks, options);
+  const rootboundEnabled = rootboundProfileEnabled(options);
   const preserveLegacyWindow = protection.hasStagedNearChunk || Boolean(protection.centerSample?.surfaceKind) || protection.protectedCoast;
   const heartwoodCircuitMode = isHeartwoodCircuitResidency(center, protection);
   const near = [], outer = [];
@@ -887,13 +1000,15 @@ export function selectFrontierScenery(residency, options = {}) {
       const ordinary = Array.isArray(sampledOrdinary) ? sampledOrdinary : [];
       const incompleteFixedGroup = Boolean(ordinary[INCOMPLETE_FIXED_SCENERY]);
       const ordinaryWithoutCircuit = withoutHeartwoodCircuit(ordinary);
-      const selectableOrdinary = heartwoodCircuitMode ? ordinary : ordinaryWithoutCircuit;
+      const selectableOrdinary = (heartwoodCircuitMode ? ordinary : ordinaryWithoutCircuit)
+        .filter(spec => rootboundVisibleScenery(spec, rootboundEnabled));
       if (distance <= 1 && !preserveLegacyWindow && !incompleteFixedGroup) {
         const sampledInfill = cacheAccess
           ? cacheAccess.getScenery('infill', chunk.cx, chunk.cz,
             () => sampleFrontierSceneryInfillChunk(chunk.cx, chunk.cz, ordinaryWithoutCircuit, options))
           : sampleFrontierSceneryInfillChunk(chunk.cx, chunk.cz, ordinaryWithoutCircuit, options);
-        const specs = Array.isArray(sampledInfill) ? [...ordinaryWithoutCircuit, ...sampledInfill] : ordinaryWithoutCircuit;
+        const specs = (Array.isArray(sampledInfill) ? [...ordinaryWithoutCircuit, ...sampledInfill] : ordinaryWithoutCircuit)
+          .filter(spec => rootboundVisibleScenery(spec, rootboundEnabled));
         near.push(...specs.map(spec => ({ spec, centerDistance })));
       } else if (distance <= 1) {
         near.push(...selectableOrdinary.map(spec => ({ spec, centerDistance })));
@@ -904,14 +1019,16 @@ export function selectFrontierScenery(residency, options = {}) {
       options[RELEASE_CHUNK_POINT_MEMO]?.();
     }
   }
-  const stableSort = (a, b) => Number(!priorityFixedScenery(a.spec)) - Number(!priorityFixedScenery(b.spec))
+  const stableSort = (a, b) => Number(Boolean(b.spec.rootboundLandmark)) - Number(Boolean(a.spec.rootboundLandmark))
+    || Number(!priorityFixedScenery(a.spec)) - Number(!priorityFixedScenery(b.spec))
     || a.centerDistance - b.centerDistance || a.spec.id.localeCompare(b.spec.id);
   near.sort(stableSort); outer.sort((a, b) => a.centerDistance - b.centerDistance || a.spec.id.localeCompare(b.spec.id));
   const nearSpecs = near.map(entry => entry.spec), outerSpecs = outer.map(entry => entry.spec);
   const denseWindow = nearSpecs.some(spec => spec.id.startsWith('f2c:i:'));
-  const maxNear = heartwoodCircuitMode ? FRONTIER_SCENERY_CONFIG.starterCircuitMaxNear
+  const forestWindow = nearSpecs.some(spec => spec.rootboundForest);
+  const maxNear = forestWindow ? ROOTBOUND_FOREST_LIMITS.near : heartwoodCircuitMode ? FRONTIER_SCENERY_CONFIG.starterCircuitMaxNear
     : denseWindow ? FRONTIER_SCENERY_CONFIG.maxNear : 18;
-  const maxTotal = heartwoodCircuitMode ? FRONTIER_SCENERY_CONFIG.starterCircuitMaxTotal
+  const maxTotal = forestWindow ? ROOTBOUND_FOREST_LIMITS.total : heartwoodCircuitMode ? FRONTIER_SCENERY_CONFIG.starterCircuitMaxTotal
     : denseWindow ? FRONTIER_SCENERY_CONFIG.maxTotal : 34;
   const staged = nearSpecs.filter(priorityFixedScenery);
   const regionalGroups = new Map();
@@ -956,7 +1073,18 @@ export function selectFrontierScenery(residency, options = {}) {
   const maxCanopies = heartwoodCircuitMode ? FRONTIER_SCENERY_CONFIG.starterCircuitMaxCanopies : FRONTIER_SCENERY_CONFIG.maxCanopies;
   const canopyRoom = Math.max(0, maxCanopies - chosenNear.filter(spec => spec.kind === 'canopy').length);
   const chosenOuter = outerSpecs.slice(0, Math.min(FRONTIER_SCENERY_CONFIG.maxOuterDesired, FRONTIER_SCENERY_CONFIG.maxOuter, canopyRoom));
-  return Object.freeze([...chosenNear, ...chosenOuter].slice(0, maxTotal));
+  let forestTrees = 0;
+  const selected = [...chosenNear, ...chosenOuter].slice(0, maxTotal)
+    .filter(spec => !spec.rootboundTree || ++forestTrees <= ROOTBOUND_FOREST_LIMITS.trees);
+  const world = options.world ?? DEFAULT_FRONTIER_WORLD;
+  const sunscarCleanup = world.edition === DEFAULT_FRONTIER_WORLD.edition
+    && world.seed === DEFAULT_FRONTIER_WORLD.seed;
+  const kept = sunscarCleanup
+    ? selected.filter(spec => spec.kind !== 'low' || !SUNSCAR_ROOM_REMOVALS.has(spec.id))
+    : selected;
+  const mineralKit = ['asset_rootbound_block_thorn', 'asset_pebble_cluster']
+    .every(id => options.visualAssets?.some(asset => asset.id === id && asset.parts?.length));
+  return Object.freeze(rootboundEnabled && mineralKit ? kept.map(rootboundVergePresentation) : kept);
 }
 
 /** Owns completed deterministic recipes for one expanded residency window. */

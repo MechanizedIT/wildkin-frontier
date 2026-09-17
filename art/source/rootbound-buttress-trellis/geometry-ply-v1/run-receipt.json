@@ -1,0 +1,51 @@
+{
+  "recorded_at": "2026-09-14T19:12:29.757886+00:00",
+  "status": "geometry export and exact Blender import verified; parent final reporting failed; no textured GLB or runtime admission",
+  "parent_exit_code": 1,
+  "parent_error": "TypeError: append_event() got multiple values for argument output",
+  "decode_child_exit_code": 0,
+  "output_sha256": "3005ad1a1f3039a946db633b323ace8bc73856e91f38bfef4fc1faaf59ce223c",
+  "output_bytes": 19561532,
+  "vertices": 514489,
+  "triangles": 1029792,
+  "elapsed_to_child_exit_seconds": 224.081315,
+  "minimum_event_sample_free_gib": 11.413578033447266,
+  "memory_measurement_limit": "event samples, not a measured peak",
+  "blender_inspection": {
+    "source": "C:\\Users\\cwood\\Documents\\mobile-rpg\\.dream-loop\\rootbound-buttress-trellis\\geometry-ply-v1-run\\raw-geometry.ply",
+    "source_sha256": "3005ad1a1f3039a946db633b323ace8bc73856e91f38bfef4fc1faaf59ce223c",
+    "vertices": 514489,
+    "triangles": 1029792,
+    "bounds": {
+      "min": [
+        -0.5001664757728577,
+        -0.5001689791679382,
+        -0.3918120861053467
+      ],
+      "max": [
+        0.5002298355102539,
+        0.49972379207611084,
+        0.391978919506073
+      ]
+    },
+    "renders": [
+      "front.png",
+      "three-quarter.png",
+      "side.png",
+      "rear.png",
+      "three-quarter-96.png",
+      "three-quarter-48.png"
+    ],
+    "axes": "Untransformed TRELLIS geometry; Blender Z up, Y forward; no welding",
+    "status": "neutral raw geometry inspection, not textured master or runtime asset",
+    "guarded_receipt_sha256": "72f668039ea688a18610b9dd625a2a018ebe701815c2b8aa3617238436eb006e",
+    "source_schema_counts_indices_verified": true,
+    "imported_triangle_indices_exact": true,
+    "max_position_import_precision_error": 0.0,
+    "imported_position_sha256": "ee8584837bcce0297b5176c7ec4d184318932b6c3b71fbbe4e770a3ffc15f32b",
+    "min_sampled_host_free_gib": 16.799053192138672,
+    "elapsed_seconds": 5.625
+  },
+  "recovery": "Output validated after failed final reporting; original events retained. Reporting code fixed with regression without regenerating or altering geometry.",
+  "private_handoffs": "Tensor handoffs remain private, not included in this evidence directory."
+}

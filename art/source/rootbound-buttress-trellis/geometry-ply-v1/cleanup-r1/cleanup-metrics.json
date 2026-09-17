@@ -1,0 +1,115 @@
+{
+  "raw_path": "C:\\Users\\cwood\\Documents\\mobile-rpg\\.dream-loop\\rootbound-buttress-trellis\\geometry-ply-v1-run\\raw-geometry.ply",
+  "raw_sha256": "3005ad1a1f3039a946db633b323ace8bc73856e91f38bfef4fc1faaf59ce223c",
+  "raw_counts": {
+    "vertices": 514489,
+    "triangles": 1029792
+  },
+  "raw_bounds": {
+    "min": [
+      -0.5001664757728577,
+      -0.5001689791679382,
+      -0.3918120861053467
+    ],
+    "max": [
+      0.5002298355102539,
+      0.49972379207611084,
+      0.391978919506073
+    ],
+    "extent": [
+      1.0003963112831116,
+      0.9998927712440491,
+      0.7837910056114197
+    ]
+  },
+  "uniform_scale": 4.998019228586503,
+  "scaled_raw_bounds": {
+    "min": [
+      -2.4998416900634766,
+      -2.49985408782959,
+      0.0
+    ],
+    "max": [
+      2.5001583099365234,
+      2.497629165649414,
+      3.917402505874634
+    ],
+    "extent": [
+      5.0,
+      4.997483253479004,
+      3.917402505874634
+    ]
+  },
+  "derivative_bounds": {
+    "min": [
+      -2.4998416900634766,
+      -2.49985408782959,
+      0.0
+    ],
+    "max": [
+      2.500206232070923,
+      2.497629165649414,
+      3.9174342155456543
+    ],
+    "extent": [
+      5.000047922134399,
+      4.997483253479004,
+      3.9174342155456543
+    ]
+  },
+  "topology": {
+    "components": 1,
+    "primary_component_faces": 1029792,
+    "non_triangle_faces": 0,
+    "tiny_debris_rule": {
+      "max_faces": 64,
+      "max_scaled_extent_m": 0.05,
+      "raw_extent_fraction_limit": 0.01
+    },
+    "candidate_components_by_face_count": [],
+    "debris_removal_applied": false,
+    "note": "No loose component removed: connected ragged tips are not debris, and full component extents require later localized review."
+  },
+  "raw_normals": {
+    "zero_or_nonfinite_polygon_normals": 0
+  },
+  "derivative_normals": {
+    "zero_or_nonfinite_polygon_normals": 0
+  },
+  "derivative_triangles": 154468,
+  "preview_decimate_applied": true,
+  "decimate_ratio": 0.15,
+  "debris_removal_applied": false,
+  "renders": {
+    "raw": [
+      "C:\\Users\\cwood\\Documents\\mobile-rpg\\art\\source\\rootbound-buttress-trellis\\geometry-ply-v1\\cleanup-r1\\renders\\raw\\front-512.png",
+      "C:\\Users\\cwood\\Documents\\mobile-rpg\\art\\source\\rootbound-buttress-trellis\\geometry-ply-v1\\cleanup-r1\\renders\\raw\\front-96.png",
+      "C:\\Users\\cwood\\Documents\\mobile-rpg\\art\\source\\rootbound-buttress-trellis\\geometry-ply-v1\\cleanup-r1\\renders\\raw\\front-48.png",
+      "C:\\Users\\cwood\\Documents\\mobile-rpg\\art\\source\\rootbound-buttress-trellis\\geometry-ply-v1\\cleanup-r1\\renders\\raw\\threequarter-512.png",
+      "C:\\Users\\cwood\\Documents\\mobile-rpg\\art\\source\\rootbound-buttress-trellis\\geometry-ply-v1\\cleanup-r1\\renders\\raw\\threequarter-96.png",
+      "C:\\Users\\cwood\\Documents\\mobile-rpg\\art\\source\\rootbound-buttress-trellis\\geometry-ply-v1\\cleanup-r1\\renders\\raw\\threequarter-48.png",
+      "C:\\Users\\cwood\\Documents\\mobile-rpg\\art\\source\\rootbound-buttress-trellis\\geometry-ply-v1\\cleanup-r1\\renders\\raw\\side-512.png",
+      "C:\\Users\\cwood\\Documents\\mobile-rpg\\art\\source\\rootbound-buttress-trellis\\geometry-ply-v1\\cleanup-r1\\renders\\raw\\side-96.png",
+      "C:\\Users\\cwood\\Documents\\mobile-rpg\\art\\source\\rootbound-buttress-trellis\\geometry-ply-v1\\cleanup-r1\\renders\\raw\\side-48.png",
+      "C:\\Users\\cwood\\Documents\\mobile-rpg\\art\\source\\rootbound-buttress-trellis\\geometry-ply-v1\\cleanup-r1\\renders\\raw\\rear-512.png",
+      "C:\\Users\\cwood\\Documents\\mobile-rpg\\art\\source\\rootbound-buttress-trellis\\geometry-ply-v1\\cleanup-r1\\renders\\raw\\rear-96.png",
+      "C:\\Users\\cwood\\Documents\\mobile-rpg\\art\\source\\rootbound-buttress-trellis\\geometry-ply-v1\\cleanup-r1\\renders\\raw\\rear-48.png"
+    ],
+    "derivative": [
+      "C:\\Users\\cwood\\Documents\\mobile-rpg\\art\\source\\rootbound-buttress-trellis\\geometry-ply-v1\\cleanup-r1\\renders\\derivative\\front-512.png",
+      "C:\\Users\\cwood\\Documents\\mobile-rpg\\art\\source\\rootbound-buttress-trellis\\geometry-ply-v1\\cleanup-r1\\renders\\derivative\\front-96.png",
+      "C:\\Users\\cwood\\Documents\\mobile-rpg\\art\\source\\rootbound-buttress-trellis\\geometry-ply-v1\\cleanup-r1\\renders\\derivative\\front-48.png",
+      "C:\\Users\\cwood\\Documents\\mobile-rpg\\art\\source\\rootbound-buttress-trellis\\geometry-ply-v1\\cleanup-r1\\renders\\derivative\\threequarter-512.png",
+      "C:\\Users\\cwood\\Documents\\mobile-rpg\\art\\source\\rootbound-buttress-trellis\\geometry-ply-v1\\cleanup-r1\\renders\\derivative\\threequarter-96.png",
+      "C:\\Users\\cwood\\Documents\\mobile-rpg\\art\\source\\rootbound-buttress-trellis\\geometry-ply-v1\\cleanup-r1\\renders\\derivative\\threequarter-48.png",
+      "C:\\Users\\cwood\\Documents\\mobile-rpg\\art\\source\\rootbound-buttress-trellis\\geometry-ply-v1\\cleanup-r1\\renders\\derivative\\side-512.png",
+      "C:\\Users\\cwood\\Documents\\mobile-rpg\\art\\source\\rootbound-buttress-trellis\\geometry-ply-v1\\cleanup-r1\\renders\\derivative\\side-96.png",
+      "C:\\Users\\cwood\\Documents\\mobile-rpg\\art\\source\\rootbound-buttress-trellis\\geometry-ply-v1\\cleanup-r1\\renders\\derivative\\side-48.png",
+      "C:\\Users\\cwood\\Documents\\mobile-rpg\\art\\source\\rootbound-buttress-trellis\\geometry-ply-v1\\cleanup-r1\\renders\\derivative\\rear-512.png",
+      "C:\\Users\\cwood\\Documents\\mobile-rpg\\art\\source\\rootbound-buttress-trellis\\geometry-ply-v1\\cleanup-r1\\renders\\derivative\\rear-96.png",
+      "C:\\Users\\cwood\\Documents\\mobile-rpg\\art\\source\\rootbound-buttress-trellis\\geometry-ply-v1\\cleanup-r1\\renders\\derivative\\rear-48.png"
+    ]
+  },
+  "material_note": "neutral inspection clay only; no texture/UV/bake/runtime material authored",
+  "cleanup_blend_contents": "derivative-only plus studio; raw master is reimported from pinned external PLY"
+}

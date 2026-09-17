@@ -1,0 +1,21 @@
+{
+  "schema": "lantern-cleanup-r6-parameters-v2",
+  "status": "planning-only; one independent source review before one Blender reconstruction",
+  "inputs": {
+    "raw_ply": "../geometry-ply-r5/raw-geometry.ply",
+    "raw_ply_sha256": "e25bdd049cf9a7d8d4e1a7df9e4193e9840b0b550c6052b134d3d88cd6276120",
+    "topology_audit_sha256": "0aa2f3cc3be4a59d390b8ea1f2c84c65899040bac652f6a0c8ff0a5ec5700f4e",
+    "exact_coordinate_diagnostic_sha256": "1c2e053255e4bd0720a5cdb6e985a3096b5b9361edfe428b9b708c72baa0df77",
+    "reference": "../../../targets/rootbound-wildwood/constituents/lantern-log/reference-v2.png",
+    "reference_sha256": "85bd175a6b102cf183b50ff5ca45a1afd6847a6920a28b0039bd8e1e98d6b2ac"
+  },
+  "coordinate_system": "Direct raw PLY Blender XYZ. No rotation, normalization, scale or source-master write.",
+  "source_component_selection": {
+    "work_copy_only": [{"root_vertex": 1579, "faces": 2169924, "vertices": 1052031}],
+    "preserve_raw_master_only": [{"root_vertex": 844810, "faces": 48862}, {"root_vertex": 746517, "faces": 6}, {"root_vertex": 1051621, "faces": 6}, {"unused_vertices": 1145}],
+    "prohibited": ["moving excluded components", "joining excluded components", "manual cap replacement", "deduplication/weld as a cleanup substitute"]
+  },
+  "reconstruction": {"operation":"Blender 4.5 RemeshModifier on R6 duplicate only","mode":"VOXEL","voxel_size":0.006,"use_smooth_shade":false,"use_remove_disconnected":false,"scale":0.9,"threshold":1.0,"octree_depth":0,"fallback":"none; failure holds R6"},
+  "preservation_and_exposure": {"master":"Raw PLY remains hidden/read-only in the cleanup blend.","review_material":{"base_color_linear":[0.18,0.18,0.18,1.0],"roughness":0.84,"metallic":0.0,"exposure_ev":-2.0,"purpose":"Measured neutral presentation matching R5's saved slot-0 linear gray; apply identically to raw and derivative so comparison does not manufacture readability."}},
+  "gates": {"before_apply":{"selected_main_edge_incidence":"Record boundary/nonmanifold counts on root 1579 only; do not attribute global R5 counts to it."},"topology":{"face_bearing_components":1,"boundary_edges":0,"nonmanifold_edges":0,"unused_vertices":0,"repeated_index_faces":0,"zero_area_faces":0,"normal_winding":"directed shared-edge consistency plus positive signed volume after actual Blender triangulation"},"geometry":{"triangles_min":35000,"triangles_max":600000,"must_retain_512px":["one broken long wood body","six distinguishable source-derived rise/cap forms"],"must_retain_96_48px":["readable clustered cap rhythm","not a single blob"],"must_not_become":["uniform capsule","smoothed rail","single generic boulder","flat cutout"]},"review":{"views":["end-positive-y","end-negative-y","side-positive-x","side-negative-x","top","underside","three-quarter"],"sizes":[512,96,48],"same_framing":"main work bounds plus 5 percent margin reused for all R6 views"},"resource":{"preflight_free_gib":8,"live_reserve_gib":6,"single_full_cleanup_job":true,"no_probe":true}}
+}

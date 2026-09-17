@@ -1,0 +1,91 @@
+{
+  "status": "UNREVIEWED_R2_GATE_A",
+  "script_sha256": "6ae3e03fccea310cd0853c4854214d370d00373feccd100ec3cd03d4407acdbd",
+  "operations": "section loft plus six-sided explicit tube/bridge paths; no Boolean or voxel",
+  "mesh": {
+    "vertices": 360,
+    "triangles": 644,
+    "components": 9,
+    "non_two_face_edges": 60,
+    "bounds": [
+      -0.9199999570846558,
+      -0.9812435507774353,
+      0.05999999865889549,
+      0.9199999570846558,
+      0.9012435078620911,
+      1.5499999523162842
+    ]
+  },
+  "contact_graph": {
+    "LF": [
+      "shell",
+      "cuff",
+      "upper",
+      "lower",
+      "ankle",
+      "hoof"
+    ],
+    "LM": [
+      "shell",
+      "cuff",
+      "upper",
+      "lower",
+      "ankle",
+      "hoof"
+    ],
+    "LR": [
+      "shell",
+      "cuff",
+      "upper",
+      "lower",
+      "ankle",
+      "hoof"
+    ],
+    "RF": [
+      "shell",
+      "cuff",
+      "upper",
+      "lower",
+      "ankle",
+      "hoof"
+    ],
+    "RM": [
+      "shell",
+      "cuff",
+      "upper",
+      "lower",
+      "ankle",
+      "hoof"
+    ],
+    "RR": [
+      "shell",
+      "cuff",
+      "upper",
+      "lower",
+      "ankle",
+      "hoof"
+    ]
+  },
+  "fronds": [
+    "shell",
+    "collar",
+    "fold_base",
+    "fold_tip"
+  ],
+  "renders": [
+    "renders/gate-a-r2/front.png",
+    "renders/gate-a-r2/rear.png",
+    "renders/gate-a-r2/left.png",
+    "renders/gate-a-r2/right.png",
+    "renders/gate-a-r2/top.png",
+    "renders/gate-a-r2/underside.png",
+    "renders/gate-a-r2/three_quarter.png",
+    "renders/gate-a-r2/three_quarter_96.png",
+    "renders/gate-a-r2/three_quarter_48.png"
+  ],
+  "limits": [
+    "no export",
+    "no rig",
+    "no runtime"
+  ]
+}

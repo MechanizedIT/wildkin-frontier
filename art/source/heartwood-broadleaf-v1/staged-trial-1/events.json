@@ -1,0 +1,96 @@
+[
+  {
+    "label": "empty-pipeline-ready",
+    "time": "2026-09-14T11:20:14.175498+00:00",
+    "free_gib": 18.312576293945312,
+    "resident_model_keys": []
+  },
+  {
+    "label": "background:before-load",
+    "time": "2026-09-14T11:20:14.242181+00:00",
+    "free_gib": 18.306915283203125,
+    "estimate": {
+      "name": "background",
+      "keys": [
+        "rembg"
+      ],
+      "constructor_gib": 0.8221726305782795,
+      "checkpoint_gib": 0.8241076543927193,
+      "workspace_gib": 2.0,
+      "estimated_increment_gib": 3.6462802849709988,
+      "required_free_gib": 9.646280284970999
+    }
+  },
+  {
+    "label": "background:loaded",
+    "time": "2026-09-14T11:20:16.716532+00:00",
+    "free_gib": 18.243831634521484,
+    "resident_model_keys": []
+  },
+  {
+    "label": "background:released",
+    "time": "2026-09-14T11:20:21.592526+00:00",
+    "free_gib": 17.286983489990234,
+    "resident_model_keys": []
+  },
+  {
+    "label": "conditioning:before-load",
+    "time": "2026-09-14T11:20:21.769502+00:00",
+    "free_gib": 17.274425506591797,
+    "estimate": {
+      "name": "conditioning",
+      "keys": [
+        "dino"
+      ],
+      "constructor_gib": 1.1292457580566406,
+      "checkpoint_gib": 1.1292843222618103,
+      "workspace_gib": 2.0,
+      "estimated_increment_gib": 4.258530080318451,
+      "required_free_gib": 10.258530080318451
+    }
+  },
+  {
+    "label": "conditioning:loaded",
+    "time": "2026-09-14T11:20:21.966527+00:00",
+    "free_gib": 17.27566909790039,
+    "resident_model_keys": []
+  },
+  {
+    "label": "conditioning:released",
+    "time": "2026-09-14T11:20:24.713664+00:00",
+    "free_gib": 17.19540023803711,
+    "resident_model_keys": []
+  },
+  {
+    "label": "sparse:before-load",
+    "time": "2026-09-14T11:20:24.715666+00:00",
+    "free_gib": 17.19540023803711,
+    "estimate": {
+      "name": "sparse",
+      "keys": [
+        "sparse_structure_flow_model",
+        "sparse_structure_decoder"
+      ],
+      "constructor_gib": 5.088192138820887,
+      "checkpoint_gib": 2.544390868395567,
+      "workspace_gib": 2.0,
+      "estimated_increment_gib": 9.632583007216454,
+      "required_free_gib": 15.632583007216454
+    }
+  },
+  {
+    "label": "sparse:loaded",
+    "time": "2026-09-14T11:20:53.806050+00:00",
+    "free_gib": 12.230323791503906,
+    "resident_model_keys": [
+      "sparse_structure_flow_model",
+      "sparse_structure_decoder"
+    ]
+  },
+  {
+    "label": "sparse:released",
+    "time": "2026-09-14T11:21:11.549563+00:00",
+    "free_gib": 12.080612182617188,
+    "resident_model_keys": []
+  }
+]

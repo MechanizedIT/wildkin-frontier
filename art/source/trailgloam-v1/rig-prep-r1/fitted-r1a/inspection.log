@@ -1,0 +1,15 @@
+BlenderMCP: cannot start server in background mode (blender -b) - commands would never execute
+BlenderMCP: run Blender with a GUI, or use a virtual display: xvfb-run -a blender
+BlenderMCP addon registered
+BlenderMCP server stopped
+BlenderMCP addon unregistered
+19:50:40 | INFO: Data are loaded, start creating Blender stuff
+19:50:40 | INFO: Blender create Mesh node geometry_0
+19:50:40 | INFO: glTF import finished in 0.11s
+19:50:41 | INFO: Data are loaded, start creating Blender stuff
+19:50:41 | INFO: Blender create Mesh node geometry_0
+19:50:41 | INFO: glTF import finished in 0.32s
+INSPECTION_COMPLETE {"glbSHA256": "d3163edb5536dfd4d1fa39895f2a8e2bac71372d83cbe854913c667786f4dab7", "bones": 29, "sourceVertexCount": 40868, "exportReimportVertexCount": 40908, "triangles": 59376, "maxNeutralSurfaceErrorM": 4.156996737947338e-07, "maxUVError": 0, "vertexCountNote": "Exporter split 40 additional vertices. Geometry and UVs compared against source; vertex count alone was an invalid preservation assertion. No model regeneration.", "actions": ["Loaded", "Neutral", "WalkDiagnostic"], "minFootTravelM": 0.1382731758058071, "maxStanceSoleAbsHeightM": 0.008342292159795761, "loopFootErrorM": 0.0, "status": "Surface/UV/rig/loop assertions pass; visual deformation and contact review still required"}
+Blender 4.5.3 LTS (hash 67807e1800cc built 2025-09-09 01:33:33)
+
+Blender quit

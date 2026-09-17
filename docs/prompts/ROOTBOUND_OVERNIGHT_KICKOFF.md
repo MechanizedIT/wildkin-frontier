@@ -57,7 +57,7 @@ Requirements:
 - preserve existing resource/Wildkin identities, save ownership, shared terrain/collision, and Camp/Heartwood work;
 - perform one structural implementation round;
 - use an independent habitat judge with the packet scorecard;
-- perform one focused repair round based on the three most consequential gaps;
+- perform up to two focused repair rounds based on consolidated independent findings, for a maximum of three substantial passes under `docs/PRODUCTION_LOOP_POLICY.md`;
 - checkpoint after that even if the result remains HOLD;
 - do not spend the whole session nudging this habitat toward a score.
 
@@ -82,7 +82,7 @@ Split visual asset and gameplay design work:
 - Visual lane: approved reference → reference review → one serialized TRELLIS 2 candidate → Blender cleanup/inspection when feasible → gameplay-scale renders → independent visual review.
 - Gameplay lane: behavior/taming/utility contract and, only if safely bounded, a placeholder prototype through existing encounter/capture/save owners.
 
-Two substantial visual rounds maximum. Do not force integration if the model, motion, behavior, or habitat is not ready. A reviewed species card/reference/GLB candidate is an honest useful checkpoint.
+Three substantial passes per production loop maximum under `docs/PRODUCTION_LOOP_POLICY.md`. Stop early on PASS and change method when a consequential gap repeats. Do not force integration if the model, motion, behavior, or habitat is not ready. A reviewed species card/reference/GLB candidate is an honest useful checkpoint.
 
 A species batch may request at most one or two supporting Rootbound flora/resource model candidates from TRELLIS if they are necessary for readability. Do not turn it into a biome asset dump.
 
@@ -103,11 +103,11 @@ Do not add weather, caves, another habitat, broad genetics, factory systems, or 
 
 Use actual game baselines and feasible targets. Generated art is direction, not proof.
 
-- Default two rounds.
-- A third is allowed only for a designated hero surface and only after changing the structural method.
+- Default to a maximum of three substantial passes: initial candidate plus up to two focused repairs; stop early on PASS.
+- A repeated consequential gap requires a changed structural method within the remaining allowance.
 - Implementers cannot independently PASS their own visual work.
 - Reviewers return three consequential gaps and one consolidated repair packet.
-- If the same structural gap repeats twice, stop that method and record HOLD.
+- If the same structural gap repeats, stop that method; use a remaining pass only with a changed approach, otherwise record HOLD.
 - Human/mobile perceptual observations outrank implementation metrics.
 
 ## Testing and closure

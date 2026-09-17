@@ -1,0 +1,18 @@
+{
+  "source_sha256": "e25bdd049cf9a7d8d4e1a7df9e4193e9840b0b550c6052b134d3d88cd6276120",
+  "script_sha256": "350e3e4a83f5ae43c93476fa2278ed80001a6e1ca46d2efea08635a5c22dc69e",
+  "policy": "Exact equality only; diagnostic arrays, no mesh or source mutation. Triangle keys ignore winding for duplicate detection.",
+  "vertices": 1077634,
+  "triangles": 2218798,
+  "unique_exact_positions": 1077634,
+  "duplicate_exact_position_vertices": 0,
+  "duplicate_raw_index_triangle_records_ignoring_winding": 0,
+  "normal_winding_tested": false,
+  "diagnostic_edge_incidence": {
+    "note": "After virtual exact weld/dedup only if duplicate positions exist; otherwise original indexed triangles.",
+    "boundary_edges": 67425,
+    "nonmanifold_edges": 99060
+  },
+  "elapsed_seconds": 4.125,
+  "ending_free_gib": 19.48424530029297
+}

@@ -1,0 +1,130 @@
+{
+  "name": "translated-walk-pose",
+  "speed": 0.21212121212121213,
+  "start": 8.881600000000008,
+  "duration": 0.28,
+  "freeze": true,
+  "elapsed": 0.3055000000000003,
+  "inventory": {
+    "path": "art/source/trailgloam-v1/rig-prep-r1/fitted-r1a/trailgloam-fitted.glb",
+    "bones": 29,
+    "material": "MeshLambertMaterial",
+    "texturePresent": true,
+    "independentSkeletons": true,
+    "authoredWalkSpeed": 0.21212121212121213,
+    "genericMoveSpeed": 2.5,
+    "collision": "existing generic upright capsule; not fitted anatomy admission"
+  },
+  "samples": [
+    {
+      "time": 8.914900000000006,
+      "frames": 267,
+      "pos": {
+        "x": 0.00000212883992389834,
+        "y": 0.5150738954544067,
+        "z": -0.9929369688034058
+      },
+      "base": [
+        0.00000212883992389834,
+        0.015073884511366487,
+        -0.99293695949018
+      ],
+      "animation": "walk",
+      "clipTime": 0.03330000090811933,
+      "rate": 1.0000000272708727,
+      "grounded": true,
+      "render": {
+        "calls": 2,
+        "triangles": 59376
+      }
+    },
+    {
+      "time": 8.982600000000007,
+      "frames": 269,
+      "pos": {
+        "x": 0.0000020499458059930475,
+        "y": 0.5150994062423706,
+        "z": -0.9785753488540649
+      },
+      "base": [
+        0.000002049945734938774,
+        0.01509942559641786,
+        -0.9785753428004682
+      ],
+      "animation": "walk",
+      "clipTime": 0.10100476530449745,
+      "rate": 0.9999661251821497,
+      "grounded": true,
+      "render": {
+        "calls": 2,
+        "triangles": 59376
+      }
+    },
+    {
+      "time": 9.048300000000006,
+      "frames": 271,
+      "pos": {
+        "x": -0.00024567716172896326,
+        "y": 0.5151029229164124,
+        "z": -0.9647884368896484
+      },
+      "base": [
+        -0.00024567716172896326,
+        0.015102908306289464,
+        -0.964788434561342
+      ],
+      "animation": "walk",
+      "clipTime": 0.16601068987926998,
+      "rate": 0.9922719881728138,
+      "grounded": true,
+      "render": {
+        "calls": 2,
+        "triangles": 59376
+      }
+    },
+    {
+      "time": 9.120400000000007,
+      "frames": 273,
+      "pos": {
+        "x": -0.0002469512983225286,
+        "y": 0.5150744915008545,
+        "z": -0.9493116140365601
+      },
+      "base": [
+        -0.0002469512890002079,
+        0.015074463794007897,
+        -0.9493116047233343
+      ],
+      "animation": "walk",
+      "clipTime": 0.23897288822874974,
+      "rate": 1.0000021530985173,
+      "grounded": true,
+      "render": {
+        "calls": 2,
+        "triangles": 59376
+      }
+    },
+    {
+      "time": 9.187100000000008,
+      "frames": 275,
+      "pos": {
+        "x": -0.0003558764001354575,
+        "y": 0.5151250958442688,
+        "z": -0.9354012608528137
+      },
+      "base": [
+        -0.0003558764001354575,
+        0.015125068435736466,
+        -0.9354012338444591
+      ],
+      "animation": "walk",
+      "clipTime": 0.3045543531978887,
+      "rate": 0.9665908603970359,
+      "grounded": true,
+      "render": {
+        "calls": 2,
+        "triangles": 59376
+      }
+    }
+  ]
+}

@@ -1,0 +1,1157 @@
+{
+  "schema": "skydancer-construction-plan-proof/v2",
+  "plan_sha256": "f0f7f43b6444abd8a0f51af5ac5f9049ae3a659b4db63d512781b9cf76902ee0",
+  "v1_preserved_hash": "089ba6a209a48ba69dd8f8b74f37ffaf26e779409115ca7e1a17001ad477f35b",
+  "actual_torso_shell": {
+    "vertices": [
+      [
+        0.24,
+        0.8,
+        -0.35
+      ],
+      [
+        0.12000000000000002,
+        1.2330127018922195,
+        -0.35
+      ],
+      [
+        -0.11999999999999994,
+        1.2330127018922195,
+        -0.35
+      ],
+      [
+        -0.24,
+        0.8000000000000002,
+        -0.35
+      ],
+      [
+        -0.1200000000000001,
+        0.3669872981077808,
+        -0.35
+      ],
+      [
+        0.12000000000000002,
+        0.36698729810778075,
+        -0.35
+      ],
+      [
+        0.31,
+        1.1,
+        0.05
+      ],
+      [
+        0.15500000000000003,
+        1.6629165124598853,
+        0.05
+      ],
+      [
+        -0.15499999999999994,
+        1.6629165124598853,
+        0.05
+      ],
+      [
+        -0.31,
+        1.1,
+        0.05
+      ],
+      [
+        -0.15500000000000014,
+        0.537083487540115,
+        0.05
+      ],
+      [
+        0.15500000000000003,
+        0.537083487540115,
+        0.05
+      ],
+      [
+        0.25,
+        1.46,
+        0.3
+      ],
+      [
+        0.12500000000000003,
+        1.8756921938165305,
+        0.3
+      ],
+      [
+        -0.12499999999999994,
+        1.8756921938165305,
+        0.3
+      ],
+      [
+        -0.25,
+        1.46,
+        0.3
+      ],
+      [
+        -0.1250000000000001,
+        1.0443078061834696,
+        0.3
+      ],
+      [
+        0.12500000000000003,
+        1.0443078061834694,
+        0.3
+      ],
+      [
+        -4.625929269271485e-18,
+        0.8000000000000002,
+        -0.35000000000000003
+      ],
+      [
+        -4.625929269271485e-18,
+        1.4600000000000002,
+        0.3
+      ]
+    ],
+    "triangles": [
+      [
+        0,
+        1,
+        6
+      ],
+      [
+        1,
+        7,
+        6
+      ],
+      [
+        1,
+        2,
+        7
+      ],
+      [
+        2,
+        8,
+        7
+      ],
+      [
+        2,
+        3,
+        8
+      ],
+      [
+        3,
+        9,
+        8
+      ],
+      [
+        3,
+        4,
+        9
+      ],
+      [
+        4,
+        10,
+        9
+      ],
+      [
+        4,
+        5,
+        10
+      ],
+      [
+        5,
+        11,
+        10
+      ],
+      [
+        5,
+        0,
+        11
+      ],
+      [
+        0,
+        6,
+        11
+      ],
+      [
+        6,
+        7,
+        12
+      ],
+      [
+        7,
+        13,
+        12
+      ],
+      [
+        7,
+        8,
+        13
+      ],
+      [
+        8,
+        14,
+        13
+      ],
+      [
+        8,
+        9,
+        14
+      ],
+      [
+        9,
+        15,
+        14
+      ],
+      [
+        9,
+        10,
+        15
+      ],
+      [
+        10,
+        16,
+        15
+      ],
+      [
+        10,
+        11,
+        16
+      ],
+      [
+        11,
+        17,
+        16
+      ],
+      [
+        11,
+        6,
+        17
+      ],
+      [
+        6,
+        12,
+        17
+      ],
+      [
+        18,
+        1,
+        0
+      ],
+      [
+        18,
+        2,
+        1
+      ],
+      [
+        18,
+        3,
+        2
+      ],
+      [
+        18,
+        4,
+        3
+      ],
+      [
+        18,
+        5,
+        4
+      ],
+      [
+        18,
+        0,
+        5
+      ],
+      [
+        19,
+        12,
+        13
+      ],
+      [
+        19,
+        13,
+        14
+      ],
+      [
+        19,
+        14,
+        15
+      ],
+      [
+        19,
+        15,
+        16
+      ],
+      [
+        19,
+        16,
+        17
+      ],
+      [
+        19,
+        17,
+        12
+      ]
+    ],
+    "ray_axis": "y",
+    "inside_predicate": "+Y ray must produce lowerY < root vertex y < upperY; all cap vertices required."
+  },
+  "torso_root_cap_y_ray_tests": [
+    {
+      "side": "right",
+      "shape": "wing_host_root_a",
+      "axis": "y",
+      "complete_cap_inside": true,
+      "vertices": [
+        {
+          "vertex_index": 0,
+          "vertex": [
+            0.1,
+            1.36,
+            0.19
+          ],
+          "lowerY": 0.821129106,
+          "upperY": 1.782070894,
+          "inside": true
+        },
+        {
+          "vertex_index": 1,
+          "vertex": [
+            0.1,
+            1.463923,
+            0.145
+          ],
+          "lowerY": 0.729828729,
+          "upperY": 1.743771271,
+          "inside": true
+        },
+        {
+          "vertex_index": 2,
+          "vertex": [
+            0.1,
+            1.463923,
+            0.055
+          ],
+          "lowerY": 0.547227974,
+          "upperY": 1.667172026,
+          "inside": true
+        },
+        {
+          "vertex_index": 3,
+          "vertex": [
+            0.1,
+            1.36,
+            0.01
+          ],
+          "lowerY": 0.520073869,
+          "upperY": 1.619926131,
+          "inside": true
+        },
+        {
+          "vertex_index": 4,
+          "vertex": [
+            0.1,
+            1.256077,
+            0.055
+          ],
+          "lowerY": 0.547227974,
+          "upperY": 1.667172026,
+          "inside": true
+        },
+        {
+          "vertex_index": 5,
+          "vertex": [
+            0.1,
+            1.256077,
+            0.145
+          ],
+          "lowerY": 0.729828729,
+          "upperY": 1.743771271,
+          "inside": true
+        }
+      ]
+    },
+    {
+      "side": "right",
+      "shape": "wing_host_root_b",
+      "axis": "y",
+      "complete_cap_inside": true,
+      "vertices": [
+        {
+          "vertex_index": 0,
+          "vertex": [
+            0.18,
+            1.37,
+            0.19
+          ],
+          "lowerY": 0.972934978,
+          "upperY": 1.643063424,
+          "inside": true
+        },
+        {
+          "vertex_index": 1,
+          "vertex": [
+            0.18,
+            1.473923,
+            0.135
+          ],
+          "lowerY": 0.83737628,
+          "upperY": 1.618201322,
+          "inside": true
+        },
+        {
+          "vertex_index": 2,
+          "vertex": [
+            0.18,
+            1.473923,
+            0.025
+          ],
+          "lowerY": 0.625015246,
+          "upperY": 1.537310152,
+          "inside": true
+        },
+        {
+          "vertex_index": 3,
+          "vertex": [
+            0.18,
+            1.37,
+            -0.03
+          ],
+          "lowerY": 0.618720546,
+          "upperY": 1.460720728,
+          "inside": true
+        },
+        {
+          "vertex_index": 4,
+          "vertex": [
+            0.18,
+            1.266077,
+            0.025
+          ],
+          "lowerY": 0.625015246,
+          "upperY": 1.537310152,
+          "inside": true
+        },
+        {
+          "vertex_index": 5,
+          "vertex": [
+            0.18,
+            1.266077,
+            0.135
+          ],
+          "lowerY": 0.83737628,
+          "upperY": 1.618201322,
+          "inside": true
+        }
+      ]
+    },
+    {
+      "side": "right",
+      "shape": "leg_host_root",
+      "axis": "y",
+      "complete_cap_inside": true,
+      "vertices": [
+        {
+          "vertex_index": 0,
+          "vertex": [
+            0.23,
+            0.86,
+            0.02
+          ],
+          "lowerY": 0.806028972,
+          "upperY": 1.348761506,
+          "inside": true
+        },
+        {
+          "vertex_index": 1,
+          "vertex": [
+            0.209497,
+            0.86,
+            0.076569
+          ],
+          "lowerY": 0.800486012,
+          "upperY": 1.480100182,
+          "inside": true
+        },
+        {
+          "vertex_index": 2,
+          "vertex": [
+            0.16,
+            0.86,
+            0.1
+          ],
+          "lowerY": 0.678477265,
+          "upperY": 1.668890736,
+          "inside": true
+        },
+        {
+          "vertex_index": 3,
+          "vertex": [
+            0.110503,
+            0.86,
+            0.076569
+          ],
+          "lowerY": 0.590989259,
+          "upperY": 1.685529461,
+          "inside": true
+        },
+        {
+          "vertex_index": 4,
+          "vertex": [
+            0.09,
+            0.86,
+            0.02
+          ],
+          "lowerY": 0.524326273,
+          "upperY": 1.630673727,
+          "inside": true
+        },
+        {
+          "vertex_index": 5,
+          "vertex": [
+            0.110503,
+            0.86,
+            -0.036569
+          ],
+          "lowerY": 0.500270845,
+          "upperY": 1.569875655,
+          "inside": true
+        },
+        {
+          "vertex_index": 6,
+          "vertex": [
+            0.16,
+            0.86,
+            -0.06
+          ],
+          "lowerY": 0.543080458,
+          "upperY": 1.491579068,
+          "inside": true
+        },
+        {
+          "vertex_index": 7,
+          "vertex": [
+            0.209497,
+            0.86,
+            -0.036569
+          ],
+          "lowerY": 0.725093558,
+          "upperY": 1.344448338,
+          "inside": true
+        }
+      ]
+    },
+    {
+      "side": "left",
+      "shape": "wing_host_root_a",
+      "axis": "y",
+      "complete_cap_inside": true,
+      "vertices": [
+        {
+          "vertex_index": 0,
+          "vertex": [
+            -0.1,
+            1.36,
+            0.19
+          ],
+          "lowerY": 0.821129106,
+          "upperY": 1.782070894,
+          "inside": true
+        },
+        {
+          "vertex_index": 1,
+          "vertex": [
+            -0.1,
+            1.463923,
+            0.145
+          ],
+          "lowerY": 0.729828729,
+          "upperY": 1.743771271,
+          "inside": true
+        },
+        {
+          "vertex_index": 2,
+          "vertex": [
+            -0.1,
+            1.463923,
+            0.055
+          ],
+          "lowerY": 0.547227974,
+          "upperY": 1.667172026,
+          "inside": true
+        },
+        {
+          "vertex_index": 3,
+          "vertex": [
+            -0.1,
+            1.36,
+            0.01
+          ],
+          "lowerY": 0.520073869,
+          "upperY": 1.619926131,
+          "inside": true
+        },
+        {
+          "vertex_index": 4,
+          "vertex": [
+            -0.1,
+            1.256077,
+            0.055
+          ],
+          "lowerY": 0.547227974,
+          "upperY": 1.667172026,
+          "inside": true
+        },
+        {
+          "vertex_index": 5,
+          "vertex": [
+            -0.1,
+            1.256077,
+            0.145
+          ],
+          "lowerY": 0.729828729,
+          "upperY": 1.743771271,
+          "inside": true
+        }
+      ]
+    },
+    {
+      "side": "left",
+      "shape": "wing_host_root_b",
+      "axis": "y",
+      "complete_cap_inside": true,
+      "vertices": [
+        {
+          "vertex_index": 0,
+          "vertex": [
+            -0.18,
+            1.37,
+            0.19
+          ],
+          "lowerY": 0.960136576,
+          "upperY": 1.630265022,
+          "inside": true
+        },
+        {
+          "vertex_index": 1,
+          "vertex": [
+            -0.18,
+            1.473923,
+            0.135
+          ],
+          "lowerY": 0.826598678,
+          "upperY": 1.60742372,
+          "inside": true
+        },
+        {
+          "vertex_index": 2,
+          "vertex": [
+            -0.18,
+            1.473923,
+            0.025
+          ],
+          "lowerY": 0.625189848,
+          "upperY": 1.537484754,
+          "inside": true
+        },
+        {
+          "vertex_index": 3,
+          "vertex": [
+            -0.18,
+            1.37,
+            -0.03
+          ],
+          "lowerY": 0.619279272,
+          "upperY": 1.461279454,
+          "inside": true
+        },
+        {
+          "vertex_index": 4,
+          "vertex": [
+            -0.18,
+            1.266077,
+            0.025
+          ],
+          "lowerY": 0.625189848,
+          "upperY": 1.537484754,
+          "inside": true
+        },
+        {
+          "vertex_index": 5,
+          "vertex": [
+            -0.18,
+            1.266077,
+            0.135
+          ],
+          "lowerY": 0.826598678,
+          "upperY": 1.60742372,
+          "inside": true
+        }
+      ]
+    },
+    {
+      "side": "left",
+      "shape": "leg_host_root",
+      "axis": "y",
+      "complete_cap_inside": true,
+      "vertices": [
+        {
+          "vertex_index": 0,
+          "vertex": [
+            -0.23,
+            0.86,
+            0.02
+          ],
+          "lowerY": 0.806238494,
+          "upperY": 1.348971028,
+          "inside": true
+        },
+        {
+          "vertex_index": 1,
+          "vertex": [
+            -0.209497,
+            0.86,
+            0.076569
+          ],
+          "lowerY": 0.796418538,
+          "upperY": 1.476032708,
+          "inside": true
+        },
+        {
+          "vertex_index": 2,
+          "vertex": [
+            -0.16,
+            0.86,
+            0.1
+          ],
+          "lowerY": 0.675109264,
+          "upperY": 1.665522735,
+          "inside": true
+        },
+        {
+          "vertex_index": 3,
+          "vertex": [
+            -0.110503,
+            0.86,
+            0.076569
+          ],
+          "lowerY": 0.590989259,
+          "upperY": 1.685529461,
+          "inside": true
+        },
+        {
+          "vertex_index": 4,
+          "vertex": [
+            -0.09,
+            0.86,
+            0.02
+          ],
+          "lowerY": 0.524326273,
+          "upperY": 1.630673727,
+          "inside": true
+        },
+        {
+          "vertex_index": 5,
+          "vertex": [
+            -0.110503,
+            0.86,
+            -0.036569
+          ],
+          "lowerY": 0.500270845,
+          "upperY": 1.569875655,
+          "inside": true
+        },
+        {
+          "vertex_index": 6,
+          "vertex": [
+            -0.16,
+            0.86,
+            -0.06
+          ],
+          "lowerY": 0.543420932,
+          "upperY": 1.491919542,
+          "inside": true
+        },
+        {
+          "vertex_index": 7,
+          "vertex": [
+            -0.209497,
+            0.86,
+            -0.036569
+          ],
+          "lowerY": 0.725698162,
+          "upperY": 1.345052942,
+          "inside": true
+        }
+      ]
+    }
+  ],
+  "all_torso_root_caps_inside": true,
+  "wing_plate_root_x_ray_tests": [
+    {
+      "side": "right",
+      "plate": "upper_cover_plate",
+      "axis": "x",
+      "complete_root_face_inside_primary_wing": true,
+      "vertices": [
+        {
+          "vertex_index": 0,
+          "vertex": [
+            0.28,
+            1.4,
+            0
+          ],
+          "lowerX": 0.15505477,
+          "upperX": 0.702455689,
+          "inside": true
+        },
+        {
+          "vertex_index": 1,
+          "vertex": [
+            0.28,
+            1.34,
+            -0.04
+          ],
+          "lowerX": 0.219227397,
+          "upperX": 0.820311932,
+          "inside": true
+        },
+        {
+          "vertex_index": 2,
+          "vertex": [
+            0.28,
+            1.32,
+            -0.04
+          ],
+          "lowerX": 0.235272933,
+          "upperX": 0.82195338,
+          "inside": true
+        },
+        {
+          "vertex_index": 3,
+          "vertex": [
+            0.28,
+            1.37,
+            -0.01
+          ],
+          "lowerX": 0.144673969,
+          "upperX": 0.750900734,
+          "inside": true
+        }
+      ]
+    },
+    {
+      "side": "right",
+      "plate": "mid_cover_plate",
+      "axis": "x",
+      "complete_root_face_inside_primary_wing": true,
+      "vertices": [
+        {
+          "vertex_index": 0,
+          "vertex": [
+            0.36,
+            1.4,
+            -0.04
+          ],
+          "lowerX": 0.222968531,
+          "upperX": 0.752847081,
+          "inside": true
+        },
+        {
+          "vertex_index": 1,
+          "vertex": [
+            0.36,
+            1.35,
+            -0.08
+          ],
+          "lowerX": 0.271841001,
+          "upperX": 0.822952351,
+          "inside": true
+        },
+        {
+          "vertex_index": 2,
+          "vertex": [
+            0.36,
+            1.31,
+            -0.08
+          ],
+          "lowerX": 0.30608409,
+          "upperX": 0.826235247,
+          "inside": true
+        },
+        {
+          "vertex_index": 3,
+          "vertex": [
+            0.36,
+            1.36,
+            -0.04
+          ],
+          "lowerX": 0.203181861,
+          "upperX": 0.800643345,
+          "inside": true
+        }
+      ]
+    },
+    {
+      "side": "right",
+      "plate": "lower_cover_plate",
+      "axis": "x",
+      "complete_root_face_inside_primary_wing": true,
+      "vertices": [
+        {
+          "vertex_index": 0,
+          "vertex": [
+            0.43,
+            1.38,
+            -0.08
+          ],
+          "lowerX": 0.261234054,
+          "upperX": 0.820490179,
+          "inside": true
+        },
+        {
+          "vertex_index": 1,
+          "vertex": [
+            0.43,
+            1.33,
+            -0.12
+          ],
+          "lowerX": 0.350060064,
+          "upperX": 0.828054941,
+          "inside": true
+        },
+        {
+          "vertex_index": 2,
+          "vertex": [
+            0.43,
+            1.29,
+            -0.12
+          ],
+          "lowerX": 0.399714522,
+          "upperX": 0.831337837,
+          "inside": true
+        },
+        {
+          "vertex_index": 3,
+          "vertex": [
+            0.43,
+            1.34,
+            -0.08
+          ],
+          "lowerX": 0.279863769,
+          "upperX": 0.823773075,
+          "inside": true
+        }
+      ]
+    },
+    {
+      "side": "left",
+      "plate": "upper_cover_plate",
+      "axis": "x",
+      "complete_root_face_inside_primary_wing": true,
+      "vertices": [
+        {
+          "vertex_index": 0,
+          "vertex": [
+            -0.28,
+            1.4,
+            0
+          ],
+          "lowerX": -0.702455689,
+          "upperX": -0.15505477,
+          "inside": true
+        },
+        {
+          "vertex_index": 1,
+          "vertex": [
+            -0.28,
+            1.34,
+            -0.04
+          ],
+          "lowerX": -0.820311932,
+          "upperX": -0.219227397,
+          "inside": true
+        },
+        {
+          "vertex_index": 2,
+          "vertex": [
+            -0.28,
+            1.32,
+            -0.04
+          ],
+          "lowerX": -0.82195338,
+          "upperX": -0.235272933,
+          "inside": true
+        },
+        {
+          "vertex_index": 3,
+          "vertex": [
+            -0.28,
+            1.37,
+            -0.01
+          ],
+          "lowerX": -0.750900734,
+          "upperX": -0.144673969,
+          "inside": true
+        }
+      ]
+    },
+    {
+      "side": "left",
+      "plate": "mid_cover_plate",
+      "axis": "x",
+      "complete_root_face_inside_primary_wing": true,
+      "vertices": [
+        {
+          "vertex_index": 0,
+          "vertex": [
+            -0.36,
+            1.4,
+            -0.04
+          ],
+          "lowerX": -0.752847081,
+          "upperX": -0.222968531,
+          "inside": true
+        },
+        {
+          "vertex_index": 1,
+          "vertex": [
+            -0.36,
+            1.35,
+            -0.08
+          ],
+          "lowerX": -0.822952351,
+          "upperX": -0.271841001,
+          "inside": true
+        },
+        {
+          "vertex_index": 2,
+          "vertex": [
+            -0.36,
+            1.31,
+            -0.08
+          ],
+          "lowerX": -0.826235247,
+          "upperX": -0.30608409,
+          "inside": true
+        },
+        {
+          "vertex_index": 3,
+          "vertex": [
+            -0.36,
+            1.36,
+            -0.04
+          ],
+          "lowerX": -0.800643345,
+          "upperX": -0.203181861,
+          "inside": true
+        }
+      ]
+    },
+    {
+      "side": "left",
+      "plate": "lower_cover_plate",
+      "axis": "x",
+      "complete_root_face_inside_primary_wing": true,
+      "vertices": [
+        {
+          "vertex_index": 0,
+          "vertex": [
+            -0.43,
+            1.38,
+            -0.08
+          ],
+          "lowerX": -0.820490179,
+          "upperX": -0.261234054,
+          "inside": true
+        },
+        {
+          "vertex_index": 1,
+          "vertex": [
+            -0.43,
+            1.33,
+            -0.12
+          ],
+          "lowerX": -0.828054941,
+          "upperX": -0.350060064,
+          "inside": true
+        },
+        {
+          "vertex_index": 2,
+          "vertex": [
+            -0.43,
+            1.29,
+            -0.12
+          ],
+          "lowerX": -0.831337837,
+          "upperX": -0.399714522,
+          "inside": true
+        },
+        {
+          "vertex_index": 3,
+          "vertex": [
+            -0.43,
+            1.34,
+            -0.08
+          ],
+          "lowerX": -0.823773075,
+          "upperX": -0.279863769,
+          "inside": true
+        }
+      ]
+    }
+  ],
+  "all_plate_root_faces_inside_primary_wings": true,
+  "changed_geometry_bounds_m": {
+    "min": [
+      -0.86,
+      0.035,
+      -0.65
+    ],
+    "max": [
+      0.86,
+      1.518564,
+      0.54
+    ]
+  },
+  "authoring_envelope_m": {
+    "min": [
+      -1.133993,
+      0.015873,
+      -1.670907
+    ],
+    "max": [
+      1.133993,
+      2.147128,
+      1.132
+    ]
+  },
+  "inside_authoring_envelope": true,
+  "closure_checks": {
+    "right_wing_volumes": {
+      "vertex_count": 32,
+      "triangle_count": 60,
+      "boundary_edge_count": 0,
+      "nonmanifold_edge_count": 0,
+      "closed_manifold": true
+    },
+    "right_leg_volumes": {
+      "vertex_count": 34,
+      "triangle_count": 64,
+      "boundary_edge_count": 0,
+      "nonmanifold_edge_count": 0,
+      "closed_manifold": true
+    },
+    "left_wing_volumes": {
+      "vertex_count": 32,
+      "triangle_count": 60,
+      "boundary_edge_count": 0,
+      "nonmanifold_edge_count": 0,
+      "closed_manifold": true
+    },
+    "left_leg_volumes": {
+      "vertex_count": 34,
+      "triangle_count": 64,
+      "boundary_edge_count": 0,
+      "nonmanifold_edge_count": 0,
+      "closed_manifold": true
+    }
+  },
+  "non_claims": [
+    "No source/build/bake/runtime/admission occurred."
+  ]
+}

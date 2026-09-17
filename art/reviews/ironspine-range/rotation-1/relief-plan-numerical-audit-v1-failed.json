@@ -1,0 +1,210 @@
+{
+  "method": "smooth compact-support lobes h*(1-q)^2; 1m grid; zero inside every protected point envelope or 1.2m route corridor",
+  "route": {
+    "segments": 74,
+    "baseMaxSlope": 0.31633,
+    "postMaskMaxSlope": 0.3163200000000003,
+    "limit": 0.32,
+    "passes": true
+  },
+  "lobes": [
+    {
+      "id": "arrival-west",
+      "x": -2089,
+      "z": -3154,
+      "rx": 12,
+      "rz": 16,
+      "h": 2,
+      "activeSamples": 561,
+      "finalHeightMax": 2,
+      "maskedAreaSqM": 561
+    },
+    {
+      "id": "arrival-east",
+      "x": -2069,
+      "z": -3150,
+      "rx": 11,
+      "rz": 15,
+      "h": 2,
+      "activeSamples": 384,
+      "finalHeightMax": 2,
+      "maskedAreaSqM": 384
+    },
+    {
+      "id": "ramp-west",
+      "x": -2103,
+      "z": -3079,
+      "rx": 13,
+      "rz": 19,
+      "h": 2,
+      "activeSamples": 708,
+      "finalHeightMax": 2,
+      "maskedAreaSqM": 708
+    },
+    {
+      "id": "ramp-east",
+      "x": -2075,
+      "z": -3045,
+      "rx": 13,
+      "rz": 19,
+      "h": 2,
+      "activeSamples": 769,
+      "finalHeightMax": 2,
+      "maskedAreaSqM": 769
+    },
+    {
+      "id": "crown-lip",
+      "x": -2157,
+      "z": -3008,
+      "rx": 14,
+      "rz": 10,
+      "h": 1.25,
+      "activeSamples": 399,
+      "finalHeightMax": 1.25,
+      "maskedAreaSqM": 399
+    }
+  ],
+  "projections": [
+    {
+      "pose": "arrival",
+      "lobes": [
+        {
+          "id": "arrival-west",
+          "front": 67,
+          "central": 4,
+          "screen": {
+            "minX": -34501.29395979365,
+            "maxX": 369.69067169596065,
+            "minY": 217.7076705058906,
+            "maxY": 17261.46702923922
+          }
+        },
+        {
+          "id": "arrival-east",
+          "front": 37,
+          "central": 0,
+          "screen": {
+            "minX": -4759.402153361589,
+            "maxX": 35106.139178866455,
+            "minY": 489.8305780443312,
+            "maxY": 18817.37604514885
+          }
+        },
+        {
+          "id": "ramp-west",
+          "front": 0,
+          "central": 0,
+          "screen": null
+        },
+        {
+          "id": "ramp-east",
+          "front": 0,
+          "central": 0,
+          "screen": null
+        },
+        {
+          "id": "crown-lip",
+          "front": 0,
+          "central": 0,
+          "screen": null
+        }
+      ]
+    },
+    {
+      "pose": "interior",
+      "lobes": [
+        {
+          "id": "arrival-west",
+          "front": 72,
+          "central": 0,
+          "screen": {
+            "minX": -289.39331303242574,
+            "maxX": -6.759503203134335,
+            "minY": 235.70034084499812,
+            "maxY": 363.7154276729094
+          }
+        },
+        {
+          "id": "arrival-east",
+          "front": 72,
+          "central": 61,
+          "screen": {
+            "minX": -44.075949953135506,
+            "maxX": 204.06660629221187,
+            "minY": 209.5364469042368,
+            "maxY": 298.24774701099085
+          }
+        },
+        {
+          "id": "ramp-west",
+          "front": 58,
+          "central": 7,
+          "screen": {
+            "minX": -13493.72116690083,
+            "maxX": 5298.45696085671,
+            "minY": -277.91799408783896,
+            "maxY": 11077.78923259993
+          }
+        },
+        {
+          "id": "ramp-east",
+          "front": 0,
+          "central": 0,
+          "screen": null
+        },
+        {
+          "id": "crown-lip",
+          "front": 0,
+          "central": 0,
+          "screen": null
+        }
+      ]
+    },
+    {
+      "pose": "destination",
+      "lobes": [
+        {
+          "id": "arrival-west",
+          "front": 0,
+          "central": 0,
+          "screen": null
+        },
+        {
+          "id": "arrival-east",
+          "front": 0,
+          "central": 0,
+          "screen": null
+        },
+        {
+          "id": "ramp-west",
+          "front": 0,
+          "central": 0,
+          "screen": null
+        },
+        {
+          "id": "ramp-east",
+          "front": 0,
+          "central": 0,
+          "screen": null
+        },
+        {
+          "id": "crown-lip",
+          "front": 72,
+          "central": 4,
+          "screen": {
+            "minX": 331.6359280049387,
+            "maxX": 1225.0544016605152,
+            "minY": 219.27758308565984,
+            "maxY": 959.5344307844986
+          }
+        }
+      ]
+    }
+  ],
+  "protectedCounts": {
+    "sources": 19,
+    "homes": 0,
+    "scenery": 2
+  },
+  "result": "HOLD_CAMERA_COVERAGE"
+}

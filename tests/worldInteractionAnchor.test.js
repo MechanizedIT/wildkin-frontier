@@ -83,6 +83,35 @@ test('nested prop metadata cannot admit the selected storage body before its roo
   wall.visible=false;assert.equal(anchor.isOccluded(camera,point,.1),false,'hidden sibling does not block');
 });
 
+test('faded canopy instances reveal interaction anchors while opaque siblings still block', () => {
+  const scene = new THREE.Scene(), camera = new THREE.PerspectiveCamera();
+  camera.position.set(0, 1, 8); camera.lookAt(0, 1, 0);
+  const geometry = new THREE.BoxGeometry(3, 3, 1);
+  const visibility = new THREE.InstancedBufferAttribute(new Float32Array([.25, 1]), 1);
+  geometry.setAttribute('playerVisibility', visibility);
+  const canopy = new THREE.InstancedMesh(geometry, new THREE.MeshBasicMaterial(), 2);
+  canopy.userData.propId = 'forest-batch';
+  canopy.setMatrixAt(0, new THREE.Matrix4().makeTranslation(0, 1, 4));
+  canopy.setMatrixAt(1, new THREE.Matrix4().makeTranslation(5, 1, 4));
+  scene.add(canopy); scene.updateMatrixWorld(true);
+  const record = { pos: { x: 0, y: 0, z: 0 } };
+  for (const [type, getter] of Object.entries({ lootChest: 'getLootChestById', majorWaypoint: 'getWaypointById', portalGate: 'getPortalGateById' })) {
+    const anchor = createWorldInteractionAnchor({ scene, registry: { [getter]: () => record } });
+    const point = anchor.getPoint({ id: type, type });
+    assert.equal(anchor.isOccluded(camera, point, .11), false, `${type} is visible through the faded instance`);
+    visibility.setX(0, 1);
+    assert.equal(anchor.isOccluded(camera, point, .11), true, 'restored canopy blocks normally');
+    visibility.setX(0, .25);
+  }
+  const anchor = createWorldInteractionAnchor({ scene, registry: { getLootChestById: () => record } });
+  const point = anchor.getPoint({ id: 'chest', type: 'lootChest' });
+  canopy.setMatrixAt(1, new THREE.Matrix4().makeTranslation(0, 1, 2));
+  assert.equal(anchor.isOccluded(camera, point, .11), true, 'an opaque sibling behind the faded tree still blocks');
+  visibility.setX(1, .25);
+  assert.equal(anchor.isOccluded(camera, point, .11), false, 'both revealed instances permit the visible action');
+  geometry.dispose(); canopy.material.dispose();
+});
+
 test('guide-blocked creature labels use body sides, recheck clamps, and preserve a 48px target', () => {
   const bounds={left:12,top:12,right:832,bottom:378}, size={width:140,height:48};
   const body={left:360,right:484,top:100,bottom:230}, guide={left:260,right:590,top:12,bottom:94};

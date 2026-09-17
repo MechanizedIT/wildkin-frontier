@@ -1,0 +1,231 @@
+{
+  "schema": "rootbound-terrain-facets-r3-integration-support-v1",
+  "scope": {
+    "chunkIds": [
+      "-10,13",
+      "-9,13"
+    ],
+    "field": [
+      -458,
+      -436,
+      666,
+      688
+    ],
+    "note": "final uses current shared field; preR3 subtracts only rootboundFacetDelta from the same profile. Full-hull support uses the conservative circumscribed radius of each transformed visual bound."
+  },
+  "rapier": {
+    "addResult": {
+      "added": 2,
+      "removed": 0,
+      "ignored": 0,
+      "active": 2
+    },
+    "contactsBefore": [
+      {
+        "x": -452,
+        "z": 672,
+        "expectedSurfaceId": "-10,13",
+        "hit": true,
+        "reportedSurfaceId": null,
+        "y": 8.423757553100586,
+        "sampleHeight": 8.423757509187006,
+        "matchesSharedTerrain": true
+      },
+      {
+        "x": -448,
+        "z": 674,
+        "expectedSurfaceId": "-9,13",
+        "hit": true,
+        "reportedSurfaceId": null,
+        "y": 9.266143798828125,
+        "sampleHeight": 9.266143671654746,
+        "matchesSharedTerrain": true
+      },
+      {
+        "x": -442,
+        "z": 682,
+        "expectedSurfaceId": "-9,13",
+        "hit": true,
+        "reportedSurfaceId": null,
+        "y": 10.14394760131836,
+        "sampleHeight": 10.143946563267427,
+        "matchesSharedTerrain": true
+      }
+    ],
+    "removeResult": {
+      "added": 0,
+      "removed": 2,
+      "ignored": 0,
+      "active": 0
+    },
+    "contactsAfterUnload": [
+      {
+        "x": -452,
+        "z": 672,
+        "expectedSurfaceId": "-10,13",
+        "hit": false,
+        "reportedSurfaceId": null,
+        "y": null,
+        "sampleHeight": 8.423757509187006,
+        "matchesSharedTerrain": false
+      },
+      {
+        "x": -448,
+        "z": 674,
+        "expectedSurfaceId": "-9,13",
+        "hit": false,
+        "reportedSurfaceId": null,
+        "y": null,
+        "sampleHeight": 9.266143671654746,
+        "matchesSharedTerrain": false
+      },
+      {
+        "x": -442,
+        "z": 682,
+        "expectedSurfaceId": "-9,13",
+        "hit": false,
+        "reportedSurfaceId": null,
+        "y": null,
+        "sampleHeight": 10.143946563267427,
+        "matchesSharedTerrain": false
+      }
+    ],
+    "reentryResult": {
+      "added": 2,
+      "removed": 0,
+      "ignored": 0,
+      "active": 2
+    },
+    "contactsAfterReentry": [
+      {
+        "x": -452,
+        "z": 672,
+        "expectedSurfaceId": "-10,13",
+        "hit": true,
+        "reportedSurfaceId": null,
+        "y": 8.423757553100586,
+        "sampleHeight": 8.423757509187006,
+        "matchesSharedTerrain": true
+      },
+      {
+        "x": -448,
+        "z": 674,
+        "expectedSurfaceId": "-9,13",
+        "hit": true,
+        "reportedSurfaceId": null,
+        "y": 9.266143798828125,
+        "sampleHeight": 9.266143671654746,
+        "matchesSharedTerrain": true
+      },
+      {
+        "x": -442,
+        "z": 682,
+        "expectedSurfaceId": "-9,13",
+        "hit": true,
+        "reportedSurfaceId": null,
+        "y": 10.14394760131836,
+        "sampleHeight": 10.143946563267427,
+        "matchesSharedTerrain": true
+      }
+    ]
+  },
+  "curated": [
+    {
+      "id": "f1:s:rootbound-wildwood:lantern-log",
+      "assetId": "asset_fallen_log",
+      "x": -444,
+      "z": 678,
+      "yaw": 0.45,
+      "scale": 0.95,
+      "fullHullRadiusM": 1.742608884772426,
+      "support": {
+        "final": true,
+        "preR3": true
+      }
+    },
+    {
+      "id": "f1:s:rootbound-wildwood:lantern-ring-a",
+      "assetId": "asset_mushroom_ring",
+      "x": -442,
+      "z": 678,
+      "yaw": 0.2,
+      "scale": 0.9,
+      "fullHullRadiusM": 1.1056805852674947,
+      "support": {
+        "final": true,
+        "preR3": true
+      }
+    },
+    {
+      "id": "f1:s:rootbound-wildwood:lantern-ring-b",
+      "assetId": "asset_mushroom_ring",
+      "x": -444,
+      "z": 681,
+      "yaw": -0.4,
+      "scale": 0.85,
+      "fullHullRadiusM": 1.0442538860859671,
+      "support": {
+        "final": true,
+        "preR3": true
+      }
+    },
+    {
+      "id": "f1:s:rootbound-wildwood:thorn-a",
+      "assetId": "asset_fen_stone",
+      "x": -448,
+      "z": 679,
+      "yaw": 0.1,
+      "scale": 0.85,
+      "fullHullRadiusM": 0.9639153430242321,
+      "support": {
+        "final": true,
+        "preR3": true
+      }
+    },
+    {
+      "id": "f1:s:rootbound-wildwood:thorn-b",
+      "assetId": "asset_fen_stone",
+      "x": -446,
+      "z": 679,
+      "yaw": -0.35,
+      "scale": 0.8,
+      "fullHullRadiusM": 0.907214440493395,
+      "support": {
+        "final": true,
+        "preR3": true
+      }
+    }
+  ],
+  "resources": [
+    {
+      "id": "f1:r:-9:13:0",
+      "x": -440.4842248786163,
+      "z": 670.851659383636,
+      "support": {
+        "final": true,
+        "preR3": true
+      }
+    },
+    {
+      "id": "f1:r:-9:13:1",
+      "x": -443.31014977923263,
+      "z": 672.1734875032597,
+      "support": {
+        "final": true,
+        "preR3": true
+      }
+    },
+    {
+      "id": "f1:r:-9:13:2",
+      "x": -443.0424929039799,
+      "z": 668.8763238767216,
+      "support": {
+        "final": true,
+        "preR3": true
+      }
+    }
+  ],
+  "homes": [],
+  "allScopedSupportParity": true,
+  "rapierReentryMatchesFinalSurface": true
+}

@@ -1,0 +1,20 @@
+{
+  "schema": "trailgloam-rig-landmarks-r1",
+  "source": {"path": "art/source/trailgloam-v1/trellis-trial/postprocess-r1/retry-import-fix/raw-textured-simplified.glb", "sha256": "e223fdd1e9ca1d5d7299d756a142915d54107af7a10a91103338ee5c531c1933", "raw_bounds": {"min": [-0.4996268,-0.4694424,-0.2480721], "max": [0.5009742,0.4683515,0.2465536]}},
+  "axes": {"up": "+Z", "forward": "-Y", "right": "+X", "status": "visual inference from front eyes/head; verify in Blender neutral before binding"},
+  "scale": {"uniform": 2.22, "meter_envelope": {"x_width": 2.221, "y_length": 2.082, "z_height": 1.098}, "ground_shift_z": 0.551, "status": "proposed player-scale normalization from raw bounds; do not nonuniformly stretch"},
+  "landmarks_raw": {
+    "body": {"center": [0.001,-0.02,0.02], "shell_z": [-0.10,0.247]},
+    "head": {"center": [0.0,-0.39,-0.02], "eyes": [[-0.16,-0.43,-0.03],[0.16,-0.43,-0.03]]},
+    "fronds": [{"root":[-0.12,0.04,0.205],"tip":[-0.19,0.14,0.43]},{"root":[0.12,0.04,0.205],"tip":[0.19,0.14,0.43]}],
+    "limbs": [
+      {"id":"front_left","attachment":[-0.34,-0.30,-0.03],"knee":[-0.43,-0.35,-0.12],"ankle":[-0.42,-0.43,-0.20],"sole":[-0.42,-0.43,-0.248]},
+      {"id":"front_right","attachment":[0.34,-0.30,-0.03],"knee":[0.43,-0.35,-0.12],"ankle":[0.42,-0.43,-0.20],"sole":[0.42,-0.43,-0.248]},
+      {"id":"mid_left","attachment":[-0.43,-0.02,-0.02],"knee":[-0.49,-0.02,-0.13],"ankle":[-0.43,-0.10,-0.20],"sole":[-0.43,-0.10,-0.248]},
+      {"id":"mid_right","attachment":[0.43,-0.02,-0.02],"knee":[0.49,-0.02,-0.13],"ankle":[0.43,-0.10,-0.20],"sole":[0.43,-0.10,-0.248]},
+      {"id":"rear_left","attachment":[-0.33,0.27,-0.03],"knee":[-0.43,0.32,-0.12],"ankle":[-0.41,0.38,-0.20],"sole":[-0.41,0.38,-0.248]},
+      {"id":"rear_right","attachment":[0.33,0.27,-0.03],"knee":[0.43,0.32,-0.12],"ankle":[0.41,0.38,-0.20],"sole":[0.41,0.38,-0.248]}
+    ]
+  },
+  "partition": {"body": "preserve existing textured shell and UV seams", "limbs": "six disconnected appendage groups are expected; bind each to coxa/knee/ankle/hoof deform chain without auto-weld", "fronds": "two single-bone decorative chains rooted inside shell", "head": "head/eyes use head bone parented to body; no facial rig"}
+}

@@ -1,0 +1,107 @@
+{
+  "status": "retained partial Grove improvement; full room and region unfinished",
+  "tests": {
+    "npmTest": 1434,
+    "npmVerify": "PASS including 1434 tests/world/campaign/build/validate",
+    "npmZip": "PASS"
+  },
+  "zip": {
+    "bytes": 21664636,
+    "sha256": "e395e4ad51c341b4706dbf500e35c28eec8023acd9475fdd439b1c83c32e96eb"
+  },
+  "beforeAfterSamePose": true,
+  "devPackageSamePose": true,
+  "devPackageSameResidentIds": true,
+  "addedIds": [
+    "f1:s:rootbound-wildwood:lantern-colony-lily",
+    "f1:s:rootbound-wildwood:lantern-colony-pebbles",
+    "f1:s:rootbound-wildwood:lantern-colony-r4",
+    "f1:s:rootbound-wildwood:lantern-colony-ring",
+    "f1:s:rootbound-wildwood:lantern-margin-back-spread",
+    "f1:s:rootbound-wildwood:lantern-margin-back-tall",
+    "f1:s:rootbound-wildwood:lantern-margin-left-spread"
+  ],
+  "removedIds": [
+    "f2c:i:-9:13:111",
+    "f2c:i:-9:13:223",
+    "f2c:i:-9:13:230",
+    "f2c:s:-11:15:seed-1",
+    "f2c:s:-7:14:seed-0",
+    "f2c:s:-8:15:seed-1"
+  ],
+  "before": {
+    "residentCount": 41,
+    "canopyCount": 12,
+    "colliderCount": 15,
+    "lowDrawCount": 19,
+    "lowTriangleCount": 24732
+  },
+  "after": {
+    "residentCount": 42,
+    "canopyCount": 12,
+    "colliderCount": 15,
+    "lowDrawCount": 22,
+    "lowTriangleCount": 25730
+  },
+  "canopyLifecycleHits": [
+    3,
+    0,
+    3
+  ],
+  "rootboundColliderCounts": [
+    8,
+    0,
+    8
+  ],
+  "packagedCanopyRays": [
+    {
+      "x": -445,
+      "z": 683,
+      "hit": true,
+      "surface": "f2c:f1:s:rootbound-wildwood:lantern-margin-left-spread:trunk",
+      "height": 9.972442626953125
+    },
+    {
+      "x": -439,
+      "z": 688,
+      "hit": true,
+      "surface": "f2c:f1:s:rootbound-wildwood:lantern-margin-back-tall:trunk",
+      "height": 9.037609100341797
+    },
+    {
+      "x": -443,
+      "z": 686,
+      "hit": true,
+      "surface": "f2c:f1:s:rootbound-wildwood:lantern-margin-back-spread:trunk",
+      "height": 9.505977630615234
+    }
+  ],
+  "walk": [
+    {
+      "file": "r2-walk-forward.json",
+      "distanceXZ": 4.546533986786239,
+      "allSampledGrounded": true
+    },
+    {
+      "file": "r2-walk-interior.json",
+      "distanceXZ": 4.181448895986838,
+      "allSampledGrounded": true
+    },
+    {
+      "file": "r2-walk-return-interior.json",
+      "distanceXZ": 4.484136900848657,
+      "allSampledGrounded": false
+    },
+    {
+      "file": "r2-walk-return.json",
+      "distanceXZ": 4.387085259095052,
+      "allSampledGrounded": true
+    }
+  ],
+  "limits": [
+    "Scripted keyboard-event input through actual game controls; protected Scout storage.",
+    "No new persistent outing or hardware-phone proof.",
+    "Known pre-existing MutationObserver error remains in native browser logs.",
+    "Initial unsupported low GLB was invisible; retained asset uses supported baked parts."
+  ]
+}

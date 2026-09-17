@@ -1,0 +1,287 @@
+{
+  "status": "HOLD_RENDERED_TRIANGLE_FOOTPRINT_FAILURE",
+  "method": {
+    "grid_m": 1,
+    "terrain_slope_sample_m": 0.8,
+    "ordinary_support_max_slope": 0.32,
+    "cell_rule": "center slope <= .32 and every one-metre step elevation change / step length <= .32",
+    "segment_rule": "collinear path compression retained only after each rounded one-metre sample passed the cell rule",
+    "bounds": {
+      "minX": -2927,
+      "maxX": -2790,
+      "minZ": -1365,
+      "maxZ": -1214
+    }
+  },
+  "failed_straight_joins_retained": [
+    {
+      "x": -2807,
+      "z": -1315,
+      "slope": 0.41
+    },
+    {
+      "x": -2868,
+      "z": -1300,
+      "slope": 0.474
+    }
+  ],
+  "candidate": {
+    "name": "fungal-rootwash-west-return",
+    "waypoints": [
+      [
+        -2848,
+        -1216
+      ],
+      [
+        -2850,
+        -1232
+      ],
+      [
+        -2849,
+        -1248
+      ],
+      [
+        -2854,
+        -1258
+      ],
+      [
+        -2846,
+        -1270
+      ],
+      [
+        -2838,
+        -1284
+      ],
+      [
+        -2826,
+        -1298
+      ],
+      [
+        -2843,
+        -1284
+      ],
+      [
+        -2845,
+        -1286
+      ],
+      [
+        -2844,
+        -1287
+      ],
+      [
+        -2836,
+        -1327
+      ],
+      [
+        -2816,
+        -1347
+      ],
+      [
+        -2805,
+        -1359
+      ],
+      [
+        -2800,
+        -1360
+      ],
+      [
+        -2806,
+        -1358
+      ],
+      [
+        -2819,
+        -1344
+      ],
+      [
+        -2837,
+        -1330
+      ],
+      [
+        -2838,
+        -1330
+      ],
+      [
+        -2839,
+        -1330
+      ],
+      [
+        -2855,
+        -1346
+      ],
+      [
+        -2878,
+        -1331
+      ],
+      [
+        -2885,
+        -1331
+      ],
+      [
+        -2888,
+        -1328
+      ],
+      [
+        -2886,
+        -1281
+      ],
+      [
+        -2887,
+        -1270
+      ],
+      [
+        -2884,
+        -1230
+      ],
+      [
+        -2900,
+        -1195
+      ],
+      [
+        -2925,
+        -1160
+      ]
+    ],
+    "compressed_waypoint_count": 28,
+    "raw_lattice_point_count": 254,
+    "walk_length_m": 500.299,
+    "ordinary_walk_seconds_at_2_145_mps": 233.24,
+    "ordinary_walk_minutes": 3.887,
+    "raw_lattice_walk_length_m": 526.275,
+    "max_sampled_center_slope": 0.319947,
+    "straight_join_detours": [
+      {
+        "replaces": "(-2826,-1298) -> (-2807,-1315)",
+        "via": [
+          [
+            -2843,
+            -1284
+          ],
+          [
+            -2845,
+            -1286
+          ],
+          [
+            -2844,
+            -1287
+          ],
+          [
+            -2836,
+            -1327
+          ],
+          [
+            -2816,
+            -1347
+          ],
+          [
+            -2805,
+            -1359
+          ],
+          [
+            -2800,
+            -1360
+          ]
+        ]
+      },
+      {
+        "replaces": "(-2800,-1360) -> (-2838,-1330) -> (-2868,-1300) -> (-2887,-1270)",
+        "via": [
+          [
+            -2806,
+            -1358
+          ],
+          [
+            -2819,
+            -1344
+          ],
+          [
+            -2837,
+            -1330
+          ],
+          [
+            -2838,
+            -1330
+          ],
+          [
+            -2839,
+            -1330
+          ],
+          [
+            -2855,
+            -1346
+          ],
+          [
+            -2878,
+            -1331
+          ],
+          [
+            -2885,
+            -1331
+          ],
+          [
+            -2888,
+            -1328
+          ],
+          [
+            -2886,
+            -1281
+          ],
+          [
+            -2887,
+            -1270
+          ]
+        ]
+      }
+    ]
+  },
+  "preserved_footprints": [
+    {
+      "id": "f1:r:-57:-25:400",
+      "kind": "blossom",
+      "radius": 0.9,
+      "min_centerline_distance_m": 2.433
+    },
+    {
+      "id": "f1:r:-58:-25:401",
+      "kind": "blossom",
+      "radius": 0.9,
+      "min_centerline_distance_m": 6.319
+    },
+    {
+      "id": "f1:r:-57:-26:402",
+      "kind": "blossom",
+      "radius": 0.9,
+      "min_centerline_distance_m": 8.05
+    },
+    {
+      "id": "f1:r:-58:-26:403",
+      "kind": "blossom",
+      "radius": 0.9,
+      "min_centerline_distance_m": 6.708
+    },
+    {
+      "id": "f1:w:-58:-26:450",
+      "kind": "Thorn home",
+      "radius": 10,
+      "min_centerline_distance_m": 14.142
+    },
+    {
+      "id": "f1:s:fungal-hollow:stone-a",
+      "kind": "solid Fen stone",
+      "radius": 1.14,
+      "min_centerline_distance_m": 3.69
+    },
+    {
+      "id": "f1:s:fungal-hollow:stone-b",
+      "kind": "solid Fen stone",
+      "radius": 1.14,
+      "min_centerline_distance_m": 3.801
+    },
+    {
+      "id": "f1:s:fungal-hollow:stone-c",
+      "kind": "solid Fen stone",
+      "radius": 1.14,
+      "min_centerline_distance_m": 7.826
+    }
+  ],
+  "admission_limit": "Rejected by the rendered 2m terrain-triangle and full player-footprint proof in route-proof.json (696 > .32 samples; peak .457097). No playable-circuit claim. A new bounded revision would need its own route proof."
+}

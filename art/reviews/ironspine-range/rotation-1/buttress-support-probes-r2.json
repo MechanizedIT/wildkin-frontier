@@ -1,0 +1,757 @@
+{
+  "generatedAt": "2026-09-14T14:30:18.040Z",
+  "note": "Read-only revised candidate search. Complete actual GLB mesh vertices project through root-recorded arrival camera/direction, 52 degree FOV and 412×915 viewport. It evaluates real transformed convex hull support/protection independently. Central means screen x10..402,y165..640 and is a pre-preview filter, not visibility/occlusion proof.",
+  "asset": {
+    "id": "asset_verdant_cliff_buttress",
+    "model": "assets/models/verdant-cliff-buttress-v1/model.glb",
+    "scale": 0.65,
+    "meshVertexCount": 1160,
+    "hullVertexCount": 19
+  },
+  "pose": {
+    "camera": [
+      -2083.2910549614385,
+      17.02303360892079,
+      -3168.780900818081
+    ],
+    "direction": [
+      0.28392997812580834,
+      -0.5877852522924952,
+      0.7575567732579029
+    ],
+    "width": 412,
+    "height": 915,
+    "fov": 52
+  },
+  "method": {
+    "yaw": "Three.js x=px*cos(yaw)+pz*sin(yaw); z=-px*sin(yaw)+pz*cos(yaw)",
+    "support": "all hull vertices, 3 interior samples per declared hull edge, origin; span <= .32m",
+    "protection": "sources radius+1.2m, homes max(roam/leash)+1.2m, solid scenery no hull overlap, route boundary >=1.2m across all 74 lattice segments"
+  },
+  "search": {
+    "x": [
+      -2094,
+      -2064
+    ],
+    "z": [
+      -3161,
+      -3140
+    ],
+    "yaws": [
+      1.5707963267948966,
+      -1.5707963267948966,
+      0,
+      3.141592653589793
+    ],
+    "candidateCount": 2728,
+    "eligibleCount": 45,
+    "eligible": [
+      {
+        "transform": {
+          "x": -2077,
+          "z": -3157,
+          "yaw": 3.141592653589793,
+          "scale": 0.65,
+          "baseY": 9.021
+        },
+        "support": {
+          "samples": 77,
+          "span": 0.1664,
+          "freeStanding": true
+        },
+        "clearance": {
+          "routeMargin": 1.8984,
+          "routePass": true,
+          "source": [],
+          "home": [],
+          "solid": []
+        },
+        "mesh": {
+          "minX": 31.1156153863311,
+          "maxX": 162.76089317588048,
+          "minY": 226.61801946753098,
+          "maxY": 401.59704486981684,
+          "front": 1160,
+          "total": 1160,
+          "central": 1160,
+          "centralRatio": 1
+        },
+        "pass": true
+      },
+      {
+        "transform": {
+          "x": -2077,
+          "z": -3157,
+          "yaw": 0,
+          "scale": 0.65,
+          "baseY": 9.0255
+        },
+        "support": {
+          "samples": 77,
+          "span": 0.1672,
+          "freeStanding": true
+        },
+        "clearance": {
+          "routeMargin": 1.9959,
+          "routePass": true,
+          "source": [],
+          "home": [],
+          "solid": []
+        },
+        "mesh": {
+          "minX": 31.585872394382385,
+          "maxX": 165.14569919040437,
+          "minY": 233.1453647027412,
+          "maxY": 400.4407492834154,
+          "front": 1160,
+          "total": 1160,
+          "central": 1160,
+          "centralRatio": 1
+        },
+        "pass": true
+      },
+      {
+        "transform": {
+          "x": -2077,
+          "z": -3156,
+          "yaw": 3.141592653589793,
+          "scale": 0.65,
+          "baseY": 9.1137
+        },
+        "support": {
+          "samples": 77,
+          "span": 0.1765,
+          "freeStanding": true
+        },
+        "clearance": {
+          "routeMargin": 1.7778,
+          "routePass": true,
+          "source": [],
+          "home": [],
+          "solid": []
+        },
+        "mesh": {
+          "minX": 59.51284213780416,
+          "maxX": 185.165618300495,
+          "minY": 198.5428397156185,
+          "maxY": 366.3603862470199,
+          "front": 1160,
+          "total": 1160,
+          "central": 1160,
+          "centralRatio": 1
+        },
+        "pass": true
+      },
+      {
+        "transform": {
+          "x": -2077,
+          "z": -3156,
+          "yaw": 0,
+          "scale": 0.65,
+          "baseY": 9.1187
+        },
+        "support": {
+          "samples": 77,
+          "span": 0.1774,
+          "freeStanding": true
+        },
+        "clearance": {
+          "routeMargin": 1.6432,
+          "routePass": true,
+          "source": [],
+          "home": [],
+          "solid": []
+        },
+        "mesh": {
+          "minX": 60.86987938770094,
+          "maxX": 187.23572010898855,
+          "minY": 204.03512885981516,
+          "maxY": 365.27652115814095,
+          "front": 1160,
+          "total": 1160,
+          "central": 1160,
+          "centralRatio": 1
+        },
+        "pass": true
+      },
+      {
+        "transform": {
+          "x": -2078,
+          "z": -3160,
+          "yaw": 1.5707963267948966,
+          "scale": 0.65,
+          "baseY": 8.7334
+        },
+        "support": {
+          "samples": 77,
+          "span": 0.1844,
+          "freeStanding": true
+        },
+        "clearance": {
+          "routeMargin": 1.3198,
+          "routePass": true,
+          "source": [],
+          "home": [],
+          "solid": []
+        },
+        "mesh": {
+          "minX": 11.950029489267173,
+          "maxX": 129.42807918732447,
+          "minY": 360.00381696685514,
+          "maxY": 560.6761622997938,
+          "front": 1160,
+          "total": 1160,
+          "central": 1160,
+          "centralRatio": 1
+        },
+        "pass": true
+      },
+      {
+        "transform": {
+          "x": -2076,
+          "z": -3155,
+          "yaw": 0,
+          "scale": 0.65,
+          "baseY": 9.2505
+        },
+        "support": {
+          "samples": 77,
+          "span": 0.1906,
+          "freeStanding": true
+        },
+        "clearance": {
+          "routeMargin": 1.6432,
+          "routePass": true,
+          "source": [],
+          "home": [],
+          "solid": []
+        },
+        "mesh": {
+          "minX": 35.90323640654084,
+          "maxX": 156.3001053485801,
+          "minY": 168.0441345751337,
+          "maxY": 321.62761067140457,
+          "front": 1160,
+          "total": 1160,
+          "central": 1160,
+          "centralRatio": 1
+        },
+        "pass": true
+      },
+      {
+        "transform": {
+          "x": -2078,
+          "z": -3159,
+          "yaw": -1.5707963267948966,
+          "scale": 0.65,
+          "baseY": 8.8023
+        },
+        "support": {
+          "samples": 77,
+          "span": 0.1964,
+          "freeStanding": true
+        },
+        "clearance": {
+          "routeMargin": 1.2808,
+          "routePass": true,
+          "source": [],
+          "home": [],
+          "solid": []
+        },
+        "mesh": {
+          "minX": 36.57096619640199,
+          "maxX": 154.48956877390788,
+          "minY": 294.9000678715395,
+          "maxY": 513.1520870616558,
+          "front": 1160,
+          "total": 1160,
+          "central": 1160,
+          "centralRatio": 1
+        },
+        "pass": true
+      },
+      {
+        "transform": {
+          "x": -2078,
+          "z": -3159,
+          "yaw": 1.5707963267948966,
+          "scale": 0.65,
+          "baseY": 8.8067
+        },
+        "support": {
+          "samples": 77,
+          "span": 0.1969,
+          "freeStanding": true
+        },
+        "clearance": {
+          "routeMargin": 1.3198,
+          "routePass": true,
+          "source": [],
+          "home": [],
+          "solid": []
+        },
+        "mesh": {
+          "minX": 46.68645063244555,
+          "maxX": 156.52781309463205,
+          "minY": 321.1490868892817,
+          "maxY": 510.8744500673256,
+          "front": 1160,
+          "total": 1160,
+          "central": 1160,
+          "centralRatio": 1
+        },
+        "pass": true
+      },
+      {
+        "transform": {
+          "x": -2078,
+          "z": -3158,
+          "yaw": -1.5707963267948966,
+          "scale": 0.65,
+          "baseY": 8.8806
+        },
+        "support": {
+          "samples": 77,
+          "span": 0.2093,
+          "freeStanding": true
+        },
+        "clearance": {
+          "routeMargin": 1.2808,
+          "routePass": true,
+          "source": [],
+          "home": [],
+          "solid": []
+        },
+        "mesh": {
+          "minX": 71.63434892368868,
+          "maxX": 179.7543107749737,
+          "minY": 260.8774731416618,
+          "maxY": 468.04817538218117,
+          "front": 1160,
+          "total": 1160,
+          "central": 1160,
+          "centralRatio": 1
+        },
+        "pass": true
+      },
+      {
+        "transform": {
+          "x": -2078,
+          "z": -3158,
+          "yaw": 1.5707963267948966,
+          "scale": 0.65,
+          "baseY": 8.8852
+        },
+        "support": {
+          "samples": 77,
+          "span": 0.2098,
+          "freeStanding": true
+        },
+        "clearance": {
+          "routeMargin": 1.3198,
+          "routePass": true,
+          "source": [],
+          "home": [],
+          "solid": []
+        },
+        "mesh": {
+          "minX": 77.89516990187899,
+          "maxX": 181.02005648365886,
+          "minY": 284.6469995720466,
+          "maxY": 465.98626101822464,
+          "front": 1160,
+          "total": 1160,
+          "central": 1160,
+          "centralRatio": 1
+        },
+        "pass": true
+      },
+      {
+        "transform": {
+          "x": -2077,
+          "z": -3158,
+          "yaw": 1.5707963267948966,
+          "scale": 0.65,
+          "baseY": 8.9124
+        },
+        "support": {
+          "samples": 77,
+          "span": 0.2132,
+          "freeStanding": true
+        },
+        "clearance": {
+          "routeMargin": 2.3198,
+          "routePass": true,
+          "source": [],
+          "home": [],
+          "solid": []
+        },
+        "mesh": {
+          "minX": 19.476976481462803,
+          "maxX": 123.46994688667345,
+          "minY": 272.0918886306682,
+          "maxY": 450.46514412960363,
+          "front": 1160,
+          "total": 1160,
+          "central": 1160,
+          "centralRatio": 1
+        },
+        "pass": true
+      },
+      {
+        "transform": {
+          "x": -2078,
+          "z": -3157,
+          "yaw": -1.5707963267948966,
+          "scale": 0.65,
+          "baseY": 8.9643
+        },
+        "support": {
+          "samples": 77,
+          "span": 0.2228,
+          "freeStanding": true
+        },
+        "clearance": {
+          "routeMargin": 1.2808,
+          "routePass": true,
+          "source": [],
+          "home": [],
+          "solid": []
+        },
+        "mesh": {
+          "minX": 102.9877185272314,
+          "maxX": 202.65178163821565,
+          "minY": 229.91482001716471,
+          "maxY": 427.1210668620362,
+          "front": 1160,
+          "total": 1160,
+          "central": 1160,
+          "centralRatio": 1
+        },
+        "pass": true
+      },
+      {
+        "transform": {
+          "x": -2078,
+          "z": -3157,
+          "yaw": 1.5707963267948966,
+          "scale": 0.65,
+          "baseY": 8.9692
+        },
+        "support": {
+          "samples": 77,
+          "span": 0.2233,
+          "freeStanding": true
+        },
+        "clearance": {
+          "routeMargin": 1.3198,
+          "routePass": true,
+          "source": [],
+          "home": [],
+          "solid": []
+        },
+        "mesh": {
+          "minX": 106.10046605573841,
+          "maxX": 203.27638477719907,
+          "minY": 251.50378230871164,
+          "maxY": 425.2421806516486,
+          "front": 1160,
+          "total": 1160,
+          "central": 1160,
+          "centralRatio": 1
+        },
+        "pass": true
+      },
+      {
+        "transform": {
+          "x": -2077,
+          "z": -3157,
+          "yaw": -1.5707963267948966,
+          "scale": 0.65,
+          "baseY": 8.9929
+        },
+        "support": {
+          "samples": 77,
+          "span": 0.2262,
+          "freeStanding": true
+        },
+        "clearance": {
+          "routeMargin": 2.2808,
+          "routePass": true,
+          "source": [],
+          "home": [],
+          "solid": []
+        },
+        "mesh": {
+          "minX": 41.3442731273236,
+          "maxX": 145.88170087151917,
+          "minY": 219.2638025324576,
+          "maxY": 412.9544661501616,
+          "front": 1160,
+          "total": 1160,
+          "central": 1160,
+          "centralRatio": 1
+        },
+        "pass": true
+      },
+      {
+        "transform": {
+          "x": -2077,
+          "z": -3157,
+          "yaw": 1.5707963267948966,
+          "scale": 0.65,
+          "baseY": 8.9978
+        },
+        "support": {
+          "samples": 77,
+          "span": 0.2268,
+          "freeStanding": true
+        },
+        "clearance": {
+          "routeMargin": 2.3198,
+          "routePass": true,
+          "source": [],
+          "home": [],
+          "solid": []
+        },
+        "mesh": {
+          "minX": 49.904590504551116,
+          "maxX": 147.91774493763546,
+          "minY": 240.12061561396814,
+          "maxY": 411.13917810921333,
+          "front": 1160,
+          "total": 1160,
+          "central": 1160,
+          "centralRatio": 1
+        },
+        "pass": true
+      },
+      {
+        "transform": {
+          "x": -2077,
+          "z": -3156,
+          "yaw": -1.5707963267948966,
+          "scale": 0.65,
+          "baseY": 9.0838
+        },
+        "support": {
+          "samples": 77,
+          "span": 0.2403,
+          "freeStanding": true
+        },
+        "clearance": {
+          "routeMargin": 1.8311,
+          "routePass": true,
+          "source": [],
+          "home": [],
+          "solid": []
+        },
+        "mesh": {
+          "minX": 72.0296522851,
+          "maxX": 168.87202971487682,
+          "minY": 191.79494184209528,
+          "maxY": 376.8016339358329,
+          "front": 1160,
+          "total": 1160,
+          "central": 1160,
+          "centralRatio": 1
+        },
+        "pass": true
+      },
+      {
+        "transform": {
+          "x": -2077,
+          "z": -3156,
+          "yaw": 1.5707963267948966,
+          "scale": 0.65,
+          "baseY": 9.0889
+        },
+        "support": {
+          "samples": 77,
+          "span": 0.2409,
+          "freeStanding": true
+        },
+        "clearance": {
+          "routeMargin": 1.7659,
+          "routePass": true,
+          "source": [],
+          "home": [],
+          "solid": []
+        },
+        "mesh": {
+          "minX": 77.59122379374695,
+          "maxX": 170.26980933067685,
+          "minY": 210.85833570919866,
+          "maxY": 375.13413806616484,
+          "front": 1160,
+          "total": 1160,
+          "central": 1160,
+          "centralRatio": 1
+        },
+        "pass": true
+      },
+      {
+        "transform": {
+          "x": -2076,
+          "z": -3156,
+          "yaw": -1.5707963267948966,
+          "scale": 0.65,
+          "baseY": 9.1142
+        },
+        "support": {
+          "samples": 77,
+          "span": 0.244,
+          "freeStanding": true
+        },
+        "clearance": {
+          "routeMargin": 2.5382,
+          "routePass": true,
+          "source": [],
+          "home": [],
+          "solid": []
+        },
+        "mesh": {
+          "minX": 14.98467624168374,
+          "maxX": 116.00181380415752,
+          "minY": 182.36264919795065,
+          "maxY": 364.28487527205243,
+          "front": 1160,
+          "total": 1160,
+          "central": 1160,
+          "centralRatio": 1
+        },
+        "pass": true
+      },
+      {
+        "transform": {
+          "x": -2076,
+          "z": -3156,
+          "yaw": 1.5707963267948966,
+          "scale": 0.65,
+          "baseY": 9.1194
+        },
+        "support": {
+          "samples": 77,
+          "span": 0.2446,
+          "freeStanding": true
+        },
+        "clearance": {
+          "routeMargin": 2.473,
+          "routePass": true,
+          "source": [],
+          "home": [],
+          "solid": []
+        },
+        "mesh": {
+          "minX": 25.23946500314147,
+          "maxX": 118.62481650171036,
+          "minY": 200.8211710024922,
+          "maxY": 362.66946920449914,
+          "front": 1160,
+          "total": 1160,
+          "central": 1160,
+          "centralRatio": 1
+        },
+        "pass": true
+      },
+      {
+        "transform": {
+          "x": -2076,
+          "z": -3155,
+          "yaw": 1.5707963267948966,
+          "scale": 0.65,
+          "baseY": 9.2181
+        },
+        "support": {
+          "samples": 77,
+          "span": 0.2594,
+          "freeStanding": true
+        },
+        "clearance": {
+          "routeMargin": 1.7659,
+          "routePass": true,
+          "source": [],
+          "home": [],
+          "solid": []
+        },
+        "mesh": {
+          "minX": 52.32158838074868,
+          "maxX": 140.8999401024523,
+          "minY": 174.67536381784907,
+          "maxY": 330.509308751975,
+          "front": 1160,
+          "total": 1160,
+          "central": 1160,
+          "centralRatio": 1
+        },
+        "pass": true
+      }
+    ],
+    "rejectedOriginalPair": [
+      {
+        "transform": {
+          "x": -2085,
+          "z": -3153,
+          "yaw": 1.5707963267948966,
+          "scale": 0.65,
+          "baseY": 9.1286
+        },
+        "support": {
+          "samples": 77,
+          "span": 0.2545,
+          "freeStanding": true
+        },
+        "clearance": {
+          "routeMargin": 4.5112,
+          "routePass": true,
+          "source": [],
+          "home": [],
+          "solid": []
+        },
+        "mesh": {
+          "minX": 580.9144899074521,
+          "maxX": 698.8824565182739,
+          "minY": 208.39249421034265,
+          "maxY": 372.99760437379535,
+          "front": 1160,
+          "total": 1160,
+          "central": 0,
+          "centralRatio": 0
+        },
+        "pass": false
+      },
+      {
+        "transform": {
+          "x": -2073,
+          "z": -3152,
+          "yaw": -1.5707963267948966,
+          "scale": 0.65,
+          "baseY": 9.6598
+        },
+        "support": {
+          "samples": 77,
+          "span": 0.319,
+          "freeStanding": true
+        },
+        "clearance": {
+          "routeMargin": 1.8311,
+          "routePass": true,
+          "source": [],
+          "home": [],
+          "solid": []
+        },
+        "mesh": {
+          "minX": -19.8125413294515,
+          "maxX": 66.08508133390993,
+          "minY": 73.05545820639306,
+          "maxY": 221.83573551858842,
+          "front": 1160,
+          "total": 1160,
+          "central": 427,
+          "centralRatio": 0.3681
+        },
+        "pass": false
+      }
+    ]
+  }
+}

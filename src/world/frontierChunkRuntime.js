@@ -68,6 +68,48 @@ function separateCliffFaces(geometry, chunk) {
   return new THREE.MeshStandardMaterial({ vertexColors: true, roughness: 1, metalness: 0, flatShading: true });
 }
 
+function createRootboundFacetRenderGeometry(geometry, chunk) {
+  const deltas = chunk.rootboundFacetDeltas;
+  if (!(deltas instanceof Float32Array) || !deltas.some(value => Math.abs(value) > 1e-6)) return null;
+  const deltaByPosition = new Map();
+  for (let index = 0; index < deltas.length; index += 1) {
+    const offset = index * 3;
+    deltaByPosition.set(String(Math.round(chunk.vertices[offset] * 1e5)) + ',' + String(Math.round(chunk.vertices[offset + 2] * 1e5)), deltas[index]);
+  }
+  const renderGeometry = geometry.toNonIndexed();
+  const renderPositions = renderGeometry.getAttribute('position');
+  const priorColors = renderGeometry.getAttribute('color');
+  const colors = new Float32Array(renderPositions.count * 3);
+  const cliffStarts = new Set();
+  for (const group of geometry.groups) if (group.materialIndex === 1) {
+    for (let index = group.start; index < group.start + group.count; index += 3) cliffStarts.add(index);
+  }
+  for (let index = 0; index < renderPositions.count; index += 3) {
+    let mean = 0;
+    for (let corner = 0; corner < 3; corner += 1) {
+      const vertex = index + corner;
+      const key = String(Math.round(renderPositions.getX(vertex) * 1e5)) + ',' + String(Math.round(renderPositions.getZ(vertex) * 1e5));
+      mean += deltaByPosition.get(key) ?? 0;
+    }
+    mean /= 3;
+    const s = Math.max(-1, Math.min(1, mean / .36));
+    const cliff = cliffStarts.has(index);
+    for (let corner = 0; corner < 3; corner += 1) {
+      const vertex = index + corner, offset = vertex * 3;
+      // The terrain map remains the base color. Ground faces receive only the
+      // reviewed correlated light shift; cliff shading keeps its existing RGB.
+      colors[offset] = cliff ? priorColors.getX(vertex) : 1 + s * .065;
+      colors[offset + 1] = cliff ? priorColors.getY(vertex) : 1 + s * .10;
+      colors[offset + 2] = cliff ? priorColors.getZ(vertex) : 1 + s * .065;
+    }
+  }
+  renderGeometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+  // With non-indexed faces, generated normals remain per-face and expose the
+  // shared authoritative height field without changing its physics geometry.
+  renderGeometry.computeVertexNormals();
+  return renderGeometry;
+}
+
 function hash(x, z, seed) {
   let value = Math.imul(x | 0, 374761393) ^ Math.imul(z | 0, 668265263) ^ seed;
   value = Math.imul(value ^ (value >>> 13), 1274126177);
@@ -220,8 +262,8 @@ export function createFrontierChunkRuntime({ parent, physicsWorld, campSurface, 
       group.position.set(chunk.origin.x, 0, chunk.origin.z);
       return { chunk, group, geometry: null, foliage: null, texture: null, material: null, stoneMaterial: null, landform: null };
     }
-    const geometry = new THREE.BufferGeometry();
-    let foliage = null, texture = null, material = null, stoneMaterial = null, landform = null;
+    let geometry = new THREE.BufferGeometry();
+    let facetMaterial = null, foliage = null, texture = null, material = null, stoneMaterial = null, landform = null;
     try {
     geometry.setAttribute('position', new THREE.BufferAttribute(chunk.vertices, 3));
     geometry.setAttribute('normal', new THREE.BufferAttribute(chunk.normals, 3));
@@ -246,7 +288,15 @@ export function createFrontierChunkRuntime({ parent, physicsWorld, campSurface, 
     });
     material = new THREE.MeshStandardMaterial({ map: texture, roughness: 1, metalness: 0, flatShading: true });
     stoneMaterial = separateCliffFaces(geometry, chunk);
-    const mesh = new THREE.Mesh(geometry, stoneMaterial ? [material, stoneMaterial] : material);
+    const facetGeometry = createRootboundFacetRenderGeometry(geometry, chunk);
+    if (facetGeometry) {
+      geometry.dispose();
+      geometry = facetGeometry;
+      facetMaterial = material.clone();
+      facetMaterial.vertexColors = true;
+      facetMaterial.needsUpdate = true;
+    }
+    const mesh = new THREE.Mesh(geometry, stoneMaterial ? [facetMaterial ?? material, stoneMaterial] : (facetMaterial ?? material));
     mesh.name = 'frontier_ground'; mesh.receiveShadow = true; mesh.userData.isGround = true;
     // Only the bounded tall-landform chunks need to cast terrain shadows.
     // Ordinary rolling ground keeps its previous shadow cost.
@@ -254,13 +304,14 @@ export function createFrontierChunkRuntime({ parent, physicsWorld, campSurface, 
       chunk.origin.z + FRONTIER_TERRAIN_CONFIG.chunkSize / 2);
     group.add(mesh);
     foliage = addFoliage(group, chunk, foliageGeometry, foliageMaterial, terrainOptions, worldDescriptor, visualAssets);
-    landform = createFrontierLandformVisual({ cx, cz, visualAssets, getHeight });
+    landform = createFrontierLandformVisual({ cx, cz, visualAssets, getHeight, world: worldDescriptor });
     group.add(landform.group);
-    return { chunk, group, geometry, foliage, texture, material, stoneMaterial, landform };
+    return { chunk, group, geometry, foliage, texture, material, facetMaterial, stoneMaterial, landform };
     } catch (error) {
       landform?.dispose();
       foliage?.dispose();
       stoneMaterial?.dispose();
+      facetMaterial?.dispose();
       material?.dispose();
       texture?.dispose();
       geometry.dispose();
@@ -274,6 +325,7 @@ export function createFrontierChunkRuntime({ parent, physicsWorld, campSurface, 
     resident.foliage?.dispose();
     resident.texture?.dispose();
     resident.material?.dispose();
+    resident.facetMaterial?.dispose();
     resident.stoneMaterial?.dispose();
     resident.landform?.dispose();
   }

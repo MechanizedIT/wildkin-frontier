@@ -1,0 +1,40 @@
+{
+  "status": "UNSELECTED_TARGET_DIRECTIONS",
+  "generator": "built-in image generation",
+  "generatedOn": "2026-09-14",
+  "inputs": {
+    "interior": {
+      "path": "art/reviews/emberglass-caldera/rotation-1/baseline-interior.png",
+      "sha256": "62F0DF1A7FBA694EBF95662B1B52913C21B345DC2D7819D5B903B5EDDD508193"
+    },
+    "arrival": {
+      "path": "art/reviews/emberglass-caldera/rotation-1/baseline-arrival.png",
+      "sha256": "55D50D3C7C78B9C810D93F051A4967C9B894C95B6E45475DD49103B9EBD45D6E"
+    }
+  },
+  "outputs": [
+    {
+      "path": "art/targets/emberglass-caldera/concepts/interior-connected-shoulders.png",
+      "sha256": "0AF149C846B6FFD0B959AF2CF0AAA29DA0BBF285B9B97CA631058EAFEC877C73",
+      "referenceRole": "primary interior direction"
+    },
+    {
+      "path": "art/targets/emberglass-caldera/concepts/arrival-breach-threshold.png",
+      "sha256": "7AE0C2314C002477A2AA7FAEA1425A9D29AC4343389CA356DC76EAF56C478FA9",
+      "referenceRole": "arrival direction"
+    }
+  ],
+  "kitMapping": {
+    "lowShoulders": "existing terrain owner frontierCaldera.js; target only, no new terrain system",
+    "emberBlooms": "existing asset_ember_bloom",
+    "angularSpire": "existing asset_ember_spire",
+    "rubble": "existing asset_pebble_cluster",
+    "mineralAndRisk": "existing crystal, iron, and Emberhorn gameplay identities; no new asset or behavior"
+  },
+  "knownInterpretationLimits": [
+    "The generated shoulder silhouettes are composition directions, not measured terrain dimensions or admission proof.",
+    "The reference expands visible existing spire/bloom/rubble roles but does not assert that every displayed instance or placement is currently admitted.",
+    "No missing asset is asserted: the defining forms map to terrain and existing admitted dressing."
+  ],
+  "selection": "Reserved for independent visual direction; no self-selection."
+}

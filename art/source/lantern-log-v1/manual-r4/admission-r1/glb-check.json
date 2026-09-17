@@ -1,0 +1,26 @@
+{
+  "ok": true,
+  "input": "assets/models/lantern-log-manual-r4-v1/model.glb",
+  "profile": "prop",
+  "limits": {
+    "max_triangles": 5000,
+    "max_vertices": 15000,
+    "max_materials": 2,
+    "max_bones": 0,
+    "max_texture": 1024
+  },
+  "sourceSHA256": "d5037fd475dd5eaf78dbc22e595679ae4cd3e68db81d568b1888d5a97b1053f6",
+  "textureSHA256": [],
+  "counts": {
+    "triangles": 1390,
+    "vertices": 2803,
+    "materials": 1,
+    "bones": 0,
+    "animations": 0
+  },
+  "animations": [],
+  "textures": [],
+  "textureRoles": [],
+  "failures": [],
+  "note": "Structural asset checks only; visual acceptance and measured phone FPS remain separate."
+}

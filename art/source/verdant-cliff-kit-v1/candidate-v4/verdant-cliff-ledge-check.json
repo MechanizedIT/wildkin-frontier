@@ -1,0 +1,43 @@
+{
+  "ok": true,
+  "input": "C:\\Users\\cwood\\Documents\\mobile-rpg\\art\\source\\verdant-cliff-kit-v1\\candidate-v4\\verdant-cliff-ledge.glb",
+  "profile": "prop",
+  "limits": {
+    "max_triangles": 5000,
+    "max_vertices": 15000,
+    "max_materials": 2,
+    "max_bones": 0,
+    "max_texture": 1024
+  },
+  "sourceSHA256": "e4b8889e0fe31c894fb519057229ebe6b6c8ee3a38d4d1f9415bd55b54277ae4",
+  "textureSHA256": [
+    "a1c7e6cc60c533177dc55a8d270f2d143eea38ef5f4bb8528b65f0cc3edf0dba"
+  ],
+  "counts": {
+    "triangles": 362,
+    "vertices": 750,
+    "materials": 1,
+    "bones": 0,
+    "animations": 0
+  },
+  "animations": [],
+  "textures": [
+    {
+      "mimeType": "image/png",
+      "width": 256,
+      "height": 256,
+      "sha256": "a1c7e6cc60c533177dc55a8d270f2d143eea38ef5f4bb8528b65f0cc3edf0dba",
+      "roles": [
+        "baseColor"
+      ]
+    }
+  ],
+  "textureRoles": [
+    {
+      "texture": 0,
+      "role": "baseColor"
+    }
+  ],
+  "failures": [],
+  "note": "Structural asset checks only; visual acceptance and measured phone FPS remain separate."
+}

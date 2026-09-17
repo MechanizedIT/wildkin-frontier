@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="1080" viewBox="0 0 1440 1080" role="img" aria-labelledby="title desc">
+  <title id="title">Rootbound Wildwood portrait composition target V2</title>
+  <desc id="desc">Five schematic portrait gameplay panels show actual downward camera framing, HUD-safe bands, player scale, negative walking floor and one distinct edge form per Rootbound zone. This is not an overhead map or runtime placement diagram.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#092326"/><stop offset="1" stop-color="#102c2a"/></linearGradient>
+    <pattern id="blocked" width="10" height="10" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="10" height="10" fill="#162f38" fill-opacity=".72"/><rect width="4" height="10" fill="#85bfd0" fill-opacity=".24"/></pattern>
+    <filter id="shadow"><feDropShadow dx="0" dy="6" stdDeviation="5" flood-opacity=".5"/></filter>
+    <style>text{font-family:system-ui,sans-serif}.cap{fill:#f3f3db;font-size:18px;font-weight:750}.sub{fill:#b9d7ce;font-size:12px}.note{fill:#8bb5ad;font-size:11px}.hud{fill:#a7d9e7;font-size:10px;font-weight:700}.player{fill:#f2d57a;stroke:#543f23;stroke-width:2}.ground{fill:#92ae78}.floor{fill:#c4d899}.edge{fill:#713f30;stroke:#b98359;stroke-width:2}.shade{fill:#254e48}.fungus{fill:#aa70b2;stroke:#e9b1df;stroke-width:1}.stone{fill:#5e7173;stroke:#b6c7c2;stroke-width:1.5}.crown{fill:#56352b;stroke:#d4a06c;stroke-width:2}</style>
+  </defs>
+  <rect width="1440" height="1080" fill="url(#bg)"/>
+  <text x="48" y="58" fill="#f3f3db" font-size="31" font-family="system-ui,sans-serif" font-weight="800">Rootbound Wildwood — portrait composition target V2</text>
+  <text x="48" y="87" fill="#b9d7ce" font-size="15" font-family="system-ui,sans-serif">Schematic visible ground only: actual 36° downward pitch, 52° FOV, no horizon. Not an overhead map, terrain mesh, or placement approval.</text>
+  <!-- panels 240×540, y=220..760 -->
+  <g filter="url(#shadow)">
+    <rect x="48" y="220" width="240" height="540" rx="16" fill="#122f31" stroke="#77bdb0"/>
+    <rect x="324" y="220" width="240" height="540" rx="16" fill="#122f31" stroke="#77bdb0"/>
+    <rect x="600" y="220" width="240" height="540" rx="16" fill="#122f31" stroke="#77bdb0"/>
+    <rect x="876" y="220" width="240" height="540" rx="16" fill="#122f31" stroke="#77bdb0"/>
+    <rect x="1152" y="220" width="240" height="540" rx="16" fill="#122f31" stroke="#77bdb0"/>
+  </g>
+  <!-- five visible ground beds -->
+  <path class="ground" d="M48 317H288V760H48Z"/><path class="ground" d="M324 317H564V760H324Z"/><path class="ground" d="M600 317H840V760H600Z"/><path class="ground" d="M876 317H1116V760H876Z"/><path class="ground" d="M1152 317H1392V760H1152Z"/>
+  <!-- meadow: east rootline, sparse -->
+  <path class="floor" d="M72 746C85 590 112 433 186 320H248C220 432 211 590 227 746Z"/><path class="edge" d="M252 338C220 410 260 442 235 500C215 548 258 590 231 658C218 693 230 720 246 748" stroke-width="20" fill="none" stroke-linecap="round"/>
+  <g fill="#d887bf"><circle cx="89" cy="470" r="5"/><circle cx="106" cy="504" r="4"/><circle cx="88" cy="630" r="5"/></g>
+  <!-- gallery: single side buttress, medium density -->
+  <path class="floor" d="M400 746C404 610 428 470 475 320H535C490 460 481 610 498 746Z"/>
+  <path class="edge" d="M346 746C373 674 350 600 388 543C414 503 394 422 447 361C466 340 474 328 478 317M367 744C424 684 422 614 451 560C478 510 471 439 505 384" stroke-width="23" fill="none" stroke-linecap="round"/>
+  <path class="shade" d="M330 322C360 345 380 351 400 332L392 400L330 421Z"/>
+  <!-- grove: log/fungi edge, low dense edge -->
+  <path class="floor" d="M665 746C674 590 704 442 743 320H800C765 455 761 600 777 746Z"/>
+  <path class="edge" d="M608 532C652 515 668 458 707 440" stroke-width="27" fill="none" stroke-linecap="round"/>
+  <g class="fungus"><circle cx="629" cy="486" r="15"/><circle cx="654" cy="512" r="11"/><circle cx="681" cy="476" r="18"/><circle cx="701" cy="510" r="10"/></g>
+  <!-- verge: east mineral shards -->
+  <path class="floor" d="M900 746C911 590 951 442 985 320H1050C1021 455 1016 604 1034 746Z"/>
+  <g class="stone"><path d="M1063 620l18-105 18 105z"/><path d="M1028 536l16-72 18 72z"/><path d="M1062 454l15-90 20 90z"/><path d="M1086 689l12-69 17 69z"/></g>
+  <!-- crown: connected collar, rare high anchor -->
+  <path class="floor" d="M1180 746C1197 597 1224 450 1262 320H1332C1300 457 1299 605 1320 746Z"/>
+  <path class="crown" d="M1248 447C1237 412 1240 373 1260 338C1275 311 1300 302 1326 319C1343 332 1349 366 1337 402L1327 471C1312 446 1300 432 1288 452C1274 477 1260 495 1241 510Z"/>
+  <path class="crown" d="M1280 464C1260 510 1240 549 1209 573M1300 467C1305 521 1333 557 1368 579M1288 450C1283 503 1264 531 1249 552" fill="none" stroke-width="22" stroke-linecap="round"/>
+  <!-- HUD blockers: all five top18%, bottom10%, lower side controls -->
+  <g>
+    <rect x="48" y="220" width="240" height="97" fill="url(#blocked)"/><rect x="324" y="220" width="240" height="97" fill="url(#blocked)"/><rect x="600" y="220" width="240" height="97" fill="url(#blocked)"/><rect x="876" y="220" width="240" height="97" fill="url(#blocked)"/><rect x="1152" y="220" width="240" height="97" fill="url(#blocked)"/>
+    <rect x="48" y="706" width="240" height="54" fill="url(#blocked)"/><rect x="324" y="706" width="240" height="54" fill="url(#blocked)"/><rect x="600" y="706" width="240" height="54" fill="url(#blocked)"/><rect x="876" y="706" width="240" height="54" fill="url(#blocked)"/><rect x="1152" y="706" width="240" height="54" fill="url(#blocked)"/>
+    <path d="M48 632h58v74H48M230 632h58v74h-58M324 632h58v74h-58M506 632h58v74h-58M600 632h58v74h-58M782 632h58v74h-58M876 632h58v74h-58M1058 632h58v74h-58M1152 632h58v74h-58M1334 632h58v74h-58" fill="url(#blocked)"/>
+  </g>
+  <!-- player at panel top + 56%*540 = 522 -->
+  <g><circle class="player" cx="168" cy="522" r="27"/><circle class="player" cx="444" cy="522" r="27"/><circle class="player" cx="720" cy="522" r="27"/><circle class="player" cx="996" cy="522" r="27"/><circle class="player" cx="1272" cy="522" r="27"/></g>
+  <g class="hud"><text x="54" y="237">HUD BLOCKED TOP 18%</text><text x="330" y="237">HUD BLOCKED TOP 18%</text><text x="606" y="237">HUD BLOCKED TOP 18%</text><text x="882" y="237">HUD BLOCKED TOP 18%</text><text x="1158" y="237">HUD BLOCKED TOP 18%</text><text x="54" y="750">HUD BLOCKED BOTTOM 10%</text><text x="330" y="750">HUD BLOCKED BOTTOM 10%</text><text x="606" y="750">HUD BLOCKED BOTTOM 10%</text><text x="882" y="750">HUD BLOCKED BOTTOM 10%</text><text x="1158" y="750">HUD BLOCKED BOTTOM 10%</text></g>
+  <g><text class="cap" x="48" y="185">1 · ORIENTATION MEADOW</text><text class="cap" x="324" y="185">2 · ROOT GALLERIES</text><text class="cap" x="600" y="185">3 · LANTERN GROVE</text><text class="cap" x="876" y="185">4 · THORNSTONE VERGE</text><text class="cap" x="1152" y="185">5 · HEARTROOT CROWN</text>
+  <text class="sub" x="48" y="790">A frozen pose · low/open</text><text class="sub" x="48" y="808">1–2m east rootline; sparse edge</text>
+  <text class="sub" x="324" y="790">new Gallery pose TODO · medium</text><text class="sub" x="324" y="808">3–5m side buttress; broad floor</text>
+  <text class="sub" x="600" y="790">C frozen pose · low/damp edge</text><text class="sub" x="600" y="808">0.3–1m log/fungi; dry center</text>
+  <text class="sub" x="876" y="790">new Verge pose TODO · fragmented</text><text class="sub" x="876" y="808">1–3m east shards; escape lane</text>
+  <text class="sub" x="1152" y="790">B frozen pose · rare anchor</text><text class="sub" x="1152" y="808">4–6m connected old-root collar</text></g>
+  <text class="note" x="48" y="875">Player discs are schematic: ~10% panel height, centered at ~56% from panel top. Every panel preserves central negative floor; forms occupy edge bands only.</text>
+  <text class="note" x="48" y="904">A=Arrival, C=Destination, B=Gallery/Crown threshold. Gallery and Verge require new native poses before matching-pose selection/runtime acceptance. Transparent hatched areas are protected UI/controls, not scenery.</text>
+  <text x="48" y="1008" fill="#d7e7df" font-size="15" font-family="system-ui,sans-serif">Planning art direction only · no terrain geometry, exact route, source identity, collider, support, or runtime placement is represented here.</text>
+</svg>

@@ -1,0 +1,26 @@
+{
+  "existingWorldExact": true,
+  "addedAssets": [
+    {
+      "id": "asset_rootbound_block_leaf",
+      "role": "prop",
+      "collision": null,
+      "triangles": 4560
+    },
+    {
+      "id": "asset_rootbound_block_root",
+      "role": "prop",
+      "collision": null,
+      "triangles": 1770
+    },
+    {
+      "id": "asset_rootbound_block_thorn",
+      "role": "prop",
+      "collision": null,
+      "triangles": 1172
+    }
+  ],
+  "addedPlacements": 20,
+  "primaryFullGeometryEdgeClearanceMin": 3.035387524026727,
+  "branchFullGeometryEdgeClearanceMin": 2.381513604242832
+}

@@ -1,0 +1,23 @@
+{
+  "backend": "undisclosed",
+  "attempt1": "unrecoverable wrapper response",
+  "attempt2": "stored result recovered",
+  "sha256": "2B3404B4CC38B32E3E87B97EB922EF78DA71746C679ADAEE682A322798684485",
+  "status": "Terminal reference HOLD; six leg chains not established, no mesh admission",
+  "promptRecord": "Exact original prompts were not retained by the target author. The summaries below are reconstructed from the saved visual brief/review, not exact tool payloads.",
+  "promptSummary": "Single isolated Trailgloam, elevated three-quarter view exposing all six leg chains, low teal shell, two amber fronds, white background. Focused edit requested correcting visible leg count without changing species identity.",
+  "sources": [
+    "docs/species/rootbound-native/rotation-1-visual-brief.md",
+    "art/source/trailgloam-v1/multiview/trailgloam-orthographic-v1.png"
+  ],
+  "outputs": [
+    {
+      "file": "target-v1.png",
+      "sha256": "2b3404b4cc38b32e3e87b97eb922ef78da71746c679adaee682a322798684485"
+    },
+    {
+      "file": "target-v2.png",
+      "sha256": "417daef7277d21dd3c5f53abc92fe4e63f11f575cf04a7e9cca7bae3d2afc2ff"
+    }
+  ]
+}

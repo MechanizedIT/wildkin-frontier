@@ -1,0 +1,37 @@
+{
+  "images": [
+    {
+      "loaded": true,
+      "src": "neutral-three-quarter.png"
+    },
+    {
+      "loaded": true,
+      "src": "loaded-three-quarter.png"
+    },
+    {
+      "loaded": true,
+      "src": "walk-side-0.png"
+    },
+    {
+      "loaded": true,
+      "src": "walk-side-3.png"
+    },
+    {
+      "loaded": true,
+      "src": "walk-side-6.png"
+    },
+    {
+      "loaded": true,
+      "src": "walk-three-quarter-1.png"
+    },
+    {
+      "loaded": true,
+      "src": "walk-three-quarter-4.png"
+    },
+    {
+      "loaded": true,
+      "src": "walk-three-quarter-7.png"
+    }
+  ],
+  "overflow": false
+}

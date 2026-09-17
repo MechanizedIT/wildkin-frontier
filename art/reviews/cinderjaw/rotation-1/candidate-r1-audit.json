@@ -1,0 +1,140 @@
+{
+  "status": "READY_FOR_INDEPENDENT_REVIEW",
+  "candidate": "Cinderjaw native anatomy R1",
+  "scope": "Code-native Cinderjaw mesh only; no gameplay, placement, asset ID, collider, or spawn admission changes.",
+  "frozenInputs": {
+    "docs/species/cinderjaw/anatomy-plan-v2.md": "d59cb6248e8eba32c4ad9838c86d5f14ac4f79f4bfce661e2a4f816b186a8f6c",
+    "docs/species/cinderjaw/anatomy-plan-v2.json": "fc4dfd2af4903d4511fdf19807764fa8892ecda3302c7ab5a399dd3055fac218"
+  },
+  "sourceSha256": "31a3d4613c1f31872d1cf8e1c8d95173e60c81718571a922aac55121510f3ecc",
+  "focusedTest": "node --test tests/cinderjawAnatomyMesh.test.js",
+  "geometry": {
+    "children": 28,
+    "triangles": 768,
+    "bounds": {
+      "min": [
+        -0.7630977737903595,
+        0.011147144138813021,
+        -1.7880706787109375
+      ],
+      "max": [
+        0.7799999713897705,
+        1.1159648895263672,
+        1.5
+      ],
+      "size": [
+        1.54309774518013,
+        1.104817745387554,
+        3.2880706787109375
+      ]
+    },
+    "limbs": [
+      {
+        "vertices": 24,
+        "triangles": 44,
+        "closed": true,
+        "signedVolume": 0.03594414505328654
+      },
+      {
+        "vertices": 24,
+        "triangles": 44,
+        "closed": true,
+        "signedVolume": 0.03687554295105249
+      },
+      {
+        "vertices": 24,
+        "triangles": 44,
+        "closed": true,
+        "signedVolume": 0.0252883891734288
+      },
+      {
+        "vertices": 24,
+        "triangles": 44,
+        "closed": true,
+        "signedVolume": 0.026898346240552602
+      }
+    ],
+    "plates": [
+      {
+        "vertices": 6,
+        "triangles": 8,
+        "closed": true,
+        "signedVolume": 0.001874678526081157
+      },
+      {
+        "vertices": 6,
+        "triangles": 8,
+        "closed": true,
+        "signedVolume": 0.0026561108849797875
+      },
+      {
+        "vertices": 6,
+        "triangles": 8,
+        "closed": true,
+        "signedVolume": 0.0024157908941969826
+      },
+      {
+        "vertices": 6,
+        "triangles": 8,
+        "closed": true,
+        "signedVolume": 0.0022588776352616253
+      },
+      {
+        "vertices": 6,
+        "triangles": 8,
+        "closed": true,
+        "signedVolume": 0.0018841971635245086
+      },
+      {
+        "vertices": 6,
+        "triangles": 8,
+        "closed": true,
+        "signedVolume": 0.00265627718404241
+      },
+      {
+        "vertices": 6,
+        "triangles": 8,
+        "closed": true,
+        "signedVolume": 0.0023900957865507794
+      },
+      {
+        "vertices": 6,
+        "triangles": 8,
+        "closed": true,
+        "signedVolume": 0.0024212503657223064
+      },
+      {
+        "vertices": 6,
+        "triangles": 8,
+        "closed": true,
+        "signedVolume": 0.001837675920496528
+      },
+      {
+        "vertices": 6,
+        "triangles": 8,
+        "closed": true,
+        "signedVolume": 0.00267719148004417
+      },
+      {
+        "vertices": 6,
+        "triangles": 8,
+        "closed": true,
+        "signedVolume": 0.002380533699683372
+      },
+      {
+        "vertices": 6,
+        "triangles": 8,
+        "closed": true,
+        "signedVolume": 0.0024398286622517346
+      }
+    ]
+  },
+  "contracts": {
+    "literalCoordinates": true,
+    "closedEightRingLimbs": true,
+    "closedPentagonalPlates": true,
+    "unmodifiedCinderjawChildOrder": "torso, skull, jaw, [limb, claw] x4, eyes/glints, 12 plates, tail",
+    "siblingProof": "Focused test preserves all six sibling component orders. Root browser snapshot parity is still required for exact geometry/material/transform hashes."
+  },
+  "nextGate": "Root will capture the isolated fixture and run browser snapshot parity. This builder does not self-pass visual quality or authoring-to-baked-recipe integration."
+}

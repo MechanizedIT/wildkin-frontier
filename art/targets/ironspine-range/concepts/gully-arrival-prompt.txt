@@ -1,0 +1,9 @@
+Use case: stylized-concept
+Asset type: portrait mobile gameplay target direction for Wildkin Frontier, Ironspine Range.
+Input image: `art/reviews/ironspine-range/rotation-1/baseline-arrival.png`, edit target and primary composition reference.
+Primary request: transform only the world scene into a plausible high-quality target direction for the low gully arrival; retain the exact portrait 412×915 framing, player scale and position, companion scale, all existing HUD panels, minimap, controls, hotbar, UI text and low-poly Three.js mobile game aesthetic.
+Scene: a sculpted iron-grey sheltered mineral gully that reads in the near and middle ground, with low layered stone side-banks and sparse clustered hardy green ground plants on both outer edges. Keep a clear open central walking lane from the player forward; show one existing-style iron ore cluster at a side edge, not in the player lane. The slope must lead naturally toward an open ascent rather than form a wall.
+Materials: matte blue-grey and iron-grey weathered rock, pale dusty ground, modest green hardy tuft clusters.
+Lighting: same neutral daylight and soft shadows as source.
+Constraints: feasible current low-poly kit and shallow local relief only.
+Avoid: cinematic horizon vistas, cliffs far beyond the camera, caves, bridges, snow, new creatures, new mechanics, different camera angle, altered HUD, text changes, photorealism, or dense foliage.

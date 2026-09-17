@@ -1,0 +1,80 @@
+{
+  "status": "PASS limited outer-body base-center contacts",
+  "angular_samples": [
+    0,
+    30,
+    60,
+    90,
+    120,
+    150,
+    165,
+    175,
+    180,
+    185,
+    210,
+    215,
+    225,
+    235,
+    240,
+    270,
+    290,
+    300,
+    310,
+    330,
+    335,
+    345,
+    355
+  ],
+  "outer_side_triangles": 184,
+  "outer_body_bounds": [
+    [
+      -0.9450000000000001,
+      0.88
+    ],
+    [
+      -0.235,
+      0.255
+    ],
+    [
+      0.0,
+      0.38499999999999995
+    ]
+  ],
+  "contacts": [
+    {
+      "id": "hero",
+      "body_surface_z": 0.380131861318336,
+      "base_embed_m": 0.040131861318336015
+    },
+    {
+      "id": "near_medium",
+      "body_surface_z": 0.33458923290766557,
+      "base_embed_m": 0.06958923290766555
+    },
+    {
+      "id": "back_medium",
+      "body_surface_z": 0.3590813287472875,
+      "base_embed_m": 0.024081328747287523
+    },
+    {
+      "id": "near_young_a",
+      "body_surface_z": 0.2870556502827107,
+      "base_embed_m": 0.0520556502827107
+    },
+    {
+      "id": "near_young_b",
+      "body_surface_z": 0.29778677256584585,
+      "base_embed_m": 0.04278677256584584
+    },
+    {
+      "id": "far_medium",
+      "body_surface_z": 0.35268531716082047,
+      "base_embed_m": 0.013685317160820498
+    }
+  ],
+  "limits": [
+    "This triangulates outer side walls only, not closed ends or moss.",
+    "Blender final triangulation, normals, closure, full bounds and real attachment tests remain required.",
+    "No rendered likeness, all-angle contact, collision or runtime admission."
+  ]
+}

@@ -1,0 +1,6578 @@
+{
+  "center": {
+    "x": -750,
+    "z": 1900,
+    "cx": -15,
+    "cz": 38
+  },
+  "chunks": [
+    {
+      "cx": -18,
+      "cz": 35,
+      "bounds": {
+        "minX": -900,
+        "maxX": -850,
+        "minZ": 1750,
+        "maxZ": 1800
+      },
+      "terrain": {
+        "min": 9.078,
+        "max": 9.366,
+        "maxSlope": 0.008,
+        "owners": [
+          "shatterfen"
+        ],
+        "wetRange": [
+          0.089,
+          0.4
+        ]
+      },
+      "forage": [
+        {
+          "id": "f1:r:-18:35:0",
+          "type": "tree",
+          "x": -868.4,
+          "z": 1776.99,
+          "y": 9.13,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-18:35:1",
+          "type": "fiber",
+          "x": -871.34,
+          "z": 1777.82,
+          "y": 9.13,
+          "asset": "asset_berry_bush"
+        },
+        {
+          "id": "f1:r:-18:35:2",
+          "type": "fiber",
+          "x": -870.66,
+          "z": 1774.55,
+          "y": 9.14,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-18:35:3",
+          "type": "fiber",
+          "x": -887.62,
+          "z": 1792.45,
+          "y": 9.15,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-18:35:4",
+          "type": "fiber",
+          "x": -890.47,
+          "z": 1793.94,
+          "y": 9.15,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-18:35:5",
+          "type": "fiber",
+          "x": -890.47,
+          "z": 1790.87,
+          "y": 9.15,
+          "asset": null
+        }
+      ],
+      "wildlife": [],
+      "scenery": [
+        {
+          "id": "f2c:s:-18:35:seed-1",
+          "asset": "asset_verge_canopy",
+          "kind": "canopy",
+          "x": -884.94,
+          "z": 1786.88,
+          "scale": 1
+        },
+        {
+          "id": "f2c:s:-18:35:seed-2",
+          "asset": "asset_fen_lily",
+          "kind": "low",
+          "x": -869.1,
+          "z": 1763.1,
+          "scale": 0.83
+        },
+        {
+          "id": "f2c:s:-18:35:seed-3",
+          "asset": "asset_fen_lily",
+          "kind": "low",
+          "x": -877.99,
+          "z": 1778.68,
+          "scale": 0.88
+        },
+        {
+          "id": "f2c:s:-18:35:seed-4",
+          "asset": "asset_fen_reed",
+          "kind": "low",
+          "x": -887.05,
+          "z": 1780.79,
+          "scale": 0.9
+        },
+        {
+          "id": "f2c:s:-18:35:seed-5",
+          "asset": "asset_fen_lily",
+          "kind": "low",
+          "x": -869.2,
+          "z": 1757.57,
+          "scale": 0.99
+        },
+        {
+          "id": "f2c:s:-18:35:seed-6",
+          "asset": "asset_fen_reed",
+          "kind": "low",
+          "x": -868.64,
+          "z": 1770.19,
+          "scale": 1.02
+        }
+      ]
+    },
+    {
+      "cx": -17,
+      "cz": 35,
+      "bounds": {
+        "minX": -850,
+        "maxX": -800,
+        "minZ": 1750,
+        "maxZ": 1800
+      },
+      "terrain": {
+        "min": 9.027,
+        "max": 9.365,
+        "maxSlope": 0.016,
+        "owners": [
+          "shatterfen"
+        ],
+        "wetRange": [
+          0.311,
+          0.523
+        ]
+      },
+      "forage": [
+        {
+          "id": "f1:r:-17:35:0",
+          "type": "tree",
+          "x": -842.89,
+          "z": 1770.66,
+          "y": 9.06,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-17:35:1",
+          "type": "fiber",
+          "x": -845.63,
+          "z": 1772.07,
+          "y": 9.07,
+          "asset": "asset_berry_bush"
+        },
+        {
+          "id": "f1:r:-17:35:2",
+          "type": "fiber",
+          "x": -845.59,
+          "z": 1768.76,
+          "y": 9.07,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-17:35:3",
+          "type": "fiber",
+          "x": -831.87,
+          "z": 1755.6,
+          "y": 9.03,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-17:35:4",
+          "type": "fiber",
+          "x": -834.69,
+          "z": 1757.28,
+          "y": 9.04,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-17:35:5",
+          "type": "tree",
+          "x": -834.55,
+          "z": 1753.94,
+          "y": 9.04,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-17:35:6",
+          "type": "tree",
+          "x": -803.34,
+          "z": 1756.55,
+          "y": 9.13,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-17:35:7",
+          "type": "tree",
+          "x": -806.53,
+          "z": 1757.18,
+          "y": 9.09,
+          "asset": null
+        }
+      ],
+      "wildlife": [],
+      "scenery": [
+        {
+          "id": "f2c:s:-17:35:seed-0",
+          "asset": "asset_verge_canopy_spread",
+          "kind": "canopy",
+          "x": -838.4,
+          "z": 1771.98,
+          "scale": 0.86
+        },
+        {
+          "id": "f2c:s:-17:35:seed-1",
+          "asset": "asset_fen_reed",
+          "kind": "low",
+          "x": -830.9,
+          "z": 1761.75,
+          "scale": 0.77
+        },
+        {
+          "id": "f2c:s:-17:35:seed-2",
+          "asset": "asset_mushroom_ring",
+          "kind": "low",
+          "x": -811.41,
+          "z": 1762,
+          "scale": 0.9
+        },
+        {
+          "id": "f2c:s:-17:35:seed-3",
+          "asset": "asset_fen_reed",
+          "kind": "low",
+          "x": -838.12,
+          "z": 1769.53,
+          "scale": 0.9
+        },
+        {
+          "id": "f2c:s:-17:35:seed-4",
+          "asset": "asset_fen_reed",
+          "kind": "low",
+          "x": -837.89,
+          "z": 1763.59,
+          "scale": 0.99
+        },
+        {
+          "id": "f2c:s:-17:35:seed-5",
+          "asset": "asset_fen_reed",
+          "kind": "low",
+          "x": -816.41,
+          "z": 1766.88,
+          "scale": 1
+        }
+      ]
+    },
+    {
+      "cx": -16,
+      "cz": 35,
+      "bounds": {
+        "minX": -800,
+        "maxX": -750,
+        "minZ": 1750,
+        "maxZ": 1800
+      },
+      "terrain": {
+        "min": 9.171,
+        "max": 10.357,
+        "maxSlope": 0.024,
+        "owners": [
+          "shatterfen"
+        ],
+        "wetRange": [
+          0.219,
+          0.535
+        ]
+      },
+      "forage": [
+        {
+          "id": "f1:r:-16:35:0",
+          "type": "fiber",
+          "x": -791.45,
+          "z": 1787.19,
+          "y": 9.4,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-16:35:1",
+          "type": "fiber",
+          "x": -794.26,
+          "z": 1788.5,
+          "y": 9.36,
+          "asset": "asset_berry_bush"
+        },
+        {
+          "id": "f1:r:-16:35:2",
+          "type": "fiber",
+          "x": -793.97,
+          "z": 1785.39,
+          "y": 9.35,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-16:35:3",
+          "type": "fiber",
+          "x": -788.35,
+          "z": 1792.76,
+          "y": 9.49,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-16:35:4",
+          "type": "tree",
+          "x": -791.64,
+          "z": 1793.49,
+          "y": 9.44,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-16:35:5",
+          "type": "fiber",
+          "x": -790.43,
+          "z": 1790.12,
+          "y": 9.44,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-16:35:6",
+          "type": "tree",
+          "x": -771.48,
+          "z": 1786.27,
+          "y": 9.8,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-16:35:7",
+          "type": "fiber",
+          "x": -774.42,
+          "z": 1787.54,
+          "y": 9.74,
+          "asset": null
+        }
+      ],
+      "wildlife": [],
+      "scenery": [
+        {
+          "id": "f2c:s:-16:35:seed-0",
+          "asset": "asset_verge_canopy_tall",
+          "kind": "canopy",
+          "x": -787.42,
+          "z": 1783.2,
+          "scale": 0.87
+        },
+        {
+          "id": "f2c:s:-16:35:seed-1",
+          "asset": "asset_fen_reed",
+          "kind": "low",
+          "x": -785.27,
+          "z": 1786.69,
+          "scale": 0.95
+        },
+        {
+          "id": "f2c:s:-16:35:seed-2",
+          "asset": "asset_fen_reed",
+          "kind": "low",
+          "x": -773.87,
+          "z": 1782.54,
+          "scale": 1.03
+        },
+        {
+          "id": "f2c:s:-16:35:seed-3",
+          "asset": "asset_mushroom_ring",
+          "kind": "low",
+          "x": -785.8,
+          "z": 1777.87,
+          "scale": 0.94
+        },
+        {
+          "id": "f2c:s:-16:35:seed-5",
+          "asset": "asset_fen_lily",
+          "kind": "low",
+          "x": -776.32,
+          "z": 1781.12,
+          "scale": 0.99
+        },
+        {
+          "id": "f2c:s:-16:35:seed-8",
+          "asset": "asset_fen_lily",
+          "kind": "low",
+          "x": -772.7,
+          "z": 1779.83,
+          "scale": 0.89
+        }
+      ]
+    },
+    {
+      "cx": -15,
+      "cz": 35,
+      "bounds": {
+        "minX": -750,
+        "maxX": -700,
+        "minZ": 1750,
+        "maxZ": 1800
+      },
+      "terrain": {
+        "min": 10.178,
+        "max": 10.786,
+        "maxSlope": 0.021,
+        "owners": [
+          "shatterfen"
+        ],
+        "wetRange": [
+          0.211,
+          0.547
+        ]
+      },
+      "forage": [
+        {
+          "id": "f1:r:-15:35:0",
+          "type": "fiber",
+          "x": -730.03,
+          "z": 1787.73,
+          "y": 10.59,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-15:35:1",
+          "type": "fiber",
+          "x": -733.41,
+          "z": 1788.22,
+          "y": 10.55,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-15:35:2",
+          "type": "fiber",
+          "x": -732.31,
+          "z": 1785.3,
+          "y": 10.55,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-15:35:3",
+          "type": "fiber",
+          "x": -704.41,
+          "z": 1796.24,
+          "y": 10.74,
+          "asset": "asset_berry_bush"
+        },
+        {
+          "id": "f1:r:-15:35:4",
+          "type": "tree",
+          "x": -707.56,
+          "z": 1796.98,
+          "y": 10.76,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-15:35:5",
+          "type": "fiber",
+          "x": -706.56,
+          "z": 1793.96,
+          "y": 10.73,
+          "asset": "asset_berry_bush"
+        },
+        {
+          "id": "f1:r:-15:35:6",
+          "type": "fiber",
+          "x": -727.41,
+          "z": 1779.83,
+          "y": 10.58,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-15:35:7",
+          "type": "tree",
+          "x": -730.52,
+          "z": 1781.27,
+          "y": 10.55,
+          "asset": null
+        }
+      ],
+      "wildlife": [
+        {
+          "id": "f1:w:-15:35:0",
+          "x": -731.36,
+          "z": 1785.93,
+          "y": 10.56,
+          "roam": 4.4,
+          "leash": 8.5,
+          "flee": null
+        }
+      ],
+      "scenery": [
+        {
+          "id": "f2c:s:-15:35:seed-1",
+          "asset": "asset_verge_canopy_tall",
+          "kind": "canopy",
+          "x": -712.16,
+          "z": 1789.11,
+          "scale": 0.89
+        },
+        {
+          "id": "f2c:s:-15:35:seed-4",
+          "asset": "asset_fen_reed",
+          "kind": "low",
+          "x": -704.87,
+          "z": 1787.66,
+          "scale": 1.02
+        },
+        {
+          "id": "f2c:s:-15:35:seed-5",
+          "asset": "asset_fen_stone",
+          "kind": "low",
+          "x": -733.36,
+          "z": 1775.37,
+          "scale": 0.92
+        },
+        {
+          "id": "f2c:s:-15:35:seed-7",
+          "asset": "asset_fen_lily",
+          "kind": "low",
+          "x": -712.33,
+          "z": 1784.6,
+          "scale": 0.88
+        },
+        {
+          "id": "f2c:s:-15:35:seed-9",
+          "asset": "asset_fen_lily",
+          "kind": "low",
+          "x": -736.88,
+          "z": 1779.79,
+          "scale": 0.78
+        },
+        {
+          "id": "f2c:s:-15:35:seed-10",
+          "asset": "asset_fen_reed",
+          "kind": "low",
+          "x": -709.66,
+          "z": 1787.45,
+          "scale": 1.06
+        }
+      ]
+    },
+    {
+      "cx": -14,
+      "cz": 35,
+      "bounds": {
+        "minX": -700,
+        "maxX": -650,
+        "minZ": 1750,
+        "maxZ": 1800
+      },
+      "terrain": {
+        "min": 10.172,
+        "max": 10.75,
+        "maxSlope": 0.014,
+        "owners": [
+          "shatterfen"
+        ],
+        "wetRange": [
+          0.324,
+          0.558
+        ]
+      },
+      "forage": [
+        {
+          "id": "f1:r:-14:35:0",
+          "type": "tree",
+          "x": -661.2,
+          "z": 1795.82,
+          "y": 10.33,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-14:35:1",
+          "type": "tree",
+          "x": -664.38,
+          "z": 1796.48,
+          "y": 10.37,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-14:35:2",
+          "type": "fiber",
+          "x": -663.34,
+          "z": 1793.5,
+          "y": 10.36,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-14:35:3",
+          "type": "fiber",
+          "x": -682.39,
+          "z": 1796.65,
+          "y": 10.58,
+          "asset": "asset_berry_bush"
+        },
+        {
+          "id": "f1:r:-14:35:5",
+          "type": "tree",
+          "x": -684.77,
+          "z": 1794.47,
+          "y": 10.6,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-14:35:6",
+          "type": "tree",
+          "x": -670.06,
+          "z": 1792.74,
+          "y": 10.44,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-14:35:7",
+          "type": "tree",
+          "x": -673.17,
+          "z": 1794.11,
+          "y": 10.47,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-14:35:8",
+          "type": "fiber",
+          "x": -672.62,
+          "z": 1790.78,
+          "y": 10.47,
+          "asset": null
+        }
+      ],
+      "wildlife": [
+        {
+          "id": "f1:w:-14:35:0",
+          "x": -664.07,
+          "z": 1793.39,
+          "y": 10.37,
+          "roam": 4.4,
+          "leash": 8.5,
+          "flee": null
+        }
+      ],
+      "scenery": [
+        {
+          "id": "f2c:s:-14:35:seed-1",
+          "asset": "asset_verge_canopy_tall",
+          "kind": "canopy",
+          "x": -681.22,
+          "z": 1789.53,
+          "scale": 0.74
+        },
+        {
+          "id": "f2c:s:-14:35:seed-2",
+          "asset": "asset_fen_lily",
+          "kind": "low",
+          "x": -672.9,
+          "z": 1786.92,
+          "scale": 0.85
+        },
+        {
+          "id": "f2c:s:-14:35:seed-3",
+          "asset": "asset_fen_reed",
+          "kind": "low",
+          "x": -667.43,
+          "z": 1785.02,
+          "scale": 1.05
+        },
+        {
+          "id": "f2c:s:-14:35:seed-4",
+          "asset": "asset_fen_lily",
+          "kind": "low",
+          "x": -687.29,
+          "z": 1792.38,
+          "scale": 1.02
+        },
+        {
+          "id": "f2c:s:-14:35:seed-5",
+          "asset": "asset_fen_reed",
+          "kind": "low",
+          "x": -670.07,
+          "z": 1779.66,
+          "scale": 0.79
+        },
+        {
+          "id": "f2c:s:-14:35:seed-6",
+          "asset": "asset_fen_reed",
+          "kind": "low",
+          "x": -668.16,
+          "z": 1782.07,
+          "scale": 0.77
+        }
+      ]
+    },
+    {
+      "cx": -13,
+      "cz": 35,
+      "bounds": {
+        "minX": -650,
+        "maxX": -600,
+        "minZ": 1750,
+        "maxZ": 1800
+      },
+      "terrain": {
+        "min": 9.844,
+        "max": 10.749,
+        "maxSlope": 0.021,
+        "owners": [
+          "shatterfen"
+        ],
+        "wetRange": [
+          0.151,
+          0.537
+        ]
+      },
+      "forage": [
+        {
+          "id": "f1:r:-13:35:0",
+          "type": "fiber",
+          "x": -610.21,
+          "z": 1796.83,
+          "y": 9.88,
+          "asset": "asset_berry_bush"
+        },
+        {
+          "id": "f1:r:-13:35:2",
+          "type": "fiber",
+          "x": -612.84,
+          "z": 1795.12,
+          "y": 9.9,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-13:35:3",
+          "type": "tree",
+          "x": -604.46,
+          "z": 1773.78,
+          "y": 10.26,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-13:35:4",
+          "type": "fiber",
+          "x": -607.46,
+          "z": 1775.36,
+          "y": 10.23,
+          "asset": "asset_berry_bush"
+        },
+        {
+          "id": "f1:r:-13:35:5",
+          "type": "fiber",
+          "x": -607.26,
+          "z": 1771.85,
+          "y": 10.3,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-13:35:6",
+          "type": "tree",
+          "x": -627.63,
+          "z": 1759.94,
+          "y": 10.54,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-13:35:7",
+          "type": "tree",
+          "x": -630.8,
+          "z": 1760.63,
+          "y": 10.53,
+          "asset": null
+        }
+      ],
+      "wildlife": [],
+      "scenery": [
+        {
+          "id": "f2c:s:-13:35:seed-0",
+          "asset": "asset_verge_canopy_tall",
+          "kind": "canopy",
+          "x": -616.18,
+          "z": 1789.8,
+          "scale": 0.92
+        },
+        {
+          "id": "f2c:s:-13:35:seed-1",
+          "asset": "asset_fen_lily",
+          "kind": "low",
+          "x": -612.28,
+          "z": 1774.09,
+          "scale": 0.95
+        },
+        {
+          "id": "f2c:s:-13:35:seed-2",
+          "asset": "asset_fen_reed",
+          "kind": "low",
+          "x": -628.09,
+          "z": 1764.36,
+          "scale": 1.02
+        },
+        {
+          "id": "f2c:s:-13:35:seed-3",
+          "asset": "asset_fen_reed",
+          "kind": "low",
+          "x": -620.91,
+          "z": 1790.17,
+          "scale": 0.9
+        },
+        {
+          "id": "f2c:s:-13:35:seed-5",
+          "asset": "asset_mushroom_ring",
+          "kind": "low",
+          "x": -625.2,
+          "z": 1764.13,
+          "scale": 0.87
+        },
+        {
+          "id": "f2c:s:-13:35:seed-6",
+          "asset": "asset_fen_lily",
+          "kind": "low",
+          "x": -622.43,
+          "z": 1785.46,
+          "scale": 0.84
+        }
+      ]
+    },
+    {
+      "cx": -12,
+      "cz": 35,
+      "bounds": {
+        "minX": -600,
+        "maxX": -550,
+        "minZ": 1750,
+        "maxZ": 1800
+      },
+      "terrain": {
+        "min": 9.859,
+        "max": 10.758,
+        "maxSlope": 0.02,
+        "owners": [
+          "shatterfen"
+        ],
+        "wetRange": [
+          0.075,
+          0.341
+        ]
+      },
+      "forage": [
+        {
+          "id": "f1:r:-12:35:0",
+          "type": "fiber",
+          "x": -593.13,
+          "z": 1755.57,
+          "y": 10.65,
+          "asset": "asset_berry_bush"
+        },
+        {
+          "id": "f1:r:-12:35:1",
+          "type": "fiber",
+          "x": -596.36,
+          "z": 1756.59,
+          "y": 10.62,
+          "asset": "asset_berry_bush"
+        },
+        {
+          "id": "f1:r:-12:35:2",
+          "type": "fiber",
+          "x": -595.67,
+          "z": 1753.19,
+          "y": 10.69,
+          "asset": "asset_berry_bush"
+        },
+        {
+          "id": "f1:r:-12:35:3",
+          "type": "fiber",
+          "x": -580.58,
+          "z": 1793.39,
+          "y": 10.04,
+          "asset": "asset_berry_bush"
+        },
+        {
+          "id": "f1:r:-12:35:4",
+          "type": "fiber",
+          "x": -583.72,
+          "z": 1794.56,
+          "y": 10.01,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-12:35:5",
+          "type": "fiber",
+          "x": -583.35,
+          "z": 1791.51,
+          "y": 10.05,
+          "asset": null
+        }
+      ],
+      "wildlife": [],
+      "scenery": [
+        {
+          "id": "f2c:s:-12:35:seed-0",
+          "asset": "asset_fen_reed",
+          "kind": "low",
+          "x": -588.67,
+          "z": 1761.46,
+          "scale": 0.83
+        },
+        {
+          "id": "f2c:s:-12:35:seed-1",
+          "asset": "asset_fen_reed",
+          "kind": "low",
+          "x": -580.22,
+          "z": 1787.37,
+          "scale": 0.82
+        },
+        {
+          "id": "f2c:s:-12:35:seed-2",
+          "asset": "asset_mushroom_ring",
+          "kind": "low",
+          "x": -570.21,
+          "z": 1774.39,
+          "scale": 0.98
+        },
+        {
+          "id": "f2c:s:-12:35:seed-3",
+          "asset": "asset_fen_reed",
+          "kind": "low",
+          "x": -583.87,
+          "z": 1762.66,
+          "scale": 0.82
+        },
+        {
+          "id": "f2c:s:-12:35:seed-4",
+          "asset": "asset_mushroom_ring",
+          "kind": "low",
+          "x": -579.43,
+          "z": 1782.43,
+          "scale": 1.01
+        },
+        {
+          "id": "f2c:s:-12:35:seed-5",
+          "asset": "asset_fen_lily",
+          "kind": "low",
+          "x": -571.58,
+          "z": 1771.24,
+          "scale": 1.05
+        }
+      ]
+    },
+    {
+      "cx": -18,
+      "cz": 36,
+      "bounds": {
+        "minX": -900,
+        "maxX": -850,
+        "minZ": 1800,
+        "maxZ": 1850
+      },
+      "terrain": {
+        "min": 9.146,
+        "max": 10.089,
+        "maxSlope": 0.04,
+        "owners": [
+          "shatterfen"
+        ],
+        "wetRange": [
+          0.077,
+          0.311
+        ]
+      },
+      "forage": [
+        {
+          "id": "f1:r:-18:36:0",
+          "type": "fiber",
+          "x": -874.32,
+          "z": 1821.09,
+          "y": 9.31,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-18:36:1",
+          "type": "tree",
+          "x": -877.18,
+          "z": 1822.55,
+          "y": 9.32,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-18:36:2",
+          "type": "fiber",
+          "x": -877.06,
+          "z": 1819.27,
+          "y": 9.28,
+          "asset": "asset_berry_bush"
+        },
+        {
+          "id": "f1:r:-18:36:3",
+          "type": "tree",
+          "x": -874.44,
+          "z": 1827.11,
+          "y": 9.37,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-18:36:4",
+          "type": "fiber",
+          "x": -877.75,
+          "z": 1827.62,
+          "y": 9.37,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-18:36:5",
+          "type": "fiber",
+          "x": -876.7,
+          "z": 1824.37,
+          "y": 9.34,
+          "asset": "asset_berry_bush"
+        }
+      ],
+      "wildlife": [],
+      "scenery": [
+        {
+          "id": "f2c:s:-18:36:seed-2",
+          "asset": "asset_verge_canopy_spread",
+          "kind": "canopy",
+          "x": -887.93,
+          "z": 1816.06,
+          "scale": 0.95
+        },
+        {
+          "id": "f2c:s:-18:36:seed-3",
+          "asset": "asset_fen_lily",
+          "kind": "low",
+          "x": -881.3,
+          "z": 1816.75,
+          "scale": 0.82
+        },
+        {
+          "id": "f2c:s:-18:36:seed-4",
+          "asset": "asset_fen_lily",
+          "kind": "low",
+          "x": -874.15,
+          "z": 1830.96,
+          "scale": 1.06
+        },
+        {
+          "id": "f2c:s:-18:36:seed-5",
+          "asset": "asset_mushroom_ring",
+          "kind": "low",
+          "x": -884.42,
+          "z": 1821.57,
+          "scale": 0.79
+        },
+        {
+          "id": "f2c:s:-18:36:seed-6",
+          "asset": "asset_fen_reed",
+          "kind": "low",
+          "x": -876.92,
+          "z": 1815.24,
+          "scale": 0.97
+        },
+        {
+          "id": "f2c:s:-18:36:seed-7",
+          "asset": "asset_mushroom_ring",
+          "kind": "low",
+          "x": -869.81,
+          "z": 1822.73,
+          "scale": 0.87
+        }
+      ]
+    },
+    {
+      "cx": -17,
+      "cz": 36,
+      "bounds": {
+        "minX": -850,
+        "maxX": -800,
+        "minZ": 1800,
+        "maxZ": 1850
+      },
+      "terrain": {
+        "min": 9.181,
+        "max": 10.329,
+        "maxSlope": 0.043,
+        "owners": [
+          "shatterfen"
+        ],
+        "wetRange": [
+          0.26,
+          0.414
+        ]
+      },
+      "forage": [
+        {
+          "id": "f1:r:-17:36:0",
+          "type": "fiber",
+          "x": -814.06,
+          "z": 1814.35,
+          "y": 9.38,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-17:36:1",
+          "type": "fiber",
+          "x": -816.91,
+          "z": 1815.65,
+          "y": 9.38,
+          "asset": "asset_berry_bush"
+        },
+        {
+          "id": "f1:r:-17:36:2",
+          "type": "fiber",
+          "x": -816.65,
+          "z": 1812.61,
+          "y": 9.35,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-17:36:3",
+          "type": "fiber",
+          "x": -823.93,
+          "z": 1805,
+          "y": 9.25,
+          "asset": "asset_berry_bush"
+        },
+        {
+          "id": "f1:r:-17:36:4",
+          "type": "fiber",
+          "x": -826.84,
+          "z": 1806.55,
+          "y": 9.26,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-17:36:5",
+          "type": "fiber",
+          "x": -826.6,
+          "z": 1803.29,
+          "y": 9.23,
+          "asset": "asset_berry_bush"
+        }
+      ],
+      "wildlife": [],
+      "scenery": [
+        {
+          "id": "f2c:s:-17:36:seed-1",
+          "asset": "asset_verge_canopy_tall",
+          "kind": "canopy",
+          "x": -825.53,
+          "z": 1811.3,
+          "scale": 0.82
+        },
+        {
+          "id": "f2c:s:-17:36:seed-2",
+          "asset": "asset_fen_reed",
+          "kind": "low",
+          "x": -829.68,
+          "z": 1830.45,
+          "scale": 0.77
+        },
+        {
+          "id": "f2c:s:-17:36:seed-3",
+          "asset": "asset_fen_lily",
+          "kind": "low",
+          "x": -811.48,
+          "z": 1817.99,
+          "scale": 0.81
+        },
+        {
+          "id": "f2c:s:-17:36:seed-5",
+          "asset": "asset_fen_lily",
+          "kind": "low",
+          "x": -834.02,
+          "z": 1834.71,
+          "scale": 0.76
+        },
+        {
+          "id": "f2c:s:-17:36:seed-6",
+          "asset": "asset_mushroom_ring",
+          "kind": "low",
+          "x": -821.95,
+          "z": 1816.46,
+          "scale": 0.88
+        },
+        {
+          "id": "f2c:s:-17:36:seed-7",
+          "asset": "asset_fen_reed",
+          "kind": "low",
+          "x": -821.26,
+          "z": 1808.7,
+          "scale": 0.79
+        }
+      ]
+    },
+    {
+      "cx": -16,
+      "cz": 36,
+      "bounds": {
+        "minX": -800,
+        "maxX": -750,
+        "minZ": 1800,
+        "maxZ": 1850
+      },
+      "terrain": {
+        "min": 9.365,
+        "max": 10.979,
+        "maxSlope": 0.041,
+        "owners": [
+          "shatterfen"
+        ],
+        "wetRange": [
+          0.158,
+          0.382
+        ]
+      },
+      "forage": [
+        {
+          "id": "f1:r:-16:36:0",
+          "type": "fiber",
+          "x": -772.54,
+          "z": 1822.31,
+          "y": 10.13,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-16:36:1",
+          "type": "fiber",
+          "x": -775.52,
+          "z": 1823.76,
+          "y": 10.08,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-16:36:2",
+          "type": "fiber",
+          "x": -775.52,
+          "z": 1820.42,
+          "y": 10.04,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-16:36:3",
+          "type": "fiber",
+          "x": -780.96,
+          "z": 1803.94,
+          "y": 9.74,
+          "asset": "asset_berry_bush"
+        },
+        {
+          "id": "f1:r:-16:36:4",
+          "type": "fiber",
+          "x": -784.4,
+          "z": 1804.61,
+          "y": 9.67,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-16:36:6",
+          "type": "tree",
+          "x": -761.53,
+          "z": 1811.6,
+          "y": 10.23,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-16:36:7",
+          "type": "fiber",
+          "x": -764.67,
+          "z": 1812.88,
+          "y": 10.18,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-16:36:8",
+          "type": "tree",
+          "x": -764.32,
+          "z": 1809.68,
+          "y": 10.15,
+          "asset": null
+        }
+      ],
+      "wildlife": [],
+      "scenery": [
+        {
+          "id": "f2c:s:-16:36:seed-1",
+          "asset": "asset_verge_canopy",
+          "kind": "canopy",
+          "x": -780.43,
+          "z": 1810.21,
+          "scale": 0.79
+        },
+        {
+          "id": "f2c:s:-16:36:seed-2",
+          "asset": "asset_fen_lily",
+          "kind": "low",
+          "x": -767.21,
+          "z": 1815.71,
+          "scale": 0.83
+        },
+        {
+          "id": "f2c:s:-16:36:seed-3",
+          "asset": "asset_mushroom_ring",
+          "kind": "low",
+          "x": -770.88,
+          "z": 1826.91,
+          "scale": 1.02
+        },
+        {
+          "id": "f2c:s:-16:36:seed-5",
+          "asset": "asset_fen_lily",
+          "kind": "low",
+          "x": -768.22,
+          "z": 1813.31,
+          "scale": 0.93
+        },
+        {
+          "id": "f2c:s:-16:36:seed-7",
+          "asset": "asset_fen_reed",
+          "kind": "low",
+          "x": -780.77,
+          "z": 1813.25,
+          "scale": 1.04
+        },
+        {
+          "id": "f2c:s:-16:36:seed-8",
+          "asset": "asset_fen_lily",
+          "kind": "low",
+          "x": -768.87,
+          "z": 1812.38,
+          "scale": 0.98
+        }
+      ]
+    },
+    {
+      "cx": -15,
+      "cz": 36,
+      "bounds": {
+        "minX": -750,
+        "maxX": -700,
+        "minZ": 1800,
+        "maxZ": 1850
+      },
+      "terrain": {
+        "min": 10.357,
+        "max": 11.225,
+        "maxSlope": 0.024,
+        "owners": [
+          "shatterfen"
+        ],
+        "wetRange": [
+          0.147,
+          0.324
+        ]
+      },
+      "forage": [
+        {
+          "id": "f1:r:-15:36:0",
+          "type": "fiber",
+          "x": -738.02,
+          "z": 1807.48,
+          "y": 10.64,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-15:36:1",
+          "type": "fiber",
+          "x": -741.17,
+          "z": 1808.76,
+          "y": 10.6,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-15:36:2",
+          "type": "fiber",
+          "x": -740.56,
+          "z": 1805.23,
+          "y": 10.58,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-15:36:3",
+          "type": "tree",
+          "x": -726.2,
+          "z": 1812.49,
+          "y": 10.84,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-15:36:4",
+          "type": "fiber",
+          "x": -729.12,
+          "z": 1813.64,
+          "y": 10.83,
+          "asset": "asset_berry_bush"
+        },
+        {
+          "id": "f1:r:-15:36:5",
+          "type": "fiber",
+          "x": -728.75,
+          "z": 1810.31,
+          "y": 10.79,
+          "asset": "asset_berry_bush"
+        },
+        {
+          "id": "f1:r:-15:36:6",
+          "type": "fiber",
+          "x": -723.74,
+          "z": 1810.6,
+          "y": 10.84,
+          "asset": "asset_berry_bush"
+        },
+        {
+          "id": "f1:r:-15:36:7",
+          "type": "fiber",
+          "x": -726.87,
+          "z": 1811.91,
+          "y": 10.83,
+          "asset": null
+        }
+      ],
+      "wildlife": [],
+      "scenery": [
+        {
+          "id": "f2c:s:-15:36:seed-0",
+          "asset": "asset_verge_canopy_tall",
+          "kind": "canopy",
+          "x": -735.12,
+          "z": 1812.84,
+          "scale": 1.01
+        },
+        {
+          "id": "f2c:s:-15:36:seed-1",
+          "asset": "asset_fen_stone",
+          "kind": "low",
+          "x": -727.04,
+          "z": 1816.29,
+          "scale": 0.9
+        },
+        {
+          "id": "f2c:s:-15:36:seed-3",
+          "asset": "asset_fen_lily",
+          "kind": "low",
+          "x": -742.2,
+          "z": 1812.45,
+          "scale": 1.04
+        },
+        {
+          "id": "f2c:s:-15:36:seed-4",
+          "asset": "asset_mushroom_ring",
+          "kind": "low",
+          "x": -733.15,
+          "z": 1815.98,
+          "scale": 0.83
+        },
+        {
+          "id": "f2c:s:-15:36:seed-7",
+          "asset": "asset_fen_lily",
+          "kind": "low",
+          "x": -733.39,
+          "z": 1820.55,
+          "scale": 0.92
+        },
+        {
+          "id": "f2c:s:-15:36:seed-11",
+          "asset": "asset_fen_reed",
+          "kind": "low",
+          "x": -722.04,
+          "z": 1817.4,
+          "scale": 0.89
+        }
+      ]
+    },
+    {
+      "cx": -14,
+      "cz": 36,
+      "bounds": {
+        "minX": -700,
+        "maxX": -650,
+        "minZ": 1800,
+        "maxZ": 1850
+      },
+      "terrain": {
+        "min": 10.164,
+        "max": 11.187,
+        "maxSlope": 0.023,
+        "owners": [
+          "shatterfen"
+        ],
+        "wetRange": [
+          0.267,
+          0.438
+        ]
+      },
+      "forage": [
+        {
+          "id": "f1:r:-14:36:0",
+          "type": "tree",
+          "x": -692.38,
+          "z": 1817.9,
+          "y": 10.85,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-14:36:1",
+          "type": "tree",
+          "x": -695.55,
+          "z": 1819.07,
+          "y": 10.9,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-14:36:2",
+          "type": "tree",
+          "x": -694.94,
+          "z": 1815.66,
+          "y": 10.85,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-14:36:3",
+          "type": "fiber",
+          "x": -690.8,
+          "z": 1811.52,
+          "y": 10.77,
+          "asset": "asset_berry_bush"
+        },
+        {
+          "id": "f1:r:-14:36:4",
+          "type": "fiber",
+          "x": -693.8,
+          "z": 1813.3,
+          "y": 10.82,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-14:36:5",
+          "type": "fiber",
+          "x": -693.68,
+          "z": 1809.93,
+          "y": 10.78,
+          "asset": "asset_berry_bush"
+        },
+        {
+          "id": "f1:r:-14:36:6",
+          "type": "fiber",
+          "x": -675.48,
+          "z": 1841.76,
+          "y": 10.89,
+          "asset": null
+        }
+      ],
+      "wildlife": [],
+      "scenery": [
+        {
+          "id": "f2c:s:-14:36:seed-0",
+          "asset": "asset_fen_lily",
+          "kind": "low",
+          "x": -688.14,
+          "z": 1819.93,
+          "scale": 0.83
+        },
+        {
+          "id": "f2c:s:-14:36:seed-1",
+          "asset": "asset_fen_reed",
+          "kind": "low",
+          "x": -687.11,
+          "z": 1815.8,
+          "scale": 0.91
+        },
+        {
+          "id": "f2c:s:-14:36:seed-2",
+          "asset": "asset_mushroom_ring",
+          "kind": "low",
+          "x": -676.65,
+          "z": 1836.32,
+          "scale": 0.77
+        },
+        {
+          "id": "f2c:s:-14:36:seed-3",
+          "asset": "asset_fen_lily",
+          "kind": "low",
+          "x": -689.35,
+          "z": 1821.88,
+          "scale": 0.96
+        },
+        {
+          "id": "f2c:s:-14:36:seed-5",
+          "asset": "asset_fen_lily",
+          "kind": "low",
+          "x": -672.64,
+          "z": 1837.14,
+          "scale": 1.04
+        },
+        {
+          "id": "f2c:s:-14:36:seed-6",
+          "asset": "asset_mushroom_ring",
+          "kind": "low",
+          "x": -690.55,
+          "z": 1821.1,
+          "scale": 0.87
+        }
+      ]
+    },
+    {
+      "cx": -13,
+      "cz": 36,
+      "bounds": {
+        "minX": -650,
+        "maxX": -600,
+        "minZ": 1800,
+        "maxZ": 1850
+      },
+      "terrain": {
+        "min": 9.777,
+        "max": 10.66,
+        "maxSlope": 0.029,
+        "owners": [
+          "shatterfen"
+        ],
+        "wetRange": [
+          0.278,
+          0.433
+        ]
+      },
+      "forage": [
+        {
+          "id": "f1:r:-13:36:0",
+          "type": "fiber",
+          "x": -606.47,
+          "z": 1807.44,
+          "y": 9.79,
+          "asset": "asset_berry_bush"
+        },
+        {
+          "id": "f1:r:-13:36:1",
+          "type": "tree",
+          "x": -609.75,
+          "z": 1808.09,
+          "y": 9.78,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-13:36:2",
+          "type": "fiber",
+          "x": -608.87,
+          "z": 1805.02,
+          "y": 9.8,
+          "asset": "asset_berry_bush"
+        },
+        {
+          "id": "f1:r:-13:36:3",
+          "type": "fiber",
+          "x": -644.97,
+          "z": 1817.58,
+          "y": 10.11,
+          "asset": "asset_berry_bush"
+        },
+        {
+          "id": "f1:r:-13:36:7",
+          "type": "fiber",
+          "x": -604.64,
+          "z": 1825.08,
+          "y": 9.82,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-13:36:8",
+          "type": "fiber",
+          "x": -604.24,
+          "z": 1821.69,
+          "y": 9.8,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-13:36:9",
+          "type": "fiber",
+          "x": -622.94,
+          "z": 1841.07,
+          "y": 10.17,
+          "asset": "asset_berry_bush"
+        },
+        {
+          "id": "f1:r:-13:36:10",
+          "type": "fiber",
+          "x": -626.11,
+          "z": 1842.22,
+          "y": 10.22,
+          "asset": null
+        }
+      ],
+      "wildlife": [],
+      "scenery": [
+        {
+          "id": "f2c:s:-13:36:seed-0",
+          "asset": "asset_verge_canopy_tall",
+          "kind": "canopy",
+          "x": -613.71,
+          "z": 1812.63,
+          "scale": 0.79
+        },
+        {
+          "id": "f2c:s:-13:36:seed-1",
+          "asset": "asset_fen_lily",
+          "kind": "low",
+          "x": -639.87,
+          "z": 1819.79,
+          "scale": 0.87
+        },
+        {
+          "id": "f2c:s:-13:36:seed-2",
+          "asset": "asset_fen_reed",
+          "kind": "low",
+          "x": -610.31,
+          "z": 1823.93,
+          "scale": 0.85
+        },
+        {
+          "id": "f2c:s:-13:36:seed-4",
+          "asset": "asset_fen_lily",
+          "kind": "low",
+          "x": -641.05,
+          "z": 1811.95,
+          "scale": 0.84
+        },
+        {
+          "id": "f2c:s:-13:36:seed-5",
+          "asset": "asset_fen_reed",
+          "kind": "low",
+          "x": -614.24,
+          "z": 1820.23,
+          "scale": 0.9
+        },
+        {
+          "id": "f2c:s:-13:36:seed-6",
+          "asset": "asset_fen_reed",
+          "kind": "low",
+          "x": -613.12,
+          "z": 1819.23,
+          "scale": 1.01
+        }
+      ]
+    },
+    {
+      "cx": -12,
+      "cz": 36,
+      "bounds": {
+        "minX": -600,
+        "maxX": -550,
+        "minZ": 1800,
+        "maxZ": 1850
+      },
+      "terrain": {
+        "min": 9.792,
+        "max": 10.806,
+        "maxSlope": 0.03,
+        "owners": [
+          "shatterfen"
+        ],
+        "wetRange": [
+          0.199,
+          0.378
+        ]
+      },
+      "forage": [
+        {
+          "id": "f1:r:-12:36:0",
+          "type": "fiber",
+          "x": -554.9,
+          "z": 1809.04,
+          "y": 10.21,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-12:36:1",
+          "type": "tree",
+          "x": -558.12,
+          "z": 1809.81,
+          "y": 10.17,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-12:36:2",
+          "type": "fiber",
+          "x": -556.99,
+          "z": 1806.48,
+          "y": 10.19,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-12:36:3",
+          "type": "fiber",
+          "x": -582.46,
+          "z": 1808.65,
+          "y": 9.91,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-12:36:4",
+          "type": "fiber",
+          "x": -585.84,
+          "z": 1809.64,
+          "y": 9.88,
+          "asset": "asset_berry_bush"
+        },
+        {
+          "id": "f1:r:-12:36:5",
+          "type": "fiber",
+          "x": -585.05,
+          "z": 1806.26,
+          "y": 9.9,
+          "asset": "asset_berry_bush"
+        },
+        {
+          "id": "f1:r:-12:36:6",
+          "type": "fiber",
+          "x": -583.21,
+          "z": 1817.18,
+          "y": 9.9,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-12:36:7",
+          "type": "fiber",
+          "x": -586.32,
+          "z": 1818.37,
+          "y": 9.87,
+          "asset": "asset_berry_bush"
+        }
+      ],
+      "wildlife": [],
+      "scenery": [
+        {
+          "id": "f2c:s:-12:36:seed-0",
+          "asset": "asset_verge_canopy",
+          "kind": "canopy",
+          "x": -562.45,
+          "z": 1813.73,
+          "scale": 0.81
+        },
+        {
+          "id": "f2c:s:-12:36:seed-1",
+          "asset": "asset_fen_reed",
+          "kind": "low",
+          "x": -581.46,
+          "z": 1813.53,
+          "scale": 0.9
+        },
+        {
+          "id": "f2c:s:-12:36:seed-3",
+          "asset": "asset_mushroom_ring",
+          "kind": "low",
+          "x": -567.96,
+          "z": 1813.78,
+          "scale": 0.96
+        },
+        {
+          "id": "f2c:s:-12:36:seed-5",
+          "asset": "asset_fen_lily",
+          "kind": "low",
+          "x": -578.53,
+          "z": 1817.17,
+          "scale": 1.03
+        },
+        {
+          "id": "f2c:s:-12:36:seed-6",
+          "asset": "asset_fen_reed",
+          "kind": "low",
+          "x": -563.49,
+          "z": 1810.77,
+          "scale": 0.98
+        },
+        {
+          "id": "f2c:s:-12:36:seed-7",
+          "asset": "asset_fen_lily",
+          "kind": "low",
+          "x": -579.27,
+          "z": 1814.44,
+          "scale": 0.97
+        }
+      ]
+    },
+    {
+      "cx": -18,
+      "cz": 37,
+      "bounds": {
+        "minX": -900,
+        "maxX": -850,
+        "minZ": 1850,
+        "maxZ": 1900
+      },
+      "terrain": {
+        "min": 9.865,
+        "max": 12.517,
+        "maxSlope": 0.052,
+        "owners": [
+          "shatterfen"
+        ],
+        "wetRange": [
+          0.07,
+          0.26
+        ]
+      },
+      "forage": [
+        {
+          "id": "f1:r:-18:37:1",
+          "type": "fiber",
+          "x": -855.39,
+          "z": 1893.2,
+          "y": 12.14,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-18:37:2",
+          "type": "tree",
+          "x": -854.89,
+          "z": 1889.86,
+          "y": 11.99,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-18:37:3",
+          "type": "fiber",
+          "x": -867.89,
+          "z": 1893.45,
+          "y": 12.02,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-18:37:4",
+          "type": "tree",
+          "x": -871.2,
+          "z": 1894.38,
+          "y": 12.02,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-18:37:5",
+          "type": "fiber",
+          "x": -870.46,
+          "z": 1891.17,
+          "y": 11.89,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-18:37:6",
+          "type": "tree",
+          "x": -865.62,
+          "z": 1878.82,
+          "y": 11.34,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-18:37:7",
+          "type": "fiber",
+          "x": -868.46,
+          "z": 1880.19,
+          "y": 11.38,
+          "asset": "asset_berry_bush"
+        }
+      ],
+      "wildlife": [
+        {
+          "id": "f1:w:-18:37:0",
+          "x": -856.05,
+          "z": 1890.03,
+          "y": 11.98,
+          "roam": 4.4,
+          "leash": 8.5,
+          "flee": null
+        }
+      ],
+      "scenery": [
+        {
+          "id": "f2c:s:-18:37:seed-1",
+          "asset": "asset_verge_canopy_spread",
+          "kind": "canopy",
+          "x": -871.52,
+          "z": 1887.26,
+          "scale": 0.75
+        },
+        {
+          "id": "f2c:s:-18:37:seed-3",
+          "asset": "asset_fen_reed",
+          "kind": "low",
+          "x": -863.08,
+          "z": 1890.77,
+          "scale": 1.04
+        },
+        {
+          "id": "f2c:s:-18:37:seed-4",
+          "asset": "asset_fen_reed",
+          "kind": "low",
+          "x": -877.51,
+          "z": 1886.2,
+          "scale": 1.05
+        },
+        {
+          "id": "f2c:s:-18:37:seed-5",
+          "asset": "asset_fen_reed",
+          "kind": "low",
+          "x": -874.23,
+          "z": 1884.14,
+          "scale": 0.81
+        },
+        {
+          "id": "f2c:s:-18:37:seed-6",
+          "asset": "asset_fen_reed",
+          "kind": "low",
+          "x": -864.02,
+          "z": 1889.9,
+          "scale": 0.91
+        },
+        {
+          "id": "f2c:s:-18:37:seed-7",
+          "asset": "asset_fen_reed",
+          "kind": "low",
+          "x": -868.09,
+          "z": 1884.95,
+          "scale": 0.86
+        }
+      ]
+    },
+    {
+      "cx": -17,
+      "cz": 37,
+      "bounds": {
+        "minX": -850,
+        "maxX": -800,
+        "minZ": 1850,
+        "maxZ": 1900
+      },
+      "terrain": {
+        "min": 10.089,
+        "max": 12.779,
+        "maxSlope": 0.055,
+        "owners": [
+          "shatterfen"
+        ],
+        "wetRange": [
+          0.187,
+          0.345
+        ]
+      },
+      "forage": [
+        {
+          "id": "f1:r:-17:37:0",
+          "type": "tree",
+          "x": -823.81,
+          "z": 1871.92,
+          "y": 11.27,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-17:37:1",
+          "type": "tree",
+          "x": -826.95,
+          "z": 1873.61,
+          "y": 11.35,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-17:37:2",
+          "type": "fiber",
+          "x": -826.84,
+          "z": 1870.18,
+          "y": 11.16,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-17:37:3",
+          "type": "fiber",
+          "x": -811.16,
+          "z": 1882.07,
+          "y": 11.86,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-17:37:4",
+          "type": "tree",
+          "x": -814.37,
+          "z": 1883.71,
+          "y": 11.95,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-17:37:5",
+          "type": "fiber",
+          "x": -814.1,
+          "z": 1880.35,
+          "y": 11.77,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-17:37:6",
+          "type": "fiber",
+          "x": -833.89,
+          "z": 1873.31,
+          "y": 11.29,
+          "asset": "asset_berry_bush"
+        }
+      ],
+      "wildlife": [],
+      "scenery": [
+        {
+          "id": "f2c:s:-17:37:seed-3",
+          "asset": "asset_verge_canopy_tall",
+          "kind": "canopy",
+          "x": -819.01,
+          "z": 1874.36,
+          "scale": 0.77
+        },
+        {
+          "id": "f2c:s:-17:37:seed-4",
+          "asset": "asset_fen_lily",
+          "kind": "low",
+          "x": -820.18,
+          "z": 1879.93,
+          "scale": 0.76
+        },
+        {
+          "id": "f2c:s:-17:37:seed-5",
+          "asset": "asset_fen_reed",
+          "kind": "low",
+          "x": -835.27,
+          "z": 1867.43,
+          "scale": 0.9
+        },
+        {
+          "id": "f2c:s:-17:37:seed-6",
+          "asset": "asset_fen_reed",
+          "kind": "low",
+          "x": -831.38,
+          "z": 1877.2,
+          "scale": 0.8
+        },
+        {
+          "id": "f2c:s:-17:37:seed-8",
+          "asset": "asset_fen_lily",
+          "kind": "low",
+          "x": -834.61,
+          "z": 1878.99,
+          "scale": 0.97
+        },
+        {
+          "id": "f2c:s:-17:37:seed-9",
+          "asset": "asset_fen_reed",
+          "kind": "low",
+          "x": -825.92,
+          "z": 1879.11,
+          "scale": 0.79
+        }
+      ]
+    },
+    {
+      "cx": -16,
+      "cz": 37,
+      "bounds": {
+        "minX": -800,
+        "maxX": -750,
+        "minZ": 1850,
+        "maxZ": 1900
+      },
+      "terrain": {
+        "min": 10.329,
+        "max": 12.701,
+        "maxSlope": 0.05,
+        "owners": [
+          "shatterfen"
+        ],
+        "wetRange": [
+          0.187,
+          0.319
+        ]
+      },
+      "forage": [
+        {
+          "id": "f1:r:-16:37:0",
+          "type": "fiber",
+          "x": -771.36,
+          "z": 1879.09,
+          "y": 11.53,
+          "asset": "asset_berry_bush"
+        },
+        {
+          "id": "f1:r:-16:37:1",
+          "type": "tree",
+          "x": -774.43,
+          "z": 1879.67,
+          "y": 11.57,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-16:37:2",
+          "type": "fiber",
+          "x": -773.46,
+          "z": 1876.44,
+          "y": 11.46,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-16:37:3",
+          "type": "fiber",
+          "x": -789.14,
+          "z": 1866.06,
+          "y": 11.08,
+          "asset": "asset_berry_bush"
+        },
+        {
+          "id": "f1:r:-16:37:4",
+          "type": "tree",
+          "x": -792.26,
+          "z": 1867.07,
+          "y": 11.12,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-16:37:5",
+          "type": "fiber",
+          "x": -791.41,
+          "z": 1863.76,
+          "y": 10.98,
+          "asset": "asset_berry_bush"
+        },
+        {
+          "id": "f1:r:-16:37:6",
+          "type": "tree",
+          "x": -772.05,
+          "z": 1864.07,
+          "y": 11.08,
+          "asset": null
+        }
+      ],
+      "wildlife": [
+        {
+          "id": "f1:w:-16:37:0",
+          "x": -773.25,
+          "z": 1878.18,
+          "y": 11.52,
+          "roam": 4.5,
+          "leash": 10
+        }
+      ],
+      "scenery": [
+        {
+          "id": "f2c:s:-16:37:seed-1",
+          "asset": "asset_verge_canopy_spread",
+          "kind": "canopy",
+          "x": -785.82,
+          "z": 1868.61,
+          "scale": 0.77
+        },
+        {
+          "id": "f2c:s:-16:37:seed-2",
+          "asset": "asset_fen_reed",
+          "kind": "low",
+          "x": -774.19,
+          "z": 1867.4,
+          "scale": 0.78
+        },
+        {
+          "id": "f2c:s:-16:37:seed-5",
+          "asset": "asset_mushroom_ring",
+          "kind": "low",
+          "x": -779.5,
+          "z": 1865.13,
+          "scale": 0.81
+        },
+        {
+          "id": "f2c:s:-16:37:seed-7",
+          "asset": "asset_fen_reed",
+          "kind": "low",
+          "x": -783.45,
+          "z": 1872.08,
+          "scale": 0.9
+        },
+        {
+          "id": "f2c:s:-16:37:seed-11",
+          "asset": "asset_mushroom_ring",
+          "kind": "low",
+          "x": -768.88,
+          "z": 1864.57,
+          "scale": 0.97
+        },
+        {
+          "id": "f2c:s:-16:37:seed-13",
+          "asset": "asset_mushroom_ring",
+          "kind": "low",
+          "x": -780.4,
+          "z": 1871.76,
+          "scale": 0.88
+        }
+      ]
+    },
+    {
+      "cx": -15,
+      "cz": 37,
+      "bounds": {
+        "minX": -750,
+        "maxX": -700,
+        "minZ": 1850,
+        "maxZ": 1900
+      },
+      "terrain": {
+        "min": 10.979,
+        "max": 11.597,
+        "maxSlope": 0.027,
+        "owners": [
+          "shatterfen"
+        ],
+        "wetRange": [
+          0.18,
+          0.267
+        ]
+      },
+      "forage": [
+        {
+          "id": "f1:r:-15:37:0",
+          "type": "fiber",
+          "x": -717.93,
+          "z": 1879.03,
+          "y": 11.13,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-15:37:1",
+          "type": "fiber",
+          "x": -721.23,
+          "z": 1879.89,
+          "y": 11.14,
+          "asset": "asset_berry_bush"
+        },
+        {
+          "id": "f1:r:-15:37:2",
+          "type": "fiber",
+          "x": -720.5,
+          "z": 1876.66,
+          "y": 11.15,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-15:37:3",
+          "type": "tree",
+          "x": -704.1,
+          "z": 1892.02,
+          "y": 11.06,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-15:37:4",
+          "type": "fiber",
+          "x": -707.22,
+          "z": 1893.21,
+          "y": 11.05,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-15:37:5",
+          "type": "fiber",
+          "x": -706.73,
+          "z": 1890.1,
+          "y": 11.06,
+          "asset": "asset_berry_bush"
+        },
+        {
+          "id": "f1:r:-15:37:6",
+          "type": "fiber",
+          "x": -704.24,
+          "z": 1873.51,
+          "y": 11.15,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-15:37:7",
+          "type": "fiber",
+          "x": -707.36,
+          "z": 1874.46,
+          "y": 11.14,
+          "asset": "asset_berry_bush"
+        }
+      ],
+      "wildlife": [],
+      "scenery": [
+        {
+          "id": "f2c:s:-15:37:seed-1",
+          "asset": "asset_verge_canopy_tall",
+          "kind": "canopy",
+          "x": -712.09,
+          "z": 1886.42,
+          "scale": 0.74
+        },
+        {
+          "id": "f2c:s:-15:37:seed-2",
+          "asset": "asset_fen_reed",
+          "kind": "low",
+          "x": -712.17,
+          "z": 1873.72,
+          "scale": 1.03
+        },
+        {
+          "id": "f2c:s:-15:37:seed-3",
+          "asset": "asset_fen_reed",
+          "kind": "low",
+          "x": -718.52,
+          "z": 1882.53,
+          "scale": 1.02
+        },
+        {
+          "id": "f2c:s:-15:37:seed-4",
+          "asset": "asset_fen_lily",
+          "kind": "low",
+          "x": -715.41,
+          "z": 1885.58,
+          "scale": 1.03
+        },
+        {
+          "id": "f2c:s:-15:37:seed-5",
+          "asset": "asset_fen_reed",
+          "kind": "low",
+          "x": -712.36,
+          "z": 1878.22,
+          "scale": 0.91
+        },
+        {
+          "id": "f2c:s:-15:37:seed-7",
+          "asset": "asset_fen_reed",
+          "kind": "low",
+          "x": -711.12,
+          "z": 1882.19,
+          "scale": 0.82
+        }
+      ]
+    },
+    {
+      "cx": -14,
+      "cz": 37,
+      "bounds": {
+        "minX": -700,
+        "maxX": -650,
+        "minZ": 1850,
+        "maxZ": 1900
+      },
+      "terrain": {
+        "min": 10.66,
+        "max": 11.728,
+        "maxSlope": 0.025,
+        "owners": [
+          "shatterfen"
+        ],
+        "wetRange": [
+          0.213,
+          0.353
+        ]
+      },
+      "forage": [
+        {
+          "id": "f1:r:-14:37:0",
+          "type": "fiber",
+          "x": -668.14,
+          "z": 1890.42,
+          "y": 11.34,
+          "asset": "asset_berry_bush"
+        },
+        {
+          "id": "f1:r:-14:37:1",
+          "type": "fiber",
+          "x": -671.27,
+          "z": 1891.67,
+          "y": 11.32,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-14:37:2",
+          "type": "tree",
+          "x": -670.87,
+          "z": 1888.56,
+          "y": 11.29,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-14:37:3",
+          "type": "fiber",
+          "x": -668.9,
+          "z": 1876,
+          "y": 11.18,
+          "asset": "asset_berry_bush"
+        },
+        {
+          "id": "f1:r:-14:37:4",
+          "type": "fiber",
+          "x": -671.7,
+          "z": 1877.71,
+          "y": 11.19,
+          "asset": "asset_berry_bush"
+        },
+        {
+          "id": "f1:r:-14:37:5",
+          "type": "fiber",
+          "x": -671.56,
+          "z": 1874.46,
+          "y": 11.16,
+          "asset": null
+        }
+      ],
+      "wildlife": [],
+      "scenery": [
+        {
+          "id": "f2c:s:-14:37:seed-0",
+          "asset": "asset_verge_canopy_spread",
+          "kind": "canopy",
+          "x": -671.7,
+          "z": 1885.35,
+          "scale": 1.04
+        },
+        {
+          "id": "f2c:s:-14:37:seed-2",
+          "asset": "asset_fen_reed",
+          "kind": "low",
+          "x": -660,
+          "z": 1877.64,
+          "scale": 0.92
+        },
+        {
+          "id": "f2c:s:-14:37:seed-3",
+          "asset": "asset_mushroom_ring",
+          "kind": "low",
+          "x": -673.12,
+          "z": 1882.22,
+          "scale": 0.98
+        },
+        {
+          "id": "f2c:s:-14:37:seed-4",
+          "asset": "asset_fen_lily",
+          "kind": "low",
+          "x": -678.19,
+          "z": 1880.1,
+          "scale": 1.03
+        },
+        {
+          "id": "f2c:s:-14:37:seed-5",
+          "asset": "asset_mushroom_ring",
+          "kind": "low",
+          "x": -662.97,
+          "z": 1876.04,
+          "scale": 0.95
+        },
+        {
+          "id": "f2c:s:-14:37:seed-8",
+          "asset": "asset_fen_lily",
+          "kind": "low",
+          "x": -660.22,
+          "z": 1882.21,
+          "scale": 1
+        }
+      ]
+    },
+    {
+      "cx": -13,
+      "cz": 37,
+      "bounds": {
+        "minX": -650,
+        "maxX": -600,
+        "minZ": 1850,
+        "maxZ": 1900
+      },
+      "terrain": {
+        "min": 10.335,
+        "max": 12.065,
+        "maxSlope": 0.037,
+        "owners": [
+          "shatterfen"
+        ],
+        "wetRange": [
+          0.063,
+          0.349
+        ]
+      },
+      "forage": [
+        {
+          "id": "f1:r:-13:37:0",
+          "type": "fiber",
+          "x": -628.64,
+          "z": 1858.11,
+          "y": 10.67,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-13:37:1",
+          "type": "fiber",
+          "x": -631.6,
+          "z": 1859.24,
+          "y": 10.72,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-13:37:2",
+          "type": "tree",
+          "x": -631.1,
+          "z": 1856.01,
+          "y": 10.62,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-13:37:3",
+          "type": "tree",
+          "x": -630.33,
+          "z": 1868.59,
+          "y": 11,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-13:37:4",
+          "type": "tree",
+          "x": -633.17,
+          "z": 1870.19,
+          "y": 11.05,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-13:37:5",
+          "type": "tree",
+          "x": -633.22,
+          "z": 1866.83,
+          "y": 10.95,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-13:37:6",
+          "type": "fiber",
+          "x": -642.47,
+          "z": 1858.65,
+          "y": 10.77,
+          "asset": null
+        }
+      ],
+      "wildlife": [],
+      "scenery": [
+        {
+          "id": "f2c:s:-13:37:seed-0",
+          "asset": "asset_verge_canopy_tall",
+          "kind": "canopy",
+          "x": -628.7,
+          "z": 1863.28,
+          "scale": 0.8
+        },
+        {
+          "id": "f2c:s:-13:37:seed-2",
+          "asset": "asset_fen_reed",
+          "kind": "low",
+          "x": -638.25,
+          "z": 1863.84,
+          "scale": 0.85
+        },
+        {
+          "id": "f2c:s:-13:37:seed-3",
+          "asset": "asset_fen_lily",
+          "kind": "low",
+          "x": -623.98,
+          "z": 1858.67,
+          "scale": 0.99
+        },
+        {
+          "id": "f2c:s:-13:37:seed-5",
+          "asset": "asset_fen_reed",
+          "kind": "low",
+          "x": -640.59,
+          "z": 1866.71,
+          "scale": 0.87
+        },
+        {
+          "id": "f2c:s:-13:37:seed-7",
+          "asset": "asset_mushroom_ring",
+          "kind": "low",
+          "x": -625.08,
+          "z": 1865.9,
+          "scale": 0.9
+        },
+        {
+          "id": "f2c:s:-13:37:seed-9",
+          "asset": "asset_fen_lily",
+          "kind": "low",
+          "x": -625.42,
+          "z": 1856.19,
+          "scale": 0.83
+        }
+      ]
+    },
+    {
+      "cx": -12,
+      "cz": 37,
+      "bounds": {
+        "minX": -600,
+        "maxX": -550,
+        "minZ": 1850,
+        "maxZ": 1900
+      },
+      "terrain": {
+        "min": 10.337,
+        "max": 12.455,
+        "maxSlope": 0.037,
+        "owners": [
+          "shatterfen"
+        ],
+        "wetRange": [
+          0.033,
+          0.278
+        ]
+      },
+      "forage": [
+        {
+          "id": "f1:r:-12:37:0",
+          "type": "fiber",
+          "x": -585.27,
+          "z": 1881.75,
+          "y": 11.48,
+          "asset": "asset_berry_bush"
+        },
+        {
+          "id": "f1:r:-12:37:1",
+          "type": "fiber",
+          "x": -588.21,
+          "z": 1882.92,
+          "y": 11.51,
+          "asset": "asset_berry_bush"
+        },
+        {
+          "id": "f1:r:-12:37:2",
+          "type": "fiber",
+          "x": -587.91,
+          "z": 1879.56,
+          "y": 11.39,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-12:37:3",
+          "type": "tree",
+          "x": -554.81,
+          "z": 1877.21,
+          "y": 11.63,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-12:37:4",
+          "type": "tree",
+          "x": -557.67,
+          "z": 1878.72,
+          "y": 11.65,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-12:37:5",
+          "type": "fiber",
+          "x": -557.45,
+          "z": 1875.42,
+          "y": 11.54,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-12:37:6",
+          "type": "fiber",
+          "x": -559.05,
+          "z": 1892.81,
+          "y": 12.12,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-12:37:7",
+          "type": "tree",
+          "x": -562.38,
+          "z": 1894.11,
+          "y": 12.13,
+          "asset": null
+        }
+      ],
+      "wildlife": [],
+      "scenery": [
+        {
+          "id": "f2c:s:-12:37:seed-1",
+          "asset": "asset_verge_canopy_tall",
+          "kind": "canopy",
+          "x": -562.46,
+          "z": 1876.43,
+          "scale": 0.79
+        },
+        {
+          "id": "f2c:s:-12:37:seed-2",
+          "asset": "asset_mushroom_ring",
+          "kind": "low",
+          "x": -565.5,
+          "z": 1886.93,
+          "scale": 0.81
+        },
+        {
+          "id": "f2c:s:-12:37:seed-4",
+          "asset": "asset_fen_reed",
+          "kind": "low",
+          "x": -558.5,
+          "z": 1870.42,
+          "scale": 1.02
+        },
+        {
+          "id": "f2c:s:-12:37:seed-5",
+          "asset": "asset_fen_lily",
+          "kind": "low",
+          "x": -567.96,
+          "z": 1886.1,
+          "scale": 1.06
+        },
+        {
+          "id": "f2c:s:-12:37:seed-6",
+          "asset": "asset_fen_reed",
+          "kind": "low",
+          "x": -580.84,
+          "z": 1877.33,
+          "scale": 0.79
+        },
+        {
+          "id": "f2c:s:-12:37:seed-8",
+          "asset": "asset_fen_lily",
+          "kind": "low",
+          "x": -562.72,
+          "z": 1889.11,
+          "scale": 1.02
+        }
+      ]
+    },
+    {
+      "cx": -18,
+      "cz": 38,
+      "bounds": {
+        "minX": -900,
+        "maxX": -850,
+        "minZ": 1900,
+        "maxZ": 1950
+      },
+      "terrain": {
+        "min": 11.943,
+        "max": 13.529,
+        "maxSlope": 0.046,
+        "owners": [
+          "shatterfen"
+        ],
+        "wetRange": [
+          0.07,
+          0.345
+        ]
+      },
+      "forage": [
+        {
+          "id": "f1:r:-18:38:0",
+          "type": "fiber",
+          "x": -857.42,
+          "z": 1918.9,
+          "y": 13.12,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-18:38:1",
+          "type": "tree",
+          "x": -860.24,
+          "z": 1920.55,
+          "y": 13.13,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-18:38:2",
+          "type": "fiber",
+          "x": -860.18,
+          "z": 1917.11,
+          "y": 13.04,
+          "asset": "asset_berry_bush"
+        },
+        {
+          "id": "f1:r:-18:38:3",
+          "type": "fiber",
+          "x": -859.12,
+          "z": 1908.97,
+          "y": 12.78,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-18:38:4",
+          "type": "fiber",
+          "x": -862.49,
+          "z": 1909.89,
+          "y": 12.77,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-18:38:5",
+          "type": "fiber",
+          "x": -861.56,
+          "z": 1906.67,
+          "y": 12.66,
+          "asset": "asset_berry_bush"
+        },
+        {
+          "id": "f1:r:-18:38:6",
+          "type": "fiber",
+          "x": -892.98,
+          "z": 1911.81,
+          "y": 12.43,
+          "asset": "asset_berry_bush"
+        },
+        {
+          "id": "f1:r:-18:38:7",
+          "type": "fiber",
+          "x": -895.87,
+          "z": 1912.95,
+          "y": 12.43,
+          "asset": null
+        }
+      ],
+      "wildlife": [],
+      "scenery": [
+        {
+          "id": "f2c:s:-18:38:seed-0",
+          "asset": "asset_verge_canopy_spread",
+          "kind": "canopy",
+          "x": -864.24,
+          "z": 1920.82,
+          "scale": 0.89
+        },
+        {
+          "id": "f2c:s:-18:38:seed-1",
+          "asset": "asset_fen_lily",
+          "kind": "low",
+          "x": -865.5,
+          "z": 1913.72,
+          "scale": 1.06
+        },
+        {
+          "id": "f2c:s:-18:38:seed-2",
+          "asset": "asset_mushroom_ring",
+          "kind": "low",
+          "x": -888.46,
+          "z": 1915.83,
+          "scale": 0.94
+        },
+        {
+          "id": "f2c:s:-18:38:seed-3",
+          "asset": "asset_mushroom_ring",
+          "kind": "low",
+          "x": -871.02,
+          "z": 1919.92,
+          "scale": 0.82
+        },
+        {
+          "id": "f2c:s:-18:38:seed-5",
+          "asset": "asset_fen_reed",
+          "kind": "low",
+          "x": -887.1,
+          "z": 1922.76,
+          "scale": 0.87
+        },
+        {
+          "id": "f2c:s:-18:38:seed-6",
+          "asset": "asset_fen_lily",
+          "kind": "low",
+          "x": -864.78,
+          "z": 1918.63,
+          "scale": 0.95
+        }
+      ]
+    },
+    {
+      "cx": -17,
+      "cz": 38,
+      "bounds": {
+        "minX": -850,
+        "maxX": -800,
+        "minZ": 1900,
+        "maxZ": 1950
+      },
+      "terrain": {
+        "min": 12.517,
+        "max": 13.837,
+        "maxSlope": 0.048,
+        "owners": [
+          "shatterfen"
+        ],
+        "wetRange": [
+          0.187,
+          0.307
+        ]
+      },
+      "forage": [
+        {
+          "id": "f1:r:-17:38:0",
+          "type": "fiber",
+          "x": -806.97,
+          "z": 1946.74,
+          "y": 13.8,
+          "asset": "asset_berry_bush"
+        },
+        {
+          "id": "f1:r:-17:38:2",
+          "type": "tree",
+          "x": -809.34,
+          "z": 1944.04,
+          "y": 13.83,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-17:38:3",
+          "type": "fiber",
+          "x": -812.7,
+          "z": 1941.32,
+          "y": 13.85,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-17:38:4",
+          "type": "fiber",
+          "x": -815.66,
+          "z": 1942.24,
+          "y": 13.85,
+          "asset": "asset_berry_bush"
+        },
+        {
+          "id": "f1:r:-17:38:5",
+          "type": "fiber",
+          "x": -815.02,
+          "z": 1938.93,
+          "y": 13.85,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-17:38:6",
+          "type": "tree",
+          "x": -806.3,
+          "z": 1943.34,
+          "y": 13.8,
+          "asset": null
+        }
+      ],
+      "wildlife": [],
+      "scenery": [
+        {
+          "id": "f2c:s:-17:38:seed-1",
+          "asset": "asset_verge_canopy_spread",
+          "kind": "canopy",
+          "x": -817.79,
+          "z": 1935.85,
+          "scale": 0.73
+        },
+        {
+          "id": "f2c:s:-17:38:seed-3",
+          "asset": "asset_fen_reed",
+          "kind": "low",
+          "x": -816.57,
+          "z": 1935.08,
+          "scale": 1.04
+        },
+        {
+          "id": "f2c:s:-17:38:seed-5",
+          "asset": "asset_fen_lily",
+          "kind": "low",
+          "x": -815.37,
+          "z": 1934.45,
+          "scale": 0.78
+        },
+        {
+          "id": "f2c:s:-17:38:seed-6",
+          "asset": "asset_mushroom_ring",
+          "kind": "low",
+          "x": -813.11,
+          "z": 1934.65,
+          "scale": 0.8
+        },
+        {
+          "id": "f2c:s:-17:38:seed-7",
+          "asset": "asset_fen_reed",
+          "kind": "low",
+          "x": -817.74,
+          "z": 1930.82,
+          "scale": 0.88
+        },
+        {
+          "id": "f2c:s:-17:38:seed-8",
+          "asset": "asset_fen_lily",
+          "kind": "low",
+          "x": -819.74,
+          "z": 1937.08,
+          "scale": 0.94
+        }
+      ]
+    },
+    {
+      "cx": -16,
+      "cz": 38,
+      "bounds": {
+        "minX": -800,
+        "maxX": -750,
+        "minZ": 1900,
+        "maxZ": 1950
+      },
+      "terrain": {
+        "min": 11.597,
+        "max": 13.716,
+        "maxSlope": 0.046,
+        "owners": [
+          "shatterfen"
+        ],
+        "wetRange": [
+          0.131,
+          0.263
+        ]
+      },
+      "forage": [
+        {
+          "id": "f1:r:-16:38:0",
+          "type": "tree",
+          "x": -774.8,
+          "z": 1929.23,
+          "y": 12.9,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-16:38:1",
+          "type": "fiber",
+          "x": -777.99,
+          "z": 1930.34,
+          "y": 13.03,
+          "asset": "asset_berry_bush"
+        },
+        {
+          "id": "f1:r:-16:38:2",
+          "type": "tree",
+          "x": -777.21,
+          "z": 1927.15,
+          "y": 12.95,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-16:38:3",
+          "type": "fiber",
+          "x": -774.59,
+          "z": 1943.8,
+          "y": 13.02,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-16:38:4",
+          "type": "tree",
+          "x": -777.71,
+          "z": 1944.99,
+          "y": 13.13,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-16:38:5",
+          "type": "fiber",
+          "x": -777.14,
+          "z": 1941.55,
+          "y": 13.1,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-16:38:6",
+          "type": "tree",
+          "x": -794.29,
+          "z": 1939.67,
+          "y": 13.6,
+          "asset": null
+        }
+      ],
+      "wildlife": [],
+      "scenery": [
+        {
+          "id": "f2c:s:-16:38:seed-1",
+          "asset": "asset_verge_canopy",
+          "kind": "canopy",
+          "x": -775.98,
+          "z": 1937.6,
+          "scale": 0.73
+        },
+        {
+          "id": "f2c:s:-16:38:seed-2",
+          "asset": "asset_fen_lily",
+          "kind": "low",
+          "x": -789.35,
+          "z": 1934.92,
+          "scale": 0.84
+        },
+        {
+          "id": "f2c:s:-16:38:seed-3",
+          "asset": "asset_mushroom_ring",
+          "kind": "low",
+          "x": -773.34,
+          "z": 1925.36,
+          "scale": 0.82
+        },
+        {
+          "id": "f2c:s:-16:38:seed-5",
+          "asset": "asset_mushroom_ring",
+          "kind": "low",
+          "x": -787.16,
+          "z": 1935.91,
+          "scale": 0.82
+        },
+        {
+          "id": "f2c:s:-16:38:seed-7",
+          "asset": "asset_fen_reed",
+          "kind": "low",
+          "x": -772.18,
+          "z": 1934.84,
+          "scale": 0.99
+        },
+        {
+          "id": "f2c:s:-16:38:seed-8",
+          "asset": "asset_fen_lily",
+          "kind": "low",
+          "x": -790.74,
+          "z": 1938.98,
+          "scale": 1.03
+        }
+      ]
+    },
+    {
+      "cx": -15,
+      "cz": 38,
+      "bounds": {
+        "minX": -750,
+        "maxX": -700,
+        "minZ": 1900,
+        "maxZ": 1950
+      },
+      "terrain": {
+        "min": 11.017,
+        "max": 12.187,
+        "maxSlope": 0.039,
+        "owners": [
+          "shatterfen"
+        ],
+        "wetRange": [
+          0.124,
+          0.251
+        ]
+      },
+      "forage": [
+        {
+          "id": "f1:r:-15:38:0",
+          "type": "fiber",
+          "x": -715.39,
+          "z": 1923.35,
+          "y": 11.09,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-15:38:1",
+          "type": "fiber",
+          "x": -718.28,
+          "z": 1924.75,
+          "y": 11.12,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-15:38:2",
+          "type": "tree",
+          "x": -718.17,
+          "z": 1921.4,
+          "y": 11.09,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-15:38:3",
+          "type": "fiber",
+          "x": -729,
+          "z": 1912.19,
+          "y": 11.2,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-15:38:4",
+          "type": "fiber",
+          "x": -732.14,
+          "z": 1913.15,
+          "y": 11.27,
+          "asset": "asset_berry_bush"
+        },
+        {
+          "id": "f1:r:-15:38:5",
+          "type": "fiber",
+          "x": -731.52,
+          "z": 1909.99,
+          "y": 11.24,
+          "asset": "asset_berry_bush"
+        },
+        {
+          "id": "f1:r:-15:38:6",
+          "type": "tree",
+          "x": -730.36,
+          "z": 1935.92,
+          "y": 11.45,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-15:38:7",
+          "type": "fiber",
+          "x": -733.23,
+          "z": 1937.5,
+          "y": 11.54,
+          "asset": null
+        }
+      ],
+      "wildlife": [],
+      "scenery": [
+        {
+          "id": "f2c:s:-15:38:seed-1",
+          "asset": "asset_verge_canopy_tall",
+          "kind": "canopy",
+          "x": -729.04,
+          "z": 1915.99,
+          "scale": 0.73
+        },
+        {
+          "id": "f2c:s:-15:38:seed-2",
+          "asset": "asset_fen_lily",
+          "kind": "low",
+          "x": -729.9,
+          "z": 1932.4,
+          "scale": 0.91
+        },
+        {
+          "id": "f2c:s:-15:38:seed-3",
+          "asset": "asset_mushroom_ring",
+          "kind": "low",
+          "x": -723.76,
+          "z": 1917.44,
+          "scale": 0.87
+        },
+        {
+          "id": "f2c:s:-15:38:seed-4",
+          "asset": "asset_fen_lily",
+          "kind": "low",
+          "x": -733.65,
+          "z": 1919.24,
+          "scale": 0.98
+        },
+        {
+          "id": "f2c:s:-15:38:seed-5",
+          "asset": "asset_fen_reed",
+          "kind": "low",
+          "x": -732.2,
+          "z": 1930.57,
+          "scale": 0.78
+        },
+        {
+          "id": "f2c:s:-15:38:seed-7",
+          "asset": "asset_fen_reed",
+          "kind": "low",
+          "x": -726.23,
+          "z": 1915.23,
+          "scale": 0.88
+        }
+      ]
+    },
+    {
+      "cx": -14,
+      "cz": 38,
+      "bounds": {
+        "minX": -700,
+        "maxX": -650,
+        "minZ": 1900,
+        "maxZ": 1950
+      },
+      "terrain": {
+        "min": 11.059,
+        "max": 12.313,
+        "maxSlope": 0.027,
+        "owners": [
+          "shatterfen"
+        ],
+        "wetRange": [
+          0.147,
+          0.236
+        ]
+      },
+      "forage": [
+        {
+          "id": "f1:r:-14:38:0",
+          "type": "fiber",
+          "x": -672.32,
+          "z": 1903.45,
+          "y": 11.41,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-14:38:1",
+          "type": "fiber",
+          "x": -675.64,
+          "z": 1904.67,
+          "y": 11.36,
+          "asset": "asset_berry_bush"
+        },
+        {
+          "id": "f1:r:-14:38:3",
+          "type": "fiber",
+          "x": -689.56,
+          "z": 1935.17,
+          "y": 11.4,
+          "asset": "asset_berry_bush"
+        },
+        {
+          "id": "f1:r:-14:38:4",
+          "type": "tree",
+          "x": -692.81,
+          "z": 1935.94,
+          "y": 11.36,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-14:38:5",
+          "type": "fiber",
+          "x": -691.94,
+          "z": 1932.76,
+          "y": 11.33,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-14:38:6",
+          "type": "fiber",
+          "x": -679.11,
+          "z": 1940.03,
+          "y": 11.65,
+          "asset": null
+        }
+      ],
+      "wildlife": [
+        {
+          "id": "f1:w:-14:38:0",
+          "x": -674.45,
+          "z": 1905.11,
+          "y": 11.39,
+          "roam": 4.4,
+          "leash": 8.5,
+          "flee": null
+        }
+      ],
+      "scenery": [
+        {
+          "id": "f2c:s:-14:38:seed-1",
+          "asset": "asset_verge_canopy_tall",
+          "kind": "canopy",
+          "x": -686.23,
+          "z": 1931.57,
+          "scale": 0.88
+        },
+        {
+          "id": "f2c:s:-14:38:seed-2",
+          "asset": "asset_fen_reed",
+          "kind": "low",
+          "x": -679.17,
+          "z": 1935,
+          "scale": 0.82
+        },
+        {
+          "id": "f2c:s:-14:38:seed-4",
+          "asset": "asset_fen_lily",
+          "kind": "low",
+          "x": -683.61,
+          "z": 1932.84,
+          "scale": 0.77
+        },
+        {
+          "id": "f2c:s:-14:38:seed-5",
+          "asset": "asset_fen_stone",
+          "kind": "low",
+          "x": -673.57,
+          "z": 1938.56,
+          "scale": 1.02
+        },
+        {
+          "id": "f2c:s:-14:38:seed-8",
+          "asset": "asset_fen_lily",
+          "kind": "low",
+          "x": -674.82,
+          "z": 1930.67,
+          "scale": 0.97
+        },
+        {
+          "id": "f2c:s:-14:38:seed-9",
+          "asset": "asset_fen_lily",
+          "kind": "low",
+          "x": -679.96,
+          "z": 1912.13,
+          "scale": 0.91
+        }
+      ]
+    },
+    {
+      "cx": -13,
+      "cz": 38,
+      "bounds": {
+        "minX": -650,
+        "maxX": -600,
+        "minZ": 1900,
+        "maxZ": 1950
+      },
+      "terrain": {
+        "min": 11.728,
+        "max": 12.807,
+        "maxSlope": 0.032,
+        "owners": [
+          "shatterfen"
+        ],
+        "wetRange": [
+          0.037,
+          0.213
+        ]
+      },
+      "forage": [
+        {
+          "id": "f1:r:-13:38:0",
+          "type": "fiber",
+          "x": -635.51,
+          "z": 1931.99,
+          "y": 12.55,
+          "asset": "asset_berry_bush"
+        },
+        {
+          "id": "f1:r:-13:38:1",
+          "type": "fiber",
+          "x": -638.73,
+          "z": 1932.94,
+          "y": 12.5,
+          "asset": "asset_berry_bush"
+        },
+        {
+          "id": "f1:r:-13:38:2",
+          "type": "tree",
+          "x": -638.05,
+          "z": 1929.56,
+          "y": 12.48,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-13:38:3",
+          "type": "fiber",
+          "x": -624.99,
+          "z": 1924.45,
+          "y": 12.61,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-13:38:4",
+          "type": "fiber",
+          "x": -627.97,
+          "z": 1925.79,
+          "y": 12.59,
+          "asset": "asset_berry_bush"
+        },
+        {
+          "id": "f1:r:-13:38:5",
+          "type": "tree",
+          "x": -627.42,
+          "z": 1922.54,
+          "y": 12.55,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-13:38:6",
+          "type": "fiber",
+          "x": -607.2,
+          "z": 1934.08,
+          "y": 12.78,
+          "asset": "asset_berry_bush"
+        }
+      ],
+      "wildlife": [],
+      "scenery": [
+        {
+          "id": "f2c:s:-13:38:seed-0",
+          "asset": "asset_verge_canopy",
+          "kind": "canopy",
+          "x": -633.48,
+          "z": 1929.46,
+          "scale": 0.93
+        },
+        {
+          "id": "f2c:s:-13:38:seed-2",
+          "asset": "asset_fen_reed",
+          "kind": "low",
+          "x": -614.11,
+          "z": 1930.8,
+          "scale": 0.88
+        },
+        {
+          "id": "f2c:s:-13:38:seed-4",
+          "asset": "asset_mushroom_ring",
+          "kind": "low",
+          "x": -631.02,
+          "z": 1918.65,
+          "scale": 0.94
+        },
+        {
+          "id": "f2c:s:-13:38:seed-5",
+          "asset": "asset_fen_lily",
+          "kind": "low",
+          "x": -616.05,
+          "z": 1935.86,
+          "scale": 0.79
+        },
+        {
+          "id": "f2c:s:-13:38:seed-7",
+          "asset": "asset_mushroom_ring",
+          "kind": "low",
+          "x": -626.75,
+          "z": 1918.88,
+          "scale": 0.99
+        },
+        {
+          "id": "f2c:s:-13:38:seed-8",
+          "asset": "asset_fen_lily",
+          "kind": "low",
+          "x": -615.99,
+          "z": 1926.76,
+          "scale": 1.03
+        }
+      ]
+    },
+    {
+      "cx": -12,
+      "cz": 38,
+      "bounds": {
+        "minX": -600,
+        "maxX": -550,
+        "minZ": 1900,
+        "maxZ": 1950
+      },
+      "terrain": {
+        "min": 12.051,
+        "max": 13.119,
+        "maxSlope": 0.033,
+        "owners": [
+          "shatterfen"
+        ],
+        "wetRange": [
+          0.012,
+          0.096
+        ]
+      },
+      "forage": [
+        {
+          "id": "f1:r:-12:38:0",
+          "type": "tree",
+          "x": -556.85,
+          "z": 1916.23,
+          "y": 12.81,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-12:38:1",
+          "type": "fiber",
+          "x": -560.02,
+          "z": 1917.66,
+          "y": 12.8,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-12:38:2",
+          "type": "fiber",
+          "x": -559.57,
+          "z": 1914.07,
+          "y": 12.73,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-12:38:3",
+          "type": "tree",
+          "x": -559.21,
+          "z": 1932.62,
+          "y": 13.02,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-12:38:4",
+          "type": "fiber",
+          "x": -562.43,
+          "z": 1933.64,
+          "y": 12.99,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-12:38:5",
+          "type": "tree",
+          "x": -561.66,
+          "z": 1930.52,
+          "y": 12.98,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-12:38:6",
+          "type": "fiber",
+          "x": -571.53,
+          "z": 1930.31,
+          "y": 12.88,
+          "asset": null
+        }
+      ],
+      "wildlife": [],
+      "scenery": [
+        {
+          "id": "f2c:s:-12:38:seed-0",
+          "asset": "asset_fen_lily",
+          "kind": "low",
+          "x": -563.93,
+          "z": 1918.86,
+          "scale": 0.96
+        },
+        {
+          "id": "f2c:s:-12:38:seed-1",
+          "asset": "asset_fen_stone",
+          "kind": "low",
+          "x": -565.54,
+          "z": 1929.91,
+          "scale": 0.98
+        },
+        {
+          "id": "f2c:s:-12:38:seed-4",
+          "asset": "asset_fen_reed",
+          "kind": "low",
+          "x": -568.04,
+          "z": 1927.55,
+          "scale": 1.06
+        },
+        {
+          "id": "f2c:s:-12:38:seed-5",
+          "asset": "asset_fen_reed",
+          "kind": "low",
+          "x": -566.4,
+          "z": 1927.75,
+          "scale": 0.91
+        },
+        {
+          "id": "f2c:s:-12:38:seed-7",
+          "asset": "asset_mushroom_ring",
+          "kind": "low",
+          "x": -570.89,
+          "z": 1924.26,
+          "scale": 1.03
+        },
+        {
+          "id": "f2c:s:-12:38:seed-8",
+          "asset": "asset_fen_reed",
+          "kind": "low",
+          "x": -566.21,
+          "z": 1930.37,
+          "scale": 0.91
+        }
+      ]
+    },
+    {
+      "cx": -18,
+      "cz": 39,
+      "bounds": {
+        "minX": -900,
+        "maxX": -850,
+        "minZ": 1950,
+        "maxZ": 2000
+      },
+      "terrain": {
+        "min": 12.619,
+        "max": 13.512,
+        "maxSlope": 0.024,
+        "owners": [
+          "shatterfen"
+        ],
+        "wetRange": [
+          0.307,
+          0.477
+        ]
+      },
+      "forage": [
+        {
+          "id": "f1:r:-18:39:0",
+          "type": "fiber",
+          "x": -886.42,
+          "z": 1984.63,
+          "y": 13.06,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-18:39:1",
+          "type": "tree",
+          "x": -889.78,
+          "z": 1985.74,
+          "y": 13.06,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-18:39:2",
+          "type": "fiber",
+          "x": -888.97,
+          "z": 1982.38,
+          "y": 13.07,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-18:39:3",
+          "type": "fiber",
+          "x": -854.47,
+          "z": 1963.85,
+          "y": 13.33,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-18:39:4",
+          "type": "fiber",
+          "x": -857.43,
+          "z": 1965.17,
+          "y": 13.3,
+          "asset": "asset_berry_bush"
+        },
+        {
+          "id": "f1:r:-18:39:5",
+          "type": "fiber",
+          "x": -857.16,
+          "z": 1962.02,
+          "y": 13.34,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-18:39:6",
+          "type": "tree",
+          "x": -867.32,
+          "z": 1988.84,
+          "y": 12.95,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-18:39:7",
+          "type": "tree",
+          "x": -870.54,
+          "z": 1989.31,
+          "y": 12.96,
+          "asset": null
+        }
+      ],
+      "wildlife": [
+        {
+          "id": "f1:w:-18:39:0",
+          "x": -887.17,
+          "z": 1983.37,
+          "y": 13.07,
+          "roam": 4.4,
+          "leash": 8.5,
+          "flee": null
+        }
+      ],
+      "scenery": [
+        {
+          "id": "f2c:s:-18:39:seed-1",
+          "asset": "asset_verge_canopy_spread",
+          "kind": "canopy",
+          "x": -862.31,
+          "z": 1967.28,
+          "scale": 0.83
+        },
+        {
+          "id": "f2c:s:-18:39:seed-2",
+          "asset": "asset_fen_lily",
+          "kind": "low",
+          "x": -871.05,
+          "z": 1983.98,
+          "scale": 0.93
+        },
+        {
+          "id": "f2c:s:-18:39:seed-5",
+          "asset": "asset_fen_reed",
+          "kind": "low",
+          "x": -869.62,
+          "z": 1981.89,
+          "scale": 0.78
+        },
+        {
+          "id": "f2c:s:-18:39:seed-6",
+          "asset": "asset_fen_reed",
+          "kind": "low",
+          "x": -879.11,
+          "z": 1978.45,
+          "scale": 0.81
+        },
+        {
+          "id": "f2c:s:-18:39:seed-7",
+          "asset": "asset_fen_reed",
+          "kind": "low",
+          "x": -862.75,
+          "z": 1974.43,
+          "scale": 1
+        },
+        {
+          "id": "f2c:s:-18:39:seed-8",
+          "asset": "asset_fen_lily",
+          "kind": "low",
+          "x": -866.53,
+          "z": 1977.85,
+          "scale": 0.91
+        }
+      ]
+    },
+    {
+      "cx": -17,
+      "cz": 39,
+      "bounds": {
+        "minX": -850,
+        "maxX": -800,
+        "minZ": 1950,
+        "maxZ": 2000
+      },
+      "terrain": {
+        "min": 12.524,
+        "max": 13.795,
+        "maxSlope": 0.031,
+        "owners": [
+          "shatterfen"
+        ],
+        "wetRange": [
+          0.263,
+          0.362
+        ]
+      },
+      "forage": [
+        {
+          "id": "f1:r:-17:39:0",
+          "type": "fiber",
+          "x": -840.65,
+          "z": 1985.54,
+          "y": 12.94,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-17:39:1",
+          "type": "fiber",
+          "x": -843.96,
+          "z": 1986.3,
+          "y": 12.92,
+          "asset": "asset_berry_bush"
+        },
+        {
+          "id": "f1:r:-17:39:2",
+          "type": "fiber",
+          "x": -843.13,
+          "z": 1983.23,
+          "y": 13,
+          "asset": "asset_berry_bush"
+        },
+        {
+          "id": "f1:r:-17:39:3",
+          "type": "tree",
+          "x": -843.16,
+          "z": 1979.34,
+          "y": 13.09,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-17:39:4",
+          "type": "tree",
+          "x": -846.08,
+          "z": 1980.82,
+          "y": 13.06,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-17:39:5",
+          "type": "fiber",
+          "x": -845.79,
+          "z": 1977.38,
+          "y": 13.13,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-17:39:6",
+          "type": "fiber",
+          "x": -822.05,
+          "z": 1976.3,
+          "y": 13.24,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-17:39:7",
+          "type": "tree",
+          "x": -825.17,
+          "z": 1977.76,
+          "y": 13.19,
+          "asset": null
+        }
+      ],
+      "wildlife": [],
+      "scenery": [
+        {
+          "id": "f2c:s:-17:39:seed-0",
+          "asset": "asset_verge_canopy",
+          "kind": "canopy",
+          "x": -837.04,
+          "z": 1981.82,
+          "scale": 0.96
+        },
+        {
+          "id": "f2c:s:-17:39:seed-1",
+          "asset": "asset_fen_reed",
+          "kind": "low",
+          "x": -838.6,
+          "z": 1977.86,
+          "scale": 0.79
+        },
+        {
+          "id": "f2c:s:-17:39:seed-4",
+          "asset": "asset_mushroom_ring",
+          "kind": "low",
+          "x": -834.92,
+          "z": 1972.04,
+          "scale": 0.97
+        },
+        {
+          "id": "f2c:s:-17:39:seed-6",
+          "asset": "asset_fen_lily",
+          "kind": "low",
+          "x": -833.67,
+          "z": 1978.66,
+          "scale": 0.85
+        },
+        {
+          "id": "f2c:s:-17:39:seed-7",
+          "asset": "asset_fen_reed",
+          "kind": "low",
+          "x": -834.09,
+          "z": 1978.88,
+          "scale": 1.04
+        },
+        {
+          "id": "f2c:s:-17:39:seed-9",
+          "asset": "asset_fen_lily",
+          "kind": "low",
+          "x": -838.9,
+          "z": 1980.08,
+          "scale": 0.94
+        }
+      ]
+    },
+    {
+      "cx": -16,
+      "cz": 39,
+      "bounds": {
+        "minX": -800,
+        "maxX": -750,
+        "minZ": 1950,
+        "maxZ": 2000
+      },
+      "terrain": {
+        "min": 12.187,
+        "max": 13.686,
+        "maxSlope": 0.035,
+        "owners": [
+          "shatterfen"
+        ],
+        "wetRange": [
+          0.076,
+          0.273
+        ]
+      },
+      "forage": [
+        {
+          "id": "f1:r:-16:39:0",
+          "type": "fiber",
+          "x": -758.24,
+          "z": 1958.11,
+          "y": 12.49,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-16:39:1",
+          "type": "tree",
+          "x": -761.53,
+          "z": 1959.53,
+          "y": 12.6,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-16:39:2",
+          "type": "fiber",
+          "x": -761.13,
+          "z": 1956,
+          "y": 12.58,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-16:39:3",
+          "type": "fiber",
+          "x": -761.99,
+          "z": 1956.23,
+          "y": 12.61,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-16:39:4",
+          "type": "fiber",
+          "x": -765,
+          "z": 1957.79,
+          "y": 12.71,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-16:39:5",
+          "type": "tree",
+          "x": -765.06,
+          "z": 1954.43,
+          "y": 12.71,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-16:39:6",
+          "type": "fiber",
+          "x": -767.08,
+          "z": 1980.52,
+          "y": 12.63,
+          "asset": null
+        }
+      ],
+      "wildlife": [],
+      "scenery": [
+        {
+          "id": "f2c:s:-16:39:seed-0",
+          "asset": "asset_mushroom_ring",
+          "kind": "low",
+          "x": -764.99,
+          "z": 1963.32,
+          "scale": 1.02
+        },
+        {
+          "id": "f2c:s:-16:39:seed-1",
+          "asset": "asset_fen_lily",
+          "kind": "low",
+          "x": -767.54,
+          "z": 1962.18,
+          "scale": 0.9
+        },
+        {
+          "id": "f2c:s:-16:39:seed-2",
+          "asset": "asset_fen_lily",
+          "kind": "low",
+          "x": -770.91,
+          "z": 1978.33,
+          "scale": 0.88
+        },
+        {
+          "id": "f2c:s:-16:39:seed-4",
+          "asset": "asset_fen_lily",
+          "kind": "low",
+          "x": -768.25,
+          "z": 1956.08,
+          "scale": 0.79
+        },
+        {
+          "id": "f2c:s:-16:39:seed-5",
+          "asset": "asset_mushroom_ring",
+          "kind": "low",
+          "x": -775.56,
+          "z": 1977.79,
+          "scale": 1.03
+        },
+        {
+          "id": "f2c:s:-16:39:seed-6",
+          "asset": "asset_fen_reed",
+          "kind": "low",
+          "x": -772,
+          "z": 1960.26,
+          "scale": 0.84
+        }
+      ]
+    },
+    {
+      "cx": -15,
+      "cz": 39,
+      "bounds": {
+        "minX": -750,
+        "maxX": -700,
+        "minZ": 1950,
+        "maxZ": 2000
+      },
+      "terrain": {
+        "min": 11.409,
+        "max": 12.279,
+        "maxSlope": 0.034,
+        "owners": [
+          "shatterfen"
+        ],
+        "wetRange": [
+          0.065,
+          0.147
+        ]
+      },
+      "forage": [
+        {
+          "id": "f1:r:-15:39:0",
+          "type": "fiber",
+          "x": -719.34,
+          "z": 1992.29,
+          "y": 11.91,
+          "asset": "asset_berry_bush"
+        },
+        {
+          "id": "f1:r:-15:39:1",
+          "type": "tree",
+          "x": -722.29,
+          "z": 1993.62,
+          "y": 11.94,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-15:39:2",
+          "type": "fiber",
+          "x": -721.79,
+          "z": 1990.34,
+          "y": 11.92,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-15:39:3",
+          "type": "tree",
+          "x": -736.43,
+          "z": 1966.93,
+          "y": 11.94,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-15:39:4",
+          "type": "fiber",
+          "x": -739.49,
+          "z": 1967.65,
+          "y": 12.01,
+          "asset": "asset_berry_bush"
+        },
+        {
+          "id": "f1:r:-15:39:5",
+          "type": "tree",
+          "x": -738.54,
+          "z": 1964.69,
+          "y": 11.97,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-15:39:6",
+          "type": "fiber",
+          "x": -722.96,
+          "z": 1962.07,
+          "y": 11.65,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-15:39:7",
+          "type": "fiber",
+          "x": -725.91,
+          "z": 1963.14,
+          "y": 11.71,
+          "asset": "asset_berry_bush"
+        }
+      ],
+      "wildlife": [],
+      "scenery": [
+        {
+          "id": "f2c:s:-15:39:seed-0",
+          "asset": "asset_verge_canopy_tall",
+          "kind": "canopy",
+          "x": -722.33,
+          "z": 1986.63,
+          "scale": 1
+        },
+        {
+          "id": "f2c:s:-15:39:seed-1",
+          "asset": "asset_fen_reed",
+          "kind": "low",
+          "x": -733.97,
+          "z": 1969.14,
+          "scale": 0.79
+        },
+        {
+          "id": "f2c:s:-15:39:seed-3",
+          "asset": "asset_fen_reed",
+          "kind": "low",
+          "x": -718.58,
+          "z": 1988.06,
+          "scale": 0.94
+        },
+        {
+          "id": "f2c:s:-15:39:seed-6",
+          "asset": "asset_mushroom_ring",
+          "kind": "low",
+          "x": -727.58,
+          "z": 1981.94,
+          "scale": 0.9
+        },
+        {
+          "id": "f2c:s:-15:39:seed-7",
+          "asset": "asset_mushroom_ring",
+          "kind": "low",
+          "x": -732.98,
+          "z": 1961.84,
+          "scale": 0.85
+        },
+        {
+          "id": "f2c:s:-15:39:seed-9",
+          "asset": "asset_fen_reed",
+          "kind": "low",
+          "x": -718.83,
+          "z": 1986.86,
+          "scale": 0.97
+        }
+      ]
+    },
+    {
+      "cx": -14,
+      "cz": 39,
+      "bounds": {
+        "minX": -700,
+        "maxX": -650,
+        "minZ": 1950,
+        "maxZ": 2000
+      },
+      "terrain": {
+        "min": 11.451,
+        "max": 12.313,
+        "maxSlope": 0.021,
+        "owners": [
+          "shatterfen"
+        ],
+        "wetRange": [
+          0.105,
+          0.17
+        ]
+      },
+      "forage": [
+        {
+          "id": "f1:r:-14:39:0",
+          "type": "fiber",
+          "x": -680.41,
+          "z": 1990.19,
+          "y": 11.83,
+          "asset": "asset_berry_bush"
+        },
+        {
+          "id": "f1:r:-14:39:1",
+          "type": "tree",
+          "x": -683.39,
+          "z": 1991.35,
+          "y": 11.83,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-14:39:2",
+          "type": "tree",
+          "x": -682.77,
+          "z": 1988.16,
+          "y": 11.83,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-14:39:3",
+          "type": "tree",
+          "x": -693.84,
+          "z": 1969,
+          "y": 11.7,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-14:39:5",
+          "type": "fiber",
+          "x": -696.3,
+          "z": 1966.53,
+          "y": 11.66,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-14:39:6",
+          "type": "tree",
+          "x": -675.11,
+          "z": 1981.91,
+          "y": 11.85,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-14:39:7",
+          "type": "fiber",
+          "x": -678.35,
+          "z": 1982.58,
+          "y": 11.84,
+          "asset": "asset_berry_bush"
+        },
+        {
+          "id": "f1:r:-14:39:8",
+          "type": "fiber",
+          "x": -677.4,
+          "z": 1979.49,
+          "y": 11.85,
+          "asset": "asset_berry_bush"
+        }
+      ],
+      "wildlife": [
+        {
+          "id": "f1:w:-14:39:0",
+          "x": -681.5,
+          "z": 1988.53,
+          "y": 11.83,
+          "roam": 4.5,
+          "leash": 10
+        }
+      ],
+      "scenery": [
+        {
+          "id": "f2c:s:-14:39:seed-1",
+          "asset": "asset_verge_canopy",
+          "kind": "canopy",
+          "x": -689.19,
+          "z": 1970.53,
+          "scale": 0.89
+        },
+        {
+          "id": "f2c:s:-14:39:seed-4",
+          "asset": "asset_fen_lily",
+          "kind": "low",
+          "x": -690.39,
+          "z": 1968.66,
+          "scale": 0.79
+        },
+        {
+          "id": "f2c:s:-14:39:seed-7",
+          "asset": "asset_fen_lily",
+          "kind": "low",
+          "x": -691.09,
+          "z": 1972.63,
+          "scale": 0.99
+        },
+        {
+          "id": "f2c:s:-14:39:seed-10",
+          "asset": "asset_fen_reed",
+          "kind": "low",
+          "x": -694.88,
+          "z": 1975.67,
+          "scale": 0.91
+        },
+        {
+          "id": "f2c:s:-14:39:seed-16",
+          "asset": "asset_fen_lily",
+          "kind": "low",
+          "x": -686.83,
+          "z": 1970.57,
+          "scale": 0.87
+        },
+        {
+          "id": "f2c:s:-14:39:seed-18",
+          "asset": "asset_fen_lily",
+          "kind": "low",
+          "x": -682.63,
+          "z": 1979.37,
+          "scale": 0.79
+        }
+      ]
+    },
+    {
+      "cx": -13,
+      "cz": 39,
+      "bounds": {
+        "minX": -650,
+        "maxX": -600,
+        "minZ": 1950,
+        "maxZ": 2000
+      },
+      "terrain": {
+        "min": 11.35,
+        "max": 12.736,
+        "maxSlope": 0.033,
+        "owners": [
+          "shatterfen"
+        ],
+        "wetRange": [
+          0.025,
+          0.163
+        ]
+      },
+      "forage": [
+        {
+          "id": "f1:r:-13:39:0",
+          "type": "tree",
+          "x": -631.89,
+          "z": 1969.73,
+          "y": 12.3,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-13:39:1",
+          "type": "fiber",
+          "x": -635.2,
+          "z": 1970.56,
+          "y": 12.26,
+          "asset": "asset_berry_bush"
+        },
+        {
+          "id": "f1:r:-13:39:2",
+          "type": "fiber",
+          "x": -634.13,
+          "z": 1967.34,
+          "y": 12.34,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-13:39:3",
+          "type": "fiber",
+          "x": -603.69,
+          "z": 1975.27,
+          "y": 12.15,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-13:39:4",
+          "type": "fiber",
+          "x": -606.86,
+          "z": 1976.96,
+          "y": 12.11,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-13:39:5",
+          "type": "fiber",
+          "x": -606.73,
+          "z": 1973.44,
+          "y": 12.22,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-13:39:6",
+          "type": "tree",
+          "x": -621.78,
+          "z": 1986.76,
+          "y": 11.87,
+          "asset": null
+        }
+      ],
+      "wildlife": [
+        {
+          "id": "f1:w:-13:39:0",
+          "x": -632.92,
+          "z": 1969.7,
+          "y": 12.3,
+          "roam": 4.4,
+          "leash": 8.5,
+          "flee": null
+        }
+      ],
+      "scenery": [
+        {
+          "id": "f2c:s:-13:39:seed-1",
+          "asset": "asset_verge_canopy_tall",
+          "kind": "canopy",
+          "x": -611.89,
+          "z": 1975.14,
+          "scale": 0.91
+        },
+        {
+          "id": "f2c:s:-13:39:seed-2",
+          "asset": "asset_fen_lily",
+          "kind": "low",
+          "x": -624.03,
+          "z": 1982.95,
+          "scale": 0.76
+        },
+        {
+          "id": "f2c:s:-13:39:seed-4",
+          "asset": "asset_fen_reed",
+          "kind": "low",
+          "x": -613.8,
+          "z": 1973.4,
+          "scale": 0.95
+        },
+        {
+          "id": "f2c:s:-13:39:seed-5",
+          "asset": "asset_fen_lily",
+          "kind": "low",
+          "x": -619.2,
+          "z": 1977.61,
+          "scale": 0.9
+        },
+        {
+          "id": "f2c:s:-13:39:seed-9",
+          "asset": "asset_fen_reed",
+          "kind": "low",
+          "x": -623.96,
+          "z": 1972,
+          "scale": 0.83
+        },
+        {
+          "id": "f2c:s:-13:39:seed-10",
+          "asset": "asset_fen_reed",
+          "kind": "low",
+          "x": -614.1,
+          "z": 1969.35,
+          "scale": 1.01
+        }
+      ]
+    },
+    {
+      "cx": -12,
+      "cz": 39,
+      "bounds": {
+        "minX": -600,
+        "maxX": -550,
+        "minZ": 1950,
+        "maxZ": 2000
+      },
+      "terrain": {
+        "min": 11.171,
+        "max": 12.987,
+        "maxSlope": 0.042,
+        "owners": [
+          "shatterfen"
+        ],
+        "wetRange": [
+          0.002,
+          0.12
+        ]
+      },
+      "forage": [
+        {
+          "id": "f1:r:-12:39:0",
+          "type": "fiber",
+          "x": -567.05,
+          "z": 1995.17,
+          "y": 11.4,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-12:39:1",
+          "type": "fiber",
+          "x": -570.15,
+          "z": 1996.64,
+          "y": 11.35,
+          "asset": "asset_berry_bush"
+        },
+        {
+          "id": "f1:r:-12:39:2",
+          "type": "fiber",
+          "x": -569.8,
+          "z": 1993.32,
+          "y": 11.47,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-12:39:3",
+          "type": "fiber",
+          "x": -593.56,
+          "z": 1962.53,
+          "y": 12.47,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-12:39:4",
+          "type": "fiber",
+          "x": -596.7,
+          "z": 1963.91,
+          "y": 12.44,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-12:39:5",
+          "type": "fiber",
+          "x": -596.4,
+          "z": 1960.45,
+          "y": 12.52,
+          "asset": null
+        }
+      ],
+      "wildlife": [
+        {
+          "id": "f1:w:-12:39:0",
+          "x": -569.55,
+          "z": 1993.19,
+          "y": 11.48,
+          "roam": 4.4,
+          "leash": 8.5,
+          "flee": null
+        }
+      ],
+      "scenery": [
+        {
+          "id": "f2c:s:-12:39:seed-1",
+          "asset": "asset_verge_canopy",
+          "kind": "canopy",
+          "x": -589.01,
+          "z": 1966.36,
+          "scale": 1.05
+        },
+        {
+          "id": "f2c:s:-12:39:seed-2",
+          "asset": "asset_fen_reed",
+          "kind": "low",
+          "x": -565.87,
+          "z": 1974.58,
+          "scale": 0.87
+        },
+        {
+          "id": "f2c:s:-12:39:seed-4",
+          "asset": "asset_fen_reed",
+          "kind": "low",
+          "x": -589.22,
+          "z": 1968.6,
+          "scale": 0.87
+        },
+        {
+          "id": "f2c:s:-12:39:seed-5",
+          "asset": "asset_mushroom_ring",
+          "kind": "low",
+          "x": -559.51,
+          "z": 1975.04,
+          "scale": 0.93
+        },
+        {
+          "id": "f2c:s:-12:39:seed-6",
+          "asset": "asset_fen_lily",
+          "kind": "low",
+          "x": -567.17,
+          "z": 1983.97,
+          "scale": 0.9
+        },
+        {
+          "id": "f2c:s:-12:39:seed-7",
+          "asset": "asset_fen_stone",
+          "kind": "low",
+          "x": -590.1,
+          "z": 1958.5,
+          "scale": 1.05
+        }
+      ]
+    },
+    {
+      "cx": -18,
+      "cz": 40,
+      "bounds": {
+        "minX": -900,
+        "maxX": -850,
+        "minZ": 2000,
+        "maxZ": 2050
+      },
+      "terrain": {
+        "min": 12.167,
+        "max": 13.07,
+        "maxSlope": 0.024,
+        "owners": [
+          "shatterfen"
+        ],
+        "wetRange": [
+          0.319,
+          0.498
+        ]
+      },
+      "forage": [
+        {
+          "id": "f1:r:-18:40:0",
+          "type": "fiber",
+          "x": -870.36,
+          "z": 2007.11,
+          "y": 12.72,
+          "asset": "asset_berry_bush"
+        },
+        {
+          "id": "f1:r:-18:40:1",
+          "type": "tree",
+          "x": -873.48,
+          "z": 2008.4,
+          "y": 12.75,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-18:40:2",
+          "type": "fiber",
+          "x": -872.97,
+          "z": 2005.1,
+          "y": 12.78,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-18:40:3",
+          "type": "fiber",
+          "x": -860.5,
+          "z": 2021.39,
+          "y": 12.4,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-18:40:4",
+          "type": "fiber",
+          "x": -863.78,
+          "z": 2022.23,
+          "y": 12.45,
+          "asset": "asset_berry_bush"
+        },
+        {
+          "id": "f1:r:-18:40:5",
+          "type": "tree",
+          "x": -862.66,
+          "z": 2018.94,
+          "y": 12.46,
+          "asset": null
+        }
+      ],
+      "wildlife": [],
+      "scenery": [
+        {
+          "id": "f2c:s:-18:40:seed-0",
+          "asset": "asset_verge_canopy",
+          "kind": "canopy",
+          "x": -873.14,
+          "z": 2012.62,
+          "scale": 0.85
+        },
+        {
+          "id": "f2c:s:-18:40:seed-2",
+          "asset": "asset_mushroom_ring",
+          "kind": "low",
+          "x": -878.97,
+          "z": 2017.86,
+          "scale": 0.79
+        },
+        {
+          "id": "f2c:s:-18:40:seed-3",
+          "asset": "asset_mushroom_ring",
+          "kind": "low",
+          "x": -874.05,
+          "z": 2015.53,
+          "scale": 0.98
+        },
+        {
+          "id": "f2c:s:-18:40:seed-4",
+          "asset": "asset_mushroom_ring",
+          "kind": "low",
+          "x": -866.53,
+          "z": 2018.91,
+          "scale": 0.97
+        },
+        {
+          "id": "f2c:s:-18:40:seed-5",
+          "asset": "asset_fen_lily",
+          "kind": "low",
+          "x": -875.06,
+          "z": 2012.79,
+          "scale": 1.04
+        },
+        {
+          "id": "f2c:s:-18:40:seed-6",
+          "asset": "asset_fen_reed",
+          "kind": "low",
+          "x": -873.18,
+          "z": 2016.44,
+          "scale": 0.87
+        }
+      ]
+    },
+    {
+      "cx": -17,
+      "cz": 40,
+      "bounds": {
+        "minX": -850,
+        "maxX": -800,
+        "minZ": 2000,
+        "maxZ": 2050
+      },
+      "terrain": {
+        "min": 11.962,
+        "max": 12.619,
+        "maxSlope": 0.031,
+        "owners": [
+          "shatterfen"
+        ],
+        "wetRange": [
+          0.216,
+          0.355
+        ]
+      },
+      "forage": [
+        {
+          "id": "f1:r:-17:40:0",
+          "type": "fiber",
+          "x": -833.69,
+          "z": 2006.96,
+          "y": 12.34,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-17:40:1",
+          "type": "fiber",
+          "x": -836.83,
+          "z": 2008.48,
+          "y": 12.32,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-17:40:2",
+          "type": "tree",
+          "x": -836.59,
+          "z": 2004.97,
+          "y": 12.41,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-17:40:3",
+          "type": "fiber",
+          "x": -804,
+          "z": 2046.11,
+          "y": 12.11,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-17:40:4",
+          "type": "fiber",
+          "x": -807.29,
+          "z": 2046.73,
+          "y": 12.1,
+          "asset": "asset_berry_bush"
+        },
+        {
+          "id": "f1:r:-17:40:5",
+          "type": "fiber",
+          "x": -806.36,
+          "z": 2043.77,
+          "y": 12.08,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-17:40:6",
+          "type": "fiber",
+          "x": -833.04,
+          "z": 2025.34,
+          "y": 12.01,
+          "asset": "asset_berry_bush"
+        }
+      ],
+      "wildlife": [],
+      "scenery": [
+        {
+          "id": "f2c:s:-17:40:seed-0",
+          "asset": "asset_verge_canopy_tall",
+          "kind": "canopy",
+          "x": -832.3,
+          "z": 2012.6,
+          "scale": 0.91
+        },
+        {
+          "id": "f2c:s:-17:40:seed-1",
+          "asset": "asset_fen_lily",
+          "kind": "low",
+          "x": -812.02,
+          "z": 2038.98,
+          "scale": 0.77
+        },
+        {
+          "id": "f2c:s:-17:40:seed-3",
+          "asset": "asset_fen_reed",
+          "kind": "low",
+          "x": -827.56,
+          "z": 2017.68,
+          "scale": 0.98
+        },
+        {
+          "id": "f2c:s:-17:40:seed-4",
+          "asset": "asset_fen_reed",
+          "kind": "low",
+          "x": -809.86,
+          "z": 2037.61,
+          "scale": 0.82
+        },
+        {
+          "id": "f2c:s:-17:40:seed-5",
+          "asset": "asset_fen_reed",
+          "kind": "low",
+          "x": -825.92,
+          "z": 2022.8,
+          "scale": 0.95
+        },
+        {
+          "id": "f2c:s:-17:40:seed-7",
+          "asset": "asset_fen_reed",
+          "kind": "low",
+          "x": -810.9,
+          "z": 2043.7,
+          "scale": 0.9
+        }
+      ]
+    },
+    {
+      "cx": -16,
+      "cz": 40,
+      "bounds": {
+        "minX": -800,
+        "maxX": -750,
+        "minZ": 2000,
+        "maxZ": 2050
+      },
+      "terrain": {
+        "min": 12.078,
+        "max": 12.593,
+        "maxSlope": 0.028,
+        "owners": [
+          "shatterfen"
+        ],
+        "wetRange": [
+          0.082,
+          0.263
+        ]
+      },
+      "forage": [
+        {
+          "id": "f1:r:-16:40:0",
+          "type": "fiber",
+          "x": -764.78,
+          "z": 2018.75,
+          "y": 12.2,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-16:40:1",
+          "type": "fiber",
+          "x": -767.79,
+          "z": 2019.74,
+          "y": 12.2,
+          "asset": "asset_berry_bush"
+        },
+        {
+          "id": "f1:r:-16:40:2",
+          "type": "fiber",
+          "x": -767.2,
+          "z": 2016.39,
+          "y": 12.22,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-16:40:3",
+          "type": "fiber",
+          "x": -771.17,
+          "z": 2031.78,
+          "y": 12.17,
+          "asset": "asset_berry_bush"
+        },
+        {
+          "id": "f1:r:-16:40:4",
+          "type": "fiber",
+          "x": -774.21,
+          "z": 2032.87,
+          "y": 12.16,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-16:40:5",
+          "type": "fiber",
+          "x": -773.66,
+          "z": 2029.49,
+          "y": 12.16,
+          "asset": "asset_berry_bush"
+        },
+        {
+          "id": "f1:r:-16:40:6",
+          "type": "tree",
+          "x": -788.37,
+          "z": 2024.63,
+          "y": 12.15,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-16:40:7",
+          "type": "fiber",
+          "x": -791.48,
+          "z": 2025.69,
+          "y": 12.13,
+          "asset": null
+        }
+      ],
+      "wildlife": [
+        {
+          "id": "f1:w:-16:40:0",
+          "x": -767.32,
+          "z": 2018.97,
+          "y": 12.2,
+          "roam": 4.4,
+          "leash": 8.5,
+          "flee": null
+        }
+      ],
+      "scenery": [
+        {
+          "id": "f2c:s:-16:40:seed-3",
+          "asset": "asset_mushroom_ring",
+          "kind": "low",
+          "x": -774.68,
+          "z": 2018.18,
+          "scale": 0.81
+        },
+        {
+          "id": "f2c:s:-16:40:seed-4",
+          "asset": "asset_fen_reed",
+          "kind": "low",
+          "x": -776.96,
+          "z": 2029.13,
+          "scale": 0.96
+        },
+        {
+          "id": "f2c:s:-16:40:seed-5",
+          "asset": "asset_fen_reed",
+          "kind": "low",
+          "x": -780.81,
+          "z": 2030.72,
+          "scale": 0.81
+        },
+        {
+          "id": "f2c:s:-16:40:seed-8",
+          "asset": "asset_fen_reed",
+          "kind": "low",
+          "x": -783.56,
+          "z": 2018.28,
+          "scale": 0.89
+        },
+        {
+          "id": "f2c:s:-16:40:seed-9",
+          "asset": "asset_mushroom_ring",
+          "kind": "low",
+          "x": -766.2,
+          "z": 2026.53,
+          "scale": 0.88
+        },
+        {
+          "id": "f2c:s:-16:40:seed-10",
+          "asset": "asset_mushroom_ring",
+          "kind": "low",
+          "x": -774.27,
+          "z": 2022.29,
+          "scale": 0.94
+        }
+      ]
+    },
+    {
+      "cx": -15,
+      "cz": 40,
+      "bounds": {
+        "minX": -750,
+        "maxX": -700,
+        "minZ": 2000,
+        "maxZ": 2050
+      },
+      "terrain": {
+        "min": 11.889,
+        "max": 12.283,
+        "maxSlope": 0.012,
+        "owners": [
+          "shatterfen"
+        ],
+        "wetRange": [
+          0.072,
+          0.154
+        ]
+      },
+      "forage": [
+        {
+          "id": "f1:r:-15:40:0",
+          "type": "fiber",
+          "x": -707.77,
+          "z": 2037.7,
+          "y": 12.07,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-15:40:1",
+          "type": "fiber",
+          "x": -711.01,
+          "z": 2039.09,
+          "y": 12.09,
+          "asset": "asset_berry_bush"
+        },
+        {
+          "id": "f1:r:-15:40:2",
+          "type": "fiber",
+          "x": -710.61,
+          "z": 2035.7,
+          "y": 12.08,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-15:40:3",
+          "type": "fiber",
+          "x": -730.14,
+          "z": 2003.68,
+          "y": 12.04,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-15:40:4",
+          "type": "fiber",
+          "x": -733.46,
+          "z": 2004.25,
+          "y": 12.06,
+          "asset": "asset_berry_bush"
+        },
+        {
+          "id": "f1:r:-15:40:6",
+          "type": "tree",
+          "x": -706.23,
+          "z": 2011.68,
+          "y": 11.96,
+          "asset": null
+        }
+      ],
+      "wildlife": [],
+      "scenery": [
+        {
+          "id": "f2c:s:-15:40:seed-0",
+          "asset": "asset_verge_canopy_spread",
+          "kind": "canopy",
+          "x": -714.66,
+          "z": 2033.5,
+          "scale": 0.88
+        },
+        {
+          "id": "f2c:s:-15:40:seed-1",
+          "asset": "asset_mushroom_ring",
+          "kind": "low",
+          "x": -729.76,
+          "z": 2010.01,
+          "scale": 0.9
+        },
+        {
+          "id": "f2c:s:-15:40:seed-2",
+          "asset": "asset_fen_lily",
+          "kind": "low",
+          "x": -713.5,
+          "z": 2015.83,
+          "scale": 1.04
+        },
+        {
+          "id": "f2c:s:-15:40:seed-3",
+          "asset": "asset_fen_reed",
+          "kind": "low",
+          "x": -720.02,
+          "z": 2036.06,
+          "scale": 0.88
+        },
+        {
+          "id": "f2c:s:-15:40:seed-4",
+          "asset": "asset_mushroom_ring",
+          "kind": "low",
+          "x": -732.71,
+          "z": 2010.87,
+          "scale": 1.03
+        },
+        {
+          "id": "f2c:s:-15:40:seed-5",
+          "asset": "asset_fen_lily",
+          "kind": "low",
+          "x": -720.57,
+          "z": 2015.43,
+          "scale": 0.77
+        }
+      ]
+    },
+    {
+      "cx": -14,
+      "cz": 40,
+      "bounds": {
+        "minX": -700,
+        "maxX": -650,
+        "minZ": 2000,
+        "maxZ": 2050
+      },
+      "terrain": {
+        "min": 11.186,
+        "max": 12.061,
+        "maxSlope": 0.023,
+        "owners": [
+          "shatterfen"
+        ],
+        "wetRange": [
+          0.113,
+          0.199
+        ]
+      },
+      "forage": [
+        {
+          "id": "f1:r:-14:40:0",
+          "type": "fiber",
+          "x": -692.42,
+          "z": 2025.49,
+          "y": 11.9,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-14:40:1",
+          "type": "fiber",
+          "x": -695.61,
+          "z": 2026.58,
+          "y": 11.93,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-14:40:2",
+          "type": "fiber",
+          "x": -694.96,
+          "z": 2023.32,
+          "y": 11.92,
+          "asset": "asset_berry_bush"
+        },
+        {
+          "id": "f1:r:-14:40:3",
+          "type": "fiber",
+          "x": -680.62,
+          "z": 2010.42,
+          "y": 11.77,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-14:40:4",
+          "type": "fiber",
+          "x": -684.05,
+          "z": 2011.35,
+          "y": 11.8,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-14:40:5",
+          "type": "tree",
+          "x": -683.22,
+          "z": 2007.89,
+          "y": 11.8,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-14:40:6",
+          "type": "fiber",
+          "x": -655.36,
+          "z": 2005.54,
+          "y": 11.58,
+          "asset": "asset_berry_bush"
+        },
+        {
+          "id": "f1:r:-14:40:7",
+          "type": "fiber",
+          "x": -658.25,
+          "z": 2007.33,
+          "y": 11.58,
+          "asset": "asset_berry_bush"
+        }
+      ],
+      "wildlife": [],
+      "scenery": [
+        {
+          "id": "f2c:s:-14:40:seed-0",
+          "asset": "asset_fen_reed",
+          "kind": "low",
+          "x": -688.19,
+          "z": 2025.08,
+          "scale": 0.81
+        },
+        {
+          "id": "f2c:s:-14:40:seed-1",
+          "asset": "asset_fen_lily",
+          "kind": "low",
+          "x": -680.21,
+          "z": 2014.71,
+          "scale": 0.81
+        },
+        {
+          "id": "f2c:s:-14:40:seed-2",
+          "asset": "asset_fen_reed",
+          "kind": "low",
+          "x": -662.87,
+          "z": 2011.73,
+          "scale": 1.02
+        },
+        {
+          "id": "f2c:s:-14:40:seed-3",
+          "asset": "asset_fen_reed",
+          "kind": "low",
+          "x": -687.13,
+          "z": 2027.06,
+          "scale": 1.06
+        },
+        {
+          "id": "f2c:s:-14:40:seed-4",
+          "asset": "asset_fen_reed",
+          "kind": "low",
+          "x": -678.43,
+          "z": 2017.75,
+          "scale": 0.8
+        },
+        {
+          "id": "f2c:s:-14:40:seed-7",
+          "asset": "asset_mushroom_ring",
+          "kind": "low",
+          "x": -677.25,
+          "z": 2010.9,
+          "scale": 1.05
+        }
+      ]
+    },
+    {
+      "cx": -13,
+      "cz": 40,
+      "bounds": {
+        "minX": -650,
+        "maxX": -600,
+        "minZ": 2000,
+        "maxZ": 2050
+      },
+      "terrain": {
+        "min": 10.488,
+        "max": 11.637,
+        "maxSlope": 0.032,
+        "owners": [
+          "shatterfen"
+        ],
+        "wetRange": [
+          0.029,
+          0.191
+        ]
+      },
+      "forage": [
+        {
+          "id": "f1:r:-13:40:0",
+          "type": "fiber",
+          "x": -610.49,
+          "z": 2041.08,
+          "y": 10.58,
+          "asset": "asset_berry_bush"
+        },
+        {
+          "id": "f1:r:-13:40:1",
+          "type": "tree",
+          "x": -613.39,
+          "z": 2042.84,
+          "y": 10.62,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-13:40:2",
+          "type": "fiber",
+          "x": -613.23,
+          "z": 2039.49,
+          "y": 10.61,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-13:40:3",
+          "type": "fiber",
+          "x": -627.46,
+          "z": 2006.52,
+          "y": 11.33,
+          "asset": "asset_berry_bush"
+        },
+        {
+          "id": "f1:r:-13:40:4",
+          "type": "fiber",
+          "x": -630.59,
+          "z": 2007.24,
+          "y": 11.33,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-13:40:5",
+          "type": "tree",
+          "x": -629.72,
+          "z": 2003.96,
+          "y": 11.41,
+          "asset": null
+        }
+      ],
+      "wildlife": [],
+      "scenery": [
+        {
+          "id": "f2c:s:-13:40:seed-0",
+          "asset": "asset_verge_canopy_spread",
+          "kind": "canopy",
+          "x": -616.37,
+          "z": 2035.95,
+          "scale": 0.73
+        },
+        {
+          "id": "f2c:s:-13:40:seed-1",
+          "asset": "asset_fen_reed",
+          "kind": "low",
+          "x": -627.9,
+          "z": 2012.03,
+          "scale": 0.84
+        },
+        {
+          "id": "f2c:s:-13:40:seed-2",
+          "asset": "asset_fen_reed",
+          "kind": "low",
+          "x": -619.94,
+          "z": 2028.84,
+          "scale": 1.04
+        },
+        {
+          "id": "f2c:s:-13:40:seed-3",
+          "asset": "asset_mushroom_ring",
+          "kind": "low",
+          "x": -613.28,
+          "z": 2035.94,
+          "scale": 0.8
+        },
+        {
+          "id": "f2c:s:-13:40:seed-5",
+          "asset": "asset_fen_lily",
+          "kind": "low",
+          "x": -612.58,
+          "z": 2028.64,
+          "scale": 0.83
+        },
+        {
+          "id": "f2c:s:-13:40:seed-6",
+          "asset": "asset_fen_reed",
+          "kind": "low",
+          "x": -611.73,
+          "z": 2030.49,
+          "scale": 1.03
+        }
+      ]
+    },
+    {
+      "cx": -12,
+      "cz": 40,
+      "bounds": {
+        "minX": -600,
+        "maxX": -550,
+        "minZ": 2000,
+        "maxZ": 2050
+      },
+      "terrain": {
+        "min": 9.998,
+        "max": 11.35,
+        "maxSlope": 0.04,
+        "owners": [
+          "shatterfen"
+        ],
+        "wetRange": [
+          0.005,
+          0.106
+        ]
+      },
+      "forage": [
+        {
+          "id": "f1:r:-12:40:0",
+          "type": "fiber",
+          "x": -554.87,
+          "z": 2022.14,
+          "y": 10.4,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-12:40:1",
+          "type": "fiber",
+          "x": -557.83,
+          "z": 2023.7,
+          "y": 10.37,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-12:40:2",
+          "type": "tree",
+          "x": -557.77,
+          "z": 2020.25,
+          "y": 10.47,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-12:40:3",
+          "type": "fiber",
+          "x": -572.4,
+          "z": 2046.28,
+          "y": 10.21,
+          "asset": "asset_berry_bush"
+        },
+        {
+          "id": "f1:r:-12:40:5",
+          "type": "fiber",
+          "x": -575.08,
+          "z": 2044.71,
+          "y": 10.24,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-12:40:7",
+          "type": "fiber",
+          "x": -556.01,
+          "z": 2042.42,
+          "y": 10.05,
+          "asset": "asset_berry_bush"
+        }
+      ],
+      "wildlife": [],
+      "scenery": [
+        {
+          "id": "f2c:s:-12:40:seed-0",
+          "asset": "asset_verge_canopy_spread",
+          "kind": "canopy",
+          "x": -562.59,
+          "z": 2023,
+          "scale": 1.05
+        },
+        {
+          "id": "f2c:s:-12:40:seed-1",
+          "asset": "asset_fen_reed",
+          "kind": "low",
+          "x": -574.45,
+          "z": 2039.5,
+          "scale": 0.77
+        },
+        {
+          "id": "f2c:s:-12:40:seed-2",
+          "asset": "asset_mushroom_ring",
+          "kind": "low",
+          "x": -561.21,
+          "z": 2035.96,
+          "scale": 0.97
+        },
+        {
+          "id": "f2c:s:-12:40:seed-4",
+          "asset": "asset_mushroom_ring",
+          "kind": "low",
+          "x": -574.97,
+          "z": 2033.69,
+          "scale": 1.04
+        },
+        {
+          "id": "f2c:s:-12:40:seed-5",
+          "asset": "asset_fen_reed",
+          "kind": "low",
+          "x": -561.89,
+          "z": 2031.37,
+          "scale": 0.78
+        },
+        {
+          "id": "f2c:s:-12:40:seed-6",
+          "asset": "asset_fen_stone",
+          "kind": "low",
+          "x": -559.36,
+          "z": 2027.88,
+          "scale": 0.92
+        }
+      ]
+    },
+    {
+      "cx": -18,
+      "cz": 41,
+      "bounds": {
+        "minX": -900,
+        "maxX": -850,
+        "minZ": 2050,
+        "maxZ": 2100
+      },
+      "terrain": {
+        "min": 12.216,
+        "max": 13.379,
+        "maxSlope": 0.02,
+        "owners": [
+          "shatterfen"
+        ],
+        "wetRange": [
+          0.244,
+          0.5
+        ]
+      },
+      "forage": [
+        {
+          "id": "f1:r:-18:41:0",
+          "type": "tree",
+          "x": -853.89,
+          "z": 2070.05,
+          "y": 12.46,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-18:41:1",
+          "type": "fiber",
+          "x": -857.1,
+          "z": 2071.62,
+          "y": 12.52,
+          "asset": "asset_berry_bush"
+        },
+        {
+          "id": "f1:r:-18:41:2",
+          "type": "fiber",
+          "x": -856.8,
+          "z": 2068.02,
+          "y": 12.48,
+          "asset": "asset_berry_bush"
+        },
+        {
+          "id": "f1:r:-18:41:3",
+          "type": "fiber",
+          "x": -856.59,
+          "z": 2061.77,
+          "y": 12.41,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-18:41:4",
+          "type": "tree",
+          "x": -859.44,
+          "z": 2063.39,
+          "y": 12.47,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-18:41:5",
+          "type": "fiber",
+          "x": -859.33,
+          "z": 2059.97,
+          "y": 12.44,
+          "asset": "asset_berry_bush"
+        }
+      ],
+      "wildlife": [],
+      "scenery": [
+        {
+          "id": "f2c:s:-18:41:seed-0",
+          "asset": "asset_verge_canopy_tall",
+          "kind": "canopy",
+          "x": -861.98,
+          "z": 2071.52,
+          "scale": 0.8
+        },
+        {
+          "id": "f2c:s:-18:41:seed-1",
+          "asset": "asset_mushroom_ring",
+          "kind": "low",
+          "x": -863.68,
+          "z": 2065.94,
+          "scale": 0.92
+        },
+        {
+          "id": "f2c:s:-18:41:seed-2",
+          "asset": "asset_fen_lily",
+          "kind": "low",
+          "x": -872.37,
+          "z": 2065,
+          "scale": 0.94
+        },
+        {
+          "id": "f2c:s:-18:41:seed-3",
+          "asset": "asset_mushroom_ring",
+          "kind": "low",
+          "x": -862.51,
+          "z": 2067.49,
+          "scale": 0.94
+        },
+        {
+          "id": "f2c:s:-18:41:seed-5",
+          "asset": "asset_fen_reed",
+          "kind": "low",
+          "x": -873.85,
+          "z": 2066.66,
+          "scale": 0.96
+        },
+        {
+          "id": "f2c:s:-18:41:seed-7",
+          "asset": "asset_fen_reed",
+          "kind": "low",
+          "x": -863.69,
+          "z": 2073.51,
+          "scale": 0.77
+        }
+      ]
+    },
+    {
+      "cx": -17,
+      "cz": 41,
+      "bounds": {
+        "minX": -850,
+        "maxX": -800,
+        "minZ": 2050,
+        "maxZ": 2100
+      },
+      "terrain": {
+        "min": 12.026,
+        "max": 12.895,
+        "maxSlope": 0.018,
+        "owners": [
+          "shatterfen"
+        ],
+        "wetRange": [
+          0.162,
+          0.319
+        ]
+      },
+      "forage": [
+        {
+          "id": "f1:r:-17:41:0",
+          "type": "fiber",
+          "x": -814.17,
+          "z": 2079.83,
+          "y": 12.46,
+          "asset": "asset_berry_bush"
+        },
+        {
+          "id": "f1:r:-17:41:1",
+          "type": "tree",
+          "x": -817.23,
+          "z": 2081.31,
+          "y": 12.45,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-17:41:2",
+          "type": "fiber",
+          "x": -816.96,
+          "z": 2078.01,
+          "y": 12.4,
+          "asset": "asset_berry_bush"
+        },
+        {
+          "id": "f1:r:-17:41:3",
+          "type": "fiber",
+          "x": -808.87,
+          "z": 2096.9,
+          "y": 12.78,
+          "asset": "asset_berry_bush"
+        },
+        {
+          "id": "f1:r:-17:41:5",
+          "type": "fiber",
+          "x": -811.67,
+          "z": 2094.61,
+          "y": 12.71,
+          "asset": "asset_berry_bush"
+        },
+        {
+          "id": "f1:r:-17:41:6",
+          "type": "fiber",
+          "x": -843.65,
+          "z": 2078.34,
+          "y": 12.43,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-17:41:7",
+          "type": "fiber",
+          "x": -846.81,
+          "z": 2080.08,
+          "y": 12.49,
+          "asset": "asset_berry_bush"
+        }
+      ],
+      "wildlife": [],
+      "scenery": [
+        {
+          "id": "f2c:s:-17:41:seed-1",
+          "asset": "asset_verge_canopy_spread",
+          "kind": "canopy",
+          "x": -815.41,
+          "z": 2089.7,
+          "scale": 1.01
+        },
+        {
+          "id": "f2c:s:-17:41:seed-2",
+          "asset": "asset_fen_reed",
+          "kind": "low",
+          "x": -839.13,
+          "z": 2077.25,
+          "scale": 0.92
+        },
+        {
+          "id": "f2c:s:-17:41:seed-3",
+          "asset": "asset_fen_stone",
+          "kind": "low",
+          "x": -814.68,
+          "z": 2074.31,
+          "scale": 0.97
+        },
+        {
+          "id": "f2c:s:-17:41:seed-4",
+          "asset": "asset_fen_reed",
+          "kind": "low",
+          "x": -809.57,
+          "z": 2084.49,
+          "scale": 1
+        },
+        {
+          "id": "f2c:s:-17:41:seed-6",
+          "asset": "asset_fen_lily",
+          "kind": "low",
+          "x": -818.28,
+          "z": 2074.69,
+          "scale": 0.9
+        },
+        {
+          "id": "f2c:s:-17:41:seed-7",
+          "asset": "asset_mushroom_ring",
+          "kind": "low",
+          "x": -818.25,
+          "z": 2093.36,
+          "scale": 1.02
+        }
+      ]
+    },
+    {
+      "cx": -16,
+      "cz": 41,
+      "bounds": {
+        "minX": -800,
+        "maxX": -750,
+        "minZ": 2050,
+        "maxZ": 2100
+      },
+      "terrain": {
+        "min": 12.167,
+        "max": 12.993,
+        "maxSlope": 0.018,
+        "owners": [
+          "shatterfen"
+        ],
+        "wetRange": [
+          0.115,
+          0.367
+        ]
+      },
+      "forage": [
+        {
+          "id": "f1:r:-16:41:0",
+          "type": "fiber",
+          "x": -766.15,
+          "z": 2074.25,
+          "y": 12.58,
+          "asset": "asset_berry_bush"
+        },
+        {
+          "id": "f1:r:-16:41:1",
+          "type": "fiber",
+          "x": -769.44,
+          "z": 2074.91,
+          "y": 12.59,
+          "asset": "asset_berry_bush"
+        },
+        {
+          "id": "f1:r:-16:41:2",
+          "type": "tree",
+          "x": -768.49,
+          "z": 2071.69,
+          "y": 12.54,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-16:41:3",
+          "type": "fiber",
+          "x": -756.34,
+          "z": 2062.04,
+          "y": 12.42,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-16:41:4",
+          "type": "tree",
+          "x": -759.77,
+          "z": 2063.08,
+          "y": 12.43,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-16:41:5",
+          "type": "fiber",
+          "x": -758.88,
+          "z": 2059.79,
+          "y": 12.39,
+          "asset": "asset_berry_bush"
+        }
+      ],
+      "wildlife": [
+        {
+          "id": "f1:w:-16:41:0",
+          "x": -768.69,
+          "z": 2073.77,
+          "y": 12.57,
+          "roam": 4.5,
+          "leash": 10
+        }
+      ],
+      "scenery": [
+        {
+          "id": "f2c:s:-16:41:seed-1",
+          "asset": "asset_verge_canopy_tall",
+          "kind": "canopy",
+          "x": -763.64,
+          "z": 2065.84,
+          "scale": 0.8
+        },
+        {
+          "id": "f2c:s:-16:41:seed-2",
+          "asset": "asset_fen_reed",
+          "kind": "low",
+          "x": -777.09,
+          "z": 2069.21,
+          "scale": 0.8
+        },
+        {
+          "id": "f2c:s:-16:41:seed-3",
+          "asset": "asset_fen_reed",
+          "kind": "low",
+          "x": -772.35,
+          "z": 2066.58,
+          "scale": 1.04
+        },
+        {
+          "id": "f2c:s:-16:41:seed-5",
+          "asset": "asset_fen_lily",
+          "kind": "low",
+          "x": -776.46,
+          "z": 2071.42,
+          "scale": 0.82
+        },
+        {
+          "id": "f2c:s:-16:41:seed-7",
+          "asset": "asset_fen_reed",
+          "kind": "low",
+          "x": -757.94,
+          "z": 2071.03,
+          "scale": 0.97
+        },
+        {
+          "id": "f2c:s:-16:41:seed-8",
+          "asset": "asset_fen_lily",
+          "kind": "low",
+          "x": -780.43,
+          "z": 2068.34,
+          "scale": 0.86
+        }
+      ]
+    },
+    {
+      "cx": -15,
+      "cz": 41,
+      "bounds": {
+        "minX": -750,
+        "maxX": -700,
+        "minZ": 2050,
+        "maxZ": 2100
+      },
+      "terrain": {
+        "min": 12.061,
+        "max": 12.958,
+        "maxSlope": 0.016,
+        "owners": [
+          "shatterfen"
+        ],
+        "wetRange": [
+          0.11,
+          0.377
+        ]
+      },
+      "forage": [
+        {
+          "id": "f1:r:-15:41:0",
+          "type": "tree",
+          "x": -722.01,
+          "z": 2076.79,
+          "y": 12.47,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-15:41:1",
+          "type": "tree",
+          "x": -725.14,
+          "z": 2078.3,
+          "y": 12.51,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-15:41:2",
+          "type": "tree",
+          "x": -724.85,
+          "z": 2074.82,
+          "y": 12.47,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-15:41:3",
+          "type": "fiber",
+          "x": -736.17,
+          "z": 2060.27,
+          "y": 12.36,
+          "asset": "asset_berry_bush"
+        },
+        {
+          "id": "f1:r:-15:41:4",
+          "type": "fiber",
+          "x": -739.28,
+          "z": 2061.42,
+          "y": 12.38,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-15:41:5",
+          "type": "fiber",
+          "x": -738.71,
+          "z": 2058.01,
+          "y": 12.34,
+          "asset": "asset_berry_bush"
+        },
+        {
+          "id": "f1:r:-15:41:6",
+          "type": "fiber",
+          "x": -703.81,
+          "z": 2091.74,
+          "y": 12.51,
+          "asset": "asset_berry_bush"
+        }
+      ],
+      "wildlife": [],
+      "scenery": [
+        {
+          "id": "f2c:s:-15:41:seed-1",
+          "asset": "asset_verge_canopy_spread",
+          "kind": "canopy",
+          "x": -733.88,
+          "z": 2064.73,
+          "scale": 1.04
+        },
+        {
+          "id": "f2c:s:-15:41:seed-2",
+          "asset": "asset_fen_lily",
+          "kind": "low",
+          "x": -711.79,
+          "z": 2086.24,
+          "scale": 0.82
+        },
+        {
+          "id": "f2c:s:-15:41:seed-3",
+          "asset": "asset_fen_reed",
+          "kind": "low",
+          "x": -725.66,
+          "z": 2068.89,
+          "scale": 0.84
+        },
+        {
+          "id": "f2c:s:-15:41:seed-4",
+          "asset": "asset_mushroom_ring",
+          "kind": "low",
+          "x": -736.83,
+          "z": 2064.32,
+          "scale": 0.89
+        },
+        {
+          "id": "f2c:s:-15:41:seed-5",
+          "asset": "asset_fen_reed",
+          "kind": "low",
+          "x": -712.05,
+          "z": 2094.1,
+          "scale": 0.76
+        },
+        {
+          "id": "f2c:s:-15:41:seed-7",
+          "asset": "asset_mushroom_ring",
+          "kind": "low",
+          "x": -727.53,
+          "z": 2062.08,
+          "scale": 0.78
+        }
+      ]
+    },
+    {
+      "cx": -14,
+      "cz": 41,
+      "bounds": {
+        "minX": -700,
+        "maxX": -650,
+        "minZ": 2050,
+        "maxZ": 2100
+      },
+      "terrain": {
+        "min": 11.266,
+        "max": 12.603,
+        "maxSlope": 0.032,
+        "owners": [
+          "shatterfen"
+        ],
+        "wetRange": [
+          0.154,
+          0.281
+        ]
+      },
+      "forage": [
+        {
+          "id": "f1:r:-14:41:0",
+          "type": "fiber",
+          "x": -660.93,
+          "z": 2059.41,
+          "y": 11.61,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-14:41:1",
+          "type": "fiber",
+          "x": -663.75,
+          "z": 2061.06,
+          "y": 11.68,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-14:41:2",
+          "type": "fiber",
+          "x": -663.72,
+          "z": 2057.67,
+          "y": 11.62,
+          "asset": "asset_berry_bush"
+        },
+        {
+          "id": "f1:r:-14:41:3",
+          "type": "fiber",
+          "x": -692.2,
+          "z": 2079.72,
+          "y": 12.29,
+          "asset": "asset_berry_bush"
+        },
+        {
+          "id": "f1:r:-14:41:4",
+          "type": "fiber",
+          "x": -695.06,
+          "z": 2081.02,
+          "y": 12.32,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-14:41:5",
+          "type": "fiber",
+          "x": -694.82,
+          "z": 2077.83,
+          "y": 12.28,
+          "asset": null
+        }
+      ],
+      "wildlife": [],
+      "scenery": [
+        {
+          "id": "f2c:s:-14:41:seed-0",
+          "asset": "asset_verge_canopy_tall",
+          "kind": "canopy",
+          "x": -666.65,
+          "z": 2064.35,
+          "scale": 1.06
+        },
+        {
+          "id": "f2c:s:-14:41:seed-1",
+          "asset": "asset_fen_lily",
+          "kind": "low",
+          "x": -687.97,
+          "z": 2078.11,
+          "scale": 0.78
+        },
+        {
+          "id": "f2c:s:-14:41:seed-2",
+          "asset": "asset_fen_lily",
+          "kind": "low",
+          "x": -666.64,
+          "z": 2069.25,
+          "scale": 0.76
+        },
+        {
+          "id": "f2c:s:-14:41:seed-4",
+          "asset": "asset_fen_reed",
+          "kind": "low",
+          "x": -682.15,
+          "z": 2079.2,
+          "scale": 0.76
+        },
+        {
+          "id": "f2c:s:-14:41:seed-5",
+          "asset": "asset_fen_stone",
+          "kind": "low",
+          "x": -665.06,
+          "z": 2065.28,
+          "scale": 0.85
+        },
+        {
+          "id": "f2c:s:-14:41:seed-6",
+          "asset": "asset_fen_stone",
+          "kind": "low",
+          "x": -669.01,
+          "z": 2061.11,
+          "scale": 0.79
+        }
+      ]
+    },
+    {
+      "cx": -13,
+      "cz": 41,
+      "bounds": {
+        "minX": -650,
+        "maxX": -600,
+        "minZ": 2050,
+        "maxZ": 2100
+      },
+      "terrain": {
+        "min": 10.546,
+        "max": 12.603,
+        "maxSlope": 0.042,
+        "owners": [
+          "shatterfen"
+        ],
+        "wetRange": [
+          0.049,
+          0.3
+        ]
+      },
+      "forage": [
+        {
+          "id": "f1:r:-13:41:0",
+          "type": "fiber",
+          "x": -627.69,
+          "z": 2086.72,
+          "y": 12.02,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-13:41:1",
+          "type": "fiber",
+          "x": -630.79,
+          "z": 2088.38,
+          "y": 12.11,
+          "asset": "asset_berry_bush"
+        },
+        {
+          "id": "f1:r:-13:41:2",
+          "type": "fiber",
+          "x": -630.7,
+          "z": 2084.82,
+          "y": 11.98,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-13:41:3",
+          "type": "fiber",
+          "x": -642.76,
+          "z": 2088.21,
+          "y": 12.2,
+          "asset": "asset_berry_bush"
+        },
+        {
+          "id": "f1:r:-13:41:4",
+          "type": "fiber",
+          "x": -646.06,
+          "z": 2089.23,
+          "y": 12.25,
+          "asset": "asset_berry_bush"
+        },
+        {
+          "id": "f1:r:-13:41:5",
+          "type": "fiber",
+          "x": -645.39,
+          "z": 2085.79,
+          "y": 12.13,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-13:41:6",
+          "type": "fiber",
+          "x": -639.91,
+          "z": 2087.15,
+          "y": 12.14,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-13:41:7",
+          "type": "fiber",
+          "x": -642.96,
+          "z": 2088.07,
+          "y": 12.2,
+          "asset": "asset_berry_bush"
+        }
+      ],
+      "wildlife": [
+        {
+          "id": "f1:w:-13:41:0",
+          "x": -629.29,
+          "z": 2085.6,
+          "y": 11.99,
+          "roam": 4.4,
+          "leash": 8.5,
+          "flee": null
+        }
+      ],
+      "scenery": [
+        {
+          "id": "f2c:s:-13:41:seed-1",
+          "asset": "asset_verge_canopy",
+          "kind": "canopy",
+          "x": -638.47,
+          "z": 2083.71,
+          "scale": 0.75
+        },
+        {
+          "id": "f2c:s:-13:41:seed-2",
+          "asset": "asset_fen_lily",
+          "kind": "low",
+          "x": -636.34,
+          "z": 2082.98,
+          "scale": 0.95
+        },
+        {
+          "id": "f2c:s:-13:41:seed-4",
+          "asset": "asset_fen_reed",
+          "kind": "low",
+          "x": -640.04,
+          "z": 2082.17,
+          "scale": 0.94
+        },
+        {
+          "id": "f2c:s:-13:41:seed-8",
+          "asset": "asset_fen_lily",
+          "kind": "low",
+          "x": -634.64,
+          "z": 2080.92,
+          "scale": 1.04
+        },
+        {
+          "id": "f2c:s:-13:41:seed-9",
+          "asset": "asset_fen_reed",
+          "kind": "low",
+          "x": -623,
+          "z": 2082.48,
+          "scale": 1.03
+        },
+        {
+          "id": "f2c:s:-13:41:seed-10",
+          "asset": "asset_fen_lily",
+          "kind": "low",
+          "x": -637.02,
+          "z": 2080.41,
+          "scale": 0.79
+        }
+      ]
+    },
+    {
+      "cx": -12,
+      "cz": 41,
+      "bounds": {
+        "minX": -600,
+        "maxX": -550,
+        "minZ": 2050,
+        "maxZ": 2100
+      },
+      "terrain": {
+        "min": 9.998,
+        "max": 12.09,
+        "maxSlope": 0.041,
+        "owners": [
+          "shatterfen"
+        ],
+        "wetRange": [
+          0.022,
+          0.321
+        ]
+      },
+      "forage": [
+        {
+          "id": "f1:r:-12:41:0",
+          "type": "fiber",
+          "x": -562.55,
+          "z": 2071.48,
+          "y": 10.51,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-12:41:1",
+          "type": "tree",
+          "x": -565.89,
+          "z": 2072.59,
+          "y": 10.59,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-12:41:2",
+          "type": "fiber",
+          "x": -565.24,
+          "z": 2069.16,
+          "y": 10.49,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-12:41:3",
+          "type": "tree",
+          "x": -560.54,
+          "z": 2073.47,
+          "y": 10.53,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-12:41:4",
+          "type": "fiber",
+          "x": -563.46,
+          "z": 2075.09,
+          "y": 10.62,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-12:41:5",
+          "type": "tree",
+          "x": -563.45,
+          "z": 2071.83,
+          "y": 10.53,
+          "asset": null
+        },
+        {
+          "id": "f1:r:-12:41:6",
+          "type": "fiber",
+          "x": -587.72,
+          "z": 2067.37,
+          "y": 10.77,
+          "asset": null
+        }
+      ],
+      "wildlife": [],
+      "scenery": [
+        {
+          "id": "f2c:s:-12:41:seed-2",
+          "asset": "asset_verge_canopy_tall",
+          "kind": "canopy",
+          "x": -584.85,
+          "z": 2069.41,
+          "scale": 1.06
+        },
+        {
+          "id": "f2c:s:-12:41:seed-3",
+          "asset": "asset_fen_lily",
+          "kind": "low",
+          "x": -566.23,
+          "z": 2079.1,
+          "scale": 0.84
+        },
+        {
+          "id": "f2c:s:-12:41:seed-4",
+          "asset": "asset_fen_stone",
+          "kind": "low",
+          "x": -562.76,
+          "z": 2080.45,
+          "scale": 1.03
+        },
+        {
+          "id": "f2c:s:-12:41:seed-8",
+          "asset": "asset_fen_stone",
+          "kind": "low",
+          "x": -582.15,
+          "z": 2067.63,
+          "scale": 0.99
+        },
+        {
+          "id": "f2c:s:-12:41:seed-9",
+          "asset": "asset_fen_reed",
+          "kind": "low",
+          "x": -574.31,
+          "z": 2076.69,
+          "scale": 0.84
+        },
+        {
+          "id": "f2c:s:-12:41:seed-11",
+          "asset": "asset_fen_reed",
+          "kind": "low",
+          "x": -586.53,
+          "z": 2074.26,
+          "scale": 0.76
+        }
+      ]
+    }
+  ]
+}

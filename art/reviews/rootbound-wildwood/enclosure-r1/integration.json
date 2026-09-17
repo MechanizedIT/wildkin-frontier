@@ -1,0 +1,156 @@
+{
+  "baseline": "d3a9132",
+  "priorWorldPreserved": true,
+  "priorWorldSha256": "c9fad0c493c93dcee1db623f7224162de06649674af45fe159ea91f9dce210a9",
+  "placements": [
+    {
+      "key": "gallery-shelter-west",
+      "assetId": "asset_rootbound_gallery_shelter_placeholder",
+      "x": -484.34,
+      "z": 646.86,
+      "yaw": -1.19029,
+      "scale": 1,
+      "kind": "low"
+    },
+    {
+      "key": "gallery-shelter-east",
+      "assetId": "asset_rootbound_gallery_shelter_placeholder",
+      "x": -474.56,
+      "z": 643.14,
+      "yaw": -1.19029,
+      "scale": 1,
+      "kind": "low"
+    },
+    {
+      "key": "gallery-terminus",
+      "assetId": "asset_rootbound_gallery_lintel_placeholder",
+      "x": -477.84,
+      "z": 661.86,
+      "yaw": -1.19029,
+      "scale": 1,
+      "kind": "low"
+    },
+    {
+      "key": "heartroot-core",
+      "assetId": "asset_rootbound_heartroot_core_placeholder",
+      "x": -471,
+      "z": 726,
+      "yaw": 0,
+      "scale": 1.6,
+      "kind": "low"
+    },
+    {
+      "key": "heartroot-wing-west",
+      "assetId": "asset_rootbound_heartroot_wing_placeholder",
+      "x": -483,
+      "z": 725,
+      "yaw": 0,
+      "scale": 1.5,
+      "kind": "low"
+    },
+    {
+      "key": "heartroot-wing-east",
+      "assetId": "asset_rootbound_heartroot_wing_placeholder",
+      "x": -458,
+      "z": 727,
+      "yaw": 0,
+      "scale": 1.5,
+      "kind": "low"
+    }
+  ],
+  "assets": [
+    {
+      "id": "asset_rootbound_gallery_shelter_placeholder",
+      "bounds": {
+        "min": {
+          "x": -4.54544,
+          "y": -0.6,
+          "z": -2.18029
+        },
+        "max": {
+          "x": 4.1512,
+          "y": 4.73,
+          "z": 1.882152
+        },
+        "size": {
+          "x": 8.69664,
+          "y": 5.33,
+          "z": 4.062442
+        }
+      },
+      "triangleCount": 12660,
+      "colorCount": 23,
+      "groundInset": 0.6
+    },
+    {
+      "id": "asset_rootbound_gallery_lintel_placeholder",
+      "bounds": {
+        "min": {
+          "x": -2.4660480000000002,
+          "y": -0.15,
+          "z": -1.8229179999999998
+        },
+        "max": {
+          "x": 2.4660480000000002,
+          "y": 4.51,
+          "z": 1.6926135000000002
+        },
+        "size": {
+          "x": 4.9320960000000005,
+          "y": 4.66,
+          "z": 3.5155315
+        }
+      },
+      "triangleCount": 6330,
+      "colorCount": 23,
+      "groundInset": 0.15
+    },
+    {
+      "id": "asset_rootbound_heartroot_core_placeholder",
+      "bounds": {
+        "min": {
+          "x": -5.392256,
+          "y": -0.15,
+          "z": -2.2198335
+        },
+        "max": {
+          "x": 5.115136,
+          "y": 5.97,
+          "z": 2.5163055000000005
+        },
+        "size": {
+          "x": 10.507392,
+          "y": 6.12,
+          "z": 4.7361390000000005
+        }
+      },
+      "triangleCount": 12660,
+      "colorCount": 23,
+      "groundInset": 0.15
+    },
+    {
+      "id": "asset_rootbound_heartroot_wing_placeholder",
+      "bounds": {
+        "min": {
+          "x": -2.7897925,
+          "y": -0.15,
+          "z": -1.7907464999999996
+        },
+        "max": {
+          "x": 2.968624,
+          "y": 4.4,
+          "z": 1.6816905000000002
+        },
+        "size": {
+          "x": 5.7584165,
+          "y": 4.550000000000001,
+          "z": 3.4724369999999998
+        }
+      },
+      "triangleCount": 6330,
+      "colorCount": 23,
+      "groundInset": 0.15
+    }
+  ],
+  "supportedAnchorCorrection": "West shelter moved0.5m west after ordinary admission rejected original anchor; no filter bypass."
+}

@@ -1,0 +1,53 @@
+{
+  "catalogExact": true,
+  "count": 26,
+  "earnedGrove": {
+    "id": "f1:d:-5:9:lush-root-cache",
+    "placementKind": "generated-regional",
+    "chunkId": "-5,9",
+    "sectionId": "camp",
+    "regionId": "camp",
+    "displayName": "Lush Root Cache",
+    "pos": {
+      "x": -221.5929992648261,
+      "y": 11.403811204028575,
+      "z": 480.7331449235579
+    },
+    "rotY": 0.6658765729756316,
+    "uniformScale": 0.7,
+    "visualAssetId": "asset_chest",
+    "lootTableId": "loot_lush_root_cache",
+    "refillSeconds": null,
+    "triggerRadius": 1.4,
+    "collisionEnabled": true,
+    "requiredCompanionId": "mossling",
+    "opensOnSeal": true
+  },
+  "protectedPoints": [
+    [
+      0,
+      0
+    ],
+    [
+      7,
+      -68
+    ],
+    [
+      -222.58,
+      479.47
+    ],
+    [
+      850,
+      -2000
+    ],
+    [
+      -2850,
+      -1250
+    ],
+    [
+      -800,
+      650
+    ]
+  ],
+  "protectedSamplesExact": true
+}

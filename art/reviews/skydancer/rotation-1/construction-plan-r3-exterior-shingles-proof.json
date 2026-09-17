@@ -1,0 +1,605 @@
+{
+  "plan_sha256": "0b67e04ba19e6a437fa758730010022aaad973064d118247949f78af88de84ae",
+  "free_body_clearance_m": [
+    0.06,
+    0.07,
+    0.08
+  ],
+  "frozen_primary_wing_outer_x": 1.05,
+  "root_method": "R2 actual primary-wing triangle-shell x-ray proof is retained for root indices 0..3; free indices 4..7 are deliberately exterior and must not satisfy inside-shell predicate.",
+  "fixed_camera_projection": {
+    "fovDegrees": 38,
+    "cameras": {
+      "side": [
+        [
+          3.2,
+          1.45,
+          3.4
+        ],
+        [
+          0,
+          1.05,
+          -0.25
+        ]
+      ],
+      "threequarter": [
+        [
+          3.4,
+          2.15,
+          4.1
+        ],
+        [
+          0,
+          1.05,
+          -0.1
+        ]
+      ]
+    },
+    "tipCenters": [
+      [
+        1.11,
+        1.35,
+        -0.34
+      ],
+      [
+        1.12,
+        1.09,
+        -0.53
+      ],
+      [
+        1.13,
+        0.91,
+        -0.69
+      ]
+    ],
+    "normalizedScreenXY": {
+      "side": [
+        [
+          -0.21366,
+          0.05842
+        ],
+        [
+          -0.23651,
+          -0.0008
+        ],
+        [
+          -0.25501,
+          -0.03883
+        ]
+      ],
+      "threequarter": [
+        [
+          -0.20467,
+          0.03874
+        ],
+        [
+          -0.22185,
+          -0.00675
+        ],
+        [
+          -0.23598,
+          -0.03542
+        ]
+      ]
+    },
+    "occlusion_rule": "Each plate free body must project to a separate depth-tested polygon with nonzero exposed pixels after primary-wing depth prepass; projected center positions alone are insufficient."
+  },
+  "computed_tip_order": {
+    "side": [
+      [
+        -0.21366,
+        0.05842
+      ],
+      [
+        -0.23651,
+        -0.0008
+      ],
+      [
+        -0.25501,
+        -0.03883
+      ]
+    ],
+    "threequarter": [
+      [
+        -0.20467,
+        0.03874
+      ],
+      [
+        -0.22185,
+        -0.00675
+      ],
+      [
+        -0.23598,
+        -0.03542
+      ]
+    ],
+    "descendingY": true,
+    "distinctProjectedCenters": true
+  },
+  "required_prebuild_occlusion_execution": "Build a triangle depth buffer from the frozen R2 primary wing at each fixed camera. Rasterize each candidate plate separately; persist per-plate visible pixel count >0 and an exterior-edge sample whose depth is nearer than the wing at the same pixel. Abort otherwise.",
+  "executed_cpu_depth_raster": {
+    "script": "art/reviews/skydancer/rotation-1/r3-depth-raster-proof.py",
+    "complete_model_part_count": 27,
+    "complete_model_part_names": [
+      "0:slender_avian_torso",
+      "1:crested_avian_head",
+      "2:beak",
+      "3:inset_almond_eye",
+      "4:eye_glint",
+      "5:inset_almond_eye",
+      "6:eye_glint",
+      "7:right_folded_wing",
+      "8:right_upper_cover_plate",
+      "9:right_mid_cover_plate",
+      "10:right_lower_cover_plate",
+      "11:right_bent_avian_leg",
+      "12:right_talon_foot",
+      "13:right_toe_1",
+      "14:right_toe_2",
+      "15:right_toe_3",
+      "16:left_folded_wing",
+      "17:left_upper_cover_plate",
+      "18:left_mid_cover_plate",
+      "19:left_lower_cover_plate",
+      "20:left_bent_avian_leg",
+      "21:left_talon_foot",
+      "22:left_toe_1",
+      "23:left_toe_2",
+      "24:left_toe_3",
+      "25:split_ribbon_tail",
+      "26:split_ribbon_tail"
+    ],
+    "source_sha256": "288f93a7069061739309827fffe98c717fbcd68075162689b6f814b2415d3366",
+    "fov_degrees": 38,
+    "counts": {
+      "side": {
+        "96": {
+          "0:slender_avian_torso": 506,
+          "1:crested_avian_head": 353,
+          "2:beak": 40,
+          "3:inset_almond_eye": 8,
+          "4:eye_glint": 0,
+          "5:inset_almond_eye": 11,
+          "6:eye_glint": 0,
+          "7:right_folded_wing": 412,
+          "8:right_upper_cover_plate": 25,
+          "9:right_mid_cover_plate": 17,
+          "10:right_lower_cover_plate": 16,
+          "11:right_bent_avian_leg": 80,
+          "12:right_talon_foot": 35,
+          "13:right_toe_1": 5,
+          "14:right_toe_2": 5,
+          "15:right_toe_3": 5,
+          "16:left_folded_wing": 111,
+          "17:left_upper_cover_plate": 0,
+          "18:left_mid_cover_plate": 0,
+          "19:left_lower_cover_plate": 0,
+          "20:left_bent_avian_leg": 59,
+          "21:left_talon_foot": 29,
+          "22:left_toe_1": 6,
+          "23:left_toe_2": 4,
+          "24:left_toe_3": 4,
+          "25:split_ribbon_tail": 15,
+          "26:split_ribbon_tail": 54
+        },
+        "512": {
+          "0:slender_avian_torso": 14407,
+          "1:crested_avian_head": 10091,
+          "2:beak": 1134,
+          "3:inset_almond_eye": 198,
+          "4:eye_glint": 11,
+          "5:inset_almond_eye": 271,
+          "6:eye_glint": 11,
+          "7:right_folded_wing": 11629,
+          "8:right_upper_cover_plate": 706,
+          "9:right_mid_cover_plate": 473,
+          "10:right_lower_cover_plate": 481,
+          "11:right_bent_avian_leg": 2328,
+          "12:right_talon_foot": 962,
+          "13:right_toe_1": 128,
+          "14:right_toe_2": 132,
+          "15:right_toe_3": 170,
+          "16:left_folded_wing": 3175,
+          "17:left_upper_cover_plate": 49,
+          "18:left_mid_cover_plate": 0,
+          "19:left_lower_cover_plate": 0,
+          "20:left_bent_avian_leg": 1650,
+          "21:left_talon_foot": 836,
+          "22:left_toe_1": 149,
+          "23:left_toe_2": 114,
+          "24:left_toe_3": 112,
+          "25:split_ribbon_tail": 416,
+          "26:split_ribbon_tail": 1498
+        }
+      },
+      "threequarter": {
+        "96": {
+          "0:slender_avian_torso": 343,
+          "1:crested_avian_head": 248,
+          "2:beak": 30,
+          "3:inset_almond_eye": 5,
+          "4:eye_glint": 1,
+          "5:inset_almond_eye": 8,
+          "6:eye_glint": 0,
+          "7:right_folded_wing": 300,
+          "8:right_upper_cover_plate": 13,
+          "9:right_mid_cover_plate": 12,
+          "10:right_lower_cover_plate": 12,
+          "11:right_bent_avian_leg": 58,
+          "12:right_talon_foot": 26,
+          "13:right_toe_1": 4,
+          "14:right_toe_2": 4,
+          "15:right_toe_3": 4,
+          "16:left_folded_wing": 92,
+          "17:left_upper_cover_plate": 1,
+          "18:left_mid_cover_plate": 0,
+          "19:left_lower_cover_plate": 1,
+          "20:left_bent_avian_leg": 41,
+          "21:left_talon_foot": 22,
+          "22:left_toe_1": 5,
+          "23:left_toe_2": 3,
+          "24:left_toe_3": 3,
+          "25:split_ribbon_tail": 7,
+          "26:split_ribbon_tail": 34
+        },
+        "512": {
+          "0:slender_avian_torso": 9881,
+          "1:crested_avian_head": 7091,
+          "2:beak": 842,
+          "3:inset_almond_eye": 189,
+          "4:eye_glint": 8,
+          "5:inset_almond_eye": 217,
+          "6:eye_glint": 10,
+          "7:right_folded_wing": 8634,
+          "8:right_upper_cover_plate": 311,
+          "9:right_mid_cover_plate": 280,
+          "10:right_lower_cover_plate": 279,
+          "11:right_bent_avian_leg": 1620,
+          "12:right_talon_foot": 713,
+          "13:right_toe_1": 103,
+          "14:right_toe_2": 106,
+          "15:right_toe_3": 121,
+          "16:left_folded_wing": 2591,
+          "17:left_upper_cover_plate": 27,
+          "18:left_mid_cover_plate": 0,
+          "19:left_lower_cover_plate": 22,
+          "20:left_bent_avian_leg": 1199,
+          "21:left_talon_foot": 638,
+          "22:left_toe_1": 113,
+          "23:left_toe_2": 95,
+          "24:left_toe_3": 91,
+          "25:split_ribbon_tail": 168,
+          "26:split_ribbon_tail": 977
+        }
+      },
+      "side_mirror": {
+        "96": {
+          "0:slender_avian_torso": 506,
+          "1:crested_avian_head": 353,
+          "2:beak": 40,
+          "3:inset_almond_eye": 10,
+          "4:eye_glint": 1,
+          "5:inset_almond_eye": 7,
+          "6:eye_glint": 1,
+          "7:right_folded_wing": 111,
+          "8:right_upper_cover_plate": 0,
+          "9:right_mid_cover_plate": 0,
+          "10:right_lower_cover_plate": 0,
+          "11:right_bent_avian_leg": 59,
+          "12:right_talon_foot": 29,
+          "13:right_toe_1": 6,
+          "14:right_toe_2": 4,
+          "15:right_toe_3": 4,
+          "16:left_folded_wing": 412,
+          "17:left_upper_cover_plate": 25,
+          "18:left_mid_cover_plate": 17,
+          "19:left_lower_cover_plate": 16,
+          "20:left_bent_avian_leg": 80,
+          "21:left_talon_foot": 35,
+          "22:left_toe_1": 5,
+          "23:left_toe_2": 5,
+          "24:left_toe_3": 5,
+          "25:split_ribbon_tail": 52,
+          "26:split_ribbon_tail": 13
+        },
+        "512": {
+          "0:slender_avian_torso": 14394,
+          "1:crested_avian_head": 10097,
+          "2:beak": 1134,
+          "3:inset_almond_eye": 269,
+          "4:eye_glint": 13,
+          "5:inset_almond_eye": 199,
+          "6:eye_glint": 10,
+          "7:right_folded_wing": 3175,
+          "8:right_upper_cover_plate": 49,
+          "9:right_mid_cover_plate": 0,
+          "10:right_lower_cover_plate": 0,
+          "11:right_bent_avian_leg": 1650,
+          "12:right_talon_foot": 836,
+          "13:right_toe_1": 149,
+          "14:right_toe_2": 114,
+          "15:right_toe_3": 112,
+          "16:left_folded_wing": 11644,
+          "17:left_upper_cover_plate": 706,
+          "18:left_mid_cover_plate": 473,
+          "19:left_lower_cover_plate": 481,
+          "20:left_bent_avian_leg": 2320,
+          "21:left_talon_foot": 962,
+          "22:left_toe_1": 128,
+          "23:left_toe_2": 132,
+          "24:left_toe_3": 170,
+          "25:split_ribbon_tail": 1500,
+          "26:split_ribbon_tail": 412
+        }
+      },
+      "threequarter_mirror": {
+        "96": {
+          "0:slender_avian_torso": 341,
+          "1:crested_avian_head": 248,
+          "2:beak": 30,
+          "3:inset_almond_eye": 8,
+          "4:eye_glint": 0,
+          "5:inset_almond_eye": 6,
+          "6:eye_glint": 0,
+          "7:right_folded_wing": 92,
+          "8:right_upper_cover_plate": 1,
+          "9:right_mid_cover_plate": 0,
+          "10:right_lower_cover_plate": 1,
+          "11:right_bent_avian_leg": 41,
+          "12:right_talon_foot": 22,
+          "13:right_toe_1": 5,
+          "14:right_toe_2": 3,
+          "15:right_toe_3": 3,
+          "16:left_folded_wing": 302,
+          "17:left_upper_cover_plate": 13,
+          "18:left_mid_cover_plate": 12,
+          "19:left_lower_cover_plate": 12,
+          "20:left_bent_avian_leg": 58,
+          "21:left_talon_foot": 26,
+          "22:left_toe_1": 4,
+          "23:left_toe_2": 4,
+          "24:left_toe_3": 4,
+          "25:split_ribbon_tail": 36,
+          "26:split_ribbon_tail": 5
+        },
+        "512": {
+          "0:slender_avian_torso": 9871,
+          "1:crested_avian_head": 7096,
+          "2:beak": 842,
+          "3:inset_almond_eye": 219,
+          "4:eye_glint": 8,
+          "5:inset_almond_eye": 188,
+          "6:eye_glint": 9,
+          "7:right_folded_wing": 2591,
+          "8:right_upper_cover_plate": 27,
+          "9:right_mid_cover_plate": 0,
+          "10:right_lower_cover_plate": 22,
+          "11:right_bent_avian_leg": 1199,
+          "12:right_talon_foot": 638,
+          "13:right_toe_1": 113,
+          "14:right_toe_2": 95,
+          "15:right_toe_3": 91,
+          "16:left_folded_wing": 8643,
+          "17:left_upper_cover_plate": 311,
+          "18:left_mid_cover_plate": 280,
+          "19:left_lower_cover_plate": 279,
+          "20:left_bent_avian_leg": 1616,
+          "21:left_talon_foot": 713,
+          "22:left_toe_1": 103,
+          "23:left_toe_2": 106,
+          "24:left_toe_3": 121,
+          "25:split_ribbon_tail": 970,
+          "26:split_ribbon_tail": 169
+        }
+      }
+    },
+    "visibility_contract": {
+      "thresholds": {
+        "96": 2,
+        "512": 20
+      },
+      "views": {
+        "side": "right",
+        "threequarter": "right",
+        "side_mirror": "left",
+        "threequarter_mirror": "left"
+      },
+      "rule": "Each named view requires all three plates on its specified camera-facing wing to meet the per-resolution floor. Far-side plates are recorded but not part of that view pass."
+    },
+    "checks": [
+      {
+        "view": "side",
+        "resolution": 96,
+        "plate": "right_upper_cover_plate",
+        "visible_pixels": 25,
+        "floor": 2,
+        "pass": true
+      },
+      {
+        "view": "side",
+        "resolution": 96,
+        "plate": "right_mid_cover_plate",
+        "visible_pixels": 17,
+        "floor": 2,
+        "pass": true
+      },
+      {
+        "view": "side",
+        "resolution": 96,
+        "plate": "right_lower_cover_plate",
+        "visible_pixels": 16,
+        "floor": 2,
+        "pass": true
+      },
+      {
+        "view": "side",
+        "resolution": 512,
+        "plate": "right_upper_cover_plate",
+        "visible_pixels": 706,
+        "floor": 20,
+        "pass": true
+      },
+      {
+        "view": "side",
+        "resolution": 512,
+        "plate": "right_mid_cover_plate",
+        "visible_pixels": 473,
+        "floor": 20,
+        "pass": true
+      },
+      {
+        "view": "side",
+        "resolution": 512,
+        "plate": "right_lower_cover_plate",
+        "visible_pixels": 481,
+        "floor": 20,
+        "pass": true
+      },
+      {
+        "view": "threequarter",
+        "resolution": 96,
+        "plate": "right_upper_cover_plate",
+        "visible_pixels": 13,
+        "floor": 2,
+        "pass": true
+      },
+      {
+        "view": "threequarter",
+        "resolution": 96,
+        "plate": "right_mid_cover_plate",
+        "visible_pixels": 12,
+        "floor": 2,
+        "pass": true
+      },
+      {
+        "view": "threequarter",
+        "resolution": 96,
+        "plate": "right_lower_cover_plate",
+        "visible_pixels": 12,
+        "floor": 2,
+        "pass": true
+      },
+      {
+        "view": "threequarter",
+        "resolution": 512,
+        "plate": "right_upper_cover_plate",
+        "visible_pixels": 311,
+        "floor": 20,
+        "pass": true
+      },
+      {
+        "view": "threequarter",
+        "resolution": 512,
+        "plate": "right_mid_cover_plate",
+        "visible_pixels": 280,
+        "floor": 20,
+        "pass": true
+      },
+      {
+        "view": "threequarter",
+        "resolution": 512,
+        "plate": "right_lower_cover_plate",
+        "visible_pixels": 279,
+        "floor": 20,
+        "pass": true
+      },
+      {
+        "view": "side_mirror",
+        "resolution": 96,
+        "plate": "left_upper_cover_plate",
+        "visible_pixels": 25,
+        "floor": 2,
+        "pass": true
+      },
+      {
+        "view": "side_mirror",
+        "resolution": 96,
+        "plate": "left_mid_cover_plate",
+        "visible_pixels": 17,
+        "floor": 2,
+        "pass": true
+      },
+      {
+        "view": "side_mirror",
+        "resolution": 96,
+        "plate": "left_lower_cover_plate",
+        "visible_pixels": 16,
+        "floor": 2,
+        "pass": true
+      },
+      {
+        "view": "side_mirror",
+        "resolution": 512,
+        "plate": "left_upper_cover_plate",
+        "visible_pixels": 706,
+        "floor": 20,
+        "pass": true
+      },
+      {
+        "view": "side_mirror",
+        "resolution": 512,
+        "plate": "left_mid_cover_plate",
+        "visible_pixels": 473,
+        "floor": 20,
+        "pass": true
+      },
+      {
+        "view": "side_mirror",
+        "resolution": 512,
+        "plate": "left_lower_cover_plate",
+        "visible_pixels": 481,
+        "floor": 20,
+        "pass": true
+      },
+      {
+        "view": "threequarter_mirror",
+        "resolution": 96,
+        "plate": "left_upper_cover_plate",
+        "visible_pixels": 13,
+        "floor": 2,
+        "pass": true
+      },
+      {
+        "view": "threequarter_mirror",
+        "resolution": 96,
+        "plate": "left_mid_cover_plate",
+        "visible_pixels": 12,
+        "floor": 2,
+        "pass": true
+      },
+      {
+        "view": "threequarter_mirror",
+        "resolution": 96,
+        "plate": "left_lower_cover_plate",
+        "visible_pixels": 12,
+        "floor": 2,
+        "pass": true
+      },
+      {
+        "view": "threequarter_mirror",
+        "resolution": 512,
+        "plate": "left_upper_cover_plate",
+        "visible_pixels": 311,
+        "floor": 20,
+        "pass": true
+      },
+      {
+        "view": "threequarter_mirror",
+        "resolution": 512,
+        "plate": "left_mid_cover_plate",
+        "visible_pixels": 280,
+        "floor": 20,
+        "pass": true
+      },
+      {
+        "view": "threequarter_mirror",
+        "resolution": 512,
+        "plate": "left_lower_cover_plate",
+        "visible_pixels": 279,
+        "floor": 20,
+        "pass": true
+      }
+    ]
+  },
+  "occlusion_pass": true
+}

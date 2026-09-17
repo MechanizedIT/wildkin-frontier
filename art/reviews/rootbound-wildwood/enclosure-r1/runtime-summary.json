@@ -1,0 +1,131 @@
+{
+  "galleries-baseline": {
+    "render": {
+      "frame": 398,
+      "calls": 86,
+      "triangles": 209854,
+      "points": 0,
+      "lines": 0
+    },
+    "residentCount": 733,
+    "rootboundCount": 29,
+    "newIds": [
+      "f1:s:rootbound-wildwood:gallery-shelter-east",
+      "f1:s:rootbound-wildwood:gallery-shelter-west",
+      "f1:s:rootbound-wildwood:gallery-terminus"
+    ]
+  },
+  "crown-baseline": {
+    "render": {
+      "frame": 512,
+      "calls": 162,
+      "triangles": 314642,
+      "points": 0,
+      "lines": 0
+    },
+    "residentCount": 1374,
+    "rootboundCount": 35,
+    "newIds": [
+      "f1:s:rootbound-wildwood:heartroot-core",
+      "f1:s:rootbound-wildwood:heartroot-wing-east",
+      "f1:s:rootbound-wildwood:heartroot-wing-west",
+      "f1:s:rootbound-wildwood:gallery-terminus"
+    ]
+  },
+  "reveal-baseline": {
+    "render": {
+      "frame": 631,
+      "calls": 127,
+      "triangles": 350950,
+      "points": 0,
+      "lines": 0
+    },
+    "residentCount": 1374,
+    "rootboundCount": 35,
+    "newIds": [
+      "f1:s:rootbound-wildwood:heartroot-core",
+      "f1:s:rootbound-wildwood:heartroot-wing-east",
+      "f1:s:rootbound-wildwood:heartroot-wing-west",
+      "f1:s:rootbound-wildwood:gallery-terminus"
+    ]
+  },
+  "stream-away": {
+    "render": {
+      "frame": 5821,
+      "calls": 156,
+      "triangles": 228006,
+      "points": 72,
+      "lines": 0
+    },
+    "residentCount": 357,
+    "rootboundCount": 0,
+    "newIds": []
+  },
+  "stream-return": {
+    "render": {
+      "frame": 6886,
+      "calls": 897,
+      "triangles": 825895,
+      "points": 0,
+      "lines": 0
+    },
+    "residentCount": 841,
+    "rootboundCount": 42,
+    "newIds": [
+      "f1:s:rootbound-wildwood:gallery-terminus",
+      "f1:s:rootbound-wildwood:gallery-shelter-east",
+      "f1:s:rootbound-wildwood:gallery-shelter-west",
+      "f1:s:rootbound-wildwood:heartroot-core",
+      "f1:s:rootbound-wildwood:heartroot-wing-east",
+      "f1:s:rootbound-wildwood:heartroot-wing-west"
+    ]
+  },
+  "gallery-approach-walk": {
+    "seconds": 4.007899999991059,
+    "distance": 9.032037563905801,
+    "grounded": 42,
+    "samples": 42,
+    "start": {
+      "x": -478,
+      "y": 11.61494255065918,
+      "z": 640
+    },
+    "end": {
+      "x": -479.27801513671875,
+      "y": 11.217097282409668,
+      "z": 648.941162109375
+    }
+  },
+  "gallery-return-walk": {
+    "seconds": 4.01209999999404,
+    "distance": 9.094962978290637,
+    "grounded": 42,
+    "samples": 42,
+    "start": {
+      "x": -479.285888671875,
+      "y": 11.21471118927002,
+      "z": 648.9964599609375
+    },
+    "end": {
+      "x": -477.99658203125,
+      "y": 11.615324974060059,
+      "z": 639.9933471679688
+    }
+  },
+  "crown-approach-walk": {
+    "seconds": 4.008,
+    "distance": 9.11411040695865,
+    "grounded": 42,
+    "samples": 42,
+    "start": {
+      "x": -477,
+      "y": 9.997814178466797,
+      "z": 709
+    },
+    "end": {
+      "x": -473.1036376953125,
+      "y": 10.0256929397583,
+      "z": 717.2392578125
+    }
+  }
+}

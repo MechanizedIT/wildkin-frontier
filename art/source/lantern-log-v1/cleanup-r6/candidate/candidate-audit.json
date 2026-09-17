@@ -1,0 +1,26 @@
+{
+  "vertices": 62510,
+  "triangles": 124172,
+  "boundary_edges": 0,
+  "nonmanifold_edges": 0,
+  "inconsistent_two_face_edge_directions": 0,
+  "unused_vertices": 0,
+  "repeated_index_faces": 0,
+  "zero_area_faces": 0,
+  "area": 1.42428822458548,
+  "signed_volume": 0.018141158254496564,
+  "bounds": {
+    "min": [
+      -0.4992241859436035,
+      -0.28847330808639526,
+      -0.29523009061813354
+    ],
+    "max": [
+      0.4982888102531433,
+      0.09004677832126617,
+      0.28918495774269104
+    ]
+  },
+  "self_intersections_tested": false,
+  "face_bearing_vertex_connected_components": 240
+}

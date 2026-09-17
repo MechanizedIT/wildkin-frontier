@@ -1,0 +1,21 @@
+{
+  "seconds": 242.018,
+  "distance": 363.30702564267744,
+  "stops": 18,
+  "reached": 18,
+  "detours": 4,
+  "health": [
+    5,
+    5
+  ],
+  "gains": {
+    "fiber": 3,
+    "crystal_shard": 8
+  },
+  "reload": {
+    "progressExact": true,
+    "inventoryExact": true,
+    "ecologyExact": true
+  },
+  "errors": []
+}

@@ -1,0 +1,1014 @@
+{
+  "plan_sha256": "dbd51d65bc04c4065a2c98237cd82a634ac0d2915b609d5657547ee959c54a66",
+  "closures": {
+    "rightWing": {
+      "vertices": 32,
+      "triangles": 60,
+      "boundaryEdges": 0,
+      "nonManifoldEdges": 0,
+      "closed": true
+    },
+    "leftWing": {
+      "vertices": 32,
+      "triangles": 60,
+      "boundaryEdges": 0,
+      "nonManifoldEdges": 0,
+      "closed": true
+    },
+    "plates": [
+      {
+        "vertices": 8,
+        "triangles": 12,
+        "boundaryEdges": 0,
+        "nonManifoldEdges": 0,
+        "closed": true
+      },
+      {
+        "vertices": 8,
+        "triangles": 12,
+        "boundaryEdges": 0,
+        "nonManifoldEdges": 0,
+        "closed": true
+      },
+      {
+        "vertices": 8,
+        "triangles": 12,
+        "boundaryEdges": 0,
+        "nonManifoldEdges": 0,
+        "closed": true
+      },
+      {
+        "vertices": 8,
+        "triangles": 12,
+        "boundaryEdges": 0,
+        "nonManifoldEdges": 0,
+        "closed": true
+      },
+      {
+        "vertices": 8,
+        "triangles": 12,
+        "boundaryEdges": 0,
+        "nonManifoldEdges": 0,
+        "closed": true
+      },
+      {
+        "vertices": 8,
+        "triangles": 12,
+        "boundaryEdges": 0,
+        "nonManifoldEdges": 0,
+        "closed": true
+      }
+    ]
+  },
+  "envelope": {
+    "changedBounds": {
+      "min": [
+        -1.08,
+        0.698756,
+        -0.86
+      ],
+      "max": [
+        1.08,
+        1.515885,
+        0.19
+      ]
+    },
+    "authoringMin": [
+      -1.133993,
+      0.015873,
+      -1.670907
+    ],
+    "authoringMax": [
+      1.133993,
+      2.147128,
+      1.132
+    ],
+    "pass": true
+  },
+  "rootShellRequirement": {
+    "rings": [
+      [
+        -0.35,
+        0.8,
+        0.24,
+        0.5
+      ],
+      [
+        0.05,
+        1.1,
+        0.31,
+        0.65
+      ],
+      [
+        0.3,
+        1.46,
+        0.25,
+        0.48
+      ]
+    ],
+    "sides": 6,
+    "ray": "for each root cap vertex: +Y must bracket lowerY < y < upperY; plate roots: +X through primary wing must bracket lowerX < x < upperX"
+  },
+  "plateShellRequirement": "for each root cap vertex: +Y must bracket lowerY < y < upperY; plate roots: +X through primary wing must bracket lowerX < x < upperX",
+  "projection": {
+    "front96pxPerM": 45.452,
+    "bands": [
+      {
+        "plate": "upper",
+        "tipY": [
+          1.28,
+          1.38
+        ],
+        "tipX": 0.88
+      },
+      {
+        "plate": "mid",
+        "tipY": [
+          0.93,
+          1.18
+        ],
+        "tipX": 0.98
+      },
+      {
+        "plate": "lower",
+        "tipY": [
+          0.75,
+          1.02
+        ],
+        "tipX": 1.08
+      }
+    ],
+    "gapsPx96": [
+      4.55,
+      7.27
+    ],
+    "gapsPx48": [
+      2.27,
+      3.64
+    ],
+    "sideDrop": "tip center y .82 versus R1 1.12; outer span x 1.05 versus R1 .86"
+  },
+  "reviewTable": [
+    {
+      "view": "front",
+      "test": "separate upper/mid/lower y bands with stated pixel gaps"
+    },
+    {
+      "view": "side",
+      "test": "outer wing drops .30m below R1 tip center"
+    },
+    {
+      "view": "threequarter",
+      "test": "tips step x .88/.98/1.08 and y bands"
+    }
+  ],
+  "actual_torso_shell_vertices": [
+    [
+      0.24,
+      0.8,
+      -0.35
+    ],
+    [
+      0.12000000000000002,
+      1.2330127018922195,
+      -0.35
+    ],
+    [
+      -0.11999999999999994,
+      1.2330127018922195,
+      -0.35
+    ],
+    [
+      -0.24,
+      0.8000000000000002,
+      -0.35
+    ],
+    [
+      -0.1200000000000001,
+      0.3669872981077808,
+      -0.35
+    ],
+    [
+      0.12000000000000002,
+      0.36698729810778075,
+      -0.35
+    ],
+    [
+      0.31,
+      1.1,
+      0.05
+    ],
+    [
+      0.15500000000000003,
+      1.6629165124598853,
+      0.05
+    ],
+    [
+      -0.15499999999999994,
+      1.6629165124598853,
+      0.05
+    ],
+    [
+      -0.31,
+      1.1,
+      0.05
+    ],
+    [
+      -0.15500000000000014,
+      0.537083487540115,
+      0.05
+    ],
+    [
+      0.15500000000000003,
+      0.537083487540115,
+      0.05
+    ],
+    [
+      0.25,
+      1.46,
+      0.3
+    ],
+    [
+      0.12500000000000003,
+      1.8756921938165305,
+      0.3
+    ],
+    [
+      -0.12499999999999994,
+      1.8756921938165305,
+      0.3
+    ],
+    [
+      -0.25,
+      1.46,
+      0.3
+    ],
+    [
+      -0.1250000000000001,
+      1.0443078061834696,
+      0.3
+    ],
+    [
+      0.12500000000000003,
+      1.0443078061834694,
+      0.3
+    ],
+    [
+      -4.625929269271485e-18,
+      0.8000000000000002,
+      -0.35000000000000003
+    ],
+    [
+      -4.625929269271485e-18,
+      1.4600000000000002,
+      0.3
+    ]
+  ],
+  "actual_torso_shell_triangles": [
+    [
+      0,
+      1,
+      6
+    ],
+    [
+      1,
+      7,
+      6
+    ],
+    [
+      1,
+      2,
+      7
+    ],
+    [
+      2,
+      8,
+      7
+    ],
+    [
+      2,
+      3,
+      8
+    ],
+    [
+      3,
+      9,
+      8
+    ],
+    [
+      3,
+      4,
+      9
+    ],
+    [
+      4,
+      10,
+      9
+    ],
+    [
+      4,
+      5,
+      10
+    ],
+    [
+      5,
+      11,
+      10
+    ],
+    [
+      5,
+      0,
+      11
+    ],
+    [
+      0,
+      6,
+      11
+    ],
+    [
+      6,
+      7,
+      12
+    ],
+    [
+      7,
+      13,
+      12
+    ],
+    [
+      7,
+      8,
+      13
+    ],
+    [
+      8,
+      14,
+      13
+    ],
+    [
+      8,
+      9,
+      14
+    ],
+    [
+      9,
+      15,
+      14
+    ],
+    [
+      9,
+      10,
+      15
+    ],
+    [
+      10,
+      16,
+      15
+    ],
+    [
+      10,
+      11,
+      16
+    ],
+    [
+      11,
+      17,
+      16
+    ],
+    [
+      11,
+      6,
+      17
+    ],
+    [
+      6,
+      12,
+      17
+    ],
+    [
+      18,
+      1,
+      0
+    ],
+    [
+      18,
+      2,
+      1
+    ],
+    [
+      18,
+      3,
+      2
+    ],
+    [
+      18,
+      4,
+      3
+    ],
+    [
+      18,
+      5,
+      4
+    ],
+    [
+      18,
+      0,
+      5
+    ],
+    [
+      19,
+      12,
+      13
+    ],
+    [
+      19,
+      13,
+      14
+    ],
+    [
+      19,
+      14,
+      15
+    ],
+    [
+      19,
+      15,
+      16
+    ],
+    [
+      19,
+      16,
+      17
+    ],
+    [
+      19,
+      17,
+      12
+    ]
+  ],
+  "actual_torso_root_cap_y_ray_results": [
+    {
+      "side": "right",
+      "cap": "host_root_a",
+      "rayAxis": "+Y",
+      "pass": true,
+      "vertices": [
+        {
+          "vertex": [
+            0.1,
+            1.36,
+            0.19
+          ],
+          "lowerY": 0.82112911,
+          "upperY": 1.78207089,
+          "inside": true
+        },
+        {
+          "vertex": [
+            0.1,
+            1.463923,
+            0.145
+          ],
+          "lowerY": 0.72982873,
+          "upperY": 1.74377127,
+          "inside": true
+        },
+        {
+          "vertex": [
+            0.1,
+            1.463923,
+            0.055
+          ],
+          "lowerY": 0.54722797,
+          "upperY": 1.66717203,
+          "inside": true
+        },
+        {
+          "vertex": [
+            0.1,
+            1.36,
+            0.01
+          ],
+          "lowerY": 0.52007387,
+          "upperY": 1.61992613,
+          "inside": true
+        },
+        {
+          "vertex": [
+            0.1,
+            1.256077,
+            0.055
+          ],
+          "lowerY": 0.54722797,
+          "upperY": 1.66717203,
+          "inside": true
+        },
+        {
+          "vertex": [
+            0.1,
+            1.256077,
+            0.145
+          ],
+          "lowerY": 0.72982873,
+          "upperY": 1.74377127,
+          "inside": true
+        }
+      ]
+    },
+    {
+      "side": "right",
+      "cap": "host_root_b",
+      "rayAxis": "+Y",
+      "pass": true,
+      "vertices": [
+        {
+          "vertex": [
+            0.18,
+            1.37,
+            0.19
+          ],
+          "lowerY": 0.97293498,
+          "upperY": 1.64306342,
+          "inside": true
+        },
+        {
+          "vertex": [
+            0.18,
+            1.473923,
+            0.135
+          ],
+          "lowerY": 0.83737628,
+          "upperY": 1.61820132,
+          "inside": true
+        },
+        {
+          "vertex": [
+            0.18,
+            1.473923,
+            0.025
+          ],
+          "lowerY": 0.62501525,
+          "upperY": 1.53731015,
+          "inside": true
+        },
+        {
+          "vertex": [
+            0.18,
+            1.37,
+            -0.03
+          ],
+          "lowerY": 0.61872055,
+          "upperY": 1.46072073,
+          "inside": true
+        },
+        {
+          "vertex": [
+            0.18,
+            1.266077,
+            0.025
+          ],
+          "lowerY": 0.62501525,
+          "upperY": 1.53731015,
+          "inside": true
+        },
+        {
+          "vertex": [
+            0.18,
+            1.266077,
+            0.135
+          ],
+          "lowerY": 0.83737628,
+          "upperY": 1.61820132,
+          "inside": true
+        }
+      ]
+    },
+    {
+      "side": "left",
+      "cap": "host_root_a",
+      "rayAxis": "+Y",
+      "pass": true,
+      "vertices": [
+        {
+          "vertex": [
+            -0.1,
+            1.36,
+            0.19
+          ],
+          "lowerY": 0.82112911,
+          "upperY": 1.78207089,
+          "inside": true
+        },
+        {
+          "vertex": [
+            -0.1,
+            1.463923,
+            0.145
+          ],
+          "lowerY": 0.72982873,
+          "upperY": 1.74377127,
+          "inside": true
+        },
+        {
+          "vertex": [
+            -0.1,
+            1.463923,
+            0.055
+          ],
+          "lowerY": 0.54722797,
+          "upperY": 1.66717203,
+          "inside": true
+        },
+        {
+          "vertex": [
+            -0.1,
+            1.36,
+            0.01
+          ],
+          "lowerY": 0.52007387,
+          "upperY": 1.61992613,
+          "inside": true
+        },
+        {
+          "vertex": [
+            -0.1,
+            1.256077,
+            0.055
+          ],
+          "lowerY": 0.54722797,
+          "upperY": 1.66717203,
+          "inside": true
+        },
+        {
+          "vertex": [
+            -0.1,
+            1.256077,
+            0.145
+          ],
+          "lowerY": 0.72982873,
+          "upperY": 1.74377127,
+          "inside": true
+        }
+      ]
+    },
+    {
+      "side": "left",
+      "cap": "host_root_b",
+      "rayAxis": "+Y",
+      "pass": true,
+      "vertices": [
+        {
+          "vertex": [
+            -0.18,
+            1.37,
+            0.19
+          ],
+          "lowerY": 0.96013658,
+          "upperY": 1.63026502,
+          "inside": true
+        },
+        {
+          "vertex": [
+            -0.18,
+            1.473923,
+            0.135
+          ],
+          "lowerY": 0.82659868,
+          "upperY": 1.60742372,
+          "inside": true
+        },
+        {
+          "vertex": [
+            -0.18,
+            1.473923,
+            0.025
+          ],
+          "lowerY": 0.62518985,
+          "upperY": 1.53748475,
+          "inside": true
+        },
+        {
+          "vertex": [
+            -0.18,
+            1.37,
+            -0.03
+          ],
+          "lowerY": 0.61927927,
+          "upperY": 1.46127945,
+          "inside": true
+        },
+        {
+          "vertex": [
+            -0.18,
+            1.266077,
+            0.025
+          ],
+          "lowerY": 0.62518985,
+          "upperY": 1.53748475,
+          "inside": true
+        },
+        {
+          "vertex": [
+            -0.18,
+            1.266077,
+            0.135
+          ],
+          "lowerY": 0.82659868,
+          "upperY": 1.60742372,
+          "inside": true
+        }
+      ]
+    }
+  ],
+  "actual_revised_primary_wing_plate_root_x_ray_results": [
+    {
+      "side": "right",
+      "plate": "right_upper_cover_plate",
+      "rayAxis": "+X",
+      "pass": true,
+      "vertices": [
+        {
+          "vertex": [
+            0.28,
+            1.4,
+            0
+          ],
+          "lowerX": 0.15505477,
+          "upperX": 0.73278124,
+          "inside": true
+        },
+        {
+          "vertex": [
+            0.28,
+            1.34,
+            -0.04
+          ],
+          "lowerX": 0.21083934,
+          "upperX": 0.85076427,
+          "inside": true
+        },
+        {
+          "vertex": [
+            0.28,
+            1.32,
+            -0.04
+          ],
+          "lowerX": 0.22345383,
+          "upperX": 0.87367298,
+          "inside": true
+        },
+        {
+          "vertex": [
+            0.28,
+            1.37,
+            -0.01
+          ],
+          "lowerX": 0.14467397,
+          "upperX": 0.77945853,
+          "inside": true
+        }
+      ]
+    },
+    {
+      "side": "right",
+      "plate": "right_mid_cover_plate",
+      "rayAxis": "+X",
+      "pass": true,
+      "vertices": [
+        {
+          "vertex": [
+            0.36,
+            1.4,
+            -0.04
+          ],
+          "lowerX": 0.21788944,
+          "upperX": 0.78203813,
+          "inside": true
+        },
+        {
+          "vertex": [
+            0.36,
+            1.35,
+            -0.08
+          ],
+          "lowerX": 0.25220248,
+          "upperX": 0.8885668,
+          "inside": true
+        },
+        {
+          "vertex": [
+            0.36,
+            1.31,
+            -0.08
+          ],
+          "lowerX": 0.27743147,
+          "upperX": 0.93438422,
+          "inside": true
+        },
+        {
+          "vertex": [
+            0.36,
+            1.36,
+            -0.04
+          ],
+          "lowerX": 0.19822484,
+          "upperX": 0.82785556,
+          "inside": true
+        }
+      ]
+    },
+    {
+      "side": "right",
+      "plate": "right_lower_cover_plate",
+      "rayAxis": "+X",
+      "pass": true,
+      "vertices": [
+        {
+          "vertex": [
+            0.43,
+            1.38,
+            -0.08
+          ],
+          "lowerX": 0.25252841,
+          "upperX": 0.85420373,
+          "inside": true
+        },
+        {
+          "vertex": [
+            0.43,
+            1.33,
+            -0.12
+          ],
+          "lowerX": 0.31248737,
+          "upperX": 0.9607324,
+          "inside": true
+        },
+        {
+          "vertex": [
+            0.43,
+            1.29,
+            -0.12
+          ],
+          "lowerX": 0.3447288,
+          "upperX": 1.00654982,
+          "inside": true
+        },
+        {
+          "vertex": [
+            0.43,
+            1.34,
+            -0.08
+          ],
+          "lowerX": 0.25850973,
+          "upperX": 0.90002116,
+          "inside": true
+        }
+      ]
+    },
+    {
+      "side": "left",
+      "plate": "left_upper_cover_plate",
+      "rayAxis": "+X",
+      "pass": true,
+      "vertices": [
+        {
+          "vertex": [
+            -0.28,
+            1.4,
+            0
+          ],
+          "lowerX": -0.73278124,
+          "upperX": -0.15505477,
+          "inside": true
+        },
+        {
+          "vertex": [
+            -0.28,
+            1.34,
+            -0.04
+          ],
+          "lowerX": -0.85076427,
+          "upperX": -0.21083934,
+          "inside": true
+        },
+        {
+          "vertex": [
+            -0.28,
+            1.32,
+            -0.04
+          ],
+          "lowerX": -0.87367298,
+          "upperX": -0.22345383,
+          "inside": true
+        },
+        {
+          "vertex": [
+            -0.28,
+            1.37,
+            -0.01
+          ],
+          "lowerX": -0.77945853,
+          "upperX": -0.14467397,
+          "inside": true
+        }
+      ]
+    },
+    {
+      "side": "left",
+      "plate": "left_mid_cover_plate",
+      "rayAxis": "+X",
+      "pass": true,
+      "vertices": [
+        {
+          "vertex": [
+            -0.36,
+            1.4,
+            -0.04
+          ],
+          "lowerX": -0.78203813,
+          "upperX": -0.21788944,
+          "inside": true
+        },
+        {
+          "vertex": [
+            -0.36,
+            1.35,
+            -0.08
+          ],
+          "lowerX": -0.8885668,
+          "upperX": -0.25220248,
+          "inside": true
+        },
+        {
+          "vertex": [
+            -0.36,
+            1.31,
+            -0.08
+          ],
+          "lowerX": -0.93438422,
+          "upperX": -0.27743147,
+          "inside": true
+        },
+        {
+          "vertex": [
+            -0.36,
+            1.36,
+            -0.04
+          ],
+          "lowerX": -0.82785556,
+          "upperX": -0.19822484,
+          "inside": true
+        }
+      ]
+    },
+    {
+      "side": "left",
+      "plate": "left_lower_cover_plate",
+      "rayAxis": "+X",
+      "pass": true,
+      "vertices": [
+        {
+          "vertex": [
+            -0.43,
+            1.38,
+            -0.08
+          ],
+          "lowerX": -0.85420373,
+          "upperX": -0.25252841,
+          "inside": true
+        },
+        {
+          "vertex": [
+            -0.43,
+            1.33,
+            -0.12
+          ],
+          "lowerX": -0.9607324,
+          "upperX": -0.31248737,
+          "inside": true
+        },
+        {
+          "vertex": [
+            -0.43,
+            1.29,
+            -0.12
+          ],
+          "lowerX": -1.00654982,
+          "upperX": -0.3447288,
+          "inside": true
+        },
+        {
+          "vertex": [
+            -0.43,
+            1.34,
+            -0.08
+          ],
+          "lowerX": -0.90002116,
+          "upperX": -0.25850973,
+          "inside": true
+        }
+      ]
+    }
+  ],
+  "all_actual_shell_tests_pass": true
+}

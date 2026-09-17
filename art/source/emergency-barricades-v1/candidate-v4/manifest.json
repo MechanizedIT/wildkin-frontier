@@ -1,0 +1,146 @@
+{
+  "status": "candidate; independent model review and native admission pending",
+  "builder": "tools/art/build-emergency-barricades.py",
+  "reference": "art/targets/crash-camp-v1/target.png",
+  "style": "art/style/explorer-master.png",
+  "axis": "glTF meters: X along wall, Y up, +Z outboard brace",
+  "pivot": [
+    0,
+    0,
+    0
+  ],
+  "modularPitch": 2.8,
+  "straightBounds": {
+    "min": [
+      -1.4,
+      0,
+      -0.1975
+    ],
+    "max": [
+      1.4,
+      1.7,
+      0.62
+    ]
+  },
+  "collisionRecommendation": {
+    "panel": {
+      "center": [
+        0,
+        0.85,
+        0
+      ],
+      "size": [
+        2.8,
+        1.7,
+        0.395
+      ]
+    },
+    "feet": [
+      {
+        "center": [
+          -1.22,
+          0.06,
+          0.36
+        ],
+        "size": [
+          0.3,
+          0.12,
+          0.52
+        ]
+      },
+      {
+        "center": [
+          1.22,
+          0.06,
+          0.36
+        ],
+        "size": [
+          0.3,
+          0.12,
+          0.52
+        ]
+      }
+    ],
+    "brace": "Optional convex wedge per side: X center +/-1.22 width .24; Y/Z polygon [(0,-.13),(0,.62),(.13,.62),(.97,.22),(.97,.13)]. Never full-height box over feet.",
+    "cornerPost": {
+      "center": [
+        0,
+        0.85,
+        0
+      ],
+      "size": [
+        0.52,
+        1.7,
+        0.52
+      ]
+    },
+    "note": "Descriptor recommendations only; parent must validate actual compound/convex support and runtime access."
+  },
+  "render": {
+    "engine": "Cycles CPU",
+    "threads": 2,
+    "samples": 12,
+    "freshGLB": true,
+    "images": [
+      "front.png",
+      "rear.png",
+      "three-quarter.png",
+      "side.png",
+      "corner-post.png",
+      "game-scale-neutral.png"
+    ],
+    "gameCamera": {
+      "verticalFov": 52,
+      "focusHeight": 0.9,
+      "horizontalDistance": 6.55,
+      "verticalOffset": 4.1,
+      "landscapeZoom": 0.85
+    },
+    "straightEvidence": ".dream-loop/overnight2-barricades/v3; straight GLB is byte-identical to v3",
+    "cornerEvidence": ".dream-loop/overnight2-barricades/v4/corner-post.png"
+  },
+  "materials": "one matte opaque palette material per GLB; 64x8 embedded PNG; metallic=0 roughness=1, no emission",
+  "files": {
+    "build-emergency-barricades.py": {
+      "sha256": "da1aabbe8748bacb9c43eefe6920cef392f8d45cac7c20f65f5332c2f52f21c7",
+      "bytes": 10973
+    },
+    "emergency-barricade-editable.blend": {
+      "sha256": "73b125ac66943bf26a27cb28b42d2339fea10fa6a70d1d5c1da6559ef41d953c",
+      "bytes": 553564
+    },
+    "emergency-barricade.glb": {
+      "sha256": "6b4eb0fc93620361fcffc04750550b1d7f95dcd88468b8458021f409c191be1e",
+      "bytes": 73968
+    },
+    "emergency-corner-post-editable.blend": {
+      "sha256": "a91c6a3bab141a67ea580363df0c308e020040b07b449897e1bf1962a5a8e7cc",
+      "bytes": 459525
+    },
+    "emergency-corner-post.glb": {
+      "sha256": "d45ae4fc18152bbe1a74137f1e79fa38e52050f82c9c167ecb1bb7c857822887",
+      "bytes": 30732
+    },
+    "geometry-facts.json": {
+      "sha256": "911d476a3f79906b2571ff40d841ea9aed37f5cb2557de98ad04c88ed2cacb24",
+      "bytes": 3133
+    },
+    "palette.png": {
+      "sha256": "a54bcfe4f6099f8d059892719dbd920c34ca67c3fc2449109287e2f0303723bb",
+      "bytes": 240
+    }
+  },
+  "cornerPostBounds": {
+    "min": [
+      -0.26,
+      0,
+      -0.26
+    ],
+    "max": [
+      0.26,
+      1.7,
+      0.26
+    ]
+  },
+  "revision": "V4 removes coplanar top marker only from optional post. Straight mesh/export is byte-identical to V3."
+}

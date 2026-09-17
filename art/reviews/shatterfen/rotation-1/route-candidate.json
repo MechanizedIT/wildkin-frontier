@@ -1,0 +1,435 @@
+{
+  "status": "planning-only",
+  "basis": {
+    "center": {
+      "x": -750,
+      "z": 1900
+    },
+    "chunk": {
+      "cx": -15,
+      "cz": 38
+    },
+    "survey": "numerical-survey.json",
+    "walkSpeedMetersPerSecond": 2.145
+  },
+  "waypoints": [
+    {
+      "id": "arrival-hummock",
+      "x": -775,
+      "z": 1878,
+      "role": "existing wildlife/berry edge; candidate arrival portrait"
+    },
+    {
+      "id": "south-berry-saddle",
+      "x": -732,
+      "z": 1912,
+      "role": "existing berry pair between proposed low banks"
+    },
+    {
+      "id": "east-tidefin-reach",
+      "x": -675,
+      "z": 1905,
+      "role": "existing wildlife home and berry edge; candidate interior portrait"
+    },
+    {
+      "id": "north-return-hummock",
+      "x": -681,
+      "z": 1988,
+      "role": "existing wildlife home and berry/tree cluster; candidate destination portrait"
+    },
+    {
+      "id": "west-berry-return",
+      "x": -739,
+      "z": 1967,
+      "role": "existing berry/tree cluster; return leg"
+    },
+    {
+      "id": "arrival-return",
+      "x": -775,
+      "z": 1878,
+      "role": "same as arrival"
+    }
+  ],
+  "segments": [
+    {
+      "from": "arrival-hummock",
+      "to": "south-berry-saddle",
+      "length": 54.81788029466298,
+      "terrain": {
+        "minHeight": 11.25732377701766,
+        "maxHeight": 11.651944312394008,
+        "maxSlope": 0.03399630784809526
+      }
+    },
+    {
+      "from": "south-berry-saddle",
+      "to": "east-tidefin-reach",
+      "length": 57.42821606144492,
+      "terrain": {
+        "minHeight": 11.016163817762612,
+        "maxHeight": 11.378095352979802,
+        "maxSlope": 0.022071237725613337
+      }
+    },
+    {
+      "from": "east-tidefin-reach",
+      "to": "north-return-hummock",
+      "length": 83.21658488546619,
+      "terrain": {
+        "minHeight": 11.378095352979802,
+        "maxHeight": 11.832314807180639,
+        "maxSlope": 0.025334631593539252
+      }
+    },
+    {
+      "from": "north-return-hummock",
+      "to": "west-berry-return",
+      "length": 61.68468205316454,
+      "terrain": {
+        "minHeight": 11.742562391831202,
+        "maxHeight": 11.995475460907258,
+        "maxSlope": 0.023685304176247635
+      }
+    },
+    {
+      "from": "west-berry-return",
+      "to": "arrival-return",
+      "length": 96.00520819205592,
+      "terrain": {
+        "minHeight": 11.521630812282156,
+        "maxHeight": 12.133181713106307,
+        "maxSlope": 0.039895417270735145
+      }
+    }
+  ],
+  "totalLength": 353.15257148679456,
+  "minimumWalkSeconds": 164.6398934670371,
+  "corridorRadius": 12,
+  "corridorProtectedRecords": [
+    {
+      "id": "f1:r:-16:37:0",
+      "type": "fiber",
+      "x": -771.36,
+      "z": 1879.09,
+      "y": 11.53,
+      "asset": "asset_berry_bush",
+      "category": "source",
+      "cx": -16,
+      "cz": 37,
+      "nearestRouteDistance": 1.402644531067069
+    },
+    {
+      "id": "f1:r:-16:37:1",
+      "type": "tree",
+      "x": -774.43,
+      "z": 1879.67,
+      "y": 11.57,
+      "asset": null,
+      "category": "source",
+      "cx": -16,
+      "cz": 37,
+      "nearestRouteDistance": 0.09780719376398629
+    },
+    {
+      "id": "f1:r:-16:37:2",
+      "type": "fiber",
+      "x": -773.46,
+      "z": 1876.44,
+      "y": 11.46,
+      "asset": null,
+      "category": "source",
+      "cx": -16,
+      "cz": 37,
+      "nearestRouteDistance": 2.178851122260982
+    },
+    {
+      "id": "f1:w:-16:37:0",
+      "x": -773.25,
+      "z": 1878.18,
+      "y": 11.52,
+      "category": "home",
+      "cx": -16,
+      "cz": 37,
+      "roam": 4.5,
+      "leash": 10,
+      "nearestRouteDistance": 0.9442174655746606
+    },
+    {
+      "id": "f1:r:-15:38:2",
+      "type": "tree",
+      "x": -718.17,
+      "z": 1921.4,
+      "y": 11.09,
+      "asset": null,
+      "category": "source",
+      "cx": -15,
+      "cz": 38,
+      "nearestRouteDistance": 11.015665179693977
+    },
+    {
+      "id": "f1:r:-15:38:3",
+      "type": "fiber",
+      "x": -729,
+      "z": 1912.19,
+      "y": 11.2,
+      "asset": null,
+      "category": "source",
+      "cx": -15,
+      "cz": 38,
+      "nearestRouteDistance": 0.5542571610782737
+    },
+    {
+      "id": "f1:r:-15:38:4",
+      "type": "fiber",
+      "x": -732.14,
+      "z": 1913.15,
+      "y": 11.27,
+      "asset": "asset_berry_bush",
+      "category": "source",
+      "cx": -15,
+      "cz": 38,
+      "nearestRouteDistance": 1.158490397025459
+    },
+    {
+      "id": "f1:r:-15:38:5",
+      "type": "fiber",
+      "x": -731.52,
+      "z": 1909.99,
+      "y": 11.24,
+      "asset": "asset_berry_bush",
+      "category": "source",
+      "cx": -15,
+      "cz": 38,
+      "nearestRouteDistance": 1.8743884193932683
+    },
+    {
+      "id": "f1:r:-14:38:0",
+      "type": "fiber",
+      "x": -672.32,
+      "z": 1903.45,
+      "y": 11.41,
+      "asset": null,
+      "category": "source",
+      "cx": -14,
+      "cz": 38,
+      "nearestRouteDistance": 3.0959489659875845
+    },
+    {
+      "id": "f1:r:-14:38:1",
+      "type": "fiber",
+      "x": -675.64,
+      "z": 1904.67,
+      "y": 11.36,
+      "asset": "asset_berry_bush",
+      "category": "source",
+      "cx": -14,
+      "cz": 38,
+      "nearestRouteDistance": 0.40554977321728697
+    },
+    {
+      "id": "f1:r:-14:38:6",
+      "type": "fiber",
+      "x": -679.11,
+      "z": 1940.03,
+      "y": 11.65,
+      "asset": null,
+      "category": "source",
+      "cx": -14,
+      "cz": 38,
+      "nearestRouteDistance": 1.5736045907223322
+    },
+    {
+      "id": "f1:w:-14:38:0",
+      "x": -674.45,
+      "z": 1905.11,
+      "y": 11.39,
+      "category": "home",
+      "cx": -14,
+      "cz": 38,
+      "roam": 4.4,
+      "leash": 8.5,
+      "flee": null,
+      "nearestRouteDistance": 0.5564996456383515
+    },
+    {
+      "id": "f1:r:-15:39:3",
+      "type": "tree",
+      "x": -736.43,
+      "z": 1966.93,
+      "y": 11.94,
+      "asset": null,
+      "category": "source",
+      "cx": -15,
+      "cz": 39,
+      "nearestRouteDistance": 0.9407521943613012
+    },
+    {
+      "id": "f1:r:-15:39:4",
+      "type": "fiber",
+      "x": -739.49,
+      "z": 1967.65,
+      "y": 12.01,
+      "asset": "asset_berry_bush",
+      "category": "source",
+      "cx": -15,
+      "cz": 39,
+      "nearestRouteDistance": 0.814002456998827
+    },
+    {
+      "id": "f1:r:-15:39:5",
+      "type": "tree",
+      "x": -738.54,
+      "z": 1964.69,
+      "y": 11.97,
+      "asset": null,
+      "category": "source",
+      "cx": -15,
+      "cz": 39,
+      "nearestRouteDistance": 1.2926382051246383
+    },
+    {
+      "id": "f1:r:-15:39:6",
+      "type": "fiber",
+      "x": -722.96,
+      "z": 1962.07,
+      "y": 11.65,
+      "asset": null,
+      "category": "source",
+      "cx": -15,
+      "cz": 39,
+      "nearestRouteDistance": 10.096185621306224
+    },
+    {
+      "id": "f1:r:-15:39:7",
+      "type": "fiber",
+      "x": -725.91,
+      "z": 1963.14,
+      "y": 11.71,
+      "asset": "asset_berry_bush",
+      "category": "source",
+      "cx": -15,
+      "cz": 39,
+      "nearestRouteDistance": 8.085799965218566
+    },
+    {
+      "id": "f1:r:-14:39:0",
+      "type": "fiber",
+      "x": -680.41,
+      "z": 1990.19,
+      "y": 11.83,
+      "asset": "asset_berry_bush",
+      "category": "source",
+      "cx": -14,
+      "cz": 39,
+      "nearestRouteDistance": 2.2680828909015376
+    },
+    {
+      "id": "f1:r:-14:39:1",
+      "type": "tree",
+      "x": -683.39,
+      "z": 1991.35,
+      "y": 11.83,
+      "asset": null,
+      "category": "source",
+      "cx": -14,
+      "cz": 39,
+      "nearestRouteDistance": 3.963544787168921
+    },
+    {
+      "id": "f1:r:-14:39:2",
+      "type": "tree",
+      "x": -682.77,
+      "z": 1988.16,
+      "y": 11.83,
+      "asset": null,
+      "category": "source",
+      "cx": -14,
+      "cz": 39,
+      "nearestRouteDistance": 0.753023253973695
+    },
+    {
+      "id": "f1:r:-14:39:6",
+      "type": "tree",
+      "x": -675.11,
+      "z": 1981.91,
+      "y": 11.85,
+      "asset": null,
+      "category": "source",
+      "cx": -14,
+      "cz": 39,
+      "nearestRouteDistance": 5.435575139529619
+    },
+    {
+      "id": "f1:r:-14:39:7",
+      "type": "fiber",
+      "x": -678.35,
+      "z": 1982.58,
+      "y": 11.84,
+      "asset": "asset_berry_bush",
+      "category": "source",
+      "cx": -14,
+      "cz": 39,
+      "nearestRouteDistance": 2.252315451997504
+    },
+    {
+      "id": "f1:r:-14:39:8",
+      "type": "fiber",
+      "x": -677.4,
+      "z": 1979.49,
+      "y": 11.85,
+      "asset": "asset_berry_bush",
+      "category": "source",
+      "cx": -14,
+      "cz": 39,
+      "nearestRouteDistance": 2.9770507927112404
+    },
+    {
+      "id": "f1:w:-14:39:0",
+      "x": -681.5,
+      "z": 1988.53,
+      "y": 11.83,
+      "category": "home",
+      "cx": -14,
+      "cz": 39,
+      "roam": 4.5,
+      "leash": 10,
+      "nearestRouteDistance": 0.6685614422792525
+    }
+  ],
+  "portraitCandidates": [
+    {
+      "id": "arrival",
+      "x": -775,
+      "z": 1878,
+      "y": 11.521630812282156,
+      "yaw": 0.9,
+      "look": "east-northeast along the first saddle leg (provisional; native camera capture decides exact yaw)"
+    },
+    {
+      "id": "interior",
+      "x": -675,
+      "z": 1905,
+      "y": 11.378095352979802,
+      "yaw": -2.17,
+      "look": "west-southwest across the future dry channel edge (provisional)"
+    },
+    {
+      "id": "destination",
+      "x": -681,
+      "z": 1988,
+      "y": 11.830068072304035,
+      "yaw": 2.15,
+      "look": "southwest toward return opening (provisional)"
+    }
+  ],
+  "overhead": {
+    "x": -725,
+    "z": 1934,
+    "extent": {
+      "minX": -795,
+      "maxX": -655,
+      "minZ": 1858,
+      "maxZ": 2008
+    }
+  }
+}

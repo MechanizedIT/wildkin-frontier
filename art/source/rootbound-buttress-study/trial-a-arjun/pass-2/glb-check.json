@@ -1,0 +1,26 @@
+{
+  "ok": true,
+  "input": "art/source/rootbound-buttress-study/trial-a-arjun/pass-2/rootbound-buttress-trial-a.glb",
+  "profile": "prop",
+  "limits": {
+    "max_triangles": 5000,
+    "max_vertices": 15000,
+    "max_materials": 2,
+    "max_bones": 0,
+    "max_texture": 1024
+  },
+  "sourceSHA256": "68a617eea2a294c2658ee2e503ddf6c19f08e1437e3a647fa09574533873ffcd",
+  "textureSHA256": [],
+  "counts": {
+    "triangles": 4542,
+    "vertices": 10073,
+    "materials": 1,
+    "bones": 0,
+    "animations": 0
+  },
+  "animations": [],
+  "textures": [],
+  "textureRoles": [],
+  "failures": [],
+  "note": "Structural asset checks only; visual acceptance and measured phone FPS remain separate."
+}

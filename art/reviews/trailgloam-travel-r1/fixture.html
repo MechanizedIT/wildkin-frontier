@@ -1,0 +1,35 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><title>Trailgloam native travel probe</title>
+<style>body{margin:0;background:#1a2930;color:#edf0df;display:flex;gap:18px;font:15px system-ui}canvas{display:block}aside{padding:16px;max-width:460px}button,select{padding:9px;margin:7px 0;display:block}pre{font-size:12px;white-space:pre-wrap}a{color:#9aefce}</style>
+<script type="importmap">{"imports":{"three":"../../../vendor/three.module.js"}}</script>
+<main id="render"></main><aside><h1>Trailgloam native travel</h1><p>Actual creature factory, matte material, animation controller and Rapier movement. Scripted fixture, not an admitted encounter. Generic capsule fit remains provisional.</p><label>View <select id="view"><option value="side">Side</option><option value="three">Three-quarter</option></select></label><button id="slow">Travel at authored pace</button><button id="roam">Travel at generic roam pace</button><button id="pose">Travel then freeze a walking pose</button><button id="pause">Pause / inspect</button><button id="reset">Reset to idle</button><button id="dispose">Verify independent instance disposal</button><pre id="status">Loading…</pre><pre id="receipt"></pre></aside>
+<script type="module">
+import * as THREE from 'three';
+import RAPIER from '../../../vendor/rapier.js';
+import {preloadVisualModels,getModelTemplate} from '../../../src/assets/modelAssetRuntime.js';
+import {createWildCreature} from '../../../src/creatures/createWildCreature.js';
+const $=s=>document.querySelector(s),scene=new THREE.Scene(),renderer=new THREE.WebGLRenderer({antialias:true,preserveDrawingBuffer:true});
+renderer.setSize(640,640);renderer.setPixelRatio(1);renderer.outputColorSpace=THREE.SRGBColorSpace;scene.background=new THREE.Color('#84999a');$('#render').append(renderer.domElement);
+scene.add(new THREE.HemisphereLight(0xffffff,0x637165,1.8));const sun=new THREE.DirectionalLight(0xfff3de,1.8);sun.position.set(4,7,2);scene.add(sun);scene.add(new THREE.GridHelper(8,32,0x53645b,0x6d8074));
+const camera=new THREE.PerspectiveCamera(40,1,.02,80);function cameraAt(z){camera.position.set(...($('#view').value==='side'?[4,1.6,z]:[3,2.1,z+3.4]));camera.lookAt(0,.4,z)}
+await RAPIER.init();const world=new RAPIER.World({x:0,y:-9.81,z:0});world.createCollider(RAPIER.ColliderDesc.cuboid(10,.1,10).setTranslation(0,-.1,0));world.step();const physics={world,RAPIER};
+const path='art/source/trailgloam-v1/rig-prep-r1/fitted-r1a/trailgloam-fitted.glb',authored=.14/(.6*1.1);
+const asset={id:'asset_fixture_trailgloam',displayName:'Trailgloam retained fit',category:'Wildkin',version:1,parts:[],model:{path,scale:1,pivot:{x:0,y:0,z:0},clips:{idle:'Loaded',walk:'WalkDiagnostic'},locomotion:{walk:authored}}};
+await preloadVisualModels([asset],{baseUrl:new URL('../../../',import.meta.url)});
+const make=(id,x)=>createWildCreature(scene,physics,{id,type:'rusher',speciesTag:'trailgloam_fixture',temperament:'SKITTISH',pos:{x,y:0,z:-1},facingYaw:0,visualAsset:asset},0);
+const creature=make('trailgloam_travel_fixture',0),other=make('trailgloam_clone_fixture',4);other.group.visible=false;
+const visual=creature.group.children[0],animator=visual.userData.modelAnimationController,skin=visual.getObjectByProperty('isSkinnedMesh',true),otherSkin=other.group.getObjectByProperty('isSkinnedMesh',true);
+const inventory={path,bones:skin.skeleton.bones.length,material:skin.material.type,texturePresent:!!skin.material.map,independentSkeletons:skin.skeleton!==otherSkin.skeleton,authoredWalkSpeed:authored,genericMoveSpeed:creature.cfg.moveSpeed,collision:'existing generic upright capsule; not fitted anatomy admission'};
+let time=0,frames=0,last=performance.now(),run=null,paused=false,history=[],lastSample=-1,disposedOther=false;
+function state(){return {time,frames,pos:creature.getPosition(),base:creature.group.position.toArray(),animation:animator.activeState,clipTime:animator.active?.time,rate:animator.active?.getEffectiveTimeScale(),grounded:lastGrounded,render:{calls:renderer.info.render.calls,triangles:renderer.info.render.triangles}}}
+let lastGrounded=false;
+function show(){ $('#status').textContent=JSON.stringify({...inventory,...state(),running:run?.name??null,paused},null,2)}
+function begin(name,speed){if(run)return;paused=false;history=[];lastSample=-1;run={name,speed,start:time,duration:6};show()}
+$('#slow').onclick=()=>begin('authored',authored);$('#roam').onclick=()=>begin('generic-roam',creature.cfg.moveSpeed*.35);
+$('#pose').onclick=()=>{run=null;begin('translated-walk-pose',authored);run.duration=.28;run.freeze=true};
+$('#pause').onclick=()=>{paused=!paused;show()};$('#view').onchange=()=>{cameraAt(creature.group.position.z);show()};
+$('#reset').onclick=()=>{run=null;paused=false;creature.setPosition({x:0,y:.55,z:-1});creature.updateVisual(1/60);history=[];show()};
+$('#dispose').onclick=()=>{if(!disposedOther){other.dispose();disposedOther=true}$('#receipt').textContent=JSON.stringify({disposedOther,otherRemoved:!other.group.parent,primarySkeletonIntact:skin.skeleton.bones.length===29,templateIntact:!!getModelTemplate(path)?.scene,primaryState:state()},null,2);show()};
+function frame(now){let dt=Math.min((now-last)/1000,.05);last=now;if(!paused){time+=dt;const speed=run?.speed??0;lastGrounded=creature.move({x:0,y:-.04,z:speed*dt}).grounded;creature.updateVisual(dt);if(run&&time-lastSample>=.05){history.push(state());lastSample=time}if(run&&time-run.start>=run.duration){const result={...run,elapsed:time-run.start,inventory,samples:history};paused=!!run.freeze;run=null;$('#receipt').textContent=JSON.stringify(result,null,2);show()}}
+cameraAt(creature.group.position.z);renderer.render(scene,camera);frames++;requestAnimationFrame(frame)}
+show();requestAnimationFrame(frame);addEventListener('pagehide',()=>{creature.dispose();if(!disposedOther)other.dispose();world.free();renderer.dispose()});
+</script></html>

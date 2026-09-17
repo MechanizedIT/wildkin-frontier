@@ -1,0 +1,54 @@
+{
+  "fixture": "Isolated fresh context. Native Start, diagnostic beginExpeditionFromDefaultEntry, physics placement at x=0,z=-26 using actual terrain height plus .55. Native default camera with settling; no camera/world/runtime override, no Author mode, no granted resources.",
+  "head": "acfd337 with current uncommitted Survey integration",
+  "worldJsonSha256": "6b038aee3550fa8ed29a458629fee2ed6f0dce425ff121b1383ceddec2ce46ec",
+  "viewport": {
+    "width": 844,
+    "height": 390,
+    "dpr": 1
+  },
+  "errors": [],
+  "setup": {
+    "position": {
+      "x": 0,
+      "y": 1.9000000000000001,
+      "z": -26
+    },
+    "region": "section_1",
+    "gate": {
+      "displayName": "Shatterfen Gate",
+      "id": "gate_section_1_to_2",
+      "pos": {
+        "x": 0,
+        "y": 1.35,
+        "z": -34
+      },
+      "requirements": {
+        "minPlayerLevel": 2,
+        "resources": {
+          "stone": 3,
+          "wood": 4
+        }
+      },
+      "rotY": 0,
+      "state": "ruined",
+      "targetEntryId": "entry_section_2",
+      "targetGateId": "gate_section_2_to_1",
+      "targetSectionId": "section_2",
+      "triggerRadius": 1.85,
+      "uniformScale": 0.72,
+      "visualAssetId": "asset_ruin_arch",
+      "sectionId": "section_1",
+      "regionId": "section_1"
+    }
+  },
+  "capture": {
+    "position": {
+      "x": 0,
+      "y": 1.8696790933609009,
+      "z": -26
+    },
+    "region": "section_1"
+  },
+  "complete": true
+}

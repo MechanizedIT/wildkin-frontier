@@ -1,0 +1,42 @@
+{
+  "status": "HOLD_NO_MATERIAL_STRUCTURAL_ENVELOPE",
+  "scope": "planning only; no source, scenery, sampler, or cap changes",
+  "destinationCamera": {
+    "player": [-2826, 14.146509170532227, -1298],
+    "center": [-2826, 15.04650917053225, -1298],
+    "yaw": 2.432966,
+    "pitch": 0.6283185307179586,
+    "distance": 11.59107954420122,
+    "eye": [-2819.897279056802, 21.85957478476269, -1305.1198356038353],
+    "fovDegrees": 52,
+    "viewportPx": [412, 915]
+  },
+  "candidate": {
+    "method": "max-union of smooth elliptical dry-bank lobes, then combined protection mask at existing 2 m terrain vertices",
+    "lobes": [
+      { "id": "rear-shoulder", "center": [-2842, -1287], "radiiM": [8.5, 6.5], "requestedPeakM": 0.88 },
+      { "id": "right-mid-bank", "center": [-2843, -1294], "radiiM": [9.5, 10.5], "requestedPeakM": 1.16 },
+      { "id": "right-near-runout", "center": [-2840, -1300], "radiiM": [6.5, 7], "requestedPeakM": 0.62 }
+    ]
+  },
+  "protection": {
+    "playerRadiusM": 0.32,
+    "certifiedCapsuleHalfWidthM": 3,
+    "meshMarginM": 0.8,
+    "featherM": 3,
+    "resources": [[-2847, -1241, 0.9], [-2855.8, -1240.5, 0.9], [-2843.5, -1255, 0.9], [-2860, -1255, 0.9]],
+    "solidStones": [[-2853, -1247.75, 1.14], [-2846.75, -1252, 1.14], [-2858.25, -1249, 1.14]],
+    "thornHome": [-2868, -1260, 10]
+  },
+  "postMaskMeshResult": {
+    "gridM": 2,
+    "affectedVertexCount": 53,
+    "finalHeightRangeM": [12.248957, 14.129492],
+    "usefulProjectionRectPx": [10, 165, 402, 640],
+    "usefulVertexCount": 1,
+    "usefulVertex": { "xz": [-2840, -1288], "addedHeightM": 0.022754, "projectedPx": [352.3, 173.63] },
+    "protectedDirectSamplesHaveZeroDelta": true
+  },
+  "authoritativeProof": "fungal-structural-plan-v1-proof.json",
+  "decision": "Do not implement: the protected candidate cannot form a material continuous silhouette in the fixed portrait frame."
+}

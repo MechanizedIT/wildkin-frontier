@@ -3,7 +3,7 @@
 
 import { RAPIER_PHYSICS_CONFIG } from "./physicsConfig.js";
 
-export function createCharacterPhysics(RAPIER, world, initialPos, { shouldIgnoreCollider = () => false } = {}) {
+export function createCharacterPhysics(RAPIER, world, initialPos, { shouldIgnoreCollider = () => false, isTerrainCollider = () => false } = {}) {
   const cfg = RAPIER_PHYSICS_CONFIG;
 
   // Kinematic position-based body — deliberately controlled, not simulated.
@@ -89,6 +89,7 @@ export function createCharacterPhysics(RAPIER, world, initialPos, { shouldIgnore
       // A contact against a steep face can be reported grounded by the KCC.
       // Only actual walkable support under the capsule may complete a fall.
       grounded: computedGrounded && hasGroundSupport(next),
+      terrainSupport: getTerrainSupport(next),
       numCollisions: controller.numComputedCollisions(),
       // Helper to inspect collisions
       collision: (i) => controller.computedCollision(i),
@@ -185,6 +186,29 @@ export function createCharacterPhysics(RAPIER, world, initialPos, { shouldIgnore
     return hit.distance <= allowedDistance + 1e-5;
   }
 
+  // A terrain-only support probe is deliberately separate from ordinary
+  // grounding. Boxes, trees and climbable rocks can collide normally but
+  // cannot activate the terrain-slide state.
+  function getTerrainSupport(position = getPosition()) {
+    const feetY = position.y - cfg.capsuleTotalHeight / 2;
+    const rayOriginLift = 0.08;
+    const flatSupportGap = 0.05;
+    const minNormalY = Math.cos(cfg.maxSlopeSlideAngle ?? cfg.maxSlopeClimbAngle);
+    const maxSlopeRise = cfg.capsuleRadius * (1 / minNormalY - 1);
+    const hit = castRay(
+      { x: position.x, y: feetY + rayOriginLift, z: position.z },
+      { x: 0, y: -1, z: 0 },
+      rayOriginLift + flatSupportGap + maxSlopeRise,
+      { acceptCollider: isTerrainCollider },
+    );
+    if (!hit || hit.normal.y < minNormalY - 1e-5) return null;
+    const allowedDistance = rayOriginLift + flatSupportGap + cfg.capsuleRadius * (1 / hit.normal.y - 1);
+    if (hit.distance > allowedDistance + 1e-5) return null;
+    const angle = Math.acos(Math.max(-1, Math.min(1, hit.normal.y)));
+    return { ...hit, angle, walkable: angle <= cfg.maxSlopeClimbAngle + 1e-5,
+      slidable: angle > cfg.maxSlopeClimbAngle + 1e-5 && angle <= (cfg.maxSlopeSlideAngle ?? cfg.maxSlopeClimbAngle) + 1e-5 };
+  }
+
   // Fail closed: traversal enters a position only after a positive Rapier
   // clearance result with the same filters as ordinary character movement.
   function isCapsuleAtPositionClear(targetPos, { acceptCollider } = {}) {
@@ -214,6 +238,7 @@ export function createCharacterPhysics(RAPIER, world, initialPos, { shouldIgnore
     castRay,
     castCapsule,
     hasGroundSupport,
+    getTerrainSupport,
     isCapsuleAtPositionClear,
   };
 }

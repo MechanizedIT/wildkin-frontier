@@ -1,0 +1,81 @@
+[
+  {
+    "key": "gallery-shelter-west",
+    "mainClearance": 3.4046276723047666,
+    "branchClearance": 41.76071622485989,
+    "maxCornerGap": 0.05339909437715917,
+    "minCornerGap": -0.3564040771276389,
+    "visibleVertices": 2255,
+    "screenBounds": [
+      348.5479312334645,
+      411.97430089911614,
+      70.72322081000019,
+      299.11738568601714
+    ]
+  },
+  {
+    "key": "gallery-shelter-east",
+    "mainClearance": 2.925333922139252,
+    "branchClearance": 37.018660100857566,
+    "maxCornerGap": -0.3624387325040459,
+    "minCornerGap": -1.1556854718941896,
+    "visibleVertices": 7577,
+    "screenBounds": [
+      0.06528513528002189,
+      109.07750137629297,
+      155.98601945796227,
+      670.1025175431857
+    ]
+  },
+  {
+    "key": "gallery-terminus",
+    "mainClearance": 3.176000440600345,
+    "branchClearance": 29.96653717749028,
+    "maxCornerGap": -0.04606533996492246,
+    "minCornerGap": -0.26389548846502286,
+    "visibleVertices": 13002,
+    "screenBounds": [
+      57.55986848523396,
+      157.24319663554533,
+      0.0009738906914780188,
+      152.9687868221864
+    ]
+  },
+  {
+    "key": "heartroot-core",
+    "mainClearance": 3.6948579869423237,
+    "branchClearance": 31.46674108177006,
+    "maxCornerGap": -0.08860841055753887,
+    "minCornerGap": -0.391814871449796,
+    "visibleVertices": 9234,
+    "screenBounds": [
+      49.58541333097368,
+      411.9259276750567,
+      1.3318236834669936,
+      189.6975490003389
+    ]
+  },
+  {
+    "key": "heartroot-wing-west",
+    "mainClearance": 3.4494929057602683,
+    "branchClearance": 39.31907406893989,
+    "maxCornerGap": -0.14897150396931202,
+    "minCornerGap": -0.2929694930187505,
+    "visibleVertices": 0,
+    "screenBounds": null
+  },
+  {
+    "key": "heartroot-wing-east",
+    "mainClearance": 16.717094181164686,
+    "branchClearance": 26.381653152005242,
+    "maxCornerGap": -0.12248382095303612,
+    "minCornerGap": -0.32125375371685827,
+    "visibleVertices": 188,
+    "screenBounds": [
+      1.9018118405013587,
+      27.224328843590857,
+      0.19144723454307344,
+      76.432589356309
+    ]
+  }
+]

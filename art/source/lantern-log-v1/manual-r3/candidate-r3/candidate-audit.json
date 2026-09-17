@@ -1,0 +1,674 @@
+{
+  "status": "BUILT_PENDING_VISUAL_REVIEW",
+  "parameters_sha256": "7d04105d455170836a2d3056f654f03a4603b58af6ad818114852e452c06e7e3",
+  "grounding": {
+    "source_z_floor_m": 0.075,
+    "whole_asset_translation_z_m": -0.075
+  },
+  "ground_plane_log": {
+    "triangle_count": 16,
+    "area_m2": 0.3416987572425965,
+    "bounds_xy": [
+      [
+        -0.800000011920929,
+        0.8130000233650208
+      ],
+      [
+        -0.125,
+        0.13750000298023224
+      ]
+    ]
+  },
+  "components": {
+    "lantern_log": {
+      "vertices": 86,
+      "triangles": 168,
+      "signed_volume": 0.18835783142783263,
+      "bounds": [
+        [
+          -0.800000011920929,
+          0.8140000104904175
+        ],
+        [
+          -0.23499999940395355,
+          0.2549999952316284
+        ],
+        [
+          2.9802322831784522e-09,
+          0.3850000202655792
+        ]
+      ],
+      "edge_use_counts": {
+        "2": 180
+      },
+      "finite": true,
+      "min_triangle_area": 0.0003058048582733809,
+      "directed_edge_failures": 0,
+      "footprint_area_xy": 0.691012497455
+    },
+    "bark_0": {
+      "vertices": 20,
+      "triangles": 36,
+      "signed_volume": 0.001572451258349853,
+      "bounds": [
+        [
+          -0.7400000095367432,
+          0.7300000190734863
+        ],
+        [
+          0.16144761443138123,
+          0.26969558000564575
+        ],
+        [
+          0.1462918072938919,
+          0.2557023763656616
+        ]
+      ],
+      "edge_use_counts": {
+        "2": 36
+      },
+      "finite": true,
+      "min_triangle_area": 0.0004069109523703696,
+      "directed_edge_failures": 0,
+      "footprint_area_xy": 0.11236469651060867
+    },
+    "bark_1": {
+      "vertices": 20,
+      "triangles": 36,
+      "signed_volume": 0.001648805065390964,
+      "bounds": [
+        [
+          -0.7400000095367432,
+          0.7300000190734863
+        ],
+        [
+          0.08865362405776978,
+          0.185079887509346
+        ],
+        [
+          0.2399742156267166,
+          0.37388938665390015
+        ]
+      ],
+      "edge_use_counts": {
+        "2": 36
+      },
+      "finite": true,
+      "min_triangle_area": 0.0004166128632131208,
+      "directed_edge_failures": 0,
+      "footprint_area_xy": 0.11338347985680539
+    },
+    "bark_2": {
+      "vertices": 20,
+      "triangles": 36,
+      "signed_volume": 0.0016731694501383272,
+      "bounds": [
+        [
+          -0.7400000095367432,
+          0.7300000190734863
+        ],
+        [
+          -0.07952117919921875,
+          0.009585965424776077
+        ],
+        [
+          0.2721206545829773,
+          0.4023670256137848
+        ]
+      ],
+      "edge_use_counts": {
+        "2": 36
+      },
+      "finite": true,
+      "min_triangle_area": 0.0004202472050382863,
+      "directed_edge_failures": 0,
+      "footprint_area_xy": 0.09091406669028364
+    },
+    "bark_3": {
+      "vertices": 20,
+      "triangles": 36,
+      "signed_volume": 0.0016006743644538801,
+      "bounds": [
+        [
+          -0.7400000095367432,
+          0.7300000190734863
+        ],
+        [
+          -0.211680606007576,
+          -0.10478145629167557
+        ],
+        [
+          0.20940662920475006,
+          0.33826014399528503
+        ]
+      ],
+      "edge_use_counts": {
+        "2": 36
+      },
+      "finite": true,
+      "min_triangle_area": 0.0004111210227870633,
+      "directed_edge_failures": 0,
+      "footprint_area_xy": 0.0964023695465499
+    },
+    "bark_4": {
+      "vertices": 20,
+      "triangles": 36,
+      "signed_volume": 0.0015666189719922838,
+      "bounds": [
+        [
+          -0.7400000095367432,
+          0.7300000190734863
+        ],
+        [
+          -0.252339243888855,
+          -0.1478959619998932
+        ],
+        [
+          0.07138918340206146,
+          0.15995828807353973
+        ]
+      ],
+      "edge_use_counts": {
+        "2": 36
+      },
+      "finite": true,
+      "min_triangle_area": 0.0004062172294375215,
+      "directed_edge_failures": 0,
+      "footprint_area_xy": 0.08691008930856013
+    },
+    "bark_5": {
+      "vertices": 20,
+      "triangles": 36,
+      "signed_volume": 0.001582171770375377,
+      "bounds": [
+        [
+          -0.7400000095367432,
+          0.7300000190734863
+        ],
+        [
+          0.14132049679756165,
+          0.2506387531757355
+        ],
+        [
+          0.005632909946143627,
+          0.09196914732456207
+        ]
+      ],
+      "edge_use_counts": {
+        "2": 36
+      },
+      "finite": true,
+      "min_triangle_area": 0.0004086848963301319,
+      "directed_edge_failures": 0,
+      "footprint_area_xy": 0.11846473315121746
+    },
+    "moss_0": {
+      "vertices": 12,
+      "triangles": 20,
+      "signed_volume": 0.0018235759841142387,
+      "bounds": [
+        [
+          -0.6899999976158142,
+          -0.28999999165534973
+        ],
+        [
+          -0.15524515509605408,
+          0.1286737322807312
+        ],
+        [
+          0.33090028166770935,
+          0.3931790888309479
+        ]
+      ],
+      "edge_use_counts": {
+        "2": 18
+      },
+      "finite": true,
+      "min_triangle_area": 0.0013450212926788348,
+      "directed_edge_failures": 0,
+      "footprint_area_xy": 0.08551348442456917
+    },
+    "moss_1": {
+      "vertices": 12,
+      "triangles": 20,
+      "signed_volume": 0.0007605913340285039,
+      "bounds": [
+        [
+          0.10000000149011612,
+          0.3400000035762787
+        ],
+        [
+          -0.07227075099945068,
+          0.1171596422791481
+        ],
+        [
+          0.3329828083515167,
+          0.3879365622997284
+        ]
+      ],
+      "edge_use_counts": {
+        "2": 18
+      },
+      "finite": true,
+      "min_triangle_area": 0.0009987316998912802,
+      "directed_edge_failures": 0,
+      "footprint_area_xy": 0.03403235699902425
+    },
+    "moss_2": {
+      "vertices": 12,
+      "triangles": 20,
+      "signed_volume": 0.0005061580539707696,
+      "bounds": [
+        [
+          0.5199999809265137,
+          0.7400000095367432
+        ],
+        [
+          -0.13017573952674866,
+          -0.0008678234298713505
+        ],
+        [
+          0.24694235622882843,
+          0.3311431407928467
+        ]
+      ],
+      "edge_use_counts": {
+        "2": 18
+      },
+      "finite": true,
+      "min_triangle_area": 0.0006669302819037219,
+      "directed_edge_failures": 0,
+      "footprint_area_xy": 0.021838198586465452
+    },
+    "stem_hero": {
+      "vertices": 26,
+      "triangles": 48,
+      "signed_volume": 0.003229610633449435,
+      "bounds": [
+        [
+          -0.5638867020606995,
+          -0.3901452422142029
+        ],
+        [
+          -0.06996376067399979,
+          0.07693999260663986
+        ],
+        [
+          0.3352240025997162,
+          0.6669787764549255
+        ]
+      ],
+      "edge_use_counts": {
+        "2": 56
+      },
+      "finite": true,
+      "min_triangle_area": 0.001493762857168582,
+      "directed_edge_failures": 0,
+      "footprint_area_xy": 0.01819685345107859
+    },
+    "cap_hero": {
+      "vertices": 62,
+      "triangles": 120,
+      "signed_volume": 0.01846391936730167,
+      "bounds": [
+        [
+          -0.762499988079071,
+          -0.23749999701976776
+        ],
+        [
+          -0.22425000369548798,
+          0.24824999272823334
+        ],
+        [
+          0.6119999885559082,
+          0.824999988079071
+        ]
+      ],
+      "edge_use_counts": {
+        "2": 132
+      },
+      "finite": true,
+      "min_triangle_area": 0.00044543591535027875,
+      "directed_edge_failures": 0,
+      "footprint_area_xy": 0.1714921831787513
+    },
+    "stem_near_medium": {
+      "vertices": 26,
+      "triangles": 48,
+      "signed_volume": 0.0008826063106729028,
+      "bounds": [
+        [
+          -0.6929522156715393,
+          -0.5676935911178589
+        ],
+        [
+          -0.19374343752861023,
+          -0.0730362981557846
+        ],
+        [
+          0.2530328929424286,
+          0.47502440214157104
+        ]
+      ],
+      "edge_use_counts": {
+        "2": 56
+      },
+      "finite": true,
+      "min_triangle_area": 0.0006537201363789789,
+      "directed_edge_failures": 0,
+      "footprint_area_xy": 0.009769057624845458
+    },
+    "cap_near_medium": {
+      "vertices": 62,
+      "triangles": 120,
+      "signed_volume": 0.003988209561309004,
+      "bounds": [
+        [
+          -0.8075000047683716,
+          -0.492499977350235
+        ],
+        [
+          -0.2917500138282776,
+          -0.008250005543231964
+        ],
+        [
+          0.4472000002861023,
+          0.574999988079071
+        ]
+      ],
+      "edge_use_counts": {
+        "2": 132
+      },
+      "finite": true,
+      "min_triangle_area": 0.000160357224532295,
+      "directed_edge_failures": 0,
+      "footprint_area_xy": 0.061737190706771805
+    },
+    "stem_back_medium": {
+      "vertices": 26,
+      "triangles": 48,
+      "signed_volume": 0.0006373987428863378,
+      "bounds": [
+        [
+          -0.32999998331069946,
+          -0.23095253109931946
+        ],
+        [
+          0.06054424121975899,
+          0.15994130074977875
+        ],
+        [
+          0.32842403650283813,
+          0.5236771702766418
+        ]
+      ],
+      "edge_use_counts": {
+        "2": 56
+      },
+      "finite": true,
+      "min_triangle_area": 0.0005656852161742881,
+      "directed_edge_failures": 0,
+      "footprint_area_xy": 0.006697585828069046
+    },
+    "cap_back_medium": {
+      "vertices": 62,
+      "triangles": 120,
+      "signed_volume": 0.0030881563185024166,
+      "bounds": [
+        [
+          -0.41700002551078796,
+          -0.12300001084804535
+        ],
+        [
+          -0.01230000238865614,
+          0.2522999942302704
+        ],
+        [
+          0.5014000535011292,
+          0.6150000095367432
+        ]
+      ],
+      "edge_use_counts": {
+        "2": 132
+      },
+      "finite": true,
+      "min_triangle_area": 0.0001396536539527119,
+      "directed_edge_failures": 0,
+      "footprint_area_xy": 0.053779949116653375
+    },
+    "stem_near_young_a": {
+      "vertices": 26,
+      "triangles": 48,
+      "signed_volume": 0.00019388568459059266,
+      "bounds": [
+        [
+          -0.5946598649024963,
+          -0.5233673453330994
+        ],
+        [
+          -0.21491596102714539,
+          -0.14378531277179718
+        ],
+        [
+          0.22735242545604706,
+          0.35933470726013184
+        ]
+      ],
+      "edge_use_counts": {
+        "2": 56
+      },
+      "finite": true,
+      "min_triangle_area": 0.00022097060996485065,
+      "directed_edge_failures": 0,
+      "footprint_area_xy": 0.0033245554646002262
+    },
+    "cap_near_young_a": {
+      "vertices": 62,
+      "triangles": 120,
+      "signed_volume": 0.0007114764754684696,
+      "bounds": [
+        [
+          -0.659250020980835,
+          -0.4807499945163727
+        ],
+        [
+          -0.2703250050544739,
+          -0.10967499762773514
+        ],
+        [
+          0.33900001645088196,
+          0.4100000262260437
+        ]
+      ],
+      "edge_use_counts": {
+        "2": 132
+      },
+      "finite": true,
+      "min_triangle_area": 5.1487112751321534e-05,
+      "directed_edge_failures": 0,
+      "footprint_area_xy": 0.019824498826572504
+    },
+    "stem_near_young_b": {
+      "vertices": 26,
+      "triangles": 48,
+      "signed_volume": 0.00013817564710431424,
+      "bounds": [
+        [
+          -0.41265401244163513,
+          -0.3480244576931
+        ],
+        [
+          -0.2326641082763672,
+          -0.15881729125976562
+        ],
+        [
+          0.24432013928890228,
+          0.3625379502773285
+        ]
+      ],
+      "edge_use_counts": {
+        "2": 56
+      },
+      "finite": true,
+      "min_triangle_area": 0.0001870297412996459,
+      "directed_edge_failures": 0,
+      "footprint_area_xy": 0.003129682799473163
+    },
+    "cap_near_young_b": {
+      "vertices": 62,
+      "triangles": 120,
+      "signed_volume": 0.0004985264987074831,
+      "bounds": [
+        [
+          -0.46875,
+          -0.3112499713897705
+        ],
+        [
+          -0.28087499737739563,
+          -0.13912498950958252
+        ],
+        [
+          0.3411000072956085,
+          0.4050000011920929
+        ]
+      ],
+      "edge_use_counts": {
+        "2": 132
+      },
+      "finite": true,
+      "min_triangle_area": 4.0089261644562084e-05,
+      "directed_edge_failures": 0,
+      "footprint_area_xy": 0.015434297582194497
+    },
+    "stem_far_medium": {
+      "vertices": 26,
+      "triangles": 48,
+      "signed_volume": 0.0008894018255887206,
+      "bounds": [
+        [
+          0.18700000643730164,
+          0.2890474796295166
+        ],
+        [
+          -0.04976675659418106,
+          0.047966185957193375
+        ],
+        [
+          0.3372949957847595,
+          0.5641130805015564
+        ]
+      ],
+      "edge_use_counts": {
+        "2": 56
+      },
+      "finite": true,
+      "min_triangle_area": 0.000565685018146269,
+      "directed_edge_failures": 0,
+      "footprint_area_xy": 0.006858993313185044
+    },
+    "cap_far_medium": {
+      "vertices": 62,
+      "triangles": 120,
+      "signed_volume": 0.0037666401192382086,
+      "bounds": [
+        [
+          0.0925000011920929,
+          0.4074999988079071
+        ],
+        [
+          -0.15174999833106995,
+          0.13175000250339508
+        ],
+        [
+          0.5392999649047852,
+          0.6599999666213989
+        ]
+      ],
+      "edge_use_counts": {
+        "2": 132
+      },
+      "finite": true,
+      "min_triangle_area": 0.00016031033242533706,
+      "directed_edge_failures": 0,
+      "footprint_area_xy": 0.061737187196960586
+    }
+  },
+  "contacts": [
+    {
+      "id": "hero",
+      "log_surface_z": 0.3796818256378174,
+      "stem_base_z": 0.3400000035762787,
+      "log_embed_m": 0.039681822061538696,
+      "stem_top_center_z": 0.6550000309944153,
+      "cap_underside_axis_hit_z": 0.6119999885559082,
+      "cap_axis_embed_m": 0.04300004243850708
+    },
+    {
+      "id": "near_medium",
+      "log_surface_z": 0.3303210735321045,
+      "stem_base_z": 0.26500001549720764,
+      "log_embed_m": 0.06532105803489685,
+      "stem_top_center_z": 0.4650000333786011,
+      "cap_underside_axis_hit_z": 0.4472000002861023,
+      "cap_axis_embed_m": 0.01780003309249878
+    },
+    {
+      "id": "back_medium",
+      "log_surface_z": 0.3588547706604004,
+      "stem_base_z": 0.33500000834465027,
+      "log_embed_m": 0.023854762315750122,
+      "stem_top_center_z": 0.5149999856948853,
+      "cap_underside_axis_hit_z": 0.5014000535011292,
+      "cap_axis_embed_m": 0.013599932193756104
+    },
+    {
+      "id": "near_young_a",
+      "log_surface_z": 0.28993868827819824,
+      "stem_base_z": 0.23499999940395355,
+      "log_embed_m": 0.05493868887424469,
+      "stem_top_center_z": 0.35500001907348633,
+      "cap_underside_axis_hit_z": 0.33900001645088196,
+      "cap_axis_embed_m": 0.01600000262260437
+    },
+    {
+      "id": "near_young_b",
+      "log_surface_z": 0.29906606674194336,
+      "stem_base_z": 0.2550000250339508,
+      "log_embed_m": 0.044066041707992554,
+      "stem_top_center_z": 0.3570000231266022,
+      "cap_underside_axis_hit_z": 0.3411000072956085,
+      "cap_axis_embed_m": 0.015900015830993652
+    },
+    {
+      "id": "far_medium",
+      "log_surface_z": 0.3528411388397217,
+      "stem_base_z": 0.33900001645088196,
+      "log_embed_m": 0.013841122388839722,
+      "stem_top_center_z": 0.5550000071525574,
+      "cap_underside_axis_hit_z": 0.5392999649047852,
+      "cap_axis_embed_m": 0.015700042247772217
+    }
+  ],
+  "counts": {
+    "log": 1,
+    "bark": 6,
+    "moss": 3,
+    "stems": 6,
+    "caps": 6
+  },
+  "complete_bounds": [
+    [
+      -0.8075000047683716,
+      0.8140000104904175
+    ],
+    [
+      -0.2917500138282776,
+      0.26969558000564575
+    ],
+    [
+      2.9802322831784522e-09,
+      0.824999988079071
+    ]
+  ],
+  "complete_footprint_area_xy": 0.7783056296957152
+}

@@ -1,6 +1,7 @@
 import { FRONTIER_REGION_CATALOG } from './frontierRegionCatalog.js';
 import { FRONTIER_CALDERA_CONFIG, sampleFrontierCalderaProfile } from './frontierCaldera.js';
 import { FRONTIER_FUNGAL_CONFIG, sampleFrontierFungalProfile } from './frontierFungalHollow.js';
+import { FRONTIER_ROOTBOUND_CONFIG, sampleFrontierRootboundProfile } from './frontierRootbound.js';
 import { DEFAULT_FRONTIER_WORLD, frontierDomainSeed, normalizeFrontierWorld } from './frontierWorld.js';
 
 export const FRONTIER_REGION_CONFIG = Object.freeze({
@@ -122,7 +123,7 @@ function calculateHabitatWeights(x, z) {
   return { owner: nearest.record, contributors, habitatWeights };
 }
 
-function sampleResolved(x, z, seed) {
+function sampleResolved(x, z, seed, options = {}) {
   const influence = frontierRegionInfluence(x, z);
   const { owner, contributors, habitatWeights } = calculateHabitatWeights(x, z);
   if (influence === 0) {
@@ -140,6 +141,9 @@ function sampleResolved(x, z, seed) {
       calderaFeature: null,
       fungalWeight: habitatWeights[FRONTIER_FUNGAL_CONFIG.habitatId] ?? 0,
       fungalFeature: null,
+      rootboundWeight: habitatWeights[FRONTIER_ROOTBOUND_CONFIG.habitatId] ?? 0,
+      rootboundProfileWeight: 0,
+      rootboundFeature: null,
     };
   }
 
@@ -160,11 +164,19 @@ function sampleResolved(x, z, seed) {
   ];
   const calderaWeight = habitatWeights[FRONTIER_CALDERA_CONFIG.habitatId] ?? 0;
   const fungalWeight = habitatWeights[FRONTIER_FUNGAL_CONFIG.habitatId] ?? 0;
+  const rootboundWeight = habitatWeights[FRONTIER_ROOTBOUND_CONFIG.habitatId] ?? 0;
   const caldera = calderaWeight > 0
     ? sampleFrontierCalderaProfile(x, z, { seed, baseHeight, habitatWeight: calderaWeight })
     : null;
   const fungal = fungalWeight > 0
     ? sampleFrontierFungalProfile(x, z, { seed, baseHeight, habitatWeight: fungalWeight })
+    : null;
+  const normalizedWorld = normalizeFrontierWorld(options.world ?? DEFAULT_FRONTIER_WORLD);
+  const defaultWorld = normalizedWorld.edition === DEFAULT_FRONTIER_WORLD.edition
+    && normalizedWorld.seed === DEFAULT_FRONTIER_WORLD.seed && (options.seed === undefined || options.seed === DEFAULT_FRONTIER_WORLD.seed);
+  const rootbound = !options.disableRootbound && defaultWorld && rootboundWeight > 0
+    ? sampleFrontierRootboundProfile(x, z, { seed, baseHeight, habitatWeight: rootboundWeight,
+      protectDefaultLife: true })
     : null;
   let height = baseHeight;
   let colorRGB = [...baseColorRGB];
@@ -175,6 +187,10 @@ function sampleResolved(x, z, seed) {
   if (fungal) {
     height += fungal.height - baseHeight;
     colorRGB = colorRGB.map((value, index) => value + (fungal.colorRGB[index] - baseColorRGB[index]) * fungalWeight);
+  }
+  if (rootbound?.weight > 0 && rootbound.colorRGB) {
+    height += rootbound.height - baseHeight;
+    colorRGB = colorRGB.map((value, index) => value + (rootbound.colorRGB[index] - baseColorRGB[index]) * rootboundWeight * rootbound.colorWeight);
   }
   return {
     id: `f1:habitat:${owner.habitatId}`,
@@ -190,14 +206,22 @@ function sampleResolved(x, z, seed) {
     calderaFeature: caldera?.feature ?? null,
     fungalWeight,
     fungalFeature: fungal?.feature ?? null,
+    rootboundWeight,
+    // This is deliberately distinct from membership in the Rootbound habitat:
+    // alternate worlds retain their habitat catalog while the default-world
+    // structural profile is disabled until its footprint contract is known.
+    rootboundProfileWeight: (rootbound?.weight ?? 0) * (rootbound?.colorWeight ?? 0),
+    rootboundFacetDelta: rootbound?.facetDeltaM ?? 0,
+    rootboundFeature: rootbound?.feature ?? null,
   };
 }
 
 export function sampleFrontierRegion(x, z, options = {}) {
-  return sampleResolved(sanitizeCoordinate(x), sanitizeCoordinate(z), resolveSeed(options));
+  return sampleResolved(sanitizeCoordinate(x), sanitizeCoordinate(z), resolveSeed(options), options);
 }
 
 export function createFrontierRegionSampler(world = DEFAULT_FRONTIER_WORLD) {
-  const seed = resolveSeed({ world: normalizeFrontierWorld(world) });
-  return (x, z) => sampleResolved(sanitizeCoordinate(x), sanitizeCoordinate(z), seed);
+  const normalizedWorld = normalizeFrontierWorld(world);
+  const seed = resolveSeed({ world: normalizedWorld });
+  return (x, z) => sampleResolved(sanitizeCoordinate(x), sanitizeCoordinate(z), seed, { world: normalizedWorld });
 }

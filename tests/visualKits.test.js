@@ -5,6 +5,8 @@ import * as THREE from 'three';
 import {VISUAL_KIT_BUILDERS} from '../tools/visual-kit-registry.mjs';
 import {FOUNDRY_HABITAT_ASSET_IDS} from '../tools/compose-foundry-habitat.mjs';
 import {FEN_BANK_RECIPE_ASSET_IDS} from '../tools/compose-shatterfen-bank.mjs';
+import {ROOTBOUND_ENCLOSURE_RECIPES,composeRootboundEnclosureAssets} from '../tools/compose-rootbound-enclosure.mjs';
+import {ROOTBOUND_BLOCKOUT_ASSET_IDS} from '../tools/compose-rootbound-blockout.mjs';
 import {CAMP_CLEARING_ASSET_IDS} from '../tools/compose-crashland-camp.mjs';
 import {facetedRings,chippedBox} from '../src/world/facetedMeshKit.js';
 import {createVisual,applyVisualTransform,createVisualAssetVisual} from '../src/world/visualFactory.js';
@@ -16,11 +18,21 @@ test('every Author asset has a maintained mesh kit or a local model, and kit tra
   const world=JSON.parse(fs.readFileSync(new URL('../src/world/data/world.json',import.meta.url),'utf8'));
   assert.deepEqual([...VISUAL_KIT_BUILDERS.keys()].sort(),world.visualAssets.filter(a=>VISUAL_KIT_BUILDERS.has(a.id)).map(a=>a.id).sort());
   const builders=new Map(VISUAL_KIT_BUILDERS);
-  for(const id of [...FOUNDRY_HABITAT_ASSET_IDS,...FEN_BANK_RECIPE_ASSET_IDS,...CAMP_CLEARING_ASSET_IDS]){
+  const natureRecipes=JSON.parse(fs.readFileSync(new URL('../assets/models/rootbound-nature/rootbound-nature-recipes.json',import.meta.url),'utf8'));
+  for(const recipe of natureRecipes.assets){
+    const asset=world.visualAssets.find(a=>a.id===recipe.id);
+    assert.deepEqual(asset?.parts,recipe.parts,`${recipe.id} reproduces the maintained CC0 importer recipe`);
+    builders.set(recipe.id,()=>createVisualAssetVisual(asset));
+  }
+  for(const id of [...FOUNDRY_HABITAT_ASSET_IDS,...FEN_BANK_RECIPE_ASSET_IDS,...CAMP_CLEARING_ASSET_IDS,...ROOTBOUND_BLOCKOUT_ASSET_IDS,...ROOTBOUND_ENCLOSURE_RECIPES.map(recipe=>recipe.id)]){
     const asset=world.visualAssets.find(a=>a.id===id);
     assert.ok(asset?.parts?.length,`${id} maintained composer recipe`);
     builders.set(id,()=>createVisualAssetVisual(asset));
   }
+  const beforeCompose=JSON.stringify(world.visualAssets);
+  const enclosure=composeRootboundEnclosureAssets(world.visualAssets);
+  assert.equal(JSON.stringify(world.visualAssets),beforeCompose,'enclosure composer preserves source kit');
+  for(const asset of enclosure.assets)assert.deepEqual(asset,world.visualAssets.find(row=>row.id===asset.id),`${asset.id} maintained recipe reproduces authored data`);
   for(const asset of world.visualAssets){
     if(builders.has(asset.id))continue;
     assert.match(asset.model?.path??'',/^assets\/models\/[^.][\w/-]*\.glb$/,`${asset.id} must have a local model when no primitive kit exists`);

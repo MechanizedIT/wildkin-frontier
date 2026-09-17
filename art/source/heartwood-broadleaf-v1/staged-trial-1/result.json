@@ -1,0 +1,15 @@
+{
+ "status":"HOLD: next-stage resource refusal; no mesh",
+ "method":"Existing stage-scoped single-process TRELLIS 512 helper",
+ "completedStages":["background","conditioning","sparse"],
+ "stoppedBefore":"shape-flow",
+ "observedFreeGiBAfterSparseRelease":12.080612182617188,
+ "requiredFreeGiBForShapeFlow":15.221092782914639,
+ "reserveGiB":6,
+ "exitCode":1,
+ "meshProduced":false,
+ "guardChanged":false,
+ "observedFreeGiBAfterProcessExit":18.49,
+ "interpretation":"Clearing Python model owners did not restore enough available process memory for the next conservative stage gate. Exact allocator/reference cause is unresolved.",
+ "nextMethod":"A separately reviewed child process per numerical stage; preserve all existing guards and admission limits. No immediate unchanged retry."
+}

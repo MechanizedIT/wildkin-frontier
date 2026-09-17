@@ -1,0 +1,6 @@
+import fs from 'node:fs';
+import { ROOTBOUND_CURATED_SCENERY } from '../../../../src/world/frontierRootbound.js';
+import { WORLD_DATA } from '../../../../src/world/data/world.generated.js';
+const route=[[-475,590],[-478,613],[-480,643],[-472,663],[-449,675],[-452,696],[-480,720],[-493,701],[-495,673],[-494,646],[-492,615],[-475,590]];
+const opt=[[-449,675],[-427,680],[-415,694],[-430,711],[-452,696]];const d=(x,z,a,b)=>{let dx=b[0]-a[0],dz=b[1]-a[1],t=Math.max(0,Math.min(1,((x-a[0])*dx+(z-a[1])*dz)/(dx*dx+dz*dz)));return Math.hypot(x-a[0]-t*dx,z-a[1]-t*dz)};const tris=id=>WORLD_DATA.visualAssets.find(a=>a.id===id)?.parts?.reduce((n,p)=>n+p.geometry.indices.length/3,0)??0;const added=ROOTBOUND_CURATED_SCENERY.filter(s=>s.assetId.startsWith('asset_rootbound_block_'));const rows=added.map(s=>({...s,triangles:tris(s.assetId),primaryCenterDistance:Math.min(...route.slice(1).map((p,i)=>d(s.x,s.z,route[i],p))),optionalCenterDistance:Math.min(...opt.slice(1).map((p,i)=>d(s.x,s.z,opt[i],p)))}));fs.writeFileSync('art/reviews/rootbound-wildwood/showcase-blockout-r1/implementation-receipt.json',JSON.stringify({schema:'rootbound-showcase-blockout-r1/v1',addedCount:rows.length,totalTriangleInstances:rows.reduce((n,r)=>n+r.triangles,0),rows},null,2)+'\n');
+

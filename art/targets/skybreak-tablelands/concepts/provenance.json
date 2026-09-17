@@ -1,0 +1,30 @@
+{
+  "status": "two generated target directions only; independent selection and feasibility review pending",
+  "tool": "built-in image_gen",
+  "backend": "undisclosed",
+  "createdAt": "2026-09-14",
+  "reviewGate": "docs/habitats/skybreak-tablelands/rotation-1-plan-review.md PASS for 2–4 target directions only",
+  "constraints": [
+    "The settled 412x915 portrait fixtures, 36-degree camera, player scale, and source-correct HUD identity were edit invariants.",
+    "Ascent retains the Heartwood Basin HUD context; crown retains the Skybreak Tablelands HUD context.",
+    "These are visual directions only and do not select, admit, authorize source work, or prove feasibility."
+  ],
+  "images": [
+    {
+      "id": "skybreak-ascent-v1",
+      "file": "target-ascent-v1.png",
+      "sha256": "dcbb07e5152beba3d57be2c34e4bc49e616bddef35c57b080a48c4fdddf0be8e",
+      "source": "art/reviews/skybreak-tablelands/rotation-1/baseline-settled-ascent.png",
+      "sourceSha256": "049ee626b275953ab1f5f1ad9d54ad490c0b1a77b3414b5b512f89ee8de2b6ac",
+      "prompt": "Use case: stylized-concept\nAsset type: portrait mobile gameplay target direction for Skybreak Tablelands.\nInput image: the settled ascent screenshot is the edit target and must preserve its exact 412x915 portrait composition, 36-degree gameplay camera, player scale and placement, and every visible HUD element exactly as shown, including the source-correct Heartwood Basin HUD/quest label. Do not create or rename any HUD.\nPrimary request: Turn only the world presentation of this actual ascent into a high-quality feasible target for the existing route: make the open green ascent read as a series of distinct, walkable, warm-gray rock terraces with broken ledges and varied planes. Keep the broad existing safe central route open. Build a clear vertical hierarchy: low sheltered green pocket at the bottom, a medium buttress/terrace band at the sides, and a higher broken crown destination beyond the frame. Use clustered existing-style low vegetation and small stones at terrace edges and sheltered pockets, with readable negative space and no even scattering.\nStyle/medium: polished stylized low-poly Three.js mobile-game concept paintover, matte faceted geometry, soft daylight, clear value bands.\nConstraints: do not add caves, bridges, buildings, new creatures, resource nodes, mechanics, UI, text, or dramatic camera changes. Do not turn the route into a narrow road, wall, or staircase. Preserve the player, HUD, minimap, controls, camera angle, and source geometry footprint. This is direction only, not a final game screenshot.\nAvoid: photorealism, fog, cinematic wide camera, flat repeated cliff curtains, uniform green lawn, repeated prop scatter, watermarks."
+    },
+    {
+      "id": "skybreak-crown-v1",
+      "file": "target-crown-v1.png",
+      "sha256": "4faef92d8fc363dc4b23ca24617f512e29e7543bc9f5bf44feb4103a43b9b09f",
+      "source": "art/reviews/skybreak-tablelands/rotation-1/baseline-settled-crown.png",
+      "sourceSha256": "c649b8bf5d06778e5d784083d280b711f71e23a4d5111abc8e480b7a81f0ce3c",
+      "prompt": "Use case: stylized-concept\nAsset type: portrait mobile gameplay target direction for the Skybreak Tablelands crown.\nInput image: the settled crown screenshot is the edit target. Preserve its exact 412x915 portrait projection, 36-degree gameplay camera, player scale and placement, and every visible HUD element exactly as shown, including the source-correct Skybreak Tablelands HUD/quest label. Do not create or rename UI.\nPrimary request: Improve only this current crown world's presentation into a feasible high-quality target. Keep the existing Mossling, its three cloudflowers, the blue crystal-side reward, and the eastern exit all in their existing relative locations and visible together. Shape the plateau as an irregular compact crown with layered warm-gray stone shelves, dark fissures, short broken rim rocks, and calm open walking ground around the animal's existing home. Make grouped low meadow plants and the existing pale flowers clarify the summit without crowding the route. The crystal remains a distinct blue reward on its own supported east-side shelf; it must not move closer to the player or replace the Mossling. Preserve a readable descent outlet on the right.\nStyle/medium: polished stylized low-poly Three.js mobile-game concept paintover, matte faceted forms, restrained soft daylight, clear foreground/midground/background value separation.\nConstraints: no cave, bridge, tower, building, new creature, new resource, new mechanic, altered finite-resource location, Mossling-home intrusion, HUD change, camera change, or global lighting change. Use feasible geology and existing-style ecology; do not imply a mandatory new asset.\nAvoid: photorealism, cinematic wide view, fog, watermarks, flat green lawn, repeated vertical cliff curtains, excessive prop scatter."
+    }
+  ]
+}

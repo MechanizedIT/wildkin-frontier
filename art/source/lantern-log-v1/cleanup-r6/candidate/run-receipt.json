@@ -1,0 +1,21 @@
+{
+  "status": "HOLD",
+  "source_sha256": "e25bdd049cf9a7d8d4e1a7df9e4193e9840b0b550c6052b134d3d88cd6276120",
+  "parameters_sha256": "b3d4c5f3b44e0be11bb9c891468562b3b32d2452489215d8cb4aa6a60f5827fd",
+  "builder_sha256": "9f364a91048ae9ee98f699ec8daa1bf4d83055ec719572d42796a2dba32cf984",
+  "blender_version": "4.5.3 LTS",
+  "single_voxel_application": true,
+  "voxel_size": 0.006,
+  "actual_modifier_settings": {
+    "mode": "VOXEL",
+    "voxel_size": 0.006000000052154064,
+    "use_smooth_shade": false,
+    "use_remove_disconnected": false,
+    "scale": 0.8999999761581421,
+    "threshold": 1.0,
+    "octree_depth": 1
+  },
+  "error": "Post-reconstruction gate: not one face-bearing component",
+  "elapsed_seconds": 17.70300000000134,
+  "min_sampled_free_gib": 18.94365692138672
+}

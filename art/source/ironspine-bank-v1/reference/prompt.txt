@@ -1,0 +1,9 @@
+Use case: stylized-concept
+Asset type: game-asset construction target sheet for an isolated low-poly environment prop.
+Primary request: One clean multiview construction sheet of a single Ironspine narrow rockbank segment. It is a continuous, opaque, grounded iron-grey low-poly stone mass, 3.6 metres long along its local X axis, 1.0 metre deep along local Z, and 2.0 metres high on Y. Make it a coherent short layered bank, never a pair of separate upright pillars.
+Scene/backdrop: plain warm light-grey studio background with a faint ground plane only, no landscape.
+Subject: broad horizontal stratified iron-grey rockbank with closed ends, a sloped irregular beveled crest, shallow broad stepped strata and planar facets, grounded continuous base. The mass must read as a lateral sidewall/bank segment.
+Style/medium: polished neutral low-poly game asset concept, physically plausible opaque stone, matching a restrained mobile fantasy mineral palette: cool charcoal and iron-grey faces with muted warm grey highlight planes.
+Composition/framing: clean complementary construction views in one sheet: perspective three-quarter hero view, local-X side elevation, local-Z end elevation, and top view. Small unobtrusive dimension arrows only, labelled exactly: "3.6 m X", "1.0 m Z", "2.0 m Y". Show axes separately and clearly.
+Lighting/mood: soft neutral studio light with readable facet planes and contact shadow.
+Constraints: one single connected opaque rockbank, broad horizontal silhouette, stratified facets, closed ends, no deep concave cuts, no holes, no caves, no vegetation, no crystals, no creatures, no props, no player, no UI, no scenery, no building, no bridge, no watermark. This is a visual design target only; do not imply a terrain placement or runtime fit.

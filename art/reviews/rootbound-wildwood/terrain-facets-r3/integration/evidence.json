@@ -1,0 +1,63 @@
+{
+  "schema": "rootbound-terrain-facets-r3-integration-evidence-v1",
+  "world": {
+    "edition": 1,
+    "seed": 1327115068
+  },
+  "affectedChunkIds": [
+    "-10,13",
+    "-9,13"
+  ],
+  "nonZeroFacetVertices": [
+    {
+      "id": "-10,13",
+      "count": 40,
+      "vertexCount": 676
+    },
+    {
+      "id": "-9,13",
+      "count": 61,
+      "vertexCount": 676
+    }
+  ],
+  "samples": [
+    {
+      "x": -456,
+      "z": 668,
+      "height": 8.854481333274958,
+      "facetDeltaM": -0.08
+    },
+    {
+      "x": -452,
+      "z": 672,
+      "height": 8.423757509187006,
+      "facetDeltaM": -0.06
+    },
+    {
+      "x": -448,
+      "z": 674,
+      "height": 9.266143671654746,
+      "facetDeltaM": 0.36
+    },
+    {
+      "x": -442,
+      "z": 682,
+      "height": 10.143946563267427,
+      "facetDeltaM": -0.04
+    },
+    {
+      "x": -458,
+      "z": 666,
+      "height": 9.739328684182631,
+      "facetDeltaM": 0
+    },
+    {
+      "x": -436,
+      "z": 688,
+      "height": 8.1400076311237,
+      "facetDeltaM": 0
+    }
+  ],
+  "alternateFacetDeltaM": 0,
+  "disabledFacetDeltaM": 0
+}

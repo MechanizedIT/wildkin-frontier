@@ -1,0 +1,377 @@
+{
+  "status": "READ_ONLY_CONDITIONAL_PROOF",
+  "candidate": {
+    "id": "route-adjacent-rear-shoulder",
+    "x": -2840,
+    "z": -1289,
+    "rx": 6,
+    "rz": 5,
+    "peak": 0.55
+  },
+  "method": {
+    "mesh": "existing chunk vertices plus frozen ellipse delta before the same 2m triangle interpolation",
+    "route": "0.5m longitudinal and lateral samples through complete 3m half-width capsules, each with 16 angular .32m player-footprint samples",
+    "home": "0.5m grid over complete 10m disk and separately player-contained 9.68m center disk, each with 16 angular .32m samples",
+    "resources": "exact footprint radii and 16 angular support samples at slope .18"
+  },
+  "route": {
+    "approach": {
+      "sampleCount": 1196,
+      "radius": 0.32,
+      "maxSlope": 0.32,
+      "angularSamples": 16,
+      "baselineFailCount": 0,
+      "finalFailCount": 0,
+      "introducedFailCount": 0,
+      "resolvedFailCount": 0,
+      "maxBaselineSlope": 0.308928,
+      "maxFinalSlope": 0.308928,
+      "introducedFailures": []
+    },
+    "return": {
+      "sampleCount": 1326,
+      "radius": 0.32,
+      "maxSlope": 0.32,
+      "angularSamples": 16,
+      "baselineFailCount": 0,
+      "finalFailCount": 0,
+      "introducedFailCount": 0,
+      "resolvedFailCount": 0,
+      "maxBaselineSlope": 0.073848,
+      "maxFinalSlope": 0.17567,
+      "introducedFailures": []
+    }
+  },
+  "resources": [
+    {
+      "id": "f1:r:-57:-25:400",
+      "x": -2847,
+      "z": -1241,
+      "radius": 0.9,
+      "result": {
+        "sampleCount": 1,
+        "radius": 0.9,
+        "maxSlope": 0.18,
+        "angularSamples": 16,
+        "baselineFailCount": 0,
+        "finalFailCount": 0,
+        "introducedFailCount": 0,
+        "resolvedFailCount": 0,
+        "maxBaselineSlope": 0.034896,
+        "maxFinalSlope": 0.034896,
+        "introducedFailures": []
+      }
+    },
+    {
+      "id": "f1:r:-58:-25:401",
+      "x": -2855.8,
+      "z": -1240.5,
+      "radius": 0.9,
+      "result": {
+        "sampleCount": 1,
+        "radius": 0.9,
+        "maxSlope": 0.18,
+        "angularSamples": 16,
+        "baselineFailCount": 0,
+        "finalFailCount": 0,
+        "introducedFailCount": 0,
+        "resolvedFailCount": 0,
+        "maxBaselineSlope": 0.038641,
+        "maxFinalSlope": 0.038641,
+        "introducedFailures": []
+      }
+    },
+    {
+      "id": "f1:r:-57:-26:402",
+      "x": -2843.5,
+      "z": -1255,
+      "radius": 0.9,
+      "result": {
+        "sampleCount": 1,
+        "radius": 0.9,
+        "maxSlope": 0.18,
+        "angularSamples": 16,
+        "baselineFailCount": 1,
+        "finalFailCount": 1,
+        "introducedFailCount": 0,
+        "resolvedFailCount": 0,
+        "maxBaselineSlope": 0.21023,
+        "maxFinalSlope": 0.21023,
+        "introducedFailures": []
+      }
+    },
+    {
+      "id": "f1:r:-58:-26:403",
+      "x": -2860,
+      "z": -1255,
+      "radius": 0.9,
+      "result": {
+        "sampleCount": 1,
+        "radius": 0.9,
+        "maxSlope": 0.18,
+        "angularSamples": 16,
+        "baselineFailCount": 0,
+        "finalFailCount": 0,
+        "introducedFailCount": 0,
+        "resolvedFailCount": 0,
+        "maxBaselineSlope": 0.039032,
+        "maxFinalSlope": 0.039032,
+        "introducedFailures": []
+      }
+    }
+  ],
+  "thornHome": {
+    "id": "f1:w:-58:-26:450",
+    "center": [
+      -2868,
+      -1260
+    ],
+    "radius": 10,
+    "completeDiskResult": {
+      "sampleCount": 1257,
+      "radius": 0.32,
+      "maxSlope": 0.32,
+      "angularSamples": 16,
+      "baselineFailCount": 67,
+      "finalFailCount": 67,
+      "introducedFailCount": 0,
+      "resolvedFailCount": 0,
+      "maxBaselineSlope": 2.035694,
+      "maxFinalSlope": 2.035694,
+      "introducedFailures": []
+    },
+    "playerContainedCenterRadius": 9.68,
+    "playerContainedResult": {
+      "sampleCount": 1172,
+      "radius": 0.32,
+      "maxSlope": 0.32,
+      "angularSamples": 16,
+      "baselineFailCount": 35,
+      "finalFailCount": 35,
+      "introducedFailCount": 0,
+      "resolvedFailCount": 0,
+      "maxBaselineSlope": 1.443195,
+      "maxFinalSlope": 1.443195,
+      "introducedFailures": []
+    }
+  },
+  "stones": [
+    {
+      "id": "stone-a",
+      "x": -2853,
+      "z": -1247.75,
+      "scale": 0.6,
+      "transformedFootprintRadius": 0.684,
+      "support": {
+        "baseline": {
+          "pass": true,
+          "worstSlope": 0.026582,
+          "center": 11.326942
+        },
+        "final": {
+          "pass": true,
+          "worstSlope": 0.026582,
+          "center": 11.326942
+        },
+        "introducedFailure": false
+      },
+      "analyticMeshContact": {
+        "baseline": 0.012297,
+        "final": 0.012297
+      }
+    },
+    {
+      "id": "stone-b",
+      "x": -2846.75,
+      "z": -1252,
+      "scale": 0.7,
+      "transformedFootprintRadius": 0.798,
+      "support": {
+        "baseline": {
+          "pass": true,
+          "worstSlope": 0.283867,
+          "center": 11.64476
+        },
+        "final": {
+          "pass": true,
+          "worstSlope": 0.283867,
+          "center": 11.64476
+        },
+        "introducedFailure": false
+      },
+      "analyticMeshContact": {
+        "baseline": 0.04342,
+        "final": 0.04342
+      }
+    },
+    {
+      "id": "stone-c",
+      "x": -2858.25,
+      "z": -1249,
+      "scale": 0.58,
+      "transformedFootprintRadius": 0.6612,
+      "support": {
+        "baseline": {
+          "pass": true,
+          "worstSlope": 0.242057,
+          "center": 12.693716
+        },
+        "final": {
+          "pass": true,
+          "worstSlope": 0.242057,
+          "center": 12.693716
+        },
+        "introducedFailure": false
+      },
+      "analyticMeshContact": {
+        "baseline": 0.006284,
+        "final": 0.006284
+      }
+    }
+  ],
+  "dressing": {
+    "fixedRecordCount": 23,
+    "touchedRecordCount": 0,
+    "records": [
+      {
+        "id": "f1:s:fungal-hollow:mush-a",
+        "x": -2853.55,
+        "z": -1240,
+        "delta": 0
+      },
+      {
+        "id": "f1:s:fungal-hollow:mush-b",
+        "x": -2854,
+        "z": -1248.5,
+        "delta": 0
+      },
+      {
+        "id": "f1:s:fungal-hollow:mush-d",
+        "x": -2854.2,
+        "z": -1251.5,
+        "delta": 0
+      },
+      {
+        "id": "f1:s:fungal-hollow:mush-e",
+        "x": -2846.4,
+        "z": -1243.5,
+        "delta": 0
+      },
+      {
+        "id": "f1:s:fungal-hollow:mush-f",
+        "x": -2846.15,
+        "z": -1247,
+        "delta": 0
+      },
+      {
+        "id": "f1:s:fungal-hollow:mush-g",
+        "x": -2846.4,
+        "z": -1251,
+        "delta": 0
+      },
+      {
+        "id": "f1:s:fungal-hollow:log-a",
+        "x": -2853.75,
+        "z": -1241.7,
+        "delta": 0
+      },
+      {
+        "id": "f1:s:fungal-hollow:log-b",
+        "x": -2846.15,
+        "z": -1247.8,
+        "delta": 0
+      },
+      {
+        "id": "f1:s:fungal-hollow:stone-a",
+        "x": -2853,
+        "z": -1247.75,
+        "delta": 0
+      },
+      {
+        "id": "f1:s:fungal-hollow:stone-b",
+        "x": -2846.75,
+        "z": -1252,
+        "delta": 0
+      },
+      {
+        "id": "f1:s:fungal-hollow:stone-c",
+        "x": -2858.25,
+        "z": -1249,
+        "delta": 0
+      },
+      {
+        "id": "f1:s:fungal-hollow:trail-a",
+        "x": -2850.55,
+        "z": -1240.1,
+        "delta": 0
+      },
+      {
+        "id": "f1:s:fungal-hollow:trail-b",
+        "x": -2849.65,
+        "z": -1244,
+        "delta": 0
+      },
+      {
+        "id": "f1:s:fungal-hollow:trail-c",
+        "x": -2849.4,
+        "z": -1247.6,
+        "delta": 0
+      },
+      {
+        "id": "f1:s:fungal-hollow:trail-d",
+        "x": -2850.25,
+        "z": -1250.8,
+        "delta": 0
+      },
+      {
+        "id": "f1:s:fungal-hollow:peb-a",
+        "x": -2852.7,
+        "z": -1241.4,
+        "delta": 0
+      },
+      {
+        "id": "f1:s:fungal-hollow:peb-b",
+        "x": -2854.2,
+        "z": -1243,
+        "delta": 0
+      },
+      {
+        "id": "f1:s:fungal-hollow:peb-c",
+        "x": -2853.3,
+        "z": -1248.2,
+        "delta": 0
+      },
+      {
+        "id": "f1:s:fungal-hollow:peb-e",
+        "x": -2845.9,
+        "z": -1246.2,
+        "delta": 0
+      },
+      {
+        "id": "f1:s:fungal-hollow:peb-f",
+        "x": -2847,
+        "z": -1250.6,
+        "delta": 0
+      },
+      {
+        "id": "f1:s:fungal-hollow:peb-g",
+        "x": -2854,
+        "z": -1246.8,
+        "delta": 0
+      },
+      {
+        "id": "f1:s:fungal-hollow:peb-h",
+        "x": -2846.7,
+        "z": -1252,
+        "delta": 0
+      },
+      {
+        "id": "f1:s:fungal-hollow:peb-i",
+        "x": -2853.4,
+        "z": -1250.6,
+        "delta": 0
+      }
+    ]
+  },
+  "conclusion": "No introduced failure is evidence only for this frozen numerical ellipse. Existing baseline failures are retained and separately recorded. Native traversal, persistence, and source integration remain unproven."
+}

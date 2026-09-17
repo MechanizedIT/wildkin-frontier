@@ -1,0 +1,310 @@
+{
+  "player": {
+    "pos": {
+      "x": -449,
+      "y": 9.89130973815918,
+      "z": 675
+    },
+    "grounded": true,
+    "mode": "IDLE",
+    "verticalVelocity": 0
+  },
+  "height": 9.381366960443422,
+  "camera": [
+    -455.99276139193347,
+    17.604375352389624,
+    668.7520763407613
+  ],
+  "cameraFollow": {
+    "yaw": -2.3,
+    "pitch": 0.6283185307179586,
+    "portrait": true,
+    "portraitPitch": 0.6283185307179586,
+    "landscapePitch": 0.5585053606381855,
+    "zoom": 1,
+    "userZoom": 1,
+    "requestedDistance": 11.59107954420122,
+    "collisionDistance": 11.59107954420122,
+    "effectiveDistance": 11.59107954420122,
+    "focusRecovery": "clear",
+    "horizontalDistance": 6.55,
+    "height": 5,
+    "center": [
+      -449,
+      10.791309738159185,
+      675
+    ]
+  },
+  "render": {
+    "frame": 1900,
+    "calls": 61,
+    "triangles": 131100,
+    "points": 0,
+    "lines": 0
+  },
+  "grounds": [
+    {
+      "x": 0,
+      "z": 0,
+      "indexed": true,
+      "positions": 676,
+      "vertexColors": false
+    },
+    {
+      "x": 0,
+      "z": 0,
+      "indexed": true,
+      "positions": 676,
+      "vertexColors": false
+    },
+    {
+      "x": 0,
+      "z": 0,
+      "indexed": true,
+      "positions": 676,
+      "vertexColors": false
+    },
+    {
+      "x": 0,
+      "z": 0,
+      "indexed": true,
+      "positions": 676,
+      "vertexColors": false
+    },
+    {
+      "x": 0,
+      "z": 0,
+      "indexed": true,
+      "positions": 676,
+      "vertexColors": false
+    },
+    {
+      "x": 0,
+      "z": 0,
+      "indexed": true,
+      "positions": 676,
+      "vertexColors": false
+    },
+    {
+      "x": 0,
+      "z": 0,
+      "indexed": true,
+      "positions": 676,
+      "vertexColors": false
+    },
+    {
+      "x": 0,
+      "z": 0,
+      "indexed": true,
+      "positions": 676,
+      "vertexColors": false
+    },
+    {
+      "x": 0,
+      "z": 0,
+      "indexed": true,
+      "positions": 676,
+      "vertexColors": false
+    },
+    {
+      "x": 0,
+      "z": 0,
+      "indexed": true,
+      "positions": 676,
+      "vertexColors": false
+    },
+    {
+      "x": 0,
+      "z": 0,
+      "indexed": true,
+      "positions": 676,
+      "vertexColors": false
+    },
+    {
+      "x": 0,
+      "z": 0,
+      "indexed": false,
+      "positions": 3750,
+      "vertexColors": true
+    },
+    {
+      "x": 0,
+      "z": 0,
+      "indexed": false,
+      "positions": 3750,
+      "vertexColors": true
+    },
+    {
+      "x": 0,
+      "z": 0,
+      "indexed": true,
+      "positions": 676,
+      "vertexColors": false
+    },
+    {
+      "x": 0,
+      "z": 0,
+      "indexed": true,
+      "positions": 676,
+      "vertexColors": false
+    },
+    {
+      "x": 0,
+      "z": 0,
+      "indexed": true,
+      "positions": 676,
+      "vertexColors": false
+    },
+    {
+      "x": 0,
+      "z": 0,
+      "indexed": true,
+      "positions": 676,
+      "vertexColors": false
+    },
+    {
+      "x": 0,
+      "z": 0,
+      "indexed": true,
+      "positions": 676,
+      "vertexColors": false
+    },
+    {
+      "x": 0,
+      "z": 0,
+      "indexed": true,
+      "positions": 676,
+      "vertexColors": false
+    },
+    {
+      "x": 0,
+      "z": 0,
+      "indexed": true,
+      "positions": 676,
+      "vertexColors": false
+    },
+    {
+      "x": 0,
+      "z": 0,
+      "indexed": true,
+      "positions": 676,
+      "vertexColors": false
+    },
+    {
+      "x": 0,
+      "z": 0,
+      "indexed": true,
+      "positions": 676,
+      "vertexColors": false
+    },
+    {
+      "x": 0,
+      "z": 0,
+      "indexed": true,
+      "positions": 676,
+      "vertexColors": false
+    },
+    {
+      "x": 0,
+      "z": 0,
+      "indexed": true,
+      "positions": 676,
+      "vertexColors": false
+    },
+    {
+      "x": 0,
+      "z": 0,
+      "indexed": true,
+      "positions": 676,
+      "vertexColors": false
+    }
+  ],
+  "scenery": {
+    "residentCount": 45,
+    "residentIds": [
+      "f1:s:rootbound-wildwood:lantern-colony-lily",
+      "f1:s:rootbound-wildwood:lantern-colony-pebbles",
+      "f1:s:rootbound-wildwood:lantern-colony-r4",
+      "f1:s:rootbound-wildwood:lantern-colony-ring",
+      "f1:s:rootbound-wildwood:lantern-log",
+      "f1:s:rootbound-wildwood:lantern-ring-a",
+      "f1:s:rootbound-wildwood:lantern-ring-b",
+      "f1:s:rootbound-wildwood:thorn-a",
+      "f1:s:rootbound-wildwood:thorn-b",
+      "f1:s:rootbound-wildwood:gallery-canopy",
+      "f1:s:rootbound-wildwood:gallery-log",
+      "f1:s:rootbound-wildwood:gallery-tall",
+      "f2c:p:f1:p:-10:12:lush-root-cache:lush-root-cache:-10:12:canopy-left",
+      "f2c:p:f1:p:-10:12:lush-root-cache:lush-root-cache:-10:12:canopy-rear",
+      "f2c:p:f1:p:-10:12:lush-root-cache:lush-root-cache:-10:12:canopy-right",
+      "f2c:p:f1:p:-10:12:lush-root-cache:lush-root-cache:-10:12:log-left",
+      "f2c:p:f1:p:-10:12:lush-root-cache:lush-root-cache:-10:12:log-right",
+      "f2c:p:f1:p:-10:12:lush-root-cache:lush-root-cache:-10:12:ruin-arch",
+      "f2c:p:f1:p:-10:12:lush-root-cache:lush-root-cache:-10:12:stone",
+      "f2c:i:-9:13:111",
+      "f2c:i:-10:13:113",
+      "f2c:i:-10:14:161",
+      "f2c:i:-9:13:118",
+      "f2c:i:-10:14:168",
+      "f2c:i:-9:13:177",
+      "f2c:i:-10:14:175",
+      "f2c:i:-9:13:198",
+      "f2c:i:-10:14:182",
+      "f2c:i:-9:13:223",
+      "f2c:i:-10:14:193",
+      "f2c:i:-9:13:230",
+      "f2c:i:-10:14:200",
+      "f2c:i:-10:14:239",
+      "f2c:i:-10:14:38",
+      "f2c:i:-10:14:49",
+      "f2c:i:-10:14:70",
+      "f2c:i:-10:14:81",
+      "f2c:i:-10:14:88",
+      "f2c:s:-9:15:seed-0",
+      "f1:s:rootbound-wildwood:arrival-canopy",
+      "f2c:s:-10:15:seed-1",
+      "f2c:s:-11:12:seed-0",
+      "f2c:s:-7:14:seed-0",
+      "f2c:s:-8:15:seed-1",
+      "f2c:s:-11:15:seed-1"
+    ],
+    "canopyCount": 12,
+    "colliderCount": 15,
+    "clearanceRecipeCache": {
+      "forageCount": 49,
+      "wildlifeCount": 49
+    },
+    "sceneryRecipeCache": {
+      "ordinaryCount": 25,
+      "infillCount": 9
+    },
+    "groundPatchCache": {
+      "entryCount": 45,
+      "maxEntries": 512,
+      "maxPatchRecords": 13
+    },
+    "streaming": {
+      "preparedPublications": 0,
+      "unfinishedPublications": 0,
+      "synchronousPublications": 2,
+      "cancelled": 0,
+      "preparationFailures": 0,
+      "lastWorkMs": 0,
+      "maxWorkMs": 0,
+      "phase": null,
+      "target": null
+    },
+    "lowCount": 32,
+    "stoneSolidCount": 3,
+    "surfaceCount": 15,
+    "lowDrawCount": 21,
+    "lowTriangleCount": 27328,
+    "lowGeometryCount": 7,
+    "lowGeometryVertexCount": 15150,
+    "lowInstanceCount": 32,
+    "groundDrawCount": 1,
+    "groundClusterCount": 525,
+    "groundClusterTriangleCount": 8400
+  },
+  "scoutPanelHidden": true
+}

@@ -1,0 +1,57 @@
+import {test} from 'node:test';
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import * as THREE from 'three';
+import {createWildkinMeshVisual} from '../src/world/wildkinMeshKit.js';
+
+const plan=JSON.parse(fs.readFileSync(new URL('../docs/species/skydancer/construction-plan-v2.json',import.meta.url)));
+const repair=JSON.parse(fs.readFileSync(new URL('../docs/species/skydancer/construction-plan-r2-wing-only.json',import.meta.url)));
+const native=()=>{const model=createWildkinMeshVisual('asset_wildkin_skydancer');model.updateMatrixWorld(true);return model;};
+const changed=mesh=>/folded_wing|cover_plate|bent_avian_leg|talon_foot|_toe_/.test(mesh.name);
+function contains(mesh,point,axis='y'){
+ const probe=mesh.clone();probe.material=new THREE.MeshBasicMaterial({side:THREE.DoubleSide});probe.updateMatrixWorld(true);
+ const p=new THREE.Vector3(...point.map(Math.fround)),origin=p.clone(),direction=new THREE.Vector3();origin[axis]=-5;direction[axis]=1;
+ const hits=new THREE.Raycaster(origin,direction,0,15).intersectObject(probe,false).map(h=>h.point[axis]);probe.material.dispose();
+ return hits.length>=2&&p[axis]>=Math.min(...hits)-1e-6&&p[axis]<=Math.max(...hits)+1e-6;
+}
+
+test('Skydancer changed shells have consistent directed edges, positive volume and nondegenerate triangles',()=>{
+ const model=native();let count=0;
+ for(const m of model.children.filter(changed)){
+  count++;const p=m.geometry.attributes.position,i=m.geometry.index.array,edges=new Map();let volume=0;
+  for(let n=0;n<i.length;n+=3){const ids=[i[n],i[n+1],i[n+2]],v=ids.map(k=>new THREE.Vector3().fromBufferAttribute(p,k));
+   assert.ok(v[1].clone().sub(v[0]).cross(v[2].clone().sub(v[0])).length()>1e-9,m.name+' has degenerate triangle');
+   volume+=v[0].dot(v[1].clone().cross(v[2]))/6;
+   for(let j=0;j<3;j++){const a=ids[j],b=ids[(j+1)%3],key=[Math.min(a,b),Math.max(a,b)].join(':'),e=edges.get(key)??{count:0,direction:0};e.count++;e.direction+=a<b?1:-1;edges.set(key,e);}
+  }
+  assert.ok(volume>1e-8,m.name+' is outward');for(const e of edges.values())assert.deepEqual(e,{count:2,direction:0},m.name+' is closed with consistent winding');
+ }assert.equal(count,18);
+});
+
+test('Skydancer whole wing and leg attachment caps are inside the actual native torso shell',()=>{
+ const model=native(),host=model.getObjectByName('slender_avian_torso');
+ for(const side of ['right','left']){
+  for(const vertex of repair[side+'_wing'].vertices.slice(0,12))assert.ok(contains(host,vertex),side+' wing torso attachment');
+  for(const vertex of plan.leg_volumes[side].sections[0].vertices)assert.ok(contains(host,vertex),side+' leg torso attachment');
+ }
+});
+
+test('Skydancer layered plates and foot/toe joins are contained in their actual host shells',()=>{
+ const model=native();
+ for(const side of ['right','left']){
+  const wing=model.getObjectByName(side+'_folded_wing'),foot=model.getObjectByName(side+'_talon_foot');
+  for(const plate of repair[side+'_plates'])for(const vertex of plate.vertices.slice(0,4))assert.ok(contains(wing,vertex,'x'),plate.name+' root');
+  for(const vertex of plan.leg_volumes[side].sections.at(-1).vertices)assert.ok(contains(foot,vertex),side+' leg to foot');
+  for(const toe of plan.leg_volumes[side].toes)for(const vertex of toe.vertices.slice(0,4))assert.ok(contains(foot,vertex,'z'),toe.name+' to foot');
+ }
+});
+
+test('Skydancer keeps two wings, two legs, two grounded feet, six toes and the existing envelope',()=>{
+ const model=native(),names=model.children.map(m=>m.name),box=new THREE.Box3().setFromObject(model),eps=1e-5;
+ assert.equal(names.filter(n=>n.endsWith('_folded_wing')).length,2);assert.equal(names.filter(n=>n.endsWith('_bent_avian_leg')).length,2);
+ assert.equal(names.filter(n=>n.endsWith('_talon_foot')).length,2);assert.equal(names.filter(n=>n.includes('_toe_')).length,6);assert.equal(names.filter(n=>n.endsWith('_cover_plate')).length,6);
+ assert.ok(box.min.x>=-1.13399263891557-eps&&box.max.x<=1.13399263891557+eps);
+ assert.ok(box.min.y>=.015873217955231667-eps&&box.max.y<=2.147128105163574+eps);
+ assert.ok(box.min.z>=-1.670906662940979-eps&&box.max.z<=1.1319999980926514+eps);
+ for(const side of ['right','left']){const f=new THREE.Box3().setFromObject(model.getObjectByName(side+'_talon_foot'));assert.ok(f.min.y>=0&&f.min.y<=.04,'feet remain near the ground');}
+});

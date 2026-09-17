@@ -1,0 +1,3049 @@
+{
+  "note": "Actual camera, complete mesh and convex hull projection of proposed noninstantiated models. Central window y160..640 approximate HUD safety; not occlusion/collision proof.",
+  "views": [
+    {
+      "pose": {
+        "name": "crown",
+        "x": 12,
+        "z": -228,
+        "yaw": -2.1815222911841055
+      },
+      "camera": [
+        4.317750699203318,
+        43.28413706133609,
+        -233.37757451055768
+      ],
+      "direction": [
+        0.662772546034332,
+        -0.5877852522924715,
+        0.4639407822240301
+      ],
+      "probes": [
+        {
+          "name": "asset_verdant_cliff_buttress_16_-228",
+          "asset": "asset_verdant_cliff_buttress",
+          "x": 16,
+          "z": -228,
+          "scale": 0.65,
+          "yaw": 0.4,
+          "baseY": 34.03830337524414,
+          "mesh": {
+            "minX": 4.087729872808303,
+            "minY": 322.37813590214034,
+            "maxX": 133.79274914393818,
+            "maxY": 489.75028097794745,
+            "central": 1160,
+            "front": 1160,
+            "total": 1160
+          },
+          "hull": {
+            "minX": -3.5539193106276072,
+            "minY": 314.1650070937578,
+            "maxX": 141.11343456676022,
+            "maxY": 496.09716726738606,
+            "central": 17,
+            "front": 19,
+            "total": 19
+          }
+        },
+        {
+          "name": "asset_verdant_cliff_ledge_16_-228",
+          "asset": "asset_verdant_cliff_ledge",
+          "x": 16,
+          "z": -228,
+          "scale": 0.65,
+          "yaw": 0.4,
+          "baseY": 34.03830337524414,
+          "mesh": {
+            "minX": 4.621638442241695,
+            "minY": 373.01561193401864,
+            "maxX": 139.31005632837113,
+            "maxY": 488.69970097804526,
+            "central": 930,
+            "front": 930,
+            "total": 930
+          },
+          "hull": {
+            "minX": -1.7768185743510077,
+            "minY": 368.366418954143,
+            "maxX": 147.19648992620884,
+            "maxY": 494.07286922018244,
+            "central": 19,
+            "front": 20,
+            "total": 20
+          }
+        },
+        {
+          "name": "asset_verdant_cliff_buttress_16_-226",
+          "asset": "asset_verdant_cliff_buttress",
+          "x": 16,
+          "z": -226,
+          "scale": 0.65,
+          "yaw": 0.4,
+          "baseY": 33.6784553527832,
+          "mesh": {
+            "minX": 112.90966650045412,
+            "minY": 309.16518542245336,
+            "maxX": 230.62414675029143,
+            "maxY": 465.2416069015887,
+            "central": 1160,
+            "front": 1160,
+            "total": 1160
+          },
+          "hull": {
+            "minX": 107.92686820742992,
+            "minY": 301.62971151302526,
+            "maxX": 236.76520071663953,
+            "maxY": 470.9348151693026,
+            "central": 19,
+            "front": 19,
+            "total": 19
+          }
+        },
+        {
+          "name": "asset_verdant_cliff_ledge_16_-226",
+          "asset": "asset_verdant_cliff_ledge",
+          "x": 16,
+          "z": -226,
+          "scale": 0.65,
+          "yaw": 0.4,
+          "baseY": 33.6784553527832,
+          "mesh": {
+            "minX": 110.48316324808033,
+            "minY": 356.82614402321326,
+            "maxX": 238.84771981624812,
+            "maxY": 464.29853938720913,
+            "central": 930,
+            "front": 930,
+            "total": 930
+          },
+          "hull": {
+            "minX": 105.44700126216394,
+            "minY": 352.6077237368651,
+            "maxX": 246.35547274541622,
+            "maxY": 469.1197785544104,
+            "central": 20,
+            "front": 20,
+            "total": 20
+          }
+        },
+        {
+          "name": "asset_verdant_cliff_buttress_16_-224",
+          "asset": "asset_verdant_cliff_buttress",
+          "x": 16,
+          "z": -224,
+          "scale": 0.65,
+          "yaw": 0.4,
+          "baseY": 33.31769943237305,
+          "mesh": {
+            "minX": 203.8157797493499,
+            "minY": 297.80389689185125,
+            "maxX": 315.0980697817798,
+            "maxY": 444.0018823576744,
+            "central": 1160,
+            "front": 1160,
+            "total": 1160
+          },
+          "hull": {
+            "minX": 199.4227127733959,
+            "minY": 290.84390399216346,
+            "maxX": 320.29064398510457,
+            "maxY": 449.1532395539065,
+            "central": 19,
+            "front": 19,
+            "total": 19
+          }
+        },
+        {
+          "name": "asset_verdant_cliff_ledge_16_-224",
+          "asset": "asset_verdant_cliff_ledge",
+          "x": 16,
+          "z": -224,
+          "scale": 0.65,
+          "yaw": 0.4,
+          "baseY": 33.31769943237305,
+          "mesh": {
+            "minX": 201.72629279378734,
+            "minY": 342.8018212349431,
+            "maxX": 325.30307020331543,
+            "maxY": 443.148029833591,
+            "central": 930,
+            "front": 930,
+            "total": 930
+          },
+          "hull": {
+            "minX": 197.04776122979902,
+            "minY": 338.94481615105036,
+            "maxX": 332.46004666803964,
+            "maxY": 447.5115577478317,
+            "central": 20,
+            "front": 20,
+            "total": 20
+          }
+        },
+        {
+          "name": "asset_verdant_cliff_buttress_16_-222",
+          "asset": "asset_verdant_cliff_buttress",
+          "x": 16,
+          "z": -222,
+          "scale": 0.65,
+          "yaw": 0.4,
+          "baseY": 32.952919006347656,
+          "mesh": {
+            "minX": 283.92539322535686,
+            "minY": 288.0900798043897,
+            "maxX": 389.6815044966936,
+            "maxY": 425.558115748048,
+            "central": 1160,
+            "front": 1160,
+            "total": 1160
+          },
+          "hull": {
+            "minX": 279.83439839052085,
+            "minY": 281.6245755251852,
+            "maxX": 394.40338855050095,
+            "maxY": 430.2547160438125,
+            "central": 19,
+            "front": 19,
+            "total": 19
+          }
+        },
+        {
+          "name": "asset_verdant_cliff_ledge_16_-222",
+          "asset": "asset_verdant_cliff_ledge",
+          "x": 16,
+          "z": -222,
+          "scale": 0.65,
+          "yaw": 0.4,
+          "baseY": 32.952919006347656,
+          "mesh": {
+            "minX": 282.112755085384,
+            "minY": 330.68439636171894,
+            "maxX": 401.0696639324095,
+            "maxY": 424.779206977079,
+            "central": 930,
+            "front": 930,
+            "total": 930
+          },
+          "hull": {
+            "minX": 277.7454706114968,
+            "minY": 327.1339913407831,
+            "maxX": 407.901677007562,
+            "maxY": 428.7584473001867,
+            "central": 20,
+            "front": 20,
+            "total": 20
+          }
+        },
+        {
+          "name": "asset_verdant_cliff_buttress_16_-220",
+          "asset": "asset_verdant_cliff_buttress",
+          "x": 16,
+          "z": -220,
+          "scale": 0.65,
+          "yaw": 0.4,
+          "baseY": 32.58511734008789,
+          "mesh": {
+            "minX": 355.03224192790856,
+            "minY": 279.6840304430439,
+            "maxX": 457.2822980006432,
+            "maxY": 409.3874582809525,
+            "central": 617,
+            "front": 1160,
+            "total": 1160
+          },
+          "hull": {
+            "minX": 351.20541164622,
+            "minY": 273.6478805502212,
+            "maxX": 462.4078123817956,
+            "maxY": 413.69779185491956,
+            "central": 10,
+            "front": 19,
+            "total": 19
+          }
+        },
+        {
+          "name": "asset_verdant_cliff_ledge_16_-220",
+          "asset": "asset_verdant_cliff_ledge",
+          "x": 16,
+          "z": -220,
+          "scale": 0.65,
+          "yaw": 0.4,
+          "baseY": 32.58511734008789,
+          "mesh": {
+            "minX": 353.4493031207709,
+            "minY": 320.1032589002346,
+            "maxX": 467.99389255138243,
+            "maxY": 408.67225797645114,
+            "central": 649,
+            "front": 930,
+            "total": 930
+          },
+          "hull": {
+            "minX": 349.35516767424696,
+            "minY": 316.8159495334684,
+            "maxX": 474.5252637347371,
+            "maxY": 412.3249771947585,
+            "central": 14,
+            "front": 20,
+            "total": 20
+          }
+        },
+        {
+          "name": "asset_verdant_cliff_buttress_16_-218",
+          "asset": "asset_verdant_cliff_buttress",
+          "x": 16,
+          "z": -218,
+          "scale": 0.65,
+          "yaw": 0.4,
+          "baseY": 29.024240493774414,
+          "mesh": {
+            "minX": 401.5094359317743,
+            "minY": 398.2577234450016,
+            "maxX": 491.72165133934016,
+            "maxY": 507.38110251097737,
+            "central": 74,
+            "front": 1160,
+            "total": 1160
+          },
+          "hull": {
+            "minX": 398.1967012027359,
+            "minY": 392.5451350378373,
+            "maxX": 496.36196858128625,
+            "maxY": 511.6892541163089,
+            "central": 4,
+            "front": 19,
+            "total": 19
+          }
+        },
+        {
+          "name": "asset_verdant_cliff_ledge_16_-218",
+          "asset": "asset_verdant_cliff_ledge",
+          "x": 16,
+          "z": -218,
+          "scale": 0.65,
+          "yaw": 0.4,
+          "baseY": 29.024240493774414,
+          "mesh": {
+            "minX": 400.2039822697136,
+            "minY": 429.60350258479315,
+            "maxX": 500.90375563543904,
+            "maxY": 506.66550620135143,
+            "central": 87,
+            "front": 930,
+            "total": 930
+          },
+          "hull": {
+            "minX": 396.65534994610687,
+            "minY": 426.2332940405794,
+            "maxX": 506.6047539468429,
+            "maxY": 510.31798425955196,
+            "central": 4,
+            "front": 20,
+            "total": 20
+          }
+        },
+        {
+          "name": "asset_verdant_cliff_buttress_16_-216",
+          "asset": "asset_verdant_cliff_buttress",
+          "x": 16,
+          "z": -216,
+          "scale": 0.65,
+          "yaw": 0.4,
+          "baseY": 11.850165367126465,
+          "mesh": {
+            "minX": 383.5430241120383,
+            "minY": 793.1597776712291,
+            "maxX": 443.76665320775305,
+            "maxY": 860.2066773534483,
+            "central": 0,
+            "front": 1160,
+            "total": 1160
+          },
+          "hull": {
+            "minX": 381.2868451739507,
+            "minY": 788.7799242660109,
+            "maxX": 446.6627270453322,
+            "maxY": 864.0662997678769,
+            "central": 0,
+            "front": 19,
+            "total": 19
+          }
+        },
+        {
+          "name": "asset_verdant_cliff_ledge_16_-216",
+          "asset": "asset_verdant_cliff_ledge",
+          "x": 16,
+          "z": -216,
+          "scale": 0.65,
+          "yaw": 0.4,
+          "baseY": 11.850165367126465,
+          "mesh": {
+            "minX": 382.63719204060914,
+            "minY": 802.271687566453,
+            "maxX": 450.01250417738856,
+            "maxY": 859.6525458102705,
+            "central": 0,
+            "front": 930,
+            "total": 930
+          },
+          "hull": {
+            "minX": 380.2230036698895,
+            "minY": 799.3210678031137,
+            "maxX": 453.8022990817209,
+            "maxY": 862.7047745255245,
+            "central": 0,
+            "front": 20,
+            "total": 20
+          }
+        },
+        {
+          "name": "asset_verdant_cliff_buttress_16_-214",
+          "asset": "asset_verdant_cliff_buttress",
+          "x": 16,
+          "z": -214,
+          "scale": 0.65,
+          "yaw": 0.4,
+          "baseY": 14.792576789855957,
+          "mesh": {
+            "minX": 433.5169184110577,
+            "minY": 712.9057105048885,
+            "maxX": 496.42135911341245,
+            "maxY": 782.4948960273161,
+            "central": 0,
+            "front": 1160,
+            "total": 1160
+          },
+          "hull": {
+            "minX": 431.2214498390533,
+            "minY": 708.296788884836,
+            "maxX": 499.6074153643157,
+            "maxY": 786.3969431512579,
+            "central": 0,
+            "front": 19,
+            "total": 19
+          }
+        },
+        {
+          "name": "asset_verdant_cliff_ledge_16_-214",
+          "asset": "asset_verdant_cliff_ledge",
+          "x": 16,
+          "z": -214,
+          "scale": 0.65,
+          "yaw": 0.4,
+          "baseY": 14.792576789855957,
+          "mesh": {
+            "minX": 432.64377815884086,
+            "minY": 724.9631518813022,
+            "maxX": 502.71730450513184,
+            "maxY": 782.0092200337666,
+            "central": 0,
+            "front": 930,
+            "total": 930
+          },
+          "hull": {
+            "minX": 430.1834676689389,
+            "minY": 722.1271740604305,
+            "maxX": 506.6457174373318,
+            "maxY": 785.101646745505,
+            "central": 0,
+            "front": 20,
+            "total": 20
+          }
+        },
+        {
+          "name": "asset_verdant_cliff_buttress_18_-228",
+          "asset": "asset_verdant_cliff_buttress",
+          "x": 18,
+          "z": -228,
+          "scale": 0.65,
+          "yaw": 0.4,
+          "baseY": 34.970245361328125,
+          "mesh": {
+            "minX": -56.971654455781774,
+            "minY": 223.18802524373837,
+            "maxX": 71.46548325406059,
+            "maxY": 386.20681889146186,
+            "central": 599,
+            "front": 1160,
+            "total": 1160
+          },
+          "hull": {
+            "minX": -64.03599660210524,
+            "minY": 216.00068457902458,
+            "maxX": 78.89080050638864,
+            "maxY": 391.363559945379,
+            "central": 9,
+            "front": 19,
+            "total": 19
+          }
+        },
+        {
+          "name": "asset_verdant_cliff_ledge_18_-228",
+          "asset": "asset_verdant_cliff_ledge",
+          "x": 18,
+          "z": -228,
+          "scale": 0.65,
+          "yaw": 0.4,
+          "baseY": 34.970245361328125,
+          "mesh": {
+            "minX": -54.03539925383906,
+            "minY": 275.75954249174265,
+            "maxX": 74.67480456084274,
+            "maxY": 385.35280427241247,
+            "central": 359,
+            "front": 930,
+            "total": 930
+          },
+          "hull": {
+            "minX": -60.399375150484516,
+            "minY": 271.99294780904205,
+            "maxX": 82.05588852339113,
+            "maxY": 389.71934122999204,
+            "central": 10,
+            "front": 20,
+            "total": 20
+          }
+        },
+        {
+          "name": "asset_verdant_cliff_buttress_18_-226",
+          "asset": "asset_verdant_cliff_buttress",
+          "x": 18,
+          "z": -226,
+          "scale": 0.65,
+          "yaw": 0.4,
+          "baseY": 33.20682144165039,
+          "mesh": {
+            "minX": 61.10229068514122,
+            "minY": 291.21461053503714,
+            "maxX": 169.75988373738605,
+            "maxY": 433.8325559098089,
+            "central": 1160,
+            "front": 1160,
+            "total": 1160
+          },
+          "hull": {
+            "minX": 55.52510657423601,
+            "minY": 284.4772724334862,
+            "maxX": 175.7600307016767,
+            "maxY": 438.7723061315837,
+            "central": 19,
+            "front": 19,
+            "total": 19
+          }
+        },
+        {
+          "name": "asset_verdant_cliff_ledge_18_-226",
+          "asset": "asset_verdant_cliff_ledge",
+          "x": 18,
+          "z": -226,
+          "scale": 0.65,
+          "yaw": 0.4,
+          "baseY": 33.20682144165039,
+          "mesh": {
+            "minX": 60.60580811832239,
+            "minY": 335.30663473135803,
+            "maxX": 175.47341241181815,
+            "maxY": 433.0135860481283,
+            "central": 930,
+            "front": 930,
+            "total": 930
+          },
+          "hull": {
+            "minX": 55.98523588797729,
+            "minY": 331.5941017416065,
+            "maxX": 182.20185436139212,
+            "maxY": 437.19827667931946,
+            "central": 20,
+            "front": 20,
+            "total": 20
+          }
+        },
+        {
+          "name": "asset_verdant_cliff_buttress_18_-224",
+          "asset": "asset_verdant_cliff_buttress",
+          "x": 18,
+          "z": -224,
+          "scale": 0.65,
+          "yaw": 0.4,
+          "baseY": 32.84782409667969,
+          "mesh": {
+            "minX": 149.315053380661,
+            "minY": 281.8856669504658,
+            "maxX": 250.84480174014686,
+            "maxY": 416.21528837610896,
+            "central": 1160,
+            "front": 1160,
+            "total": 1160
+          },
+          "hull": {
+            "minX": 145.25268528740472,
+            "minY": 275.613406257428,
+            "maxX": 256.0031667019962,
+            "maxY": 420.7310177127317,
+            "central": 19,
+            "front": 19,
+            "total": 19
+          }
+        },
+        {
+          "name": "asset_verdant_cliff_ledge_18_-224",
+          "asset": "asset_verdant_cliff_ledge",
+          "x": 18,
+          "z": -224,
+          "scale": 0.65,
+          "yaw": 0.4,
+          "baseY": 32.84782409667969,
+          "mesh": {
+            "minX": 147.29472259865966,
+            "minY": 323.6803067795225,
+            "maxX": 258.430954707824,
+            "maxY": 415.4662227287216,
+            "central": 930,
+            "front": 930,
+            "total": 930
+          },
+          "hull": {
+            "minX": 142.97642854448046,
+            "minY": 320.254917968586,
+            "maxX": 264.88033669671256,
+            "maxY": 419.2925441125176,
+            "central": 20,
+            "front": 20,
+            "total": 20
+          }
+        },
+        {
+          "name": "asset_verdant_cliff_buttress_18_-222",
+          "asset": "asset_verdant_cliff_buttress",
+          "x": 18,
+          "z": -222,
+          "scale": 0.65,
+          "yaw": 0.4,
+          "baseY": 32.48520278930664,
+          "mesh": {
+            "minX": 226.25275268843959,
+            "minY": 273.81267867134176,
+            "maxX": 322.9528118205882,
+            "maxY": 400.74379139640945,
+            "central": 1160,
+            "front": 1160,
+            "total": 1160
+          },
+          "hull": {
+            "minX": 222.44932714358274,
+            "minY": 267.94582819881936,
+            "maxX": 327.4130307548286,
+            "maxY": 404.89784203569576,
+            "central": 19,
+            "front": 19,
+            "total": 19
+          }
+        },
+        {
+          "name": "asset_verdant_cliff_ledge_18_-222",
+          "asset": "asset_verdant_cliff_ledge",
+          "x": 18,
+          "z": -222,
+          "scale": 0.65,
+          "yaw": 0.4,
+          "baseY": 32.48520278930664,
+          "mesh": {
+            "minX": 224.47845355729646,
+            "minY": 313.52162579892126,
+            "maxX": 331.966825702201,
+            "maxY": 400.0543980922457,
+            "central": 930,
+            "front": 930,
+            "total": 930
+          },
+          "hull": {
+            "minX": 220.4261572535905,
+            "minY": 310.3435625975532,
+            "maxX": 338.15468360886894,
+            "maxY": 403.5749422421649,
+            "central": 20,
+            "front": 20,
+            "total": 20
+          }
+        },
+        {
+          "name": "asset_verdant_cliff_buttress_18_-220",
+          "asset": "asset_verdant_cliff_buttress",
+          "x": 18,
+          "z": -220,
+          "scale": 0.65,
+          "yaw": 0.4,
+          "baseY": 32.119834899902344,
+          "mesh": {
+            "minX": 295.18777869056436,
+            "minY": 266.7519434140285,
+            "maxX": 387.6656949730802,
+            "maxY": 387.0428643276584,
+            "central": 1160,
+            "front": 1160,
+            "total": 1160
+          },
+          "hull": {
+            "minX": 291.6130685399579,
+            "minY": 261.24156290313283,
+            "maxX": 391.7528714978433,
+            "maxY": 390.8852862176325,
+            "central": 19,
+            "front": 19,
+            "total": 19
+          }
+        },
+        {
+          "name": "asset_verdant_cliff_ledge_18_-220",
+          "asset": "asset_verdant_cliff_ledge",
+          "x": 18,
+          "z": -220,
+          "scale": 0.65,
+          "yaw": 0.4,
+          "baseY": 32.119834899902344,
+          "mesh": {
+            "minX": 293.62069343597307,
+            "minY": 304.5624648524558,
+            "maxX": 397.58269823562523,
+            "maxY": 386.404921288732,
+            "central": 930,
+            "front": 930,
+            "total": 930
+          },
+          "hull": {
+            "minX": 289.8041314339114,
+            "minY": 301.59949231025394,
+            "maxX": 403.52599559033007,
+            "maxY": 389.66192680633276,
+            "central": 20,
+            "front": 20,
+            "total": 20
+          }
+        },
+        {
+          "name": "asset_verdant_cliff_buttress_18_-218",
+          "asset": "asset_verdant_cliff_buttress",
+          "x": 18,
+          "z": -218,
+          "scale": 0.65,
+          "yaw": 0.4,
+          "baseY": 31.752609252929688,
+          "mesh": {
+            "minX": 357.2964769570153,
+            "minY": 260.50938869075793,
+            "maxX": 447.08354832755566,
+            "maxY": 374.81151030392175,
+            "central": 703,
+            "front": 1160,
+            "total": 1160
+          },
+          "hull": {
+            "minX": 353.92511579374013,
+            "minY": 255.3148614058465,
+            "maxX": 451.4849321477743,
+            "maxY": 378.38298058503744,
+            "central": 10,
+            "front": 19,
+            "total": 19
+          }
+        },
+        {
+          "name": "asset_verdant_cliff_ledge_18_-218",
+          "asset": "asset_verdant_cliff_ledge",
+          "x": 18,
+          "z": -218,
+          "scale": 0.65,
+          "yaw": 0.4,
+          "baseY": 31.752609252929688,
+          "mesh": {
+            "minX": 355.9053421677914,
+            "minY": 296.58748411004177,
+            "maxX": 456.4836733490566,
+            "maxY": 374.2183296317795,
+            "central": 668,
+            "front": 930,
+            "total": 930
+          },
+          "hull": {
+            "minX": 352.29901653408297,
+            "minY": 293.81319462437375,
+            "maxX": 462.1985078594476,
+            "maxY": 377.24613699426175,
+            "central": 14,
+            "front": 20,
+            "total": 20
+          }
+        },
+        {
+          "name": "asset_verdant_cliff_buttress_18_-216",
+          "asset": "asset_verdant_cliff_buttress",
+          "x": 18,
+          "z": -216,
+          "scale": 0.65,
+          "yaw": 0.4,
+          "baseY": 30.457883834838867,
+          "mesh": {
+            "minX": 408.9818551482144,
+            "minY": 289.69488475433485,
+            "maxX": 494.1536455768835,
+            "maxY": 395.20669409096354,
+            "central": 17,
+            "front": 1160,
+            "total": 1160
+          },
+          "hull": {
+            "minX": 405.86065123872356,
+            "minY": 284.75761701807886,
+            "maxX": 498.51776447551686,
+            "maxY": 398.6386574123798,
+            "central": 2,
+            "front": 19,
+            "total": 19
+          }
+        },
+        {
+          "name": "asset_verdant_cliff_ledge_18_-216",
+          "asset": "asset_verdant_cliff_ledge",
+          "x": 18,
+          "z": -216,
+          "scale": 0.65,
+          "yaw": 0.4,
+          "baseY": 30.457883834838867,
+          "mesh": {
+            "minX": 407.7618102573814,
+            "minY": 322.38934318736204,
+            "maxX": 502.77537614187764,
+            "maxY": 394.63640514314295,
+            "central": 15,
+            "front": 930,
+            "total": 930
+          },
+          "hull": {
+            "minX": 404.4178362620283,
+            "minY": 319.6935310523831,
+            "maxX": 508.14396057877565,
+            "maxY": 397.5465328793234,
+            "central": 1,
+            "front": 20,
+            "total": 20
+          }
+        },
+        {
+          "name": "asset_verdant_cliff_buttress_18_-214",
+          "asset": "asset_verdant_cliff_buttress",
+          "x": 18,
+          "z": -214,
+          "scale": 0.65,
+          "yaw": 0.4,
+          "baseY": 27.72759246826172,
+          "mesh": {
+            "minX": 446.4136744416728,
+            "minY": 361.6024583741862,
+            "maxX": 524.7525166990946,
+            "maxY": 455.37207569741656,
+            "central": 0,
+            "front": 1160,
+            "total": 1160
+          },
+          "hull": {
+            "minX": 443.5952809299916,
+            "minY": 356.88725871016004,
+            "maxX": 528.6767447893619,
+            "maxY": 458.77649438574315,
+            "central": 0,
+            "front": 19,
+            "total": 19
+          }
+        },
+        {
+          "name": "asset_verdant_cliff_ledge_18_-214",
+          "asset": "asset_verdant_cliff_ledge",
+          "x": 18,
+          "z": -214,
+          "scale": 0.65,
+          "yaw": 0.4,
+          "baseY": 27.72759246826172,
+          "mesh": {
+            "minX": 445.35691818518916,
+            "minY": 389.28026956751984,
+            "maxX": 532.3024666140462,
+            "maxY": 454.8060149954434,
+            "central": 0,
+            "front": 930,
+            "total": 930
+          },
+          "hull": {
+            "minX": 442.3340780533745,
+            "minY": 386.5697486412967,
+            "maxX": 537.1911665207117,
+            "maxY": 457.69352553268595,
+            "central": 0,
+            "front": 20,
+            "total": 20
+          }
+        },
+        {
+          "name": "asset_verdant_cliff_buttress_20_-228",
+          "asset": "asset_verdant_cliff_buttress",
+          "x": 20,
+          "z": -228,
+          "scale": 0.65,
+          "yaw": 0.4,
+          "baseY": 34.964195251464844,
+          "mesh": {
+            "minX": -101.3378731566615,
+            "minY": 187.6059876023937,
+            "maxX": 20.96126458338316,
+            "maxY": 339.2596257907255,
+            "central": 83,
+            "front": 1160,
+            "total": 1160
+          },
+          "hull": {
+            "minX": -108.30865299296485,
+            "minY": 181.19457014104236,
+            "maxX": 27.964997145739673,
+            "maxY": 343.6473430762002,
+            "central": 3,
+            "front": 19,
+            "total": 19
+          }
+        },
+        {
+          "name": "asset_verdant_cliff_ledge_20_-228",
+          "asset": "asset_verdant_cliff_ledge",
+          "x": 20,
+          "z": -228,
+          "scale": 0.65,
+          "yaw": 0.4,
+          "baseY": 34.964195251464844,
+          "mesh": {
+            "minX": -97.11993912291659,
+            "minY": 237.57934298742924,
+            "maxX": 22.186721232024695,
+            "maxY": 338.53241465233094,
+            "central": 44,
+            "front": 930,
+            "total": 930
+          },
+          "hull": {
+            "minX": -103.0457366770013,
+            "minY": 234.33970814100795,
+            "maxX": 28.907538234660667,
+            "maxY": 342.24895106328853,
+            "central": 3,
+            "front": 20,
+            "total": 20
+          }
+        },
+        {
+          "name": "asset_verdant_cliff_buttress_20_-226",
+          "asset": "asset_verdant_cliff_buttress",
+          "x": 20,
+          "z": -226,
+          "scale": 0.65,
+          "yaw": 0.4,
+          "baseY": 34.526039123535156,
+          "mesh": {
+            "minX": 6.848676502673134,
+            "minY": 188.7411638825923,
+            "maxX": 113.81690001439297,
+            "maxY": 330.538891429102,
+            "central": 1160,
+            "front": 1160,
+            "total": 1160
+          },
+          "hull": {
+            "minX": 0.6024564949537363,
+            "minY": 182.75109395337876,
+            "maxX": 119.99380739195027,
+            "maxY": 334.57699192351197,
+            "central": 19,
+            "front": 19,
+            "total": 19
+          }
+        },
+        {
+          "name": "asset_verdant_cliff_ledge_20_-226",
+          "asset": "asset_verdant_cliff_ledge",
+          "x": 20,
+          "z": -226,
+          "scale": 0.65,
+          "yaw": 0.4,
+          "baseY": 34.526039123535156,
+          "mesh": {
+            "minX": 7.241226585846698,
+            "minY": 235.4512316822234,
+            "maxX": 117.78121341895512,
+            "maxY": 329.8692315817983,
+            "central": 930,
+            "front": 930,
+            "total": 930
+          },
+          "hull": {
+            "minX": 2.04987148467753,
+            "minY": 232.43151578581285,
+            "maxX": 124.21723295993552,
+            "maxY": 333.29046689924223,
+            "central": 20,
+            "front": 20,
+            "total": 20
+          }
+        },
+        {
+          "name": "asset_verdant_cliff_buttress_20_-224",
+          "asset": "asset_verdant_cliff_buttress",
+          "x": 20,
+          "z": -224,
+          "scale": 0.65,
+          "yaw": 0.4,
+          "baseY": 32.3769645690918,
+          "mesh": {
+            "minX": 102.71057461515701,
+            "minY": 268.57518269317904,
+            "maxX": 196.3631305215276,
+            "maxY": 392.8086376987038,
+            "central": 1160,
+            "front": 1160,
+            "total": 1160
+          },
+          "hull": {
+            "minX": 98.61676486226592,
+            "minY": 262.8683237679312,
+            "maxX": 201.4374216744947,
+            "maxY": 396.81705253306325,
+            "central": 19,
+            "front": 19,
+            "total": 19
+          }
+        },
+        {
+          "name": "asset_verdant_cliff_ledge_20_-224",
+          "asset": "asset_verdant_cliff_ledge",
+          "x": 20,
+          "z": -224,
+          "scale": 0.65,
+          "yaw": 0.4,
+          "baseY": 32.3769645690918,
+          "mesh": {
+            "minX": 101.07518034146806,
+            "minY": 307.57431154242244,
+            "maxX": 201.9848197428102,
+            "maxY": 392.14329762475825,
+            "central": 930,
+            "front": 930,
+            "total": 930
+          },
+          "hull": {
+            "minX": 97.06588058685847,
+            "minY": 304.4980938483804,
+            "maxX": 207.85151858329525,
+            "maxY": 395.54066208371916,
+            "central": 20,
+            "front": 20,
+            "total": 20
+          }
+        },
+        {
+          "name": "asset_verdant_cliff_buttress_20_-222",
+          "asset": "asset_verdant_cliff_buttress",
+          "x": 20,
+          "z": -222,
+          "scale": 0.65,
+          "yaw": 0.4,
+          "baseY": 32.017608642578125,
+          "mesh": {
+            "minX": 176.81507435251865,
+            "minY": 261.70408707565616,
+            "maxX": 266.0727933927537,
+            "maxY": 379.5950909847515,
+            "central": 1160,
+            "front": 1160,
+            "total": 1160
+          },
+          "hull": {
+            "minX": 173.26172142040153,
+            "minY": 256.3355181393722,
+            "maxX": 270.5165088778485,
+            "maxY": 383.3099036921437,
+            "central": 19,
+            "front": 19,
+            "total": 19
+          }
+        },
+        {
+          "name": "asset_verdant_cliff_ledge_20_-222",
+          "asset": "asset_verdant_cliff_ledge",
+          "x": 20,
+          "z": -222,
+          "scale": 0.65,
+          "yaw": 0.4,
+          "baseY": 32.017608642578125,
+          "mesh": {
+            "minX": 175.0870512271704,
+            "minY": 298.8822821247536,
+            "maxX": 273.06356702233813,
+            "maxY": 378.9782387717129,
+            "central": 930,
+            "front": 930,
+            "total": 930
+          },
+          "hull": {
+            "minX": 171.30752009073618,
+            "minY": 296.0094989620645,
+            "maxX": 278.71602389277217,
+            "maxY": 382.127280010138,
+            "central": 20,
+            "front": 20,
+            "total": 20
+          }
+        },
+        {
+          "name": "asset_verdant_cliff_buttress_20_-220",
+          "asset": "asset_verdant_cliff_buttress",
+          "x": 20,
+          "z": -220,
+          "scale": 0.65,
+          "yaw": 0.4,
+          "baseY": 31.6558837890625,
+          "mesh": {
+            "minX": 243.46851666527854,
+            "minY": 255.63313709135787,
+            "maxX": 328.9718770203535,
+            "maxY": 367.787372561702,
+            "central": 1160,
+            "front": 1160,
+            "total": 1160
+          },
+          "hull": {
+            "minX": 240.11495013533403,
+            "minY": 250.56518261613866,
+            "maxX": 332.8805602668774,
+            "maxY": 371.2461209192466,
+            "central": 19,
+            "front": 19,
+            "total": 19
+          }
+        },
+        {
+          "name": "asset_verdant_cliff_ledge_20_-220",
+          "asset": "asset_verdant_cliff_ledge",
+          "x": 20,
+          "z": -220,
+          "scale": 0.65,
+          "yaw": 0.4,
+          "baseY": 31.6558837890625,
+          "mesh": {
+            "minX": 241.9276824487374,
+            "minY": 291.1449121404354,
+            "maxX": 337.0401051848146,
+            "maxY": 367.21283401274997,
+            "central": 930,
+            "front": 930,
+            "total": 930
+          },
+          "hull": {
+            "minX": 238.35350430067874,
+            "minY": 288.4510699732899,
+            "maxX": 342.4904439776859,
+            "maxY": 370.145247419933,
+            "central": 20,
+            "front": 20,
+            "total": 20
+          }
+        },
+        {
+          "name": "asset_verdant_cliff_buttress_20_-218",
+          "asset": "asset_verdant_cliff_buttress",
+          "x": 20,
+          "z": -218,
+          "scale": 0.65,
+          "yaw": 0.4,
+          "baseY": 31.292524337768555,
+          "mesh": {
+            "minX": 303.9623314140364,
+            "minY": 250.21819787995292,
+            "maxX": 386.13679349527143,
+            "maxY": 357.16138685347477,
+            "central": 1160,
+            "front": 1160,
+            "total": 1160
+          },
+          "hull": {
+            "minX": 300.78777587538593,
+            "minY": 245.41912547151483,
+            "maxX": 389.74026687649695,
+            "maxY": 360.39506706973276,
+            "central": 19,
+            "front": 19,
+            "total": 19
+          }
+        },
+        {
+          "name": "asset_verdant_cliff_ledge_20_-218",
+          "asset": "asset_verdant_cliff_ledge",
+          "x": 20,
+          "z": -218,
+          "scale": 0.65,
+          "yaw": 0.4,
+          "baseY": 31.292524337768555,
+          "mesh": {
+            "minX": 302.58231281160454,
+            "minY": 284.2011930353119,
+            "maxX": 394.92049212468504,
+            "maxY": 356.6240600765652,
+            "central": 930,
+            "front": 930,
+            "total": 930
+          },
+          "hull": {
+            "minX": 299.19267581322197,
+            "minY": 281.6659171178204,
+            "maxX": 400.18044181953275,
+            "maxY": 359.36602538095707,
+            "central": 20,
+            "front": 20,
+            "total": 20
+          }
+        },
+        {
+          "name": "asset_verdant_cliff_buttress_20_-216",
+          "asset": "asset_verdant_cliff_buttress",
+          "x": 20,
+          "z": -216,
+          "scale": 0.65,
+          "yaw": 0.4,
+          "baseY": 30.928260803222656,
+          "mesh": {
+            "minX": 359.10856021174163,
+            "minY": 245.34161554426885,
+            "maxX": 439.1571786785994,
+            "maxY": 347.53291450502536,
+            "central": 782,
+            "front": 1160,
+            "total": 1160
+          },
+          "hull": {
+            "minX": 356.0952317593047,
+            "minY": 240.78445783464204,
+            "maxX": 443.0124684167285,
+            "maxY": 350.56736601233615,
+            "central": 11,
+            "front": 19,
+            "total": 19
+          }
+        },
+        {
+          "name": "asset_verdant_cliff_ledge_20_-216",
+          "asset": "asset_verdant_cliff_ledge",
+          "x": 20,
+          "z": -216,
+          "scale": 0.65,
+          "yaw": 0.4,
+          "baseY": 30.928260803222656,
+          "mesh": {
+            "minX": 357.86759335349416,
+            "minY": 277.9187700724834,
+            "maxX": 447.5335355051115,
+            "maxY": 347.02854364233156,
+            "central": 734,
+            "front": 930,
+            "total": 930
+          },
+          "hull": {
+            "minX": 354.64461933499723,
+            "minY": 275.5249543993138,
+            "maxX": 452.614282263363,
+            "maxY": 349.60189097676806,
+            "central": 14,
+            "front": 20,
+            "total": 20
+          }
+        },
+        {
+          "name": "asset_verdant_cliff_buttress_20_-214",
+          "asset": "asset_verdant_cliff_buttress",
+          "x": 20,
+          "z": -214,
+          "scale": 0.65,
+          "yaw": 0.4,
+          "baseY": 28.243192672729492,
+          "mesh": {
+            "minX": 399.7897780700708,
+            "minY": 317.2065785099294,
+            "maxX": 473.6544658816827,
+            "maxY": 408.4956338741553,
+            "central": 127,
+            "front": 1160,
+            "total": 1160
+          },
+          "hull": {
+            "minX": 397.0569871338883,
+            "minY": 312.8231671730777,
+            "maxX": 477.40387865867615,
+            "maxY": 411.5470444661051,
+            "central": 4,
+            "front": 19,
+            "total": 19
+          }
+        },
+        {
+          "name": "asset_verdant_cliff_ledge_20_-214",
+          "asset": "asset_verdant_cliff_ledge",
+          "x": 20,
+          "z": -214,
+          "scale": 0.65,
+          "yaw": 0.4,
+          "baseY": 28.243192672729492,
+          "mesh": {
+            "minX": 398.71109694036596,
+            "minY": 344.99567305915804,
+            "maxX": 481.2660427317646,
+            "maxY": 407.9881586930762,
+            "central": 141,
+            "front": 930,
+            "total": 930
+          },
+          "hull": {
+            "minX": 395.7846899683834,
+            "minY": 342.5571300602139,
+            "maxX": 485.92039137694684,
+            "maxY": 410.57649288770045,
+            "central": 5,
+            "front": 20,
+            "total": 20
+          }
+        },
+        {
+          "name": "asset_verdant_cliff_buttress_22_-228",
+          "asset": "asset_verdant_cliff_buttress",
+          "x": 22,
+          "z": -228,
+          "scale": 0.65,
+          "yaw": 0.4,
+          "baseY": 34.570953369140625,
+          "mesh": {
+            "minX": -134.66094068550606,
+            "minY": 177.37503733570935,
+            "maxX": -19.762748520021592,
+            "maxY": 316.7315924722981,
+            "central": 0,
+            "front": 1160,
+            "total": 1160
+          },
+          "hull": {
+            "minX": -141.35357407552436,
+            "minY": 171.565996432945,
+            "maxX": -13.2793392177046,
+            "maxY": 320.59034530983047,
+            "central": 0,
+            "front": 19,
+            "total": 19
+          }
+        },
+        {
+          "name": "asset_verdant_cliff_ledge_22_-228",
+          "asset": "asset_verdant_cliff_ledge",
+          "x": 22,
+          "z": -228,
+          "scale": 0.65,
+          "yaw": 0.4,
+          "baseY": 34.570953369140625,
+          "mesh": {
+            "minX": -129.75775076260362,
+            "minY": 223.5891987575949,
+            "maxX": -19.81472970171931,
+            "maxY": 316.09156685071775,
+            "central": 0,
+            "front": 930,
+            "total": 930
+          },
+          "hull": {
+            "minX": -135.22713967707986,
+            "minY": 220.69669976862033,
+            "maxX": -13.883234833247602,
+            "maxY": 319.3610810441774,
+            "central": 0,
+            "front": 20,
+            "total": 20
+          }
+        },
+        {
+          "name": "asset_verdant_cliff_buttress_22_-226",
+          "asset": "asset_verdant_cliff_buttress",
+          "x": 22,
+          "z": -226,
+          "scale": 0.65,
+          "yaw": 0.4,
+          "baseY": 34.520729064941406,
+          "mesh": {
+            "minX": -36.00848821157791,
+            "minY": 160.23344609079894,
+            "maxX": 66.628662434809,
+            "maxY": 293.33708050958177,
+            "central": 745,
+            "front": 1160,
+            "total": 1160
+          },
+          "hull": {
+            "minX": -41.422683132569105,
+            "minY": 154.7992421508811,
+            "maxX": 72.67808042752576,
+            "maxY": 296.8477018800879,
+            "central": 11,
+            "front": 19,
+            "total": 19
+          }
+        },
+        {
+          "name": "asset_verdant_cliff_ledge_22_-226",
+          "asset": "asset_verdant_cliff_ledge",
+          "x": 22,
+          "z": -226,
+          "scale": 0.65,
+          "yaw": 0.4,
+          "baseY": 34.520729064941406,
+          "mesh": {
+            "minX": -34.27415596393275,
+            "minY": 204.8189358621695,
+            "maxX": 69.08420093391287,
+            "maxY": 292.7545609694656,
+            "central": 458,
+            "front": 930,
+            "total": 930
+          },
+          "hull": {
+            "minX": -39.35530251084413,
+            "minY": 202.16820122778424,
+            "maxX": 75.01398847628865,
+            "maxY": 295.72960521626004,
+            "central": 10,
+            "front": 20,
+            "total": 20
+          }
+        },
+        {
+          "name": "asset_verdant_cliff_buttress_22_-224",
+          "asset": "asset_verdant_cliff_buttress",
+          "x": 22,
+          "z": -224,
+          "scale": 0.65,
+          "yaw": 0.4,
+          "baseY": 34.41445541381836,
+          "mesh": {
+            "minX": 51.51294933426775,
+            "minY": 147.37516034146086,
+            "maxX": 145.65896042562707,
+            "maxY": 274.47513316562686,
+            "central": 1114,
+            "front": 1160,
+            "total": 1160
+          },
+          "hull": {
+            "minX": 46.553160115868224,
+            "minY": 142.26845768898468,
+            "maxX": 150.98594111702832,
+            "maxY": 277.6943317879433,
+            "central": 16,
+            "front": 19,
+            "total": 19
+          }
+        },
+        {
+          "name": "asset_verdant_cliff_ledge_22_-224",
+          "asset": "asset_verdant_cliff_ledge",
+          "x": 22,
+          "z": -224,
+          "scale": 0.65,
+          "yaw": 0.4,
+          "baseY": 34.41445541381836,
+          "mesh": {
+            "minX": 51.35871485871471,
+            "minY": 190.26807443957512,
+            "maxX": 149.97606241694413,
+            "maxY": 273.94076669323056,
+            "central": 930,
+            "front": 930,
+            "total": 930
+          },
+          "hull": {
+            "minX": 47.355391939706465,
+            "minY": 187.81881514794335,
+            "maxX": 155.73401713008784,
+            "maxY": 276.6692778236312,
+            "central": 20,
+            "front": 20,
+            "total": 20
+          }
+        },
+        {
+          "name": "asset_verdant_cliff_buttress_22_-222",
+          "asset": "asset_verdant_cliff_buttress",
+          "x": 22,
+          "z": -222,
+          "scale": 0.65,
+          "yaw": 0.4,
+          "baseY": 31.550283432006836,
+          "mesh": {
+            "minX": 133.96544920300306,
+            "minY": 251.29819896191725,
+            "maxX": 216.84082164652864,
+            "maxY": 361.3494472453956,
+            "central": 1160,
+            "front": 1160,
+            "total": 1160
+          },
+          "hull": {
+            "minX": 130.6314903188781,
+            "minY": 246.35065821511125,
+            "maxX": 221.2322234175778,
+            "maxY": 364.70251036395007,
+            "central": 19,
+            "front": 19,
+            "total": 19
+          }
+        },
+        {
+          "name": "asset_verdant_cliff_ledge_22_-222",
+          "asset": "asset_verdant_cliff_ledge",
+          "x": 22,
+          "z": -222,
+          "scale": 0.65,
+          "yaw": 0.4,
+          "baseY": 31.550283432006836,
+          "mesh": {
+            "minX": 132.2875385334637,
+            "minY": 286.24150706380397,
+            "maxX": 222.25653450376277,
+            "maxY": 360.792389162082,
+            "central": 930,
+            "front": 930,
+            "total": 930
+          },
+          "hull": {
+            "minX": 128.74646171974663,
+            "minY": 283.62309030795274,
+            "maxX": 227.4573100893867,
+            "maxY": 363.63535917028514,
+            "central": 20,
+            "front": 20,
+            "total": 20
+          }
+        },
+        {
+          "name": "asset_verdant_cliff_buttress_22_-220",
+          "asset": "asset_verdant_cliff_buttress",
+          "x": 22,
+          "z": -220,
+          "scale": 0.65,
+          "yaw": 0.4,
+          "baseY": 31.193208694458008,
+          "mesh": {
+            "minX": 198.32090698558318,
+            "minY": 245.96265937703757,
+            "maxX": 277.9637271855346,
+            "maxY": 351.01345868094114,
+            "central": 1160,
+            "front": 1160,
+            "total": 1160
+          },
+          "hull": {
+            "minX": 195.1628346929888,
+            "minY": 241.27202075641821,
+            "maxX": 281.86549570870613,
+            "maxY": 354.1527559780032,
+            "central": 19,
+            "front": 19,
+            "total": 19
+          }
+        },
+        {
+          "name": "asset_verdant_cliff_ledge_22_-220",
+          "asset": "asset_verdant_cliff_ledge",
+          "x": 22,
+          "z": -220,
+          "scale": 0.65,
+          "yaw": 0.4,
+          "baseY": 31.193208694458008,
+          "mesh": {
+            "minX": 196.8124842180211,
+            "minY": 279.43518441918206,
+            "maxX": 284.42292263504055,
+            "maxY": 350.49175179333645,
+            "central": 930,
+            "front": 930,
+            "total": 930
+          },
+          "hull": {
+            "minX": 193.45176585493243,
+            "minY": 276.9678909833956,
+            "maxX": 289.45438119799826,
+            "maxY": 353.15382028856635,
+            "central": 20,
+            "front": 20,
+            "total": 20
+          }
+        },
+        {
+          "name": "asset_verdant_cliff_buttress_22_-218",
+          "asset": "asset_verdant_cliff_buttress",
+          "x": 22,
+          "z": -218,
+          "scale": 0.65,
+          "yaw": 0.4,
+          "baseY": 30.834774017333984,
+          "mesh": {
+            "minX": 257.1051096152564,
+            "minY": 241.16314384248196,
+            "maxX": 333.74971382672686,
+            "maxY": 341.64325946565566,
+            "central": 1160,
+            "front": 1160,
+            "total": 1160
+          },
+          "hull": {
+            "minX": 254.10571396710057,
+            "minY": 236.70415279948992,
+            "maxX": 337.22851376023516,
+            "maxY": 344.59289648988016,
+            "central": 19,
+            "front": 19,
+            "total": 19
+          }
+        },
+        {
+          "name": "asset_verdant_cliff_ledge_22_-218",
+          "asset": "asset_verdant_cliff_ledge",
+          "x": 22,
+          "z": -218,
+          "scale": 0.65,
+          "yaw": 0.4,
+          "baseY": 30.834774017333984,
+          "mesh": {
+            "minX": 255.74378498366733,
+            "minY": 273.2797957925451,
+            "maxX": 341.05117211741896,
+            "maxY": 341.1529321848277,
+            "central": 930,
+            "front": 930,
+            "total": 930
+          },
+          "hull": {
+            "minX": 252.5462354553141,
+            "minY": 270.94759137144945,
+            "maxX": 345.9220171336552,
+            "maxY": 343.6544672332114,
+            "central": 20,
+            "front": 20,
+            "total": 20
+          }
+        },
+        {
+          "name": "asset_verdant_cliff_buttress_22_-216",
+          "asset": "asset_verdant_cliff_buttress",
+          "x": 22,
+          "z": -216,
+          "scale": 0.65,
+          "yaw": 0.4,
+          "baseY": 30.475542068481445,
+          "mesh": {
+            "minX": 311.00786563611604,
+            "minY": 236.81057808260536,
+            "maxX": 384.96228265267325,
+            "maxY": 333.098382989102,
+            "central": 1160,
+            "front": 1160,
+            "total": 1160
+          },
+          "hull": {
+            "minX": 308.15227798533056,
+            "minY": 232.5615248414693,
+            "maxX": 388.18539231320096,
+            "maxY": 335.87871198167335,
+            "central": 19,
+            "front": 19,
+            "total": 19
+          }
+        },
+        {
+          "name": "asset_verdant_cliff_ledge_22_-216",
+          "asset": "asset_verdant_cliff_ledge",
+          "x": 22,
+          "z": -216,
+          "scale": 0.65,
+          "yaw": 0.4,
+          "baseY": 30.475542068481445,
+          "mesh": {
+            "minX": 309.774931822363,
+            "minY": 267.6744486802945,
+            "maxX": 392.8469235025191,
+            "maxY": 332.6360802021367,
+            "central": 930,
+            "front": 930,
+            "total": 930
+          },
+          "hull": {
+            "minX": 306.7256503690761,
+            "minY": 265.46370481438447,
+            "maxX": 397.5655771455905,
+            "maxY": 334.99428257067586,
+            "central": 20,
+            "front": 20,
+            "total": 20
+          }
+        },
+        {
+          "name": "asset_verdant_cliff_buttress_22_-214",
+          "asset": "asset_verdant_cliff_buttress",
+          "x": 22,
+          "z": -214,
+          "scale": 0.65,
+          "yaw": 0.4,
+          "baseY": 28.265092849731445,
+          "mesh": {
+            "minX": 354.94062019678034,
+            "minY": 291.17370210657674,
+            "maxX": 424.31547512752786,
+            "maxY": 378.8720223594609,
+            "central": 904,
+            "front": 1160,
+            "total": 1160
+          },
+          "hull": {
+            "minX": 352.314021766416,
+            "minY": 287.07904943405765,
+            "maxX": 427.55710323129273,
+            "maxY": 381.64773130750837,
+            "central": 14,
+            "front": 19,
+            "total": 19
+          }
+        },
+        {
+          "name": "asset_verdant_cliff_ledge_22_-214",
+          "asset": "asset_verdant_cliff_ledge",
+          "x": 22,
+          "z": -214,
+          "scale": 0.65,
+          "yaw": 0.4,
+          "baseY": 28.265092849731445,
+          "mesh": {
+            "minX": 353.8544952891142,
+            "minY": 318.3388018395309,
+            "maxX": 431.58804118485955,
+            "maxY": 378.4102806295785,
+            "central": 865,
+            "front": 930,
+            "total": 930
+          },
+          "hull": {
+            "minX": 351.04606059570426,
+            "minY": 316.10929198915835,
+            "maxX": 435.981591009964,
+            "maxY": 380.7650031717705,
+            "central": 16,
+            "front": 20,
+            "total": 20
+          }
+        },
+        {
+          "name": "asset_verdant_cliff_buttress_24_-228",
+          "asset": "asset_verdant_cliff_buttress",
+          "x": 24,
+          "z": -228,
+          "scale": 0.65,
+          "yaw": 0.4,
+          "baseY": 34.36396789550781,
+          "mesh": {
+            "minX": -164.74248669087822,
+            "minY": 159.90304110719742,
+            "maxX": -55.791879596747535,
+            "maxY": 289.7781396304779,
+            "central": 0,
+            "front": 1160,
+            "total": 1160
+          },
+          "hull": {
+            "minX": -171.2086952980847,
+            "minY": 154.60618398399833,
+            "maxX": -49.72416685112279,
+            "maxY": 293.179215663303,
+            "central": 0,
+            "front": 19,
+            "total": 19
+          }
+        },
+        {
+          "name": "asset_verdant_cliff_ledge_24_-228",
+          "asset": "asset_verdant_cliff_ledge",
+          "x": 24,
+          "z": -228,
+          "scale": 0.65,
+          "yaw": 0.4,
+          "baseY": 34.36396789550781,
+          "mesh": {
+            "minX": -159.3241400267671,
+            "minY": 203.41992684285228,
+            "maxX": -56.79888858004851,
+            "maxY": 289.2136883692532,
+            "central": 0,
+            "front": 930,
+            "total": 930
+          },
+          "hull": {
+            "minX": -164.4322351527954,
+            "minY": 200.84049979603506,
+            "maxX": -51.488648911089776,
+            "maxY": 292.09612993515924,
+            "central": 0,
+            "front": 20,
+            "total": 20
+          }
+        },
+        {
+          "name": "asset_verdant_cliff_buttress_24_-226",
+          "asset": "asset_verdant_cliff_buttress",
+          "x": 24,
+          "z": -226,
+          "scale": 0.65,
+          "yaw": 0.4,
+          "baseY": 34.51419448852539,
+          "mesh": {
+            "minX": -73.31403191716804,
+            "minY": 135.50540431748718,
+            "maxX": 25.419215394463833,
+            "maxY": 260.90083449145595,
+            "central": 159,
+            "front": 1160,
+            "total": 1160
+          },
+          "hull": {
+            "minX": -78.69945219690361,
+            "minY": 130.53769408524357,
+            "maxX": 31.17550047454182,
+            "maxY": 263.981417557041,
+            "central": 3,
+            "front": 19,
+            "total": 19
+          }
+        },
+        {
+          "name": "asset_verdant_cliff_ledge_24_-226",
+          "asset": "asset_verdant_cliff_ledge",
+          "x": 24,
+          "z": -226,
+          "scale": 0.65,
+          "yaw": 0.4,
+          "baseY": 34.51419448852539,
+          "mesh": {
+            "minX": -70.65427535311966,
+            "minY": 178.06747894861567,
+            "maxX": 26.551325124087494,
+            "maxY": 260.38941506214786,
+            "central": 70,
+            "front": 930,
+            "total": 930
+          },
+          "hull": {
+            "minX": -75.45255464957283,
+            "minY": 175.684191035557,
+            "maxX": 32.047237090059014,
+            "maxY": 263.0005712212365,
+            "central": 3,
+            "front": 20,
+            "total": 20
+          }
+        },
+        {
+          "name": "asset_verdant_cliff_buttress_24_-224",
+          "asset": "asset_verdant_cliff_buttress",
+          "x": 24,
+          "z": -224,
+          "scale": 0.65,
+          "yaw": 0.4,
+          "baseY": 34.58024215698242,
+          "mesh": {
+            "minX": 11.081183029382803,
+            "minY": 116.85118597311552,
+            "maxX": 100.98208268371981,
+            "maxY": 237.67470364965462,
+            "central": 869,
+            "front": 1160,
+            "total": 1160
+          },
+          "hull": {
+            "minX": 5.8644880616171156,
+            "minY": 112.1722923721565,
+            "maxX": 106.25472765777272,
+            "maxY": 240.48771032257525,
+            "central": 9,
+            "front": 19,
+            "total": 19
+          }
+        },
+        {
+          "name": "asset_verdant_cliff_ledge_24_-224",
+          "asset": "asset_verdant_cliff_ledge",
+          "x": 24,
+          "z": -224,
+          "scale": 0.65,
+          "yaw": 0.4,
+          "baseY": 34.58024215698242,
+          "mesh": {
+            "minX": 11.351334517581648,
+            "minY": 158.115216693938,
+            "maxX": 104.00100849935303,
+            "maxY": 237.2075648970347,
+            "central": 918,
+            "front": 930,
+            "total": 930
+          },
+          "hull": {
+            "minX": 7.067832351117847,
+            "minY": 155.84209528100118,
+            "maxX": 109.37530285504165,
+            "maxY": 239.59221704380494,
+            "central": 16,
+            "front": 20,
+            "total": 20
+          }
+        },
+        {
+          "name": "asset_verdant_cliff_buttress_24_-222",
+          "asset": "asset_verdant_cliff_buttress",
+          "x": 24,
+          "z": -222,
+          "scale": 0.65,
+          "yaw": 0.4,
+          "baseY": 33.87688064575195,
+          "mesh": {
+            "minX": 88.29859076180428,
+            "minY": 132.71933760975136,
+            "maxX": 171.5864028989679,
+            "maxY": 246.13399257033188,
+            "central": 998,
+            "front": 1160,
+            "total": 1160
+          },
+          "hull": {
+            "minX": 84.46260638024876,
+            "minY": 128.25176906567128,
+            "maxX": 176.21105422574297,
+            "maxY": 248.83197656378735,
+            "central": 12,
+            "front": 19,
+            "total": 19
+          }
+        },
+        {
+          "name": "asset_verdant_cliff_ledge_24_-222",
+          "asset": "asset_verdant_cliff_ledge",
+          "x": 24,
+          "z": -222,
+          "scale": 0.65,
+          "yaw": 0.4,
+          "baseY": 33.87688064575195,
+          "mesh": {
+            "minX": 87.21719810336934,
+            "minY": 171.2332406613098,
+            "maxX": 176.00385054207635,
+            "maxY": 245.68577087971994,
+            "central": 930,
+            "front": 930,
+            "total": 930
+          },
+          "hull": {
+            "minX": 83.65531276137669,
+            "minY": 169.08410913819506,
+            "maxX": 181.1567789885872,
+            "maxY": 247.97330582316317,
+            "central": 20,
+            "front": 20,
+            "total": 20
+          }
+        },
+        {
+          "name": "asset_verdant_cliff_buttress_24_-220",
+          "asset": "asset_verdant_cliff_buttress",
+          "x": 24,
+          "z": -220,
+          "scale": 0.65,
+          "yaw": 0.4,
+          "baseY": 30.73175811767578,
+          "mesh": {
+            "minX": 158.56391328087605,
+            "minY": 237.46772439851335,
+            "maxX": 233.09685262806818,
+            "maxY": 336.2634791398622,
+            "central": 1160,
+            "front": 1160,
+            "total": 1160
+          },
+          "hull": {
+            "minX": 155.57987040569492,
+            "minY": 233.10259297124904,
+            "maxX": 236.96522257824287,
+            "maxY": 339.13326320373454,
+            "central": 19,
+            "front": 19,
+            "total": 19
+          }
+        },
+        {
+          "name": "asset_verdant_cliff_ledge_24_-220",
+          "asset": "asset_verdant_cliff_ledge",
+          "x": 24,
+          "z": -220,
+          "scale": 0.65,
+          "yaw": 0.4,
+          "baseY": 30.73175811767578,
+          "mesh": {
+            "minX": 157.09134856285604,
+            "minY": 269.1199656995695,
+            "maxX": 238.26691160470017,
+            "maxY": 335.78637488724445,
+            "central": 930,
+            "front": 930,
+            "total": 930
+          },
+          "hull": {
+            "minX": 153.9200342707246,
+            "minY": 266.8457511358429,
+            "maxX": 242.93824929333476,
+            "maxY": 338.2202964871893,
+            "central": 20,
+            "front": 20,
+            "total": 20
+          }
+        },
+        {
+          "name": "asset_verdant_cliff_buttress_24_-218",
+          "asset": "asset_verdant_cliff_buttress",
+          "x": 24,
+          "z": -218,
+          "scale": 0.65,
+          "yaw": 0.4,
+          "baseY": 30.379093170166016,
+          "mesh": {
+            "minX": 215.60676271762443,
+            "minY": 233.12852072548543,
+            "maxX": 287.52011051866236,
+            "maxY": 327.8867476506861,
+            "central": 1160,
+            "front": 1160,
+            "total": 1160
+          },
+          "hull": {
+            "minX": 212.76424521241572,
+            "minY": 228.96503725481932,
+            "maxX": 290.997435955045,
+            "maxY": 330.5946818918022,
+            "central": 19,
+            "front": 19,
+            "total": 19
+          }
+        },
+        {
+          "name": "asset_verdant_cliff_ledge_24_-218",
+          "asset": "asset_verdant_cliff_ledge",
+          "x": 24,
+          "z": -218,
+          "scale": 0.65,
+          "yaw": 0.4,
+          "baseY": 30.379093170166016,
+          "mesh": {
+            "minX": 214.268953646311,
+            "minY": 263.5725008541282,
+            "maxX": 293.5117245306673,
+            "maxY": 327.43643847313706,
+            "central": 930,
+            "front": 930,
+            "total": 930
+          },
+          "hull": {
+            "minX": 211.24285070235447,
+            "minY": 261.41475676602005,
+            "maxX": 298.0461150863606,
+            "maxY": 329.73333055167205,
+            "central": 20,
+            "front": 20,
+            "total": 20
+          }
+        },
+        {
+          "name": "asset_verdant_cliff_buttress_24_-216",
+          "asset": "asset_verdant_cliff_buttress",
+          "x": 24,
+          "z": -216,
+          "scale": 0.65,
+          "yaw": 0.4,
+          "baseY": 30.0257568359375,
+          "mesh": {
+            "minX": 268.18641018965536,
+            "minY": 229.1675998376483,
+            "maxX": 337.6527577377817,
+            "maxY": 320.20325397316174,
+            "central": 1160,
+            "front": 1160,
+            "total": 1160
+          },
+          "hull": {
+            "minX": 265.47287531715,
+            "minY": 225.18802987001138,
+            "maxX": 340.78733736528966,
+            "maxY": 322.7656365217109,
+            "central": 19,
+            "front": 19,
+            "total": 19
+          }
+        },
+        {
+          "name": "asset_verdant_cliff_ledge_24_-216",
+          "asset": "asset_verdant_cliff_ledge",
+          "x": 24,
+          "z": -216,
+          "scale": 0.65,
+          "yaw": 0.4,
+          "baseY": 30.0257568359375,
+          "mesh": {
+            "minX": 266.96719996504277,
+            "minY": 258.49028822516533,
+            "maxX": 344.3213815077889,
+            "maxY": 319.7770509217785,
+            "central": 930,
+            "front": 930,
+            "total": 930
+          },
+          "hull": {
+            "minX": 264.0737729426657,
+            "minY": 256.43798027315296,
+            "maxX": 348.72525444246855,
+            "maxY": 321.95069250552996,
+            "central": 20,
+            "front": 20,
+            "total": 20
+          }
+        },
+        {
+          "name": "asset_verdant_cliff_buttress_24_-214",
+          "asset": "asset_verdant_cliff_buttress",
+          "x": 24,
+          "z": -214,
+          "scale": 0.65,
+          "yaw": 0.4,
+          "baseY": 29.672119140625,
+          "mesh": {
+            "minX": 316.80575437946,
+            "minY": 225.5288062428342,
+            "maxX": 384.05416080898175,
+            "maxY": 313.12230803046737,
+            "central": 1160,
+            "front": 1160,
+            "total": 1160
+          },
+          "hull": {
+            "minX": 314.2102160496035,
+            "minY": 221.7176546523802,
+            "maxX": 386.97061576592984,
+            "maxY": 315.5531523891674,
+            "central": 19,
+            "front": 19,
+            "total": 19
+          }
+        },
+        {
+          "name": "asset_verdant_cliff_ledge_24_-214",
+          "asset": "asset_verdant_cliff_ledge",
+          "x": 24,
+          "z": -214,
+          "scale": 0.65,
+          "yaw": 0.4,
+          "baseY": 29.672119140625,
+          "mesh": {
+            "minX": 315.6914099632133,
+            "minY": 253.80871952715285,
+            "maxX": 391.2086324730981,
+            "maxY": 312.717897999278,
+            "central": 930,
+            "front": 930,
+            "total": 930
+          },
+          "hull": {
+            "minX": 312.9196463185795,
+            "minY": 251.85230143120657,
+            "maxX": 395.4882104125,
+            "maxY": 314.78013891931147,
+            "central": 20,
+            "front": 20,
+            "total": 20
+          }
+        },
+        {
+          "name": "asset_verdant_cliff_buttress_26_-228",
+          "asset": "asset_verdant_cliff_buttress",
+          "x": 26,
+          "z": -228,
+          "scale": 0.65,
+          "yaw": 0.4,
+          "baseY": 14.56357192993164,
+          "mesh": {
+            "minX": -49.387111261808116,
+            "minY": 713.372147361154,
+            "maxX": 12.878784963156415,
+            "maxY": 782.3924877758465,
+            "central": 0,
+            "front": 1160,
+            "total": 1160
+          },
+          "hull": {
+            "minX": -52.61026337911197,
+            "minY": 708.8017268723283,
+            "maxX": 16.57630524875287,
+            "maxY": 786.2628397296012,
+            "central": 0,
+            "front": 19,
+            "total": 19
+          }
+        },
+        {
+          "name": "asset_verdant_cliff_ledge_26_-228",
+          "asset": "asset_verdant_cliff_ledge",
+          "x": 26,
+          "z": -228,
+          "scale": 0.65,
+          "yaw": 0.4,
+          "baseY": 14.56357192993164,
+          "mesh": {
+            "minX": -48.1268902706921,
+            "minY": 725.3184312665463,
+            "maxX": 13.378953988982225,
+            "maxY": 781.9108487598635,
+            "central": 0,
+            "front": 930,
+            "total": 930
+          },
+          "hull": {
+            "minX": -51.13990641801181,
+            "minY": 722.5040021321046,
+            "maxX": 16.835374233564984,
+            "maxY": 784.9781991522475,
+            "central": 0,
+            "front": 20,
+            "total": 20
+          }
+        },
+        {
+          "name": "asset_verdant_cliff_buttress_26_-226",
+          "asset": "asset_verdant_cliff_buttress",
+          "x": 26,
+          "z": -226,
+          "scale": 0.65,
+          "yaw": 0.4,
+          "baseY": 24.37813949584961,
+          "mesh": {
+            "minX": -38.456072993504776,
+            "minY": 466.03404676959815,
+            "maxX": 33.69893810607372,
+            "maxY": 551.8610655890184,
+            "central": 417,
+            "front": 1160,
+            "total": 1160
+          },
+          "hull": {
+            "minX": -42.179335701378974,
+            "minY": 461.25628887032434,
+            "maxX": 38.000467957519334,
+            "maxY": 555.5134518948912,
+            "central": 6,
+            "front": 19,
+            "total": 19
+          }
+        },
+        {
+          "name": "asset_verdant_cliff_ledge_26_-226",
+          "asset": "asset_verdant_cliff_ledge",
+          "x": 26,
+          "z": -226,
+          "scale": 0.65,
+          "yaw": 0.4,
+          "baseY": 24.37813949584961,
+          "mesh": {
+            "minX": -37.203433922470616,
+            "minY": 489.4436574463676,
+            "maxX": 34.72004827053413,
+            "maxY": 551.2535607021957,
+            "central": 225,
+            "front": 930,
+            "total": 930
+          },
+          "hull": {
+            "minX": -40.72700426246334,
+            "minY": 486.5153690627611,
+            "maxX": 38.80828860626379,
+            "maxY": 554.3518421928942,
+            "central": 5,
+            "front": 20,
+            "total": 20
+          }
+        },
+        {
+          "name": "asset_verdant_cliff_buttress_26_-224",
+          "asset": "asset_verdant_cliff_buttress",
+          "x": 26,
+          "z": -224,
+          "scale": 0.65,
+          "yaw": 0.4,
+          "baseY": 30.06267738342285,
+          "mesh": {
+            "minX": -0.7062301243307214,
+            "minY": 270.7328230493859,
+            "maxX": 76.06908544064862,
+            "maxY": 369.25518712197993,
+            "central": 1139,
+            "front": 1160,
+            "total": 1160
+          },
+          "hull": {
+            "minX": -5.034503990086764,
+            "minY": 266.22116779486674,
+            "maxX": 80.66210000568657,
+            "maxY": 372.31014690361553,
+            "central": 16,
+            "front": 19,
+            "total": 19
+          }
+        },
+        {
+          "name": "asset_verdant_cliff_ledge_26_-224",
+          "asset": "asset_verdant_cliff_ledge",
+          "x": 26,
+          "z": -224,
+          "scale": 0.65,
+          "yaw": 0.4,
+          "baseY": 30.06267738342285,
+          "mesh": {
+            "minX": -0.2500953195222815,
+            "minY": 301.64543312537694,
+            "maxX": 78.1253689657738,
+            "maxY": 368.74731331434936,
+            "central": 919,
+            "front": 930,
+            "total": 930
+          },
+          "hull": {
+            "minX": -4.005757069550156,
+            "minY": 299.2243916957328,
+            "maxX": 82.64345184328933,
+            "maxY": 371.33825209703616,
+            "central": 18,
+            "front": 20,
+            "total": 20
+          }
+        },
+        {
+          "name": "asset_verdant_cliff_buttress_26_-222",
+          "asset": "asset_verdant_cliff_buttress",
+          "x": 26,
+          "z": -222,
+          "scale": 0.65,
+          "yaw": 0.4,
+          "baseY": 30.61701774597168,
+          "mesh": {
+            "minX": 62.16447680706196,
+            "minY": 234.30771988678683,
+            "maxX": 135.87853060103697,
+            "maxY": 331.4396456452527,
+            "central": 1160,
+            "front": 1160,
+            "total": 1160
+          },
+          "hull": {
+            "minX": 58.44866671355809,
+            "minY": 230.03233253415112,
+            "maxX": 140.10715566730775,
+            "maxY": 334.2344247681541,
+            "central": 19,
+            "front": 19,
+            "total": 19
+          }
+        },
+        {
+          "name": "asset_verdant_cliff_ledge_26_-222",
+          "asset": "asset_verdant_cliff_ledge",
+          "x": 26,
+          "z": -222,
+          "scale": 0.65,
+          "yaw": 0.4,
+          "baseY": 30.61701774597168,
+          "mesh": {
+            "minX": 61.80254865922167,
+            "minY": 265.4892272937365,
+            "maxX": 139.05728674212676,
+            "maxY": 330.97496221015444,
+            "central": 930,
+            "front": 930,
+            "total": 930
+          },
+          "hull": {
+            "minX": 58.658341703944714,
+            "minY": 263.26943661176335,
+            "maxX": 143.53874545861387,
+            "maxY": 333.34537405295265,
+            "central": 20,
+            "front": 20,
+            "total": 20
+          }
+        },
+        {
+          "name": "asset_verdant_cliff_buttress_26_-220",
+          "asset": "asset_verdant_cliff_buttress",
+          "x": 26,
+          "z": -220,
+          "scale": 0.65,
+          "yaw": 0.4,
+          "baseY": 30.271482467651367,
+          "mesh": {
+            "minX": 123.2836628017301,
+            "minY": 229.94036902380554,
+            "maxX": 193.322212427479,
+            "maxY": 323.18615559798786,
+            "central": 1160,
+            "front": 1160,
+            "total": 1160
+          },
+          "hull": {
+            "minX": 120.45551374499092,
+            "minY": 225.85886159541866,
+            "maxX": 197.13960248198717,
+            "maxY": 325.82592775382466,
+            "central": 19,
+            "front": 19,
+            "total": 19
+          }
+        },
+        {
+          "name": "asset_verdant_cliff_ledge_26_-220",
+          "asset": "asset_verdant_cliff_ledge",
+          "x": 26,
+          "z": -220,
+          "scale": 0.65,
+          "yaw": 0.4,
+          "baseY": 30.271482467651367,
+          "mesh": {
+            "minX": 121.84864595780347,
+            "minY": 259.95851135501886,
+            "maxX": 197.44777163820936,
+            "maxY": 322.74713927131876,
+            "central": 930,
+            "front": 930,
+            "total": 930
+          },
+          "hull": {
+            "minX": 118.84651826373793,
+            "minY": 257.8506329076868,
+            "maxX": 201.8063413417912,
+            "maxY": 324.98630466370355,
+            "central": 20,
+            "front": 20,
+            "total": 20
+          }
+        },
+        {
+          "name": "asset_verdant_cliff_buttress_26_-218",
+          "asset": "asset_verdant_cliff_buttress",
+          "x": 26,
+          "z": -218,
+          "scale": 0.65,
+          "yaw": 0.4,
+          "baseY": 29.92522430419922,
+          "mesh": {
+            "minX": 178.5933299211733,
+            "minY": 225.9478074958084,
+            "maxX": 246.32557326898092,
+            "maxY": 315.6042891216951,
+            "central": 1160,
+            "front": 1160,
+            "total": 1160
+          },
+          "hull": {
+            "minX": 175.89211749487913,
+            "minY": 222.04343127690703,
+            "maxX": 249.78131745259537,
+            "maxY": 318.10440074920797,
+            "central": 19,
+            "front": 19,
+            "total": 19
+          }
+        },
+        {
+          "name": "asset_verdant_cliff_ledge_26_-218",
+          "asset": "asset_verdant_cliff_ledge",
+          "x": 26,
+          "z": -218,
+          "scale": 0.65,
+          "yaw": 0.4,
+          "baseY": 29.92522430419922,
+          "mesh": {
+            "minX": 177.28200174702607,
+            "minY": 254.88435621694606,
+            "maxX": 251.24339401563793,
+            "maxY": 315.1884073008705,
+            "central": 930,
+            "front": 930,
+            "total": 930
+          },
+          "hull": {
+            "minX": 174.4098619876353,
+            "minY": 252.87795455034592,
+            "maxX": 255.48409276109956,
+            "maxY": 317.30930209622846,
+            "central": 20,
+            "front": 20,
+            "total": 20
+          }
+        },
+        {
+          "name": "asset_verdant_cliff_buttress_26_-216",
+          "asset": "asset_verdant_cliff_buttress",
+          "x": 26,
+          "z": -216,
+          "scale": 0.65,
+          "yaw": 0.4,
+          "baseY": 29.578428268432617,
+          "mesh": {
+            "minX": 229.81412723495188,
+            "minY": 222.28098773351186,
+            "maxX": 295.38250120955723,
+            "maxY": 308.61271549489146,
+            "central": 1160,
+            "front": 1160,
+            "total": 1160
+          },
+          "hull": {
+            "minX": 227.22918479149985,
+            "minY": 218.53906849274242,
+            "maxX": 298.51877346534735,
+            "maxY": 310.98641161195326,
+            "central": 19,
+            "front": 19,
+            "total": 19
+          }
+        },
+        {
+          "name": "asset_verdant_cliff_ledge_26_-216",
+          "asset": "asset_verdant_cliff_ledge",
+          "x": 26,
+          "z": -216,
+          "scale": 0.65,
+          "yaw": 0.4,
+          "baseY": 29.578428268432617,
+          "mesh": {
+            "minX": 228.61246609528138,
+            "minY": 250.20974502998777,
+            "maxX": 300.96414133220117,
+            "maxY": 308.21778136112886,
+            "central": 930,
+            "front": 930,
+            "total": 930
+          },
+          "hull": {
+            "minX": 225.85967963821042,
+            "minY": 248.29575784737247,
+            "maxX": 305.091937278573,
+            "maxY": 310.23160675073154,
+            "central": 20,
+            "front": 20,
+            "total": 20
+          }
+        },
+        {
+          "name": "asset_verdant_cliff_buttress_26_-214",
+          "asset": "asset_verdant_cliff_buttress",
+          "x": 26,
+          "z": -214,
+          "scale": 0.65,
+          "yaw": 0.4,
+          "baseY": 29.23128318786621,
+          "mesh": {
+            "minX": 277.38211117771004,
+            "minY": 218.89798863288297,
+            "maxX": 340.9169404261342,
+            "maxY": 302.14174757352106,
+            "central": 1160,
+            "front": 1160,
+            "total": 1160
+          },
+          "hull": {
+            "minX": 274.9040355618074,
+            "minY": 215.3055993741547,
+            "maxX": 343.76981592196483,
+            "maxY": 304.4005276860191,
+            "central": 19,
+            "front": 19,
+            "total": 19
+          }
+        },
+        {
+          "name": "asset_verdant_cliff_ledge_26_-214",
+          "asset": "asset_verdant_cliff_ledge",
+          "x": 26,
+          "z": -214,
+          "scale": 0.65,
+          "yaw": 0.4,
+          "baseY": 29.23128318786621,
+          "mesh": {
+            "minX": 276.2780915616492,
+            "minY": 245.8857694815823,
+            "maxX": 347.0550988973731,
+            "maxY": 301.7658616879818,
+            "central": 930,
+            "front": 930,
+            "total": 930
+          },
+          "hull": {
+            "minX": 273.63525708517926,
+            "minY": 244.0562818951499,
+            "maxX": 351.074846489272,
+            "maxY": 303.68234442720745,
+            "central": 20,
+            "front": 20,
+            "total": 20
+          }
+        },
+        {
+          "name": "asset_verdant_cliff_buttress_28_-228",
+          "asset": "asset_verdant_cliff_buttress",
+          "x": 28,
+          "z": -228,
+          "scale": 0.65,
+          "yaw": 0.4,
+          "baseY": 7.893339157104492,
+          "mesh": {
+            "minX": -42.363477327872545,
+            "minY": 787.7483601882757,
+            "maxX": 11.27175513754577,
+            "maxY": 846.583746960286,
+            "central": 0,
+            "front": 1160,
+            "total": 1160
+          },
+          "hull": {
+            "minX": -45.10127472605863,
+            "minY": 783.9073092215449,
+            "maxX": 14.47300940024887,
+            "maxY": 849.9595724705732,
+            "central": 0,
+            "front": 19,
+            "total": 19
+          }
+        },
+        {
+          "name": "asset_verdant_cliff_ledge_28_-228",
+          "asset": "asset_verdant_cliff_ledge",
+          "x": 28,
+          "z": -228,
+          "scale": 0.65,
+          "yaw": 0.4,
+          "baseY": 7.893339157104492,
+          "mesh": {
+            "minX": -41.38280032718523,
+            "minY": 795.9173623091094,
+            "maxX": 11.681185571374028,
+            "maxY": 846.1101557654033,
+            "central": 0,
+            "front": 930,
+            "total": 930
+          },
+          "hull": {
+            "minX": -43.97707499632714,
+            "minY": 793.3355438333293,
+            "maxX": 14.660148948605823,
+            "maxY": 848.7812427141924,
+            "central": 0,
+            "front": 20,
+            "total": 20
+          }
+        },
+        {
+          "name": "asset_verdant_cliff_buttress_28_-226",
+          "asset": "asset_verdant_cliff_buttress",
+          "x": 28,
+          "z": -226,
+          "scale": 0.65,
+          "yaw": 0.4,
+          "baseY": 8.96821403503418,
+          "mesh": {
+            "minX": 0.14959690110875634,
+            "minY": 747.2382500043484,
+            "maxX": 51.84793735520553,
+            "maxY": 806.0070331482427,
+            "central": 0,
+            "front": 1160,
+            "total": 1160
+          },
+          "hull": {
+            "minX": -2.7481928265497433,
+            "minY": 743.375541895992,
+            "maxX": 55.004135396434094,
+            "maxY": 809.3337520589042,
+            "central": 0,
+            "front": 19,
+            "total": 19
+          }
+        },
+        {
+          "name": "asset_verdant_cliff_ledge_28_-226",
+          "asset": "asset_verdant_cliff_ledge",
+          "x": 28,
+          "z": -226,
+          "scale": 0.65,
+          "yaw": 0.4,
+          "baseY": 8.96821403503418,
+          "mesh": {
+            "minX": 0.4361234746538798,
+            "minY": 756.5189004730918,
+            "maxX": 52.884209670138596,
+            "maxY": 805.573451928347,
+            "central": 0,
+            "front": 930,
+            "total": 930
+          },
+          "hull": {
+            "minX": -2.0636800166523335,
+            "minY": 754.0369118416733,
+            "maxX": 55.88773000711147,
+            "maxY": 808.208704797919,
+            "central": 0,
+            "front": 20,
+            "total": 20
+          }
+        },
+        {
+          "name": "asset_verdant_cliff_buttress_28_-224",
+          "asset": "asset_verdant_cliff_buttress",
+          "x": 28,
+          "z": -224,
+          "scale": 0.65,
+          "yaw": 0.4,
+          "baseY": 9.836183547973633,
+          "mesh": {
+            "minX": 41.78006725696971,
+            "minY": 710.6344504572079,
+            "maxX": 92.25221563623876,
+            "maxY": 769.1175417825384,
+            "central": 0,
+            "front": 1160,
+            "total": 1160
+          },
+          "hull": {
+            "minX": 39.0848503204044,
+            "minY": 706.7675912719553,
+            "maxX": 95.2693274077408,
+            "maxY": 772.3877406774084,
+            "central": 0,
+            "front": 19,
+            "total": 19
+          }
+        },
+        {
+          "name": "asset_verdant_cliff_ledge_28_-224",
+          "asset": "asset_verdant_cliff_ledge",
+          "x": 28,
+          "z": -224,
+          "scale": 0.65,
+          "yaw": 0.4,
+          "baseY": 9.836183547973633,
+          "mesh": {
+            "minX": 41.84745143122039,
+            "minY": 720.8664110280457,
+            "maxX": 93.82784665034531,
+            "maxY": 768.7213208206838,
+            "central": 0,
+            "front": 930,
+            "total": 930
+          },
+          "hull": {
+            "minX": 39.69611064330445,
+            "minY": 718.4824810005573,
+            "maxX": 96.82937288055074,
+            "maxY": 771.3145479618609,
+            "central": 0,
+            "front": 20,
+            "total": 20
+          }
+        },
+        {
+          "name": "asset_verdant_cliff_buttress_28_-222",
+          "asset": "asset_verdant_cliff_buttress",
+          "x": 28,
+          "z": -222,
+          "scale": 0.65,
+          "yaw": 0.4,
+          "baseY": 26.025896072387695,
+          "mesh": {
+            "minX": 45.916975212486534,
+            "minY": 350.86526089415804,
+            "maxX": 110.3004893421047,
+            "maxY": 432.7987774138938,
+            "central": 1160,
+            "front": 1160,
+            "total": 1160
+          },
+          "hull": {
+            "minX": 42.5048012616559,
+            "minY": 346.80039243991035,
+            "maxX": 114.08053039413457,
+            "maxY": 435.6651292480295,
+            "central": 19,
+            "front": 19,
+            "total": 19
+          }
+        },
+        {
+          "name": "asset_verdant_cliff_ledge_28_-222",
+          "asset": "asset_verdant_cliff_ledge",
+          "x": 28,
+          "z": -222,
+          "scale": 0.65,
+          "yaw": 0.4,
+          "baseY": 26.025896072387695,
+          "mesh": {
+            "minX": 45.921486940590285,
+            "minY": 375.2436232040963,
+            "maxX": 112.62591846646433,
+            "maxY": 432.32182425174926,
+            "central": 930,
+            "front": 930,
+            "total": 930
+          },
+          "hull": {
+            "minX": 43.178913180948186,
+            "minY": 372.9287425503297,
+            "maxX": 116.49083238846214,
+            "maxY": 434.75372348730224,
+            "central": 20,
+            "front": 20,
+            "total": 20
+          }
+        },
+        {
+          "name": "asset_verdant_cliff_buttress_28_-220",
+          "asset": "asset_verdant_cliff_buttress",
+          "x": 28,
+          "z": -220,
+          "scale": 0.65,
+          "yaw": 0.4,
+          "baseY": 29.812334060668945,
+          "mesh": {
+            "minX": 91.29208363712802,
+            "minY": 223.2192603886988,
+            "maxX": 157.81695884670953,
+            "maxY": 311.50735366813495,
+            "central": 1160,
+            "front": 1160,
+            "total": 1160
+          },
+          "hull": {
+            "minX": 88.28398695418254,
+            "minY": 219.38704664215723,
+            "maxX": 161.57188169162833,
+            "maxY": 313.94883248033193,
+            "central": 19,
+            "front": 19,
+            "total": 19
+          }
+        },
+        {
+          "name": "asset_verdant_cliff_ledge_28_-220",
+          "asset": "asset_verdant_cliff_ledge",
+          "x": 28,
+          "z": -220,
+          "scale": 0.65,
+          "yaw": 0.4,
+          "baseY": 29.812334060668945,
+          "mesh": {
+            "minX": 90.36501730007095,
+            "minY": 251.76277023777598,
+            "maxX": 161.08789531126172,
+            "maxY": 311.1011902262937,
+            "central": 930,
+            "front": 930,
+            "total": 930
+          },
+          "hull": {
+            "minX": 87.51492446819027,
+            "minY": 249.7995510064575,
+            "maxX": 165.1723904309732,
+            "maxY": 313.1724195710618,
+            "central": 20,
+            "front": 20,
+            "total": 20
+          }
+        },
+        {
+          "name": "asset_verdant_cliff_buttress_28_-218",
+          "asset": "asset_verdant_cliff_buttress",
+          "x": 28,
+          "z": -218,
+          "scale": 0.65,
+          "yaw": 0.4,
+          "baseY": 29.014005661010742,
+          "mesh": {
+            "minX": 145.89357110133318,
+            "minY": 233.26363382822944,
+            "maxX": 209.35306268827904,
+            "maxY": 317.3126464361152,
+            "central": 1160,
+            "front": 1160,
+            "total": 1160
+          },
+          "hull": {
+            "minX": 143.34261178734485,
+            "minY": 229.57838052968148,
+            "maxX": 212.7437992907447,
+            "maxY": 319.66729209198047,
+            "central": 19,
+            "front": 19,
+            "total": 19
+          }
+        },
+        {
+          "name": "asset_verdant_cliff_ledge_28_-218",
+          "asset": "asset_verdant_cliff_ledge",
+          "x": 28,
+          "z": -218,
+          "scale": 0.65,
+          "yaw": 0.4,
+          "baseY": 29.014005661010742,
+          "mesh": {
+            "minX": 144.62209157464588,
+            "minY": 260.2745570249608,
+            "maxX": 213.34646484956542,
+            "maxY": 316.9208333068945,
+            "central": 930,
+            "front": 930,
+            "total": 930
+          },
+          "hull": {
+            "minX": 141.91266760628787,
+            "minY": 258.3706338886381,
+            "maxX": 217.29346800432492,
+            "maxY": 318.9185993398217,
+            "central": 20,
+            "front": 20,
+            "total": 20
+          }
+        },
+        {
+          "name": "asset_verdant_cliff_buttress_28_-216",
+          "asset": "asset_verdant_cliff_buttress",
+          "x": 28,
+          "z": -216,
+          "scale": 0.65,
+          "yaw": 0.4,
+          "baseY": 29.133081436157227,
+          "mesh": {
+            "minX": 195.2274522017122,
+            "minY": 216.0466490855265,
+            "maxX": 257.3123876580447,
+            "maxY": 298.1402064706966,
+            "central": 1160,
+            "front": 1160,
+            "total": 1160
+          },
+          "hull": {
+            "minX": 192.7594717082752,
+            "minY": 212.51583805685624,
+            "maxX": 260.43472850875656,
+            "maxY": 300.34918485063486,
+            "central": 19,
+            "front": 19,
+            "total": 19
+          }
+        },
+        {
+          "name": "asset_verdant_cliff_ledge_28_-216",
+          "asset": "asset_verdant_cliff_ledge",
+          "x": 28,
+          "z": -216,
+          "scale": 0.65,
+          "yaw": 0.4,
+          "baseY": 29.133081436157227,
+          "mesh": {
+            "minX": 194.04585859852395,
+            "minY": 242.70836405655837,
+            "maxX": 261.9860605445533,
+            "maxY": 297.7725814655547,
+            "central": 930,
+            "front": 930,
+            "total": 930
+          },
+          "hull": {
+            "minX": 191.42063515322218,
+            "minY": 240.91607389508428,
+            "maxX": 265.8698227688703,
+            "maxY": 299.6468659456174,
+            "central": 20,
+            "front": 20,
+            "total": 20
+          }
+        },
+        {
+          "name": "asset_verdant_cliff_buttress_28_-214",
+          "asset": "asset_verdant_cliff_buttress",
+          "x": 28,
+          "z": -214,
+          "scale": 0.65,
+          "yaw": 0.4,
+          "baseY": 28.792861938476562,
+          "mesh": {
+            "minX": 241.7090257813866,
+            "minY": 212.85701298707298,
+            "maxX": 301.9773850500437,
+            "maxY": 292.1667652344968,
+            "central": 1160,
+            "front": 1160,
+            "total": 1160
+          },
+          "hull": {
+            "minX": 239.3382393606227,
+            "minY": 209.45986448183422,
+            "maxX": 304.83380112083375,
+            "maxY": 294.27450012080857,
+            "central": 19,
+            "front": 19,
+            "total": 19
+          }
+        },
+        {
+          "name": "asset_verdant_cliff_ledge_28_-214",
+          "asset": "asset_verdant_cliff_ledge",
+          "x": 28,
+          "z": -214,
+          "scale": 0.65,
+          "yaw": 0.4,
+          "baseY": 28.792861938476562,
+          "mesh": {
+            "minX": 240.61841228419323,
+            "minY": 238.6664767486686,
+            "maxX": 307.1988478841046,
+            "maxY": 291.8159295070205,
+            "central": 930,
+            "front": 930,
+            "total": 930
+          },
+          "hull": {
+            "minX": 238.09299626990546,
+            "minY": 236.94924139051983,
+            "maxX": 310.98800676951413,
+            "maxY": 293.6044373964534,
+            "central": 20,
+            "front": 20,
+            "total": 20
+          }
+        }
+      ]
+    }
+  ]
+}

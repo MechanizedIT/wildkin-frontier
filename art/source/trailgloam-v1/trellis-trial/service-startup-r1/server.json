@@ -1,0 +1,11 @@
+﻿{
+    "startedUtc":  "2026-09-14T22:57:51.4201316Z",
+    "processId":  38692,
+    "pythonPath":  "C:\\Users\\cwood\\Tools\\trellis2-stableprojectorz\\code\\venv\\Scripts\\python.exe",
+    "stdout":  "C:\\Users\\cwood\\Documents\\mobile-rpg\\.dream-loop\\local-trellis\\20260914-175751.stdout.log",
+    "launcherPath":  "C:\\Users\\cwood\\Documents\\mobile-rpg\\tools\\art\\trellis-small-profile.py",
+    "profile":  "Small512",
+    "apiPath":  "C:\\Users\\cwood\\Tools\\trellis2-stableprojectorz\\code\\api_spz\\main_api.py",
+    "stderr":  "C:\\Users\\cwood\\Documents\\mobile-rpg\\.dream-loop\\local-trellis\\20260914-175751.stderr.log",
+    "endpoint":  "http://127.0.0.1:7960"
+}

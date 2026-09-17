@@ -1,0 +1,43 @@
+{
+  "schema": "trial-b-roble-contour-landmarks/v1",
+  "input": {
+    "path": "art/source/rootbound-buttress-v1/reference/target-v1.png",
+    "sha256": "0e8dc741e4124e7af3feb5b46f911cfb7a56cde01bd08a9aa6669bf470af6ab6",
+    "pixels": [1214, 1295],
+    "view": "single perspective three-quarter"
+  },
+  "measurementMethod": {
+    "silhouetteMask": "Subject pixels satisfy min(R,G,B) < 235 against the opaque near-white ground. This produces numerical landmarks only; no altered or derived image was made.",
+    "barkLandmarkClass": "Warm-mass samples satisfy R > 1.08*G, R > 1.20*B, R > 45. This is used only to locate visible trunk and branch bands, not to extract a texture or material.",
+    "scopeLimit": "Screen-space contour and color bands cannot recover camera focal length, depth, rear topology, or world dimensions. All such construction choices remain inferred."
+  },
+  "observedSilhouette": {
+    "foregroundBoundsPx": {"left": 40, "right": 1189, "top": 26, "bottom": 1224, "width": 1150, "height": 1199},
+    "foregroundBoundsNormalized": {"left": 0.0330, "right": 0.9802, "top": 0.0201, "bottom": 0.9459},
+    "canopyCrossSection": [
+      {"pixelY": 78, "normalizedY": 0.0603, "intervalsNormalized": [[0.4394, 0.5870]], "reading": "single high-lobe peak"},
+      {"pixelY": 233, "normalizedY": 0.1801, "intervalsNormalized": [[0.2597, 0.7601]], "reading": "wide high canopy"},
+      {"pixelY": 440, "normalizedY": 0.3400, "intervalsNormalized": [[0.1063, 0.4691], [0.4732, 0.5449], [0.6241, 0.9324]], "reading": "left lobe, narrow central support/overlap, separated right lobe"}
+    ],
+    "warmMassBands": [
+      {"pixelY": 388, "normalizedY": 0.3000, "intervalsNormalized": [[0.3949, 0.4303], [0.4930, 0.5507]], "reading": "two visible upper structural directions under the high lobe"},
+      {"pixelY": 543, "normalizedY": 0.4200, "intervalsNormalized": [[0.4798, 0.5771], [0.6867, 0.7222], [0.7395, 0.7568]], "reading": "central shaft/leftward fork and rightward branch support"},
+      {"pixelY": 621, "normalizedY": 0.4800, "intervalsNormalized": [[0.2580, 0.3166], [0.3240, 0.3487], [0.3545, 0.3718], [0.4782, 0.6059], [0.6191, 0.7090]], "reading": "left branch/rib cluster, central shaft, and right branch: preserves the irregular central window between them"},
+      {"pixelY": 776, "normalizedY": 0.6000, "intervalsNormalized": [[0.4023, 0.6307]], "reading": "single continuous lower trunk"},
+      {"pixelY": 958, "normalizedY": 0.7400, "intervalsNormalized": [[0.3751, 0.4542], [0.4575, 0.6933]], "reading": "root collar spreads asymmetrically from trunk"},
+      {"pixelY": 1061, "normalizedY": 0.8200, "intervalsNormalized": [[0.2424, 0.4015], [0.4031, 0.5425], [0.5532, 0.8023]], "reading": "three broad visible root sectors across the lower silhouette"},
+      {"pixelY": 1165, "normalizedY": 0.9000, "intervalsNormalized": [[0.3050, 0.4237], [0.6546, 0.8129]], "reading": "separated front-left and front-right toe bands; other toes are higher/occluded in this view"}
+    ]
+  },
+  "builderUse": {
+    "frontReview": "Declare a source-facing perspective framing, then compare the high peak, three-lobe row at y=0.34, trunk continuity at y=0.60, and lower root spread at y=0.82. These are guide landmarks, not an automatic IoU acceptance score.",
+    "volumeReview": "Rear, both sides, and three-quarter views must prove five closed buttresses, fork attachments, and canopy depth independently of the source-facing mask.",
+    "prohibitedShortcut": "Do not satisfy front contour landmarks with a front skin, flat cutout, textured silhouette, or radial root fan.",
+    "curvatureCheckpoints": {
+      "observed": "The visible warm core is centered near x=0.52 at the lower collar, occupies x=0.4023–0.6307 at y=0.60, then moves through the fork/leader bands around x=0.48–0.61 at y=0.42–0.48. This supports a restrained changing trunk direction, rather than a vertical cylinder. Occlusion prevents recovery of an exact centerline.",
+      "inferredConstruction": "Use an offset loop loft with its lower collar center at X=0, a mid-shaft center approximately X=+0.10 m, a fork center approximately X=+0.22 m, and an upper-leader attachment approximately X=+0.28–0.34 m. Alternate each ring's tangent orientation by 8–15 degrees. This is a modest visible sweep within the common 5.0–6.0 m height contract, not an exaggerated serpentine curve.",
+      "rootPaths": "Each buttress is a tapered, tangent-oriented strip descending from the closed collar through two or three control sections. Its projected path must curve outward and down to an unequal toe; at least the front-left and front-center/right paths must have distinct X/Z curvature, while front/back offsets make the side view show more than radial flat fins.",
+      "branchPaths": "The left, right, and upper limbs begin from split shared trunk rings. Loft 4–5 tapered elliptical sections along a shallow curved path with each section oriented to the path tangent; use a small elbow and changing taper, never a straight cylinder or an intersecting rod. Side review must retain non-zero Y displacement and a visible arc for every major limb."
+    }
+  }
+}

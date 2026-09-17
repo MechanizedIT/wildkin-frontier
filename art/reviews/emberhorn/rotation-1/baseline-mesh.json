@@ -1,0 +1,27 @@
+{
+  "note": "Actual unmodified code-native Emberhorn in isolated neutral Three.js scene; not generated art or gameplay/motion proof.",
+  "source": "src/world/wildkinMeshKit.js",
+  "sourceSha256": "d99a35fc17698ba9bdc1c2d61f88ab60bb0b088c0c1bac6aae76a794ae61e265",
+  "metrics": {
+    "bounds": {
+      "min": [
+        -0.8556354641914368,
+        -0.009232433512806892,
+        -0.699999988079071
+      ],
+      "max": [
+        0.8556354641914368,
+        2.065474033355713,
+        1.308
+      ],
+      "size": [
+        1.7112709283828735,
+        2.07470646686852,
+        2.007999988079071
+      ]
+    },
+    "triangles": 1940,
+    "meshes": 32
+  },
+  "errors": []
+}

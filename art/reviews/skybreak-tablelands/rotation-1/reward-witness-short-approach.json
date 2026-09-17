@@ -1,0 +1,1278 @@
+{
+  "fixture": "Isolated earned-save copy, diagnostic supported start beside exact crystal; ordinary F and movement only after placement. No inventory grants.",
+  "before": {
+    "pos": {
+      "x": 29.989347457885742,
+      "y": 28.91560173034668,
+      "z": -213.84742736816406
+    },
+    "pack": [
+      {
+        "count": 1,
+        "id": "fiber"
+      },
+      {
+        "count": 17,
+        "id": "berries"
+      },
+      {
+        "count": 1,
+        "id": "wood"
+      },
+      {
+        "count": 6,
+        "id": "wildflower"
+      },
+      {
+        "count": 2,
+        "id": "crystal_shard"
+      },
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    "eligible": [
+      {
+        "id": "f1:r:0:-5:100",
+        "remaining": 1,
+        "resourceId": "crystal_shard"
+      }
+    ],
+    "pending": [
+      {
+        "sourceId": "f1:r:0:-5:100",
+        "regionId": "camp",
+        "resources": {
+          "crystal_shard": 3
+        },
+        "visible": true,
+        "streamedOut": false
+      }
+    ],
+    "pickups": [
+      {
+        "id": "crystal_shard",
+        "state": "RESTING",
+        "age": 2.1924666666599593,
+        "pos": {
+          "x": 35.14421190768103,
+          "y": 28.74974695230974,
+          "z": -214.1705424945282
+        }
+      }
+    ]
+  },
+  "samples": [
+    {
+      "pos": {
+        "x": 29.989347457885742,
+        "y": 28.91560173034668,
+        "z": -213.84742736816406
+      },
+      "pack": [
+        {
+          "count": 1,
+          "id": "fiber"
+        },
+        {
+          "count": 17,
+          "id": "berries"
+        },
+        {
+          "count": 1,
+          "id": "wood"
+        },
+        {
+          "count": 6,
+          "id": "wildflower"
+        },
+        {
+          "count": 2,
+          "id": "crystal_shard"
+        },
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "eligible": [
+        {
+          "id": "f1:r:0:-5:100",
+          "remaining": 1,
+          "resourceId": "crystal_shard"
+        }
+      ],
+      "pending": [
+        {
+          "sourceId": "f1:r:0:-5:100",
+          "regionId": "camp",
+          "resources": {
+            "crystal_shard": 3
+          },
+          "visible": true,
+          "streamedOut": false
+        }
+      ],
+      "pickups": [
+        {
+          "id": "crystal_shard",
+          "state": "RESTING",
+          "age": 2.62503333332886,
+          "pos": {
+            "x": 35.14421190768103,
+            "y": 28.75717328724428,
+            "z": -214.1705424945282
+          }
+        }
+      ]
+    },
+    {
+      "pos": {
+        "x": 29.989347457885742,
+        "y": 28.91560173034668,
+        "z": -213.84742736816406
+      },
+      "pack": [
+        {
+          "count": 1,
+          "id": "fiber"
+        },
+        {
+          "count": 17,
+          "id": "berries"
+        },
+        {
+          "count": 1,
+          "id": "wood"
+        },
+        {
+          "count": 6,
+          "id": "wildflower"
+        },
+        {
+          "count": 2,
+          "id": "crystal_shard"
+        },
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "eligible": [],
+      "pending": [
+        {
+          "sourceId": "f1:r:0:-5:100",
+          "regionId": "camp",
+          "resources": {
+            "crystal_shard": 4
+          },
+          "visible": true,
+          "streamedOut": false
+        }
+      ],
+      "pickups": [
+        {
+          "id": "crystal_shard",
+          "state": "RESTING",
+          "age": 3.0610999999940365,
+          "pos": {
+            "x": 35.14421190768103,
+            "y": 28.708499260514785,
+            "z": -214.1705424945282
+          }
+        }
+      ]
+    },
+    {
+      "pos": {
+        "x": 29.989347457885742,
+        "y": 28.91560173034668,
+        "z": -213.84742736816406
+      },
+      "pack": [
+        {
+          "count": 1,
+          "id": "fiber"
+        },
+        {
+          "count": 17,
+          "id": "berries"
+        },
+        {
+          "count": 1,
+          "id": "wood"
+        },
+        {
+          "count": 6,
+          "id": "wildflower"
+        },
+        {
+          "count": 2,
+          "id": "crystal_shard"
+        },
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "eligible": [],
+      "pending": [
+        {
+          "sourceId": "f1:r:0:-5:100",
+          "regionId": "camp",
+          "resources": {
+            "crystal_shard": 4
+          },
+          "visible": true,
+          "streamedOut": false
+        }
+      ],
+      "pickups": [
+        {
+          "id": "crystal_shard",
+          "state": "RESTING",
+          "age": 3.5619666666562315,
+          "pos": {
+            "x": 35.14421190768103,
+            "y": 28.686191596977384,
+            "z": -214.1705424945282
+          }
+        }
+      ]
+    },
+    {
+      "pos": {
+        "x": 29.989347457885742,
+        "y": 28.91560173034668,
+        "z": -213.84742736816406
+      },
+      "pack": [
+        {
+          "count": 1,
+          "id": "fiber"
+        },
+        {
+          "count": 17,
+          "id": "berries"
+        },
+        {
+          "count": 1,
+          "id": "wood"
+        },
+        {
+          "count": 6,
+          "id": "wildflower"
+        },
+        {
+          "count": 2,
+          "id": "crystal_shard"
+        },
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "eligible": [],
+      "pending": [
+        {
+          "sourceId": "f1:r:0:-5:100",
+          "regionId": "camp",
+          "resources": {
+            "crystal_shard": 4
+          },
+          "visible": true,
+          "streamedOut": false
+        }
+      ],
+      "pickups": [
+        {
+          "id": "crystal_shard",
+          "state": "RESTING",
+          "age": 3.9913333333221517,
+          "pos": {
+            "x": 35.14421190768103,
+            "y": 28.731169321461856,
+            "z": -214.1705424945282
+          }
+        }
+      ]
+    },
+    {
+      "pos": {
+        "x": 29.989347457885742,
+        "y": 28.91560173034668,
+        "z": -213.84742736816406
+      },
+      "pack": [
+        {
+          "count": 1,
+          "id": "fiber"
+        },
+        {
+          "count": 17,
+          "id": "berries"
+        },
+        {
+          "count": 1,
+          "id": "wood"
+        },
+        {
+          "count": 6,
+          "id": "wildflower"
+        },
+        {
+          "count": 2,
+          "id": "crystal_shard"
+        },
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "eligible": [],
+      "pending": [
+        {
+          "sourceId": "f1:r:0:-5:100",
+          "regionId": "camp",
+          "resources": {
+            "crystal_shard": 4
+          },
+          "visible": true,
+          "streamedOut": false
+        }
+      ],
+      "pickups": [
+        {
+          "id": "crystal_shard",
+          "state": "RESTING",
+          "age": 4.4378999999985,
+          "pos": {
+            "x": 35.14421190768103,
+            "y": 28.762909365216508,
+            "z": -214.1705424945282
+          }
+        }
+      ]
+    },
+    {
+      "pos": {
+        "x": 29.989347457885742,
+        "y": 28.91560173034668,
+        "z": -213.84742736816406
+      },
+      "pack": [
+        {
+          "count": 1,
+          "id": "fiber"
+        },
+        {
+          "count": 17,
+          "id": "berries"
+        },
+        {
+          "count": 1,
+          "id": "wood"
+        },
+        {
+          "count": 6,
+          "id": "wildflower"
+        },
+        {
+          "count": 2,
+          "id": "crystal_shard"
+        },
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "eligible": [],
+      "pending": [
+        {
+          "sourceId": "f1:r:0:-5:100",
+          "regionId": "camp",
+          "resources": {
+            "crystal_shard": 4
+          },
+          "visible": true,
+          "streamedOut": false
+        }
+      ],
+      "pickups": [
+        {
+          "id": "crystal_shard",
+          "state": "RESTING",
+          "age": 4.878966666674852,
+          "pos": {
+            "x": 35.14421190768103,
+            "y": 28.726796582050543,
+            "z": -214.1705424945282
+          }
+        }
+      ]
+    },
+    {
+      "pos": {
+        "x": 29.989347457885742,
+        "y": 28.91560173034668,
+        "z": -213.84742736816406
+      },
+      "pack": [
+        {
+          "count": 1,
+          "id": "fiber"
+        },
+        {
+          "count": 17,
+          "id": "berries"
+        },
+        {
+          "count": 1,
+          "id": "wood"
+        },
+        {
+          "count": 6,
+          "id": "wildflower"
+        },
+        {
+          "count": 2,
+          "id": "crystal_shard"
+        },
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "eligible": [],
+      "pending": [
+        {
+          "sourceId": "f1:r:0:-5:100",
+          "regionId": "camp",
+          "resources": {
+            "crystal_shard": 4
+          },
+          "visible": true,
+          "streamedOut": false
+        }
+      ],
+      "pickups": [
+        {
+          "id": "crystal_shard",
+          "state": "RESTING",
+          "age": 5.3246333333377915,
+          "pos": {
+            "x": 35.14421190768103,
+            "y": 28.6841373901128,
+            "z": -214.1705424945282
+          }
+        }
+      ]
+    },
+    {
+      "pos": {
+        "x": 29.989347457885742,
+        "y": 28.91560173034668,
+        "z": -213.84742736816406
+      },
+      "pack": [
+        {
+          "count": 1,
+          "id": "fiber"
+        },
+        {
+          "count": 17,
+          "id": "berries"
+        },
+        {
+          "count": 1,
+          "id": "wood"
+        },
+        {
+          "count": 6,
+          "id": "wildflower"
+        },
+        {
+          "count": 2,
+          "id": "crystal_shard"
+        },
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "eligible": [],
+      "pending": [
+        {
+          "sourceId": "f1:r:0:-5:100",
+          "regionId": "camp",
+          "resources": {
+            "crystal_shard": 4
+          },
+          "visible": true,
+          "streamedOut": false
+        }
+      ],
+      "pickups": [
+        {
+          "id": "crystal_shard",
+          "state": "RESTING",
+          "age": 5.775600000008924,
+          "pos": {
+            "x": 35.14421190768103,
+            "y": 28.70861513360711,
+            "z": -214.1705424945282
+          }
+        }
+      ]
+    },
+    {
+      "pos": {
+        "x": 29.989347457885742,
+        "y": 28.91560173034668,
+        "z": -213.84742736816406
+      },
+      "pack": [
+        {
+          "count": 1,
+          "id": "fiber"
+        },
+        {
+          "count": 17,
+          "id": "berries"
+        },
+        {
+          "count": 1,
+          "id": "wood"
+        },
+        {
+          "count": 6,
+          "id": "wildflower"
+        },
+        {
+          "count": 2,
+          "id": "crystal_shard"
+        },
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "eligible": [],
+      "pending": [
+        {
+          "sourceId": "f1:r:0:-5:100",
+          "regionId": "camp",
+          "resources": {
+            "crystal_shard": 4
+          },
+          "visible": true,
+          "streamedOut": false
+        }
+      ],
+      "pickups": [
+        {
+          "id": "crystal_shard",
+          "state": "RESTING",
+          "age": 6.223966666671116,
+          "pos": {
+            "x": 35.14421190768103,
+            "y": 28.758024447311914,
+            "z": -214.1705424945282
+          }
+        }
+      ]
+    },
+    {
+      "pos": {
+        "x": 29.989347457885742,
+        "y": 28.91560173034668,
+        "z": -213.84742736816406
+      },
+      "pack": [
+        {
+          "count": 1,
+          "id": "fiber"
+        },
+        {
+          "count": 17,
+          "id": "berries"
+        },
+        {
+          "count": 1,
+          "id": "wood"
+        },
+        {
+          "count": 6,
+          "id": "wildflower"
+        },
+        {
+          "count": 2,
+          "id": "crystal_shard"
+        },
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "eligible": [],
+      "pending": [
+        {
+          "sourceId": "f1:r:0:-5:100",
+          "regionId": "camp",
+          "resources": {
+            "crystal_shard": 4
+          },
+          "visible": true,
+          "streamedOut": false
+        }
+      ],
+      "pickups": [
+        {
+          "id": "crystal_shard",
+          "state": "RESTING",
+          "age": 6.6725333333400165,
+          "pos": {
+            "x": 35.14421190768103,
+            "y": 28.746848614194903,
+            "z": -214.1705424945282
+          }
+        }
+      ]
+    },
+    {
+      "pos": {
+        "x": 29.989347457885742,
+        "y": 28.91560173034668,
+        "z": -213.84742736816406
+      },
+      "pack": [
+        {
+          "count": 1,
+          "id": "fiber"
+        },
+        {
+          "count": 17,
+          "id": "berries"
+        },
+        {
+          "count": 1,
+          "id": "wood"
+        },
+        {
+          "count": 6,
+          "id": "wildflower"
+        },
+        {
+          "count": 2,
+          "id": "crystal_shard"
+        },
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "eligible": [],
+      "pending": [
+        {
+          "sourceId": "f1:r:0:-5:100",
+          "regionId": "camp",
+          "resources": {
+            "crystal_shard": 4
+          },
+          "visible": true,
+          "streamedOut": false
+        }
+      ],
+      "pickups": [
+        {
+          "id": "crystal_shard",
+          "state": "RESTING",
+          "age": 7.115300000008169,
+          "pos": {
+            "x": 35.14421190768103,
+            "y": 28.694922672807767,
+            "z": -214.1705424945282
+          }
+        }
+      ]
+    },
+    {
+      "pos": {
+        "x": 29.989347457885742,
+        "y": 28.91560173034668,
+        "z": -213.84742736816406
+      },
+      "pack": [
+        {
+          "count": 1,
+          "id": "fiber"
+        },
+        {
+          "count": 17,
+          "id": "berries"
+        },
+        {
+          "count": 1,
+          "id": "wood"
+        },
+        {
+          "count": 6,
+          "id": "wildflower"
+        },
+        {
+          "count": 2,
+          "id": "crystal_shard"
+        },
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "eligible": [],
+      "pending": [
+        {
+          "sourceId": "f1:r:0:-5:100",
+          "regionId": "camp",
+          "resources": {
+            "crystal_shard": 4
+          },
+          "visible": true,
+          "streamedOut": false
+        }
+      ],
+      "pickups": [
+        {
+          "id": "crystal_shard",
+          "state": "RESTING",
+          "age": 7.5648666666696185,
+          "pos": {
+            "x": 35.14421190768103,
+            "y": 28.691042674859023,
+            "z": -214.1705424945282
+          }
+        }
+      ]
+    },
+    {
+      "pos": {
+        "x": 29.989347457885742,
+        "y": 28.91560173034668,
+        "z": -213.84742736816406
+      },
+      "pack": [
+        {
+          "count": 1,
+          "id": "fiber"
+        },
+        {
+          "count": 17,
+          "id": "berries"
+        },
+        {
+          "count": 1,
+          "id": "wood"
+        },
+        {
+          "count": 6,
+          "id": "wildflower"
+        },
+        {
+          "count": 2,
+          "id": "crystal_shard"
+        },
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "eligible": [],
+      "pending": [
+        {
+          "sourceId": "f1:r:0:-5:100",
+          "regionId": "camp",
+          "resources": {
+            "crystal_shard": 4
+          },
+          "visible": true,
+          "streamedOut": false
+        }
+      ],
+      "pickups": [
+        {
+          "id": "crystal_shard",
+          "state": "RESTING",
+          "age": 8.012833333333303,
+          "pos": {
+            "x": 35.14421190768103,
+            "y": 28.742460150677296,
+            "z": -214.1705424945282
+          }
+        }
+      ]
+    },
+    {
+      "pos": {
+        "x": 29.989347457885742,
+        "y": 28.91560173034668,
+        "z": -213.84742736816406
+      },
+      "pack": [
+        {
+          "count": 1,
+          "id": "fiber"
+        },
+        {
+          "count": 17,
+          "id": "berries"
+        },
+        {
+          "count": 1,
+          "id": "wood"
+        },
+        {
+          "count": 6,
+          "id": "wildflower"
+        },
+        {
+          "count": 2,
+          "id": "crystal_shard"
+        },
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "eligible": [],
+      "pending": [
+        {
+          "sourceId": "f1:r:0:-5:100",
+          "regionId": "camp",
+          "resources": {
+            "crystal_shard": 4
+          },
+          "visible": true,
+          "streamedOut": false
+        }
+      ],
+      "pickups": [
+        {
+          "id": "crystal_shard",
+          "state": "RESTING",
+          "age": 8.464399999987327,
+          "pos": {
+            "x": 35.14421190768103,
+            "y": 28.76010029036457,
+            "z": -214.1705424945282
+          }
+        }
+      ]
+    },
+    {
+      "pos": {
+        "x": 29.989347457885742,
+        "y": 28.91560173034668,
+        "z": -213.84742736816406
+      },
+      "pack": [
+        {
+          "count": 1,
+          "id": "fiber"
+        },
+        {
+          "count": 17,
+          "id": "berries"
+        },
+        {
+          "count": 1,
+          "id": "wood"
+        },
+        {
+          "count": 6,
+          "id": "wildflower"
+        },
+        {
+          "count": 2,
+          "id": "crystal_shard"
+        },
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "eligible": [],
+      "pending": [
+        {
+          "sourceId": "f1:r:0:-5:100",
+          "regionId": "camp",
+          "resources": {
+            "crystal_shard": 4
+          },
+          "visible": true,
+          "streamedOut": false
+        }
+      ],
+      "pickups": [
+        {
+          "id": "crystal_shard",
+          "state": "RESTING",
+          "age": 8.909966666652526,
+          "pos": {
+            "x": 35.14421190768103,
+            "y": 28.71357829382945,
+            "z": -214.1705424945282
+          }
+        }
+      ]
+    },
+    {
+      "pos": {
+        "x": 29.989347457885742,
+        "y": 28.91560173034668,
+        "z": -213.84742736816406
+      },
+      "pack": [
+        {
+          "count": 1,
+          "id": "fiber"
+        },
+        {
+          "count": 17,
+          "id": "berries"
+        },
+        {
+          "count": 1,
+          "id": "wood"
+        },
+        {
+          "count": 6,
+          "id": "wildflower"
+        },
+        {
+          "count": 2,
+          "id": "crystal_shard"
+        },
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "eligible": [],
+      "pending": [
+        {
+          "sourceId": "f1:r:0:-5:100",
+          "regionId": "camp",
+          "resources": {
+            "crystal_shard": 4
+          },
+          "visible": true,
+          "streamedOut": false
+        }
+      ],
+      "pickups": [
+        {
+          "id": "crystal_shard",
+          "state": "RESTING",
+          "age": 9.356333333325916,
+          "pos": {
+            "x": 35.14421190768103,
+            "y": 28.683172429166067,
+            "z": -214.1705424945282
+          }
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "afterWait": {
+    "pos": {
+      "x": 29.989347457885742,
+      "y": 28.91560173034668,
+      "z": -213.84742736816406
+    },
+    "pack": [
+      {
+        "count": 1,
+        "id": "fiber"
+      },
+      {
+        "count": 17,
+        "id": "berries"
+      },
+      {
+        "count": 1,
+        "id": "wood"
+      },
+      {
+        "count": 6,
+        "id": "wildflower"
+      },
+      {
+        "count": 2,
+        "id": "crystal_shard"
+      },
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    "eligible": [],
+    "pending": [
+      {
+        "sourceId": "f1:r:0:-5:100",
+        "regionId": "camp",
+        "resources": {
+          "crystal_shard": 4
+        },
+        "visible": true,
+        "streamedOut": false
+      }
+    ],
+    "pickups": [
+      {
+        "id": "crystal_shard",
+        "state": "RESTING",
+        "age": 12.76970000001438,
+        "pos": {
+          "x": 35.14421190768103,
+          "y": 28.722098200893626,
+          "z": -214.1705424945282
+        }
+      }
+    ]
+  },
+  "afterApproach": {
+    "pos": {
+      "x": 31.29378890991211,
+      "y": 28.9218692779541,
+      "z": -213.8454132080078
+    },
+    "pack": [
+      {
+        "count": 1,
+        "id": "fiber"
+      },
+      {
+        "count": 17,
+        "id": "berries"
+      },
+      {
+        "count": 1,
+        "id": "wood"
+      },
+      {
+        "count": 6,
+        "id": "wildflower"
+      },
+      {
+        "count": 2,
+        "id": "crystal_shard"
+      },
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    "eligible": [],
+    "pending": [
+      {
+        "sourceId": "f1:r:0:-5:100",
+        "regionId": "camp",
+        "resources": {
+          "crystal_shard": 4
+        },
+        "visible": true,
+        "streamedOut": false
+      }
+    ],
+    "pickups": [
+      {
+        "id": "crystal_shard",
+        "state": "RESTING",
+        "age": 18.193333333311273,
+        "pos": {
+          "x": 35.14421190768103,
+          "y": 28.762794885088855,
+          "z": -214.1705424945282
+        }
+      }
+    ]
+  },
+  "reloadExact": false,
+  "afterReload": {
+    "pos": {
+      "x": 31.29378890991211,
+      "y": 28.921491622924805,
+      "z": -213.8454132080078
+    },
+    "pack": [
+      {
+        "count": 1,
+        "id": "fiber"
+      },
+      {
+        "count": 17,
+        "id": "berries"
+      },
+      {
+        "count": 1,
+        "id": "wood"
+      },
+      {
+        "count": 6,
+        "id": "wildflower"
+      },
+      {
+        "count": 2,
+        "id": "crystal_shard"
+      },
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    "eligible": [],
+    "pending": [],
+    "pickups": []
+  }
+}

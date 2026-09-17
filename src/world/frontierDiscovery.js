@@ -7,6 +7,7 @@ import { DEFAULT_FRONTIER_WORLD } from './frontierWorld.js';
 import { hasFrontierLandFootprint } from './frontierContinent.js';
 import { FRONTIER_GROVE_CATALOG_CHUNK_BOUNDS, sampleFrontierRegionalPlaceChunk } from './frontierRegionalPlace.js';
 import { FRONTIER_SIGNAL_CACHE } from './frontierFixedSites.js';
+import { ROOTBOUND_REWARD_CHESTS } from './rootboundRewards.js';
 export { FRONTIER_SIGNAL_CACHE } from './frontierFixedSites.js';
 
 const ADMITTED_MODEL_PATH = Object.freeze({
@@ -14,6 +15,7 @@ const ADMITTED_MODEL_PATH = Object.freeze({
   asset_fen_observatory: 'assets/models/fen-observatory-v1/model.glb',
 });
 const CLEARANCE = Object.freeze({ forage: 6, scenery: FRONTIER_SIGNAL_CACHE.sceneryClearance, wildlife: 10 });
+const ROOTBOUND_CHEST_RADIUS = .851;
 
 /** Catalog scope follows admitted grove compositions, not the full mainland bounds. */
 export const FRONTIER_DISCOVERY_CHUNK_BOUNDS = FRONTIER_GROVE_CATALOG_CHUNK_BOUNDS;
@@ -127,6 +129,36 @@ function sampleRegionalDiscoveryCatalog({
   return discoveries;
 }
 
+function sampleRootboundDiscoveryCatalog({ visualAssets, lootTables, world, getTerrainSample, getHeight }) {
+  if (!admittedAsset(visualAssets, 'asset_chest')
+    || !lootTables.some(table => table?.id === 'loot_lush_root_cache')) return [];
+  const discoveries = [];
+  for (const chest of ROOTBOUND_REWARD_CHESTS) {
+    const terrain = getTerrainSample(chest.x, chest.z);
+    const y = getHeight(chest.x, chest.z);
+    if (!Number.isFinite(y) || terrain?.habitatId !== 'rootbound-wildwood'
+      || !hasFrontierLandFootprint(chest.x, chest.z, { radius: ROOTBOUND_CHEST_RADIUS, getTerrainSample, world })
+      || !hasFootprintSupport(chest.x, chest.z, { radius: ROOTBOUND_CHEST_RADIUS, maxSlope: .42, getHeight })) continue;
+    discoveries.push(Object.freeze({
+      id: chest.id,
+      placementKind: 'fixed-authored',
+      chunkId: `${Math.floor(chest.x / 50)},${Math.floor(chest.z / 50)}`,
+      sectionId: 'camp',
+      regionId: 'camp',
+      displayName: chest.displayName,
+      pos: Object.freeze({ x: chest.x, y, z: chest.z }),
+      rotY: chest.yaw,
+      uniformScale: 1,
+      visualAssetId: 'asset_chest',
+      lootTableId: 'loot_lush_root_cache',
+      refillSeconds: null,
+      triggerRadius: 1.4,
+      collisionEnabled: true,
+    }));
+  }
+  return discoveries;
+}
+
 /** Enumerates every canonical finite-continent discovery before save normalization. */
 export function sampleFrontierDiscoveries({
   visualAssets = [], lootTables = [], world = DEFAULT_FRONTIER_WORLD,
@@ -147,5 +179,8 @@ export function sampleFrontierDiscoveries({
     visualAssets, lootTables, world, getTerrainSample, getHeight,
     sampleRegionalPlaceChunk, chunkBounds,
   });
-  return signal ? [signal, ...regional] : regional;
+  const rootbound = sampleRootboundDiscoveryCatalog({
+    visualAssets, lootTables, world, getTerrainSample, getHeight,
+  });
+  return signal ? [signal, ...regional, ...rootbound] : [...regional, ...rootbound];
 }

@@ -1,0 +1,6 @@
+{
+  "src/world/frontierScenery.js": "608e819bcbd775b44538b12e977e8d010bc9c8f3776744a7b591b1921cae954d",
+  "src/world/wildkinMeshKit.js": "0fe671c481118b388568a628484e15b918442a3e679555460ef2948574ae4724",
+  "tests/sunscarScenery.test.js": "67b317641d539e2b3ea2774cd29ffac2c4fd9b456589e4a6d8ccf67b4d22d807",
+  "tests/emberhornAnatomyMesh.test.js": "3bd6ba43d4969753e91609187d93de15d57836602fd895998fcc6da8e70e9e16"
+}

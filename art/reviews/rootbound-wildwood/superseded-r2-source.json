@@ -1,0 +1,30 @@
+[
+  {
+    "path": "src/world/frontierRootbound.js",
+    "sha256": "f061c59c7eb3472c20ec22194aa447b7ad014d05dd16e619cf037798fee9f6b8"
+  },
+  {
+    "path": "src/world/frontierRegion.js",
+    "sha256": "f4311070347484c907290e90169d5b395de896ad6418f609072a478a3a25f04a"
+  },
+  {
+    "path": "src/world/frontierScenery.js",
+    "sha256": "6641767a8dccac8e8351e701a77325d7c21b8e9e135a0fdd3bb2284d7480e71a"
+  },
+  {
+    "path": "src/world/frontierTerrain.js",
+    "sha256": "3a0c5d36abc08dbf47b40dc45617e61ce83e4202bd121e6880dd7230dd50601a"
+  },
+  {
+    "path": "tests/rootboundCircuit.test.js",
+    "sha256": "ea947ab4668e1775ea55c4774875f50105432e6e9ff43c85afbf4a1a40616053"
+  },
+  {
+    "path": "tests/frontierCaldera.test.js",
+    "sha256": "feb22ea73f0992de740cdfd0f6c2930058aa55a11efaac47922e71cdbae277ba"
+  },
+  {
+    "path": "tests/frontierRegion.test.js",
+    "sha256": "4401da88d353d410e4a616df59b441198033237c1829992d96891ba6692b5bcd"
+  }
+]

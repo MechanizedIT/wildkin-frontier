@@ -1,0 +1,166 @@
+{
+  "note": "Second planning path: use mineral inner edges from the supported throat, avoiding the rejected side-shoulder crossings. Actual Float32 2m terrain triangles, center plus16 player-radius samples every.5m. This is passability planning only: full scenery/resource/creature clearance and ordinary play remain required.",
+  "points": [
+    {
+      "name": "Southern volcanic shelf",
+      "x": 850,
+      "z": -1800
+    },
+    {
+      "name": "Outer approach",
+      "x": 850,
+      "z": -1936
+    },
+    {
+      "name": "Breach approach",
+      "x": 850,
+      "z": -1966
+    },
+    {
+      "name": "Mineral throat",
+      "x": 850,
+      "z": -1974
+    },
+    {
+      "name": "Crystal inner edge",
+      "x": 848.2,
+      "z": -1976
+    },
+    {
+      "name": "Back to throat",
+      "x": 850,
+      "z": -1974
+    },
+    {
+      "name": "Iron inner edge",
+      "x": 852.2,
+      "z": -1979.6
+    },
+    {
+      "name": "Retreat to throat",
+      "x": 850,
+      "z": -1974
+    },
+    {
+      "name": "Returned to southern shelf",
+      "x": 850,
+      "z": -1800
+    }
+  ],
+  "habitats": [
+    {
+      "name": "Southern volcanic shelf",
+      "habitat": "emberglass-caldera",
+      "height": 10.852357864379883
+    },
+    {
+      "name": "Outer approach",
+      "habitat": "emberglass-caldera",
+      "height": 12.243814468383789
+    },
+    {
+      "name": "Breach approach",
+      "habitat": "emberglass-caldera",
+      "height": 10.939013481140137
+    },
+    {
+      "name": "Mineral throat",
+      "habitat": "emberglass-caldera",
+      "height": 10.459671974182129
+    },
+    {
+      "name": "Crystal inner edge",
+      "habitat": "emberglass-caldera",
+      "height": 10.385540866851807
+    },
+    {
+      "name": "Back to throat",
+      "habitat": "emberglass-caldera",
+      "height": 10.459671974182129
+    },
+    {
+      "name": "Iron inner edge",
+      "habitat": "emberglass-caldera",
+      "height": 10.311047363281249
+    },
+    {
+      "name": "Retreat to throat",
+      "habitat": "emberglass-caldera",
+      "height": 10.459671974182129
+    },
+    {
+      "name": "Returned to southern shelf",
+      "habitat": "emberglass-caldera",
+      "height": 10.852357864379883
+    }
+  ],
+  "distance": 365.41473678402235,
+  "idealWalkSeconds": 170.35652064523185,
+  "legs": [
+    {
+      "from": "Southern volcanic shelf",
+      "to": "Outer approach",
+      "length": 136,
+      "maxSlope": 0.03054076921795589,
+      "failureCount": 0,
+      "firstFailures": []
+    },
+    {
+      "from": "Outer approach",
+      "to": "Breach approach",
+      "length": 30,
+      "maxSlope": 0.13842496017952702,
+      "failureCount": 0,
+      "firstFailures": []
+    },
+    {
+      "from": "Breach approach",
+      "to": "Mineral throat",
+      "length": 8,
+      "maxSlope": 0.11072722718917617,
+      "failureCount": 0,
+      "firstFailures": []
+    },
+    {
+      "from": "Mineral throat",
+      "to": "Crystal inner edge",
+      "length": 2.6907248094147116,
+      "maxSlope": 0.0611433835142521,
+      "failureCount": 0,
+      "firstFailures": []
+    },
+    {
+      "from": "Crystal inner edge",
+      "to": "Back to throat",
+      "length": 2.6907248094147116,
+      "maxSlope": 0.0611433835142521,
+      "failureCount": 0,
+      "firstFailures": []
+    },
+    {
+      "from": "Back to throat",
+      "to": "Iron inner edge",
+      "length": 6.016643582596461,
+      "maxSlope": 0.050492817986434804,
+      "failureCount": 0,
+      "firstFailures": []
+    },
+    {
+      "from": "Iron inner edge",
+      "to": "Retreat to throat",
+      "length": 6.016643582596461,
+      "maxSlope": 0.050492817986434804,
+      "failureCount": 0,
+      "firstFailures": []
+    },
+    {
+      "from": "Retreat to throat",
+      "to": "Returned to southern shelf",
+      "length": 174,
+      "maxSlope": 0.13842496017952702,
+      "failureCount": 0,
+      "firstFailures": []
+    }
+  ],
+  "pass": true
+}

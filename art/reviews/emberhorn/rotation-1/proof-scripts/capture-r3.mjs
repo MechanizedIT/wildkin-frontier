@@ -1,0 +1,7 @@
+import fs from 'node:fs';import {createHash} from 'node:crypto';import {chromium} from 'playwright';
+const out='art/reviews/emberhorn/rotation-1';fs.mkdirSync(out,{recursive:true});
+const b=await chromium.launch({headless:true,channel:'msedge'}),p=await b.newPage({viewport:{width:512,height:512}}),errors=[];p.on('pageerror',e=>errors.push(e.message));
+await p.goto('http://localhost:8080/.dream-loop/emberhorn-rotation-1/neutral.html');await p.waitForFunction(()=>window.__neutral);
+for(const[name,direction]of [['front',[0,.1,1]],['rear',[0,.1,-1]],['right',[1,.1,0]],['left',[-1,.1,0]],['threequarter',[.8,.42,1]],['top',[0,1,.01]]]){await p.evaluate(d=>window.__neutral.render(d),direction);await p.screenshot({path:`${out}/r3-${name}.png`});}
+for(const pixels of[48,96]){await p.setViewportSize({width:pixels,height:pixels});await p.evaluate(n=>window.__neutral.render([.8,.42,1],n),pixels);await p.screenshot({path:`${out}/r3-threequarter-${pixels}.png`});}
+const metrics=await p.evaluate(()=>window.__neutral.metrics);await b.close();fs.writeFileSync(out+'/r3-mesh.json',JSON.stringify({note:'Actual R3 code-native Emberhorn candidate in isolated neutral Three.js scene; not generated art or gameplay/motion proof.',source:'src/world/wildkinMeshKit.js',sourceSha256:createHash('sha256').update(fs.readFileSync('src/world/wildkinMeshKit.js')).digest('hex'),metrics,errors},null,2));console.log(JSON.stringify({metrics,errors}));

@@ -1,0 +1,130 @@
+{
+  "kind": "actual native game evidence; setup teleports are not traversal proof",
+  "sourceHome": [
+    -463,
+    685
+  ],
+  "priorWorldData": "all previous records deeply equal HEAD after removing only the added Trailgloam asset",
+  "curatedScenery": 43,
+  "protectedMosslingIds": [
+    "f1:w:-9:14:0",
+    "f1:w:-8:13:0"
+  ],
+  "tests": {
+    "test": 1438,
+    "verify": 1438,
+    "failed": 0
+  },
+  "zip": {
+    "bytes": 25940057,
+    "sha256": "255c3ab328644b22f89336f574caa2b3f161a85c431dcaf2688951d545f5351b"
+  },
+  "traces": {
+    "final-observe": {
+      "samples": 202,
+      "input": "observation only",
+      "states": [
+        "ROAM",
+        "FLEE",
+        "RETURN"
+      ],
+      "healthStart": 6,
+      "healthEnd": 6,
+      "minHomeDistance": 0.07438909549093706,
+      "maxHomeDistance": 3.312872824629447,
+      "groundQueryGap": [
+        -0.07848629006462637,
+        0.01539081095577366
+      ],
+      "allPlayerGrounded": false,
+      "bondable": false
+    },
+    "approach-walk": {
+      "samples": 12,
+      "input": "ordinary keyboard w",
+      "states": [
+        "FLEE",
+        "RETURN"
+      ],
+      "healthStart": 6,
+      "healthEnd": 6,
+      "minHomeDistance": 2.7859893276020538,
+      "maxHomeDistance": 3.3142334689509783,
+      "groundQueryGap": [
+        0.014171039858029033,
+        0.01532619117137557
+      ],
+      "allPlayerGrounded": true,
+      "bondable": false
+    },
+    "tool-hit": {
+      "samples": 201,
+      "input": "one ordinary F key held90ms; observation starts before input",
+      "states": [
+        "RETURN",
+        "HURT"
+      ],
+      "healthStart": 6,
+      "healthEnd": 4.85,
+      "minHomeDistance": 3.3142334689509783,
+      "maxHomeDistance": 4.009234072515544,
+      "groundQueryGap": [
+        0.01521537785353999,
+        0.015546009521893112
+      ],
+      "allPlayerGrounded": true,
+      "bondable": false
+    },
+    "retreat": {
+      "samples": 32,
+      "input": "ordinary keyboard s",
+      "states": [
+        "RETURN"
+      ],
+      "healthStart": 4.85,
+      "healthEnd": 4.85,
+      "minHomeDistance": 4.000661684048432,
+      "maxHomeDistance": 4.000661684048432,
+      "groundQueryGap": [
+        0.015546009521893112,
+        0.015546009521893112
+      ],
+      "allPlayerGrounded": true,
+      "bondable": false
+    },
+    "recovery-observe": {
+      "samples": 202,
+      "input": "observation only",
+      "states": [
+        "FLEE",
+        "RETURN"
+      ],
+      "healthStart": 4.85,
+      "healthEnd": 4.85,
+      "minHomeDistance": 1.7077996658909034,
+      "maxHomeDistance": 3.308699992924369,
+      "groundQueryGap": [
+        0.011050299223819948,
+        0.015340746161658814
+      ],
+      "allPlayerGrounded": true,
+      "bondable": false
+    }
+  },
+  "streaming": {
+    "awayActor": null,
+    "returnOrigin": "f1:w:-10:13:700"
+  },
+  "packageParity": {
+    "sourceIdentity": true,
+    "home": true,
+    "bodyAndSpeed": true,
+    "modelPath": true,
+    "bondableNull": true,
+    "playerPosition": true,
+    "livePose": "AI timing varies; no exact moving-pose claim"
+  },
+  "browserErrors": [
+    "Existing unlocated MutationObserver.observe non-Node error seen again; no new asset load error observed."
+  ]
+}

@@ -1,0 +1,69 @@
+{
+  "status": "read-only feasibility evidence; no Ironspine admission or source authorization",
+  "selectedTarget": {
+    "path": "art/targets/ironspine-range/concepts/selected.png",
+    "sha256": "e93b0f4183ef2abe13a6ca96bd2454dfb4d1dc9b936f75122dc237b878a7b26c",
+    "requiredRole": "continuous grounded stratified gully-sidewall, with the centre lane and lower iron approach kept open"
+  },
+  "shippingCandidates": [
+    {
+      "id": "asset_verdant_cliff_buttress",
+      "status": "registered shipping model; owner-accepted V3 family; convexHull collision",
+      "model": "assets/models/verdant-cliff-buttress-v1/model.glb",
+      "sha256": "f1f0bf0a1e1d5380a28a975f7480bb18fb976bdbbf453d0e61d004acfc56ef85",
+      "triangles": 458,
+      "renderBoundsM": [3.0679107904,3.8280401230,2.0195398927],
+      "hullBoundsM": [3.23955,3.96675,2.1528],
+      "material": "single opaque embedded muted Verdant rock palette",
+      "orientationToRender": [
+        {"yawRadians":0,"purpose":"show its detailed local +Z face across the gully from a side bank"},
+        {"yawRadians":1.5707963268,"purpose":"turn its 3.07m local X run along a route-side bank; only a render/projection trial"}
+      ],
+      "fit": "Only existing model with a consequential 3.83m vertical silhouette. Its broken stacked mass can test a near gully edge, but it does not itself prove the target's continuous iron-grey strata or a safe attachment."
+    },
+    {
+      "id": "asset_verdant_cliff_ledge",
+      "status": "registered shipping model; owner-accepted V3 family; convexHull collision",
+      "model": "assets/models/verdant-cliff-ledge-v1/model.glb",
+      "sha256": "ae57ade463b6b6221f01a2d7964a67e90c4ac2b1d1d12515e14b3cf9414e7da7",
+      "triangles": 384,
+      "renderBoundsM": [3.2800164223,2.4652888775,2.0702737570],
+      "hullBoundsM": [3.4983,2.5830,2.1627],
+      "material": "single opaque embedded muted Verdant rock palette",
+      "orientationToRender": [
+        {"yawRadians":1.5707963268,"purpose":"run the 3.28m local X span along one edge as a secondary shelf"},
+        {"yawRadians":0,"purpose":"show its shelf face across the lane as a rejection control"}
+      ],
+      "fit": "A secondary cap/low shelf only. The open-looking profile remains collision-closed; it cannot be described as a walk-under or substitute for the target wall."
+    },
+    {
+      "id": "asset_verdant_cliff_toe",
+      "status": "registered shipping model; owner-accepted V3 family; convexHull collision",
+      "model": "assets/models/verdant-cliff-toe-v1/model.glb",
+      "sha256": "36a100017da0d6bfec7d2ad5db28525003b64133b39ed3df793e4904d6f29158",
+      "triangles": 268,
+      "renderBoundsM": [3.1102945805,1.3746520281,1.7790818214],
+      "hullBoundsM": [3.42645,1.4350,1.872975],
+      "material": "single opaque embedded muted Verdant rock palette",
+      "orientationToRender": [
+        {"yawRadians":1.5707963268,"purpose":"run a low 3.11m foot along the opposite gully edge"}
+      ],
+      "fit": "Foot-only comparison control. It may hide an attachment seam but cannot satisfy the target-defining sidewall role."
+    }
+  ],
+  "excludedExistingLibrary": [
+    {"id":"asset_fen_bank_outcrop_left","reason":"shipping and collision-valid, but 1.435m high and explicitly Shatterfen low-ledge material/role; not a gully wall."},
+    {"id":"asset_fen_bank_outcrop_right","reason":"shipping and collision-valid, but 1.60m high and explicitly Shatterfen high-shoulder material/role; not a gully wall."},
+    {"id":"asset_trail_stones / asset_fen_stone / mushroom rings / verge canopy","reason":"already limited by the selected brief to edge texture; no continuous sidewall mass."}
+  ],
+  "heldOrUnadmitted": [
+    {"family":"sunscar-weathered-rib-v1","status":"held; no fourth asset iteration authorized and not an Ironspine candidate."},
+    {"family":"rootbound-buttress-study and rootbound-buttress-v1","status":"study/held work; distinct target and no Ironspine admission."},
+    {"family":"untracked historical Verdant cliff candidates V1/V2/V4","status":"not candidates; only registered v1 runtime copies of owner-accepted V3 finals are considered."}
+  ],
+  "runtimeCompatibility": {
+    "current":"The family is registered and used by the bounded Terrace path in frontierLandformVisual.js; Skybreak has its separately explicit fixed recipe. It is not generic low scenery: parts is empty, so frontierSceneryVisual.js low batching cannot render it safely.",
+    "ironspine":"No Ironspine lifecycle, support, protected-footprint, route, collision, or camera-projection receipt exists. Native rendering must precede any implementation proposal."
+  },
+  "minimalNextAsk":"Render only buttress yaw 0 and +pi/2, ledge +pi/2, and toe +pi/2 at the fixed Ironspine arrival pose using prospective safe anchors. If none reads as a continuous grey sidewall without occluding the lane, record the library gap; do not stretch this family or admit a new asset in this audit."
+}

@@ -9,3 +9,8 @@ Thumbs.db
 __pycache__/
 output/pdf/
 output/review/
+# Large intermediate Blender asset
+art/source/lantern-log-v1/cleanup-r6/candidate/held-candidate.blend
+*.blend
+*.blend1
+*.blend2

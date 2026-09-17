@@ -1,0 +1,23 @@
+{
+  "schemaNote": "Current visual asset collider accepts one convexHull. Per-chunk study hull files remain for source reference only.",
+  "assets": [
+    {
+      "asset": "verdant-cliff-buttress.glb",
+      "descriptor": "verdant-cliff-buttress-runtime-collider.json",
+      "vertexCount": 44,
+      "indexCount": 252
+    },
+    {
+      "asset": "verdant-cliff-ledge.glb",
+      "descriptor": "verdant-cliff-ledge-runtime-collider.json",
+      "vertexCount": 52,
+      "indexCount": 300
+    },
+    {
+      "asset": "verdant-cliff-toe.glb",
+      "descriptor": "verdant-cliff-toe-runtime-collider.json",
+      "vertexCount": 42,
+      "indexCount": 240
+    }
+  ]
+}

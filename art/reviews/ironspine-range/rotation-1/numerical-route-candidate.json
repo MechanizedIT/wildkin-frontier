@@ -1,0 +1,185 @@
+{
+  "generatedAt": "2026-09-14T13:43:49.366Z",
+  "note": "Read-only 5m analytical terrain search. It proves neither runtime collision/traversal nor camera visibility; root must capture the listed poses and ordinary-walk a refined route before source work.",
+  "grid": {
+    "bounds": {
+      "minX": -2280,
+      "maxX": -1960,
+      "minZ": -3200,
+      "maxZ": -2880
+    },
+    "step": 5,
+    "maxNeighborSlope": 0.32
+  },
+  "route": {
+    "type": "out-and-back local ascent-gully circuit",
+    "waypoints": [
+      {
+        "name": "lower-gully",
+        "x": -2080,
+        "z": -3160
+      },
+      {
+        "name": "middle-ramp",
+        "x": -2095,
+        "z": -3080
+      },
+      {
+        "name": "crown-shelf",
+        "x": -2140,
+        "z": -3005
+      },
+      {
+        "name": "return-east-ramp",
+        "x": -2095,
+        "z": -3080
+      },
+      {
+        "name": "lower-gully",
+        "x": -2080,
+        "z": -3160
+      }
+    ],
+    "ascentMeters": 252.99,
+    "descentMeters": 252.99,
+    "totalMeters": 505.98,
+    "normalWalkSeconds": 235.9,
+    "withInteractionEstimate": "236.0s normal walking plus 20–50 seconds for two existing mineral interactions: intended 4.3–4.8 minutes, pending ordinary input proof.",
+    "ascentSamples": [
+      {
+        "x": -2080,
+        "z": -3160,
+        "y": 8.769
+      },
+      {
+        "x": -2080,
+        "z": -3110,
+        "y": 22.666
+      },
+      {
+        "x": -2100,
+        "z": -3075,
+        "y": 40.385
+      },
+      {
+        "x": -2140,
+        "z": -3030,
+        "y": 56.736
+      },
+      {
+        "x": -2140,
+        "z": -3005,
+        "y": 67.192
+      }
+    ],
+    "descentSamples": [
+      {
+        "x": -2140,
+        "z": -3005,
+        "y": 67.192
+      },
+      {
+        "x": -2095,
+        "z": -3055,
+        "y": 55.845
+      },
+      {
+        "x": -2095,
+        "z": -3080,
+        "y": 38.253
+      },
+      {
+        "x": -2065,
+        "z": -3120,
+        "y": 19.924
+      },
+      {
+        "x": -2080,
+        "z": -3160,
+        "y": 8.769
+      }
+    ]
+  },
+  "poses": [
+    {
+      "name": "arrival-gully",
+      "x": -2080,
+      "z": -3160,
+      "y": 8.769,
+      "yaw": -2.783,
+      "lookToward": {
+        "x": -2065,
+        "z": -3120
+      },
+      "purpose": "low sheltered gully and first mineral cluster"
+    },
+    {
+      "name": "interior-ascent",
+      "x": -2095,
+      "z": -3080,
+      "y": 38.253,
+      "yaw": 2.622,
+      "lookToward": {
+        "x": -2115,
+        "z": -3045
+      },
+      "purpose": "mid-ascent switchback; crown is forward beyond the shoulder"
+    },
+    {
+      "name": "destination-crown",
+      "x": -2140,
+      "z": -3005,
+      "y": 67.192,
+      "yaw": -0.733,
+      "lookToward": {
+        "x": -2095,
+        "z": -3055
+      },
+      "purpose": "upper mineral shelf looking down the returning gully line"
+    }
+  ],
+  "overhead": {
+    "center": {
+      "x": -2110,
+      "z": -3075
+    },
+    "extent": {
+      "minX": -2180,
+      "maxX": -2020,
+      "minZ": -3190,
+      "maxZ": -2970
+    },
+    "purpose": "show the lower gully, diagonal ascent, and crown shelf in one native overhead capture"
+  },
+  "knownLocalInteractions": [
+    {
+      "id": "f1:r:-42:-64:4",
+      "assetId": "asset_iron_ore_rock",
+      "x": -2073.78,
+      "z": -3159.51,
+      "role": "lower-gully existing iron"
+    },
+    {
+      "id": "f1:r:-43:-61:6",
+      "assetId": "asset_iron_ore_rock",
+      "x": -2140.78,
+      "z": -3003.34,
+      "role": "crown-shelf existing iron"
+    },
+    {
+      "id": "f1:r:-43:-61:8",
+      "assetId": "asset_iron_ore_rock",
+      "x": -2143.58,
+      "z": -3005.16,
+      "role": "crown-shelf existing iron"
+    },
+    {
+      "id": "f1:w:-44:-60:0",
+      "species": "mossling",
+      "x": -2175.74,
+      "z": -2969.61,
+      "leashRadius": 8.5,
+      "role": "near-crown existing wildlife home; protect full movement disk"
+    }
+  ]
+}

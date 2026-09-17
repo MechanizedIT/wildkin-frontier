@@ -1,0 +1,356 @@
+{
+  "status": "literal-array Trailgloam R5 probe render; not a model candidate",
+  "source_hashes": {
+    "parameters.json": "e43a7ca0f62976a4241cda666c207ee8f435d1a2f7da16a09644a03ee42d6e95",
+    "literal-mesh-arrays.json": "4ec79f19e7561464db39283ceaafe2d793db324646d13ef444adebc69e897e33",
+    "cpu-proof.json": "dc66272ad1b4b1c6072bcc4524e2b63a19d79751e1da2573a4deb86bafdd2ef0"
+  },
+  "parameters_schema": "trailgloam-method-probe-r5-v1",
+  "topology_parity": {
+    "cuff_0": {
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "bounds": {
+        "min": [
+          0.5888267673332727,
+          -0.18176304211236102,
+          0.3248111411370559
+        ],
+        "max": [
+          0.9311732326667272,
+          0.18176304211236102,
+          0.6951888588629441
+        ],
+        "extent": [
+          0.3423464653334546,
+          0.36352608422472205,
+          0.37037771772588823
+        ]
+      }
+    },
+    "cuff_1": {
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "bounds": {
+        "min": [
+          0.736260171710004,
+          -0.15863815684924906,
+          0.1219789199883809
+        ],
+        "max": [
+          1.143739828289996,
+          0.17863815684924905,
+          0.43802108001161916
+        ],
+        "extent": [
+          0.40747965657999197,
+          0.3372763136984981,
+          0.31604216002323826
+        ]
+      }
+    },
+    "cuff_2": {
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "bounds": {
+        "min": [
+          0.76367289871494,
+          -0.21397225860782507,
+          0.03113301966065169
+        ],
+        "max": [
+          1.1363271012850598,
+          0.14397225860782503,
+          0.32886698033934836
+        ],
+        "extent": [
+          0.3726542025701197,
+          0.3579445172156501,
+          0.2977339606786967
+        ]
+      }
+    },
+    "frond_blade": {
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "bounds": {
+        "min": [
+          0.2081492887781231,
+          0.21176125536171542,
+          1.1963283961763
+        ],
+        "max": [
+          0.39740897596882946,
+          0.4792932506678501,
+          1.7581858827823866
+        ],
+        "extent": [
+          0.18925968719070635,
+          0.2675319953061347,
+          0.5618574866060866
+        ]
+      }
+    },
+    "frond_collar": {
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "bounds": {
+        "min": [
+          0.08257402580159014,
+          0.10170930945869422,
+          1.034615089611195
+        ],
+        "max": [
+          0.4374259741984099,
+          0.4982906905413058,
+          1.695384910388805
+        ],
+        "extent": [
+          0.35485194839681977,
+          0.3965813810826116,
+          0.66076982077761
+        ]
+      }
+    },
+    "hoof": {
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "bounds": {
+        "min": [
+          0.77,
+          -0.22,
+          0.0
+        ],
+        "max": [
+          1.19,
+          0.13,
+          0.3
+        ],
+        "extent": [
+          0.41999999999999993,
+          0.35,
+          0.3
+        ]
+      }
+    },
+    "host_saucer": {
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "bounds": {
+        "min": [
+          -0.68,
+          -0.79,
+          0.4
+        ],
+        "max": [
+          0.68,
+          0.79,
+          1.18
+        ],
+        "extent": [
+          1.36,
+          1.58,
+          0.7799999999999999
+        ]
+      }
+    },
+    "link_0": {
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "bounds": {
+        "min": [
+          0.3934068650551989,
+          -0.12,
+          0.4137230021905812
+        ],
+        "max": [
+          0.7854850876554343,
+          0.12,
+          0.7004629542359152
+        ],
+        "extent": [
+          0.39207822260023545,
+          0.24,
+          0.286739952045334
+        ]
+      }
+    },
+    "link_1": {
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "bounds": {
+        "min": [
+          0.6785471664464684,
+          -0.11482294061862244,
+          0.22390389905721073
+        ],
+        "max": [
+          1.0143699784619202,
+          0.1148383370865683,
+          0.5714385867468644
+        ],
+        "extent": [
+          0.33582281201545183,
+          0.22966127770519074,
+          0.3475346876896537
+        ]
+      }
+    },
+    "link_2": {
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "bounds": {
+        "min": [
+          0.8352668365177728,
+          -0.11334430955752964,
+          0.11156149354118666
+        ],
+        "max": [
+          1.0447585764839198,
+          0.096591078984638,
+          0.31143203345447795
+        ],
+        "extent": [
+          0.209491739966147,
+          0.20993538854216764,
+          0.1998705399132913
+        ]
+      }
+    }
+  },
+  "cpu_array_contact_parity": {
+    "coxa_rootcap_inside_actual_convex_host": {
+      "contained": true,
+      "max_outward_plane_distance": -0.09091975935404685,
+      "points": 6
+    },
+    "collar_base_inside_actual_convex_host": {
+      "contained": true,
+      "max_outward_plane_distance": -0.009151951777967987,
+      "points": 6
+    },
+    "cuff_0_contains_link_endrings": {
+      "contained": true,
+      "max_outward_plane_distance": -0.05527723385284353,
+      "points": 12
+    },
+    "cuff_1_contains_link_endrings": {
+      "contained": true,
+      "max_outward_plane_distance": -0.05239279310766959,
+      "points": 12
+    },
+    "cuff_2_contains_final_link_endring": {
+      "contained": true,
+      "max_outward_plane_distance": -0.06143103052706997,
+      "points": 6
+    },
+    "blade_root_inside_collar": {
+      "contained": true,
+      "max_outward_plane_distance": -0.059225801067339046,
+      "points": 4
+    },
+    "cuff_2_complete_lower_cap_ring_inside_hoof": {
+      "contained": true,
+      "max_outward_plane_distance": -0.0060277413921749345,
+      "points": 6
+    }
+  },
+  "blender_mesh_parity": {
+    "cuff_0": {
+      "vertices": 12,
+      "triangles": 20,
+      "xyz_float32_readback": true,
+      "index_loop_order": true
+    },
+    "cuff_1": {
+      "vertices": 12,
+      "triangles": 20,
+      "xyz_float32_readback": true,
+      "index_loop_order": true
+    },
+    "cuff_2": {
+      "vertices": 12,
+      "triangles": 20,
+      "xyz_float32_readback": true,
+      "index_loop_order": true
+    },
+    "frond_blade": {
+      "vertices": 12,
+      "triangles": 20,
+      "xyz_float32_readback": true,
+      "index_loop_order": true
+    },
+    "frond_collar": {
+      "vertices": 12,
+      "triangles": 20,
+      "xyz_float32_readback": true,
+      "index_loop_order": true
+    },
+    "hoof": {
+      "vertices": 8,
+      "triangles": 12,
+      "xyz_float32_readback": true,
+      "index_loop_order": true
+    },
+    "host_saucer": {
+      "vertices": 48,
+      "triangles": 92,
+      "xyz_float32_readback": true,
+      "index_loop_order": true
+    },
+    "link_0": {
+      "vertices": 12,
+      "triangles": 20,
+      "xyz_float32_readback": true,
+      "index_loop_order": true
+    },
+    "link_1": {
+      "vertices": 12,
+      "triangles": 20,
+      "xyz_float32_readback": true,
+      "index_loop_order": true
+    },
+    "link_2": {
+      "vertices": 12,
+      "triangles": 20,
+      "xyz_float32_readback": true,
+      "index_loop_order": true
+    }
+  },
+  "contact_evidence_scope": "CPU-array contacts; Blender proves XYZ float32 and index/loop-triangle parity only, not contact remeasurement",
+  "renders": [
+    "side-512.png",
+    "three-quarter-512.png",
+    "underside-512.png",
+    "side-96.png",
+    "three-quarter-96.png",
+    "underside-96.png",
+    "side-48.png",
+    "three-quarter-48.png",
+    "underside-48.png"
+  ],
+  "render_sizes": [
+    512,
+    96,
+    48
+  ],
+  "render_views": [
+    "side",
+    "three-quarter",
+    "underside"
+  ],
+  "bounds": {
+    "min": [
+      -0.68,
+      -0.79,
+      0.0
+    ],
+    "max": [
+      1.19,
+      0.79,
+      1.7581858827823866
+    ]
+  },
+  "min_sampled_free_gib": 19.34786605834961,
+  "elapsed_seconds": 1.4530000000013388
+}

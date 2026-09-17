@@ -2,6 +2,8 @@
 
 This document defines how one unattended Codex session can make useful progress without spending the whole night on one visual problem or allowing several agents to collide in the same codebase.
 
+**Current September 14 override:** Chris explicitly activated continuous goal mode, cycling all ten habitats repeatedly with parallel Wildkin work and workflow refinement until he stops it. Follow [the active rotation](CONTINUOUS_HABITAT_ROTATION.md); the three-batch stop below is the ordinary bounded default and is superseded for this run. Individual visit limits, review, resource guards and no-push remain.
+
 ## Current product order
 
 1. **Exploration and habitat quality**
@@ -38,7 +40,7 @@ For the first trial:
 
 - [Rootbound Wildwood packet](habitats/rootbound-wildwood/PACKET.md)
 - one repeatable 3–5 minute circuit;
-- one structural pass and one focused repair;
+- one structural pass and up to two focused repairs under [the production loop policy](PRODUCTION_LOOP_POLICY.md);
 - matching overhead and portrait captures;
 - one independent habitat scorecard;
 - checkpoint even when the result remains HOLD.

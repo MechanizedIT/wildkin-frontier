@@ -1,0 +1,27 @@
+{
+  "note": "Actual unmodified code-native Cinderjaw in isolated neutral Three.js scene; not generated art or gameplay/motion proof.",
+  "source": "src/world/wildkinMeshKit.js",
+  "sourceSha256": "0fe671c481118b388568a628484e15b918442a3e679555460ef2948574ae4724",
+  "metrics": {
+    "bounds": {
+      "min": [
+        -0.7630977737903595,
+        -0.022169042378664017,
+        -1.7880706787109375
+      ],
+      "max": [
+        0.7999999988079071,
+        1.2095358384431791,
+        1.5
+      ],
+      "size": [
+        1.5630977725982667,
+        1.2317048808218432,
+        3.2880706787109375
+      ]
+    },
+    "triangles": 740,
+    "meshes": 28
+  },
+  "errors": []
+}

@@ -1,0 +1,14 @@
+{
+  "input": {
+    "path": "geometry-plan-r3.json",
+    "sha256": "f18e84621e2211607ad640da5897128bf2a7372ab6c78087eb69ea0c1b783010"
+  },
+  "capRule": "triangulate each existing concave cap ngon separately; never triangle_fill combined loops",
+  "asset": "sunscar-weathered-rib-v1",
+  "status": "final R3 pending independent plan review",
+  "prior": {
+    "r2Plan": "d6bd4f21ad76b9901712c9c9ba2bec2148472e4fe1f439dc480d83f4fd6e1d5b",
+    "r2Review": "massing-r2/independent-massing-review.md"
+  },
+  "schemaVersion": 1
+}

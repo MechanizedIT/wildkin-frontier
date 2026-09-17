@@ -1,0 +1,31 @@
+{
+  "note": "Actual selected native Skydancer path (baseline=baked factory; authoring-baseline=constructor) in isolated neutral Three.js scene; not generated art or gameplay/motion proof.",
+  "source": "src/world/wildkinMeshKit.js",
+  "sourceSha256": "b1b34688b902baf7bb502ec9c6e190126bad14ac9dddec081a85dfb0b301ac70",
+  "metrics": {
+    "bounds": {
+      "min": [
+        -1.0348000001907347,
+        0.01590000092983246,
+        -1.6708999872207642
+      ],
+      "max": [
+        1.0348000001907347,
+        2.1470999717712402,
+        1.131999995112419
+      ],
+      "size": [
+        2.0696000003814694,
+        2.1311999708414078,
+        2.8028999823331833
+      ]
+    },
+    "triangles": 1327,
+    "meshes": 23,
+    "framing": "Actual selected path bounds, FOV38, distance2.05x longest baseline dimension"
+  },
+  "errors": [],
+  "renderedPath": "createVisualAssetVisual from world.js baked parts",
+  "worldSha256": "a797ec7a593f69b5f400ee730b4ec2edc02e37d4acc67aab09c45c66bac9f796",
+  "generatedWorldSha256": "479cf6fc5b4b8c394caadc8d256ece627012e7f117a7a50eb676a7c70161f57a"
+}

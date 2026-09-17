@@ -1,0 +1,215 @@
+{
+  "siblings": [
+    {
+      "id": "asset_wildkin_mossling",
+      "exact": true
+    },
+    {
+      "id": "asset_wildkin_tidefin",
+      "exact": true
+    },
+    {
+      "id": "asset_wildkin_emberhorn",
+      "exact": true
+    },
+    {
+      "id": "asset_wildkin_skydancer",
+      "exact": true
+    },
+    {
+      "id": "asset_cinderjaw",
+      "exact": true
+    },
+    {
+      "id": "asset_heartwood_guardian",
+      "exact": true
+    }
+  ],
+  "parts": [
+    {
+      "baselineIndex": 0,
+      "candidateIndex": 0,
+      "name": "crouched_predator_torso",
+      "occurrence": 0,
+      "changed": false,
+      "allowed": false
+    },
+    {
+      "baselineIndex": 1,
+      "candidateIndex": 1,
+      "name": "low_brow_head",
+      "occurrence": 0,
+      "changed": false,
+      "allowed": false
+    },
+    {
+      "baselineIndex": 2,
+      "candidateIndex": 2,
+      "name": "angular_jaw",
+      "occurrence": 0,
+      "changed": false,
+      "allowed": false
+    },
+    {
+      "baselineIndex": 3,
+      "candidateIndex": 3,
+      "name": "articulated_leg",
+      "occurrence": 0,
+      "changed": true,
+      "allowed": true
+    },
+    {
+      "baselineIndex": 4,
+      "candidateIndex": 4,
+      "name": "clawed_paw",
+      "occurrence": 0,
+      "changed": false,
+      "allowed": false
+    },
+    {
+      "baselineIndex": 5,
+      "candidateIndex": 5,
+      "name": "articulated_leg",
+      "occurrence": 1,
+      "changed": true,
+      "allowed": true
+    },
+    {
+      "baselineIndex": 6,
+      "candidateIndex": 6,
+      "name": "clawed_paw",
+      "occurrence": 1,
+      "changed": false,
+      "allowed": false
+    },
+    {
+      "baselineIndex": 7,
+      "candidateIndex": 7,
+      "name": "articulated_leg",
+      "occurrence": 2,
+      "changed": true,
+      "allowed": true
+    },
+    {
+      "baselineIndex": 8,
+      "candidateIndex": 8,
+      "name": "clawed_paw",
+      "occurrence": 2,
+      "changed": false,
+      "allowed": false
+    },
+    {
+      "baselineIndex": 9,
+      "candidateIndex": 9,
+      "name": "articulated_leg",
+      "occurrence": 3,
+      "changed": true,
+      "allowed": true
+    },
+    {
+      "baselineIndex": 10,
+      "candidateIndex": 10,
+      "name": "clawed_paw",
+      "occurrence": 3,
+      "changed": false,
+      "allowed": false
+    },
+    {
+      "baselineIndex": 11,
+      "candidateIndex": 11,
+      "name": "inset_almond_eye",
+      "occurrence": 0,
+      "changed": false,
+      "allowed": false
+    },
+    {
+      "baselineIndex": 12,
+      "candidateIndex": 12,
+      "name": "eye_glint",
+      "occurrence": 0,
+      "changed": false,
+      "allowed": false
+    },
+    {
+      "baselineIndex": 13,
+      "candidateIndex": 13,
+      "name": "inset_almond_eye",
+      "occurrence": 1,
+      "changed": false,
+      "allowed": false
+    },
+    {
+      "baselineIndex": 14,
+      "candidateIndex": 14,
+      "name": "eye_glint",
+      "occurrence": 1,
+      "changed": false,
+      "allowed": false
+    },
+    {
+      "baselineIndex": 15,
+      "candidateIndex": 15,
+      "name": "staggered_dorsal_thorn",
+      "occurrence": 0,
+      "changed": true,
+      "allowed": true
+    },
+    {
+      "baselineIndex": 16,
+      "candidateIndex": 16,
+      "name": "staggered_dorsal_thorn",
+      "occurrence": 1,
+      "changed": true,
+      "allowed": true
+    },
+    {
+      "baselineIndex": 17,
+      "candidateIndex": 17,
+      "name": "staggered_dorsal_thorn",
+      "occurrence": 2,
+      "changed": true,
+      "allowed": true
+    },
+    {
+      "baselineIndex": 18,
+      "candidateIndex": 18,
+      "name": "staggered_dorsal_thorn",
+      "occurrence": 3,
+      "changed": true,
+      "allowed": true
+    },
+    {
+      "baselineIndex": 19,
+      "candidateIndex": 19,
+      "name": "staggered_dorsal_thorn",
+      "occurrence": 4,
+      "changed": true,
+      "allowed": true
+    },
+    {
+      "baselineIndex": 20,
+      "candidateIndex": 20,
+      "name": "staggered_dorsal_thorn",
+      "occurrence": 5,
+      "changed": true,
+      "allowed": true
+    },
+    {
+      "baselineIndex": 21,
+      "candidateIndex": 21,
+      "name": "staggered_dorsal_thorn",
+      "occurrence": 6,
+      "changed": true,
+      "allowed": true
+    },
+    {
+      "baselineIndex": 22,
+      "candidateIndex": 22,
+      "name": "sweeping_tail",
+      "occurrence": 0,
+      "changed": false,
+      "allowed": false
+    }
+  ],
+  "pass": true
+}

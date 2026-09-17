@@ -1,0 +1,1109 @@
+{
+  "purpose": "bounded connected Root Galleries and Lantern Grove outer-edge plan; visual-only low props, no source mutation",
+  "world": {
+    "seed": 1327115068,
+    "edition": 1
+  },
+  "requiredClearanceM": {
+    "mainHalfWidth": 2,
+    "optionalHalfWidth": 1.5,
+    "forageCenter": 3.2,
+    "trailgloamMovementDisk": 3.3
+  },
+  "routes": {
+    "mainRoute": [
+      [
+        -475,
+        590
+      ],
+      [
+        -478,
+        613
+      ],
+      [
+        -480,
+        643
+      ],
+      [
+        -472,
+        663
+      ],
+      [
+        -449,
+        675
+      ],
+      [
+        -452,
+        696
+      ],
+      [
+        -480,
+        720
+      ],
+      [
+        -493,
+        701
+      ],
+      [
+        -495,
+        673
+      ],
+      [
+        -494,
+        646
+      ],
+      [
+        -492,
+        615
+      ],
+      [
+        -475,
+        590
+      ]
+    ],
+    "optionalRoute": [
+      [
+        -449,
+        675
+      ],
+      [
+        -427,
+        680
+      ],
+      [
+        -415,
+        694
+      ],
+      [
+        -430,
+        711
+      ],
+      [
+        -452,
+        696
+      ]
+    ]
+  },
+  "currentResidentCounts": {
+    "curatedRootbound": 43,
+    "forage": 139,
+    "wildlife": 3,
+    "trailgloam": [
+      {
+        "id": "f1:w:-10:13:700",
+        "home": {
+          "x": -463,
+          "y": 9.364417419238817,
+          "z": 685
+        },
+        "leash": 3,
+        "fleeLeash": 3.3
+      }
+    ]
+  },
+  "placementCount": 14,
+  "groupCount": 12,
+  "naturalAdmissionCandidate": {
+    "currentCurated": 43,
+    "proposedCurated": 14,
+    "expectedCurated": 57,
+    "defaultWorldOnly": true,
+    "allExistingMeshRecipes": true,
+    "allSourceFootprintsSupported": true,
+    "note": "Pre-integration candidate count. Existing selector must admit all 14 after the reviewed source append; one bounded coordinate adjustment is permitted if an actual selector exclusion differs from this evidence."
+  },
+  "placements": [
+    {
+      "group": "gallery-entry-west",
+      "key": "edge-gallery-west-01",
+      "assetId": "asset_rootbound_block_root",
+      "x": -484.6,
+      "z": 625,
+      "scale": 3.3,
+      "yaw": 0.3,
+      "kind": "low",
+      "visualOnly": true,
+      "y": 12.62830454179845,
+      "envelope": {
+        "local": {
+          "offset": {
+            "x": 0,
+            "y": 0.30000001192092896,
+            "z": 0
+          },
+          "size": {
+            "w": 1.8969600200653076,
+            "h": 0.6000000238418579,
+            "d": 1.2868599891662598
+          }
+        },
+        "cornersXZ": [
+          [
+            -488.218,
+            623.896
+          ],
+          [
+            -482.237,
+            622.047
+          ],
+          [
+            -480.982,
+            626.104
+          ],
+          [
+            -486.963,
+            627.953
+          ]
+        ],
+        "radius": 3.782
+      },
+      "support": {
+        "samples": 9,
+        "baseHeight": 12.6283,
+        "heightSpan": 0.8734,
+        "maxCenterGradient": 0.2404,
+        "sourceFootprintRadius": 2.046,
+        "sourceFootprintSupport": true
+      },
+      "clearance": {
+        "mainM": 2.104,
+        "mainSegment": 1,
+        "optionalM": 58.427,
+        "optionalSegment": 0,
+        "nearestForage": {
+          "id": "f1:r:-10:12:2",
+          "distance": 19.604,
+          "envelopeDistance": 15.95862704336841
+        },
+        "nearestWildlife": {
+          "id": "f1:w:-10:13:700",
+          "speciesTag": "trailgloam",
+          "distance": 61.58,
+          "movementRadius": 3.3
+        }
+      }
+    },
+    {
+      "group": "gallery-entry-east",
+      "key": "edge-gallery-east-01",
+      "assetId": "asset_rootbound_block_leaf",
+      "x": -472.5,
+      "z": 630,
+      "scale": 3.25,
+      "yaw": -0.32,
+      "kind": "low",
+      "visualOnly": true,
+      "y": 12.06083365824369,
+      "envelope": {
+        "local": {
+          "offset": {
+            "x": 0,
+            "y": 0.8999999761581421,
+            "z": 0
+          },
+          "size": {
+            "w": 1.8210999965667725,
+            "h": 1.7999999523162842,
+            "d": 1.218459963798523
+          }
+        },
+        "cornersXZ": [
+          [
+            -474.686,
+            627.19
+          ],
+          [
+            -469.068,
+            629.051
+          ],
+          [
+            -470.314,
+            632.81
+          ],
+          [
+            -475.932,
+            630.949
+          ]
+        ],
+        "radius": 3.561
+      },
+      "support": {
+        "samples": 9,
+        "baseHeight": 12.0608,
+        "heightSpan": 0.8561,
+        "maxCenterGradient": 0.1542,
+        "sourceFootprintRadius": 2.015,
+        "sourceFootprintSupport": true
+      },
+      "clearance": {
+        "mainM": 3.257,
+        "mainSegment": 1,
+        "optionalM": 47.268,
+        "optionalSegment": 0,
+        "nearestForage": {
+          "id": "f1:r:-10:12:2",
+          "distance": 6.922,
+          "envelopeDistance": 3.391703458135178
+        },
+        "nearestWildlife": {
+          "id": "f1:w:-10:13:700",
+          "speciesTag": "trailgloam",
+          "distance": 52.7,
+          "movementRadius": 3.3
+        }
+      }
+    },
+    {
+      "group": "gallery-west-mid",
+      "key": "edge-gallery-west-02",
+      "assetId": "asset_rootbound_block_leaf",
+      "x": -483,
+      "z": 652,
+      "scale": 3.55,
+      "yaw": 0.18,
+      "kind": "low",
+      "visualOnly": true,
+      "y": 11.213698920496652,
+      "envelope": {
+        "local": {
+          "offset": {
+            "x": 0,
+            "y": 0.8999999761581421,
+            "z": 0
+          },
+          "size": {
+            "w": 1.8210999965667725,
+            "h": 1.7999999523162842,
+            "d": 1.218459963798523
+          }
+        },
+        "cornersXZ": [
+          [
+            -486.567,
+            650.451
+          ],
+          [
+            -480.207,
+            649.293
+          ],
+          [
+            -479.433,
+            653.549
+          ],
+          [
+            -485.793,
+            654.707
+          ]
+        ],
+        "radius": 3.889
+      },
+      "support": {
+        "samples": 9,
+        "baseHeight": 11.2137,
+        "heightSpan": 0.9268,
+        "maxCenterGradient": 0.1976,
+        "sourceFootprintRadius": 2.201,
+        "sourceFootprintSupport": true
+      },
+      "clearance": {
+        "mainM": 2.53,
+        "mainSegment": 2,
+        "optionalM": 37.233,
+        "optionalSegment": 0,
+        "nearestForage": {
+          "id": "f1:r:-10:13:6",
+          "distance": 15.827,
+          "envelopeDistance": 12.767823043906382
+        },
+        "nearestWildlife": {
+          "id": "f1:w:-10:13:700",
+          "speciesTag": "trailgloam",
+          "distance": 35.485,
+          "movementRadius": 3.3
+        }
+      }
+    },
+    {
+      "group": "gallery-east-mid",
+      "key": "edge-gallery-east-02",
+      "assetId": "asset_rootbound_block_root",
+      "x": -470.9,
+      "z": 650,
+      "scale": 3.3,
+      "yaw": -0.28,
+      "kind": "low",
+      "visualOnly": true,
+      "y": 10.704865855265137,
+      "envelope": {
+        "local": {
+          "offset": {
+            "x": 0,
+            "y": 0.30000001192092896,
+            "z": 0
+          },
+          "size": {
+            "w": 1.8969600200653076,
+            "h": 0.6000000238418579,
+            "d": 1.2868599891662598
+          }
+        },
+        "cornersXZ": [
+          [
+            -473.321,
+            647.094
+          ],
+          [
+            -467.305,
+            648.824
+          ],
+          [
+            -468.479,
+            652.906
+          ],
+          [
+            -474.495,
+            651.176
+          ]
+        ],
+        "radius": 3.782
+      },
+      "support": {
+        "samples": 9,
+        "baseHeight": 10.7049,
+        "heightSpan": 0.8173,
+        "maxCenterGradient": 0.1573,
+        "sourceFootprintRadius": 2.046,
+        "sourceFootprintSupport": true
+      },
+      "clearance": {
+        "mainM": 2.075,
+        "mainSegment": 2,
+        "optionalM": 29.455,
+        "optionalSegment": 0,
+        "nearestForage": {
+          "id": "f1:r:-10:12:1",
+          "distance": 12.101,
+          "envelopeDistance": 9.9542625395799
+        },
+        "nearestWildlife": {
+          "id": "f1:w:-10:13:700",
+          "speciesTag": "trailgloam",
+          "distance": 32.559,
+          "movementRadius": 3.3
+        }
+      }
+    },
+    {
+      "group": "gallery-west-return",
+      "key": "edge-gallery-west-03",
+      "assetId": "asset_rootbound_block_root",
+      "x": -486,
+      "z": 660.5,
+      "scale": 3.45,
+      "yaw": 0.1,
+      "kind": "low",
+      "visualOnly": true,
+      "y": 11.026592760850626,
+      "envelope": {
+        "local": {
+          "offset": {
+            "x": 0,
+            "y": 0.30000001192092896,
+            "z": 0
+          },
+          "size": {
+            "w": 1.8969600200653076,
+            "h": 0.6000000238418579,
+            "d": 1.2868599891662598
+          }
+        },
+        "cornersXZ": [
+          [
+            -489.478,
+            658.618
+          ],
+          [
+            -482.966,
+            657.965
+          ],
+          [
+            -482.522,
+            662.382
+          ],
+          [
+            -489.034,
+            663.035
+          ]
+        ],
+        "radius": 3.954
+      },
+      "support": {
+        "samples": 9,
+        "baseHeight": 11.0266,
+        "heightSpan": 0.793,
+        "maxCenterGradient": 0.2146,
+        "sourceFootprintRadius": 2.139,
+        "sourceFootprintSupport": true
+      },
+      "clearance": {
+        "mainM": 4.986,
+        "mainSegment": 8,
+        "optionalM": 35.819,
+        "optionalSegment": 0,
+        "nearestForage": {
+          "id": "f1:r:-10:13:6",
+          "distance": 6.971,
+          "envelopeDistance": 4.667860437703956
+        },
+        "nearestWildlife": {
+          "id": "f1:w:-10:13:700",
+          "speciesTag": "trailgloam",
+          "distance": 29.878,
+          "movementRadius": 3.3
+        }
+      }
+    },
+    {
+      "group": "gallery-east-return",
+      "key": "edge-gallery-east-03",
+      "assetId": "asset_rootbound_block_leaf",
+      "x": -467.5,
+      "z": 656.5,
+      "scale": 3.35,
+      "yaw": -0.2,
+      "kind": "low",
+      "visualOnly": true,
+      "y": 10.43777202560409,
+      "envelope": {
+        "local": {
+          "offset": {
+            "x": 0,
+            "y": 0.8999999761581421,
+            "z": 0
+          },
+          "size": {
+            "w": 1.8210999965667725,
+            "h": 1.7999999523162842,
+            "d": 1.218459963798523
+          }
+        },
+        "cornersXZ": [
+          [
+            -470.084,
+            653.894
+          ],
+          [
+            -464.105,
+            655.106
+          ],
+          [
+            -464.916,
+            659.106
+          ],
+          [
+            -470.895,
+            657.894
+          ]
+        ],
+        "radius": 3.67
+      },
+      "support": {
+        "samples": 9,
+        "baseHeight": 10.4378,
+        "heightSpan": 0.8034,
+        "maxCenterGradient": 0.1549,
+        "sourceFootprintRadius": 2.077,
+        "sourceFootprintSupport": true
+      },
+      "clearance": {
+        "mainM": 2.922,
+        "mainSegment": 2,
+        "optionalM": 22.493,
+        "optionalSegment": 0,
+        "nearestForage": {
+          "id": "f1:r:-10:13:2",
+          "distance": 11.403,
+          "envelopeDistance": 8.770137390059045
+        },
+        "nearestWildlife": {
+          "id": "f1:w:-10:13:700",
+          "speciesTag": "trailgloam",
+          "distance": 25.965,
+          "movementRadius": 3.3
+        }
+      }
+    },
+    {
+      "group": "gallery-west-north",
+      "key": "edge-gallery-west-04",
+      "assetId": "asset_rootbound_block_leaf",
+      "x": -486,
+      "z": 672,
+      "scale": 3.45,
+      "yaw": 0.28,
+      "kind": "low",
+      "visualOnly": true,
+      "y": 10.650323699467753,
+      "envelope": {
+        "local": {
+          "offset": {
+            "x": 0,
+            "y": 0.8999999761581421,
+            "z": 0
+          },
+          "size": {
+            "w": 1.8210999965667725,
+            "h": 1.7999999523162842,
+            "d": 1.218459963798523
+          }
+        },
+        "cornersXZ": [
+          [
+            -489.6,
+            670.848
+          ],
+          [
+            -483.562,
+            669.112
+          ],
+          [
+            -482.4,
+            673.152
+          ],
+          [
+            -488.438,
+            674.888
+          ]
+        ],
+        "radius": 3.78
+      },
+      "support": {
+        "samples": 9,
+        "baseHeight": 10.6503,
+        "heightSpan": 0.7009,
+        "maxCenterGradient": 0.3062,
+        "sourceFootprintRadius": 2.139,
+        "sourceFootprintSupport": true
+      },
+      "clearance": {
+        "mainM": 5.317,
+        "mainSegment": 8,
+        "optionalM": 33.451,
+        "optionalSegment": 0,
+        "nearestForage": {
+          "id": "f1:r:-10:13:6",
+          "distance": 4.555,
+          "envelopeDistance": 2.3665265880530066
+        },
+        "nearestWildlife": {
+          "id": "f1:w:-10:13:700",
+          "speciesTag": "trailgloam",
+          "distance": 22.732,
+          "movementRadius": 3.3
+        }
+      }
+    },
+    {
+      "group": "gallery-east-north",
+      "key": "edge-gallery-east-04",
+      "assetId": "asset_rootbound_block_root",
+      "x": -466,
+      "z": 659,
+      "scale": 3.2,
+      "yaw": -0.14,
+      "kind": "low",
+      "visualOnly": true,
+      "y": 10.275441048909798,
+      "envelope": {
+        "local": {
+          "offset": {
+            "x": 0,
+            "y": 0.30000001192092896,
+            "z": 0
+          },
+          "size": {
+            "w": 1.8969600200653076,
+            "h": 0.6000000238418579,
+            "d": 1.2868599891662598
+          }
+        },
+        "cornersXZ": [
+          [
+            -468.718,
+            656.538
+          ],
+          [
+            -462.707,
+            657.385
+          ],
+          [
+            -463.282,
+            661.462
+          ],
+          [
+            -469.293,
+            660.615
+          ]
+        ],
+        "radius": 3.668
+      },
+      "support": {
+        "samples": 9,
+        "baseHeight": 10.2754,
+        "heightSpan": 0.7478,
+        "maxCenterGradient": 0.1685,
+        "sourceFootprintRadius": 1.984,
+        "sourceFootprintSupport": true
+      },
+      "clearance": {
+        "mainM": 3.367,
+        "mainSegment": 3,
+        "optionalM": 19.678,
+        "optionalSegment": 0,
+        "nearestForage": {
+          "id": "f1:r:-10:13:2",
+          "distance": 8.807,
+          "envelopeDistance": 6.664276268850187
+        },
+        "nearestWildlife": {
+          "id": "f1:w:-10:13:700",
+          "speciesTag": "trailgloam",
+          "distance": 23.539,
+          "movementRadius": 3.3
+        }
+      }
+    },
+    {
+      "group": "verge-outer-a",
+      "key": "edge-grove-east-01",
+      "assetId": "asset_rootbound_block_leaf",
+      "x": -425,
+      "z": 660,
+      "scale": 3.15,
+      "yaw": -0.24,
+      "kind": "low",
+      "visualOnly": true,
+      "y": 9.44175412159732,
+      "envelope": {
+        "local": {
+          "offset": {
+            "x": 0,
+            "y": 0.8999999761581421,
+            "z": 0
+          },
+          "size": {
+            "w": 1.8210999965667725,
+            "h": 1.7999999523162842,
+            "d": 1.218459963798523
+          }
+        },
+        "cornersXZ": [
+          [
+            -427.33,
+            657.454
+          ],
+          [
+            -421.758,
+            658.818
+          ],
+          [
+            -422.67,
+            662.546
+          ],
+          [
+            -428.242,
+            661.182
+          ]
+        ],
+        "radius": 3.451
+      },
+      "support": {
+        "samples": 9,
+        "baseHeight": 9.4418,
+        "heightSpan": 0.3011,
+        "maxCenterGradient": 0.0449,
+        "sourceFootprintRadius": 1.953,
+        "sourceFootprintSupport": true
+      },
+      "clearance": {
+        "mainM": 24.936,
+        "mainSegment": 3,
+        "optionalM": 17.983,
+        "optionalSegment": 0,
+        "nearestForage": {
+          "id": "f1:r:-9:13:6",
+          "distance": 7.309,
+          "envelopeDistance": 4.982507350603724
+        },
+        "nearestWildlife": {
+          "id": "f1:w:-10:13:700",
+          "speciesTag": "trailgloam",
+          "distance": 42.135,
+          "movementRadius": 3.3
+        }
+      }
+    },
+    {
+      "group": "verge-outer-b",
+      "key": "edge-grove-east-02",
+      "assetId": "asset_rootbound_block_root",
+      "x": -424,
+      "z": 669,
+      "scale": 3,
+      "yaw": 0.18,
+      "kind": "low",
+      "visualOnly": true,
+      "y": 9.382921420915535,
+      "envelope": {
+        "local": {
+          "offset": {
+            "x": 0,
+            "y": 0.30000001192092896,
+            "z": 0
+          },
+          "size": {
+            "w": 1.8969600200653076,
+            "h": 0.6000000238418579,
+            "d": 1.2868599891662598
+          }
+        },
+        "cornersXZ": [
+          [
+            -427.145,
+            667.61
+          ],
+          [
+            -421.546,
+            666.591
+          ],
+          [
+            -420.855,
+            670.39
+          ],
+          [
+            -426.454,
+            671.409
+          ]
+        ],
+        "radius": 3.438
+      },
+      "support": {
+        "samples": 9,
+        "baseHeight": 9.3829,
+        "heightSpan": 0.7445,
+        "maxCenterGradient": 0.1268,
+        "sourceFootprintRadius": 1.86,
+        "sourceFootprintSupport": true
+      },
+      "clearance": {
+        "mainM": 22.825,
+        "mainSegment": 3,
+        "optionalM": 8.499,
+        "optionalSegment": 0,
+        "nearestForage": {
+          "id": "f1:r:-9:13:6",
+          "distance": 5.744,
+          "envelopeDistance": 2.354128283157757
+        },
+        "nearestWildlife": {
+          "id": "f1:w:-10:13:700",
+          "speciesTag": "trailgloam",
+          "distance": 38.992,
+          "movementRadius": 3.3
+        }
+      }
+    },
+    {
+      "group": "grove-rear-cluster",
+      "key": "edge-grove-rear-01",
+      "assetId": "asset_rootbound_block_leaf",
+      "x": -439.5,
+      "z": 696,
+      "scale": 3.35,
+      "yaw": 0.08,
+      "kind": "low",
+      "visualOnly": true,
+      "y": 8.91994750006904,
+      "envelope": {
+        "local": {
+          "offset": {
+            "x": 0,
+            "y": 0.8999999761581421,
+            "z": 0
+          },
+          "size": {
+            "w": 1.8210999965667725,
+            "h": 1.7999999523162842,
+            "d": 1.218459963798523
+          }
+        },
+        "cornersXZ": [
+          [
+            -442.704,
+            694.209
+          ],
+          [
+            -436.623,
+            693.722
+          ],
+          [
+            -436.296,
+            697.791
+          ],
+          [
+            -442.377,
+            698.278
+          ]
+        ],
+        "radius": 3.67
+      },
+      "support": {
+        "samples": 9,
+        "baseHeight": 8.9199,
+        "heightSpan": 0.1101,
+        "maxCenterGradient": 0.0154,
+        "sourceFootprintRadius": 2.077,
+        "sourceFootprintSupport": true
+      },
+      "clearance": {
+        "mainM": 8.95,
+        "mainSegment": 4,
+        "optionalM": 3.538,
+        "optionalSegment": 3,
+        "nearestForage": {
+          "id": "f1:r:-9:14:6",
+          "distance": 8.164,
+          "envelopeDistance": 5.94711302435736
+        },
+        "nearestWildlife": {
+          "id": "f1:w:-10:13:700",
+          "speciesTag": "trailgloam",
+          "distance": 22.288,
+          "movementRadius": 3.3
+        }
+      }
+    },
+    {
+      "group": "grove-rear-cluster",
+      "key": "edge-grove-rear-02",
+      "assetId": "asset_rootbound_block_root",
+      "x": -450,
+      "z": 710,
+      "scale": 3.2,
+      "yaw": -0.22,
+      "kind": "low",
+      "visualOnly": true,
+      "y": 9.112942709145768,
+      "envelope": {
+        "local": {
+          "offset": {
+            "x": 0,
+            "y": 0.30000001192092896,
+            "z": 0
+          },
+          "size": {
+            "w": 1.8969600200653076,
+            "h": 0.6000000238418579,
+            "d": 1.2868599891662598
+          }
+        },
+        "cornersXZ": [
+          [
+            -452.513,
+            707.328
+          ],
+          [
+            -446.589,
+            708.653
+          ],
+          [
+            -447.487,
+            712.672
+          ],
+          [
+            -453.411,
+            711.347
+          ]
+        ],
+        "radius": 3.668
+      },
+      "support": {
+        "samples": 9,
+        "baseHeight": 9.1129,
+        "heightSpan": 0.1204,
+        "maxCenterGradient": 0.0164,
+        "sourceFootprintRadius": 1.984,
+        "sourceFootprintSupport": true
+      },
+      "clearance": {
+        "mainM": 8.267,
+        "mainSegment": 5,
+        "optionalM": 7.406,
+        "optionalSegment": 3,
+        "nearestForage": {
+          "id": "f1:r:-9:14:7",
+          "distance": 10.987,
+          "envelopeDistance": 7.335418004524359
+        },
+        "nearestWildlife": {
+          "id": "f1:w:-10:13:700",
+          "speciesTag": "trailgloam",
+          "distance": 24.669,
+          "movementRadius": 3.3
+        }
+      }
+    },
+    {
+      "group": "grove-west-break",
+      "key": "edge-grove-west-01",
+      "assetId": "asset_rootbound_block_leaf",
+      "x": -472.5,
+      "z": 688,
+      "scale": 2.8,
+      "yaw": 0.18,
+      "kind": "low",
+      "visualOnly": true,
+      "y": 9.449667382277076,
+      "envelope": {
+        "local": {
+          "offset": {
+            "x": 0,
+            "y": 0.8999999761581421,
+            "z": 0
+          },
+          "size": {
+            "w": 1.8210999965667725,
+            "h": 1.7999999523162842,
+            "d": 1.218459963798523
+          }
+        },
+        "cornersXZ": [
+          [
+            -475.314,
+            686.778
+          ],
+          [
+            -470.297,
+            685.865
+          ],
+          [
+            -469.686,
+            689.222
+          ],
+          [
+            -474.703,
+            690.135
+          ]
+        ],
+        "radius": 3.068
+      },
+      "support": {
+        "samples": 9,
+        "baseHeight": 9.4497,
+        "heightSpan": 0.0919,
+        "maxCenterGradient": 0.0151,
+        "sourceFootprintRadius": 1.736,
+        "sourceFootprintSupport": true
+      },
+      "clearance": {
+        "mainM": 16.656,
+        "mainSegment": 5,
+        "optionalM": 18.941,
+        "optionalSegment": 3,
+        "nearestForage": {
+          "id": "f1:r:-10:13:1",
+          "distance": 17.872,
+          "envelopeDistance": 15.227666838687615
+        },
+        "nearestWildlife": {
+          "id": "f1:w:-10:13:700",
+          "speciesTag": "trailgloam",
+          "distance": 7.334,
+          "movementRadius": 3.3
+        }
+      }
+    },
+    {
+      "group": "grove-west-break",
+      "key": "edge-grove-west-02",
+      "assetId": "asset_rootbound_block_root",
+      "x": -476.5,
+      "z": 693.5,
+      "scale": 2.85,
+      "yaw": -0.16,
+      "kind": "low",
+      "visualOnly": true,
+      "y": 9.48272049141648,
+      "envelope": {
+        "local": {
+          "offset": {
+            "x": 0,
+            "y": 0.30000001192092896,
+            "z": 0
+          },
+          "size": {
+            "w": 1.8969600200653076,
+            "h": 0.6000000238418579,
+            "d": 1.2868599891662598
+          }
+        },
+        "cornersXZ": [
+          [
+            -478.876,
+            691.259
+          ],
+          [
+            -473.539,
+            692.12
+          ],
+          [
+            -474.124,
+            695.741
+          ],
+          [
+            -479.461,
+            694.88
+          ]
+        ],
+        "radius": 3.266
+      },
+      "support": {
+        "samples": 9,
+        "baseHeight": 9.4827,
+        "heightSpan": 0.1562,
+        "maxCenterGradient": 0.0362,
+        "sourceFootprintRadius": 1.767,
+        "sourceFootprintSupport": true
+      },
+      "clearance": {
+        "mainM": 13.941,
+        "mainSegment": 7,
+        "optionalM": 21.882,
+        "optionalSegment": 3,
+        "nearestForage": {
+          "id": "f1:r:-10:14:5",
+          "distance": 23.078,
+          "envelopeDistance": 20.48775905291154
+        },
+        "nearestWildlife": {
+          "id": "f1:w:-10:13:700",
+          "speciesTag": "trailgloam",
+          "distance": 12.719,
+          "movementRadius": 3.3
+        }
+      }
+    }
+  ],
+  "pass": {
+    "mainLane": true,
+    "optionalLane": true,
+    "forageCenters": true,
+    "trailgloamDisk": true
+  },
+  "sourceHashes": {
+    "rootbound": "9c0ed6a6f9b92eb1a35f868d968ffe38298a350b33319fbf828b1456eb12a536",
+    "scenery": "e4a7085a0672f766e28c770a8d88a820950f88787b09ae468fd3a51e4d353ba6",
+    "wildlife": "0181ee6758944ec3ae3ac2e85d2f0e5fab76c0c7b9070a51fd66d82ba247dc8d",
+    "worldGenerated": "2b52749bacecfddb52d0b84a055292d3092ffd28ccac9596f625fb47b84f0f17"
+  }
+}

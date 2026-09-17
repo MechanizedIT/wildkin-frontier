@@ -21,7 +21,10 @@ export const RAPIER_PHYSICS_CONFIG = {
   // slide enabled
   // slope angles in radians
   maxSlopeClimbAngle: (45 * Math.PI) / 180,
-  minSlopeSlideAngle: (30 * Math.PI) / 180,
+  // The controller may reject a steeper-than-walkable face, but gameplay
+  // decides whether terrain is a controlled slide or a real fall.
+  minSlopeSlideAngle: (45 * Math.PI) / 180,
+  maxSlopeSlideAngle: (60 * Math.PI) / 180,
   // autostep — small lips may step, tall brown boxes (1.25h) must not
   autostepMaxHeight: 0.20,
   autostepMinWidth: 0.18,

@@ -1,0 +1,300 @@
+{
+  "status": "PLANNING_ONLY_ROUTE_ADMISSION_HOLD",
+  "scope": "read-only numerical survey; no runtime or geometry proposal admitted",
+  "source_contract": "docs/FUNGAL_HOLLOW_CONTRACT.md",
+  "yaw_convention": {
+    "forward_xz": [
+      "-sin(yaw)",
+      "-cos(yaw)"
+    ],
+    "yaw_to_next": "atan2(-(nextX-x), -(nextZ-z))"
+  },
+  "feature_bounds": {
+    "minX": -2960,
+    "maxX": -2760,
+    "minZ": -1380,
+    "maxZ": -1140
+  },
+  "fixed_protections": {
+    "routes": {
+      "halfWidth": 3,
+      "approach": [
+        [
+          -2848,
+          -1216
+        ],
+        [
+          -2850,
+          -1232
+        ],
+        [
+          -2849,
+          -1248
+        ],
+        [
+          -2854,
+          -1258
+        ]
+      ],
+      "return": [
+        [
+          -2854,
+          -1258
+        ],
+        [
+          -2846,
+          -1270
+        ],
+        [
+          -2838,
+          -1284
+        ],
+        [
+          -2826,
+          -1298
+        ]
+      ]
+    },
+    "blossoms": [
+      {
+        "id": "f1:r:-57:-25:400",
+        "x": -2847,
+        "z": -1241,
+        "radius": 0.9,
+        "role": "safe"
+      },
+      {
+        "id": "f1:r:-58:-25:401",
+        "x": -2855.8,
+        "z": -1240.5,
+        "radius": 0.9,
+        "role": "west"
+      },
+      {
+        "id": "f1:r:-57:-26:402",
+        "x": -2843.5,
+        "z": -1255,
+        "radius": 0.9,
+        "role": "return-shelf"
+      },
+      {
+        "id": "f1:r:-58:-26:403",
+        "x": -2860,
+        "z": -1255,
+        "radius": 0.9,
+        "role": "risk"
+      }
+    ],
+    "thorn_home": {
+      "id": "f1:w:-58:-26:450",
+      "x": -2868,
+      "z": -1260,
+      "radius": 10,
+      "behavior": "hostile rusher; gameplay unchanged"
+    },
+    "solid_stones": [
+      {
+        "id": "f1:s:fungal-hollow:stone-a",
+        "x": -2853,
+        "z": -1247.75,
+        "scale": 0.6,
+        "yaw": 0.18
+      },
+      {
+        "id": "f1:s:fungal-hollow:stone-b",
+        "x": -2846.75,
+        "z": -1252,
+        "scale": 0.7,
+        "yaw": -0.31
+      },
+      {
+        "id": "f1:s:fungal-hollow:stone-c",
+        "x": -2858.25,
+        "z": -1249,
+        "scale": 0.58,
+        "yaw": 0.42
+      }
+    ],
+    "fixed_scenery": {
+      "id_prefix": "f1:s:fungal-hollow:",
+      "count": 23,
+      "admitted_assets": [
+        "asset_mushroom_ring",
+        "asset_fallen_log",
+        "asset_fen_stone",
+        "asset_trail_stones",
+        "asset_pebble_cluster"
+      ]
+    }
+  },
+  "candidate_branch_walk_not_admitted": {
+    "points": [
+      {
+        "x": -2848,
+        "z": -1216,
+        "height": 11.068,
+        "slope": 0.027
+      },
+      {
+        "x": -2850,
+        "z": -1232,
+        "height": 11.15,
+        "slope": 0.031
+      },
+      {
+        "x": -2849,
+        "z": -1248,
+        "height": 11.447,
+        "slope": 0.037
+      },
+      {
+        "x": -2854,
+        "z": -1258,
+        "height": 11.484,
+        "slope": 0.041
+      },
+      {
+        "x": -2846,
+        "z": -1270,
+        "height": 12.06,
+        "slope": 0.046
+      },
+      {
+        "x": -2838,
+        "z": -1284,
+        "height": 12.752,
+        "slope": 0.049
+      },
+      {
+        "x": -2826,
+        "z": -1298,
+        "height": 13.606,
+        "slope": 0.047
+      },
+      {
+        "x": -2807,
+        "z": -1315,
+        "height": 9.973,
+        "slope": 0.41
+      },
+      {
+        "x": -2800,
+        "z": -1360,
+        "height": 7.592,
+        "slope": 0.138
+      },
+      {
+        "x": -2838,
+        "z": -1330,
+        "height": 8.544,
+        "slope": 0.278
+      },
+      {
+        "x": -2868,
+        "z": -1300,
+        "height": 6.449,
+        "slope": 0.474
+      },
+      {
+        "x": -2887,
+        "z": -1270,
+        "height": 3.902,
+        "slope": 0.034
+      },
+      {
+        "x": -2884,
+        "z": -1230,
+        "height": 4.022,
+        "slope": 0.019
+      },
+      {
+        "x": -2900,
+        "z": -1195,
+        "height": 4.104,
+        "slope": 0.016
+      },
+      {
+        "x": -2925,
+        "z": -1160,
+        "height": 4.209,
+        "slope": 0.036
+      }
+    ],
+    "length_m": 411.318,
+    "walk_seconds_at_2_145_mps": 191.757,
+    "ordinary_support_max_slope": 0.32,
+    "failed_points": [
+      {
+        "x": -2807,
+        "z": -1315,
+        "slope": 0.41
+      },
+      {
+        "x": -2868,
+        "z": -1300,
+        "slope": 0.474
+      }
+    ],
+    "conclusion": "Analytic branch anchors do not prove a 3-5 minute return circuit; obtain a fresh native route witness or retain the short outing."
+  },
+  "provisional_poses": [
+    {
+      "name": "arrival",
+      "x": -2848,
+      "z": -1216,
+      "lookTo": [
+        -2850,
+        -1232
+      ],
+      "yaw": 0.124355
+    },
+    {
+      "name": "interior",
+      "x": -2849,
+      "z": -1248,
+      "lookTo": [
+        -2854,
+        -1258
+      ],
+      "yaw": 0.463648
+    },
+    {
+      "name": "destination",
+      "x": -2826,
+      "z": -1298,
+      "lookTo": [
+        -2838,
+        -1284
+      ],
+      "yaw": 2.432966
+    }
+  ],
+  "known_visual_hold": [
+    "near-bank silhouette absent",
+    "teal travel floor versus olive bank separation absent",
+    "even perimeter-like Mooncap density instead of shelf-led groups"
+  ],
+  "next_gate": "fresh native portrait baselines and physical 3-5 minute route proof before targets or structural implementation",
+  "route_candidate": {
+    "path": "art/reviews/fungal-hollow/rotation-1/route-candidate.json",
+    "status": "HOLD_RENDERED_TRIANGLE_FOOTPRINT_FAILURE",
+    "walk_length_m": 500.299,
+    "ordinary_walk_seconds_at_2_145_mps": 233.24,
+    "raw_lattice_point_count": 254,
+    "max_sampled_center_slope": 0.319947,
+    "note": "The failed straight joins remain above; this uses finite lattice detours and is not native walking proof.",
+    "route_proof_path": "art/reviews/fungal-hollow/rotation-1/route-proof.json",
+    "rendered_triangle_footprint_result": "696 failures across 9,369 0.5m centerline x nine footprint samples; peak triangle slope .457097.",
+    "bounded_rendered_search": {
+      "status": "NO_PURPOSEFUL_3_TO_5_MIN_CIRCUIT_FOUND",
+      "bounds": "x[-2948,-2768], z[-1380,-1140] (candidate bbox +20m)",
+      "grid_m": 2,
+      "node_cap": 20000,
+      "visited_nodes": 311,
+      "west_exit_reachable": false,
+      "closest_out_and_back_m": 300.617,
+      "minutes_at_2_145_mps": 2.336,
+      "proof_path": "art/reviews/fungal-hollow/rotation-1/route-proof.json"
+    }
+  }
+}

@@ -26,7 +26,17 @@ const chunkGrid = (cx, cz) => {
   return { center: { cx, cz }, chunks };
 };
 const isHeartwoodCircuit = spec => spec.id.startsWith('f2c:h:');
-const HEARTWOOD_CIRCUIT_TARGET = JSON.parse(readFileSync(new URL('../art/targets/heartwood-circuit-v1/placements.json', import.meta.url))).rawCandidates;
+const HEARTWOOD_R2_OVERRIDES = Object.freeze({
+  'starter-reed-front': { assetId: 'asset_fen_reed', x: -4.5, z: -84.5, scale: .88, yaw: .31, kind: 'low' },
+  'starter-cloud-rear': { assetId: 'asset_fen_lily', x: -4, z: -81.5, scale: .74, yaw: .18, kind: 'low' },
+  'forage-lily-front': { assetId: 'asset_fen_lily', x: -10, z: -88.5, scale: .74, yaw: .34, kind: 'low' },
+  'forage-trail-front': { key: 'forage-log-left', assetId: 'asset_fallen_log', x: -16, z: -90, scale: .8, yaw: .18, kind: 'low' },
+  'forage-reed-left': { assetId: 'asset_fen_reed', x: -9.5, z: -92.5, scale: .78, yaw: .41, kind: 'low' },
+  'forage-lily-right': { assetId: 'asset_trail_stones', x: -10.5, z: -91, scale: .68, yaw: .26, kind: 'low' },
+  'forage-pebbles-right': { assetId: 'asset_pebble_cluster', x: -9.8, z: -93.6, scale: .82, yaw: -.16, kind: 'low' },
+});
+const HEARTWOOD_CIRCUIT_TARGET = JSON.parse(readFileSync(new URL('../art/targets/heartwood-circuit-v1/placements.json', import.meta.url))).rawCandidates
+  .map(candidate => ({ ...candidate, ...(HEARTWOOD_R2_OVERRIDES[candidate.key] ?? {}) }));
 
 const flatFungalSample = () => ({
   height: 10, contentLand: true, coastDistance: 100, surfaceKind: null,
@@ -887,14 +897,14 @@ test('Heartwood circuit emits the exact fitted 28-piece table without changing o
   assert.deepEqual(circuit.map(compact).sort((a, b) => a.key.localeCompare(b.key)), expected);
   assert.equal(new Set(circuit.map(spec => spec.id)).size, 28);
   assert.ok(circuit.every(spec => spec.chunkId === `${Math.floor(spec.x / 50)},${Math.floor(spec.z / 50)}`));
-  assert.equal(circuit.filter(spec => spec.assetId === 'asset_cloudflower').length, 3);
+  assert.equal(circuit.filter(spec => spec.assetId === 'asset_cloudflower').length, 2);
   const invalidCloudKit = WORLD_DATA.visualAssets.map(asset => asset.id === 'asset_cloudflower'
     ? { ...asset, gameplay: { ...asset.gameplay, role: 'harvestable' } } : asset);
   const withoutAdmittedClouds = ownerChunks.flatMap(([cx, cz]) => sampleFrontierSceneryChunk(cx, cz, { visualAssets: invalidCloudKit }))
     .filter(isHeartwoodCircuit);
-  assert.equal(withoutAdmittedClouds.length, 25);
+  assert.equal(withoutAdmittedClouds.length, 26);
   assert.equal(withoutAdmittedClouds.some(spec => spec.assetId === 'asset_cloudflower'), false,
-    'the three lowland flower exceptions still require the exact admitted decorative prop');
+    'the two retained lowland flower exceptions still require the exact admitted decorative prop');
 
   const flatLowland = () => ({ height: 3, land: true, contentLand: true, coastDistance: 100,
     surfaceKind: null, habitatBlend: { wetland: 0, fernUpland: 1 } });
@@ -907,7 +917,7 @@ test('Heartwood circuit emits the exact fitted 28-piece table without changing o
 
   const radiusFor = spec => Math.max(spec.kind === 'canopy' ? 1.45 : .62, ({
     asset_cloudflower: .75, asset_trail_stones: 1.4, asset_fen_reed: .85,
-    asset_fen_lily: .93, asset_pebble_cluster: .66,
+    asset_fen_lily: .93, asset_pebble_cluster: .66, asset_fallen_log: 1.525,
   }[spec.assetId] ?? 0) * spec.scale);
   for (const spec of circuit) assert.equal(hasFootprintSupport(spec.x, spec.z, {
     getHeight: sampleFrontierHeight, radius: radiusFor(spec), maxSlope: .32,
@@ -940,7 +950,7 @@ test('Heartwood circuit emits the exact fitted 28-piece table without changing o
     '738356b35f3b4872228a99aacc56da8f2b86db6c6c4f31f4d98396660cbfa8e4');
 
   const oldHashes = new Map([
-    ['-1,-2', 'fd94550441e775632e0b81bc66fb0d515fec6c6ebcb5ef1f77297bd5fdbda5d3'],
+    ['-1,-2', '62e42ea6851eb194b3c942af0f735fc0d8ca41c95ec8b3392d4591c9da828a6e'],
     ['0,-2', 'f6d42d69a786f5aa72e81e764bca4ce40f67307c0a1b28b797d0ff95c7d6c208'],
     ['-1,-3', '5e94ea18e68e92d0e45c2adc94c14dcead0424b671e4fe5e345afd150857d511'],
     ['0,-3', '7a6790fb7ffb736b7ba8634531f9786824eae7976ad557f6970f6099aae39708'],
@@ -971,8 +981,8 @@ test('Heartwood circuit selection raises only the protected starter window and i
 
   const departureEdge = selectFrontierScenery(chunkGrid(0, -1), options);
   assert.equal(departureEdge.length, 52);
-  assert.equal(departureEdge.filter(isHeartwoodCircuit).length, 22,
-    'the real departure center selects near circuit chunks plus one normal outer silhouette per chunk');
+  assert.equal(departureEdge.filter(isHeartwoodCircuit).length, 25,
+    'the destination edge-room remains resident at the real departure center');
 
   const rectangle = [
     { cx: -1, cz: -4, total: 26, near: 18, circuit: 0, canopies: 11, surface: true },
@@ -984,8 +994,8 @@ test('Heartwood circuit selection raises only the protected starter window and i
     { cx: -1, cz: -2, total: 52, near: 44, circuit: 28, canopies: 18 },
     { cx: 0, cz: -2, total: 52, near: 44, circuit: 28, canopies: 18 },
     { cx: 1, cz: -2, total: 52, near: 44, circuit: 10, canopies: 13 },
-    { cx: -1, cz: -1, total: 52, near: 44, circuit: 22, canopies: 15 },
-    { cx: 0, cz: -1, total: 52, near: 44, circuit: 22, canopies: 15 },
+    { cx: -1, cz: -1, total: 52, near: 44, circuit: 25, canopies: 15 },
+    { cx: 0, cz: -1, total: 52, near: 44, circuit: 25, canopies: 15 },
     { cx: 1, cz: -1, total: 52, near: 44, circuit: 10, canopies: 12 },
   ];
   for (const expectedRow of rectangle) {
@@ -1013,7 +1023,7 @@ test('Heartwood circuit selection raises only the protected starter window and i
     ['6,2', 'ce59237eb1436ae0f40ea97a3d2bc0b65968bef57ed170a3ef03b61ae54a9653'],
     ['17,-40', '7b64d7c6c4a23527edf884ffbf6bb452ace6a7b2e07c142b2d1520f5061ff6f2'],
     ['2,-2', '0cbee74500e9104b25f333b41a526430cf7c7b3d206c48c7d0981a979afe2f06'],
-    ['-2,-2', '1ade34f920ef2f328d02aaece66b40b72ba7e79c083f7414bb50a263fc5c0178'],
+    ['-2,-2', '56df6e82b71bb73ee3a2afb7fcb540a7a7fde2435f9132fe146cdb6ddf186e07'],
   ]);
   for (const [center, expectedHash] of unchanged) {
     const [cx, cz] = center.split(',').map(Number);
@@ -1201,7 +1211,7 @@ test('protected starter and staged Skybreak identities remain exact while finite
   assert.equal(starterIds.filter(id => id.startsWith('f2c:h:')).length, 28);
   assert.equal(starterIds.length, 52);
   assert.equal(createHash('sha256').update(JSON.stringify(starterIds)).digest('hex'),
-    'ca806f78a9d72c97486d77f95ecbcd13eef629a8aa7521944a0144858658b10a');
+    '9e53446e58310204ea12c6fa01c6dbca9c0a66ce5e1e7ba36ac2fdcf18c8f4da');
 
   const skybreakIds = selectFrontierScenery(chunkGrid(0, -4)).map(spec => spec.id);
   assert.equal(skybreakIds.some(id => id.startsWith('f2c:i:')), false, 'Skybreak remains outside dense infill');

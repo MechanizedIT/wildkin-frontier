@@ -1,0 +1,70 @@
+{
+  "run": "quality512-r1",
+  "status": "HELD_BY_DECODED_FACE_CAP",
+  "reason": "decoder produced more faces than the unchanged pre-export admission cap; no exporter, remesh, reducer, Blender cleanup, or retry was invoked",
+  "command": "C:/Python310/python.exe tools/art/trellis-process-staged.py --run --install-root C:/Users/cwood/Tools/trellis2-stableprojectorz/code --input C:/Users/cwood/Documents/mobile-rpg/art/targets/rootbound-wildwood/constituents/buttress-root/selected.png --output-dir .dream-loop/rootbound-buttress-trellis/quality512-r1 --steps 12 --faces 30000 --seed 1234",
+  "input": {
+    "path": "art/targets/rootbound-wildwood/constituents/buttress-root/selected.png",
+    "sha256": "65d8f8c63be4a3c98738aabe72cad21ce9399f3950914b559f8d1dc80abd457a"
+  },
+  "settings": {
+    "seed": 1234,
+    "steps": 12,
+    "faces": 30000,
+    "texture_size": 1024,
+    "pipeline_type": "512",
+    "num_samples": 1,
+    "export_remesh": false,
+    "max_decoded_faces": 750000,
+    "max_coordinates": 32768,
+    "input": "C:\\Users\\cwood\\Documents\\mobile-rpg\\art\\targets\\rootbound-wildwood\\constituents\\buttress-root\\selected.png",
+    "input_sha256": "65d8f8c63be4a3c98738aabe72cad21ce9399f3950914b559f8d1dc80abd457a"
+  },
+  "guard": {
+    "maxDecodedFaces": 750000,
+    "maxCoordinates": 32768,
+    "ramReserveGiB": 6.0,
+    "decodeRequiredFreeGiB": 13.299913866445422
+  },
+  "result": {
+    "decodedFaces": 1029792,
+    "decodedVertices": 514489,
+    "exportedFaces": null,
+    "rawGlb": null
+  },
+  "stageTimingSeconds": {
+    "background": 14.184,
+    "conditioning": 10.391,
+    "sparse": 56.635,
+    "shapeFlow": 47.839,
+    "textureFlow": 44.19,
+    "decodeUntilCap": 24.543,
+    "totalUntilHeld": 229.763
+  },
+  "resourceEvidence": {
+    "minimumFreeGiBAtDecode": 12.362369537353516,
+    "freeGiBAfterDecodeChildExit": 17.964366912841797,
+    "decodeChildExitCode": 1,
+    "processBoundary": "one child exit per stage"
+  },
+  "publicArtifacts": {
+    "preprocessedPng": {
+      "sha256": "69a3fd0344dfc7887ff6eb1e6239cfd20fad0261239a34ab6fb5e4061cee2e99"
+    },
+    "eventsJson": {
+      "sha256": "05cd0dbbc198141a6740b3f42a1b60583e982e62c1fa4fd48ed4eeee2ec3a8e3"
+    },
+    "planJson": {
+      "sha256": "6050b9fd062d65d276bd156770f6e46a1699d8ae1b1697f0f5aea0988d73d048"
+    }
+  },
+  "privateArtifactsRetained": [
+    "conditioning.pt",
+    "coords.pt",
+    "rng-after-sparse.pt",
+    "shape.pt",
+    "rng-after-shape.pt",
+    "texture.pt"
+  ],
+  "publicDirectoryExcludesTensorHandoffs": true
+}

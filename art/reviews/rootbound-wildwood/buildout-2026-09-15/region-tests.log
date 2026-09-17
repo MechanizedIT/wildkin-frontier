@@ -1,0 +1,156 @@
+TAP version 13
+# Subtest: Rootbound circuit has finite room grammar and neutral exterior
+ok 1 - Rootbound circuit has finite room grammar and neutral exterior
+  ---
+  duration_ms: 10.2759
+  type: 'test'
+  ...
+# Subtest: Rootbound terrain keeps supported source identities and grounds every admitted resource and home
+not ok 2 - Rootbound terrain keeps supported source identities and grounds every admitted resource and home
+  ---
+  duration_ms: 1229.0816
+  type: 'test'
+  location: 'C:\\Users\\cwood\\Documents\\mobile-rpg\\tests\\rootboundCircuit.test.js:54:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    f1:w:-8:13:0 analytical home support
+    
+    false !== true
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: true
+  actual: false
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (file:///C:/Users/cwood/Documents/mobile-rpg/tests/rootboundCircuit.test.js:106:12)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async startSubtestAfterBootstrap (node:internal/test_runner/harness:296:3)
+  ...
+# Subtest: Rootbound profile colors apply only to the protected default world
+ok 3 - Rootbound profile colors apply only to the protected default world
+  ---
+  duration_ms: 1437.8173
+  type: 'test'
+  ...
+# Subtest: resident protection plates fade without a terrain step at their boundaries
+ok 4 - resident protection plates fade without a terrain step at their boundaries
+  ---
+  duration_ms: 1.0786
+  type: 'test'
+  ...
+# Subtest: curated Rootbound props use existing admission and remain localized
+not ok 5 - curated Rootbound props use existing admission and remain localized
+  ---
+  duration_ms: 1054.6557
+  type: 'test'
+  location: 'C:\\Users\\cwood\\Documents\\mobile-rpg\\tests\\rootboundCircuit.test.js:143:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    The expression evaluated to a falsy value:
+    
+      assert.ok(byKey.has('gallery-canopy') && byKey.has('gallery-log'))
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: true
+  actual: false
+  operator: '=='
+  stack: |-
+    TestContext.<anonymous> (file:///C:/Users/cwood/Documents/mobile-rpg/tests/rootboundCircuit.test.js:183:10)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: Rootbound facet field is a shared default-world height surface with exact chunk seams
+not ok 6 - Rootbound facet field is a shared default-world height surface with exact chunk seams
+  ---
+  duration_ms: 1.2201
+  type: 'test'
+  location: 'C:\\Users\\cwood\\Documents\\mobile-rpg\\tests\\rootboundCircuit.test.js:217:1'
+  failureType: 'testCodeFailure'
+  error: 'interior retains authored facet relief'
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: true
+  actual: false
+  operator: '=='
+  stack: |-
+    TestContext.<anonymous> (file:///C:/Users/cwood/Documents/mobile-rpg/tests/rootboundCircuit.test.js:224:10)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: Rootbound facet chunks use a render-only per-face material while physics keeps the shared chunk
+ok 7 - Rootbound facet chunks use a render-only per-face material while physics keeps the shared chunk
+  ---
+  duration_ms: 3121.0644
+  type: 'test'
+  ...
+# Subtest: Rootbound shoulders change real terrain while full and height-only samplers agree with mesh vertices
+ok 8 - Rootbound shoulders change real terrain while full and height-only samplers agree with mesh vertices
+  ---
+  duration_ms: 211.688
+  type: 'test'
+  ...
+# Subtest: Rootbound landforms build a substantial five-room vertical composition
+ok 9 - Rootbound landforms build a substantial five-room vertical composition
+  ---
+  duration_ms: 2.9293
+  type: 'test'
+  ...
+# Subtest: Rootbound routes actually climb and all height queries match terrain mesh seams
+ok 10 - Rootbound routes actually climb and all height queries match terrain mesh seams
+  ---
+  duration_ms: 752.5377
+  type: 'test'
+  ...
+# Subtest: Rootbound route grades remain continuous and walkable across their full widths
+ok 11 - Rootbound route grades remain continuous and walkable across their full widths
+  ---
+  duration_ms: 83.0496
+  type: 'test'
+  ...
+# Subtest: Rootbound arbitrary route samples remain on the streamed terrain surface
+ok 12 - Rootbound arbitrary route samples remain on the streamed terrain surface
+  ---
+  duration_ms: 524.2311
+  type: 'test'
+  ...
+# Subtest: Rootbound pockets publish seven fixed, grounded resource identities before ordinary forage
+ok 13 - Rootbound pockets publish seven fixed, grounded resource identities before ordinary forage
+  ---
+  duration_ms: 122.7276
+  type: 'test'
+  ...
+# Subtest: Rootbound chests enumerate into the default-world registry and stay grounded
+ok 14 - Rootbound chests enumerate into the default-world registry and stay grounded
+  ---
+  duration_ms: 658.1981
+  type: 'test'
+  ...
+# Subtest: Rootbound rewards preserve existing finite-save linkage and reject alternate worlds
+ok 15 - Rootbound rewards preserve existing finite-save linkage and reject alternate worlds
+  ---
+  duration_ms: 7.6755
+  type: 'test'
+  ...
+1..15
+# tests 15
+# suites 0
+# pass 12
+# fail 3
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 7779.6429

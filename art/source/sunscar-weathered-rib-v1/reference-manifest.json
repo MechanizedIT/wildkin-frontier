@@ -1,0 +1,34 @@
+{
+  "schemaVersion": 1,
+  "asset": "sunscar-weathered-rib-v1",
+  "reference": {
+    "path": "reference/weathered-rib-target-v1.png",
+    "sha256": "157070274fef13f6449840c9acfdce4ec660d50e84d1244e74a3b7c3dd2a5529",
+    "kind": "single generated perspective reference; visual direction only",
+    "observed": [
+      "one opaque grounded mass",
+      "high left shoulder",
+      "long descending stratified cap",
+      "blunt ends",
+      "warm faceted sandstone"
+    ],
+    "inferred": [
+      "2.1m front-to-rear depth",
+      "hidden rear contours",
+      "closed-shell topology",
+      "terrain/collision relation"
+    ]
+  },
+  "declaredEnvelopeMeters": [
+    4.4,
+    2.1,
+    1.6
+  ],
+  "relatedFiles": {
+    "provenance": "reference/provenance.json",
+    "scale": "reference/scale-declaration.md",
+    "independentReferenceReview": "reference/target-review.md",
+    "geometryPlan": "geometry-plan.json"
+  },
+  "constructionInputSha256": "67012e6f303b3e910b3b84d9c5868d609b14a10405aa00554091157c257e6c1e"
+}

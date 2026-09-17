@@ -1,3 +1,5 @@
+**Latest owner review direction:** apply [Rootbound practical asset reuse and showcase review](../../../../docs/ROOTBOUND_ASSET_REUSE_REVIEW.md). Attractive, useful actual results may be used despite target differences or lower scores; older fixed score thresholds below are superseded for this focused run. Review reusable components, material-yield ideas, arrangement/rotation/scale/tint variants, and useful curve-authored roots/trunks. Preserve focused correctness and actual gameplay proof.
+
 # Reference-driven production loop
 
 Use this only for a Wildkin Frontier asset class or art pass. It adapts Dream Loop's target-first loop to local, offline-ready game assets; it does not replace the current scene, UI, gameplay or asset registry.
@@ -12,7 +14,7 @@ Use three separate roles for each admission decision:
 
 1. A reference author proposes or selects the target and flags generated-image artifacts.
 2. A model implementer creates or repairs the mesh, material, rig and clips.
-3. An independent visual judge compares the rendered candidate with the target at game scale and gives a 0–10 score with concrete defects. `8/10` is the minimum visual pass; a score may never substitute for motion review.
+3. An independent visual judge compares the rendered candidate with the target at game scale and gives a 0–10 score with concrete defects. For focused Rootbound work, no fixed score is a minimum admission gate; use attractive useful results and record specific debt. A score never substitutes for motion review.
 
 The judge must reject unexplained attachments, inconsistent repeated details, fake transparency/checkerboard, fused anatomy, missing contact, silhouette drift, over-detailed non-mobile treatment, reflective material, or a style that fails the approved faceted high-contrast look. Do not call a target accepted from a prompt, a scene graph or a metric.
 
@@ -26,6 +28,8 @@ Before a character rig is fitted, render the raw/optimized mesh orthographically
 Inspect the actual surface independently for body-axis, head-axis and paw/foot-pair direction. Names, profile declarations, bone landmarks, thumbnail views and animation track names do not establish them. A face that points toward the camera can hide a torso and leg layout running perpendicular to it, so a whole-mesh yaw adjustment cannot repair the disagreement. If those axes disagree, repair or reorient the source before weights and clips are accepted. Preserve approved colors, texture and likeness when that is cleanly possible.
 
 ## Iterate only on evidence
+
+The current project allowance is three substantial passes per asset loop, one initial candidate plus up to two focused repairs; see [PRODUCTION_LOOP_POLICY.md](../../../../docs/PRODUCTION_LOOP_POLICY.md). This is a ceiling, not a quota. A repeated consequential failure requires a changed method within the remaining allowance. Do not reset the count by renaming a regeneration or rebuild. Share target, model and actual game images as they become available, with their status clearly distinguished.
 
 Render each candidate in matching front, side, rear and three-quarter views, plus game-sized landscape views. The visual judge gives a pass/fail and score; revision changes the specific source, topology, material, pose, weights or clip responsible. Do not rerun the same generator settings after a repeat failure.
 

@@ -1,0 +1,24 @@
+{
+  "status": "complete raw untextured geometry; not runtime admission",
+  "profile": "fresh-process-per-stage-512-lantern-geometry-ply-v1",
+  "input_sha256": "85bd175a6b102cf183b50ff5ca45a1afd6847a6920a28b0039bd8e1e98d6b2ac",
+  "runner_sha256": "a9554323a4c5444f9023472634a1358fb3f4c4a4b851360b589221accf5c4178",
+  "raw_sha256": "e25bdd049cf9a7d8d4e1a7df9e4193e9840b0b550c6052b134d3d88cd6276120",
+  "bytes": 41776379,
+  "vertices": 1077634,
+  "triangles": 2218798,
+  "parent_exit_code": 0,
+  "all_six_child_exit_codes": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+  ],
+  "started_utc": "2026-09-14T21:22:41.911439+00:00",
+  "completed_utc": "2026-09-14T21:26:41.818806+00:00",
+  "minimum_recorded_event_free_gib": 13.912849426269531,
+  "reserve_breach_events": [],
+  "private_handoff_tensors": "retained in original private run directory; not copied to public evidence"
+}

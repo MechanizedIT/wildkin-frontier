@@ -1,0 +1,49 @@
+{
+  "source": {
+    "creator": "Kenney",
+    "pack": "Nature Kit 2.1",
+    "page": "https://kenney.nl/assets/nature-kit",
+    "license": "CC0-1.0",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "archive": "kenney_nature-kit.zip",
+    "archiveSha256": "fa7974a0d342bfe63c38664ba9f8ec1a4aab8ea25f099bdc56870e33588c4d9d"
+  },
+  "imported": [
+    {
+      "id": "asset_rootbound_oak",
+      "source": "tree_oak.glb",
+      "sha256": "d7fd8773674928c50c11b66d12c636d49bdcc15a8b1c7fbb98e6f63a3439a3f3",
+      "bytes": 14644,
+      "recipe": "rootbound-nature-recipes.json"
+    },
+    {
+      "id": "asset_rootbound_birch",
+      "source": "tree_thin.glb",
+      "sha256": "f0f1f6861fe0446963d3be216cc628324f538bb0841bc9a8e14140313f64e2f3",
+      "bytes": 17200,
+      "recipe": "rootbound-nature-recipes.json"
+    },
+    {
+      "id": "asset_rootbound_bush",
+      "source": "plant_bushLarge.glb",
+      "sha256": "10e1d9fbf29d96d1d1a56fb2ce25ae66537505101759229afe01ae22c6c45e02",
+      "bytes": 6436,
+      "recipe": "rootbound-nature-recipes.json"
+    },
+    {
+      "id": "asset_rootbound_fern",
+      "source": "plant_flatTall.glb",
+      "sha256": "b192523736f32754788de4dc7a5dcf30a58322b260ec8969120c91432a10b633",
+      "bytes": 3480,
+      "recipe": "rootbound-nature-recipes.json"
+    },
+    {
+      "id": "asset_rootbound_fallen_log",
+      "source": "log_large.glb",
+      "sha256": "e7a92369062d491e5a31a163d390e07db04ee573605bbfa84c00660d18896b4c",
+      "bytes": 7924,
+      "recipe": "rootbound-nature-recipes.json"
+    }
+  ],
+  "note": "Selected files are unmodified source copies. Recipes flatten the source meshes and normalize their authored root to y=0 for Rootbound placement. The bright source cyan/peach material colors are remapped only in recipes to Rootbound olive/wood flat colors."
+}

@@ -1,0 +1,51 @@
+{
+  "schema": "trailgloam-hoof-r7-plan-v1",
+  "status": "PROPOSED_FOR_INDEPENDENT_REVIEW",
+  "axis": "Blender metres, Z-up; head=-Y; right=+X; sole plane Z=0",
+  "r6_source": {
+    "parameters_path": "art/source/trailgloam-v1/full-r6-plan/parameters.json",
+    "parameters_sha256": "cc4e081fda9efca9792d3e336133e1413360c57b1ac8acfe263a64de35d3b3e0",
+    "builder_path": "art/source/trailgloam-v1/full-r6/render_full_r6.py",
+    "builder_sha256": "489e6c71dbed5eff6accb503e297e39c82beee1e2a661393d9a0d538ff327453"
+  },
+  "replacement": {
+    "ids": [
+      "LF",
+      "LM",
+      "LR",
+      "RF",
+      "RM",
+      "RR"
+    ],
+    "source_host": "the measured R6 terminal cuff-2 end ring for the matching leg",
+    "top_socket_radial_clearance_m": 0.032,
+    "top_socket_vertical_clearance_m": 0.012,
+    "outward_tangent_offset_m": 0.035,
+    "waist_radius_scale": 0.88,
+    "sole_radius_scale": 0.76,
+    "waist_z_m": 0.075,
+    "sole_z_m": 0.0,
+    "sides": 6,
+    "construction": "four six-vertex rings: measured cuff cap expanded into a short two-sided socket along the actual cuff axis, then tapered waist and grounded sole; bridge matching ring edges; triangulate individual top and sole caps; orient every triangle outward",
+    "materials": {
+      "hoof_pad_linear_rgba": [
+        0.095,
+        0.19,
+        0.2,
+        1.0
+      ],
+      "hoof_facet_linear_rgba": [
+        0.14,
+        0.29,
+        0.29,
+        1.0
+      ],
+      "intent": "lighter charcoal-teal pads, visibly separate from the dark cuff without reading as a black underframe"
+    }
+  },
+  "non_goals": [
+    "No change to R6 saucer, head, eyes, fronds, legs, cuffs, link points, transforms, or materials.",
+    "No claws, split-toe mechanic, rig, collider, runtime, export, or gameplay work.",
+    "No Blender or GPU execution before independent plan and source review."
+  ]
+}

@@ -1,0 +1,75 @@
+{
+  "schema": "rootbound-buttress-director-reference/v1",
+  "status": "construction-plan input; not a mesh, admission, collider, or runtime approval",
+  "asset": {
+    "workingName": "Rootbound buttress-canopy anchor",
+    "class": "static scenery anchor",
+    "intendedRole": "A grounded near-camera Rootbound frame/counterweight. It supports the Lantern Hollow / Thornstone circuit without becoming a hero landmark, traversal feature, or asset family.",
+    "approvedEnvelopeMeters": {
+      "height": { "min": 5.0, "max": 6.0, "target": 5.6 },
+      "lateralFootprintMax": 7.0,
+      "targetFootprint": { "x": 6.2, "y": 5.4 }
+    },
+    "runtimeBudget": {
+      "trianglesMax": 5000,
+      "materialCount": 1,
+      "material": "one opaque matte material; vertex-color or palette variation is permitted within it",
+      "collision": "separate compact lower-mass proposal only; crown and outer root tips do not imply collision"
+    }
+  },
+  "sources": [
+    {
+      "path": "art/source/rootbound-buttress-v1/reference/target-v1.png",
+      "sha256": "0e8dc741e4124e7af3feb5b46f911cfb7a56cde01bd08a9aa6669bf470af6ab6",
+      "pixelDimensions": [1214, 1295],
+      "kind": "single generated three-quarter construction target",
+      "provenance": "built-in OpenAI image generation; backend undisclosed",
+      "factsOnly": "Opaque white background, one complete tree, warm faceted trunk/root mass, three separated green canopy lobes."
+    },
+    {
+      "path": "art/source/rootbound-buttress-v1/reference/review-v1.md",
+      "kind": "independent construction-reference PASS receipt",
+      "bindingFindings": [
+        "Three to five broad grounded buttresses must form a closed lower root base.",
+        "Preserve visible trunk-to-major-branch junctions and the three-lobe asymmetric frame.",
+        "Do not model hundreds of leaves, leaf cards, a fused opaque crown, or walk-under root arches.",
+        "Neutral all-side, ground-contact, 48 px, 96 px, and frozen portrait-camera evidence remains required before admission."
+      ]
+    },
+    {
+      "path": "art/source/rootbound-buttress-study/director/root-image-measurement.json",
+      "kind": "numerical foreground-bounds corroboration; no image editing or derived image",
+      "bindingFindings": [
+        "Across three threshold rows, the target foreground bounds measure 1,149 px wide by 1,198–1,199 px high.",
+        "The projected height-to-width ratio is 1.0426–1.0435, so the complete visible silhouette is approximately 1:1, not 1.7:1.",
+        "These are screen-space bounds only and do not recover a camera, depth, rear form, or mesh topology."
+      ]
+    },
+    {
+      "path": "art/targets/rootbound-wildwood/concepts/implementation-brief.md",
+      "kind": "selected habitat context",
+      "bindingFindings": [
+        "The asset is one authorized static Rootbound anchor, not a Heartroot Crown or a new biome kit.",
+        "It must retain a compact lower-mass collider and existing route, forage, and wildlife clearances.",
+        "The Lantern Hollow composition still requires an open center lane and opposing existing edge clusters; this tree cannot substitute for them."
+      ]
+    }
+  ],
+  "cameraAndMeasurementLimits": {
+    "referenceCamera": "Perspective three-quarter view; focal length, roll, distance, exact depth, rear topology, and hidden junction geometry are unknown.",
+    "coordinateConventionForPlan": "Normalized image coordinates have origin at the target image's upper-left, x increases right, y increases down. Builder dimensions use Blender meters, X width, Y depth, Z up.",
+    "reliability": "Visible-front silhouette proportions and landmarks are observations; numerical foreground bounds corroborate a roughly 1:1 projected height-to-width silhouette. All depth, rear construction, exact thickness, topology, and physical fork-window size are declared design inferences."
+  },
+  "prohibitions": [
+    "Do not reuse any geometry, topology, source scene, render, or export from rootbound-buttress-v1 candidate-v1, candidate-v2, or candidate-v3.",
+    "Do not use TRELLIS, image-to-3D, Blender runtime integration, or a generic tree generator as the final construction method.",
+    "Do not add transparent foliage, leaf cards, wind, glow, a second material, a broad canopy collider, roots that create tunnels, or new gameplay behavior."
+  ],
+  "requiredEvidenceBeforeAnyAdmission": [
+    "Fresh editable source and fresh neutral front, rear, left, right, and three-quarter renders from the constructed mesh.",
+    "Untextured massing proof before final faceting; all branch/root attachments visible from more than the source-facing view.",
+    "Measured exported bounds, triangle count, material count, orientation, ground contacts, and compact collider parity.",
+    "48 px and 96 px game-scale frames plus a normal frozen Destination portrait frame.",
+    "Independent model review and separate runtime/placement review."
+  ]
+}

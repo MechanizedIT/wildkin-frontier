@@ -151,7 +151,7 @@ test('region and terrain expose one Caldera result with full and height-only par
     assert.ok(Number.isFinite(full.height));
     assert.ok(full.groundColorRGB.every(Number.isFinite));
   }
-  const outside = sampleFrontier(-425, 650);
+  const outside = sampleFrontier(-800, 650);
   assert.equal(outside.calderaWeight, 0);
   assert.equal(outside.habitatFeatureKind, null);
   assert.equal(outside.habitatFeatureZone, null);

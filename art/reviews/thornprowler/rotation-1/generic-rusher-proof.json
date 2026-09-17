@@ -1,0 +1,32 @@
+{
+  "note": "Actual browser factory sibling createRusherVisual still fits reviewed Thornprowler to unchanged builtin dimensions and ground origin; deterministic repeated geometry/material/transforms. No fit function, collider or gameplay change.",
+  "rusher": {
+    "size": [
+      0.88,
+      0.8600000000000001,
+      1.25
+    ],
+    "min": [
+      -0.44,
+      0,
+      -0.625
+    ],
+    "max": [
+      0.44,
+      0.8600000000000001,
+      0.625
+    ],
+    "meshes": 23,
+    "triangles": 770,
+    "repeatExact": true
+  },
+  "spitter": {
+    "size": [
+      0.8,
+      1,
+      1.1
+    ],
+    "meshes": 29
+  },
+  "pass": true
+}

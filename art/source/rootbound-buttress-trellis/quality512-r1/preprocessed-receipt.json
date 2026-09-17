@@ -1,0 +1,23 @@
+{
+  "artifact": "preprocessed.png",
+  "sha256": "69a3fd0344dfc7887ff6eb1e6239cfd20fad0261239a34ab6fb5e4061cee2e99",
+  "bytes": 518399,
+  "png": {
+    "width": 942,
+    "height": 942,
+    "bitDepth": 8,
+    "colorType": 2,
+    "channels": 3,
+    "hasAlpha": false,
+    "compression": 0,
+    "filter": 0,
+    "interlace": 0
+  },
+  "review": {
+    "reviewer": "root",
+    "status": "PASS for continuation",
+    "observation": "four dominant root spread, continuous collar and fork retained; no detached white background or missing root evident; tight object crop but no clear cutoff beyond natural extreme",
+    "limitation": "hidden geometry remains unknown"
+  },
+  "run": "quality512-r1"
+}

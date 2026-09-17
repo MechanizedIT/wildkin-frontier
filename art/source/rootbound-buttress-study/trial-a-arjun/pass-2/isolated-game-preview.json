@@ -1,0 +1,57 @@
+{
+  "fixture": "Exact exported GLB inserted temporarily in an isolated copied-save browser scene, seven metres ahead at frozen Destination pose. No collision, streaming, registry or persistence integration. Actual in-game render; illustrative placement only.",
+  "glb": "art/source/rootbound-buttress-study/trial-a-arjun/pass-2/rootbound-buttress-trial-a.glb",
+  "sha256": "68a617eea2a294c2658ee2e503ddf6c19f08e1437e3a647fa09574533873ffcd",
+  "pose": {
+    "x": -449,
+    "z": 675,
+    "yaw": -2.3
+  },
+  "audit": {
+    "dimensions": [
+      5.430206060409546,
+      5.850580029189587,
+      4.264259338378906
+    ],
+    "placement": [
+      -443.7800635147629,
+      9.152355621638135,
+      679.6639321489587
+    ],
+    "rotationY": -2.3,
+    "camera": {
+      "yaw": -2.3,
+      "pitch": 0.6283185307179586,
+      "portrait": true,
+      "portraitPitch": 0.6283185307179586,
+      "landscapePitch": 0.5585053606381855,
+      "zoom": 1,
+      "userZoom": 1,
+      "requestedDistance": 11.59107954420122,
+      "collisionDistance": 11.59107954420122,
+      "effectiveDistance": 11.59107954420122,
+      "focusRecovery": "clear",
+      "horizontalDistance": 6.55,
+      "height": 5,
+      "center": [
+        -449,
+        10.616436825061745,
+        675
+      ]
+    },
+    "bounds": {
+      "isBox3": true,
+      "min": {
+        "x": -2.7094852924346924,
+        "y": -5.21540641784668e-8,
+        "z": -2.1424412727355957
+      },
+      "max": {
+        "x": 2.7207207679748535,
+        "y": 5.8505799770355225,
+        "z": 2.1218180656433105
+      }
+    }
+  },
+  "errors": []
+}

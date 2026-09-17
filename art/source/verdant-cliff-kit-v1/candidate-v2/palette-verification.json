@@ -1,0 +1,483 @@
+{
+  "palettePng": {
+    "bytes": 1935,
+    "sha256": "e40cfdaecc42381fa0e8c7e4e5ea793ae7acd8f9febff360b333772c40846301",
+    "decodedSize": [
+      256,
+      256
+    ],
+    "channels": 3,
+    "all16SourceSwatchesMatch": true,
+    "samples": [
+      {
+        "index": 0,
+        "expected": [
+          67,
+          70,
+          70
+        ],
+        "actual": [
+          67,
+          70,
+          70
+        ],
+        "matches": true
+      },
+      {
+        "index": 1,
+        "expected": [
+          84,
+          86,
+          84
+        ],
+        "actual": [
+          84,
+          86,
+          84
+        ],
+        "matches": true
+      },
+      {
+        "index": 2,
+        "expected": [
+          101,
+          100,
+          95
+        ],
+        "actual": [
+          101,
+          100,
+          95
+        ],
+        "matches": true
+      },
+      {
+        "index": 3,
+        "expected": [
+          122,
+          117,
+          108
+        ],
+        "actual": [
+          122,
+          117,
+          108
+        ],
+        "matches": true
+      },
+      {
+        "index": 4,
+        "expected": [
+          74,
+          77,
+          76
+        ],
+        "actual": [
+          74,
+          77,
+          76
+        ],
+        "matches": true
+      },
+      {
+        "index": 5,
+        "expected": [
+          92,
+          91,
+          86
+        ],
+        "actual": [
+          92,
+          91,
+          86
+        ],
+        "matches": true
+      },
+      {
+        "index": 6,
+        "expected": [
+          111,
+          107,
+          99
+        ],
+        "actual": [
+          111,
+          107,
+          99
+        ],
+        "matches": true
+      },
+      {
+        "index": 7,
+        "expected": [
+          139,
+          130,
+          117
+        ],
+        "actual": [
+          139,
+          130,
+          117
+        ],
+        "matches": true
+      },
+      {
+        "index": 8,
+        "expected": [
+          53,
+          57,
+          55
+        ],
+        "actual": [
+          53,
+          57,
+          55
+        ],
+        "matches": true
+      },
+      {
+        "index": 9,
+        "expected": [
+          64,
+          67,
+          63
+        ],
+        "actual": [
+          64,
+          67,
+          63
+        ],
+        "matches": true
+      },
+      {
+        "index": 10,
+        "expected": [
+          77,
+          78,
+          70
+        ],
+        "actual": [
+          77,
+          78,
+          70
+        ],
+        "matches": true
+      },
+      {
+        "index": 11,
+        "expected": [
+          91,
+          90,
+          76
+        ],
+        "actual": [
+          91,
+          90,
+          76
+        ],
+        "matches": true
+      },
+      {
+        "index": 12,
+        "expected": [
+          57,
+          62,
+          52
+        ],
+        "actual": [
+          57,
+          62,
+          52
+        ],
+        "matches": true
+      },
+      {
+        "index": 13,
+        "expected": [
+          69,
+          73,
+          57
+        ],
+        "actual": [
+          69,
+          73,
+          57
+        ],
+        "matches": true
+      },
+      {
+        "index": 14,
+        "expected": [
+          81,
+          84,
+          61
+        ],
+        "actual": [
+          81,
+          84,
+          61
+        ],
+        "matches": true
+      },
+      {
+        "index": 15,
+        "expected": [
+          96,
+          95,
+          67
+        ],
+        "actual": [
+          96,
+          95,
+          67
+        ],
+        "matches": true
+      }
+    ],
+    "pngRowConvention": "PNG rows are top-down; Blender palette UV/source row 0 is PNG row 3.",
+    "decodedPngTopRowSamples": [
+      {
+        "index": 0,
+        "expected": [
+          67,
+          70,
+          70
+        ],
+        "actual": [
+          57,
+          62,
+          52
+        ],
+        "matches": false
+      },
+      {
+        "index": 1,
+        "expected": [
+          84,
+          86,
+          84
+        ],
+        "actual": [
+          69,
+          73,
+          57
+        ],
+        "matches": false
+      },
+      {
+        "index": 2,
+        "expected": [
+          101,
+          100,
+          95
+        ],
+        "actual": [
+          81,
+          84,
+          61
+        ],
+        "matches": false
+      },
+      {
+        "index": 3,
+        "expected": [
+          122,
+          117,
+          108
+        ],
+        "actual": [
+          96,
+          95,
+          67
+        ],
+        "matches": false
+      },
+      {
+        "index": 4,
+        "expected": [
+          74,
+          77,
+          76
+        ],
+        "actual": [
+          53,
+          57,
+          55
+        ],
+        "matches": false
+      },
+      {
+        "index": 5,
+        "expected": [
+          92,
+          91,
+          86
+        ],
+        "actual": [
+          64,
+          67,
+          63
+        ],
+        "matches": false
+      },
+      {
+        "index": 6,
+        "expected": [
+          111,
+          107,
+          99
+        ],
+        "actual": [
+          77,
+          78,
+          70
+        ],
+        "matches": false
+      },
+      {
+        "index": 7,
+        "expected": [
+          139,
+          130,
+          117
+        ],
+        "actual": [
+          91,
+          90,
+          76
+        ],
+        "matches": false
+      },
+      {
+        "index": 8,
+        "expected": [
+          53,
+          57,
+          55
+        ],
+        "actual": [
+          74,
+          77,
+          76
+        ],
+        "matches": false
+      },
+      {
+        "index": 9,
+        "expected": [
+          64,
+          67,
+          63
+        ],
+        "actual": [
+          92,
+          91,
+          86
+        ],
+        "matches": false
+      },
+      {
+        "index": 10,
+        "expected": [
+          77,
+          78,
+          70
+        ],
+        "actual": [
+          111,
+          107,
+          99
+        ],
+        "matches": false
+      },
+      {
+        "index": 11,
+        "expected": [
+          91,
+          90,
+          76
+        ],
+        "actual": [
+          139,
+          130,
+          117
+        ],
+        "matches": false
+      },
+      {
+        "index": 12,
+        "expected": [
+          57,
+          62,
+          52
+        ],
+        "actual": [
+          67,
+          70,
+          70
+        ],
+        "matches": false
+      },
+      {
+        "index": 13,
+        "expected": [
+          69,
+          73,
+          57
+        ],
+        "actual": [
+          84,
+          86,
+          84
+        ],
+        "matches": false
+      },
+      {
+        "index": 14,
+        "expected": [
+          81,
+          84,
+          61
+        ],
+        "actual": [
+          101,
+          100,
+          95
+        ],
+        "matches": false
+      },
+      {
+        "index": 15,
+        "expected": [
+          96,
+          95,
+          67
+        ],
+        "actual": [
+          122,
+          117,
+          108
+        ],
+        "matches": false
+      }
+    ]
+  },
+  "embeddedGlbPalette": {
+    "verdant-cliff-buttress.glb": {
+      "bytes": 1935,
+      "sha256": "e40cfdaecc42381fa0e8c7e4e5ea793ae7acd8f9febff360b333772c40846301",
+      "matchesExternalBytes": true
+    },
+    "verdant-cliff-ledge.glb": {
+      "bytes": 1935,
+      "sha256": "e40cfdaecc42381fa0e8c7e4e5ea793ae7acd8f9febff360b333772c40846301",
+      "matchesExternalBytes": true
+    },
+    "verdant-cliff-toe.glb": {
+      "bytes": 1935,
+      "sha256": "e40cfdaecc42381fa0e8c7e4e5ea793ae7acd8f9febff360b333772c40846301",
+      "matchesExternalBytes": true
+    }
+  },
+  "allEmbeddedImagesMatchExternal": true
+}

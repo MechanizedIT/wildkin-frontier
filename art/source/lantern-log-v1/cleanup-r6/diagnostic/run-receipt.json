@@ -1,0 +1,69 @@
+{
+  "source_blend_sha256": "d807fbb961da12b5e2bd21ffd7b66f709818c1c7e3efbd276424f022496eb477",
+  "script_sha256": "bee8d9633102b5ead65f0ab904897740496c10b4909d3ad218211feda4629c72",
+  "status": "terminal HOLD artifact observed; no repair or admission",
+  "geometry_signatures_before": {
+    "raw": "2fe183669f33770902bc92e2819d41c84cbb0ca5fba3c42ee52f27775b372dc7",
+    "r6": "ca6a8a7c974405adb5b6a593ffda0ebb6981676578ebb2f4419a5f585e61f9fb"
+  },
+  "geometry_signatures_after": {
+    "raw": "2fe183669f33770902bc92e2819d41c84cbb0ca5fba3c42ee52f27775b372dc7",
+    "r6": "ca6a8a7c974405adb5b6a593ffda0ebb6981676578ebb2f4419a5f585e61f9fb"
+  },
+  "raw_counts": [
+    1077634,
+    2218798
+  ],
+  "r6_counts": [
+    62510,
+    124172
+  ],
+  "renders": [
+    "renders\\r5-end-positive-y-512.png",
+    "renders\\r6-end-positive-y-512.png",
+    "renders\\r5-end-positive-y-96.png",
+    "renders\\r6-end-positive-y-96.png",
+    "renders\\r5-end-positive-y-48.png",
+    "renders\\r6-end-positive-y-48.png",
+    "renders\\r5-end-negative-y-512.png",
+    "renders\\r6-end-negative-y-512.png",
+    "renders\\r5-end-negative-y-96.png",
+    "renders\\r6-end-negative-y-96.png",
+    "renders\\r5-end-negative-y-48.png",
+    "renders\\r6-end-negative-y-48.png",
+    "renders\\r5-side-positive-x-512.png",
+    "renders\\r6-side-positive-x-512.png",
+    "renders\\r5-side-positive-x-96.png",
+    "renders\\r6-side-positive-x-96.png",
+    "renders\\r5-side-positive-x-48.png",
+    "renders\\r6-side-positive-x-48.png",
+    "renders\\r5-side-negative-x-512.png",
+    "renders\\r6-side-negative-x-512.png",
+    "renders\\r5-side-negative-x-96.png",
+    "renders\\r6-side-negative-x-96.png",
+    "renders\\r5-side-negative-x-48.png",
+    "renders\\r6-side-negative-x-48.png",
+    "renders\\r5-top-512.png",
+    "renders\\r6-top-512.png",
+    "renders\\r5-top-96.png",
+    "renders\\r6-top-96.png",
+    "renders\\r5-top-48.png",
+    "renders\\r6-top-48.png",
+    "renders\\r5-underside-512.png",
+    "renders\\r6-underside-512.png",
+    "renders\\r5-underside-96.png",
+    "renders\\r6-underside-96.png",
+    "renders\\r5-underside-48.png",
+    "renders\\r6-underside-48.png",
+    "renders\\r5-three-quarter-512.png",
+    "renders\\r6-three-quarter-512.png",
+    "renders\\r5-three-quarter-96.png",
+    "renders\\r6-three-quarter-96.png",
+    "renders\\r5-three-quarter-48.png",
+    "renders\\r6-three-quarter-48.png"
+  ],
+  "source_file_unchanged": true,
+  "no_modifiers_or_mesh_mutations_or_save_invoked": true,
+  "elapsed_seconds": 21.25,
+  "min_sampled_free_gib": 18.638187408447266
+}

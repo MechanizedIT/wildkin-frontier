@@ -80,6 +80,14 @@ export const MOVEMENT_CONFIG = {
   airDeceleration: 5,
   airMinSpeedCap: 3.3 * PLAYER_LOCOMOTION_SPEED_SCALE, // == walkSpeed, keeps falling steerable
 
+  // Terrain between the controller's walk limit and the fall limit pulls the
+  // player downhill. Steering can bend the line but cannot create a foothold.
+  slopeSlideMinSpeed: 1.7,
+  slopeSlideMaxSpeed: 4.0,
+  slopeSlideAcceleration: 11,
+  slopeSlideSteerSpeed: 1.15,
+  slopeSlideStickSpeed: 1.25,
+
   // World bounds
   // Crescent Basin's authored retreat route extends north-to-south from Camp to Threshold Rise.
   worldBounds: { minX: -14.5, maxX: 14.5, minZ: -36.5, maxZ: 15.5 },
@@ -132,7 +140,8 @@ export const RAPIER_CONFIG = {
   capsuleTotalHeight: 1.04,
   controllerOffset: 0.02,
   maxSlopeClimbAngle: (45 * Math.PI) / 180,
-  minSlopeSlideAngle: (30 * Math.PI) / 180,
+  minSlopeSlideAngle: (45 * Math.PI) / 180,
+  maxSlopeSlideAngle: (60 * Math.PI) / 180,
   autostepMaxHeight: 0.20,
   autostepMinWidth: 0.18,
   autostepIncludeDynamic: false,

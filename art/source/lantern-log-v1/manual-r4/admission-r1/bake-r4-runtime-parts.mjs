@@ -1,0 +1,25 @@
+import fs from 'node:fs';
+import { createHash } from 'node:crypto';
+
+const glbPath='assets/models/lantern-log-manual-r4-v1/model.glb';
+const worldPath='src/world/data/world.json';
+const outPath='art/source/lantern-log-v1/manual-r4/admission-r1/runtime-parts-audit.json';
+const bytes=fs.readFileSync(glbPath); const sha=createHash('sha256').update(bytes).digest('hex').toUpperCase();
+if(bytes.readUInt32LE(0)!==0x46546c67)throw Error('Expected GLB');
+let o=12,json,bin;while(o<bytes.length){const n=bytes.readUInt32LE(o),t=bytes.readUInt32LE(o+4);o+=8;const chunk=bytes.subarray(o,o+n);if(t===0x4e4f534a)json=JSON.parse(chunk.toString('utf8').trim());else if(t===0x004e4942)bin=chunk;o+=n;}if(!json||!bin)throw Error('Missing GLB chunks');
+const bytesPer={5120:1,5121:1,5122:2,5123:2,5125:4,5126:4},comps={SCALAR:1,VEC2:2,VEC3:3,VEC4:4};
+function readAccessor(i){const a=json.accessors[i],v=json.bufferViews[a.bufferView];const count=comps[a.type],size=bytesPer[a.componentType],stride=v.byteStride??count*size,off=(v.byteOffset??0)+(a.byteOffset??0),out=[];const read={5120:(p)=>bin.readInt8(p),5121:(p)=>bin.readUInt8(p),5122:(p)=>bin.readInt16LE(p),5123:(p)=>bin.readUInt16LE(p),5125:(p)=>bin.readUInt32LE(p),5126:(p)=>bin.readFloatLE(p)}[a.componentType];for(let row=0;row<a.count;row++){const item=[];for(let c=0;c<count;c++)item.push(read(off+row*stride+c*size));out.push(item);}return out;}
+function identity(){return [1,0,0,0, 0,1,0,0, 0,0,1,0, 0,0,0,1];}
+function mul(a,b){const r=Array(16).fill(0);for(let c=0;c<4;c++)for(let row=0;row<4;row++)for(let k=0;k<4;k++)r[c*4+row]+=a[k*4+row]*b[c*4+k];return r;}
+function local(node){if(node.matrix)return node.matrix;const [x,y,z]=node.translation??[0,0,0], [sx,sy,sz]=node.scale??[1,1,1], [qx,qy,qz,qw]=node.rotation??[0,0,0,1];const xx=qx*qx,yy=qy*qy,zz=qz*qz,xy=qx*qy,xz=qx*qz,yz=qy*qz,wx=qw*qx,wy=qw*qy,wz=qw*qz;return [(1-2*(yy+zz))*sx,(2*(xy+wz))*sx,(2*(xz-wy))*sx,0,(2*(xy-wz))*sy,(1-2*(xx+zz))*sy,(2*(yz+wx))*sy,0,(2*(xz+wy))*sz,(2*(yz-wx))*sz,(1-2*(xx+yy))*sz,0,x,y,z,1];}
+function apply(m,p){return [m[0]*p[0]+m[4]*p[1]+m[8]*p[2]+m[12],m[1]*p[0]+m[5]*p[1]+m[9]*p[2]+m[13],m[2]*p[0]+m[6]*p[1]+m[10]*p[2]+m[14]];}
+const worlds=new Map();function visit(index,parent=identity()){const n=json.nodes[index],m=mul(parent,local(n));if(n.mesh!==undefined)worlds.set(index,m);for(const c of n.children??[])visit(c,m);}for(const scene of json.scenes??[])for(const n of scene.nodes??[])visit(n);
+const linearToSrgb=v=>v<=.0031308?12.92*v:1.055*Math.pow(v,1/2.4)-.055;
+const hex=rgba=>`#${rgba.slice(0,3).map(v=>Math.max(0,Math.min(255,Math.round(linearToSrgb(v)*255))).toString(16).padStart(2,'0')).join('')}`;
+const groups=new Map();let triangles=0,sourcePrimitives=0;
+for(const [nodeIndex,matrix] of worlds){const node=json.nodes[nodeIndex],mesh=json.meshes[node.mesh];for(const primitive of mesh.primitives){if(primitive.mode!==undefined&&primitive.mode!==4)throw Error(`Unsupported primitive mode ${primitive.mode}`);const pos=readAccessor(primitive.attributes.POSITION), col=readAccessor(primitive.attributes.COLOR_0),idx=primitive.indices===undefined?pos.map((_,i)=>[i]):readAccessor(primitive.indices).map(v=>v[0]);if(idx.length%3)throw Error('Non-triangle index count');sourcePrimitives++;for(let i=0;i<idx.length;i+=3){const ids=idx.slice(i,i+3), colors=ids.map(k=>col[k]);const key=hex(colors[0]);if(colors.some(c=>hex(c)!==key))throw Error(`Mixed corner colors require vertex-color runtime support in triangle ${i/3}`);if(!groups.has(key))groups.set(key,{positions:[],indices:[]});const g=groups.get(key),base=g.positions.length/3;for(const id of ids)g.positions.push(...apply(matrix,pos[id]));g.indices.push(base,base+1,base+2);triangles++;}}}
+const parts=[...groups.entries()].sort(([a],[b])=>a.localeCompare(b)).map(([color,g],i)=>({id:`lantern_r4_palette_${String(i).padStart(2,'0')}`,shape:'mesh',geometry:{positions:g.positions,indices:g.indices},position:{x:0,y:0,z:0},rotation:{x:0,y:0,z:0},scale:{x:1,y:1,z:1},color,flatShading:true,roughness:.92,side:0}));
+const world=JSON.parse(fs.readFileSync(worldPath,'utf8'));const asset=world.visualAssets.find(v=>v.id==='asset_lantern_log_manual_r4');if(!asset)throw Error('Missing registered Lantern R4 asset');asset.parts=parts;delete asset.model.sourcePath;
+fs.writeFileSync(worldPath,JSON.stringify(world)+'\n');
+const audit={schema:'lantern-r4-runtime-parts/v1',glb:glbPath,sha256:sha,sourcePrimitiveCount:sourcePrimitives,sourceMeshNodeCount:worlds.size,sourceTriangleCount:triangles,runtimePartCount:parts.length,runtimeTriangleCount:parts.reduce((n,p)=>n+p.geometry.indices.length/3,0),runtimePositionCount:parts.reduce((n,p)=>n+p.geometry.positions.length/3,0),palette:parts.map(p=>({id:p.id,color:p.color,triangles:p.geometry.indices.length/3})),result:triangles===1390&&parts.reduce((n,p)=>n+p.geometry.indices.length/3,0)===1390?'PASS':'HOLD'};fs.writeFileSync(outPath,JSON.stringify(audit,null,2)+'\n');if(audit.result!=='PASS')throw Error('Triangle preservation failed');console.log(JSON.stringify(audit,null,2));
+

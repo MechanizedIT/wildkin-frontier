@@ -1,0 +1,27 @@
+{
+  "date": "2026-09-14T15:14:27.909Z",
+  "cinderjaw": {
+    "candidate": "R2",
+    "visual": 8.1,
+    "meshes": 28,
+    "triangles": 928,
+    "runtime": "PASS only for existing factory nonshipping fixture; no continent spawn admission"
+  },
+  "emberhorn": {
+    "candidate": "R3",
+    "visual": 8.1,
+    "meshes": 32,
+    "triangles": 1302,
+    "runtime": "PASS repeated after focused bake; prior encounter used older recipe"
+  },
+  "tests": 1426,
+  "verify": true,
+  "zip": true,
+  "zipBytes": 21596141,
+  "unpackedBytes": 46327849,
+  "zipSha256": "c89ac721b5d424433c4fa4ad4f29e9436513f04a40b9eda6f4d2a2d0e2b4f772",
+  "kitSha256": "b903852d608b9ea2c8ed189e2e9049360e137e6272c1785636373c3bba88989a",
+  "worldSha256": "6665d297b023e6da7d292e214effebed07a3073b999553979461c5c820f37be5",
+  "portableExact": true,
+  "noPush": true
+}

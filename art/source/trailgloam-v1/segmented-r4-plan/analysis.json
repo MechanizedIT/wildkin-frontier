@@ -1,0 +1,345 @@
+{
+  "schema": "trailgloam-segmented-r4-cpu-proof-v2",
+  "parameters_sha256": "9cf012ddedfce4d20d435e428cd7acb08b901c14fb91f360cd441ec77701470e",
+  "primitive_vertex_count": 568,
+  "complete_bounds_m": {
+    "min": [
+      -1.07,
+      -1.08,
+      0.0
+    ],
+    "max": [
+      1.07,
+      1.0,
+      1.8025
+    ],
+    "extent": [
+      2.14,
+      2.08,
+      1.8025
+    ]
+  },
+  "closed_part_count": 49,
+  "closed_parts": [
+    "shell",
+    "belly",
+    "head",
+    "LF_link_0",
+    "LF_link_1",
+    "LF_link_2",
+    "LF_hoof",
+    "LF_cuff_0",
+    "LF_cuff_1",
+    "LF_cuff_2",
+    "LM_link_0",
+    "LM_link_1",
+    "LM_link_2",
+    "LM_hoof",
+    "LM_cuff_0",
+    "LM_cuff_1",
+    "LM_cuff_2",
+    "LR_link_0",
+    "LR_link_1",
+    "LR_link_2",
+    "LR_hoof",
+    "LR_cuff_0",
+    "LR_cuff_1",
+    "LR_cuff_2",
+    "RF_link_0",
+    "RF_link_1",
+    "RF_link_2",
+    "RF_hoof",
+    "RF_cuff_0",
+    "RF_cuff_1",
+    "RF_cuff_2",
+    "RM_link_0",
+    "RM_link_1",
+    "RM_link_2",
+    "RM_hoof",
+    "RM_cuff_0",
+    "RM_cuff_1",
+    "RM_cuff_2",
+    "RR_link_0",
+    "RR_link_1",
+    "RR_link_2",
+    "RR_hoof",
+    "RR_cuff_0",
+    "RR_cuff_1",
+    "RR_cuff_2",
+    "collar_L",
+    "frond_L",
+    "collar_R",
+    "frond_R"
+  ],
+  "head_shell_ellipsoid_penetration_m": 0.050673218831201794,
+  "legs": [
+    {
+      "id": "LF",
+      "hoof_actual_min_z_m": 0.0,
+      "shell_to_coxa_penetration_m": 0.04946320300177676,
+      "cuffs": [
+        {
+          "joint": 0,
+          "cuff_radius_m": 0.14,
+          "penetration_into_adjacent_link_m": 0.025
+        },
+        {
+          "joint": 1,
+          "cuff_radius_m": 0.13,
+          "penetration_into_adjacent_link_m": 0.025
+        },
+        {
+          "joint": 2,
+          "cuff_radius_m": 0.11000000000000001,
+          "penetration_into_adjacent_link_m": 0.025
+        }
+      ],
+      "closed_parts": 4
+    },
+    {
+      "id": "LM",
+      "hoof_actual_min_z_m": 0.0,
+      "shell_to_coxa_penetration_m": 0.15297590757049306,
+      "cuffs": [
+        {
+          "joint": 0,
+          "cuff_radius_m": 0.145,
+          "penetration_into_adjacent_link_m": 0.025
+        },
+        {
+          "joint": 1,
+          "cuff_radius_m": 0.135,
+          "penetration_into_adjacent_link_m": 0.025
+        },
+        {
+          "joint": 2,
+          "cuff_radius_m": 0.11499999999999999,
+          "penetration_into_adjacent_link_m": 0.025
+        }
+      ],
+      "closed_parts": 4
+    },
+    {
+      "id": "LR",
+      "hoof_actual_min_z_m": 0.0,
+      "shell_to_coxa_penetration_m": 0.13988958432704623,
+      "cuffs": [
+        {
+          "joint": 0,
+          "cuff_radius_m": 0.14,
+          "penetration_into_adjacent_link_m": 0.025
+        },
+        {
+          "joint": 1,
+          "cuff_radius_m": 0.13,
+          "penetration_into_adjacent_link_m": 0.025
+        },
+        {
+          "joint": 2,
+          "cuff_radius_m": 0.11000000000000001,
+          "penetration_into_adjacent_link_m": 0.025
+        }
+      ],
+      "closed_parts": 4
+    },
+    {
+      "id": "RF",
+      "hoof_actual_min_z_m": 0.0,
+      "shell_to_coxa_penetration_m": 0.04946320300177676,
+      "cuffs": [
+        {
+          "joint": 0,
+          "cuff_radius_m": 0.14,
+          "penetration_into_adjacent_link_m": 0.025
+        },
+        {
+          "joint": 1,
+          "cuff_radius_m": 0.13,
+          "penetration_into_adjacent_link_m": 0.025
+        },
+        {
+          "joint": 2,
+          "cuff_radius_m": 0.11000000000000001,
+          "penetration_into_adjacent_link_m": 0.025
+        }
+      ],
+      "closed_parts": 4
+    },
+    {
+      "id": "RM",
+      "hoof_actual_min_z_m": 0.0,
+      "shell_to_coxa_penetration_m": 0.15297590757049306,
+      "cuffs": [
+        {
+          "joint": 0,
+          "cuff_radius_m": 0.145,
+          "penetration_into_adjacent_link_m": 0.025
+        },
+        {
+          "joint": 1,
+          "cuff_radius_m": 0.135,
+          "penetration_into_adjacent_link_m": 0.025
+        },
+        {
+          "joint": 2,
+          "cuff_radius_m": 0.11499999999999999,
+          "penetration_into_adjacent_link_m": 0.025
+        }
+      ],
+      "closed_parts": 4
+    },
+    {
+      "id": "RR",
+      "hoof_actual_min_z_m": 0.0,
+      "shell_to_coxa_penetration_m": 0.13988958432704623,
+      "cuffs": [
+        {
+          "joint": 0,
+          "cuff_radius_m": 0.14,
+          "penetration_into_adjacent_link_m": 0.025
+        },
+        {
+          "joint": 1,
+          "cuff_radius_m": 0.13,
+          "penetration_into_adjacent_link_m": 0.025
+        },
+        {
+          "joint": 2,
+          "cuff_radius_m": 0.11000000000000001,
+          "penetration_into_adjacent_link_m": 0.025
+        }
+      ],
+      "closed_parts": 4
+    }
+  ],
+  "fronds": {
+    "construction": "separately closed six-sided folded blade and separately closed six-sided collar; blade base overlaps collar; neither is bridged or uncapped.",
+    "count": 2,
+    "separate_closed_collars_and_blades": true
+  },
+  "three_quarter_projection_proxy": {
+    "camera_forward": [
+      -0.5773502691896258,
+      0.5773502691896258,
+      -0.5773502691896258
+    ],
+    "screen_right": [
+      0.7071067811865476,
+      0.7071067811865476,
+      0.0
+    ],
+    "screen_up": [
+      0.4082482904638631,
+      -0.4082482904638631,
+      -0.8164965809277261
+    ],
+    "leg_anchor_bounds": [
+      {
+        "id": "LF",
+        "screen_bounds": {
+          "min": [
+            -1.1667261889578036,
+            -0.5593001579354924
+          ],
+          "max": [
+            -0.6010407640085654,
+            -0.020412414523193104
+          ]
+        },
+        "depth_range": [
+          -0.3002221399786055,
+          -0.1385640646055102
+        ]
+      },
+      {
+        "id": "LM",
+        "screen_bounds": {
+          "min": [
+            -0.9121677477306463,
+            -0.7307644399303148
+          ],
+          "max": [
+            -0.41719300090006306,
+            -0.2816913204200655
+          ]
+        },
+        "depth_range": [
+          -0.040414518843273795,
+          0.20784609690826533
+        ]
+      },
+      {
+        "id": "LR",
+        "screen_bounds": {
+          "min": [
+            -0.1414213562373095,
+            -0.8328265125462806
+          ],
+          "max": [
+            0.08485281374238574,
+            -0.68585712797929
+          ]
+        },
+        "depth_range": [
+          0.12124355652982138,
+          0.8371578903249575
+        ]
+      },
+      {
+        "id": "RF",
+        "screen_bounds": {
+          "min": [
+            -0.12020815280171315,
+            -0.16738179909018386
+          ],
+          "max": [
+            0.13435028842544394,
+            0.5837950553633242
+          ]
+        },
+        "depth_range": [
+          -1.0161364737737415,
+          -0.8544783984006461
+        ]
+      },
+      {
+        "id": "RM",
+        "screen_bounds": {
+          "min": [
+            0.311126983722081,
+            -0.26536138880151094
+          ],
+          "max": [
+            0.5020458146424488,
+            0.4368256707963335
+          ]
+        },
+        "depth_range": [
+          -0.8082903768654761,
+          -0.6985938257194473
+        ]
+      },
+      {
+        "id": "RR",
+        "screen_bounds": {
+          "min": [
+            0.579827560572969,
+            -0.44090815370097214
+          ],
+          "max": [
+            1.103086578651014,
+            -0.13880441875771338
+          ]
+        },
+        "depth_range": [
+          -0.4330127018922193,
+          0.005773502691896248
+        ]
+      }
+    ],
+    "limit": "anchor projection/depth only; expected occlusion is not resolved and no surface rasterization was performed."
+  },
+  "limits": [
+    "No Blender/GPU/model build. Blender must verify actual closures, covered cuffs, frond contact, and all-angle visibility."
+  ]
+}

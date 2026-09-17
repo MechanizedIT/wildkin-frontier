@@ -1,0 +1,8 @@
+{
+  "src/world/frontierHeartwood.js": "4dba28837d921ec5b0efb868b7df888416233a20e399c3e150d66259ecd65e65",
+  "src/world/frontierTerrain.js": "af1c5d20d463420ff3c84fe44deee492abdab608c188ae5013c9db981426a32c",
+  "src/world/frontierScenery.js": "407b5bbc135118736503626cbcf6013d91e3be8306574afb4ec1c447e8680d6f",
+  "src/world/frontierSceneryVisual.js": "567238c20c034c9260dcc126600b77dd4636375f063cfaf84d5dff7a2b300bc0",
+  "tests/frontierTerrain.test.js": "664a0b03f1e9ac53c72e83900de173ffb949b1e41b8efc0eaba22d828abf7303",
+  "tests/frontierScenery.test.js": "b3ee5b32f7c7a754723341a2940e77002815a5c20031756e39a513a441b2c541"
+}

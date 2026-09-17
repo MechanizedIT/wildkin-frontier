@@ -1,0 +1,7 @@
+Blender 4.5.3 LTS (hash 67807e1800cc built 2025-09-09 01:33:33)
+  File "C:\Users\cwood\Documents\mobile-rpg\art\source\trailgloam-v1\manual-blockout-v1\build_probe.py", line 109
+    bpy.ops.object.light_add(type='AREA', location=(2,2,3)); fill=bpy.context.object; fill.name='fill'; fill.data.energy=350; fill.data.size=3\nbpy.ops.object.light_add(type='AREA', location=(0,-.3,-2)); under=bpy.context.object; under.name='underside_fill'; under.data.energy=420; under.data.size=2
+                                                                                                                                               ^
+SyntaxError: unexpected character after line continuation character
+
+Blender quit

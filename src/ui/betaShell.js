@@ -127,7 +127,10 @@ export function createBetaShell({ app, getModel, onAction = () => null, onBlocki
   document.addEventListener("visibilitychange", onVisibilityChange);
   const onResize = () => endFieldTool();
   window.addEventListener("resize", onResize);
-  hud.querySelector(".beta-dodge").addEventListener("click", (event) => { event.preventDefault(); onAction("dodge"); });
+  // A second thumb must act while the joystick pointer remains held. Waiting
+  // for a synthesized touch click can defer or cancel the dodge entirely.
+  hud.querySelector(".beta-dodge").addEventListener("pointerdown", (event) => { if (event.button !== 0) return; event.preventDefault(); onAction("dodge"); });
+  hud.querySelector(".beta-dodge").addEventListener("click", (event) => { if (event.detail === 0) onAction("dodge"); });
   hud.querySelector(".beta-jump").addEventListener("pointerdown", (event) => { if (event.button !== 0) return; event.preventDefault(); onAction("jump"); });
   hud.querySelector(".beta-jump").addEventListener("click", (event) => { if (event.detail === 0) onAction("jump"); });
   const setBlocking = (value) => onBlockingChanged(!!value);

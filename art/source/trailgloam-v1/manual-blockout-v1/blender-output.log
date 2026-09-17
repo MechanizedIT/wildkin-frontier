@@ -1,0 +1,11 @@
+Blender 4.5.3 LTS (hash 67807e1800cc built 2025-09-09 01:33:33)
+Traceback (most recent call last):
+  File "C:\Users\cwood\Documents\mobile-rpg\art\source\trailgloam-v1\manual-blockout-v1\build_probe.py", line 91, in <module>
+    nonmanifold=[e.index for e in mesh.edges if not e.is_manifold]
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cwood\Documents\mobile-rpg\art\source\trailgloam-v1\manual-blockout-v1\build_probe.py", line 91, in <listcomp>
+    nonmanifold=[e.index for e in mesh.edges if not e.is_manifold]
+                                                    ^^^^^^^^^^^^^
+AttributeError: 'MeshEdge' object has no attribute 'is_manifold'
+
+Blender quit

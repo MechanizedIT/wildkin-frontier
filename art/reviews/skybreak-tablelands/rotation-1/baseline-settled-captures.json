@@ -1,0 +1,767 @@
+{
+  "phase": "baseline-settled",
+  "date": "2026-09-14T11:49:28.070Z",
+  "fixture": "Fresh current-source captures in isolated copied earned-save context; diagnostic fixed positioning, not ordinary route proof.",
+  "viewport": {
+    "width": 412,
+    "height": 915
+  },
+  "seed": 1327115068,
+  "views": [
+    {
+      "name": "arrival",
+      "requested": {
+        "name": "arrival",
+        "x": 4,
+        "z": -153,
+        "yaw": 0
+      },
+      "state": {
+        "pos": {
+          "x": 4,
+          "y": 7.843170642852783,
+          "z": -153
+        },
+        "camera": {
+          "yaw": 0,
+          "pitch": 0.6283185307179586,
+          "portrait": true,
+          "portraitPitch": 0.6283185307179586,
+          "landscapePitch": 0.5585053606381855,
+          "zoom": 1,
+          "userZoom": 1,
+          "requestedDistance": 11.59107954420122,
+          "collisionDistance": 11.59107954420122,
+          "effectiveDistance": 11.59107954420122,
+          "focusRecovery": "clear",
+          "horizontalDistance": 6.55,
+          "height": 5,
+          "center": [
+            4,
+            8.775414249703802,
+            -153
+          ]
+        },
+        "terrain": {
+          "residentCount": 25,
+          "center": {
+            "cx": 0,
+            "cz": -4
+          },
+          "residentIds": [
+            "-2,-6",
+            "-1,-6",
+            "0,-6",
+            "1,-6",
+            "2,-6",
+            "-2,-5",
+            "-1,-5",
+            "0,-5",
+            "1,-5",
+            "2,-5",
+            "-2,-4",
+            "-1,-4",
+            "0,-4",
+            "1,-4",
+            "2,-4",
+            "-2,-3",
+            "-1,-3",
+            "0,-3",
+            "1,-3",
+            "2,-3",
+            "-2,-2",
+            "-1,-2",
+            "0,-2",
+            "1,-2",
+            "2,-2"
+          ],
+          "preparedCount": 0,
+          "preparedIds": []
+        },
+        "scenery": {
+          "residentCount": 26,
+          "residentIds": [
+            "f2c:s:0:-4:stage-skybreak-east-stones-low-center",
+            "f2c:s:0:-4:stage-skybreak-east-stones-low-east",
+            "f2c:s:0:-4:stage-skybreak-east-stones-low-west",
+            "f2c:s:0:-4:stage-skybreak-east-stones-mid-center",
+            "f2c:s:0:-4:stage-skybreak-east-stones-mid-east",
+            "f2c:s:0:-4:stage-skybreak-east-stones-mid-west",
+            "f2c:s:0:-4:stage-skybreak-fiber-leaves",
+            "f2c:s:0:-4:stage-skybreak-fiber-mushrooms",
+            "f2c:s:0:-4:stage-skybreak-fiber-reeds",
+            "f2c:s:-1:-4:stage-skybreak-berry-leaves",
+            "f2c:s:-1:-4:stage-skybreak-berry-mushrooms",
+            "f2c:s:-1:-4:stage-skybreak-berry-reeds",
+            "f2c:s:0:-3:stage-tree-north",
+            "f2c:s:0:-5:stage-skybreak-crown-cloudflower-center",
+            "f2c:s:0:-5:stage-skybreak-crown-cloudflower-east",
+            "f2c:s:0:-5:stage-skybreak-crown-cloudflower-west",
+            "f2c:s:0:-5:stage-skybreak-east-stones-high-center",
+            "f2c:s:0:-5:stage-skybreak-east-stones-high-east",
+            "f2c:s:-2:-4:seed-2",
+            "f2c:s:0:-2:stage-tree-west-1",
+            "f2c:s:0:-6:seed-1",
+            "f2c:s:2:-4:seed-0",
+            "f2c:s:-1:-2:seed-1",
+            "f2c:s:-1:-6:seed-0",
+            "f2c:s:-2:-3:seed-2",
+            "f2c:s:-2:-5:seed-1"
+          ],
+          "canopyCount": 11,
+          "colliderCount": 11,
+          "clearanceRecipeCache": {
+            "forageCount": 56,
+            "wildlifeCount": 56
+          },
+          "sceneryRecipeCache": {
+            "ordinaryCount": 31,
+            "infillCount": 2
+          },
+          "groundPatchCache": {
+            "entryCount": 26,
+            "maxEntries": 512,
+            "maxPatchRecords": 28
+          },
+          "streaming": {
+            "preparedPublications": 0,
+            "unfinishedPublications": 0,
+            "synchronousPublications": 2,
+            "cancelled": 0,
+            "preparationFailures": 0,
+            "lastWorkMs": 0,
+            "maxWorkMs": 0,
+            "phase": null,
+            "target": null
+          },
+          "lowCount": 15,
+          "stoneSolidCount": 0,
+          "surfaceCount": 11,
+          "lowDrawCount": 8,
+          "lowTriangleCount": 9720,
+          "lowGeometryCount": 4,
+          "lowGeometryVertexCount": 9834,
+          "lowInstanceCount": 15,
+          "groundDrawCount": 1,
+          "groundClusterCount": 621,
+          "groundClusterTriangleCount": 9936
+        },
+        "render": {
+          "frame": 27,
+          "calls": 43,
+          "triangles": 157092,
+          "points": 0,
+          "lines": 0
+        }
+      }
+    },
+    {
+      "name": "ascent",
+      "requested": {
+        "name": "ascent",
+        "x": -7,
+        "z": -184,
+        "yaw": -0.5404195002705842
+      },
+      "state": {
+        "pos": {
+          "x": -7,
+          "y": 17.468891143798828,
+          "z": -184
+        },
+        "camera": {
+          "yaw": -0.5404195002705842,
+          "pitch": 0.6283185307179586,
+          "portrait": true,
+          "portraitPitch": 0.6283185307179586,
+          "landscapePitch": 0.5585053606381855,
+          "zoom": 1,
+          "userZoom": 1,
+          "requestedDistance": 11.59107954420122,
+          "collisionDistance": 11.59107954420122,
+          "effectiveDistance": 11.59107954420122,
+          "focusRecovery": "clear",
+          "horizontalDistance": 6.55,
+          "height": 5,
+          "center": [
+            -7,
+            18.368891143798866,
+            -184
+          ]
+        },
+        "terrain": {
+          "residentCount": 25,
+          "center": {
+            "cx": 0,
+            "cz": -4
+          },
+          "residentIds": [
+            "-2,-6",
+            "-1,-6",
+            "0,-6",
+            "1,-6",
+            "2,-6",
+            "-2,-5",
+            "-1,-5",
+            "0,-5",
+            "1,-5",
+            "2,-5",
+            "-2,-4",
+            "-1,-4",
+            "0,-4",
+            "1,-4",
+            "2,-4",
+            "-2,-3",
+            "-1,-3",
+            "0,-3",
+            "1,-3",
+            "2,-3",
+            "-2,-2",
+            "-1,-2",
+            "0,-2",
+            "1,-2",
+            "2,-2"
+          ],
+          "preparedCount": 5,
+          "preparedIds": [
+            "-3,-6",
+            "-3,-5",
+            "-3,-4",
+            "-3,-3",
+            "-3,-2"
+          ]
+        },
+        "scenery": {
+          "residentCount": 26,
+          "residentIds": [
+            "f2c:s:0:-4:stage-skybreak-east-stones-low-center",
+            "f2c:s:0:-4:stage-skybreak-east-stones-low-east",
+            "f2c:s:0:-4:stage-skybreak-east-stones-low-west",
+            "f2c:s:0:-4:stage-skybreak-east-stones-mid-center",
+            "f2c:s:0:-4:stage-skybreak-east-stones-mid-east",
+            "f2c:s:0:-4:stage-skybreak-east-stones-mid-west",
+            "f2c:s:0:-4:stage-skybreak-fiber-leaves",
+            "f2c:s:0:-4:stage-skybreak-fiber-mushrooms",
+            "f2c:s:0:-4:stage-skybreak-fiber-reeds",
+            "f2c:s:-1:-4:stage-skybreak-berry-leaves",
+            "f2c:s:-1:-4:stage-skybreak-berry-mushrooms",
+            "f2c:s:-1:-4:stage-skybreak-berry-reeds",
+            "f2c:s:0:-3:stage-tree-north",
+            "f2c:s:0:-5:stage-skybreak-crown-cloudflower-center",
+            "f2c:s:0:-5:stage-skybreak-crown-cloudflower-east",
+            "f2c:s:0:-5:stage-skybreak-crown-cloudflower-west",
+            "f2c:s:0:-5:stage-skybreak-east-stones-high-center",
+            "f2c:s:0:-5:stage-skybreak-east-stones-high-east",
+            "f2c:s:-2:-4:seed-2",
+            "f2c:s:0:-2:stage-tree-west-1",
+            "f2c:s:0:-6:seed-1",
+            "f2c:s:2:-4:seed-0",
+            "f2c:s:-1:-2:seed-1",
+            "f2c:s:-1:-6:seed-0",
+            "f2c:s:-2:-3:seed-2",
+            "f2c:s:-2:-5:seed-1"
+          ],
+          "canopyCount": 11,
+          "colliderCount": 11,
+          "clearanceRecipeCache": {
+            "forageCount": 63,
+            "wildlifeCount": 63
+          },
+          "sceneryRecipeCache": {
+            "ordinaryCount": 36,
+            "infillCount": 2
+          },
+          "groundPatchCache": {
+            "entryCount": 31,
+            "maxEntries": 512,
+            "maxPatchRecords": 28
+          },
+          "streaming": {
+            "preparedPublications": 0,
+            "unfinishedPublications": 0,
+            "synchronousPublications": 2,
+            "cancelled": 0,
+            "preparationFailures": 0,
+            "lastWorkMs": 0,
+            "maxWorkMs": 7.5,
+            "phase": "ready",
+            "target": {
+              "cx": -1,
+              "cz": -4
+            }
+          },
+          "lowCount": 15,
+          "stoneSolidCount": 0,
+          "surfaceCount": 11,
+          "lowDrawCount": 8,
+          "lowTriangleCount": 9720,
+          "lowGeometryCount": 4,
+          "lowGeometryVertexCount": 9834,
+          "lowInstanceCount": 15,
+          "groundDrawCount": 1,
+          "groundClusterCount": 621,
+          "groundClusterTriangleCount": 9936
+        },
+        "render": {
+          "frame": 1129,
+          "calls": 49,
+          "triangles": 150099,
+          "points": 0,
+          "lines": 0
+        }
+      }
+    },
+    {
+      "name": "crown",
+      "requested": {
+        "name": "crown",
+        "x": 12,
+        "z": -228,
+        "yaw": -2.1815222911841055
+      },
+      "state": {
+        "pos": {
+          "x": 12,
+          "y": 35.513179779052734,
+          "z": -228
+        },
+        "camera": {
+          "yaw": -2.1815222911841055,
+          "pitch": 0.6283185307179586,
+          "portrait": true,
+          "portraitPitch": 0.6283185307179586,
+          "landscapePitch": 0.5585053606381855,
+          "zoom": 1,
+          "userZoom": 1,
+          "requestedDistance": 11.59107954420122,
+          "collisionDistance": 11.59107954420122,
+          "effectiveDistance": 11.59107954420122,
+          "focusRecovery": "clear",
+          "horizontalDistance": 6.55,
+          "height": 5,
+          "center": [
+            12,
+            36.413179779052825,
+            -228
+          ]
+        },
+        "terrain": {
+          "residentCount": 25,
+          "center": {
+            "cx": 0,
+            "cz": -5
+          },
+          "residentIds": [
+            "-2,-7",
+            "-1,-7",
+            "0,-7",
+            "1,-7",
+            "2,-7",
+            "-2,-6",
+            "-1,-6",
+            "0,-6",
+            "1,-6",
+            "2,-6",
+            "-2,-5",
+            "-1,-5",
+            "0,-5",
+            "1,-5",
+            "2,-5",
+            "-2,-4",
+            "-1,-4",
+            "0,-4",
+            "1,-4",
+            "2,-4",
+            "-2,-3",
+            "-1,-3",
+            "0,-3",
+            "1,-3",
+            "2,-3"
+          ],
+          "preparedCount": 0,
+          "preparedIds": []
+        },
+        "scenery": {
+          "residentCount": 26,
+          "residentIds": [
+            "f2c:s:0:-5:stage-skybreak-crown-cloudflower-center",
+            "f2c:s:0:-5:stage-skybreak-crown-cloudflower-east",
+            "f2c:s:0:-5:stage-skybreak-crown-cloudflower-west",
+            "f2c:s:0:-5:stage-skybreak-east-stones-high-center",
+            "f2c:s:0:-5:stage-skybreak-east-stones-high-east",
+            "f2c:s:0:-5:stage-skybreak-east-stones-high-west",
+            "f2c:s:0:-4:stage-skybreak-east-stones-low-center",
+            "f2c:s:0:-4:stage-skybreak-east-stones-low-east",
+            "f2c:s:0:-4:stage-skybreak-east-stones-low-west",
+            "f2c:s:0:-4:stage-skybreak-east-stones-mid-center",
+            "f2c:s:0:-4:stage-skybreak-east-stones-mid-east",
+            "f2c:s:0:-4:stage-skybreak-east-stones-mid-west",
+            "f2c:s:0:-4:stage-skybreak-fiber-leaves",
+            "f2c:s:0:-4:stage-skybreak-fiber-mushrooms",
+            "f2c:s:0:-4:stage-skybreak-fiber-reeds",
+            "f2c:s:-1:-4:stage-skybreak-berry-leaves",
+            "f2c:s:-1:-4:stage-skybreak-berry-mushrooms",
+            "f2c:s:-1:-4:stage-skybreak-berry-reeds",
+            "f2c:s:-2:-5:seed-1",
+            "f2c:s:0:-3:stage-tree-north",
+            "f2c:s:2:-5:seed-0",
+            "f2c:s:-1:-3:seed-0",
+            "f2c:s:-2:-4:seed-2",
+            "f2c:s:-2:-6:seed-2",
+            "f2c:s:1:-3:seed-1",
+            "f2c:s:2:-4:seed-0"
+          ],
+          "canopyCount": 10,
+          "colliderCount": 10,
+          "clearanceRecipeCache": {
+            "forageCount": 63,
+            "wildlifeCount": 63
+          },
+          "sceneryRecipeCache": {
+            "ordinaryCount": 38,
+            "infillCount": 1
+          },
+          "groundPatchCache": {
+            "entryCount": 26,
+            "maxEntries": 512,
+            "maxPatchRecords": 28
+          },
+          "streaming": {
+            "preparedPublications": 0,
+            "unfinishedPublications": 0,
+            "synchronousPublications": 3,
+            "cancelled": 1,
+            "preparationFailures": 0,
+            "lastWorkMs": 0,
+            "maxWorkMs": 7.5,
+            "phase": null,
+            "target": null
+          },
+          "lowCount": 16,
+          "stoneSolidCount": 0,
+          "surfaceCount": 10,
+          "lowDrawCount": 8,
+          "lowTriangleCount": 10172,
+          "lowGeometryCount": 4,
+          "lowGeometryVertexCount": 9834,
+          "lowInstanceCount": 16,
+          "groundDrawCount": 1,
+          "groundClusterCount": 617,
+          "groundClusterTriangleCount": 9872
+        },
+        "render": {
+          "frame": 2076,
+          "calls": 146,
+          "triangles": 164903,
+          "points": 0,
+          "lines": 0
+        }
+      }
+    },
+    {
+      "name": "return",
+      "requested": {
+        "name": "return",
+        "x": 36,
+        "z": -188,
+        "yaw": 3.141592653589793
+      },
+      "state": {
+        "pos": {
+          "x": 36,
+          "y": 18.905332565307617,
+          "z": -188
+        },
+        "camera": {
+          "yaw": 3.141592653589793,
+          "pitch": 0.6283185307179586,
+          "portrait": true,
+          "portraitPitch": 0.6283185307179586,
+          "landscapePitch": 0.5585053606381855,
+          "zoom": 1,
+          "userZoom": 1,
+          "requestedDistance": 11.59107954420122,
+          "collisionDistance": 11.59107954420122,
+          "effectiveDistance": 11.59107954420122,
+          "focusRecovery": "clear",
+          "horizontalDistance": 6.55,
+          "height": 5,
+          "center": [
+            36,
+            19.805332565307662,
+            -188
+          ]
+        },
+        "terrain": {
+          "residentCount": 25,
+          "center": {
+            "cx": 0,
+            "cz": -4
+          },
+          "residentIds": [
+            "-2,-6",
+            "-1,-6",
+            "0,-6",
+            "1,-6",
+            "2,-6",
+            "-2,-5",
+            "-1,-5",
+            "0,-5",
+            "1,-5",
+            "2,-5",
+            "-2,-4",
+            "-1,-4",
+            "0,-4",
+            "1,-4",
+            "2,-4",
+            "-2,-3",
+            "-1,-3",
+            "0,-3",
+            "1,-3",
+            "2,-3",
+            "-2,-2",
+            "-1,-2",
+            "0,-2",
+            "1,-2",
+            "2,-2"
+          ],
+          "preparedCount": 0,
+          "preparedIds": []
+        },
+        "scenery": {
+          "residentCount": 26,
+          "residentIds": [
+            "f2c:s:0:-4:stage-skybreak-east-stones-low-center",
+            "f2c:s:0:-4:stage-skybreak-east-stones-low-east",
+            "f2c:s:0:-4:stage-skybreak-east-stones-low-west",
+            "f2c:s:0:-4:stage-skybreak-east-stones-mid-center",
+            "f2c:s:0:-4:stage-skybreak-east-stones-mid-east",
+            "f2c:s:0:-4:stage-skybreak-east-stones-mid-west",
+            "f2c:s:0:-4:stage-skybreak-fiber-leaves",
+            "f2c:s:0:-4:stage-skybreak-fiber-mushrooms",
+            "f2c:s:0:-4:stage-skybreak-fiber-reeds",
+            "f2c:s:-1:-4:stage-skybreak-berry-leaves",
+            "f2c:s:-1:-4:stage-skybreak-berry-mushrooms",
+            "f2c:s:-1:-4:stage-skybreak-berry-reeds",
+            "f2c:s:0:-3:stage-tree-north",
+            "f2c:s:0:-5:stage-skybreak-crown-cloudflower-center",
+            "f2c:s:0:-5:stage-skybreak-crown-cloudflower-east",
+            "f2c:s:0:-5:stage-skybreak-crown-cloudflower-west",
+            "f2c:s:0:-5:stage-skybreak-east-stones-high-center",
+            "f2c:s:0:-5:stage-skybreak-east-stones-high-east",
+            "f2c:s:-2:-4:seed-2",
+            "f2c:s:0:-2:stage-tree-west-1",
+            "f2c:s:0:-6:seed-1",
+            "f2c:s:2:-4:seed-0",
+            "f2c:s:-1:-2:seed-1",
+            "f2c:s:-1:-6:seed-0",
+            "f2c:s:-2:-3:seed-2",
+            "f2c:s:-2:-5:seed-1"
+          ],
+          "canopyCount": 11,
+          "colliderCount": 11,
+          "clearanceRecipeCache": {
+            "forageCount": 63,
+            "wildlifeCount": 63
+          },
+          "sceneryRecipeCache": {
+            "ordinaryCount": 38,
+            "infillCount": 1
+          },
+          "groundPatchCache": {
+            "entryCount": 26,
+            "maxEntries": 512,
+            "maxPatchRecords": 28
+          },
+          "streaming": {
+            "preparedPublications": 0,
+            "unfinishedPublications": 0,
+            "synchronousPublications": 4,
+            "cancelled": 1,
+            "preparationFailures": 0,
+            "lastWorkMs": 0,
+            "maxWorkMs": 7.5,
+            "phase": null,
+            "target": null
+          },
+          "lowCount": 15,
+          "stoneSolidCount": 0,
+          "surfaceCount": 11,
+          "lowDrawCount": 8,
+          "lowTriangleCount": 9720,
+          "lowGeometryCount": 4,
+          "lowGeometryVertexCount": 9834,
+          "lowInstanceCount": 15,
+          "groundDrawCount": 1,
+          "groundClusterCount": 621,
+          "groundClusterTriangleCount": 9936
+        },
+        "render": {
+          "frame": 3183,
+          "calls": 76,
+          "triangles": 234522,
+          "points": 0,
+          "lines": 0
+        }
+      }
+    },
+    {
+      "name": "overhead",
+      "requested": {
+        "name": "overhead",
+        "x": 7,
+        "z": -200,
+        "yaw": 0,
+        "height": 125
+      },
+      "state": {
+        "pos": {
+          "x": 6.999998569488525,
+          "y": 26.682771682739258,
+          "z": -200
+        },
+        "camera": {
+          "yaw": 0,
+          "pitch": 0.5585053606381855,
+          "portrait": false,
+          "portraitPitch": 0.6283185307179586,
+          "landscapePitch": 0.5585053606381855,
+          "zoom": 1,
+          "userZoom": 1,
+          "requestedDistance": 6.568278408380691,
+          "collisionDistance": 6.568278408380691,
+          "effectiveDistance": 6.568278408380691,
+          "focusRecovery": "clear",
+          "horizontalDistance": 6.55,
+          "height": 5,
+          "center": [
+            6.999998569488535,
+            27.582771682739295,
+            -200
+          ]
+        },
+        "terrain": {
+          "residentCount": 25,
+          "center": {
+            "cx": 0,
+            "cz": -4
+          },
+          "residentIds": [
+            "-2,-6",
+            "-1,-6",
+            "0,-6",
+            "1,-6",
+            "2,-6",
+            "-2,-5",
+            "-1,-5",
+            "0,-5",
+            "1,-5",
+            "2,-5",
+            "-2,-4",
+            "-1,-4",
+            "0,-4",
+            "1,-4",
+            "2,-4",
+            "-2,-3",
+            "-1,-3",
+            "0,-3",
+            "1,-3",
+            "2,-3",
+            "-2,-2",
+            "-1,-2",
+            "0,-2",
+            "1,-2",
+            "2,-2"
+          ],
+          "preparedCount": 5,
+          "preparedIds": [
+            "-2,-7",
+            "-1,-7",
+            "0,-7",
+            "1,-7",
+            "2,-7"
+          ]
+        },
+        "scenery": {
+          "residentCount": 26,
+          "residentIds": [
+            "f2c:s:0:-4:stage-skybreak-east-stones-low-center",
+            "f2c:s:0:-4:stage-skybreak-east-stones-low-east",
+            "f2c:s:0:-4:stage-skybreak-east-stones-low-west",
+            "f2c:s:0:-4:stage-skybreak-east-stones-mid-center",
+            "f2c:s:0:-4:stage-skybreak-east-stones-mid-east",
+            "f2c:s:0:-4:stage-skybreak-east-stones-mid-west",
+            "f2c:s:0:-4:stage-skybreak-fiber-leaves",
+            "f2c:s:0:-4:stage-skybreak-fiber-mushrooms",
+            "f2c:s:0:-4:stage-skybreak-fiber-reeds",
+            "f2c:s:-1:-4:stage-skybreak-berry-leaves",
+            "f2c:s:-1:-4:stage-skybreak-berry-mushrooms",
+            "f2c:s:-1:-4:stage-skybreak-berry-reeds",
+            "f2c:s:0:-3:stage-tree-north",
+            "f2c:s:0:-5:stage-skybreak-crown-cloudflower-center",
+            "f2c:s:0:-5:stage-skybreak-crown-cloudflower-east",
+            "f2c:s:0:-5:stage-skybreak-crown-cloudflower-west",
+            "f2c:s:0:-5:stage-skybreak-east-stones-high-center",
+            "f2c:s:0:-5:stage-skybreak-east-stones-high-east",
+            "f2c:s:-2:-4:seed-2",
+            "f2c:s:0:-2:stage-tree-west-1",
+            "f2c:s:0:-6:seed-1",
+            "f2c:s:2:-4:seed-0",
+            "f2c:s:-1:-2:seed-1",
+            "f2c:s:-1:-6:seed-0",
+            "f2c:s:-2:-3:seed-2",
+            "f2c:s:-2:-5:seed-1"
+          ],
+          "canopyCount": 11,
+          "colliderCount": 11,
+          "clearanceRecipeCache": {
+            "forageCount": 63,
+            "wildlifeCount": 63
+          },
+          "sceneryRecipeCache": {
+            "ordinaryCount": 38,
+            "infillCount": 1
+          },
+          "groundPatchCache": {
+            "entryCount": 31,
+            "maxEntries": 512,
+            "maxPatchRecords": 28
+          },
+          "streaming": {
+            "preparedPublications": 0,
+            "unfinishedPublications": 0,
+            "synchronousPublications": 4,
+            "cancelled": 1,
+            "preparationFailures": 0,
+            "lastWorkMs": 0,
+            "maxWorkMs": 7.5,
+            "phase": "ready",
+            "target": {
+              "cx": 0,
+              "cz": -5
+            }
+          },
+          "lowCount": 15,
+          "stoneSolidCount": 0,
+          "surfaceCount": 11,
+          "lowDrawCount": 8,
+          "lowTriangleCount": 9720,
+          "lowGeometryCount": 4,
+          "lowGeometryVertexCount": 9834,
+          "lowInstanceCount": 15,
+          "groundDrawCount": 1,
+          "groundClusterCount": 621,
+          "groundClusterTriangleCount": 9936
+        },
+        "render": {
+          "frame": 4474,
+          "calls": 635,
+          "triangles": 415477,
+          "points": 0,
+          "lines": 0
+        }
+      }
+    }
+  ],
+  "errors": []
+}

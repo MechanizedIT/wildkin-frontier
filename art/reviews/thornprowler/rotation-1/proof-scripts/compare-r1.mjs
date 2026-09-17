@@ -1,0 +1,5 @@
+import fs from 'node:fs';
+const dir='art/reviews/thornprowler/rotation-1',a=JSON.parse(fs.readFileSync(dir+'/authoring-baseline-sibling-hashes.json')),b=JSON.parse(fs.readFileSync(dir+'/r1-sibling-hashes.json'));
+const siblings=a.species.filter(s=>s.id!=='asset_thornprowler').map(s=>({id:s.id,exact:s.hash===b.species.find(t=>t.id===s.id).hash}));const old=a.species.find(s=>s.id==='asset_thornprowler'),now=b.species.find(s=>s.id===old.id);const occurrence=new Map();const parts=old.parts.map(p=>{const n=occurrence.get(p.name)??0;occurrence.set(p.name,n+1);const q=now.parts.filter(x=>x.name===p.name)[n];return {baselineIndex:p.index,candidateIndex:q?.index,name:p.name,occurrence:n,changed:p.hash!==q?.hash,allowed:['articulated_leg','staggered_dorsal_thorn'].includes(p.name)};});
+if(siblings.some(s=>!s.exact)||parts.some(p=>p.changed&&!p.allowed))throw Error('Unexpected geometry/material/transform changes');fs.writeFileSync(dir+'/r1-parity.json',JSON.stringify({siblings,parts,pass:true},null,2));console.log('All six sibling species and all twelve unmodified Thornprowler components match exactly.');
+

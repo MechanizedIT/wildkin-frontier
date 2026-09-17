@@ -1,0 +1,245 @@
+{
+  "baselineCommit": "4378f54",
+  "chunks": [
+    {
+      "x": -2,
+      "z": -4,
+      "forageExact": true,
+      "wildlifeExact": true,
+      "forageBefore": 7,
+      "forageAfter": 7,
+      "wildlifeBefore": 0,
+      "wildlifeAfter": 0
+    },
+    {
+      "x": -2,
+      "z": -3,
+      "forageExact": true,
+      "wildlifeExact": true,
+      "forageBefore": 8,
+      "forageAfter": 8,
+      "wildlifeBefore": 0,
+      "wildlifeAfter": 0
+    },
+    {
+      "x": -2,
+      "z": -2,
+      "forageExact": true,
+      "wildlifeExact": true,
+      "forageBefore": 7,
+      "forageAfter": 7,
+      "wildlifeBefore": 0,
+      "wildlifeAfter": 0
+    },
+    {
+      "x": -2,
+      "z": -1,
+      "forageExact": true,
+      "wildlifeExact": true,
+      "forageBefore": 6,
+      "forageAfter": 6,
+      "wildlifeBefore": 0,
+      "wildlifeAfter": 0
+    },
+    {
+      "x": -2,
+      "z": 0,
+      "forageExact": true,
+      "wildlifeExact": true,
+      "forageBefore": 8,
+      "forageAfter": 8,
+      "wildlifeBefore": 0,
+      "wildlifeAfter": 0
+    },
+    {
+      "x": -1,
+      "z": -4,
+      "forageExact": true,
+      "wildlifeExact": true,
+      "forageBefore": 8,
+      "forageAfter": 8,
+      "wildlifeBefore": 0,
+      "wildlifeAfter": 0
+    },
+    {
+      "x": -1,
+      "z": -3,
+      "forageExact": true,
+      "wildlifeExact": true,
+      "forageBefore": 8,
+      "forageAfter": 8,
+      "wildlifeBefore": 0,
+      "wildlifeAfter": 0
+    },
+    {
+      "x": -1,
+      "z": -2,
+      "forageExact": true,
+      "wildlifeExact": true,
+      "forageBefore": 8,
+      "forageAfter": 8,
+      "wildlifeBefore": 0,
+      "wildlifeAfter": 0
+    },
+    {
+      "x": -1,
+      "z": -1,
+      "forageExact": true,
+      "wildlifeExact": true,
+      "forageBefore": 0,
+      "forageAfter": 0,
+      "wildlifeBefore": 0,
+      "wildlifeAfter": 0
+    },
+    {
+      "x": -1,
+      "z": 0,
+      "forageExact": true,
+      "wildlifeExact": true,
+      "forageBefore": 0,
+      "forageAfter": 0,
+      "wildlifeBefore": 0,
+      "wildlifeAfter": 0
+    },
+    {
+      "x": 0,
+      "z": -4,
+      "forageExact": true,
+      "wildlifeExact": true,
+      "forageBefore": 8,
+      "forageAfter": 8,
+      "wildlifeBefore": 0,
+      "wildlifeAfter": 0
+    },
+    {
+      "x": 0,
+      "z": -3,
+      "forageExact": true,
+      "wildlifeExact": true,
+      "forageBefore": 8,
+      "forageAfter": 8,
+      "wildlifeBefore": 1,
+      "wildlifeAfter": 1
+    },
+    {
+      "x": 0,
+      "z": -2,
+      "forageExact": true,
+      "wildlifeExact": true,
+      "forageBefore": 6,
+      "forageAfter": 6,
+      "wildlifeBefore": 3,
+      "wildlifeAfter": 3
+    },
+    {
+      "x": 0,
+      "z": -1,
+      "forageExact": true,
+      "wildlifeExact": true,
+      "forageBefore": 0,
+      "forageAfter": 0,
+      "wildlifeBefore": 0,
+      "wildlifeAfter": 0
+    },
+    {
+      "x": 0,
+      "z": 0,
+      "forageExact": true,
+      "wildlifeExact": true,
+      "forageBefore": 0,
+      "forageAfter": 0,
+      "wildlifeBefore": 0,
+      "wildlifeAfter": 0
+    },
+    {
+      "x": 1,
+      "z": -4,
+      "forageExact": true,
+      "wildlifeExact": true,
+      "forageBefore": 8,
+      "forageAfter": 8,
+      "wildlifeBefore": 0,
+      "wildlifeAfter": 0
+    },
+    {
+      "x": 1,
+      "z": -3,
+      "forageExact": true,
+      "wildlifeExact": true,
+      "forageBefore": 8,
+      "forageAfter": 8,
+      "wildlifeBefore": 0,
+      "wildlifeAfter": 0
+    },
+    {
+      "x": 1,
+      "z": -2,
+      "forageExact": true,
+      "wildlifeExact": true,
+      "forageBefore": 7,
+      "forageAfter": 7,
+      "wildlifeBefore": 0,
+      "wildlifeAfter": 0
+    },
+    {
+      "x": 1,
+      "z": -1,
+      "forageExact": true,
+      "wildlifeExact": true,
+      "forageBefore": 8,
+      "forageAfter": 8,
+      "wildlifeBefore": 1,
+      "wildlifeAfter": 1
+    },
+    {
+      "x": 1,
+      "z": 0,
+      "forageExact": true,
+      "wildlifeExact": true,
+      "forageBefore": 7,
+      "forageAfter": 7,
+      "wildlifeBefore": 0,
+      "wildlifeAfter": 0
+    }
+  ],
+  "discoveriesExact": true,
+  "discoveryCount": 26,
+  "protected": [
+    {
+      "x": 0,
+      "z": 0,
+      "exact": true
+    },
+    {
+      "x": 7,
+      "z": -68,
+      "exact": true
+    },
+    {
+      "x": 12,
+      "z": -228,
+      "exact": true
+    },
+    {
+      "x": -449,
+      "z": 675,
+      "exact": true
+    },
+    {
+      "x": 850,
+      "z": -2000,
+      "exact": true
+    },
+    {
+      "x": -2850,
+      "z": -1250,
+      "exact": true
+    },
+    {
+      "x": -800,
+      "z": 650,
+      "exact": true
+    }
+  ],
+  "pass": true
+}

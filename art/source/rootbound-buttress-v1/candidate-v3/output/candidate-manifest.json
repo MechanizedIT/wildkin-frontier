@@ -1,0 +1,47 @@
+{
+  "method": "manual-blender-silhouette-first-continuous-root-branch-canopy-rebuild-v3",
+  "reference": "../reference/target-v1.png",
+  "mesh": {
+    "triangles": 433,
+    "materials": 1,
+    "bounds": {
+      "min": [
+        -2.894632577896118,
+        -2.349989652633667,
+        0.0
+      ],
+      "max": [
+        3.107267379760742,
+        2.429551124572754,
+        5.730000019073486
+      ],
+      "dimensions": [
+        6.00189995765686,
+        4.779540777206421,
+        5.730000019073486
+      ]
+    },
+    "grounded": true
+  },
+  "colliderProposal": {
+    "type": "box",
+    "coordinateSpace": "Blender source, Z-up",
+    "dimensions": [
+      2.9,
+      2.3,
+      2.7
+    ],
+    "center": [
+      0,
+      0,
+      1.35
+    ],
+    "scope": "continuous lower trunk/root core only; outer wedge tips and all canopy are non-solid",
+    "runtimeMapping": "The GLB exporter uses Y-up. An eventual runtime owner must map this source-space proposal to dimensions [2.9, 2.7, 2.3] and center [0, 1.35, 0], then refit it after placement."
+  },
+  "glb": {
+    "file": "rootbound-buttress-v3.glb",
+    "sha256": "5e68d51e8b9b983dc16784b4ceecd24515afcbaa8d95a2d58b8cdc77e7c609e6",
+    "bytes": 37264
+  }
+}

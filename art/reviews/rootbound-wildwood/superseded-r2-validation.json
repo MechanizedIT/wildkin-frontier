@@ -1,0 +1,11 @@
+[
+  {
+    "label": "test",
+    "command": "npm test",
+    "exitCode": 0,
+    "seconds": 97.008,
+    "tests": 1416,
+    "failures": 0,
+    "tail": "  ---\n  duration_ms: 1.6478\n  type: 'test'\n  ...\n# Subtest: cached targets exclude their own geometry and recover after retirement and recreation\nok 936 - cached targets exclude their own geometry and recover after retirement and recreation\n  ---\n  duration_ms: 1.2723\n  type: 'test'\n  ...\n1..936\n# tests 1416\n# suites 173\n# pass 1416\n# fail 0\n# cancelled 0\n# skipped 0\n# todo 0\n# duration_ms 96047.3326\n"
+  }
+]

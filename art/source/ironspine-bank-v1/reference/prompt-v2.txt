@@ -1,0 +1,6 @@
+Use case: precise-object-edit
+Asset type: corrected game-asset construction target sheet.
+Input image: reference construction sheet. Preserve its neutral studio low-poly Ironspine stone palette and single-subject sheet purpose, but replace the rockbank and view layout to correct its physical proportions.
+Primary request: A single compact stout continuous natural iron-grey low-poly rockbank. It has only 3 to 4 broad irregular ledges, a gently asymmetrical sloped/beveled crest, broad stratified planar facets, one grounded continuous opaque mass, and closed ends.
+Composition/framing: a consistent fixed orthographic view set in one clean sheet: local-X side elevation, local-Z end elevation, top view, plus a small three-quarter view. Draw the actual silhouette ratios directly: side length:height = 1.8:1, end width:height = 0.5:1, top length:depth = 3.6:1. The side must visibly be compact and stout, not a long wall. Use only small external dimension notes if needed: 3.6m X, 1.0m Z, 2.0m Y. Do not let labels substitute for geometry.
+Constraints: avoid masonry courses, brick seams, evenly stacked bench stairs, tall upright pillars, deep concave cuts, holes, caves, vegetation, crystals, creatures, props, terrain scene, HUD, building, bridge, watermark. Do not imply placement, support, runtime fit, or collision. This is unreviewed visual target art only.

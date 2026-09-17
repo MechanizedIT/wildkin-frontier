@@ -1,0 +1,167 @@
+[
+  {
+    "label": "background:parent-before-child",
+    "time": "2026-09-14T20:13:57.222119+00:00",
+    "free_gib": 19.61719512939453,
+    "required_free_gib": 9.646280284970999
+  },
+  {
+    "label": "background:child-start",
+    "time": "2026-09-14T20:14:00.411058+00:00",
+    "free_gib": 19.185680389404297,
+    "pid": 24380
+  },
+  {
+    "label": "background:complete",
+    "time": "2026-09-14T20:14:11.025862+00:00",
+    "free_gib": 17.446025848388672,
+    "output_sha256": "f5b5633a675cf19d92116041a23f77a555601f821d79c5832c750525273e2524"
+  },
+  {
+    "label": "background:child-exited",
+    "time": "2026-09-14T20:14:12.437125+00:00",
+    "free_gib": 19.62338638305664,
+    "exit_code": 0
+  },
+  {
+    "label": "conditioning:parent-before-child",
+    "time": "2026-09-14T20:14:12.447662+00:00",
+    "free_gib": 19.623451232910156,
+    "required_free_gib": 10.258530080318451
+  },
+  {
+    "label": "conditioning:child-start",
+    "time": "2026-09-14T20:14:15.523226+00:00",
+    "free_gib": 19.17980194091797,
+    "pid": 2768
+  },
+  {
+    "label": "handoff:conditioning.pt",
+    "time": "2026-09-14T20:14:23.777354+00:00",
+    "free_gib": 18.53558349609375,
+    "sha256": "cb73e30b2f4f3de532db12926eca550e2a1ff297b149d68a56babcac566a817c",
+    "bytes": 8431501
+  },
+  {
+    "label": "conditioning:child-exited",
+    "time": "2026-09-14T20:14:25.189941+00:00",
+    "free_gib": 19.544574737548828,
+    "exit_code": 0
+  },
+  {
+    "label": "sparse:parent-before-child",
+    "time": "2026-09-14T20:14:25.203951+00:00",
+    "free_gib": 19.544723510742188,
+    "required_free_gib": 15.632583007216454
+  },
+  {
+    "label": "sparse:child-start",
+    "time": "2026-09-14T20:14:28.300111+00:00",
+    "free_gib": 19.09923553466797,
+    "pid": 37088
+  },
+  {
+    "label": "handoff:coords.pt",
+    "time": "2026-09-14T20:15:21.006100+00:00",
+    "free_gib": 14.178081512451172,
+    "sha256": "817897bde81434954100234db2d5add29fdc36cb5ab47bf02cbdd61201d368b1",
+    "bytes": 41826
+  },
+  {
+    "label": "handoff:rng-after-sparse.pt",
+    "time": "2026-09-14T20:15:21.024634+00:00",
+    "free_gib": 14.179931640625,
+    "sha256": "510f638d8c17eacc94e8e5f38c2cd483d9bc3f4cefa92a420755050aea4c2fcb",
+    "bytes": 6957
+  },
+  {
+    "label": "sparse:child-exited",
+    "time": "2026-09-14T20:15:22.904471+00:00",
+    "free_gib": 19.795928955078125,
+    "exit_code": 0
+  },
+  {
+    "label": "shape-flow:parent-before-child",
+    "time": "2026-09-14T20:15:22.917011+00:00",
+    "free_gib": 19.79590606689453,
+    "required_free_gib": 15.221092782914639
+  },
+  {
+    "label": "shape-flow:child-start",
+    "time": "2026-09-14T20:15:26.099164+00:00",
+    "free_gib": 19.35474395751953,
+    "pid": 20904
+  },
+  {
+    "label": "handoff:shape.pt",
+    "time": "2026-09-14T20:16:11.804024+00:00",
+    "free_gib": 14.250362396240234,
+    "sha256": "c6687d686b76a221f308ed1d6dae9b2a8f6dd3a2a49e706a963366456ce333a6",
+    "bytes": 364373
+  },
+  {
+    "label": "handoff:rng-after-shape.pt",
+    "time": "2026-09-14T20:16:11.832142+00:00",
+    "free_gib": 14.253524780273438,
+    "sha256": "3d06dd0e710c15653f71fd85027421c93c985f6f7a2bfefccb4259223340f7d8",
+    "bytes": 6949
+  },
+  {
+    "label": "shape-flow:child-exited",
+    "time": "2026-09-14T20:16:14.037229+00:00",
+    "free_gib": 19.83034896850586,
+    "exit_code": 0
+  },
+  {
+    "label": "texture-flow:parent-before-child",
+    "time": "2026-09-14T20:16:14.050240+00:00",
+    "free_gib": 19.830406188964844,
+    "required_free_gib": 15.221367441117764
+  },
+  {
+    "label": "texture-flow:child-start",
+    "time": "2026-09-14T20:16:17.219368+00:00",
+    "free_gib": 19.386367797851562,
+    "pid": 33012
+  },
+  {
+    "label": "handoff:texture.pt",
+    "time": "2026-09-14T20:16:58.284763+00:00",
+    "free_gib": 14.332847595214844,
+    "sha256": "a6fbcc02d5204fa4d29cac03666935cbce5207a2444352f59ef84d64c24a917a",
+    "bytes": 364389
+  },
+  {
+    "label": "texture-flow:child-exited",
+    "time": "2026-09-14T20:17:00.026027+00:00",
+    "free_gib": 19.801834106445312,
+    "exit_code": 0
+  },
+  {
+    "label": "decode:parent-before-child",
+    "time": "2026-09-14T20:17:00.040088+00:00",
+    "free_gib": 19.800739288330078,
+    "required_free_gib": 13.299913866445422
+  },
+  {
+    "label": "decode:child-start",
+    "time": "2026-09-14T20:17:03.217292+00:00",
+    "free_gib": 19.36328125,
+    "pid": 37312
+  },
+  {
+    "label": "decode:geometry-budget",
+    "time": "2026-09-14T20:17:25.483309+00:00",
+    "free_gib": 14.250946044921875,
+    "decoded_faces": 2218798,
+    "decoded_vertices": 1077634,
+    "face_limit": 750000,
+    "mode": "full-export"
+  },
+  {
+    "label": "decode:child-failed",
+    "time": "2026-09-14T20:17:27.461213+00:00",
+    "free_gib": 19.795372009277344,
+    "exit_code": 1
+  }
+]

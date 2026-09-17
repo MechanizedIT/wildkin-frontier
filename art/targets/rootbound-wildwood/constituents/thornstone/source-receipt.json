@@ -1,0 +1,10 @@
+{
+  "reference": "reference-v1.png",
+  "sha256": "99466f0bc7ddbdcea541dd1ce4649654714232f880310480465d8e0ba5bdeb63",
+  "bytes": 2225421,
+  "kind": "generated target, not actual model/gameplay",
+  "generator": "built-in image_gen",
+  "source_images_sent": [],
+  "runtime_changed": false,
+  "backend_model": "undisclosed"
+}

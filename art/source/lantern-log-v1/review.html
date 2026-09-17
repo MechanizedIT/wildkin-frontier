@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Lantern Log — reference and model study</title>
+<style>
+:root{color-scheme:dark;font:17px/1.55 system-ui;background:#10201d;color:#e8eee6}body{max-width:1120px;margin:auto;padding:24px}h1,h2{line-height:1.2}a{color:#b5ded0}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px}figure{margin:0;background:#1c302a;border:1px solid #436052;border-radius:14px;overflow:hidden}img{width:100%;display:block}figcaption{padding:14px}.note{padding:18px;border-left:4px solid #ceb279;background:#28352a}table{border-collapse:collapse;width:100%}th,td{text-align:left;padding:12px;border-bottom:1px solid #436052}.small{font-size:.9rem;color:#c0d0c6}
+</style>
+<body>
+<p><a href="../../../docs/habitats/rootbound-wildwood/index.html#constituents%2Fforage-fungus.md">Rootbound dossier · Lantern forage and fungus</a></p>
+<h1>Lantern Log</h1>
+<p>A fallen, gently bent log with six planted violet mushrooms, broad exposed wood and clustered moss. This is a constituent study for Lantern Grove.</p>
+<p class="note">Retained manual R4: <strong>6.3/10, retained improvement; still held for art/game admission</strong>. Color and broken ends improved over R3's 5.7, but the body still looks manufactured. Stop repeating this construction method. No replacement has been admitted to the game.</p>
+<p class="note">Latest R5: TRELLIS produced an actual raw geometry master. <a href="#raw-r5">See the neutral model inspection</a>. It has useful irregular wood forms but visible fragmentation; independent review holds production, and the topology audit confirms open/nonmanifold geometry.</p>
+<p class="note">Latest R6: <a href="#cleanup-r6">one reconstruction and matched diagnostic</a> closes open surfaces but loses important log volume. Retained as evidence; sixth attempt closes HOLD.</p>
+<p class="note">Owner review: these images contain useful scenery components. Next direction is a reusable log, mushroom and moss kit: varied arrangements, one harvestable, and parts yielding their own materials as damage breaks them away. The prior one-component gate applied to the R6 reconstruction recipe; an intentionally modular kit can contain multiple well-authored parts. R6's unplanned fragments are not automatically usable kit pieces.</p>
+<h2>Two reference studies</h2>
+<p><a href="#repair-r4">Jump to the latest actual wood repair</a></p>
+<div class="grid">
+<figure><img src="../../targets/rootbound-wildwood/constituents/lantern-log/reference-v1.png" alt="Generated detailed log and violet mushroom target"><figcaption>V1: detailed source study. Rich bark and moss, with a strong mature-cap hierarchy.</figcaption></figure>
+<figure><img src="../../targets/rootbound-wildwood/constituents/lantern-log/reference-v2.png" alt="Selected generated target with broad bark and cap planes"><figcaption>V2: independently selected construction target. Broad planes preserve the log, attached stems and uneven colony.</figcaption></figure>
+</div>
+<p><a href="../../targets/rootbound-wildwood/constituents/lantern-log/reference-review.md">Independent reference selection</a> · <a href="../../targets/rootbound-wildwood/constituents/lantern-log/prompt-v1.md">V1 prompt/source</a> · <a href="../../targets/rootbound-wildwood/constituents/lantern-log/prompt-v2.md">V2 prompt/source</a></p>
+<h2>Actual TRELLIS results</h2>
+<table><thead><tr><th>Attempt</th><th>Decoded faces</th><th>Outcome</th></tr></thead><tbody>
+<tr><td><a href="quality512-r1/run-receipt.md">R1 · V1 input</a></td><td>6,755,672</td><td>Stopped by the 750,000-face guard; no export.</td></tr>
+<tr><td><a href="quality512-r2/run-receipt.md">R2 · V2 input</a></td><td>2,218,798</td><td>Same guard; no export.</td></tr>
+</tbody></table>
+<p>Both used the existing 512/12-step/seed-1234 full-export profile. The export target does not limit decoder size. The difference is one paired observation, not a general claim about reference complexity. No guard was relaxed.</p>
+<h2>Manual construction</h2>
+<div class="grid">
+<figure><img src="manual-r3/candidate-r3/renders/principal-threequarter-512.png" alt="Actual Blender Lantern Log R3 in three-quarter view"><figcaption>Actual manual R3. The six-cap colony and grounded wood exist; the regular end, straight bark strips and pale palette differ from the selected target.</figcaption></figure>
+<figure><img src="manual-r3/candidate-r3/renders/opposite-end-512.png" alt="Actual model from the opposite end"><figcaption>Opposite end. This is model evidence, not generated reference art.</figcaption></figure>
+<figure><img src="manual-r3/candidate-r3/renders/underside-512.png" alt="Actual model underside showing the grounded log"><figcaption>Actual underside. Sixteen log triangles form 0.342m² of ground contact.</figcaption></figure>
+</div>
+<p>One Blender 4.5.3 build produced 22 individually closed components and 1,452 triangles, with an actual complete envelope of 1.622 × 0.561 × 0.825m (X/Y/Z, Z-up). Final triangle audits report consistent shared-edge direction, positive component volumes and no degenerates. Six local stem/log and stem/cap contact checks pass; those measurements do not establish every visible attachment or global intersection.</p>
+<p><a href="manual-r3/visual-review.md">Independent visual review</a> · <a href="manual-r3/candidate-r3/run-receipt.md">Execution receipt</a> · <a href="manual-r3/candidate-r3/candidate-audit.json">Actual mesh audit</a> · <a href="manual-r3/candidate-r3/render-framing.json">Seven-camera framing</a> · <a href="manual-r3/candidate-r3/renders/principal-threequarter-96.png">Actual 96px</a> · <a href="manual-r3/candidate-r3/renders/principal-threequarter-48.png">Actual 48px</a></p>
+<p>A separate builder implements the reviewed section-loft plan: closed bent wood, a shallow recessed end, broad bark strips and six distinct closed stems/caps. Actual geometry, all-angle renders and small-image legibility must decide its value.</p>
+<p><a href="../../targets/rootbound-wildwood/constituents/lantern-log/manual-fallback-plan.md">Measured plan</a> · <a href="../../targets/rootbound-wildwood/constituents/lantern-log/manual-plan-review.md">Independent plan review</a> · <a href="manual-r3/README.md">Builder and execution status</a></p>
+<h2 id="repair-r4">Focused wood repair · R4</h2>
+<div class="grid">
+<figure><img src="manual-r4/candidate-r4/renders/r3-principal-threequarter-512.png" alt="Preserved R3 model under the shared comparison camera"><figcaption>R3 baseline, rerendered with the same camera and studio as R4.</figcaption></figure>
+<figure><img src="manual-r4/candidate-r4/renders/r4-principal-threequarter-512.png" alt="Actual R4 model with broken ends and integrated wood grooves"><figcaption>R4: broken rims, grooves cut into the wood, and corrected palette conversion. All twelve stem/cap meshes retain exact geometry and transforms.</figcaption></figure>
+</div>
+<p>The separate repair executed once and saved 42 matching renders. It removes six raised bark strips, keeps all six mushrooms, and refits three moss patches to the actual new surface. R4 has 16 components / 1,390 triangles; 27 grounded log triangles cover 0.355m². Final topology and six local contact gates pass. The editable source preserves both candidates for comparison.</p>
+<p><a href="manual-r4/visual-review.md">Independent R4 review: 6.3/10</a>. Retain the improved color and end detail, but the continuous long planes and blade-like far tip still miss the fuller organic target. The next method should change the broad wood mass. A <a href="geometry-ply-proposal.md">raw TRELLIS geometry proposal</a> led to the separately reviewed R5 raw-geometry run below.</p>
+<p><a href="manual-r4/candidate-r4/run-receipt.md">R4 execution receipt</a> · <a href="manual-r4/candidate-r4/candidate-audit.json">R4 actual geometry audit</a> · <a href="../../targets/rootbound-wildwood/constituents/lantern-log/repair-r4-plan.md">Measured repair plan</a> · <a href="manual-r4/candidate-r4/renders/r4-principal-threequarter-96.png">R4 at 96px</a> · <a href="manual-r4/candidate-r4/renders/r4-principal-threequarter-48.png">R4 at 48px</a></p>
+<h2 id="raw-r5">Raw TRELLIS geometry · R5</h2>
+<p>The same selected V2 reference completed a fresh 512/12-step/seed-1234 run. Its dedicated input-pinned raw-PLY profile produced 1,077,634 vertices / 2,218,798 triangles (41,776,379 bytes), preserving the existing full-export and tree-profile limits. This is untextured source geometry, not a finished game asset.</p>
+<div class="grid">
+<figure><img src="geometry-ply-r5/inspection/three-quarter-512.png" alt="Actual untextured raw Lantern geometry from three quarters"><figcaption>Actual raw geometry. Irregular wood and mushroom forms are present, along with a detached chunk. Lighting is bright; color quality cannot be judged from this neutral inspection.</figcaption></figure>
+<figure><img src="geometry-ply-r5/inspection/end-positive-y-512.png" alt="Actual raw Lantern broad side with detached piece"><figcaption>Broad-side observation. Filenames describe camera axes, not semantic log ends; the actual long axis is X.</figcaption></figure>
+<figure><img src="geometry-ply-r5/inspection/side-positive-x-512.png" alt="Actual raw Lantern viewed along its long axis"><figcaption>Along-axis view exposes fragment-like surfaces and an incomplete-looking end.</figcaption></figure>
+<figure><img src="geometry-ply-r5/inspection/underside-512.png" alt="Actual raw underside, without the studio floor"><figcaption>Underside with the studio floor hidden. Dark/open-looking surfaces require topology evidence; this image alone does not establish boundary or manifold status.</figcaption></figure>
+</div>
+<p>Blender 4.5.3 verified exact float32 positions, triangle indices/order and counts, then saved 21 actual views and an editable inspection scene. The raw PLY was not changed, normalized, welded, textured or simplified. The scene contains presentation lights and a floor, not collision or gameplay data.</p>
+<p><a href="geometry-ply-r5/visual-review.md">Independent raw review: 4.4/10, retain source and HOLD</a>. This untextured raw score is not a like-for-like ranking against colored R4: retain both useful studies. Detached pieces and poor small-size readability prevent direct adoption. The <a href="geometry-ply-r5/topology-audit.md">read-only topology audit</a> finds 67,425 boundary edges and 99,060 nonmanifold edges, plus detached components. Island removal alone is insufficient: review a measured repair plan before a derivative.</p>
+<p><a href="geometry-ply-r5/run-receipt.json">Generation receipt</a> · <a href="geometry-ply-r5/inspection-run-receipt.json">Exact Blender inspection</a> · <a href="geometry-ply-r5/source-review.md">Runner review</a> · <a href="geometry-ply-r5/inspector-review.md">Inspector review</a> · <a href="geometry-ply-r5/inspection/three-quarter-96.png">96px</a> · <a href="geometry-ply-r5/inspection/three-quarter-48.png">48px</a></p>
+<p class="small">Future separately harvested wood/fungus parts should regrow on long timers, with nearby qualifying structures suppressing regrowth. Those systems and player-view placement remain separate implementation work.</p>
+<h2 id="cleanup-r6">R6 reconstruction · closed surfaces, incomplete log</h2>
+<p>One independently planned and reviewed voxel reconstruction produced 124,172 triangles. Its edge/area/winding checks pass, but 240 surface components violate the planned single-component gate. The builder stopped and saved the held result. A separate read-only diagnostic produced these matching actual renders without changing either model.</p>
+<div class="grid">
+<figure><img loading="lazy" src="cleanup-r6/diagnostic/renders/r5-three-quarter-512.png" alt="Actual R5 three-quarter view"><figcaption>Raw source · Three-quarter. Same camera, framing and neutral material.</figcaption></figure>
+<figure><img loading="lazy" src="cleanup-r6/diagnostic/renders/r6-three-quarter-512.png" alt="Actual R6 three-quarter view"><figcaption>Reconstructed derivative · Three-quarter. Same camera, framing and neutral material.</figcaption></figure>
+<figure><img loading="lazy" src="cleanup-r6/diagnostic/renders/r5-end-positive-y-512.png" alt="Actual R5 broad side view"><figcaption>Raw source · Broad side. Same camera, framing and neutral material.</figcaption></figure>
+<figure><img loading="lazy" src="cleanup-r6/diagnostic/renders/r6-end-positive-y-512.png" alt="Actual R6 broad side view"><figcaption>Reconstructed derivative · Broad side. Same camera, framing and neutral material.</figcaption></figure>
+<figure><img loading="lazy" src="cleanup-r6/diagnostic/renders/r5-underside-512.png" alt="Actual R5 underside view"><figcaption>Raw source · Underside. Same camera, framing and neutral material.</figcaption></figure>
+<figure><img loading="lazy" src="cleanup-r6/diagnostic/renders/r6-underside-512.png" alt="Actual R6 underside view"><figcaption>Reconstructed derivative · Underside. Same camera, framing and neutral material.</figcaption></figure>
+</div>
+<p>The lower log loses substantial mass, and small detached-looking fragments remain. All 240 measured surface components have positive signed volume; cavity nesting and self-intersections were not tested. Retain the topology gain and both sources without treating this derivative as a finished asset. No seventh Lantern repair in this visit.</p>
+<p><a href="cleanup-r6/terminal-visual-review.md">Independent terminal visual review</a> · <a href="cleanup-r6/README.md">Study and limits</a> · <a href="cleanup-r6/candidate/candidate-audit.json">Actual topology</a> · <a href="cleanup-r6/diagnostic/run-receipt.json">Unchanged-model proof</a> · <a href="cleanup-r6/diagnostic/renders/r6-three-quarter-96.png">96px</a> · <a href="cleanup-r6/diagnostic/renders/r6-three-quarter-48.png">48px</a></p>
+</body></html>

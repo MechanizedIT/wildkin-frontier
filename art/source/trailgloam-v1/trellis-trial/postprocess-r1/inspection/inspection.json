@@ -1,0 +1,169 @@
+{
+  "object_count": 1,
+  "mesh_object_count": 1,
+  "material_count": 1,
+  "vertices": 40868,
+  "triangles": 59376,
+  "bounds": {
+    "min": [
+      -0.4996268153190613,
+      -0.4694424271583557,
+      -0.24807210266590118
+    ],
+    "max": [
+      0.500974178314209,
+      0.46835148334503174,
+      0.24655362963676453
+    ],
+    "size": [
+      1.000601053237915,
+      0.9377939105033875,
+      0.4946257472038269
+    ]
+  },
+  "meshes": [
+    {
+      "object": "geometry_0",
+      "mesh": "geometry_0",
+      "vertices": 40868,
+      "triangles": 59376,
+      "topology": {
+        "uv_layers": [
+          "UVMap"
+        ],
+        "loose_vertices": 0,
+        "connected_vertex_components": 1048,
+        "largest_component_vertices": 1056,
+        "boundary_edges": 20398,
+        "nonmanifold_edges": 0,
+        "wire_edges": 0
+      },
+      "position_welded_diagnostic": {
+        "label": "diagnostic position-welded copy; raw mesh, UVs, and materials unchanged",
+        "tolerance": 1.000601053237915e-06,
+        "vertices": 29808,
+        "triangles": 59376,
+        "topology": {
+          "uv_layers": [
+            "UVMap"
+          ],
+          "loose_vertices": 0,
+          "connected_vertex_components": 80,
+          "largest_component_vertices": 10874,
+          "boundary_edges": 0,
+          "nonmanifold_edges": 26,
+          "wire_edges": 0
+        }
+      }
+    }
+  ],
+  "textures": [
+    {
+      "name": "Image_0",
+      "width": 1024,
+      "height": 1024,
+      "filepath": ""
+    },
+    {
+      "name": "Image_1",
+      "width": 1024,
+      "height": 1024,
+      "filepath": ""
+    }
+  ],
+  "armatures": [],
+  "actions": [],
+  "source": "C:\\Users\\cwood\\Documents\\mobile-rpg\\art\\source\\trailgloam-v1\\trellis-trial\\postprocess-r1\\retry-import-fix\\raw-textured-simplified.glb",
+  "source_sha256": "e223fdd1e9ca1d5d7299d756a142915d54107af7a10a91103338ee5c531c1933",
+  "geometry_transform_preserved": true,
+  "framing_bounds": {
+    "min": [
+      -0.49843883514404297,
+      -0.4686819911003113,
+      -0.24618911743164062
+    ],
+    "max": [
+      0.499578058719635,
+      0.4675390124320984,
+      0.24559152126312256
+    ]
+  },
+  "raw_frame_max_axis_delta": 0.001882985234260559,
+  "raw_frame_axis_tolerance": 0.0499008446931839,
+  "original_materials_slots_smoothing_restored_in_blend": true,
+  "imported_world_transforms": {
+    "geometry_0": [
+      [
+        1.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        1.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        0.0,
+        1.0,
+        0.0
+      ],
+      [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    ]
+  },
+  "renders": [
+    "textured-front-512.png",
+    "textured-rear-512.png",
+    "textured-left-512.png",
+    "textured-right-512.png",
+    "textured-top-512.png",
+    "textured-underside-512.png",
+    "textured-three-quarter-512.png",
+    "textured-front-96.png",
+    "textured-rear-96.png",
+    "textured-left-96.png",
+    "textured-right-96.png",
+    "textured-top-96.png",
+    "textured-underside-96.png",
+    "textured-three-quarter-96.png",
+    "textured-front-48.png",
+    "textured-rear-48.png",
+    "textured-left-48.png",
+    "textured-right-48.png",
+    "textured-top-48.png",
+    "textured-underside-48.png",
+    "textured-three-quarter-48.png",
+    "neutral-front-512.png",
+    "neutral-rear-512.png",
+    "neutral-left-512.png",
+    "neutral-right-512.png",
+    "neutral-top-512.png",
+    "neutral-underside-512.png",
+    "neutral-three-quarter-512.png",
+    "neutral-front-96.png",
+    "neutral-rear-96.png",
+    "neutral-left-96.png",
+    "neutral-right-96.png",
+    "neutral-top-96.png",
+    "neutral-underside-96.png",
+    "neutral-three-quarter-96.png",
+    "neutral-front-48.png",
+    "neutral-rear-48.png",
+    "neutral-left-48.png",
+    "neutral-right-48.png",
+    "neutral-top-48.png",
+    "neutral-underside-48.png",
+    "neutral-three-quarter-48.png"
+  ],
+  "elapsed_seconds": 14.452999999994063,
+  "min_sampled_host_free_gib": 17.117996215820312,
+  "presentation": "Copied matte generated materials; neutral shape comparison. No runtime admission."
+}

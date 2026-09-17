@@ -3,6 +3,7 @@ import { ROCKY_TERRACE, sampleFrontierLandform } from './frontierLandform.js';
 import { blendFrontierCoastHeight, createFrontierContinentSampler, sampleFrontierContinent } from './frontierContinent.js';
 import { sampleFrontierRegion } from './frontierRegion.js';
 import { DEFAULT_FRONTIER_WORLD, frontierDomainSeed } from './frontierWorld.js';
+import { sampleFrontierHeartwoodProfile } from './frontierHeartwood.js';
 
 export const FRONTIER_TERRAIN_CONFIG = Object.freeze({
   chunkSize: 50,
@@ -118,7 +119,8 @@ function sampleFrontierRaw(x, z, options = {}, heightOnly = false) {
   const camp = campSample(x, z, options);
   const baseHeight = camp === null ? terrain : camp.edge * (1 - camp.t) + terrain * camp.t;
   const landform = sampleFrontierLandform(x, z);
-  const height = blendFrontierCoastHeight(baseHeight + landform.heightOffset, continent);
+  const heartwood = sampleFrontierHeartwoodProfile(x, z, { world: options.world ?? DEFAULT_FRONTIER_WORLD });
+  const height = blendFrontierCoastHeight(baseHeight + landform.heightOffset + heartwood.heightOffset, continent);
   // Height-only callers stop at the exact expression that owns mesh/query Y.
   // Keep this inside the raw sampler so full and reduced samples cannot drift.
   if (heightOnly) return finite(height);
@@ -135,10 +137,16 @@ function sampleFrontierRaw(x, z, options = {}, heightOnly = false) {
   red += dryRelief * .065 - wetRelief * .055;
   green += dryRelief * .05 - wetRelief * .04;
   blue += dryRelief * .015 + wetRelief * .025;
+  if (heartwood.active) {
+    const t = heartwood.influence * .26;
+    red = blend(red, .205, t);
+    green = blend(green, .385, t);
+    blue = blend(blue, .175, t);
+  }
   // Full Caldera/Fungal colours are authored for this linear vertex pipeline;
   // do not wash them back toward the legacy field. Other habitats keep the
   // established 88% regional blend exactly.
-  const authoredColorWeight = Math.max(region.calderaWeight ?? 0, region.fungalWeight ?? 0);
+  const authoredColorWeight = Math.max(region.calderaWeight ?? 0, region.fungalWeight ?? 0, region.rootboundProfileWeight ?? 0);
   const regionColorBlend = region.influence * (.88 + .12 * authoredColorWeight);
   red = blend(red, region.colorRGB[0], regionColorBlend);
   green = blend(green, region.colorRGB[1], regionColorBlend);
@@ -171,9 +179,14 @@ function sampleFrontierRaw(x, z, options = {}, heightOnly = false) {
     ? Math.max(region.fungalFeature.hollowWeight ?? 0, region.fungalFeature.buttressWeight ?? 0,
       region.fungalFeature.junctionWeight ?? 0, region.fungalFeature.outingWeight ?? 0)
     : 0;
+  const rootboundFeatureInfluence = region.rootboundFeature
+    ? Math.max(region.rootboundFeature.ridgeWeight ?? 0, region.rootboundFeature.hollowWeight ?? 0,
+      region.rootboundFeature.crownWeight ?? 0, region.rootboundFeature.thornWeight ?? 0)
+    : 0;
   const calderaFeatureInfluence = region.calderaFeature?.outerInfluence ?? 0;
   const calderaFeatureActive = calderaFeatureInfluence > 0 && (region.calderaWeight ?? 0) > 0 && region.influence > 0;
   const fungalFeatureActive = fungalFeatureInfluence > 0 && (region.fungalWeight ?? 0) > 0 && region.influence > 0;
+  const rootboundFeatureActive = rootboundFeatureInfluence > 0 && (region.rootboundWeight ?? 0) > 0 && region.influence > 0;
   return {
     // Camp authoring owns its exact finite height, including deliberate raised or sunk values.
     height: finite(height),
@@ -190,12 +203,19 @@ function sampleFrontierRaw(x, z, options = {}, heightOnly = false) {
     calderaWeight: region.calderaWeight ?? 0,
     fungalWeight: region.fungalWeight ?? 0,
     fungalFeature: region.fungalFeature ?? null,
-    habitatFeatureKind: calderaFeatureActive ? 'emberglass-caldera' : fungalFeatureActive ? 'fungal-hollow' : null,
+    rootboundWeight: region.rootboundWeight ?? 0,
+    rootboundProfileWeight: region.rootboundProfileWeight ?? 0,
+    rootboundFacetDelta: region.rootboundFacetDelta ?? 0,
+    rootboundFeature: region.rootboundFeature ?? null,
+    habitatFeatureKind: calderaFeatureActive ? 'emberglass-caldera' : fungalFeatureActive ? 'fungal-hollow'
+      : rootboundFeatureActive ? 'rootbound-wildwood' : null,
     habitatFeatureZone: calderaFeatureActive ? region.calderaFeature?.zone ?? null
-      : fungalFeatureActive ? region.fungalFeature?.nearestBranchId ?? 'rootwash' : null,
+      : fungalFeatureActive ? region.fungalFeature?.nearestBranchId ?? 'rootwash'
+        : rootboundFeatureActive ? region.rootboundFeature?.zone ?? 'root-gallery' : null,
     habitatFeatureInfluence: calderaFeatureActive
       ? calderaFeatureInfluence * (region.calderaWeight ?? 0) * region.influence
-      : fungalFeatureActive ? fungalFeatureInfluence * (region.fungalWeight ?? 0) * region.influence : 0,
+      : fungalFeatureActive ? fungalFeatureInfluence * (region.fungalWeight ?? 0) * region.influence
+        : rootboundFeatureActive ? rootboundFeatureInfluence * (region.rootboundWeight ?? 0) * region.influence : 0,
     habitatFeatureRamp: region.influence > 0 && Boolean(region.calderaFeature?.ramp),
     habitatFeatureClearLane: region.influence > 0 && Boolean(region.calderaFeature?.clearLane || region.fungalFeature?.route),
     coastDistance: continent.coastDistance,
@@ -317,6 +337,7 @@ export function createFrontierChunk(cx, cz, options = {}) {
   const nxCount = xs.length, nzCount = zs.length;
   const count = nxCount * nzCount, vertices = new Float32Array(count * 3);
   const colors = new Float32Array(count * 3);
+  const rootboundFacetDeltas = new Float32Array(count);
   const terrainMask = new Uint8Array(count);
   for (let iz = 0; iz < nzCount; iz++) for (let ix = 0; ix < nxCount; ix++) {
     const i = iz * nxCount + ix, x = origin.x + xs[ix], z = origin.z + zs[iz];
@@ -324,6 +345,7 @@ export function createFrontierChunk(cx, cz, options = {}) {
     const height = detailed ? detailedVertexHeight(x, z, sampleOptions) : sample.height;
     vertices[i * 3] = xs[ix]; vertices[i * 3 + 1] = height; vertices[i * 3 + 2] = zs[iz];
     colors.set(sample.groundColorRGB, i * 3);
+    rootboundFacetDeltas[i] = sample.rootboundFacetDelta ?? 0;
     terrainMask[i] = sample.hasTerrain ? 1 : 0;
   }
   const indexValues = [];
@@ -344,7 +366,7 @@ export function createFrontierChunk(cx, cz, options = {}) {
   }
   let minY = Infinity, maxY = -Infinity;
   for (let i = 1; i < vertices.length; i += 3) { minY = Math.min(minY, vertices[i]); maxY = Math.max(maxY, vertices[i]); }
-  return { id: chunkKey(cx, cz), traversalSurface: 'terrain', origin, vertices, indices, normals, colors,
+  return { id: chunkKey(cx, cz), traversalSurface: 'terrain', origin, vertices, indices, normals, colors, rootboundFacetDeltas,
     grid: { xs: Float32Array.from(xs), zs: Float32Array.from(zs) },
     bounds: { min: { x: 0, y: minY, z: 0 }, max: { x: config.chunkSize, y: maxY, z: config.chunkSize } } };
 }

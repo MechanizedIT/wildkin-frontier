@@ -1,0 +1,8 @@
+Traceback (most recent call last):
+  File "C:\Users\cwood\Documents\mobile-rpg\art\source\sunscar-weathered-rib-v1\massing-r3\build_massing_r3.py", line 63, in <module>
+    if not all(c['windingPass'] and c['coveragePass'] for c in cap_report):fail(metrics,'cap winding/coverage failed')
+                                                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cwood\Documents\mobile-rpg\art\source\sunscar-weathered-rib-v1\massing-r3\build_massing_r3.py", line 11, in fail
+    metrics['status']='R3_STRUCTURAL_HOLD';metrics['failure']=reason;(OUT/'metrics.json').write_text(json.dumps(metrics,indent=2)+'\n',encoding='utf-8');raise RuntimeError(reason)
+                                                                                                                                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: cap winding/coverage failed

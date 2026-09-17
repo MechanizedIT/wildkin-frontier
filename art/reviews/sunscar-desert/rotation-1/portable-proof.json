@@ -1,0 +1,41 @@
+[
+  {
+    "label": "portable-route",
+    "url": "http://localhost:8081/",
+    "setup": "Isolated browser, public validated importSave API then literal reload and Start; no user browser storage touched.",
+    "imported": true,
+    "exportOk": true,
+    "exact": true,
+    "inventoryExact": true,
+    "ecologyExact": true,
+    "errors": [],
+    "external": [],
+    "positionDelta": 0
+  },
+  {
+    "label": "developer-original",
+    "url": "http://localhost:8080/",
+    "setup": "Isolated browser, public validated importSave API then literal reload and Start; no user browser storage touched.",
+    "imported": true,
+    "exportOk": true,
+    "exact": true,
+    "inventoryExact": true,
+    "ecologyExact": true,
+    "errors": [],
+    "external": [],
+    "positionDelta": null
+  },
+  {
+    "label": "portable-original",
+    "url": "http://localhost:8081/",
+    "setup": "Isolated browser, public validated importSave API then literal reload and Start; no user browser storage touched.",
+    "imported": true,
+    "exportOk": true,
+    "exact": true,
+    "inventoryExact": true,
+    "ecologyExact": true,
+    "errors": [],
+    "external": [],
+    "positionDelta": null
+  }
+]

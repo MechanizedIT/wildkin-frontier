@@ -1,0 +1,941 @@
+{
+  "status": "planning-only; source has not been changed and no asset is admitted",
+  "profile": {
+    "id": "proposed-destination-pocket-lip",
+    "center": {
+      "x": -1944,
+      "z": 79
+    },
+    "radii": {
+      "x": 4,
+      "z": 6
+    },
+    "maxHeight": 1.35,
+    "axis": "world-aligned; 8m east-west by 12m north-south",
+    "formula": "delta(x,z)=1.35*smoothstep(1-((x+1944)/4)^2-((z-79)/6)^2) for q<1; zero otherwise",
+    "baseRule": "additive only after future source owner preserves all protected masks; do not flatten or recolor the basin"
+  },
+  "grid": {
+    "spacing": 2,
+    "bounds": {
+      "minX": -1950,
+      "maxX": -1938,
+      "minZ": 72,
+      "maxZ": 86
+    },
+    "samples": [
+      {
+        "x": -1950,
+        "z": 72,
+        "before": 5.991,
+        "delta": 0,
+        "after": 5.991,
+        "baseSlope": 0.0652,
+        "plannedSlope": 0.0652,
+        "routeDistance": 10.5427,
+        "insideLip": false,
+        "insideRouteCorridor": false
+      },
+      {
+        "x": -1950,
+        "z": 74,
+        "before": 5.8564,
+        "delta": 0,
+        "after": 5.8564,
+        "baseSlope": 0.0744,
+        "plannedSlope": 0.0744,
+        "routeDistance": 10.9145,
+        "insideLip": false,
+        "insideRouteCorridor": false
+      },
+      {
+        "x": -1950,
+        "z": 76,
+        "before": 5.7127,
+        "delta": 0,
+        "after": 5.7127,
+        "baseSlope": 0.0742,
+        "plannedSlope": 0.0742,
+        "routeDistance": 11.2863,
+        "insideLip": false,
+        "insideRouteCorridor": false
+      },
+      {
+        "x": -1950,
+        "z": 78,
+        "before": 5.5781,
+        "delta": 0,
+        "after": 5.5781,
+        "baseSlope": 0.0653,
+        "plannedSlope": 0.0653,
+        "routeDistance": 11.6581,
+        "insideLip": false,
+        "insideRouteCorridor": false
+      },
+      {
+        "x": -1950,
+        "z": 80,
+        "before": 5.4658,
+        "delta": 0,
+        "after": 5.4658,
+        "baseSlope": 0.0515,
+        "plannedSlope": 0.0515,
+        "routeDistance": 12.0298,
+        "insideLip": false,
+        "insideRouteCorridor": false
+      },
+      {
+        "x": -1950,
+        "z": 82,
+        "before": 5.3812,
+        "delta": 0,
+        "after": 5.3812,
+        "baseSlope": 0.0367,
+        "plannedSlope": 0.0367,
+        "routeDistance": 12.4016,
+        "insideLip": false,
+        "insideRouteCorridor": false
+      },
+      {
+        "x": -1950,
+        "z": 84,
+        "before": 5.3241,
+        "delta": 0,
+        "after": 5.3241,
+        "baseSlope": 0.023,
+        "plannedSlope": 0.023,
+        "routeDistance": 12.7734,
+        "insideLip": false,
+        "insideRouteCorridor": false
+      },
+      {
+        "x": -1950,
+        "z": 86,
+        "before": 5.2919,
+        "delta": 0,
+        "after": 5.2919,
+        "baseSlope": 0.0105,
+        "plannedSlope": 0.0105,
+        "routeDistance": 13.1452,
+        "insideLip": false,
+        "insideRouteCorridor": false
+      },
+      {
+        "x": -1948,
+        "z": 72,
+        "before": 5.9508,
+        "delta": 0,
+        "after": 5.9508,
+        "baseSlope": 0.0687,
+        "plannedSlope": 0.0687,
+        "routeDistance": 8.5776,
+        "insideLip": false,
+        "insideRouteCorridor": false
+      },
+      {
+        "x": -1948,
+        "z": 74,
+        "before": 5.812,
+        "delta": 0,
+        "after": 5.812,
+        "baseSlope": 0.0752,
+        "plannedSlope": 0.0752,
+        "routeDistance": 8.9494,
+        "insideLip": false,
+        "insideRouteCorridor": false
+      },
+      {
+        "x": -1948,
+        "z": 76,
+        "before": 5.6698,
+        "delta": 0,
+        "after": 5.6698,
+        "baseSlope": 0.0721,
+        "plannedSlope": 0.0721,
+        "routeDistance": 9.3211,
+        "insideLip": false,
+        "insideRouteCorridor": false
+      },
+      {
+        "x": -1948,
+        "z": 78,
+        "before": 5.5413,
+        "delta": 0,
+        "after": 5.5413,
+        "baseSlope": 0.0613,
+        "plannedSlope": 0.076,
+        "routeDistance": 9.6929,
+        "insideLip": false,
+        "insideRouteCorridor": false
+      },
+      {
+        "x": -1948,
+        "z": 80,
+        "before": 5.4375,
+        "delta": 0,
+        "after": 5.4375,
+        "baseSlope": 0.0469,
+        "plannedSlope": 0.0692,
+        "routeDistance": 10.0647,
+        "insideLip": false,
+        "insideRouteCorridor": false
+      },
+      {
+        "x": -1948,
+        "z": 82,
+        "before": 5.3618,
+        "delta": 0,
+        "after": 5.3618,
+        "baseSlope": 0.0323,
+        "plannedSlope": 0.0323,
+        "routeDistance": 10.4365,
+        "insideLip": false,
+        "insideRouteCorridor": false
+      },
+      {
+        "x": -1948,
+        "z": 84,
+        "before": 5.3126,
+        "delta": 0,
+        "after": 5.3126,
+        "baseSlope": 0.0191,
+        "plannedSlope": 0.0191,
+        "routeDistance": 10.8083,
+        "insideLip": false,
+        "insideRouteCorridor": false
+      },
+      {
+        "x": -1948,
+        "z": 86,
+        "before": 5.2876,
+        "delta": 0,
+        "after": 5.2876,
+        "baseSlope": 0.0068,
+        "plannedSlope": 0.0068,
+        "routeDistance": 11.1801,
+        "insideLip": false,
+        "insideRouteCorridor": false
+      },
+      {
+        "x": -1946,
+        "z": 72,
+        "before": 5.9085,
+        "delta": 0,
+        "after": 5.9085,
+        "baseSlope": 0.0715,
+        "plannedSlope": 0.0715,
+        "routeDistance": 6.6124,
+        "insideLip": false,
+        "insideRouteCorridor": false
+      },
+      {
+        "x": -1946,
+        "z": 74,
+        "before": 5.7671,
+        "delta": 0.012,
+        "after": 5.7792,
+        "baseSlope": 0.075,
+        "plannedSlope": 0.0857,
+        "routeDistance": 6.9842,
+        "insideLip": true,
+        "insideRouteCorridor": false
+      },
+      {
+        "x": -1946,
+        "z": 76,
+        "before": 5.628,
+        "delta": 0.675,
+        "after": 6.303,
+        "baseSlope": 0.0692,
+        "plannedSlope": 0.5537,
+        "routeDistance": 7.356,
+        "insideLip": true,
+        "insideRouteCorridor": false
+      },
+      {
+        "x": -1946,
+        "z": 78,
+        "before": 5.5068,
+        "delta": 1.0954,
+        "after": 6.6022,
+        "baseSlope": 0.0569,
+        "plannedSlope": 0.3921,
+        "routeDistance": 7.7278,
+        "insideLip": true,
+        "insideRouteCorridor": false
+      },
+      {
+        "x": -1946,
+        "z": 80,
+        "before": 5.4119,
+        "delta": 1.0954,
+        "after": 6.5073,
+        "baseSlope": 0.0422,
+        "plannedSlope": 0.4161,
+        "routeDistance": 8.0996,
+        "insideLip": true,
+        "insideRouteCorridor": false
+      },
+      {
+        "x": -1946,
+        "z": 82,
+        "before": 5.3448,
+        "delta": 0.675,
+        "after": 6.0198,
+        "baseSlope": 0.0281,
+        "plannedSlope": 0.6148,
+        "routeDistance": 8.4713,
+        "insideLip": true,
+        "insideRouteCorridor": false
+      },
+      {
+        "x": -1946,
+        "z": 84,
+        "before": 5.3032,
+        "delta": 0.012,
+        "after": 5.3153,
+        "baseSlope": 0.0153,
+        "plannedSlope": 0.1582,
+        "routeDistance": 8.8431,
+        "insideLip": true,
+        "insideRouteCorridor": false
+      },
+      {
+        "x": -1946,
+        "z": 86,
+        "before": 5.2854,
+        "delta": 0,
+        "after": 5.2854,
+        "baseSlope": 0.003,
+        "plannedSlope": 0.003,
+        "routeDistance": 9.2195,
+        "insideLip": false,
+        "insideRouteCorridor": false
+      },
+      {
+        "x": -1944,
+        "z": 72,
+        "before": 5.8646,
+        "delta": 0,
+        "after": 5.8646,
+        "baseSlope": 0.0734,
+        "plannedSlope": 0.0734,
+        "routeDistance": 4.6473,
+        "insideLip": false,
+        "insideRouteCorridor": false
+      },
+      {
+        "x": -1944,
+        "z": 74,
+        "before": 5.7224,
+        "delta": 0.3011,
+        "after": 6.0235,
+        "baseSlope": 0.074,
+        "plannedSlope": 0.4024,
+        "routeDistance": 5.0191,
+        "insideLip": true,
+        "insideRouteCorridor": false
+      },
+      {
+        "x": -1944,
+        "z": 76,
+        "before": 5.588,
+        "delta": 1.1391,
+        "after": 6.727,
+        "baseSlope": 0.0657,
+        "plannedSlope": 0.1918,
+        "routeDistance": 5.3909,
+        "insideLip": true,
+        "insideRouteCorridor": false
+      },
+      {
+        "x": -1944,
+        "z": 78,
+        "before": 5.4748,
+        "delta": 1.3469,
+        "after": 6.8217,
+        "baseSlope": 0.0523,
+        "plannedSlope": 0.0401,
+        "routeDistance": 5.7626,
+        "insideLip": true,
+        "insideRouteCorridor": false
+      },
+      {
+        "x": -1944,
+        "z": 80,
+        "before": 5.3889,
+        "delta": 1.3469,
+        "after": 6.7358,
+        "baseSlope": 0.0376,
+        "plannedSlope": 0.05,
+        "routeDistance": 6.1344,
+        "insideLip": true,
+        "insideRouteCorridor": false
+      },
+      {
+        "x": -1944,
+        "z": 82,
+        "before": 5.3302,
+        "delta": 1.1391,
+        "after": 6.4692,
+        "baseSlope": 0.024,
+        "plannedSlope": 0.2766,
+        "routeDistance": 6.5062,
+        "insideLip": true,
+        "insideRouteCorridor": false
+      },
+      {
+        "x": -1944,
+        "z": 84,
+        "before": 5.2961,
+        "delta": 0.3011,
+        "after": 5.5972,
+        "baseSlope": 0.0116,
+        "plannedSlope": 0.4835,
+        "routeDistance": 6.878,
+        "insideLip": true,
+        "insideRouteCorridor": false
+      },
+      {
+        "x": -1944,
+        "z": 86,
+        "before": 5.2856,
+        "delta": 0,
+        "after": 5.2856,
+        "baseSlope": 0.0011,
+        "plannedSlope": 0.0011,
+        "routeDistance": 7.2801,
+        "insideLip": false,
+        "insideRouteCorridor": false
+      },
+      {
+        "x": -1942,
+        "z": 72,
+        "before": 5.8195,
+        "delta": 0,
+        "after": 5.8195,
+        "baseSlope": 0.0745,
+        "plannedSlope": 0.0745,
+        "routeDistance": 2.6822,
+        "insideLip": false,
+        "insideRouteCorridor": false
+      },
+      {
+        "x": -1942,
+        "z": 74,
+        "before": 5.6784,
+        "delta": 0.012,
+        "after": 5.6905,
+        "baseSlope": 0.072,
+        "plannedSlope": 0.1272,
+        "routeDistance": 3.0539,
+        "insideLip": true,
+        "insideRouteCorridor": false
+      },
+      {
+        "x": -1942,
+        "z": 76,
+        "before": 5.55,
+        "delta": 0.675,
+        "after": 6.225,
+        "baseSlope": 0.0617,
+        "plannedSlope": 0.5914,
+        "routeDistance": 3.4257,
+        "insideLip": true,
+        "insideRouteCorridor": false
+      },
+      {
+        "x": -1942,
+        "z": 78,
+        "before": 5.4454,
+        "delta": 1.0954,
+        "after": 6.5408,
+        "baseSlope": 0.0475,
+        "plannedSlope": 0.4235,
+        "routeDistance": 3.7975,
+        "insideLip": true,
+        "insideRouteCorridor": false
+      },
+      {
+        "x": -1942,
+        "z": 80,
+        "before": 5.3685,
+        "delta": 1.0954,
+        "after": 6.4639,
+        "baseSlope": 0.0331,
+        "plannedSlope": 0.4342,
+        "routeDistance": 4.1693,
+        "insideLip": true,
+        "insideRouteCorridor": false
+      },
+      {
+        "x": -1942,
+        "z": 82,
+        "before": 5.3179,
+        "delta": 0.675,
+        "after": 5.9929,
+        "baseSlope": 0.02,
+        "plannedSlope": 0.6212,
+        "routeDistance": 4.5411,
+        "insideLip": true,
+        "insideRouteCorridor": false
+      },
+      {
+        "x": -1942,
+        "z": 84,
+        "before": 5.2912,
+        "delta": 0.012,
+        "after": 5.3032,
+        "baseSlope": 0.0078,
+        "plannedSlope": 0.1562,
+        "routeDistance": 4.9129,
+        "insideLip": true,
+        "insideRouteCorridor": false
+      },
+      {
+        "x": -1942,
+        "z": 86,
+        "before": 5.2882,
+        "delta": 0,
+        "after": 5.2882,
+        "baseSlope": 0.0054,
+        "plannedSlope": 0.0054,
+        "routeDistance": 5.3852,
+        "insideLip": false,
+        "insideRouteCorridor": false
+      },
+      {
+        "x": -1940,
+        "z": 72,
+        "before": 5.7739,
+        "delta": 0,
+        "after": 5.7739,
+        "baseSlope": 0.0745,
+        "plannedSlope": 0.0745,
+        "routeDistance": 0.717,
+        "insideLip": false,
+        "insideRouteCorridor": true
+      },
+      {
+        "x": -1940,
+        "z": 74,
+        "before": 5.6356,
+        "delta": 0,
+        "after": 5.6356,
+        "baseSlope": 0.0692,
+        "plannedSlope": 0.0692,
+        "routeDistance": 1.0888,
+        "insideLip": false,
+        "insideRouteCorridor": true
+      },
+      {
+        "x": -1940,
+        "z": 76,
+        "before": 5.5144,
+        "delta": 0,
+        "after": 5.5144,
+        "baseSlope": 0.0572,
+        "plannedSlope": 0.0572,
+        "routeDistance": 1.4606,
+        "insideLip": false,
+        "insideRouteCorridor": false
+      },
+      {
+        "x": -1940,
+        "z": 78,
+        "before": 5.4188,
+        "delta": 0,
+        "after": 5.4188,
+        "baseSlope": 0.0427,
+        "plannedSlope": 0.0887,
+        "routeDistance": 1.8324,
+        "insideLip": false,
+        "insideRouteCorridor": false
+      },
+      {
+        "x": -1940,
+        "z": 80,
+        "before": 5.3507,
+        "delta": 0,
+        "after": 5.3507,
+        "baseSlope": 0.0287,
+        "plannedSlope": 0.0793,
+        "routeDistance": 2.2041,
+        "insideLip": false,
+        "insideRouteCorridor": false
+      },
+      {
+        "x": -1940,
+        "z": 82,
+        "before": 5.3079,
+        "delta": 0,
+        "after": 5.3079,
+        "baseSlope": 0.0161,
+        "plannedSlope": 0.0161,
+        "routeDistance": 2.5759,
+        "insideLip": false,
+        "insideRouteCorridor": false
+      },
+      {
+        "x": -1940,
+        "z": 84,
+        "before": 5.2885,
+        "delta": 0,
+        "after": 5.2885,
+        "baseSlope": 0.004,
+        "plannedSlope": 0.004,
+        "routeDistance": 2.9477,
+        "insideLip": false,
+        "insideRouteCorridor": false
+      },
+      {
+        "x": -1940,
+        "z": 86,
+        "before": 5.2936,
+        "delta": 0,
+        "after": 5.2936,
+        "baseSlope": 0.0101,
+        "plannedSlope": 0.0101,
+        "routeDistance": 3.6056,
+        "insideLip": false,
+        "insideRouteCorridor": false
+      },
+      {
+        "x": -1938,
+        "z": 72,
+        "before": 5.7284,
+        "delta": 0,
+        "after": 5.7284,
+        "baseSlope": 0.0736,
+        "plannedSlope": 0.0736,
+        "routeDistance": 1.2481,
+        "insideLip": false,
+        "insideRouteCorridor": false
+      },
+      {
+        "x": -1938,
+        "z": 74,
+        "before": 5.5946,
+        "delta": 0,
+        "after": 5.5946,
+        "baseSlope": 0.0657,
+        "plannedSlope": 0.0657,
+        "routeDistance": 0.8763,
+        "insideLip": false,
+        "insideRouteCorridor": true
+      },
+      {
+        "x": -1938,
+        "z": 76,
+        "before": 5.4814,
+        "delta": 0,
+        "after": 5.4814,
+        "baseSlope": 0.0525,
+        "plannedSlope": 0.0525,
+        "routeDistance": 0.5046,
+        "insideLip": false,
+        "insideRouteCorridor": true
+      },
+      {
+        "x": -1938,
+        "z": 78,
+        "before": 5.395,
+        "delta": 0,
+        "after": 5.395,
+        "baseSlope": 0.038,
+        "plannedSlope": 0.038,
+        "routeDistance": 0.1328,
+        "insideLip": false,
+        "insideRouteCorridor": true
+      },
+      {
+        "x": -1938,
+        "z": 80,
+        "before": 5.3354,
+        "delta": 0,
+        "after": 5.3354,
+        "baseSlope": 0.0245,
+        "plannedSlope": 0.0245,
+        "routeDistance": 0.239,
+        "insideLip": false,
+        "insideRouteCorridor": true
+      },
+      {
+        "x": -1938,
+        "z": 82,
+        "before": 5.3003,
+        "delta": 0,
+        "after": 5.3003,
+        "baseSlope": 0.0122,
+        "plannedSlope": 0.0122,
+        "routeDistance": 0.6108,
+        "insideLip": false,
+        "insideRouteCorridor": true
+      },
+      {
+        "x": -1938,
+        "z": 84,
+        "before": 5.2882,
+        "delta": 0,
+        "after": 5.2882,
+        "baseSlope": 0.0005,
+        "plannedSlope": 0.0005,
+        "routeDistance": 0.9826,
+        "insideLip": false,
+        "insideRouteCorridor": true
+      },
+      {
+        "x": -1938,
+        "z": 86,
+        "before": 5.302,
+        "delta": 0,
+        "after": 5.302,
+        "baseSlope": 0.0154,
+        "plannedSlope": 0.0154,
+        "routeDistance": 2.2361,
+        "insideLip": false,
+        "insideRouteCorridor": false
+      }
+    ],
+    "nonzeroCount": 18,
+    "maxDelta": 1.3469,
+    "maxPlannedSlope": 0.6212,
+    "minLipToRouteDistance": 3.0539,
+    "routeCorridorIntersectsLip": false
+  },
+  "route": {
+    "points": [
+      [
+        -1972.3,
+        -4.8
+      ],
+      [
+        -1954,
+        -5
+      ],
+      [
+        -1932.6,
+        -15
+      ],
+      [
+        -1944,
+        5
+      ],
+      [
+        -1944,
+        28
+      ],
+      [
+        -1944,
+        47
+      ],
+      [
+        -1937,
+        84
+      ],
+      [
+        -1931.7,
+        84
+      ],
+      [
+        -1932.5,
+        87.1
+      ],
+      [
+        -1928,
+        88
+      ],
+      [
+        -1892,
+        64
+      ],
+      [
+        -1912,
+        48
+      ],
+      [
+        -1916,
+        28
+      ],
+      [
+        -1916,
+        10
+      ],
+      [
+        -1940,
+        0
+      ],
+      [
+        -1970,
+        -2
+      ]
+    ],
+    "routeCorridorRadius": 1.2,
+    "routeImpact": "zero at all sampled points in the 1.2m route corridor; full runtime mesh/ordinary proof remains required"
+  },
+  "affectedSamplerBounds": {
+    "minX": -1960,
+    "maxX": -1924,
+    "minZ": 63,
+    "maxZ": 98
+  },
+  "audit": {
+    "sources": [
+      {
+        "id": "f1:r:-39:1:6",
+        "type": "fiber",
+        "assetId": null,
+        "x": -1937.605,
+        "y": 5.289,
+        "z": 83.725,
+        "footprintRadius": 0.55,
+        "lipBodyDistance": 3.37,
+        "requiredApproachDistance": 3.75,
+        "pass": false
+      },
+      {
+        "id": "f1:r:-39:1:1",
+        "type": "rock",
+        "assetId": null,
+        "x": -1938.755,
+        "y": 5.819,
+        "z": 70.956,
+        "footprintRadius": 0.9,
+        "lipBodyDistance": 4.298,
+        "requiredApproachDistance": 4.1,
+        "pass": true
+      },
+      {
+        "id": "f1:r:-39:1:0",
+        "type": "fiber",
+        "assetId": null,
+        "x": -1935.55,
+        "y": 5.805,
+        "z": 70.116,
+        "footprintRadius": 0.55,
+        "lipBodyDistance": 7.273,
+        "requiredApproachDistance": 3.75,
+        "pass": true
+      },
+      {
+        "id": "f1:r:-39:1:2",
+        "type": "rock",
+        "assetId": null,
+        "x": -1937.766,
+        "y": 6.01,
+        "z": 67.734,
+        "footprintRadius": 0.9,
+        "lipBodyDistance": 7.387,
+        "requiredApproachDistance": 4.1,
+        "pass": true
+      },
+      {
+        "id": "f1:r:-39:1:5",
+        "type": "rock",
+        "assetId": null,
+        "x": -1932.89,
+        "y": 5.301,
+        "z": 84.137,
+        "footprintRadius": 0.9,
+        "lipBodyDistance": 7.922,
+        "requiredApproachDistance": 4.1,
+        "pass": true
+      },
+      {
+        "id": "f1:r:-39:1:4",
+        "type": "rock",
+        "assetId": "asset_crystal",
+        "x": -1934.068,
+        "y": 5.371,
+        "z": 87.216,
+        "footprintRadius": 1.3,
+        "lipBodyDistance": 8.129,
+        "requiredApproachDistance": 4.5,
+        "pass": true
+      },
+      {
+        "id": "f1:r:-39:1:3",
+        "type": "fiber",
+        "assetId": null,
+        "x": -1930.827,
+        "y": 5.389,
+        "z": 86.524,
+        "footprintRadius": 0.55,
+        "lipBodyDistance": 10.702,
+        "requiredApproachDistance": 3.75,
+        "pass": true
+      }
+    ],
+    "homes": [],
+    "scenery": [
+      {
+        "id": "f2c:s:-39:1:seed-5",
+        "assetId": "asset_trail_stones",
+        "kind": "low",
+        "x": -1932.973,
+        "y": 5.333,
+        "z": 78.58,
+        "scale": 1.4029282986584195,
+        "footprintRadius": 1.964,
+        "lipBodyDistance": 7.033,
+        "pass": true
+      },
+      {
+        "id": "f2c:s:-39:1:seed-0",
+        "assetId": "asset_trail_stones",
+        "kind": "low",
+        "x": -1933.399,
+        "y": 5.516,
+        "z": 73.859,
+        "scale": 1.2355275591426969,
+        "footprintRadius": 1.73,
+        "lipBodyDistance": 7.44,
+        "pass": true
+      },
+      {
+        "id": "f2c:s:-39:1:seed-1",
+        "assetId": "asset_trail_stones",
+        "kind": "low",
+        "x": -1932.061,
+        "y": 5.299,
+        "z": 80.535,
+        "scale": 1.4941274459112006,
+        "footprintRadius": 2.092,
+        "lipBodyDistance": 8.009,
+        "pass": true
+      },
+      {
+        "id": "f2c:s:-39:1:seed-6",
+        "assetId": "asset_trail_stones",
+        "kind": "low",
+        "x": -1930.495,
+        "y": 5.384,
+        "z": 75.964,
+        "scale": 1.4149024032264284,
+        "footprintRadius": 1.981,
+        "lipBodyDistance": 9.754,
+        "pass": true
+      }
+    ],
+    "counts": {
+      "allForageSampled": 13,
+      "allWildlifeSampled": 0,
+      "allScenerySampled": 12,
+      "nearbySources": 7,
+      "sourceApproachFailures": 1,
+      "nearbyHomes": 0,
+      "homeFailures": 0,
+      "nearbyScenery": 4,
+      "sceneryOverlapFailures": 0
+    }
+  },
+  "stoneFoot": {
+    "proposed": false,
+    "reason": "No existing-stone foot is proposed: current plan has no full transformed mesh projection or support proof for a safe visible candidate. Do not substitute a different prop."
+  },
+  "gates": [
+    "Root must native-preview the actual masked terrain at frozen destination pose before source work.",
+    "Future implementation must compare exact before/after source IDs, transforms, homes and entire final route corridor; no terrain, ecology, wildlife or scenery change is authorized by this probe.",
+    "Reject if the lip is not visibly readable without narrowing the lane; the held rib asset remains closed."
+  ]
+}

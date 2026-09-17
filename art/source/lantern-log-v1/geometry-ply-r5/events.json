@@ -1,0 +1,184 @@
+[
+  {
+    "label": "background:parent-before-child",
+    "time": "2026-09-14T21:22:41.911439+00:00",
+    "free_gib": 19.56873321533203,
+    "required_free_gib": 9.646280284970999
+  },
+  {
+    "label": "background:child-start",
+    "time": "2026-09-14T21:22:45.206083+00:00",
+    "free_gib": 19.14305877685547,
+    "pid": 30852
+  },
+  {
+    "label": "background:complete",
+    "time": "2026-09-14T21:22:58.300900+00:00",
+    "free_gib": 17.402141571044922,
+    "output_sha256": "f5b5633a675cf19d92116041a23f77a555601f821d79c5832c750525273e2524"
+  },
+  {
+    "label": "background:child-exited",
+    "time": "2026-09-14T21:23:00.201916+00:00",
+    "free_gib": 19.57849884033203,
+    "exit_code": 0
+  },
+  {
+    "label": "conditioning:parent-before-child",
+    "time": "2026-09-14T21:23:00.217913+00:00",
+    "free_gib": 19.576435089111328,
+    "required_free_gib": 10.258530080318451
+  },
+  {
+    "label": "conditioning:child-start",
+    "time": "2026-09-14T21:23:03.515701+00:00",
+    "free_gib": 19.147621154785156,
+    "pid": 39652
+  },
+  {
+    "label": "handoff:conditioning.pt",
+    "time": "2026-09-14T21:23:13.279287+00:00",
+    "free_gib": 18.561134338378906,
+    "sha256": "cb73e30b2f4f3de532db12926eca550e2a1ff297b149d68a56babcac566a817c",
+    "bytes": 8431501
+  },
+  {
+    "label": "conditioning:child-exited",
+    "time": "2026-09-14T21:23:14.436648+00:00",
+    "free_gib": 19.57748031616211,
+    "exit_code": 0
+  },
+  {
+    "label": "sparse:parent-before-child",
+    "time": "2026-09-14T21:23:14.449717+00:00",
+    "free_gib": 19.57761001586914,
+    "required_free_gib": 15.632583007216454
+  },
+  {
+    "label": "sparse:child-start",
+    "time": "2026-09-14T21:23:17.533853+00:00",
+    "free_gib": 19.102935791015625,
+    "pid": 5100
+  },
+  {
+    "label": "handoff:coords.pt",
+    "time": "2026-09-14T21:24:12.991455+00:00",
+    "free_gib": 13.913078308105469,
+    "sha256": "817897bde81434954100234db2d5add29fdc36cb5ab47bf02cbdd61201d368b1",
+    "bytes": 41826
+  },
+  {
+    "label": "handoff:rng-after-sparse.pt",
+    "time": "2026-09-14T21:24:13.008393+00:00",
+    "free_gib": 13.912849426269531,
+    "sha256": "510f638d8c17eacc94e8e5f38c2cd483d9bc3f4cefa92a420755050aea4c2fcb",
+    "bytes": 6957
+  },
+  {
+    "label": "sparse:child-exited",
+    "time": "2026-09-14T21:24:14.859247+00:00",
+    "free_gib": 19.59069061279297,
+    "exit_code": 0
+  },
+  {
+    "label": "shape-flow:parent-before-child",
+    "time": "2026-09-14T21:24:14.870588+00:00",
+    "free_gib": 19.58712387084961,
+    "required_free_gib": 15.221092782914639
+  },
+  {
+    "label": "shape-flow:child-start",
+    "time": "2026-09-14T21:24:18.055782+00:00",
+    "free_gib": 19.1778564453125,
+    "pid": 39016
+  },
+  {
+    "label": "handoff:shape.pt",
+    "time": "2026-09-14T21:25:06.756197+00:00",
+    "free_gib": 13.962776184082031,
+    "sha256": "c6687d686b76a221f308ed1d6dae9b2a8f6dd3a2a49e706a963366456ce333a6",
+    "bytes": 364373
+  },
+  {
+    "label": "handoff:rng-after-shape.pt",
+    "time": "2026-09-14T21:25:06.775198+00:00",
+    "free_gib": 13.962860107421875,
+    "sha256": "3d06dd0e710c15653f71fd85027421c93c985f6f7a2bfefccb4259223340f7d8",
+    "bytes": 6949
+  },
+  {
+    "label": "shape-flow:child-exited",
+    "time": "2026-09-14T21:25:08.513476+00:00",
+    "free_gib": 19.541946411132812,
+    "exit_code": 0
+  },
+  {
+    "label": "texture-flow:parent-before-child",
+    "time": "2026-09-14T21:25:08.526010+00:00",
+    "free_gib": 19.54857635498047,
+    "required_free_gib": 15.221367441117764
+  },
+  {
+    "label": "texture-flow:child-start",
+    "time": "2026-09-14T21:25:11.671383+00:00",
+    "free_gib": 19.19933319091797,
+    "pid": 15756
+  },
+  {
+    "label": "handoff:texture.pt",
+    "time": "2026-09-14T21:25:55.809180+00:00",
+    "free_gib": 14.23001480102539,
+    "sha256": "a6fbcc02d5204fa4d29cac03666935cbce5207a2444352f59ef84d64c24a917a",
+    "bytes": 364389
+  },
+  {
+    "label": "texture-flow:child-exited",
+    "time": "2026-09-14T21:25:57.622193+00:00",
+    "free_gib": 19.68426513671875,
+    "exit_code": 0
+  },
+  {
+    "label": "decode:parent-before-child",
+    "time": "2026-09-14T21:25:57.632188+00:00",
+    "free_gib": 19.68433380126953,
+    "required_free_gib": 13.299913866445422
+  },
+  {
+    "label": "decode:child-start",
+    "time": "2026-09-14T21:26:00.841859+00:00",
+    "free_gib": 19.205677032470703,
+    "pid": 41816
+  },
+  {
+    "label": "decode:geometry-budget",
+    "time": "2026-09-14T21:26:26.212255+00:00",
+    "free_gib": 14.054054260253906,
+    "decoded_faces": 2218798,
+    "decoded_vertices": 1077634,
+    "face_limit": 2300000,
+    "mode": "lantern-geometry-ply-v1"
+  },
+  {
+    "label": "geometry-ply:complete",
+    "time": "2026-09-14T21:26:39.604881+00:00",
+    "free_gib": 14.093795776367188,
+    "output_sha256": "e25bdd049cf9a7d8d4e1a7df9e4193e9840b0b550c6052b134d3d88cd6276120",
+    "bytes": 41776379,
+    "vertex_scalar": "float32",
+    "copied_vertex_bytes": 12931608,
+    "copied_index_bytes": 53251152
+  },
+  {
+    "label": "decode:child-exited",
+    "time": "2026-09-14T21:26:41.729442+00:00",
+    "free_gib": 19.683609008789062,
+    "exit_code": 0
+  },
+  {
+    "label": "complete",
+    "time": "2026-09-14T21:26:41.818806+00:00",
+    "free_gib": 19.682437896728516,
+    "artifact_path": "C:\\Users\\cwood\\Documents\\mobile-rpg\\.dream-loop\\lantern-log-trellis\\geometry-ply-r5-run\\raw-geometry.ply",
+    "output_sha256": "e25bdd049cf9a7d8d4e1a7df9e4193e9840b0b550c6052b134d3d88cd6276120"
+  }
+]

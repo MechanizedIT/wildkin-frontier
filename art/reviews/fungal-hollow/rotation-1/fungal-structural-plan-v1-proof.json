@@ -1,0 +1,858 @@
+{
+  "status": "HOLD_NO_MATERIAL_STRUCTURAL_ENVELOPE",
+  "method": "max-union of three smooth elliptical dry-bank lobes, multiplied by the explicit combined protection mask; sample at the existing 2m terrain vertices",
+  "camera": {
+    "player": {
+      "x": -2826,
+      "y": 14.146509170532227,
+      "z": -1298
+    },
+    "center": {
+      "x": -2826,
+      "y": 15.04650917053225,
+      "z": -1298
+    },
+    "yaw": 2.432966,
+    "pitch": 0.6283185307179586,
+    "distance": 11.59107954420122,
+    "width": 412,
+    "height": 915,
+    "fov": 52,
+    "eye": [
+      -2819.897279056802,
+      21.85957478476269,
+      -1305.1198356038353
+    ],
+    "orbit": [
+      0.5265015152321324,
+      0.5877852522924731,
+      -0.6142512935645658
+    ]
+  },
+  "lobes": [
+    {
+      "id": "rear-shoulder",
+      "x": -2842,
+      "z": -1287,
+      "rx": 8.5,
+      "rz": 6.5,
+      "maxHeight": 0.88,
+      "centerBaseHeight": 12.538492,
+      "centerAddedHeight": 0.30976,
+      "centerFinalHeight": 12.848252,
+      "centerProjection": {
+        "x": 372.76616608685384,
+        "y": 148.29127058552194,
+        "z": 0.9945355377740221,
+        "front": true
+      }
+    },
+    {
+      "id": "right-mid-bank",
+      "x": -2843,
+      "z": -1294,
+      "rx": 9.5,
+      "rz": 10.5,
+      "maxHeight": 1.16,
+      "centerBaseHeight": 12.112039,
+      "centerAddedHeight": 1.16,
+      "centerFinalHeight": 13.272039,
+      "centerProjection": {
+        "x": 608.0310086437817,
+        "y": 190.14185960047234,
+        "z": 0.9933422107730111,
+        "front": true
+      }
+    },
+    {
+      "id": "right-near-runout",
+      "x": -2840,
+      "z": -1300,
+      "rx": 6.5,
+      "rz": 7,
+      "maxHeight": 0.62,
+      "centerBaseHeight": 11.986238,
+      "centerAddedHeight": 0.62,
+      "centerFinalHeight": 12.606238,
+      "centerProjection": {
+        "x": 789.8707203735121,
+        "y": 335.71739200206827,
+        "z": 0.9912252722363006,
+        "front": true
+      }
+    }
+  ],
+  "mesh": {
+    "chunk": "-57,-26",
+    "gridM": 2,
+    "affectedVertexCount": 53,
+    "finalHeightRange": [
+      12.248957,
+      14.129492
+    ],
+    "rows": [
+      {
+        "x": -2848,
+        "z": -1300,
+        "baseHeight": 12.752707,
+        "addedHeight": 0.147477,
+        "finalHeight": 12.900184,
+        "protection": 0,
+        "projection": {
+          "x": 933.76,
+          "y": 223.61,
+          "front": true
+        }
+      },
+      {
+        "x": -2848,
+        "z": -1298,
+        "baseHeight": 13.104334,
+        "addedHeight": 0.327277,
+        "finalHeight": 13.431611,
+        "protection": 0,
+        "projection": {
+          "x": 855.51,
+          "y": 181.07,
+          "front": true
+        }
+      },
+      {
+        "x": -2848,
+        "z": -1296,
+        "baseHeight": 13.378131,
+        "addedHeight": 0.476577,
+        "finalHeight": 13.854707,
+        "protection": 0,
+        "projection": {
+          "x": 781.52,
+          "y": 145.72,
+          "front": true
+        }
+      },
+      {
+        "x": -2848,
+        "z": -1294,
+        "baseHeight": 13.56462,
+        "addedHeight": 0.534253,
+        "finalHeight": 14.098873,
+        "protection": 0,
+        "projection": {
+          "x": 711.05,
+          "y": 119.59,
+          "front": true
+        }
+      },
+      {
+        "x": -2848,
+        "z": -1292,
+        "baseHeight": 13.652916,
+        "addedHeight": 0.476577,
+        "finalHeight": 14.129492,
+        "protection": 0,
+        "projection": {
+          "x": 644.18,
+          "y": 103.11,
+          "front": true
+        }
+      },
+      {
+        "x": -2848,
+        "z": -1290,
+        "baseHeight": 13.630318,
+        "addedHeight": 0.327277,
+        "finalHeight": 13.957595,
+        "protection": 0,
+        "projection": {
+          "x": 581.4,
+          "y": 94.91,
+          "front": true
+        }
+      },
+      {
+        "x": -2848,
+        "z": -1288,
+        "baseHeight": 13.50367,
+        "addedHeight": 0.165736,
+        "finalHeight": 13.669406,
+        "protection": 0,
+        "projection": {
+          "x": 523.46,
+          "y": 91.2,
+          "front": true
+        }
+      },
+      {
+        "x": -2848,
+        "z": -1286,
+        "baseHeight": 13.360529,
+        "addedHeight": 0.165736,
+        "finalHeight": 13.526265,
+        "protection": 0,
+        "projection": {
+          "x": 471.37,
+          "y": 83.32,
+          "front": true
+        }
+      },
+      {
+        "x": -2848,
+        "z": -1284,
+        "baseHeight": 13.20539,
+        "addedHeight": 0.057998,
+        "finalHeight": 13.263388,
+        "protection": 0,
+        "projection": {
+          "x": 422.99,
+          "y": 79.66,
+          "front": true
+        }
+      },
+      {
+        "x": -2846,
+        "z": -1300,
+        "baseHeight": 12.812246,
+        "addedHeight": 0.322277,
+        "finalHeight": 13.134523,
+        "protection": 0,
+        "projection": {
+          "x": 908.42,
+          "y": 235.48,
+          "front": true
+        }
+      },
+      {
+        "x": -2846,
+        "z": -1298,
+        "baseHeight": 13.003663,
+        "addedHeight": 0.589011,
+        "finalHeight": 13.592674,
+        "protection": 0,
+        "projection": {
+          "x": 825.95,
+          "y": 193.18,
+          "front": true
+        }
+      },
+      {
+        "x": -2846,
+        "z": -1296,
+        "baseHeight": 13.113728,
+        "addedHeight": 0.803069,
+        "finalHeight": 13.916797,
+        "protection": 0,
+        "projection": {
+          "x": 748.32,
+          "y": 159.49,
+          "front": true
+        }
+      },
+      {
+        "x": -2846,
+        "z": -1294,
+        "baseHeight": 13.132645,
+        "addedHeight": 0.886024,
+        "finalHeight": 14.018669,
+        "protection": 0,
+        "projection": {
+          "x": 674.67,
+          "y": 137.01,
+          "front": true
+        }
+      },
+      {
+        "x": -2846,
+        "z": -1292,
+        "baseHeight": 13.049191,
+        "addedHeight": 0.803069,
+        "finalHeight": 13.85226,
+        "protection": 0,
+        "projection": {
+          "x": 605.16,
+          "y": 126.22,
+          "front": true
+        }
+      },
+      {
+        "x": -2846,
+        "z": -1290,
+        "baseHeight": 12.886639,
+        "addedHeight": 0.589011,
+        "finalHeight": 13.475651,
+        "protection": 0,
+        "projection": {
+          "x": 540.79,
+          "y": 123.68,
+          "front": true
+        }
+      },
+      {
+        "x": -2846,
+        "z": -1288,
+        "baseHeight": 12.722854,
+        "addedHeight": 0.446471,
+        "finalHeight": 13.169324,
+        "protection": 0,
+        "projection": {
+          "x": 483.16,
+          "y": 119.1,
+          "front": true
+        }
+      },
+      {
+        "x": -2846,
+        "z": -1286,
+        "baseHeight": 12.561647,
+        "addedHeight": 0.446471,
+        "finalHeight": 13.008118,
+        "protection": 0,
+        "projection": {
+          "x": 431.43,
+          "y": 110.39,
+          "front": true
+        }
+      },
+      {
+        "x": -2846,
+        "z": -1284,
+        "baseHeight": 12.403387,
+        "addedHeight": 0.237024,
+        "finalHeight": 12.64041,
+        "protection": 0,
+        "projection": {
+          "x": 383.3,
+          "y": 108.63,
+          "front": true
+        }
+      },
+      {
+        "x": -2846,
+        "z": -1282,
+        "baseHeight": 12.229763,
+        "addedHeight": 0.019195,
+        "finalHeight": 12.248957,
+        "protection": 0.193855,
+        "projection": {
+          "x": 339.26,
+          "y": 107.69,
+          "front": true
+        }
+      },
+      {
+        "x": -2844,
+        "z": -1300,
+        "baseHeight": 12.502737,
+        "addedHeight": 0.44022,
+        "finalHeight": 12.942957,
+        "protection": 0,
+        "projection": {
+          "x": 872.18,
+          "y": 266.52,
+          "front": true
+        }
+      },
+      {
+        "x": -2844,
+        "z": -1298,
+        "baseHeight": 12.568355,
+        "addedHeight": 0.759635,
+        "finalHeight": 13.32799,
+        "protection": 0,
+        "projection": {
+          "x": 786.64,
+          "y": 224.03,
+          "front": true
+        }
+      },
+      {
+        "x": -2844,
+        "z": -1296,
+        "baseHeight": 12.548743,
+        "addedHeight": 1.019095,
+        "finalHeight": 13.567838,
+        "protection": 0,
+        "projection": {
+          "x": 706.68,
+          "y": 191,
+          "front": true
+        }
+      },
+      {
+        "x": -2844,
+        "z": -1294,
+        "baseHeight": 12.433981,
+        "addedHeight": 1.124146,
+        "finalHeight": 13.558127,
+        "protection": 0,
+        "projection": {
+          "x": 631.31,
+          "y": 170.47,
+          "front": true
+        }
+      },
+      {
+        "x": -2844,
+        "z": -1292,
+        "baseHeight": 12.276843,
+        "addedHeight": 1.019095,
+        "finalHeight": 13.295937,
+        "protection": 0,
+        "projection": {
+          "x": 561.15,
+          "y": 161.1,
+          "front": true
+        }
+      },
+      {
+        "x": -2844,
+        "z": -1290,
+        "baseHeight": 12.129104,
+        "addedHeight": 0.759635,
+        "finalHeight": 12.888739,
+        "protection": 0,
+        "projection": {
+          "x": 497.22,
+          "y": 157.68,
+          "front": true
+        }
+      },
+      {
+        "x": -2844,
+        "z": -1288,
+        "baseHeight": 11.990866,
+        "addedHeight": 0.710459,
+        "finalHeight": 12.701326,
+        "protection": 0,
+        "projection": {
+          "x": 440.88,
+          "y": 147.41,
+          "front": true
+        }
+      },
+      {
+        "x": -2844,
+        "z": -1286,
+        "baseHeight": 11.997848,
+        "addedHeight": 0.636966,
+        "finalHeight": 12.634814,
+        "protection": 0.103445,
+        "projection": {
+          "x": 390.01,
+          "y": 134.23,
+          "front": true
+        }
+      },
+      {
+        "x": -2844,
+        "z": -1284,
+        "baseHeight": 12.345988,
+        "addedHeight": 0.189271,
+        "finalHeight": 12.535259,
+        "protection": 0.545216,
+        "projection": {
+          "x": 343.21,
+          "y": 123.13,
+          "front": true
+        }
+      },
+      {
+        "x": -2842,
+        "z": -1300,
+        "baseHeight": 12.129076,
+        "addedHeight": 0.480027,
+        "finalHeight": 12.609103,
+        "protection": 0,
+        "projection": {
+          "x": 829.96,
+          "y": 306.45,
+          "front": true
+        }
+      },
+      {
+        "x": -2842,
+        "z": -1298,
+        "baseHeight": 12.106436,
+        "addedHeight": 0.759635,
+        "finalHeight": 12.866071,
+        "protection": 0,
+        "projection": {
+          "x": 741.06,
+          "y": 265.62,
+          "front": true
+        }
+      },
+      {
+        "x": -2842,
+        "z": -1296,
+        "baseHeight": 12.00332,
+        "addedHeight": 1.019095,
+        "finalHeight": 13.022414,
+        "protection": 0,
+        "projection": {
+          "x": 659.53,
+          "y": 232.73,
+          "front": true
+        }
+      },
+      {
+        "x": -2842,
+        "z": -1294,
+        "baseHeight": 11.897014,
+        "addedHeight": 1.124146,
+        "finalHeight": 13.02116,
+        "protection": 0,
+        "projection": {
+          "x": 584.37,
+          "y": 209.07,
+          "front": true
+        }
+      },
+      {
+        "x": -2842,
+        "z": -1292,
+        "baseHeight": 11.806952,
+        "addedHeight": 1.019095,
+        "finalHeight": 12.826046,
+        "protection": 0,
+        "projection": {
+          "x": 515.22,
+          "y": 194.85,
+          "front": true
+        }
+      },
+      {
+        "x": -2842,
+        "z": -1290,
+        "baseHeight": 11.732652,
+        "addedHeight": 0.759635,
+        "finalHeight": 12.492288,
+        "protection": 0,
+        "projection": {
+          "x": 452.36,
+          "y": 186.92,
+          "front": true
+        }
+      },
+      {
+        "x": -2842,
+        "z": -1288,
+        "baseHeight": 12.237277,
+        "addedHeight": 0.549705,
+        "finalHeight": 12.786982,
+        "protection": 0.33282,
+        "projection": {
+          "x": 398.48,
+          "y": 158.71,
+          "front": true
+        }
+      },
+      {
+        "x": -2842,
+        "z": -1286,
+        "baseHeight": 12.623342,
+        "addedHeight": 0.103576,
+        "finalHeight": 12.726918,
+        "protection": 0.874289,
+        "projection": {
+          "x": 347.56,
+          "y": 144.31,
+          "front": true
+        }
+      },
+      {
+        "x": -2840,
+        "z": -1300,
+        "baseHeight": 11.986238,
+        "addedHeight": 0.62,
+        "finalHeight": 12.606238,
+        "protection": 0,
+        "projection": {
+          "x": 789.87,
+          "y": 335.72,
+          "front": true
+        }
+      },
+      {
+        "x": -2840,
+        "z": -1298,
+        "baseHeight": 11.952471,
+        "addedHeight": 0.589011,
+        "finalHeight": 12.541482,
+        "protection": 0,
+        "projection": {
+          "x": 693.93,
+          "y": 304.7,
+          "front": true
+        }
+      },
+      {
+        "x": -2840,
+        "z": -1296,
+        "baseHeight": 11.917845,
+        "addedHeight": 0.803069,
+        "finalHeight": 12.720914,
+        "protection": 0,
+        "projection": {
+          "x": 611.88,
+          "y": 267.51,
+          "front": true
+        }
+      },
+      {
+        "x": -2840,
+        "z": -1294,
+        "baseHeight": 11.881549,
+        "addedHeight": 0.886024,
+        "finalHeight": 12.767574,
+        "protection": 0,
+        "projection": {
+          "x": 536.82,
+          "y": 239.19,
+          "front": true
+        }
+      },
+      {
+        "x": -2840,
+        "z": -1292,
+        "baseHeight": 11.847548,
+        "addedHeight": 0.801582,
+        "finalHeight": 12.649131,
+        "protection": 0.001851,
+        "projection": {
+          "x": 468.21,
+          "y": 219.9,
+          "front": true
+        }
+      },
+      {
+        "x": -2840,
+        "z": -1290,
+        "baseHeight": 12.503425,
+        "addedHeight": 0.330725,
+        "finalHeight": 12.83415,
+        "protection": 0.438508,
+        "projection": {
+          "x": 408.06,
+          "y": 191.64,
+          "front": true
+        }
+      },
+      {
+        "x": -2840,
+        "z": -1288,
+        "baseHeight": 12.773582,
+        "addedHeight": 0.022754,
+        "finalHeight": 12.796336,
+        "protection": 0.967973,
+        "projection": {
+          "x": 352.3,
+          "y": 173.63,
+          "front": true
+        }
+      },
+      {
+        "x": -2838,
+        "z": -1300,
+        "baseHeight": 12.086627,
+        "addedHeight": 0.480027,
+        "finalHeight": 12.566655,
+        "protection": 0,
+        "projection": {
+          "x": 744.49,
+          "y": 370.02,
+          "front": true
+        }
+      },
+      {
+        "x": -2838,
+        "z": -1298,
+        "baseHeight": 12.052758,
+        "addedHeight": 0.383865,
+        "finalHeight": 12.436624,
+        "protection": 0,
+        "projection": {
+          "x": 645.55,
+          "y": 337.91,
+          "front": true
+        }
+      },
+      {
+        "x": -2838,
+        "z": -1296,
+        "baseHeight": 12.017032,
+        "addedHeight": 0.476577,
+        "finalHeight": 12.493608,
+        "protection": 0,
+        "projection": {
+          "x": 560.95,
+          "y": 302.17,
+          "front": true
+        }
+      },
+      {
+        "x": -2838,
+        "z": -1294,
+        "baseHeight": 12.033654,
+        "addedHeight": 0.520046,
+        "finalHeight": 12.5537,
+        "protection": 0.026592,
+        "projection": {
+          "x": 485.62,
+          "y": 270.22,
+          "front": true
+        }
+      },
+      {
+        "x": -2838,
+        "z": -1292,
+        "baseHeight": 12.751521,
+        "addedHeight": 0.215997,
+        "finalHeight": 12.967518,
+        "protection": 0.546774,
+        "projection": {
+          "x": 420.04,
+          "y": 227.85,
+          "front": true
+        }
+      },
+      {
+        "x": -2836,
+        "z": -1300,
+        "baseHeight": 12.187352,
+        "addedHeight": 0.204597,
+        "finalHeight": 12.39195,
+        "protection": 0,
+        "projection": {
+          "x": 691.39,
+          "y": 414.65,
+          "front": true
+        }
+      },
+      {
+        "x": -2836,
+        "z": -1298,
+        "baseHeight": 12.15245,
+        "addedHeight": 0.151066,
+        "finalHeight": 12.303516,
+        "protection": 0,
+        "projection": {
+          "x": 591.63,
+          "y": 375.92,
+          "front": true
+        }
+      },
+      {
+        "x": -2836,
+        "z": -1296,
+        "baseHeight": 12.267109,
+        "addedHeight": 0.154235,
+        "finalHeight": 12.421343,
+        "protection": 0.076597,
+        "projection": {
+          "x": 506.65,
+          "y": 333.53,
+          "front": true
+        }
+      },
+      {
+        "x": -2836,
+        "z": -1294,
+        "baseHeight": 12.977488,
+        "addedHeight": 0.068939,
+        "finalHeight": 13.046427,
+        "protection": 0.65308,
+        "projection": {
+          "x": 434.42,
+          "y": 274.73,
+          "front": true
+        }
+      },
+      {
+        "x": -2834,
+        "z": -1300,
+        "baseHeight": 12.287355,
+        "addedHeight": 0.010442,
+        "finalHeight": 12.297796,
+        "protection": 0,
+        "projection": {
+          "x": 633.32,
+          "y": 460.75,
+          "front": true
+        }
+      }
+    ],
+    "centralUsefulProjection": {
+      "count": 1,
+      "bounds": {
+        "minX": 352.3,
+        "maxX": 352.3,
+        "minY": 173.63,
+        "maxY": 173.63
+      }
+    }
+  },
+  "protectedChecks": [
+    {
+      "id": "blossom-400",
+      "x": -2847,
+      "z": -1241,
+      "r": 0.9,
+      "addedHeight": 0
+    },
+    {
+      "id": "blossom-401",
+      "x": -2855.8,
+      "z": -1240.5,
+      "r": 0.9,
+      "addedHeight": 0
+    },
+    {
+      "id": "blossom-402",
+      "x": -2843.5,
+      "z": -1255,
+      "r": 0.9,
+      "addedHeight": 0
+    },
+    {
+      "id": "blossom-403",
+      "x": -2860,
+      "z": -1255,
+      "r": 0.9,
+      "addedHeight": 0
+    },
+    {
+      "id": "stone-a",
+      "x": -2853,
+      "z": -1247.75,
+      "r": 1.14,
+      "addedHeight": 0
+    },
+    {
+      "id": "stone-b",
+      "x": -2846.75,
+      "z": -1252,
+      "r": 1.14,
+      "addedHeight": 0
+    },
+    {
+      "id": "stone-c",
+      "x": -2858.25,
+      "z": -1249,
+      "r": 1.14,
+      "addedHeight": 0
+    },
+    {
+      "id": "thorn-home",
+      "x": -2868,
+      "z": -1260,
+      "r": 10,
+      "addedHeight": 0
+    }
+  ],
+  "notes": [
+    "Protection mask uses the full certified capsule centerlines with a 3m half-width plus .8m mesh margin and a 3m feather, all four blossom disks, all solid-stone disks expanded by player radius .32m, and the full 10m Thorn home plus a 3m feather.",
+    "The outer bank is intentionally not graded as a walk surface; only the protected capsule and identity masks constrain this proposal.",
+    "Rows are prospective post-mask final terrain samples. Native preview and mesh-footprint validation remain required before implementation."
+  ],
+  "conclusion": "The bounded low right-to-rear bank is not material in the fixed destination frame once certified route, resources, fitted stones, and Thorn home masks are retained. No source implementation is proposed."
+}

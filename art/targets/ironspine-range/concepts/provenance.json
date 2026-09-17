@@ -1,0 +1,30 @@
+{
+  "tool": "built-in imagegen",
+  "generatedUtc": "2026-09-14T13:53:08.5687724Z",
+  "candidateCount": 2,
+  "inputs": [
+    {
+      "role": "edit target / primary composition reference",
+      "file": "art/reviews/ironspine-range/rotation-1/baseline-arrival.png",
+      "sha256": "dec6d3ae2bfc4eda8ee3e5f7657a5e0b39ecb3c4c59fcd628e496386418516ef"
+    },
+    {
+      "role": "edit target / primary composition reference",
+      "file": "art/reviews/ironspine-range/rotation-1/baseline-destination.png",
+      "sha256": "8cff0f0472c5739e336e1a260bce82c770558eeb3acd1248e9586db5eb9954ac"
+    }
+  ],
+  "outputs": [
+    {
+      "promptFile": "gully-arrival-prompt.txt",
+      "file": "art/targets/ironspine-range/concepts/gully-arrival-direction.png",
+      "sha256": "e93b0f4183ef2abe13a6ca96bd2454dfb4d1dc9b936f75122dc237b878a7b26c"
+    },
+    {
+      "promptFile": "crown-shelf-prompt.txt",
+      "file": "art/targets/ironspine-range/concepts/crown-shelf-direction.png",
+      "sha256": "4fcd3bc3005d3c2b2c81029f47ec24f8cedcfd761ac057373e8cd87b4c41de2b"
+    }
+  ],
+  "notes": "Direction images only. They preserve the supplied portrait gameplay frame and do not prove runtime feasibility, asset admission, camera projection, or route traversal. Independent director selection is required."
+}

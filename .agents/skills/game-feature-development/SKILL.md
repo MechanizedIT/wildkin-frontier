@@ -5,6 +5,9 @@ description: Design, implement, review, and hand off one bounded Wildkin Frontie
 
 # Game feature development
 
+**Focused Rootbound override (latest September 14 owner direction):** use [ROOTBOUND_FOCUSED_GOAL.md](../../../docs/ROOTBOUND_FOCUSED_GOAL.md). Work continuously within Rootbound and its constituents; up to six substantial attempts per constituent/composition experiment, independent review each time, method change after two repeated defects. After six unsuccessful attempts, work on another Rootbound constituent and revisit with a concrete new approach. Keep useful partial gains against the retained baseline; preserve held candidates and reusable parts. Earlier three-pass/rotate-away rules below are historical for this focused run.
+
+
 Use this project-local skill for a nontrivial gameplay change whose principal risk is behavior, state, interaction, persistence, feel, or performance rather than habitat composition or 3D asset production. Examples include traversal, combat, harvesting, crafting, building interactions, care, UI behavior, save transactions, and companion abilities.
 
 Read `AGENTS.md`, `docs/SESSION_START.md`, `docs/CURRENT_SLICE.md`, `docs/ALPHA_WORKFLOW.md`, and the relevant owners in `docs/CODE_MAP.md`. Use the habitat or species skill when those are the real center of the task.
@@ -62,9 +65,9 @@ Use one reviewer specialized in the principal risk:
 
 The reviewer returns one consolidated repair packet. Do not duplicate the same investigation across several agents.
 
-### 4. One repair cycle
+### 4. Up to two focused repair cycles
 
-Fix consequential findings and rerun only invalidated proof. A second repair cycle needs a materially different method or a release-blocking bug. Otherwise record HOLD/debt and checkpoint.
+Fix consequential findings and rerun only invalidated proof. The [project loop policy](../../../docs/PRODUCTION_LOOP_POLICY.md) permits three substantial passes total: one implementation and up to two focused repairs. Stop early on PASS; when a gap repeats, change the method before using a remaining pass. At the cap, record HOLD/debt and checkpoint rather than growing scope.
 
 ### 5. Play and checkpoint
 

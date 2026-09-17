@@ -1,0 +1,381 @@
+{
+  "schema": "skydancer-construction-plan-proof/v1",
+  "plan_path": "docs/species/skydancer/construction-plan-v1.json",
+  "plan_sha256": "089ba6a209a48ba69dd8f8b74f37ffaf26e779409115ca7e1a17001ad477f35b",
+  "source_sha256": "b1b34688b902baf7bb502ec9c6e190126bad14ac9dddec081a85dfb0b301ac70",
+  "target_sha256": "95296b034a5b1363195811af35ddab455b99125f94b223dba44eab57b95a19a2",
+  "changed_components": [
+    {
+      "name": "right_folded_wing",
+      "vertex_count": 30
+    },
+    {
+      "name": "left_folded_wing",
+      "vertex_count": 30
+    },
+    {
+      "name": "right_upper_cover_plate",
+      "vertex_count": 8
+    },
+    {
+      "name": "right_lower_cover_plate",
+      "vertex_count": 8
+    },
+    {
+      "name": "left_upper_cover_plate",
+      "vertex_count": 8
+    },
+    {
+      "name": "left_lower_cover_plate",
+      "vertex_count": 8
+    },
+    {
+      "name": "right_bent_leg",
+      "vertex_count": 32
+    },
+    {
+      "name": "left_bent_leg",
+      "vertex_count": 32
+    },
+    {
+      "name": "right_taloned_foot",
+      "vertex_count": 8
+    },
+    {
+      "name": "left_taloned_foot",
+      "vertex_count": 8
+    },
+    {
+      "name": "right_toe_1",
+      "vertex_count": 8
+    },
+    {
+      "name": "right_toe_2",
+      "vertex_count": 8
+    },
+    {
+      "name": "right_toe_3",
+      "vertex_count": 8
+    },
+    {
+      "name": "left_toe_1",
+      "vertex_count": 8
+    },
+    {
+      "name": "left_toe_2",
+      "vertex_count": 8
+    },
+    {
+      "name": "left_toe_3",
+      "vertex_count": 8
+    }
+  ],
+  "changed_geometry_bounds_m": {
+    "min": [
+      -0.86,
+      0.035,
+      -0.65
+    ],
+    "max": [
+      0.86,
+      1.518564,
+      0.54
+    ]
+  },
+  "authoring_envelope_m": {
+    "min": [
+      -1.133993,
+      0.015873,
+      -1.670907
+    ],
+    "max": [
+      1.133993,
+      2.147128,
+      1.132
+    ]
+  },
+  "inside_authoring_envelope": true,
+  "wing_root_full_face_checks": {
+    "right": {
+      "face_vertex_count": 12,
+      "all_vertices_inside_host_inner_interval": true,
+      "vertices": [
+        [
+          0.1,
+          1.36,
+          0.19
+        ],
+        [
+          0.1,
+          1.463923,
+          0.145
+        ],
+        [
+          0.1,
+          1.463923,
+          0.055
+        ],
+        [
+          0.1,
+          1.36,
+          0.01
+        ],
+        [
+          0.1,
+          1.256077,
+          0.055
+        ],
+        [
+          0.1,
+          1.256077,
+          0.145
+        ],
+        [
+          0.18,
+          1.37,
+          0.19
+        ],
+        [
+          0.18,
+          1.473923,
+          0.135
+        ],
+        [
+          0.18,
+          1.473923,
+          0.025
+        ],
+        [
+          0.18,
+          1.37,
+          -0.03
+        ],
+        [
+          0.18,
+          1.266077,
+          0.025
+        ],
+        [
+          0.18,
+          1.266077,
+          0.135
+        ]
+      ]
+    },
+    "left": {
+      "face_vertex_count": 12,
+      "all_vertices_inside_host_inner_interval": true,
+      "vertices": [
+        [
+          -0.1,
+          1.36,
+          0.19
+        ],
+        [
+          -0.1,
+          1.463923,
+          0.145
+        ],
+        [
+          -0.1,
+          1.463923,
+          0.055
+        ],
+        [
+          -0.1,
+          1.36,
+          0.01
+        ],
+        [
+          -0.1,
+          1.256077,
+          0.055
+        ],
+        [
+          -0.1,
+          1.256077,
+          0.145
+        ],
+        [
+          -0.18,
+          1.37,
+          0.19
+        ],
+        [
+          -0.18,
+          1.473923,
+          0.135
+        ],
+        [
+          -0.18,
+          1.473923,
+          0.025
+        ],
+        [
+          -0.18,
+          1.37,
+          -0.03
+        ],
+        [
+          -0.18,
+          1.266077,
+          0.025
+        ],
+        [
+          -0.18,
+          1.266077,
+          0.135
+        ]
+      ]
+    }
+  },
+  "leg_root_full_face_checks": {
+    "right": {
+      "face_vertex_count": 8,
+      "all_vertices_inside_host_inner_interval": true,
+      "vertices": [
+        [
+          0.23,
+          0.62,
+          0.02
+        ],
+        [
+          0.209497,
+          0.62,
+          0.076569
+        ],
+        [
+          0.16,
+          0.62,
+          0.1
+        ],
+        [
+          0.110503,
+          0.62,
+          0.076569
+        ],
+        [
+          0.09,
+          0.62,
+          0.02
+        ],
+        [
+          0.110503,
+          0.62,
+          -0.036569
+        ],
+        [
+          0.16,
+          0.62,
+          -0.06
+        ],
+        [
+          0.209497,
+          0.62,
+          -0.036569
+        ]
+      ]
+    },
+    "left": {
+      "face_vertex_count": 8,
+      "all_vertices_inside_host_inner_interval": true,
+      "vertices": [
+        [
+          -0.23,
+          0.62,
+          0.02
+        ],
+        [
+          -0.209497,
+          0.62,
+          0.076569
+        ],
+        [
+          -0.16,
+          0.62,
+          0.1
+        ],
+        [
+          -0.110503,
+          0.62,
+          0.076569
+        ],
+        [
+          -0.09,
+          0.62,
+          0.02
+        ],
+        [
+          -0.110503,
+          0.62,
+          -0.036569
+        ],
+        [
+          -0.16,
+          0.62,
+          -0.06
+        ],
+        [
+          -0.209497,
+          0.62,
+          -0.036569
+        ]
+      ]
+    }
+  },
+  "right_leg_measurements": {
+    "segment_lengths_m": [
+      0.229129,
+      0.245357,
+      0.114018
+    ],
+    "joint_angles_degrees": [
+      20.9554,
+      19.9274
+    ],
+    "taper_full_widths_m": [
+      0.14,
+      0.12,
+      0.09,
+      0.1
+    ],
+    "taper_full_depths_m": [
+      0.16,
+      0.14,
+      0.1,
+      0.14
+    ]
+  },
+  "attachment_predicate": "Every vertex of every declared root face is inside the corresponding conservative host-shell interval. This is a complete-face predicate, not a root-center predicate.",
+  "non_claims": [
+    "No source edit, bake, runtime capture, collision change, or visual admission occurred.",
+    "The target is direction only; this proof is plan data awaiting independent technical review."
+  ],
+  "right_wing_measurements": {
+    "segment_lengths_m": [
+      0.083066,
+      0.297489,
+      0.417253,
+      0.311448
+    ],
+    "fold_angles_degrees": [
+      7.4987,
+      18.5202,
+      52.283
+    ],
+    "full_vertical_thicknesses_m": [
+      0.24,
+      0.24,
+      0.32,
+      0.28,
+      0.22
+    ],
+    "full_chord_depths_m": [
+      0.18,
+      0.22,
+      0.4,
+      0.46,
+      0.36
+    ]
+  }
+}

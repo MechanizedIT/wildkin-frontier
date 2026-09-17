@@ -1,0 +1,1055 @@
+{
+  "schema": "rootbound-buttress-structural-r2-analysis-v1",
+  "source": {
+    "path": "art/source/rootbound-buttress-trellis/geometry-ply-v1/raw-geometry.ply",
+    "sha256": "3005ad1a1f3039a946db633b323ace8bc73856e91f38bfef4fc1faaf59ce223c",
+    "vertex_count": 514489,
+    "face_count": 1029792,
+    "position_dtype": "float32",
+    "axis": "Z-up"
+  },
+  "transform": {
+    "uniform_scale": 4.998019228586503,
+    "ground_translation_z_m": 1.9582843403471133,
+    "formula": "metersXYZ = rawXYZ * uniform_scale; metersZ -= rawMinZ * uniform_scale"
+  },
+  "raw_bounds": {
+    "min": [
+      -0.5001664757728577,
+      -0.5001689791679382,
+      -0.3918120861053467
+    ],
+    "max": [
+      0.5002298355102539,
+      0.49972379207611084,
+      0.391978919506073
+    ],
+    "extent": [
+      1.0003963112831116,
+      0.9998927712440491,
+      0.7837910056114197
+    ]
+  },
+  "scaled_grounded_bounds_m": {
+    "min": [
+      -2.499841663407088,
+      -2.4998541754238373,
+      0.0
+    ],
+    "max": [
+      2.5001583365929125,
+      2.4976291217785653,
+      3.917402517239027
+    ],
+    "extent": [
+      5.0,
+      4.997483297202402,
+      3.917402517239027
+    ]
+  },
+  "horizontal_bands": {
+    "0.15m": {
+      "z_range_m": [
+        0.075,
+        0.22499999999999998
+      ],
+      "vertex_count": 59241,
+      "xy_bounds_m": {
+        "min": [
+          -2.462051797961912,
+          -2.4552482399018345
+        ],
+        "max": [
+          2.4744911258521207,
+          2.4538748971110054
+        ],
+        "extent": [
+          4.936542923814033,
+          4.909123137012839
+        ]
+      },
+      "xy_centroid_m": [
+        0.09604588494720631,
+        -0.05489790064795764
+      ],
+      "xy_bbox_density_vertices_per_m2": 2444.530934834777
+    },
+    "0.50m": {
+      "z_range_m": [
+        0.425,
+        0.575
+      ],
+      "vertex_count": 53274,
+      "xy_bounds_m": {
+        "min": [
+          -1.9958811632481555,
+          -2.2271172343199854
+        ],
+        "max": [
+          2.2944458859744166,
+          2.087343111970932
+        ],
+        "extent": [
+          4.290327049222572,
+          4.314460346290917
+        ]
+      },
+      "xy_centroid_m": [
+        0.21788638663134982,
+        -0.05724774528999937
+      ],
+      "xy_bbox_density_vertices_per_m2": 2878.0505997297523
+    },
+    "1.00m": {
+      "z_range_m": [
+        0.925,
+        1.075
+      ],
+      "vertex_count": 23467,
+      "xy_bounds_m": {
+        "min": [
+          -1.3107976023401047,
+          -1.495886972398789
+        ],
+        "max": [
+          0.9573194255316043,
+          1.2741493094707328
+        ],
+        "extent": [
+          2.268117027871709,
+          2.7700362818695217
+        ]
+      },
+      "xy_centroid_m": [
+        -0.12307402247712747,
+        -0.2270542654560747
+      ],
+      "xy_bbox_density_vertices_per_m2": 3735.1380405664504
+    },
+    "1.50m": {
+      "z_range_m": [
+        1.425,
+        1.575
+      ],
+      "vertex_count": 13707,
+      "xy_bounds_m": {
+        "min": [
+          -1.0917625350299232,
+          -1.1505086879571542
+        ],
+        "max": [
+          0.5051369276385386,
+          0.48814829003927285
+        ],
+        "extent": [
+          1.5968994626684618,
+          1.638656977996427
+        ]
+      },
+      "xy_centroid_m": [
+        -0.24095306977335498,
+        -0.320092902333563
+      ],
+      "xy_bbox_density_vertices_per_m2": 5238.136196568194
+    },
+    "2.00m": {
+      "z_range_m": [
+        1.925,
+        2.075
+      ],
+      "vertex_count": 9289,
+      "xy_bounds_m": {
+        "min": [
+          -1.1666900025709217,
+          -0.9890932452090148
+        ],
+        "max": [
+          0.020123195700156072,
+          0.33312142346235507
+        ],
+        "extent": [
+          1.1868131982710777,
+          1.3222146686713698
+        ]
+      },
+      "xy_centroid_m": [
+        -0.5460121368447561,
+        -0.3580555096468795
+      ],
+      "xy_bbox_density_vertices_per_m2": 5919.494543873469
+    },
+    "2.50m": {
+      "z_range_m": [
+        2.425,
+        2.575
+      ],
+      "vertex_count": 8226,
+      "xy_bounds_m": {
+        "min": [
+          -1.0292358166608229,
+          -0.8731756660340154
+        ],
+        "max": [
+          0.10105777185409917,
+          0.11934229690241194
+        ],
+        "extent": [
+          1.1302935885149221,
+          0.9925179629364274
+        ]
+      },
+      "xy_centroid_m": [
+        -0.48695685530652927,
+        -0.3735717235572905
+      ],
+      "xy_bbox_density_vertices_per_m2": 7332.618083699693
+    },
+    "3.00m": {
+      "z_range_m": [
+        2.925,
+        3.075
+      ],
+      "vertex_count": 8450,
+      "xy_bounds_m": {
+        "min": [
+          -0.8784938689628402,
+          -0.9283383177831805
+        ],
+        "max": [
+          0.41044062258603725,
+          -0.05409153374386651
+        ],
+        "extent": [
+          1.2889344915488774,
+          0.874246784039314
+        ]
+      },
+      "xy_centroid_m": [
+        -0.24833386434781224,
+        -0.5012235552299074
+      ],
+      "xy_bbox_density_vertices_per_m2": 7498.800852508258
+    },
+    "3.40m": {
+      "z_range_m": [
+        3.3249999999999997,
+        3.475
+      ],
+      "vertex_count": 10281,
+      "xy_bounds_m": {
+        "min": [
+          -1.071747776808262,
+          -0.9557353148395796
+        ],
+        "max": [
+          0.634358951290421,
+          -0.1588673109560879
+        ],
+        "extent": [
+          1.7061067280986828,
+          0.7968680038834918
+        ]
+      },
+      "xy_centroid_m": [
+        -0.2749118146951593,
+        -0.5736199528225248
+      ],
+      "xy_bbox_density_vertices_per_m2": 7562.106236716138
+    },
+    "3.70m": {
+      "z_range_m": [
+        3.625,
+        3.7750000000000004
+      ],
+      "vertex_count": 5190,
+      "xy_bounds_m": {
+        "min": [
+          0.06001984644180587,
+          -0.8266004284472022
+        ],
+        "max": [
+          0.7223985655270703,
+          -0.2476265151084092
+        ],
+        "extent": [
+          0.6623787190852644,
+          0.578973913338793
+        ]
+      },
+      "xy_centroid_m": [
+        0.43096257490536133,
+        -0.5593587335584868
+      ],
+      "xy_bbox_density_vertices_per_m2": 13533.24644632228
+    }
+  },
+  "collar_center_definition": {
+    "z_range_m": [
+      1.425,
+      1.575
+    ],
+    "vertex_count": 13707,
+    "xy_center_m": [
+      -0.24095306977335498,
+      -0.320092902333563
+    ]
+  },
+  "low_band_radial_lobes": {
+    "z_range_m": [
+      0.0,
+      0.35
+    ],
+    "collar_center_xy_m": [
+      -0.24095306977335498,
+      -0.320092902333563
+    ],
+    "global_p99_radius_m": 3.1621082292641414,
+    "selection_rule": {
+      "p95_radius_at_least_fraction_of_global_p99": 0.65,
+      "minimum_bin_vertices": 680.5,
+      "bin_degrees": 10
+    },
+    "bins": [
+      {
+        "bin": 0,
+        "angle_range_deg": [
+          0,
+          10
+        ],
+        "vertex_count": 741,
+        "max_radius_m": 0.989298635788574,
+        "p95_radius_m": 0.985210139450693
+      },
+      {
+        "bin": 1,
+        "angle_range_deg": [
+          10,
+          20
+        ],
+        "vertex_count": 1534,
+        "max_radius_m": 1.8401745459429109,
+        "p95_radius_m": 1.759553323414372
+      },
+      {
+        "bin": 2,
+        "angle_range_deg": [
+          20,
+          30
+        ],
+        "vertex_count": 9597,
+        "max_radius_m": 3.1544070553417063,
+        "p95_radius_m": 3.0001534445272937
+      },
+      {
+        "bin": 3,
+        "angle_range_deg": [
+          30,
+          40
+        ],
+        "vertex_count": 5648,
+        "max_radius_m": 3.286981530459967,
+        "p95_radius_m": 3.229896453860668
+      },
+      {
+        "bin": 4,
+        "angle_range_deg": [
+          40,
+          50
+        ],
+        "vertex_count": 10338,
+        "max_radius_m": 3.152328739322405,
+        "p95_radius_m": 2.978400636394799
+      },
+      {
+        "bin": 5,
+        "angle_range_deg": [
+          50,
+          60
+        ],
+        "vertex_count": 3053,
+        "max_radius_m": 1.4724603584039222,
+        "p95_radius_m": 1.3319120637411987
+      },
+      {
+        "bin": 6,
+        "angle_range_deg": [
+          60,
+          70
+        ],
+        "vertex_count": 1671,
+        "max_radius_m": 1.0979820681660413,
+        "p95_radius_m": 1.0133162393803032
+      },
+      {
+        "bin": 7,
+        "angle_range_deg": [
+          70,
+          80
+        ],
+        "vertex_count": 1487,
+        "max_radius_m": 1.0834250461492687,
+        "p95_radius_m": 1.0625865225886402
+      },
+      {
+        "bin": 8,
+        "angle_range_deg": [
+          80,
+          90
+        ],
+        "vertex_count": 2059,
+        "max_radius_m": 1.9634138068461573,
+        "p95_radius_m": 1.8962800399474555
+      },
+      {
+        "bin": 9,
+        "angle_range_deg": [
+          90,
+          100
+        ],
+        "vertex_count": 6876,
+        "max_radius_m": 2.6778601508584163,
+        "p95_radius_m": 2.5519227494224728
+      },
+      {
+        "bin": 10,
+        "angle_range_deg": [
+          100,
+          110
+        ],
+        "vertex_count": 4184,
+        "max_radius_m": 2.9802166834207973,
+        "p95_radius_m": 2.912446482780064
+      },
+      {
+        "bin": 11,
+        "angle_range_deg": [
+          110,
+          120
+        ],
+        "vertex_count": 11632,
+        "max_radius_m": 2.97307319075706,
+        "p95_radius_m": 2.834445247108221
+      },
+      {
+        "bin": 12,
+        "angle_range_deg": [
+          120,
+          130
+        ],
+        "vertex_count": 2734,
+        "max_radius_m": 1.5805912821692465,
+        "p95_radius_m": 1.074772372438525
+      },
+      {
+        "bin": 13,
+        "angle_range_deg": [
+          130,
+          140
+        ],
+        "vertex_count": 646,
+        "max_radius_m": 0.6441141064324493,
+        "p95_radius_m": 0.6216961498818072
+      },
+      {
+        "bin": 14,
+        "angle_range_deg": [
+          140,
+          150
+        ],
+        "vertex_count": 460,
+        "max_radius_m": 0.5204697995554861,
+        "p95_radius_m": 0.4997260389098769
+      },
+      {
+        "bin": 15,
+        "angle_range_deg": [
+          150,
+          160
+        ],
+        "vertex_count": 388,
+        "max_radius_m": 0.45616393919055387,
+        "p95_radius_m": 0.4527394853481168
+      },
+      {
+        "bin": 16,
+        "angle_range_deg": [
+          160,
+          170
+        ],
+        "vertex_count": 7004,
+        "max_radius_m": 2.2422719800074282,
+        "p95_radius_m": 2.1224482302511514
+      },
+      {
+        "bin": 17,
+        "angle_range_deg": [
+          170,
+          180
+        ],
+        "vertex_count": 7306,
+        "max_radius_m": 2.273110156999377,
+        "p95_radius_m": 2.2218688471198393
+      },
+      {
+        "bin": 18,
+        "angle_range_deg": [
+          180,
+          190
+        ],
+        "vertex_count": 2916,
+        "max_radius_m": 2.1042377175381324,
+        "p95_radius_m": 2.0592044232071047
+      },
+      {
+        "bin": 19,
+        "angle_range_deg": [
+          190,
+          200
+        ],
+        "vertex_count": 2009,
+        "max_radius_m": 1.8790073509061531,
+        "p95_radius_m": 1.858740134644441
+      },
+      {
+        "bin": 20,
+        "angle_range_deg": [
+          200,
+          210
+        ],
+        "vertex_count": 2710,
+        "max_radius_m": 1.8446147878685801,
+        "p95_radius_m": 1.8142886069223925
+      },
+      {
+        "bin": 21,
+        "angle_range_deg": [
+          210,
+          220
+        ],
+        "vertex_count": 2837,
+        "max_radius_m": 1.8027882990459358,
+        "p95_radius_m": 1.7092926762919038
+      },
+      {
+        "bin": 22,
+        "angle_range_deg": [
+          220,
+          230
+        ],
+        "vertex_count": 1948,
+        "max_radius_m": 1.2944243298204525,
+        "p95_radius_m": 1.2276432537578972
+      },
+      {
+        "bin": 23,
+        "angle_range_deg": [
+          230,
+          240
+        ],
+        "vertex_count": 781,
+        "max_radius_m": 0.8695083683466389,
+        "p95_radius_m": 0.8500170563270492
+      },
+      {
+        "bin": 24,
+        "angle_range_deg": [
+          240,
+          250
+        ],
+        "vertex_count": 968,
+        "max_radius_m": 0.8631073001941697,
+        "p95_radius_m": 0.8489575086709427
+      },
+      {
+        "bin": 25,
+        "angle_range_deg": [
+          250,
+          260
+        ],
+        "vertex_count": 4516,
+        "max_radius_m": 1.9170668865966818,
+        "p95_radius_m": 1.813602376424423
+      },
+      {
+        "bin": 26,
+        "angle_range_deg": [
+          260,
+          270
+        ],
+        "vertex_count": 3297,
+        "max_radius_m": 2.1798198956913537,
+        "p95_radius_m": 2.129679555829292
+      },
+      {
+        "bin": 27,
+        "angle_range_deg": [
+          270,
+          280
+        ],
+        "vertex_count": 4892,
+        "max_radius_m": 2.176873881189208,
+        "p95_radius_m": 2.1154648407462266
+      },
+      {
+        "bin": 28,
+        "angle_range_deg": [
+          280,
+          290
+        ],
+        "vertex_count": 2327,
+        "max_radius_m": 1.64120486230827,
+        "p95_radius_m": 1.5469237098109883
+      },
+      {
+        "bin": 29,
+        "angle_range_deg": [
+          290,
+          300
+        ],
+        "vertex_count": 1353,
+        "max_radius_m": 1.2520458904378906,
+        "p95_radius_m": 1.2376122356663284
+      },
+      {
+        "bin": 30,
+        "angle_range_deg": [
+          300,
+          310
+        ],
+        "vertex_count": 1212,
+        "max_radius_m": 1.4462761731396891,
+        "p95_radius_m": 1.419468889740181
+      },
+      {
+        "bin": 31,
+        "angle_range_deg": [
+          310,
+          320
+        ],
+        "vertex_count": 3921,
+        "max_radius_m": 2.091977604707137,
+        "p95_radius_m": 2.018526368920144
+      },
+      {
+        "bin": 32,
+        "angle_range_deg": [
+          320,
+          330
+        ],
+        "vertex_count": 5077,
+        "max_radius_m": 2.800593509257113,
+        "p95_radius_m": 2.678507929414878
+      },
+      {
+        "bin": 33,
+        "angle_range_deg": [
+          330,
+          340
+        ],
+        "vertex_count": 13782,
+        "max_radius_m": 2.909252622212938,
+        "p95_radius_m": 2.823362437060828
+      },
+      {
+        "bin": 34,
+        "angle_range_deg": [
+          340,
+          350
+        ],
+        "vertex_count": 1569,
+        "max_radius_m": 2.6800964849826068,
+        "p95_radius_m": 2.615442272771728
+      },
+      {
+        "bin": 35,
+        "angle_range_deg": [
+          350,
+          360
+        ],
+        "vertex_count": 866,
+        "max_radius_m": 0.9529928756042092,
+        "p95_radius_m": 0.9403043582267979
+      }
+    ],
+    "selected_lobes": [
+      {
+        "angular_range_deg_unwrapped": [
+          20,
+          50
+        ],
+        "angular_bins": [
+          2,
+          3,
+          4
+        ],
+        "peak_bin_deg": [
+          30,
+          40
+        ],
+        "max_radius_m": 3.286981530459967,
+        "max_p95_radius_m": 3.229896453860668,
+        "vertex_count": 25583
+      },
+      {
+        "angular_range_deg_unwrapped": [
+          90,
+          120
+        ],
+        "angular_bins": [
+          9,
+          10,
+          11
+        ],
+        "peak_bin_deg": [
+          100,
+          110
+        ],
+        "max_radius_m": 2.9802166834207973,
+        "max_p95_radius_m": 2.912446482780064,
+        "vertex_count": 22692
+      },
+      {
+        "angular_range_deg_unwrapped": [
+          160,
+          190
+        ],
+        "angular_bins": [
+          16,
+          17,
+          18
+        ],
+        "peak_bin_deg": [
+          170,
+          180
+        ],
+        "max_radius_m": 2.273110156999377,
+        "max_p95_radius_m": 2.2218688471198393,
+        "vertex_count": 17226
+      },
+      {
+        "angular_range_deg_unwrapped": [
+          260,
+          280
+        ],
+        "angular_bins": [
+          26,
+          27
+        ],
+        "peak_bin_deg": [
+          260,
+          270
+        ],
+        "max_radius_m": 2.1798198956913537,
+        "max_p95_radius_m": 2.129679555829292,
+        "vertex_count": 8189
+      },
+      {
+        "angular_range_deg_unwrapped": [
+          320,
+          350
+        ],
+        "angular_bins": [
+          32,
+          33,
+          34
+        ],
+        "peak_bin_deg": [
+          330,
+          340
+        ],
+        "max_radius_m": 2.909252622212938,
+        "max_p95_radius_m": 2.823362437060828,
+        "vertex_count": 20428
+      }
+    ]
+  },
+  "upper_vertex_clusters": {
+    "z_min_m": 3.0,
+    "vertex_count": 54601,
+    "method": "deterministic k=2 XY Lloyd clustering; descriptive only",
+    "centroid_separation_m": 0.98941995454364,
+    "separable": true,
+    "clusters": [
+      {
+        "cluster": 0,
+        "vertex_count": 21610,
+        "xy_centroid_m": [
+          -0.6894938858938074,
+          -0.6748156875142151
+        ],
+        "xyz_bounds_m": {
+          "min": [
+            -1.071747776808262,
+            -0.9616097067034322,
+            3.0000223428870525
+          ],
+          "max": [
+            -0.16474244758284223,
+            -0.14579970108196175,
+            3.6120976902519177
+          ],
+          "extent": [
+            0.9070053292254197,
+            0.8158100056214704,
+            0.6120753473648652
+          ]
+        },
+        "p90_xy_radius_m": 0.4252943911625749
+      },
+      {
+        "cluster": 1,
+        "vertex_count": 32991,
+        "xy_centroid_m": [
+          0.2846465235012262,
+          -0.5016039407046678
+        ],
+        "xyz_bounds_m": {
+          "min": [
+            -0.28193863570756794,
+            -0.8345072782699336,
+            3.000083711350157
+          ],
+          "max": [
+            0.7223985655270703,
+            -0.07088176650610573,
+            3.917402517239027
+          ],
+          "extent": [
+            1.0043372012346383,
+            0.763625511763828,
+            0.9173188058888702
+          ]
+        },
+        "p90_xy_radius_m": 0.4425528691601029
+      }
+    ],
+    "criterion": "each cluster >=10% of upper points and centroid separation > 2\u00d7max cluster p90 XY radius"
+  },
+  "r2_proposed_deformation": {
+    "parameters_path": "art/source/rootbound-buttress-trellis/geometry-ply-v1/structural-r2-plan/parameters.json",
+    "parameters_sha256": "3d06b2c1aaaaa2b5c9b33a3625b0051965c300b9b06ab3758a0888966441bb54",
+    "position_edit_only": true,
+    "face_count_preserved_by_contract": 1029792,
+    "vertex_count_preserved": 514489,
+    "source_grounded_bounds_m": {
+      "min": [
+        -2.499841663407088,
+        -2.4998541754238373,
+        0.0
+      ],
+      "max": [
+        2.5001583365929125,
+        2.4976291217785653,
+        3.917402517239027
+      ],
+      "extent": [
+        5.0,
+        4.997483297202402,
+        3.917402517239027
+      ]
+    },
+    "proposed_grounded_bounds_m": {
+      "min": [
+        -2.499841663407088,
+        -2.4998541754238373,
+        0.0
+      ],
+      "max": [
+        2.5001583365929125,
+        2.4976291217785653,
+        3.917402517239027
+      ],
+      "extent": [
+        5.0,
+        4.997483297202402,
+        3.917402517239027
+      ]
+    },
+    "z_values_bitwise_unchanged": true,
+    "finite_coordinates": true,
+    "details": {
+      "webs": [
+        {
+          "name": "near_existing_web_260_280",
+          "selected_vertex_count": 26329,
+          "max_weight": 0.9999997448039016,
+          "max_lateral_offset_m": 0.0891123650843254,
+          "source_bearing_deg": 270.0,
+          "selection_bounds_m": {
+            "min": [
+              -0.6151130862885278,
+              -2.4990951130743726,
+              0.00351021650853367
+            ],
+            "max": [
+              0.13583104964202228,
+              -1.1461340996248481,
+              0.7399950786067453
+            ],
+            "extent": [
+              0.7509441359305501,
+              1.3529610134495245,
+              0.7364848620982116
+            ]
+          }
+        },
+        {
+          "name": "near_existing_web_320_350",
+          "selected_vertex_count": 50761,
+          "max_weight": 0.9999999999999938,
+          "max_lateral_offset_m": 0.14318484804623222,
+          "source_bearing_deg": 335.0,
+          "selection_bounds_m": {
+            "min": [
+              0.36619455649816063,
+              -1.830952822845036,
+              0.004194206757502039
+            ],
+            "max": [
+              2.404570997204756,
+              -0.36055059427610986,
+              0.8799738618012003
+            ],
+            "extent": [
+              2.0383764407065956,
+              1.4704022285689262,
+              0.8757796550436983
+            ]
+          }
+        }
+      ],
+      "trunk_s_bend": {
+        "selected_vertex_count": 17298,
+        "max_weight": 1.0,
+        "max_xy_offset_m": 0.06518690645529561,
+        "selection_bounds_m": {
+          "min": [
+            -0.7840294830779443,
+            -0.8979890805842398,
+            1.4136234413229611
+          ],
+          "max": [
+            0.1317905619474418,
+            -0.0031454316392559166,
+            3.199998927541422
+          ],
+          "extent": [
+            0.915820045025386,
+            0.8948436489449838,
+            1.7863754862184607
+          ]
+        }
+      },
+      "max_total_xy_displacement_m": 0.14318484804623222,
+      "mean_total_xy_displacement_m": 0.007176613503371037,
+      "moved_vertex_count": 94244
+    },
+    "fixed_camera_selected_point_proxy": {
+      "camera_position_xyz_m": [
+        5.463074055731536,
+        -5.463074055731536,
+        3.5759681411779836
+      ],
+      "camera_target_xyz_m": [
+        0.0,
+        0.0,
+        1.5
+      ],
+      "camera_forward_xyz": [
+        -0.682884256966442,
+        0.682884256966442,
+        -0.25949601764724795
+      ],
+      "projection": "orthographic frame fit to complete proposed point cloud with 5% margin",
+      "complete_point_frame_bounds": {
+        "min": [
+          -2.402597894561453,
+          -2.391633042991059
+        ],
+        "max": [
+          3.0997938734999324,
+          2.412220105070176
+        ]
+      },
+      "near_definition": "selected point depth <= median depth of all source vertices with Z <= 0.95m",
+      "webs": [
+        {
+          "name": "near_existing_web_260_280",
+          "source_lobe_angular_range_deg": [
+            260,
+            280
+          ],
+          "selected_vertex_count": 26329,
+          "projected_screen_bounds_normalized": {
+            "min": [
+              0.07410811209827319,
+              0.10625391565719364
+            ],
+            "max": [
+              0.26953531579038054,
+              0.3186229542630047
+            ],
+            "extent": [
+              0.19542720369210737,
+              0.21236903860581105
+            ]
+          },
+          "depth_m": {
+            "min": 6.742097941502481,
+            "median": 7.14869167902949,
+            "max": 7.8549511247084896,
+            "fraction_at_or_nearer_than_low_surface_median": 1.0
+          },
+          "non_background_proxy": true
+        },
+        {
+          "name": "near_existing_web_320_350",
+          "source_lobe_angular_range_deg": [
+            320,
+            350
+          ],
+          "selected_vertex_count": 50761,
+          "projected_screen_bounds_normalized": {
+            "min": [
+              0.3550602560551498,
+              0.045489113326704265
+            ],
+            "max": [
+              0.5876453585605564,
+              0.3390640542322628
+            ],
+            "extent": [
+              0.23258510250540665,
+              0.2935749409055586
+            ]
+          },
+          "depth_m": {
+            "min": 5.662278496253102,
+            "median": 6.545692004885139,
+            "max": 7.67865170712736,
+            "fraction_at_or_nearer_than_low_surface_median": 1.0
+          },
+          "non_background_proxy": true
+        }
+      ],
+      "limit": "point projection/depth proxy only; no triangles, z-buffer, HUD layout, or mesh occlusion were rasterized"
+    },
+    "triangle_normal_audit": {
+      "face_index_encoding": "packed uchar count + three uint32 indices",
+      "face_count": 1029792,
+      "index_min": 0,
+      "index_max": 514488,
+      "raw_degenerate_triangle_count_area_lte_1e-12": 0,
+      "proposed_degenerate_triangle_count_area_lte_1e-12": 0,
+      "raw_min_triangle_area_m2": 1.929251298343464e-08,
+      "proposed_min_triangle_area_m2": 1.929251298343464e-08,
+      "raw_to_proposed_nonpositive_normal_dot_count": 0,
+      "limit": "This compares indexed triangle area vectors only; it is not a global self-intersection test."
+    }
+  },
+  "interpretation_limits": [
+    "Target-to-source anatomical correspondence is unknown; this receipt reports point distributions only.",
+    "Selected radial lobes are thresholded data ranges, not a declared four-buttress anatomy.",
+    "Upper k=2 clusters are reported only when the stated numeric separability criterion passes."
+  ]
+}

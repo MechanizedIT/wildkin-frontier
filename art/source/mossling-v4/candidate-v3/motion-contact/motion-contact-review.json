@@ -1,0 +1,109 @@
+{
+  "blend": "C:\\Users\\cwood\\Documents\\mobile-rpg\\art\\source\\mossling-v4\\candidate-v3\\mossling-v4-eyes.blend",
+  "clips": [
+    "Attack",
+    "Hurt",
+    "Idle",
+    "Run",
+    "Walk"
+  ],
+  "phases": [
+    0,
+    0.5,
+    1
+  ],
+  "view": "three-quarter face/eye attachment review",
+  "captures": [
+    {
+      "clip": "Attack",
+      "phase": 0,
+      "frame": 0,
+      "file": "attack-three-quarter-000.png"
+    },
+    {
+      "clip": "Attack",
+      "phase": 0.5,
+      "frame": 8,
+      "file": "attack-three-quarter-050.png"
+    },
+    {
+      "clip": "Attack",
+      "phase": 1,
+      "frame": 17,
+      "file": "attack-three-quarter-100.png"
+    },
+    {
+      "clip": "Hurt",
+      "phase": 0,
+      "frame": 0,
+      "file": "hurt-three-quarter-000.png"
+    },
+    {
+      "clip": "Hurt",
+      "phase": 0.5,
+      "frame": 5,
+      "file": "hurt-three-quarter-050.png"
+    },
+    {
+      "clip": "Hurt",
+      "phase": 1,
+      "frame": 11,
+      "file": "hurt-three-quarter-100.png"
+    },
+    {
+      "clip": "Idle",
+      "phase": 0,
+      "frame": 0,
+      "file": "idle-three-quarter-000.png"
+    },
+    {
+      "clip": "Idle",
+      "phase": 0.5,
+      "frame": 29,
+      "file": "idle-three-quarter-050.png"
+    },
+    {
+      "clip": "Idle",
+      "phase": 1,
+      "frame": 58,
+      "file": "idle-three-quarter-100.png"
+    },
+    {
+      "clip": "Run",
+      "phase": 0,
+      "frame": 0,
+      "file": "run-three-quarter-000.png"
+    },
+    {
+      "clip": "Run",
+      "phase": 0.5,
+      "frame": 6,
+      "file": "run-three-quarter-050.png"
+    },
+    {
+      "clip": "Run",
+      "phase": 1,
+      "frame": 12,
+      "file": "run-three-quarter-100.png"
+    },
+    {
+      "clip": "Walk",
+      "phase": 0,
+      "frame": 0,
+      "file": "walk-three-quarter-000.png"
+    },
+    {
+      "clip": "Walk",
+      "phase": 0.5,
+      "frame": 9,
+      "file": "walk-three-quarter-050.png"
+    },
+    {
+      "clip": "Walk",
+      "phase": 1,
+      "frame": 18,
+      "file": "walk-three-quarter-100.png"
+    }
+  ],
+  "limitation": "Static sampled frames prove overlay attachment only; an independent reviewer must still judge motion."
+}

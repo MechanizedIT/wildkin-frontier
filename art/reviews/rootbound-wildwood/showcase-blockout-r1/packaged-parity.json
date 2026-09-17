@@ -1,0 +1,51 @@
+{
+  "note": "Actual Crown camera settled0.089935m lower in package capture; yaw,pitch,distance and player match. No pixel-identical camera claim. Overview camera exact.",
+  "rows": [
+    {
+      "name": "crown",
+      "positionExact": true,
+      "cameraDifferenceM": [
+        0,
+        0.08993471171568856,
+        0
+      ],
+      "residentIdsExact": true,
+      "triangles": [
+        247240,
+        247240
+      ],
+      "calls": [
+        148,
+        148
+      ],
+      "colliderCount": [
+        66,
+        66
+      ],
+      "visualsExact": true
+    },
+    {
+      "name": "overview",
+      "positionExact": true,
+      "cameraDifferenceM": [
+        0,
+        0,
+        0
+      ],
+      "residentIdsExact": true,
+      "triangles": [
+        481279,
+        481279
+      ],
+      "calls": [
+        781,
+        781
+      ],
+      "colliderCount": [
+        31,
+        31
+      ],
+      "visualsExact": true
+    }
+  ]
+}

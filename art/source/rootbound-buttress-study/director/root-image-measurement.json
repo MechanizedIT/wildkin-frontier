@@ -1,0 +1,41 @@
+{
+  "source": "art\\source\\rootbound-buttress-v1\\reference\\target-v1.png",
+  "sha256": "0e8dc741e4124e7af3feb5b46f911cfb7a56cde01bd08a9aa6669bf470af6ab6",
+  "imageSize": [
+    1214,
+    1295
+  ],
+  "method": "Numerical threshold/chroma bounding box; no reference image edited or derived image saved. Approximate foreground extent, not recovered 3D dimensions.",
+  "rows": [
+    {
+      "criterion": "minRGB<180 and chroma>20",
+      "boundsInclusive": [
+        40,
+        26,
+        1188,
+        1223
+      ],
+      "projectedHeightToWidth": 1.042645778938207
+    },
+    {
+      "criterion": "minRGB<210 and chroma>20",
+      "boundsInclusive": [
+        40,
+        26,
+        1188,
+        1224
+      ],
+      "projectedHeightToWidth": 1.0435161009573541
+    },
+    {
+      "criterion": "minRGB<230 and chroma>20",
+      "boundsInclusive": [
+        40,
+        26,
+        1188,
+        1224
+      ],
+      "projectedHeightToWidth": 1.0435161009573541
+    }
+  ]
+}

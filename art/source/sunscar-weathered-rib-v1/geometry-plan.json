@@ -1,0 +1,18 @@
+{
+  "schemaVersion": 1,
+  "asset": "sunscar-weathered-rib-v1",
+  "status": "proposed construction input; independent plan review required before builder use",
+  "axes": {"blender": {"x": "long left(-) to blunt right(+)", "y": "front(-) to rear(+), inferred", "z": "up"}, "gltf": "Blender exporter converts Z-up to glTF Y-up; builder must audit exported bounds rather than pre-swizzle vertices."},
+  "envelopeMeters": {"x": 4.4, "y": 2.1, "z": 1.6},
+  "budget": {"maxTriangles": 700, "materials": 1, "opaque": true},
+  "primaryLoft": {"ringVertexCount": 8, "stations": [
+    {"x":-2.2,"depth":1.55,"height":0.88}, {"x":-1.72,"depth":2.02,"height":1.60}, {"x":-1.05,"depth":2.10,"height":1.46}, {"x":-0.25,"depth":2.04,"height":1.27}, {"x":0.65,"depth":1.92,"height":1.12}, {"x":1.45,"depth":1.83,"height":0.98}, {"x":2.2,"depth":1.62,"height":0.84}
+  ], "loopCoordinates": [[-0.50,0],[-0.50,0.46],[-0.33,0.76],[-0.10,1.00],[0.22,0.96],[0.50,0.70],[0.50,0.28],[0.50,0]]},
+  "connectedTerraces": [
+    {"name":"upper_cap","hostStations":[1,4],"hostLoopBand":[2,5],"operation":"inset connected host faces then offset outward/upward no more than 0.10m/0.06m; triangulate as faceted cap"},
+    {"name":"front_bedding_ledge","hostStations":[0,5],"hostLoopBand":[1,3],"operation":"split the existing front-side quads and inset/extrude a 0.06–0.10m shallow continuous shelf; do not add a separate slab"},
+    {"name":"erosion_gullies","hostStations":[1,2,4,5],"operation":"move selected existing side vertices inward 0.08–0.16m and split adjacent faces into planar facets; preserve closed shell"}
+  ],
+  "ground": {"allBottomRingVerticesZ":0,"baseMustBeClosed":true,"noOverhangOrWalkUnderGap":true},
+  "inputHashes": {"targetPng":"157070274fef13f6449840c9acfdce4ec660d50e84d1244e74a3b7c3dd2a5529","provenance":"e0b5d41ad1593cbcb784fb80b27ac4caaccf507469b1431670bd34c5dd1a7168","scaleDeclaration":"6b22ac1096a358a8dea8cc06d5b3568c4224da37fce4c55240108bb80059b5dd","referenceReview":"e002a126be51b8026748aebdfd59c58dd8e16e9eec4d8ed24dda51a5fdf33ad8"}
+}

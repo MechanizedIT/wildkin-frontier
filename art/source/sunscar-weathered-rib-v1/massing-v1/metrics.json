@@ -1,0 +1,69 @@
+{
+  "status": "INITIAL_MASSING_UNREVIEWED",
+  "asset": "sunscar-weathered-rib-v1",
+  "input": {
+    "geometryPlan": "../geometry-plan-v2.json",
+    "sha256": "cc5c00067a646da96919144cd92fe2699e721b204a81d546db755dfcec567492"
+  },
+  "method": "one connected seven-station eight-vertex loft with table-driven in-place shared centre-fan replacements, then end caps",
+  "declaredEnvelopeMeters": {
+    "x": 4.4,
+    "y": 2.1,
+    "z": 1.6
+  },
+  "actualBoundsBlenderXYZ": {
+    "min": [
+      -2.200000047683716,
+      -1.0499999523162842,
+      0.0
+    ],
+    "max": [
+      2.200000047683716,
+      1.0499999523162842,
+      1.600000023841858
+    ],
+    "size": [
+      4.400000095367432,
+      2.0999999046325684,
+      1.600000023841858
+    ]
+  },
+  "grounding": {
+    "minimumZ": 0.0,
+    "bottomRingZValues": [
+      0.0
+    ],
+    "passes": true
+  },
+  "topology": {
+    "vertices": 72,
+    "faces": 98,
+    "trianglesAfterFanTriangulation": 140,
+    "components": 1,
+    "edges": 168,
+    "nonTwoFaceEdges": 0,
+    "normalFailures": [],
+    "nonAdjacentTriangleOverlapPairs": [],
+    "nonAdjacentTriangleOverlapCount": 0,
+    "zeroVolumeBoundaryTouchPairs": [
+      [
+        14,
+        132
+      ]
+    ],
+    "zeroVolumeBoundaryTouchCount": 1
+  },
+  "planTriangleArithmeticNote": "The executed mesh contains 140 triangles after triangulating 32 untouched quads, 16 four-triangle centre fans, and two 6-triangle caps. This differs from the plan estimate of 156, while remaining below 700; it is recorded for independent review rather than normalized to the estimate.",
+  "visualCaveat": "Centre fans create recess/dimple facets, not a broad projecting ledge. Independent review must decide whether the long cap/high left shoulder and bedding transition read sufficiently; this build does not self-pass that requirement.",
+  "renders": [
+    "front-512.png",
+    "left-512.png",
+    "rear-512.png",
+    "right-512.png",
+    "source-threequarter-48.png",
+    "source-threequarter-512.png",
+    "source-threequarter-96.png",
+    "threequarter-512.png"
+  ],
+  "blend": "sunscar-weathered-rib-massing-v1.blend"
+}

@@ -1,0 +1,13 @@
+{
+  "command": "Blender 4.5.3 --background --python-exit-code 1 --python build_one_port_probe_r2.py",
+  "exitCode": 0,
+  "scope": "Abstract method only; no Trailgloam retry or admission",
+  "sha256": {
+    "build_one_port_probe.py": "042eaa8a5a745b731f8f1d2eab1876e70cf7c25684dc2346e8aa9a017fd02960",
+    "build_one_port_probe_r2.py": "1c10ec7b7462cab89428827a326c590890013537916337e9063809171b2db53d",
+    "one-port-metrics.json": "4f02a2f8fa52a0eba72970ccccfada42714836771a97e5aef9af78be8378cabe",
+    "one-port-probe.png": "4f555685c22d99cb4bf1d5537257dfb0ea7f63829e65395006436c3b72f8cd0d",
+    "one-port-probe.blend": "8465a3bd3acc944fa6b835bede00b72d9d4d1463ce04a9e9355f911756a0e7ac",
+    "blender.log": "44d1b2079d8fd78a6e3a537d4b1537c18198ae7113d4165d8ecfbb1d4a888115"
+  }
+}

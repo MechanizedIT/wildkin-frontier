@@ -1,0 +1,15 @@
+{
+  "reason": "All rings use the same increasing angular index. The old face a[i],a[i+1],b[5-i],b[4-i] cannot share cross-ring edges with its neighbor. Same-correspondence a[i],a[i+1],b[i+1],b[i] closes each strip; face-normal recalculation owns outward winding.",
+  "old": {
+    "vertices": 24,
+    "faces": 20,
+    "edges": 63,
+    "boundaryEdges": 42
+  },
+  "corrected": {
+    "vertices": 24,
+    "faces": 20,
+    "edges": 42,
+    "boundaryEdges": 0
+  }
+}

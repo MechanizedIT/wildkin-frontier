@@ -116,6 +116,7 @@ export function createFrontierSceneryRuntime({
     if (!visual) return;
     // Restore any faded instance materials before releasing its model graph.
     for (const root of visual.canopyRoots ?? []) onVisualRemoving(root);
+    for (const root of visual.occlusionRoots ?? []) onVisualRemoving(root);
     parent?.remove(visual.group);
     visual.dispose();
     visual = null;
@@ -171,6 +172,7 @@ export function createFrontierSceneryRuntime({
       visual.group.userData.propId = 'frontier-scenery';
       parent?.add(visual.group);
       for (const root of visual.canopyRoots ?? []) onVisualAdded(root);
+      for (const root of visual.occlusionRoots ?? []) onVisualAdded(root);
     }
     lastResidency = residency;
     streaming[publicationKind]++;

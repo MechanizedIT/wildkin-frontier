@@ -1,0 +1,21 @@
+{
+  "images": [
+    {
+      "loaded": true,
+      "src": "integration/integrated-portrait.png"
+    },
+    {
+      "loaded": true,
+      "src": "integration/packaged-portrait.png"
+    },
+    {
+      "loaded": true,
+      "src": "baseline-portrait.png"
+    },
+    {
+      "loaded": true,
+      "src": "candidate-portrait.png"
+    }
+  ],
+  "overflow": false
+}

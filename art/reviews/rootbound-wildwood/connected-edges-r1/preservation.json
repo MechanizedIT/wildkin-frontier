@@ -1,0 +1,12 @@
+{
+  "baseline": "6f03132",
+  "priorRootboundRecordsAndTerrain": "exact after stripping14added lines",
+  "unchanged": [
+    "src/world/data/world.json",
+    "src/world/data/world.generated.js",
+    "src/world/frontierWildlife.js",
+    "src/world/frontierScenery.js"
+  ],
+  "sourceSHA256": "9c0ed6a6f9b92eb1a35f868d968ffe38298a350b33319fbf828b1456eb12a536",
+  "finalRepair": "Four new groups moved; final east02x-470.9 preserves2mfullhullroute. Old43 and terrain exact."
+}

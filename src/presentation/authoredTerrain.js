@@ -64,7 +64,7 @@ export function createAuthoredTerrain(region){
   for(const pond of surface.water??[])addWater(group,pond,palette,surface.water);
   addMeadow(group,surface,bounds,palette,MEADOW_PROFILES[region.id]);
   addMeadowDetails(group,surface,bounds,palette);
-  return {group,vertices:positions,indices:new Uint32Array(indices),sectionId:region.id};
+  return {group,vertices:positions,indices:new Uint32Array(indices),sectionId:region.id,traversalSurface:'terrain'};
 }
 
 function addWater(group,pond,palette,allWater){

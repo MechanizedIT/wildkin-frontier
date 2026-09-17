@@ -1,0 +1,317 @@
+[
+  {
+    "file": "walk-three-quarter-0.png",
+    "phase": 0,
+    "status": {
+      "path": "/art/source/trailgloam-v1/rig-prep-r1/fitted-r1a/trailgloam-fitted.glb",
+      "clips": [
+        {
+          "name": "Loaded",
+          "duration": 0.03333333507180214,
+          "tracks": 87
+        },
+        {
+          "name": "Neutral",
+          "duration": 0.03333333507180214,
+          "tracks": 87
+        },
+        {
+          "name": "WalkDiagnostic",
+          "duration": 1.100000023841858,
+          "tracks": 87
+        }
+      ],
+      "selected": "WalkDiagnostic",
+      "time": 0,
+      "playing": false,
+      "frames": 2893,
+      "skins": [
+        {
+          "name": "TrailgloamSkin",
+          "vertices": 40908,
+          "bones": 29
+        }
+      ]
+    }
+  },
+  {
+    "file": "walk-three-quarter-1.png",
+    "phase": 0.125,
+    "status": {
+      "path": "/art/source/trailgloam-v1/rig-prep-r1/fitted-r1a/trailgloam-fitted.glb",
+      "clips": [
+        {
+          "name": "Loaded",
+          "duration": 0.03333333507180214,
+          "tracks": 87
+        },
+        {
+          "name": "Neutral",
+          "duration": 0.03333333507180214,
+          "tracks": 87
+        },
+        {
+          "name": "WalkDiagnostic",
+          "duration": 1.100000023841858,
+          "tracks": 87
+        }
+      ],
+      "selected": "WalkDiagnostic",
+      "time": 0.13750000298023224,
+      "playing": false,
+      "frames": 2903,
+      "skins": [
+        {
+          "name": "TrailgloamSkin",
+          "vertices": 40908,
+          "bones": 29
+        }
+      ]
+    }
+  },
+  {
+    "file": "walk-three-quarter-2.png",
+    "phase": 0.25,
+    "status": {
+      "path": "/art/source/trailgloam-v1/rig-prep-r1/fitted-r1a/trailgloam-fitted.glb",
+      "clips": [
+        {
+          "name": "Loaded",
+          "duration": 0.03333333507180214,
+          "tracks": 87
+        },
+        {
+          "name": "Neutral",
+          "duration": 0.03333333507180214,
+          "tracks": 87
+        },
+        {
+          "name": "WalkDiagnostic",
+          "duration": 1.100000023841858,
+          "tracks": 87
+        }
+      ],
+      "selected": "WalkDiagnostic",
+      "time": 0.2750000059604645,
+      "playing": false,
+      "frames": 2913,
+      "skins": [
+        {
+          "name": "TrailgloamSkin",
+          "vertices": 40908,
+          "bones": 29
+        }
+      ]
+    }
+  },
+  {
+    "file": "walk-three-quarter-3.png",
+    "phase": 0.375,
+    "status": {
+      "path": "/art/source/trailgloam-v1/rig-prep-r1/fitted-r1a/trailgloam-fitted.glb",
+      "clips": [
+        {
+          "name": "Loaded",
+          "duration": 0.03333333507180214,
+          "tracks": 87
+        },
+        {
+          "name": "Neutral",
+          "duration": 0.03333333507180214,
+          "tracks": 87
+        },
+        {
+          "name": "WalkDiagnostic",
+          "duration": 1.100000023841858,
+          "tracks": 87
+        }
+      ],
+      "selected": "WalkDiagnostic",
+      "time": 0.4125000089406967,
+      "playing": false,
+      "frames": 2924,
+      "skins": [
+        {
+          "name": "TrailgloamSkin",
+          "vertices": 40908,
+          "bones": 29
+        }
+      ]
+    }
+  },
+  {
+    "file": "walk-three-quarter-4.png",
+    "phase": 0.5,
+    "status": {
+      "path": "/art/source/trailgloam-v1/rig-prep-r1/fitted-r1a/trailgloam-fitted.glb",
+      "clips": [
+        {
+          "name": "Loaded",
+          "duration": 0.03333333507180214,
+          "tracks": 87
+        },
+        {
+          "name": "Neutral",
+          "duration": 0.03333333507180214,
+          "tracks": 87
+        },
+        {
+          "name": "WalkDiagnostic",
+          "duration": 1.100000023841858,
+          "tracks": 87
+        }
+      ],
+      "selected": "WalkDiagnostic",
+      "time": 0.550000011920929,
+      "playing": false,
+      "frames": 2935,
+      "skins": [
+        {
+          "name": "TrailgloamSkin",
+          "vertices": 40908,
+          "bones": 29
+        }
+      ]
+    }
+  },
+  {
+    "file": "walk-three-quarter-5.png",
+    "phase": 0.625,
+    "status": {
+      "path": "/art/source/trailgloam-v1/rig-prep-r1/fitted-r1a/trailgloam-fitted.glb",
+      "clips": [
+        {
+          "name": "Loaded",
+          "duration": 0.03333333507180214,
+          "tracks": 87
+        },
+        {
+          "name": "Neutral",
+          "duration": 0.03333333507180214,
+          "tracks": 87
+        },
+        {
+          "name": "WalkDiagnostic",
+          "duration": 1.100000023841858,
+          "tracks": 87
+        }
+      ],
+      "selected": "WalkDiagnostic",
+      "time": 0.6875000149011612,
+      "playing": false,
+      "frames": 2946,
+      "skins": [
+        {
+          "name": "TrailgloamSkin",
+          "vertices": 40908,
+          "bones": 29
+        }
+      ]
+    }
+  },
+  {
+    "file": "walk-three-quarter-6.png",
+    "phase": 0.75,
+    "status": {
+      "path": "/art/source/trailgloam-v1/rig-prep-r1/fitted-r1a/trailgloam-fitted.glb",
+      "clips": [
+        {
+          "name": "Loaded",
+          "duration": 0.03333333507180214,
+          "tracks": 87
+        },
+        {
+          "name": "Neutral",
+          "duration": 0.03333333507180214,
+          "tracks": 87
+        },
+        {
+          "name": "WalkDiagnostic",
+          "duration": 1.100000023841858,
+          "tracks": 87
+        }
+      ],
+      "selected": "WalkDiagnostic",
+      "time": 0.8250000178813934,
+      "playing": false,
+      "frames": 2957,
+      "skins": [
+        {
+          "name": "TrailgloamSkin",
+          "vertices": 40908,
+          "bones": 29
+        }
+      ]
+    }
+  },
+  {
+    "file": "walk-three-quarter-7.png",
+    "phase": 0.875,
+    "status": {
+      "path": "/art/source/trailgloam-v1/rig-prep-r1/fitted-r1a/trailgloam-fitted.glb",
+      "clips": [
+        {
+          "name": "Loaded",
+          "duration": 0.03333333507180214,
+          "tracks": 87
+        },
+        {
+          "name": "Neutral",
+          "duration": 0.03333333507180214,
+          "tracks": 87
+        },
+        {
+          "name": "WalkDiagnostic",
+          "duration": 1.100000023841858,
+          "tracks": 87
+        }
+      ],
+      "selected": "WalkDiagnostic",
+      "time": 0.9625000208616257,
+      "playing": false,
+      "frames": 2968,
+      "skins": [
+        {
+          "name": "TrailgloamSkin",
+          "vertices": 40908,
+          "bones": 29
+        }
+      ]
+    }
+  },
+  {
+    "file": "walk-three-quarter-8.png",
+    "phase": 1,
+    "status": {
+      "path": "/art/source/trailgloam-v1/rig-prep-r1/fitted-r1a/trailgloam-fitted.glb",
+      "clips": [
+        {
+          "name": "Loaded",
+          "duration": 0.03333333507180214,
+          "tracks": 87
+        },
+        {
+          "name": "Neutral",
+          "duration": 0.03333333507180214,
+          "tracks": 87
+        },
+        {
+          "name": "WalkDiagnostic",
+          "duration": 1.100000023841858,
+          "tracks": 87
+        }
+      ],
+      "selected": "WalkDiagnostic",
+      "time": 1.100000023841858,
+      "playing": false,
+      "frames": 2979,
+      "skins": [
+        {
+          "name": "TrailgloamSkin",
+          "vertices": 40908,
+          "bones": 29
+        }
+      ]
+    }
+  }
+]

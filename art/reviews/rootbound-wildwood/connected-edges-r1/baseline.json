@@ -1,0 +1,45 @@
+{
+  "baseline": "6f03132",
+  "worldJsonSHA256": "11900ad8de1b5252ca46ee7eec5f94200074b50c0e7b0a72de0e547429b643de",
+  "visualAssetCount": 117,
+  "unchangedRuntime": [
+    "terrain",
+    "forage",
+    "wildlife",
+    "physics",
+    "player camera",
+    "persistence"
+  ],
+  "comparisonViews": {
+    "entry": {
+      "x": -478,
+      "z": 620,
+      "yaw": 3
+    },
+    "interior": {
+      "x": -478,
+      "z": 640,
+      "yaw": 3
+    },
+    "north": {
+      "x": -478,
+      "z": 659,
+      "yaw": -2.25
+    },
+    "grove": {
+      "x": -449,
+      "z": 675,
+      "yaw": -2.3
+    }
+  },
+  "pitchDegrees": 36,
+  "logicalViewport": [
+    412,
+    915
+  ],
+  "imageSize": [
+    330,
+    732
+  ],
+  "note": "Scenery-only pass; generated target retained. Actual before/after images own visual proof."
+}

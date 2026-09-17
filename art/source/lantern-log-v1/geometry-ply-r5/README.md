@@ -1,0 +1,11 @@
+# Lantern R5 — retained raw source study
+
+One separately reviewed raw-geometry TRELLIS run completed September14,2026. See [actual gallery](../review.html#raw-r5), [generation receipt](run-receipt.json), [exact binary geometry receipt](geometry-ply-receipt.json), [Blender receipt](inspection-run-receipt.json), [independent visual review](visual-review.md) and [CPU topology audit](topology-audit.md).
+
+`raw-geometry.ply` is the untouched untextured source,2,218,798triangles/1,077,634vertices. `inspection/inspection.blend` contains that exact imported mesh, neutral presentation material, lights, camera and floor. It is not a game-scale, collision-ready or modular harvestable asset. Raw long axis isX, while filenames encode camera axes; `side-±X` looks toward the ends. Float32 XYZ and triangle index order were verified without welding/normalization. The21PNG views include512/96/48sizes; underside hides the presentation floor. The bright neutral lighting limits surface/color judgments, but visible detached forms are corroborated by topology.
+
+Retain both this raw master and manualR4; no candidate was deleted because its score was lower. The raw visual4.4/HOLD is not directly comparable with colored manualR4's6.3. Do not ship, simplify, smooth or paint this mesh as a substitute for a structural repair. A next derivative needs a bounded plan informed by actual boundary/nonmanifold/component evidence and another actual comparison. Regrowth/building suppression remains documented design, not implemented by an art artifact.
+
+Runner/source review: `tools/art/trellis-process-staged.py` SHAa9554323a4c5444f9023472634a1358fb3f4c4a4b851360b589221accf5c4178. Inspector: `tools/art/inspect-lantern-geometry.py` SHA3fbd02403ec74a5ba2e5ee7f6ff2d6868db7493379bba27cb8690355e83f73e1. Executed bytes are protected from line-ending conversion. All17CPU protocol tests passed before execution. Source reviews retain resolved earlier findings.
+
+The run copied only reviewed input preprocessing, plan/events, receipts and raw PLY here; private tensor/RNG handoffs remain in `.dream-loop/lantern-log-trellis/geometry-ply-r5-run`. All six children, parent and subsequent Blender process exited0. No simultaneous heavy GPU job, texture export, game edit, global profile-cap change or push occurred.

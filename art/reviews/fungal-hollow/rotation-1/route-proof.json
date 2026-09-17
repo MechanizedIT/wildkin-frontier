@@ -1,0 +1,1033 @@
+{
+  "status": "HOLD_RENDERED_TRIANGLE_FOOTPRINT_FAILURE",
+  "inputs": {
+    "candidatePath": "art/reviews/fungal-hollow/rotation-1/route-candidate.json",
+    "terrainMeshSource": "src/world/frontierTerrain.js:createFrontierChunk",
+    "meshGridStep_m": 2,
+    "triangleRule": "actual mesh cell diagonal a-c-b / b-c-d; slope = sqrt(nx^2+nz^2)/ny",
+    "playerSource": "src/physics/physicsConfig.js:RAPIER_PHYSICS_CONFIG.capsuleRadius",
+    "playerCapsuleRadius_m": 0.32,
+    "playerFootprintSamples": "center plus eight cardinal/diagonal ring samples",
+    "routeCenterlineSampleStep_m": 0.5,
+    "ordinarySlopeLimit": 0.32
+  },
+  "result": {
+    "compressedLegs": 27,
+    "footprintSamples": 9369,
+    "maxTriangleSlope": 0.457097,
+    "slopeFailures": 696,
+    "firstFailures": [
+      {
+        "leg": 8,
+        "center": [
+          -2843.354,
+          -1284.354
+        ],
+        "footprintOffset": [
+          -0.32,
+          0
+        ],
+        "triangleSlope": 0.357926
+      },
+      {
+        "leg": 8,
+        "center": [
+          -2843.354,
+          -1284.354
+        ],
+        "footprintOffset": [
+          -0.226274,
+          -0.226274
+        ],
+        "triangleSlope": 0.357926
+      },
+      {
+        "leg": 8,
+        "center": [
+          -2843.354,
+          -1284.354
+        ],
+        "footprintOffset": [
+          0,
+          -0.32
+        ],
+        "triangleSlope": 0.357926
+      },
+      {
+        "leg": 8,
+        "center": [
+          -2843.707,
+          -1284.707
+        ],
+        "footprintOffset": [
+          0,
+          0
+        ],
+        "triangleSlope": 0.357926
+      },
+      {
+        "leg": 8,
+        "center": [
+          -2843.707,
+          -1284.707
+        ],
+        "footprintOffset": [
+          0.32,
+          0
+        ],
+        "triangleSlope": 0.357926
+      },
+      {
+        "leg": 8,
+        "center": [
+          -2843.707,
+          -1284.707
+        ],
+        "footprintOffset": [
+          0,
+          0.32
+        ],
+        "triangleSlope": 0.357926
+      },
+      {
+        "leg": 8,
+        "center": [
+          -2843.707,
+          -1284.707
+        ],
+        "footprintOffset": [
+          -0.226274,
+          0.226274
+        ],
+        "triangleSlope": 0.357926
+      },
+      {
+        "leg": 8,
+        "center": [
+          -2843.707,
+          -1284.707
+        ],
+        "footprintOffset": [
+          -0.226274,
+          -0.226274
+        ],
+        "triangleSlope": 0.357926
+      },
+      {
+        "leg": 8,
+        "center": [
+          -2843.707,
+          -1284.707
+        ],
+        "footprintOffset": [
+          0,
+          -0.32
+        ],
+        "triangleSlope": 0.357926
+      },
+      {
+        "leg": 8,
+        "center": [
+          -2843.707,
+          -1284.707
+        ],
+        "footprintOffset": [
+          0.226274,
+          -0.226274
+        ],
+        "triangleSlope": 0.357926
+      },
+      {
+        "leg": 8,
+        "center": [
+          -2844.061,
+          -1285.061
+        ],
+        "footprintOffset": [
+          0.32,
+          0
+        ],
+        "triangleSlope": 0.357926
+      },
+      {
+        "leg": 8,
+        "center": [
+          -2844.061,
+          -1285.061
+        ],
+        "footprintOffset": [
+          0.226274,
+          0.226274
+        ],
+        "triangleSlope": 0.357926
+      },
+      {
+        "leg": 8,
+        "center": [
+          -2844.061,
+          -1285.061
+        ],
+        "footprintOffset": [
+          0.226274,
+          -0.226274
+        ],
+        "triangleSlope": 0.357926
+      },
+      {
+        "leg": 10,
+        "center": [
+          -2843.804,
+          -1287.981
+        ],
+        "footprintOffset": [
+          -0.32,
+          0
+        ],
+        "triangleSlope": 0.374764
+      },
+      {
+        "leg": 10,
+        "center": [
+          -2843.804,
+          -1287.981
+        ],
+        "footprintOffset": [
+          -0.226274,
+          -0.226274
+        ],
+        "triangleSlope": 0.372463
+      },
+      {
+        "leg": 10,
+        "center": [
+          -2843.706,
+          -1288.471
+        ],
+        "footprintOffset": [
+          -0.32,
+          0
+        ],
+        "triangleSlope": 0.372463
+      },
+      {
+        "leg": 10,
+        "center": [
+          -2838.313,
+          -1315.437
+        ],
+        "footprintOffset": [
+          0.32,
+          0
+        ],
+        "triangleSlope": 0.365437
+      },
+      {
+        "leg": 10,
+        "center": [
+          -2838.215,
+          -1315.927
+        ],
+        "footprintOffset": [
+          0.32,
+          0
+        ],
+        "triangleSlope": 0.365437
+      },
+      {
+        "leg": 10,
+        "center": [
+          -2838.215,
+          -1315.927
+        ],
+        "footprintOffset": [
+          0.226274,
+          0.226274
+        ],
+        "triangleSlope": 0.365437
+      },
+      {
+        "leg": 10,
+        "center": [
+          -2838.215,
+          -1315.927
+        ],
+        "footprintOffset": [
+          0.226274,
+          -0.226274
+        ],
+        "triangleSlope": 0.330328
+      }
+    ],
+    "legs": [
+      {
+        "leg": 1,
+        "from": [
+          -2848,
+          -1216
+        ],
+        "to": [
+          -2850,
+          -1232
+        ],
+        "length_m": 16.125,
+        "footprintSampleCount": 306,
+        "maxTriangleSlope": 0.031861,
+        "slopeFailures": 0
+      },
+      {
+        "leg": 2,
+        "from": [
+          -2850,
+          -1232
+        ],
+        "to": [
+          -2849,
+          -1248
+        ],
+        "length_m": 16.031,
+        "footprintSampleCount": 306,
+        "maxTriangleSlope": 0.03766,
+        "slopeFailures": 0
+      },
+      {
+        "leg": 3,
+        "from": [
+          -2849,
+          -1248
+        ],
+        "to": [
+          -2854,
+          -1258
+        ],
+        "length_m": 11.18,
+        "footprintSampleCount": 216,
+        "maxTriangleSlope": 0.041501,
+        "slopeFailures": 0
+      },
+      {
+        "leg": 4,
+        "from": [
+          -2854,
+          -1258
+        ],
+        "to": [
+          -2846,
+          -1270
+        ],
+        "length_m": 14.422,
+        "footprintSampleCount": 270,
+        "maxTriangleSlope": 0.046448,
+        "slopeFailures": 0
+      },
+      {
+        "leg": 5,
+        "from": [
+          -2846,
+          -1270
+        ],
+        "to": [
+          -2838,
+          -1284
+        ],
+        "length_m": 16.125,
+        "footprintSampleCount": 306,
+        "maxTriangleSlope": 0.049092,
+        "slopeFailures": 0
+      },
+      {
+        "leg": 6,
+        "from": [
+          -2838,
+          -1284
+        ],
+        "to": [
+          -2826,
+          -1298
+        ],
+        "length_m": 18.439,
+        "footprintSampleCount": 342,
+        "maxTriangleSlope": 0.049092,
+        "slopeFailures": 0
+      },
+      {
+        "leg": 7,
+        "from": [
+          -2826,
+          -1298
+        ],
+        "to": [
+          -2843,
+          -1284
+        ],
+        "length_m": 22.023,
+        "footprintSampleCount": 414,
+        "maxTriangleSlope": 0.131233,
+        "slopeFailures": 0
+      },
+      {
+        "leg": 8,
+        "from": [
+          -2843,
+          -1284
+        ],
+        "to": [
+          -2845,
+          -1286
+        ],
+        "length_m": 2.828,
+        "footprintSampleCount": 63,
+        "maxTriangleSlope": 0.357926,
+        "slopeFailures": 13
+      },
+      {
+        "leg": 9,
+        "from": [
+          -2845,
+          -1286
+        ],
+        "to": [
+          -2844,
+          -1287
+        ],
+        "length_m": 1.414,
+        "footprintSampleCount": 36,
+        "maxTriangleSlope": 0.292795,
+        "slopeFailures": 0
+      },
+      {
+        "leg": 10,
+        "from": [
+          -2844,
+          -1287
+        ],
+        "to": [
+          -2836,
+          -1327
+        ],
+        "length_m": 40.792,
+        "footprintSampleCount": 747,
+        "maxTriangleSlope": 0.374764,
+        "slopeFailures": 41
+      },
+      {
+        "leg": 11,
+        "from": [
+          -2836,
+          -1327
+        ],
+        "to": [
+          -2816,
+          -1347
+        ],
+        "length_m": 28.284,
+        "footprintSampleCount": 522,
+        "maxTriangleSlope": 0.302412,
+        "slopeFailures": 0
+      },
+      {
+        "leg": 12,
+        "from": [
+          -2816,
+          -1347
+        ],
+        "to": [
+          -2805,
+          -1359
+        ],
+        "length_m": 16.279,
+        "footprintSampleCount": 306,
+        "maxTriangleSlope": 0.335509,
+        "slopeFailures": 31
+      },
+      {
+        "leg": 13,
+        "from": [
+          -2805,
+          -1359
+        ],
+        "to": [
+          -2800,
+          -1360
+        ],
+        "length_m": 5.099,
+        "footprintSampleCount": 108,
+        "maxTriangleSlope": 0.423954,
+        "slopeFailures": 7
+      },
+      {
+        "leg": 14,
+        "from": [
+          -2800,
+          -1360
+        ],
+        "to": [
+          -2806,
+          -1358
+        ],
+        "length_m": 6.325,
+        "footprintSampleCount": 126,
+        "maxTriangleSlope": 0.423954,
+        "slopeFailures": 15
+      },
+      {
+        "leg": 15,
+        "from": [
+          -2806,
+          -1358
+        ],
+        "to": [
+          -2819,
+          -1344
+        ],
+        "length_m": 19.105,
+        "footprintSampleCount": 360,
+        "maxTriangleSlope": 0.335509,
+        "slopeFailures": 32
+      },
+      {
+        "leg": 16,
+        "from": [
+          -2819,
+          -1344
+        ],
+        "to": [
+          -2837,
+          -1330
+        ],
+        "length_m": 22.804,
+        "footprintSampleCount": 423,
+        "maxTriangleSlope": 0.424981,
+        "slopeFailures": 65
+      },
+      {
+        "leg": 17,
+        "from": [
+          -2837,
+          -1330
+        ],
+        "to": [
+          -2838,
+          -1330
+        ],
+        "length_m": 1,
+        "footprintSampleCount": 27,
+        "maxTriangleSlope": 0.377955,
+        "slopeFailures": 2
+      },
+      {
+        "leg": 18,
+        "from": [
+          -2838,
+          -1330
+        ],
+        "to": [
+          -2839,
+          -1330
+        ],
+        "length_m": 1,
+        "footprintSampleCount": 27,
+        "maxTriangleSlope": 0.377955,
+        "slopeFailures": 2
+      },
+      {
+        "leg": 19,
+        "from": [
+          -2839,
+          -1330
+        ],
+        "to": [
+          -2855,
+          -1346
+        ],
+        "length_m": 22.627,
+        "footprintSampleCount": 423,
+        "maxTriangleSlope": 0.318605,
+        "slopeFailures": 0
+      },
+      {
+        "leg": 20,
+        "from": [
+          -2855,
+          -1346
+        ],
+        "to": [
+          -2878,
+          -1331
+        ],
+        "length_m": 27.459,
+        "footprintSampleCount": 504,
+        "maxTriangleSlope": 0.313925,
+        "slopeFailures": 0
+      },
+      {
+        "leg": 21,
+        "from": [
+          -2878,
+          -1331
+        ],
+        "to": [
+          -2885,
+          -1331
+        ],
+        "length_m": 7,
+        "footprintSampleCount": 135,
+        "maxTriangleSlope": 0.270253,
+        "slopeFailures": 0
+      },
+      {
+        "leg": 22,
+        "from": [
+          -2885,
+          -1331
+        ],
+        "to": [
+          -2888,
+          -1328
+        ],
+        "length_m": 4.243,
+        "footprintSampleCount": 90,
+        "maxTriangleSlope": 0.381086,
+        "slopeFailures": 6
+      },
+      {
+        "leg": 23,
+        "from": [
+          -2888,
+          -1328
+        ],
+        "to": [
+          -2886,
+          -1281
+        ],
+        "length_m": 47.043,
+        "footprintSampleCount": 864,
+        "maxTriangleSlope": 0.454313,
+        "slopeFailures": 310
+      },
+      {
+        "leg": 24,
+        "from": [
+          -2886,
+          -1281
+        ],
+        "to": [
+          -2887,
+          -1270
+        ],
+        "length_m": 11.045,
+        "footprintSampleCount": 216,
+        "maxTriangleSlope": 0.346925,
+        "slopeFailures": 10
+      },
+      {
+        "leg": 25,
+        "from": [
+          -2887,
+          -1270
+        ],
+        "to": [
+          -2884,
+          -1230
+        ],
+        "length_m": 40.112,
+        "footprintSampleCount": 738,
+        "maxTriangleSlope": 0.457097,
+        "slopeFailures": 162
+      },
+      {
+        "leg": 26,
+        "from": [
+          -2884,
+          -1230
+        ],
+        "to": [
+          -2900,
+          -1195
+        ],
+        "length_m": 38.484,
+        "footprintSampleCount": 702,
+        "maxTriangleSlope": 0.1759,
+        "slopeFailures": 0
+      },
+      {
+        "leg": 27,
+        "from": [
+          -2900,
+          -1195
+        ],
+        "to": [
+          -2925,
+          -1160
+        ],
+        "length_m": 43.012,
+        "footprintSampleCount": 792,
+        "maxTriangleSlope": 0.180732,
+        "slopeFailures": 0
+      }
+    ]
+  },
+  "solidAndProtectedFootprints": [
+    {
+      "id": "f1:r:-57:-25:400",
+      "kind": "blossom",
+      "radius": 0.9,
+      "playerRadius": 0.32,
+      "requiredCenterlineClearance": 1.22,
+      "minCenterlineDistance": 2.433,
+      "clear": true
+    },
+    {
+      "id": "f1:r:-58:-25:401",
+      "kind": "blossom",
+      "radius": 0.9,
+      "playerRadius": 0.32,
+      "requiredCenterlineClearance": 1.22,
+      "minCenterlineDistance": 6.319,
+      "clear": true
+    },
+    {
+      "id": "f1:r:-57:-26:402",
+      "kind": "blossom",
+      "radius": 0.9,
+      "playerRadius": 0.32,
+      "requiredCenterlineClearance": 1.22,
+      "minCenterlineDistance": 8.05,
+      "clear": true
+    },
+    {
+      "id": "f1:r:-58:-26:403",
+      "kind": "blossom",
+      "radius": 0.9,
+      "playerRadius": 0.32,
+      "requiredCenterlineClearance": 1.22,
+      "minCenterlineDistance": 6.708,
+      "clear": true
+    },
+    {
+      "id": "f1:w:-58:-26:450",
+      "kind": "Thorn home",
+      "radius": 10,
+      "playerRadius": 0.32,
+      "requiredCenterlineClearance": 10.32,
+      "minCenterlineDistance": 14.142,
+      "clear": true
+    },
+    {
+      "id": "f1:s:fungal-hollow:stone-a",
+      "kind": "solid Fen stone",
+      "radius": 1.14,
+      "playerRadius": 0.32,
+      "requiredCenterlineClearance": 1.46,
+      "minCenterlineDistance": 3.69,
+      "clear": true
+    },
+    {
+      "id": "f1:s:fungal-hollow:stone-b",
+      "kind": "solid Fen stone",
+      "radius": 1.14,
+      "playerRadius": 0.32,
+      "requiredCenterlineClearance": 1.46,
+      "minCenterlineDistance": 3.801,
+      "clear": true
+    },
+    {
+      "id": "f1:s:fungal-hollow:stone-c",
+      "kind": "solid Fen stone",
+      "radius": 1.14,
+      "playerRadius": 0.32,
+      "requiredCenterlineClearance": 1.46,
+      "minCenterlineDistance": 7.826,
+      "clear": true
+    }
+  ],
+  "conclusion": "The analytic candidate is not admissible. Do not claim a 3-5 minute playable circuit; the failures need a separately bounded route revision or native evidence for a different route.",
+  "boundedRenderedSearch": {
+    "status": "NO_PURPOSEFUL_3_TO_5_MIN_CIRCUIT_FOUND",
+    "bounds": {
+      "minX": -2948,
+      "maxX": -2768,
+      "minZ": -1380,
+      "maxZ": -1140,
+      "expanded_m": 20
+    },
+    "grid_m": 2,
+    "nodeCap": 20000,
+    "visitedNodes": 311,
+    "renderedPredicate": "Each node and every .5m edge sample passes all nine player-radius .32m footprint points on actual 2m terrain triangles at slope <= .32; fixed footprints expanded by .32m.",
+    "sameSafeAnchors": {
+      "start": [
+        -2848,
+        -1216
+      ],
+      "westExit": [
+        -2925,
+        -1160
+      ],
+      "westExitReachable": false,
+      "nearestSearchGridGoal": [
+        -2924,
+        -1160
+      ],
+      "nearestSearchGridGoalReachable": false
+    },
+    "reachableComponentBounds": {
+      "minX": -2948,
+      "maxX": -2768,
+      "minZ": -1300,
+      "maxZ": -1140
+    },
+    "closestBoundedOutAndBack": {
+      "turnaround": [
+        -2948,
+        -1140
+      ],
+      "oneWayLatticeDistance_m": 150.309,
+      "outAndBackDistance_m": 300.617,
+      "secondsAt2_145mps": 140.148,
+      "minutesAt2_145mps": 2.336,
+      "rawLatticeWaypoints": [
+        [
+          -2848,
+          -1216
+        ],
+        [
+          -2850,
+          -1218
+        ],
+        [
+          -2850,
+          -1220
+        ],
+        [
+          -2852,
+          -1222
+        ],
+        [
+          -2854,
+          -1224
+        ],
+        [
+          -2856,
+          -1226
+        ],
+        [
+          -2858,
+          -1226
+        ],
+        [
+          -2860,
+          -1224
+        ],
+        [
+          -2862,
+          -1222
+        ],
+        [
+          -2864,
+          -1220
+        ],
+        [
+          -2866,
+          -1218
+        ],
+        [
+          -2868,
+          -1216
+        ],
+        [
+          -2870,
+          -1214
+        ],
+        [
+          -2872,
+          -1212
+        ],
+        [
+          -2874,
+          -1210
+        ],
+        [
+          -2876,
+          -1208
+        ],
+        [
+          -2878,
+          -1206
+        ],
+        [
+          -2880,
+          -1204
+        ],
+        [
+          -2882,
+          -1202
+        ],
+        [
+          -2882,
+          -1200
+        ],
+        [
+          -2884,
+          -1198
+        ],
+        [
+          -2884,
+          -1196
+        ],
+        [
+          -2886,
+          -1194
+        ],
+        [
+          -2886,
+          -1192
+        ],
+        [
+          -2886,
+          -1190
+        ],
+        [
+          -2886,
+          -1188
+        ],
+        [
+          -2888,
+          -1186
+        ],
+        [
+          -2890,
+          -1184
+        ],
+        [
+          -2892,
+          -1182
+        ],
+        [
+          -2894,
+          -1180
+        ],
+        [
+          -2896,
+          -1178
+        ],
+        [
+          -2898,
+          -1176
+        ],
+        [
+          -2900,
+          -1174
+        ],
+        [
+          -2902,
+          -1172
+        ],
+        [
+          -2904,
+          -1170
+        ],
+        [
+          -2904,
+          -1168
+        ],
+        [
+          -2906,
+          -1166
+        ],
+        [
+          -2906,
+          -1164
+        ],
+        [
+          -2908,
+          -1162
+        ],
+        [
+          -2910,
+          -1160
+        ],
+        [
+          -2910,
+          -1158
+        ],
+        [
+          -2912,
+          -1156
+        ],
+        [
+          -2914,
+          -1154
+        ],
+        [
+          -2916,
+          -1152
+        ],
+        [
+          -2918,
+          -1150
+        ],
+        [
+          -2920,
+          -1150
+        ],
+        [
+          -2922,
+          -1148
+        ],
+        [
+          -2924,
+          -1148
+        ],
+        [
+          -2926,
+          -1148
+        ],
+        [
+          -2928,
+          -1148
+        ],
+        [
+          -2930,
+          -1148
+        ],
+        [
+          -2932,
+          -1148
+        ],
+        [
+          -2934,
+          -1146
+        ],
+        [
+          -2936,
+          -1146
+        ],
+        [
+          -2938,
+          -1144
+        ],
+        [
+          -2940,
+          -1144
+        ],
+        [
+          -2942,
+          -1142
+        ],
+        [
+          -2944,
+          -1142
+        ],
+        [
+          -2946,
+          -1142
+        ],
+        [
+          -2948,
+          -1140
+        ]
+      ]
+    },
+    "conclusion": "The one capped graph cannot connect the existing safe start to the western exit. Its closest bounded out-and-back is below three minutes and terminates at the expanded survey boundary, so it is not presented as a purposeful replacement circuit. No broader search or source change performed."
+  }
+}

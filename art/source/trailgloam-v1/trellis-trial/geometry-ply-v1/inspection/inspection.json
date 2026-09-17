@@ -1,0 +1,88 @@
+{
+  "status": "neutral exact raw Trailgloam geometry-only inspection; retained master, not runtime asset or derivative",
+  "source": "C:\\Users\\cwood\\Documents\\mobile-rpg\\art\\source\\trailgloam-v1\\trellis-trial\\geometry-ply-v1\\raw-geometry.ply",
+  "source_sha256": "38b6173aa7a38f8c407f9c2a700016608504e2c949fe513323703afad595cb3f",
+  "profile": "fresh-process-per-stage-512-trailgloam-geometry-ply-v1",
+  "mode": "trailgloam-geometry-ply-v1",
+  "pinned_input_sha256": "417daef7277d21dd3c5f53abc92fe4e63f11f575cf04a7e9cca7bae3d2afc2ff",
+  "face_limit": 1900000,
+  "generation_receipt": "C:\\Users\\cwood\\Documents\\mobile-rpg\\art\\source\\trailgloam-v1\\trellis-trial\\geometry-ply-v1\\geometry-ply-receipt.json",
+  "generation_receipt_sha256": "7830261653d5e0e52897947734e6e2abac87603224a69f797f3979166390bb5d",
+  "vertices": 889679,
+  "triangles": 1804432,
+  "bounds": {
+    "min": [
+      -0.49843883514404297,
+      -0.4686819911003113,
+      -0.24618911743164062
+    ],
+    "max": [
+      0.499578058719635,
+      0.4675390124320984,
+      0.24559152126312256
+    ]
+  },
+  "raw_mesh_diagnostics": {
+    "method": "vectorized exact imported triangle-index edge counts",
+    "unique_undirected_edges": 2695513,
+    "boundary_edges": 21506,
+    "two_use_edges": 2636358,
+    "nonmanifold_edges": 37649,
+    "component_face_threshold": 250000,
+    "note": "Raw topology facts are diagnostic only. They neither discard this retained master nor authorize cleanup.",
+    "connected_components": "not_computed",
+    "component_status": "bounded: exact Python union-find is intentionally skipped above the face threshold"
+  },
+  "exact_import": {
+    "float32_xyz_exact": true,
+    "triangle_indices_and_order_exact": true,
+    "object_transform_identity": true,
+    "normal_recalculation": false,
+    "welding": false,
+    "normalization": false,
+    "reduction": false,
+    "export": false,
+    "imported_xyz_sha256": "4e5aab72f5e72bb97ef2d9830a0e93162b85a0e1fed69935162a0b5e7ad5a123",
+    "validated_binary_bytes": 34134163
+  },
+  "presentation": "display-only neutral teal clay; raw coordinates and indices unchanged; underside hides studio floor only",
+  "renders": [
+    "front-512.png",
+    "rear-512.png",
+    "left-512.png",
+    "right-512.png",
+    "top-512.png",
+    "underside-512.png",
+    "three-quarter-512.png",
+    "front-96.png",
+    "rear-96.png",
+    "left-96.png",
+    "right-96.png",
+    "top-96.png",
+    "underside-96.png",
+    "three-quarter-96.png",
+    "front-48.png",
+    "rear-48.png",
+    "left-48.png",
+    "right-48.png",
+    "top-48.png",
+    "underside-48.png",
+    "three-quarter-48.png"
+  ],
+  "render_directions": [
+    "front",
+    "rear",
+    "left",
+    "right",
+    "top",
+    "underside",
+    "three-quarter"
+  ],
+  "render_sizes": [
+    512,
+    96,
+    48
+  ],
+  "min_sampled_host_free_gib": 17.004356384277344,
+  "elapsed_seconds": 19.0
+}

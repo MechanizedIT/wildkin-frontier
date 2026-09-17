@@ -1,0 +1,484 @@
+{
+  "errors": [],
+  "receipts": [
+    {
+      "key": "meadow-berry-east",
+      "id": "f1:r:-10:12:600",
+      "family": "berries",
+      "before": {
+        "id": "f1:r:-10:12:600",
+        "source": {
+          "x": -479.1,
+          "y": 13.672245939358591,
+          "z": 600.7
+        },
+        "remaining": 4,
+        "resourceId": "berries",
+        "approach": {
+          "x": -478.38,
+          "y": 14.523689530740725,
+          "z": 600.7
+        },
+        "inventory": 0
+      },
+      "positionBeforeMove": {
+        "x": -478.3800048828125,
+        "y": 14.334222793579102,
+        "z": 600.7000122070312
+      },
+      "after": {
+        "remaining": 3,
+        "inventory": 1,
+        "activePickups": 0,
+        "pickups": [],
+        "position": {
+          "x": -478.3800048828125,
+          "y": 14.331463813781738,
+          "z": 600.5889282226562
+        },
+        "ecology": 3
+      }
+    },
+    {
+      "key": "meadow-berry-west",
+      "id": "f1:r:-10:12:601",
+      "family": "berries",
+      "before": {
+        "id": "f1:r:-10:12:601",
+        "source": {
+          "x": -482.6,
+          "y": 13.760385970327679,
+          "z": 600.1
+        },
+        "remaining": 4,
+        "resourceId": "berries",
+        "approach": {
+          "x": -481.88,
+          "y": 14.441769678240242,
+          "z": 600.1
+        },
+        "inventory": 1
+      },
+      "positionBeforeMove": {
+        "x": -481.8800048828125,
+        "y": 14.281878471374512,
+        "z": 600.0999755859375
+      },
+      "after": {
+        "remaining": 3,
+        "inventory": 2,
+        "activePickups": 0,
+        "pickups": [],
+        "position": {
+          "x": -481.8800048828125,
+          "y": 14.281546592712402,
+          "z": 599.9888916015625
+        },
+        "ecology": 3
+      }
+    },
+    {
+      "key": "meadow-fiber",
+      "id": "f1:r:-10:11:602",
+      "family": "fiber",
+      "before": {
+        "id": "f1:r:-10:11:602",
+        "source": {
+          "x": -481,
+          "y": 13.711808567497812,
+          "z": 597.9
+        },
+        "remaining": 3,
+        "resourceId": "fiber",
+        "approach": {
+          "x": -480.28,
+          "y": 14.393882576477544,
+          "z": 597.9
+        },
+        "inventory": 2
+      },
+      "positionBeforeMove": {
+        "x": -480.2799987792969,
+        "y": 14.234015464782715,
+        "z": 597.9000244140625
+      },
+      "after": {
+        "remaining": 2,
+        "inventory": 3,
+        "activePickups": 0,
+        "pickups": [],
+        "position": {
+          "x": -480.2799987792969,
+          "y": 14.233597755432129,
+          "z": 597.7889404296875
+        },
+        "ecology": 2
+      }
+    },
+    {
+      "key": "gallery-sapwood",
+      "id": "f1:r:-10:13:603",
+      "family": "wood",
+      "before": {
+        "id": "f1:r:-10:13:603",
+        "source": {
+          "x": -486.1,
+          "y": 17.11965524651481,
+          "z": 678.4
+        },
+        "remaining": 5,
+        "resourceId": "wood",
+        "approach": {
+          "x": -485.38,
+          "y": 17.792271860592503,
+          "z": 678.4
+        },
+        "inventory": 0
+      },
+      "positionBeforeMove": {
+        "x": -485.2605895996094,
+        "y": 17.6286678314209,
+        "z": 678.3423461914062
+      },
+      "after": {
+        "remaining": 4,
+        "inventory": 1,
+        "activePickups": 0,
+        "pickups": [],
+        "position": {
+          "x": -485.7976989746094,
+          "y": 17.73531150817871,
+          "z": 677.486083984375
+        },
+        "ecology": 4
+      }
+    },
+    {
+      "key": "gallery-fiber",
+      "id": "f1:r:-10:13:604",
+      "family": "fiber",
+      "before": {
+        "id": "f1:r:-10:13:604",
+        "source": {
+          "x": -484.4,
+          "y": 17.39457889365051,
+          "z": 675.2
+        },
+        "remaining": 3,
+        "resourceId": "fiber",
+        "approach": {
+          "x": -483.67999999999995,
+          "y": 17.98342100511848,
+          "z": 675.2
+        },
+        "inventory": 3
+      },
+      "positionBeforeMove": {
+        "x": -483.67999267578125,
+        "y": 17.799524307250977,
+        "z": 675.2000122070312
+      },
+      "after": {
+        "remaining": 2,
+        "inventory": 4,
+        "activePickups": 0,
+        "pickups": [],
+        "position": {
+          "x": -483.677978515625,
+          "y": 17.807903289794922,
+          "z": 675.0037841796875
+        },
+        "ecology": 2
+      }
+    },
+    {
+      "key": "verge-iron",
+      "id": "f1:r:-9:14:605",
+      "family": "iron_ore",
+      "before": {
+        "id": "f1:r:-9:14:605",
+        "source": {
+          "x": -420.6,
+          "y": 18.704335464261206,
+          "z": 700.9
+        },
+        "remaining": 5,
+        "resourceId": "iron_ore",
+        "approach": {
+          "x": -419.88,
+          "y": 19.41760463833671,
+          "z": 700.9
+        },
+        "inventory": 0
+      },
+      "positionBeforeMove": {
+        "x": -419.8785400390625,
+        "y": 19.258434295654297,
+        "z": 700.9010009765625
+      },
+      "after": {
+        "remaining": 4,
+        "inventory": 1,
+        "activePickups": 0,
+        "pickups": [],
+        "position": {
+          "x": -418.8962707519531,
+          "y": 19.266530990600586,
+          "z": 701.2055053710938
+        },
+        "ecology": 4
+      }
+    },
+    {
+      "key": "verge-crystal",
+      "id": "f1:r:-9:13:606",
+      "family": "crystal_shard",
+      "before": {
+        "id": "f1:r:-9:13:606",
+        "source": {
+          "x": -417.2,
+          "y": 18.834078395524323,
+          "z": 699.5
+        },
+        "remaining": 4,
+        "resourceId": "crystal_shard",
+        "approach": {
+          "x": -416.47999999999996,
+          "y": 19.553115780120113,
+          "z": 699.5
+        },
+        "inventory": 0
+      },
+      "positionBeforeMove": {
+        "x": -416.4785461425781,
+        "y": 19.394489288330078,
+        "z": 699.5
+      },
+      "after": {
+        "remaining": 3,
+        "inventory": 1,
+        "activePickups": 0,
+        "pickups": [],
+        "position": {
+          "x": -415.5806884765625,
+          "y": 19.38200569152832,
+          "z": 700.0304565429688
+        },
+        "ecology": 3
+      }
+    },
+    {
+      "restored": {
+        "imported": {
+          "ok": true,
+          "state": {
+            "version": 3,
+            "skillUnlocks": [],
+            "skillPointsAvailable": 1,
+            "inventory": {
+              "packTier": 0,
+              "pack": [
+                {
+                  "id": "berries",
+                  "count": 2
+                },
+                {
+                  "id": "fiber",
+                  "count": 4
+                },
+                {
+                  "id": "wood",
+                  "count": 1
+                },
+                {
+                  "id": "iron_ore",
+                  "count": 1
+                },
+                {
+                  "id": "crystal_shard",
+                  "count": 1
+                },
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null
+              ],
+              "containers": [
+                {
+                  "id": "pod_locker",
+                  "type": "pod",
+                  "label": "Pod locker",
+                  "slots": [
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null
+                  ]
+                }
+              ],
+              "legacy": {},
+              "totals": {
+                "gathered": 7,
+                "returned": 0
+              }
+            },
+            "activeRun": {
+              "runId": "87feb575-6e33-42bd-bc43-0e1f6cf79972",
+              "startAnchorId": "gate_camp_frontier",
+              "sectionId": "camp",
+              "feet": {
+                "x": -415.5806884765625,
+                "y": 18.841989852837266,
+                "z": 700.0304565429688
+              },
+              "facingYaw": 1.5707963267948966,
+              "health": 5,
+              "xp": 0,
+              "companions": [],
+              "corePending": false,
+              "kills": 0,
+              "maxDepth": 0,
+              "frontierDeparted": true,
+              "newWaypoints": [],
+              "newBeacons": []
+            },
+            "bankedResources": {
+              "wood": 1,
+              "stone": 0,
+              "fiber": 4,
+              "berries": 2,
+              "iron_ore": 1,
+              "crystal_shard": 1,
+              "wildflower": 0
+            },
+            "bankedXp": 10,
+            "unlockedMajorWaypointIds": [],
+            "discoveredBeaconIds": [],
+            "repairedPortalGateIds": [],
+            "claimedLootChestIds": [],
+            "lootChestReadyAt": {},
+            "hasDepartedOnce": true,
+            "upgrades": {
+              "matter_attractor": 0,
+              "field_tool": 0,
+              "vitality": 0,
+              "capture_capacity": 0,
+              "field_medicine": 0
+            },
+            "matterAttractorI": false,
+            "securedCompanions": [],
+            "activeCompanionId": null,
+            "ownedWildkin": [],
+            "activeWildkinId": null,
+            "capturedWildkinSources": {},
+            "discoveredSpecies": [],
+            "observationClues": {},
+            "completedObjectives": [
+              "first_harvest"
+            ],
+            "completedPoiIds": [],
+            "campaignCompleted": false,
+            "craftedConsumables": {
+              "medkit": 0
+            },
+            "fieldSupplies": {
+              "trail_ration": 0,
+              "berry_lure": 0,
+              "woven_snare": 0,
+              "calming_chime": 0,
+              "reinforced_tether": 0
+            },
+            "base": {
+              "tier": 0,
+              "layout": {
+                "version": 1,
+                "yardExpanded": false,
+                "clearedDebrisIds": [],
+                "legacyApron": false
+              },
+              "structures": []
+            },
+            "campCare": null,
+            "campCrop": null,
+            "campBreeding": null,
+            "nextCampBreedingSequence": 1,
+            "loadout": {
+              "slots": [
+                "omni_tool",
+                "medkit",
+                "berry_lure",
+                "woven_snare",
+                "build_tool"
+              ],
+              "selected": 0
+            },
+            "ecology": {
+              "edition": 1,
+              "seed": 1327115068,
+              "resources": {
+                "f1:r:-10:12:600": 3,
+                "f1:r:-10:12:601": 3,
+                "f1:r:-10:11:602": 2,
+                "f1:r:-10:13:603": 4,
+                "f1:r:-10:13:604": 2,
+                "f1:r:-9:14:605": 4,
+                "f1:r:-9:13:606": 3
+              }
+            },
+            "atlas": {
+              "edition": 1,
+              "seed": 1327115068,
+              "chunks": {
+                "f1:a:-1:-1": 25690112,
+                "f1:a:0:-1": 3178496,
+                "f1:a:-1:0": 536,
+                "f1:a:0:0": 35,
+                "f1:a:-10:11": 15925248,
+                "f1:a:-10:12": 207,
+                "f1:a:-10:13": 2333920,
+                "f1:a:-9:13": 31850496,
+                "f1:a:-9:14": 414
+              }
+            }
+          }
+        },
+        "resources": {
+          "f1:r:-10:12:600": 3,
+          "f1:r:-10:12:601": 3,
+          "f1:r:-10:11:602": 2,
+          "f1:r:-10:13:603": 4,
+          "f1:r:-10:13:604": 2,
+          "f1:r:-9:14:605": 4,
+          "f1:r:-9:13:606": 3
+        }
+      }
+    }
+  ]
+}

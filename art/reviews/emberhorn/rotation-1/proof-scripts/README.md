@@ -1,0 +1,1 @@
+Executed root-owned native proof scripts. Re-running current factory scripts renders current source; historical baseline/R1/R2/R3 geometry is retained separately in the exact native-mesh JSON snapshots. Private earned-save fixture is intentionally not included. No AI/creature-state mutation is used for encounter proof.

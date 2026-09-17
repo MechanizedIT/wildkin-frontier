@@ -1,0 +1,40 @@
+<!doctype html><meta charset="utf-8"><title>Rootbound ground facets R2</title>
+<style>body{margin:0;background:#13212a;color:#edf3dd;font:14px system-ui;display:flex;gap:20px}iframe{width:412px;height:915px;border:0;flex:none}aside{max-width:470px;padding:14px}button{display:block;margin:12px 0;padding:12px}pre{white-space:pre-wrap;font-size:11px}</style>
+<iframe id="game" src="/?scout=1"></iframe><aside><h1>Rootbound ground comparison</h1><p>Private Scout. Renderer-only planes and tint; physics, resources and saves remain baseline.</p><button id="destination">Position at Lantern threshold</button><button id="baseline">Restore original ground</button><button id="candidate" disabled>Preview broad facets</button><button id="measure">Read current pose</button><pre id="receipt">Start or continue Scout, then position.</pre></aside>
+<script type="module">
+const frame=document.querySelector('#game'),receipt=document.querySelector('#receipt'),get=()=>frame.contentWindow.__game;
+const evidence=await fetch('/art/reviews/rootbound-wildwood/terrain-facets-r2/feasibility.json').then(r=>{if(!r.ok)throw Error('Missing feasibility');return r.json()});
+const by=new Map(evidence.vertices.map(v=>[`${v.x},${v.z}`,v]));
+const saved=new Map();
+document.querySelector('#candidate').disabled=false;
+function restore(){for(const [o,s] of saved){o.geometry=s.geometry;o.material=s.material;s.previewGeometry.dispose();s.previewMaterial.dispose()}saved.clear()}
+function pose(){const g=get();return {pose:g.playerController.getState().pos,camera:g.camera.position.toArray(),cameraFollow:g.cameraFollow._debug(),render:g.renderer.info.render}}
+document.querySelector('#destination').onclick=()=>{restore();const g=get();g.characterPhysics.setPosition({x:-449,y:g.frontierChunks.getHeight(-449,675)+.7,z:675});g.playerController.syncPosFromPhysics();g.playerController.snapRenderPose();g.cameraFollow.orbitBy(-2.3-g.cameraFollow.getYaw());g.cameraFollow.snap();receipt.textContent='Positioned. Allow terrain streaming, then preview.'};
+document.querySelector('#baseline').onclick=()=>{restore();receipt.textContent=JSON.stringify({mode:'restored baseline',...pose()},null,2)};
+document.querySelector('#candidate').onclick=()=>{
+ restore();const g=get();let changed=0,maxDelta=0,maxTintDelta=0;g.scene.updateMatrixWorld(true);
+ try{g.scene.traverse(o=>{
+  if(o.name!=='frontier_ground'||!o.geometry)return;
+  const me=o.matrixWorld.elements;
+  if(Math.abs(me[0]-1)+Math.abs(me[5]-1)+Math.abs(me[10]-1)+Math.abs(me[1])+Math.abs(me[2])+Math.abs(me[4])+Math.abs(me[6])+Math.abs(me[8])+Math.abs(me[9])>1e-8)throw Error('Ground must be translation-only');
+  if(Array.isArray(o.material)||!o.material.map||o.material.vertexColors||!o.material.flatShading)throw Error('Unexpected baseline terrain material');
+  const original=o.geometry,attr=original.attributes.position,edits=[];
+  for(let i=0;i<attr.count;i++){
+   const x=attr.getX(i)+me[12],z=attr.getZ(i)+me[14],v=by.get(`${x},${z}`);
+   if(!v||Math.abs(v.deltaM)<1e-8)continue;
+   if(Math.abs(attr.getY(i)+me[13]-v.y)>1e-5)throw Error('Current ground differs from planned baseline');
+   edits.push([i,v]);
+  }
+  if(!edits.length)return;
+  const geometry=original.clone(),material=o.material.clone(),colors=new Float32Array(attr.count*3).fill(1);
+  for(const [i,v] of edits){geometry.attributes.position.setY(i,attr.getY(i)+v.deltaM);colors.set(v.candidateVertexColorMultiplier,i*3);changed++;maxDelta=Math.max(maxDelta,Math.abs(v.deltaM));maxTintDelta=Math.max(maxTintDelta,...v.candidateVertexColorMultiplier.map(c=>Math.abs(c-1)))}
+  geometry.setAttribute('color',new g.THREE.BufferAttribute(colors,3));geometry.attributes.position.needsUpdate=true;geometry.computeVertexNormals();geometry.computeBoundingSphere();
+  material.vertexColors=true;material.needsUpdate=true;
+  saved.set(o,{geometry:original,material:o.material,previewGeometry:geometry,previewMaterial:material});o.geometry=geometry;o.material=material;
+ });if(changed===0)throw Error('No planned terrain loaded');
+ receipt.textContent=JSON.stringify({mode:'renderer-only broad facet candidate',changedVertexCopies:changed,maxDeltaM:maxDelta,maxTintDelta,chunks:saved.size,physics:'unchanged; this is not support proof',...pose()},null,2);
+ }catch(error){restore();receipt.textContent=String(error);throw error}
+};
+document.querySelector('#measure').onclick=()=>{receipt.textContent=JSON.stringify(pose(),null,2)};
+window.addEventListener('pagehide',restore);
+</script>

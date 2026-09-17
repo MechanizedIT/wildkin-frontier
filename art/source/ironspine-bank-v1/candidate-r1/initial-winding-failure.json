@@ -1,0 +1,47 @@
+{
+  "status": "PRE_RENDER_AUDIT",
+  "inputSha256": "0c403c94dc9afad763f0761bb95d1744db8072e15f6c9c4d9c2bea5e55c94252",
+  "blenderVersion": "4.5.3 LTS",
+  "meshValidateChanged": false,
+  "vertices": 63,
+  "triangles": 122,
+  "edgeUseHistogram": {
+    "2": 183
+  },
+  "components": 1,
+  "signedVolume": 1.7336519112723174,
+  "zeroAreaTriangles": 0,
+  "gameAxisRoundtripMaxError": 5.7220459037665705e-08,
+  "boundsGame": {
+    "min": [
+      -1.7999999523162842,
+      -0.3799999952316284,
+      -0.5
+    ],
+    "max": [
+      1.7999999523162842,
+      1.6200000047683716,
+      0.5
+    ]
+  },
+  "capSourceFaces": {
+    "leftCap": [
+      108,
+      109,
+      110,
+      111,
+      112,
+      113,
+      114
+    ],
+    "rightCap": [
+      115,
+      116,
+      117,
+      118,
+      119,
+      120,
+      121
+    ]
+  }
+}

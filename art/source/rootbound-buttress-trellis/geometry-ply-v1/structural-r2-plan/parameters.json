@@ -1,0 +1,172 @@
+{
+  "schema": "rootbound-buttress-structural-r2-parameters-v3",
+  "status": "PROPOSED_FOR_INDEPENDENT_REVIEW",
+  "source": {
+    "path": "art/source/rootbound-buttress-trellis/geometry-ply-v1/raw-geometry.ply",
+    "sha256": "3005ad1a1f3039a946db633b323ace8bc73856e91f38bfef4fc1faaf59ce223c",
+    "vertex_count": 514489,
+    "face_count": 1029792,
+    "axis": "Z-up",
+    "uniform_scale": 4.998019228586503,
+    "ground_translation_z_m": 1.9582843403471133
+  },
+  "invariants": {
+    "positions_only": true,
+    "preserve_faces_byte_for_byte": true,
+    "no_boolean": true,
+    "no_remesh": true,
+    "no_decimate": true,
+    "no_vertex_group_dependency": true,
+    "no_z_displacement": true,
+    "height_scaling": "uniform only; no Z stretch"
+  },
+  "collar_center_xy_m": [
+    -0.24095306977335498,
+    -0.320092902333563
+  ],
+  "web_broadening": [
+    {
+      "name": "near_existing_web_260_280",
+      "source_lobe_angular_range_deg": [
+        260,
+        280
+      ],
+      "center_bearing_deg": 270.0,
+      "z_range_m": [
+        0.0,
+        0.74
+      ],
+      "radial_range_m": [
+        0.32,
+        2.1798198956913537
+      ],
+      "angular_half_width_deg": 17.0,
+      "lateral_max_offset_m": 0.14,
+      "lateral_response_half_width_m": 0.15,
+      "rule": "perpendicular(unit(bearing)) * tanh(perpendicular local coordinate / lateral_response_half_width_m) * lateral_max_offset * smooth Z/radius/cosine-squared-angle falloffs"
+    },
+    {
+      "name": "near_existing_web_320_350",
+      "source_lobe_angular_range_deg": [
+        320,
+        350
+      ],
+      "center_bearing_deg": 335.0,
+      "z_range_m": [
+        0.0,
+        0.88
+      ],
+      "radial_range_m": [
+        0.32,
+        2.909252622212938
+      ],
+      "angular_half_width_deg": 22.0,
+      "lateral_max_offset_m": 0.18,
+      "lateral_response_half_width_m": 0.15,
+      "rule": "perpendicular(unit(bearing)) * tanh(perpendicular local coordinate / lateral_response_half_width_m) * lateral_max_offset * smooth Z/radius/cosine-squared-angle falloffs"
+    }
+  ],
+  "trunk_s_bend": {
+    "selection": "distance in XY from interpolated measured centerline <= 0.42m, then smooth edge to 0.54m; Z 1.35..3.20m with 0.12m vertical edges. Upper fork is intentionally not displaced after candidate normal audit.",
+    "source_centerline_samples_m": [
+      [
+        1.5,
+        -0.24095306977335498,
+        -0.320092902333563
+      ],
+      [
+        2.0,
+        -0.5460121368447561,
+        -0.3580555096468795
+      ],
+      [
+        2.5,
+        -0.48695685530652927,
+        -0.3735717235572905
+      ],
+      [
+        3.0,
+        -0.24833386434781224,
+        -0.5012235552299074
+      ],
+      [
+        3.4,
+        -0.2749118146951593,
+        -0.5736199528225248
+      ],
+      [
+        3.7,
+        0.43096257490536133,
+        -0.5593587335584868
+      ]
+    ],
+    "target_offset_xy_m_by_height": [
+      [
+        1.5,
+        0.0,
+        0.0
+      ],
+      [
+        2.0,
+        -0.025,
+        -0.01
+      ],
+      [
+        2.5,
+        -0.065,
+        -0.025
+      ],
+      [
+        3.0,
+        -0.035,
+        -0.055
+      ],
+      [
+        3.4,
+        0.055,
+        -0.065
+      ],
+      [
+        3.7,
+        0.105,
+        -0.03
+      ]
+    ],
+    "rule": "linearly interpolate height controls; multiply XY offset by radial and vertical smoothstep weights.",
+    "core_full_radius_m": 0.3,
+    "core_edge_m": 0.12,
+    "z_range_m": [
+      1.35,
+      3.2
+    ],
+    "vertical_edge_m": 0.12
+  },
+  "fixed_projection_camera": {
+    "position_direction_from_asset_xyz": [
+      1.0,
+      -1.0,
+      0.38
+    ],
+    "target_xyz": [
+      0.0,
+      0.0,
+      1.5
+    ],
+    "distance_m": 8.0,
+    "projection": "orthographic frame fit to complete proposed point cloud with 5% margin",
+    "interpretation": "camera is positioned in the stated direction from the asset and looks toward target; selected-vertex projection/depth proxy only, not triangle rasterization or occlusion proof"
+  },
+  "four_cadence_interpretation": {
+    "observed_low_lobes": 5,
+    "retained_unmoved": [
+      "20-50 degree lobe",
+      "90-120 degree lobe",
+      "160-190 degree lobe"
+    ],
+    "r2_visible_web_operations": [
+      "260-280 degree lobe broadened",
+      "320-350 degree lobe broadened"
+    ],
+    "claim_limit": "R2 improves two pre-existing camera-near web readings and a trunk S-bend. It does not claim a verified four-root consolidation; changing five lobes to four needs later topology evidence."
+  }
+}

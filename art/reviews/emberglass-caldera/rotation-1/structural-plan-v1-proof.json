@@ -1,0 +1,284 @@
+{
+  "status": "PREIMPLEMENTATION_NUMERICAL_PLAN_ONLY",
+  "shoulders": [
+    {
+      "id": "left-connected-shoulder",
+      "x": 845.2,
+      "z": -1968.5,
+      "rx": 2.4,
+      "rz": 5.5,
+      "peak": 1.1
+    },
+    {
+      "id": "right-broken-shoulder",
+      "x": 854.8,
+      "z": -1969,
+      "rx": 2.3,
+      "rz": 5,
+      "peak": 0.72
+    }
+  ],
+  "protection": {
+    "clearLane": "zero delta |x-850|<=2.32 from z-1980..-1932",
+    "resources": [
+      [
+        846.5,
+        -1976,
+        1.3,
+        "crystal"
+      ],
+      [
+        854,
+        -1980,
+        0.93,
+        "iron"
+      ]
+    ],
+    "home": [
+      850,
+      -1986,
+      10
+    ],
+    "routeHalfWidth": 4
+  },
+  "affectedGrid": [
+    {
+      "x": 844,
+      "z": -1972,
+      "base": 10.753246,
+      "delta": 0.130959,
+      "final": 10.884204,
+      "routeDistance": 5.798,
+      "resourceClearance": 3.417,
+      "homeClearance": 5.232
+    },
+    {
+      "x": 844,
+      "z": -1970,
+      "base": 10.895553,
+      "delta": 0.502108,
+      "final": 11.397661,
+      "routeDistance": 6,
+      "resourceClearance": 5.2,
+      "homeClearance": 7.088
+    },
+    {
+      "x": 844,
+      "z": -1968,
+      "base": 10.8408,
+      "delta": 0.605189,
+      "final": 11.445989,
+      "routeDistance": 6,
+      "resourceClearance": 7.082,
+      "homeClearance": 8.974
+    },
+    {
+      "x": 844,
+      "z": -1966,
+      "base": 10.661969,
+      "delta": 0.324798,
+      "final": 10.986767,
+      "routeDistance": 6,
+      "resourceClearance": 9.008,
+      "homeClearance": 10.881
+    },
+    {
+      "x": 844,
+      "z": -1964,
+      "base": 10.59458,
+      "delta": 0.007142,
+      "final": 10.601722,
+      "routeDistance": 6,
+      "resourceClearance": 10.958,
+      "homeClearance": 12.804
+    },
+    {
+      "x": 846,
+      "z": -1972,
+      "base": 11.655723,
+      "delta": 0.257607,
+      "final": 11.91333,
+      "routeDistance": 4,
+      "resourceClearance": 2.731,
+      "homeClearance": 4.56
+    },
+    {
+      "x": 846,
+      "z": -1970,
+      "base": 12.441679,
+      "delta": 0.729767,
+      "final": 13.171446,
+      "routeDistance": 4,
+      "resourceClearance": 4.721,
+      "homeClearance": 6.492
+    },
+    {
+      "x": 846,
+      "z": -1968,
+      "base": 10.891972,
+      "delta": 0.853049,
+      "final": 11.745021,
+      "routeDistance": 4,
+      "resourceClearance": 6.716,
+      "homeClearance": 8.439
+    },
+    {
+      "x": 846,
+      "z": -1966,
+      "base": 11.443055,
+      "delta": 0.512053,
+      "final": 11.955107,
+      "routeDistance": 4,
+      "resourceClearance": 8.712,
+      "homeClearance": 10.396
+    },
+    {
+      "x": 846,
+      "z": -1964,
+      "base": 11.013442,
+      "delta": 0.052983,
+      "final": 11.066425,
+      "routeDistance": 4,
+      "resourceClearance": 10.71,
+      "homeClearance": 12.361
+    },
+    {
+      "x": 854,
+      "z": -1972,
+      "base": 11.484337,
+      "delta": 0.193953,
+      "final": 11.678289,
+      "routeDistance": 4,
+      "resourceClearance": 7.07,
+      "homeClearance": 4.56
+    },
+    {
+      "x": 854,
+      "z": -1970,
+      "base": 11.219305,
+      "delta": 0.506844,
+      "final": 11.726149,
+      "routeDistance": 4,
+      "resourceClearance": 8.305,
+      "homeClearance": 6.492
+    },
+    {
+      "x": 854,
+      "z": -1968,
+      "base": 11.43603,
+      "delta": 0.506844,
+      "final": 11.942873,
+      "routeDistance": 4,
+      "resourceClearance": 9.666,
+      "homeClearance": 8.439
+    },
+    {
+      "x": 854,
+      "z": -1966,
+      "base": 10.807352,
+      "delta": 0.193953,
+      "final": 11.001305,
+      "routeDistance": 4,
+      "resourceClearance": 11.2,
+      "homeClearance": 10.396
+    },
+    {
+      "x": 856,
+      "z": -1972,
+      "base": 10.553917,
+      "delta": 0.097393,
+      "final": 10.65131,
+      "routeDistance": 6,
+      "resourceClearance": 7.316,
+      "homeClearance": 5.232
+    },
+    {
+      "x": 856,
+      "z": -1970,
+      "base": 10.63447,
+      "delta": 0.340598,
+      "final": 10.975068,
+      "routeDistance": 6,
+      "resourceClearance": 9.268,
+      "homeClearance": 7.088
+    },
+    {
+      "x": 856,
+      "z": -1968,
+      "base": 10.52404,
+      "delta": 0.340598,
+      "final": 10.864638,
+      "routeDistance": 6,
+      "resourceClearance": 11.12,
+      "homeClearance": 8.974
+    },
+    {
+      "x": 856,
+      "z": -1966,
+      "base": 10.399328,
+      "delta": 0.097393,
+      "final": 10.496722,
+      "routeDistance": 6,
+      "resourceClearance": 12.493,
+      "homeClearance": 10.881
+    }
+  ],
+  "projections": {
+    "arrival": {
+      "count": 0,
+      "bounds": null,
+      "rows": []
+    },
+    "interior": {
+      "count": 2,
+      "bounds": {
+        "minX": 19.63,
+        "maxX": 391.1,
+        "minY": 212.55,
+        "maxY": 223.02
+      },
+      "rows": [
+        {
+          "x": 846,
+          "z": -1972,
+          "p": {
+            "x": 19.63,
+            "y": 212.55,
+            "front": true
+          },
+          "delta": 0.257607
+        },
+        {
+          "x": 854,
+          "z": -1972,
+          "p": {
+            "x": 391.1,
+            "y": 223.02,
+            "front": true
+          },
+          "delta": 0.193953
+        }
+      ]
+    },
+    "destination": {
+      "count": 0,
+      "bounds": null,
+      "rows": []
+    }
+  },
+  "ecologyAudit": {
+    "stagedCalderaIds": [
+      "stage-caldera-spire-left",
+      "stage-caldera-bloom-left-front",
+      "stage-caldera-bloom-left-back",
+      "stage-caldera-rubble-left",
+      "stage-caldera-spire-right",
+      "stage-caldera-bloom-right-front",
+      "stage-caldera-bloom-right-back",
+      "stage-caldera-rubble-right",
+      "stage-caldera-spire-rear"
+    ],
+    "ordinaryScenery": "must be resampled and compare exact source IDs/transforms across every affected chunk before source freeze; no selection count/cap change authorized"
+  },
+  "limits": "Projection and analytic source exclusions are feasibility only. Rendered 2m triangles, complete .32 footprint, all ecology admission/support, native traversal and persistence remain implementation gates."
+}

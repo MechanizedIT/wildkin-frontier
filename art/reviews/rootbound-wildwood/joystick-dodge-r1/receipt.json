@@ -1,0 +1,143 @@
+{
+  "errors": [],
+  "checks": [
+    "CDP two-thumb Dodge fires before thumb two releases, preserves thumb one, and travels with the held stick.",
+    "Stationary touch Dodge enters DODGE with no active stick, using facing fallback."
+  ],
+  "setup": "Fresh 412x915 mobile/touch browser context. A diagnostic Camp teleport to (0, 12) precedes input only; no user save is read or written.",
+  "dualThumb": {
+    "beforeDodge": {
+      "pos": {
+        "x": 0.1263250857591629,
+        "y": 0.5223418474197388,
+        "z": 11.52720832824707
+      },
+      "facing": 2.936950843760015,
+      "mode": "RUN",
+      "cooldown": 0,
+      "touch": {
+        "moveX": 0.20321645683272072,
+        "moveY": -0.9791338374667453,
+        "moveMagnitude": 1,
+        "movementBand": "run",
+        "jumpRequested": false,
+        "dodgeRequested": false,
+        "dodgeX": 0,
+        "dodgeY": 0,
+        "attackRequested": false,
+        "attackHeld": false
+      },
+      "forward": {
+        "x": 0,
+        "z": -1
+      }
+    },
+    "duringDodge": {
+      "pos": {
+        "x": 0.3257738947868347,
+        "y": 0.5219999551773071,
+        "z": 10.566086769104004
+      },
+      "facing": 2.936950843760015,
+      "mode": "DODGE",
+      "cooldown": 0.4666666666666666,
+      "touch": {
+        "moveX": 0.20321645683272072,
+        "moveY": -0.9791338374667453,
+        "moveMagnitude": 1,
+        "movementBand": "run",
+        "jumpRequested": false,
+        "dodgeRequested": false,
+        "dodgeX": 0,
+        "dodgeY": 0,
+        "attackRequested": false,
+        "attackHeld": false
+      },
+      "forward": {
+        "x": 0,
+        "z": -1
+      }
+    },
+    "afterTravel": {
+      "pos": {
+        "x": 0.6705357432365417,
+        "y": 0.521998941898346,
+        "z": 8.904881477355957
+      },
+      "facing": 2.936950843760015,
+      "mode": "RUN",
+      "cooldown": 0.26666666666666666,
+      "touch": {
+        "moveX": 0.20321645683272072,
+        "moveY": -0.9791338374667453,
+        "moveMagnitude": 1,
+        "movementBand": "run",
+        "jumpRequested": false,
+        "dodgeRequested": false,
+        "dodgeX": 0,
+        "dodgeY": 0,
+        "attackRequested": false,
+        "attackHeld": false
+      },
+      "forward": {
+        "x": 0,
+        "z": -1
+      }
+    }
+  },
+  "stationary": {
+    "stationaryBefore": {
+      "pos": {
+        "x": 0.6836318373680115,
+        "y": 0.5219900608062744,
+        "z": 8.841780662536621
+      },
+      "facing": 2.936950843760015,
+      "mode": "IDLE",
+      "cooldown": 0,
+      "touch": {
+        "moveX": 0,
+        "moveY": 0,
+        "moveMagnitude": 0,
+        "movementBand": "idle",
+        "jumpRequested": false,
+        "dodgeRequested": false,
+        "dodgeX": 0,
+        "dodgeY": 0,
+        "attackRequested": false,
+        "attackHeld": false
+      },
+      "forward": {
+        "x": 0,
+        "z": -1
+      }
+    },
+    "stationaryDuring": {
+      "pos": {
+        "x": 0.9071597456932068,
+        "y": 0.5220000147819519,
+        "z": 7.7647624015808105
+      },
+      "facing": 2.936950843760015,
+      "mode": "DODGE",
+      "cooldown": 0.44999999999999996,
+      "touch": {
+        "moveX": 0,
+        "moveY": 0,
+        "moveMagnitude": 0,
+        "movementBand": "idle",
+        "jumpRequested": false,
+        "dodgeRequested": false,
+        "dodgeX": 0,
+        "dodgeY": 0,
+        "attackRequested": false,
+        "attackHeld": false
+      },
+      "forward": {
+        "x": 0,
+        "z": -1
+      }
+    }
+  },
+  "failure": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n\n'JUMP' !== 'DODGE'\n\n    at file:///C:/Users/cwood/Documents/mobile-rpg/tools/check-joystick-dodge.mjs:66:10"
+}

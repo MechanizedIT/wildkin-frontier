@@ -1,0 +1,55 @@
+{
+  "method": "manual-blender-construction-after-conservative-early-stop-of-owned-trellis-cold-start-before-readiness",
+  "trellisColdStart": {
+    "ownedProcessId": 7704,
+    "startedUtc": "2026-09-14T09:08:12.4122293Z",
+    "lastStartupLogLocal": "2026-09-14T04:09:04-05:00",
+    "evidence": "The service had not reached ready state during the short observed startup. Its documented cold start may take several minutes.",
+    "freeRamDuringStartupGiB": 13.1,
+    "reserveGiB": 6.0,
+    "reasonStopped": "conservative early stop before readiness; this was not a reserve-guard violation or a proven service failure",
+    "generationRan": false
+  },
+  "reference": "../reference/target-v1.png",
+  "mesh": {
+    "triangles": 740,
+    "materials": 1,
+    "bounds": {
+      "min": [
+        -3.1290340423583984,
+        -0.110404372215271,
+        0.0
+      ],
+      "max": [
+        3.0244174003601074,
+        6.710000038146973,
+        3.7368674278259277
+      ],
+      "dimensions": [
+        6.153451442718506,
+        6.820404410362244,
+        3.7368674278259277
+      ]
+    },
+    "grounded": true
+  },
+  "colliderProposal": {
+    "type": "box",
+    "dimensions": [
+      2.8,
+      2.2,
+      2.6
+    ],
+    "offset": [
+      0.0,
+      1.1,
+      0.0
+    ],
+    "scope": "lower trunk/root core only; buttress tips and canopy are non-solid"
+  },
+  "glb": {
+    "file": "rootbound-buttress-v1.glb",
+    "sha256": "8dd98553d287d217f701334912782e5e6792c551152e21d0d08acffe3b647640",
+    "bytes": 88352
+  }
+}

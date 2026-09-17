@@ -1,0 +1,12 @@
+{
+  "mesh": "GEO_B2_ConnectedButtressTree",
+  "vertexCount": 402,
+  "polygonCount": 400,
+  "connectedComponents": 2,
+  "componentVertexCountsDescending": [
+    242,
+    160
+  ],
+  "boundaryEdges": 0,
+  "nonManifoldEdges": 0
+}

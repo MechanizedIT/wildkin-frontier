@@ -1,0 +1,28 @@
+{
+  "disposedOther": true,
+  "otherRemoved": true,
+  "primarySkeletonIntact": true,
+  "templateIntact": true,
+  "primaryState": {
+    "time": 67.52580000000256,
+    "frames": 3631,
+    "pos": {
+      "x": -0.004209672100841999,
+      "y": 0.5150584578514099,
+      "z": 5.271704196929932
+    },
+    "base": [
+      -0.004209672100841999,
+      0.015058465956826694,
+      5.271704196929932
+    ],
+    "animation": "idle",
+    "clipTime": 0.016164865612984483,
+    "rate": 1,
+    "grounded": true,
+    "render": {
+      "calls": 2,
+      "triangles": 59376
+    }
+  }
+}

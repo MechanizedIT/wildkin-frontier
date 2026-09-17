@@ -191,7 +191,9 @@ function resolveSpawnCapsuleCenter(feetY){
 let campSpawn = worldRegistry.getCampSpawnPosition();
 let startPos = { x: campSpawn.x, y: resolveSpawnCapsuleCenter(campSpawn.y ?? 0), z: campSpawn.z };
 const campStartFacing = campSpawn.facingYaw ?? 0;
-const characterPhysics = createCharacterPhysics(RAPIER, physicsWorld.world, startPos);
+const characterPhysics = createCharacterPhysics(RAPIER, physicsWorld.world, startPos, {
+  isTerrainCollider: physicsWorld.isTerrainColliderActive,
+});
 const playerProjectedShadow = createPlayerProjectedShadow({ scene, player, characterPhysics, physicsWorld, playground });
 
 if (!validateMatterAttractorCost(resourceDrops, MATTER_ATTRACTOR_I.cost)) {
@@ -713,7 +715,7 @@ contextualInteraction = createContextualInteraction({
         }
       }
     } else if (info.type === "bond") {
-      betaGame?.beginBond(info.id);
+      betaGame?.activateWildkinInteraction(info);
     } else if (info.type === 'rootfall') {
       betaGame?.rootfall.activate();
     } else if (info.type === "portalGate") {
@@ -1014,6 +1016,7 @@ betaGame = createBetaGame({
   repairPortalGate:id=>portalGateSystem.repair(id),
   onGameplayAction: (type) => {
     if (type === "fieldToolStart") { keyboardInput.triggerAttack(); keyboardInput.setFieldToolHeld(true); }
+    else if (type === "contextualAttack") keyboardInput.triggerAttack();
     else if (type === "equipmentCancel") { keyboardInput.setFieldToolHeld(false); keyboardInput.consumeAttack(); pendingAttackLatch = false; fieldTool.hardReset(); }
     else if (type === "fieldToolEnd") keyboardInput.setFieldToolHeld(false);
     else if (type === "dodge") keyboardInput.requestDodge();

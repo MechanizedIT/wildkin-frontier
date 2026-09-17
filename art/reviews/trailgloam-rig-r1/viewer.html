@@ -1,0 +1,23 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><title>Trailgloam fitted rig diagnostic</title>
+<style>body{margin:0;background:#19272e;color:#e7eadd;font:15px system-ui;display:flex;gap:20px}canvas{display:block;width:640px;height:640px}aside{padding:18px;max-width:420px}button,select,input{margin:8px 0;padding:8px}pre{white-space:pre-wrap;font-size:12px}label{display:block}a{color:#91e1ca}</style>
+<script type="importmap">{"imports":{"three":"../../../vendor/three.module.js"}}</script>
+<main id="render"></main><aside><h1>Trailgloam rig diagnostic</h1><p>Actual exported GLB in the project's Three.js renderer. Diagnostic motion only; this is not species admission.</p><label>Clip <select id="clip"></select></label><label>View <select id="view"><option value="three">Three-quarter</option><option value="side">Side</option><option value="front">Front</option><option value="rear">Rear</option><option value="top">Top</option></select></label><button id="play">Play full clip</button><label>Cycle position <input id="phase" type="range" min="0" max="1" step="0.125" value="0"></label><button id="inspect">Inspect current deformed mesh</button><p>Floor grid: 0.25 m squares.</p><pre id="status">Loading reviewed derivative…</pre><pre id="measurement"></pre></aside>
+<script type="module">
+import * as THREE from 'three';
+import {GLTFLoader} from '../../../vendor/addons/GLTFLoader.js';
+const $=s=>document.querySelector(s), scene=new THREE.Scene();scene.background=new THREE.Color('#8b9a9f');
+const renderer=new THREE.WebGLRenderer({antialias:true,preserveDrawingBuffer:true});renderer.setSize(640,640);renderer.setPixelRatio(1);renderer.outputColorSpace=THREE.SRGBColorSpace;$('#render').append(renderer.domElement);
+scene.add(new THREE.HemisphereLight(0xffffff,0x56616c,2));const light=new THREE.DirectionalLight(0xfff2d9,2.5);light.position.set(3,6,4);scene.add(light);
+const grid=new THREE.GridHelper(4,16,0x5d706f,0x6e8381);scene.add(grid);
+const camera=new THREE.PerspectiveCamera(38,1,.01,50),center=new THREE.Vector3(0,.4,0);
+const path=new URLSearchParams(location.search).get('model')??'/art/source/trailgloam-v1/rig-prep-r1/fitted-r1a/trailgloam-fitted.glb';
+const gltf=await new GLTFLoader().loadAsync(path),model=gltf.scene;scene.add(model);const mixer=new THREE.AnimationMixer(model);let action,playing=false,frames=0,last=performance.now();
+for(const clip of gltf.animations){const o=document.createElement('option');o.value=clip.name;o.textContent=clip.name;$('#clip').append(o)}
+function setView(){const poses={three:[2.6,1.6,3.2],side:[3.5,1.1,0],front:[0,1.1,3.5],rear:[0,1.1,-3.5],top:[0,4,.001]};camera.position.fromArray(poses[$('#view').value]);camera.lookAt(center)}
+function setClip(){mixer.stopAllAction();const clip=gltf.animations.find(c=>c.name===$('#clip').value);action=clip?mixer.clipAction(clip):null;if(action){action.play();action.paused=true;action.time=Number($('#phase').value)*clip.duration;mixer.update(0)}model.updateMatrixWorld(true);status()}
+function status(){const skins=[];model.traverse(o=>{if(o.isSkinnedMesh)skins.push({name:o.name,vertices:o.geometry.attributes.position.count,bones:o.skeleton.bones.length})});$('#status').textContent=JSON.stringify({path,clips:gltf.animations.map(c=>({name:c.name,duration:c.duration,tracks:c.tracks.length})),selected:$('#clip').value,time:action?.time,playing,frames,skins},null,2)}
+$('#clip').onchange=setClip;$('#view').onchange=setView;$('#phase').oninput=()=>{playing=false;$('#play').textContent='Play full clip';setClip()};$('#play').onclick=()=>{playing=!playing;if(action)action.paused=!playing;$('#play').textContent=playing?'Pause':'Play full clip';status()};
+$('#inspect').onclick=()=>{model.updateMatrixWorld(true);const box=new THREE.Box3(),p=new THREE.Vector3();let vertices=0,bad=0;model.traverse(o=>{if(!o.isMesh)return;if(o.isSkinnedMesh)o.skeleton.update();for(let i=0;i<o.geometry.attributes.position.count;i++){o.getVertexPosition(i,p);p.applyMatrix4(o.matrixWorld);if(!Number.isFinite(p.x+p.y+p.z)){bad++;continue}box.expandByPoint(p);vertices++}});$('#measurement').textContent=JSON.stringify({clip:$('#clip').value,time:action?.time,vertices,nonfinite:bad,bounds:{min:box.min.toArray(),max:box.max.toArray()},height:box.max.y-box.min.y},null,2);status()};
+setView();setClip();function loop(now){const dt=Math.min((now-last)/1000,.05);last=now;if(playing)mixer.update(dt);renderer.render(scene,camera);frames++;requestAnimationFrame(loop)}requestAnimationFrame(loop);
+</script></html>
+

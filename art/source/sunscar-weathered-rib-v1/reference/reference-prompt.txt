@@ -1,0 +1,11 @@
+Use case: stylized-concept
+Asset type: isolated mesh-construction reference for one reusable Wildkin Frontier Sunscar Desert weathered sandstone rib.
+Input image: the most recently supplied Sunscar gameplay target is style and environment-language reference only; do not copy its HUD, crystal, vegetation, characters, scene, or framing.
+Primary request: create ONE clean, isolated low-poly warm sandstone weathered rib. Its defining silhouette is broad and horizontal: a single continuous 4.4 m-long sandstone mass with a low 1.6 m maximum height, 2.1 m depth, a long slightly sloping stratified top break, an asymmetric eroded shoulder, one blunt broken end, and two to three shallow vertical erosion planes. It must read as a grounded broad desert rib/low outcrop, clearly wider than tall, not as a tall standing obelisk, cliff column, cave, arch, bridge, creature, or crystal.
+Scene/backdrop: seamless opaque very light warm-gray studio background with only a subtle soft contact shadow.
+Composition/framing: one complete subject only, centered, three-quarter front view, whole base and both ends visible with generous empty margin. No ruler, dimensions, labels, grids, comparison object, pedestal, or diagram; measurements are declared separately and must not be inferred from this perspective render.
+Style/medium: polished economical faceted low-poly Three.js mobile-game prop reference; deliberate large matte planes, modeled shallow bedding ledges, believable solid volume and grounded base.
+Lighting/mood: neutral even studio lighting, readable front/side/top planes without dramatic cast shadows.
+Color palette: opaque warm ochre and sienna sandstone with restrained darker brown-orange bedding planes, never teal.
+Constraints: subject is one fully grounded opaque rock mass; no vegetation, crystals, minerals, water, props, buildings, UI, text, characters, holes, walk-under gap, glow, translucency, reflection, or photorealism.
+Avoid: vertical fen monolith, skinny needle, rounded generic boulder, evenly stacked brick layers, repeating spikes, floating slabs, arch/cave mouth, scene background, watermark.

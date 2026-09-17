@@ -1,0 +1,9 @@
+{
+  "tests": 1435,
+  "test": "PASS",
+  "verify": "PASS",
+  "zip": "PASS",
+  "zipBytes": 22616977,
+  "zipSha256": "c16a826cdc029f44c98e6a10aef1d5efac86bc4864f9b70133b88da71cf749f9",
+  "unpackedBytes": 61291525
+}

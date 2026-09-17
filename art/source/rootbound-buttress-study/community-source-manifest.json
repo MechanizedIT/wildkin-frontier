@@ -1,0 +1,163 @@
+[
+  {
+    "repo": "arjun988/blender-skills",
+    "commit": "8f778d2405a214b508d4c7d80742be8e43acdd52",
+    "path": ".claude/skills/blender-director/SKILL.md",
+    "sha256": "ba10ae3243590f94fb114b6cb1e476f8f0510f0a99de100e8c14651d081bc008",
+    "bytes": 19704
+  },
+  {
+    "repo": "arjun988/blender-skills",
+    "commit": "8f778d2405a214b508d4c7d80742be8e43acdd52",
+    "path": ".claude/skills/blender-director/references/skill-routing.md",
+    "sha256": "8ab89973765d191ecd3c31f26f1c04c3ac77d55f6984244e34b2402d2ee94a04",
+    "bytes": 4234
+  },
+  {
+    "repo": "arjun988/blender-skills",
+    "commit": "8f778d2405a214b508d4c7d80742be8e43acdd52",
+    "path": ".claude/skills/blender-modeler/SKILL.md",
+    "sha256": "00835b5d2281ae056e4bd4b167540a10c39ae95d9a9a4f12828ce875dce8c12c",
+    "bytes": 5158
+  },
+  {
+    "repo": "arjun988/blender-skills",
+    "commit": "8f778d2405a214b508d4c7d80742be8e43acdd52",
+    "path": ".claude/skills/blender-modeler/references/modifier-stack.md",
+    "sha256": "705b242c0c4f187ef76287a5048f7a28ea7f153c134ca48edcc015af796c900a",
+    "bytes": 1412
+  },
+  {
+    "repo": "arjun988/blender-skills",
+    "commit": "8f778d2405a214b508d4c7d80742be8e43acdd52",
+    "path": ".claude/skills/blender-modeler/references/scene-organization.md",
+    "sha256": "fa659b29d4be872918c3cb45bce294e535e99baa6acb27c6bf3829d381cf21e5",
+    "bytes": 980
+  },
+  {
+    "repo": "arjun988/blender-skills",
+    "commit": "8f778d2405a214b508d4c7d80742be8e43acdd52",
+    "path": ".claude/skills/procedural-modeling/SKILL.md",
+    "sha256": "143556702f08e2bcab1d61dc38c0ee953bf90835483ebbaf1058c9e8c2364e03",
+    "bytes": 3594
+  },
+  {
+    "repo": "arjun988/blender-skills",
+    "commit": "8f778d2405a214b508d4c7d80742be8e43acdd52",
+    "path": ".claude/skills/references/reference-image-match.md",
+    "sha256": "3d43bbb8d05c0219a965b033012995efa62d3f6b85fb25dbffe6bdd44f48aa14",
+    "bytes": 8976
+  },
+  {
+    "repo": "arjun988/blender-skills",
+    "commit": "8f778d2405a214b508d4c7d80742be8e43acdd52",
+    "path": ".claude/skills/vegetation-artist/SKILL.md",
+    "sha256": "3b1f43f0f456b95f5c00f1372f64db75f34967c581b02068d80ee6ef63d476ec",
+    "bytes": 1992
+  },
+  {
+    "repo": "arjun988/blender-skills",
+    "commit": "8f778d2405a214b508d4c7d80742be8e43acdd52",
+    "path": ".claude/skills/vegetation-artist/references/leaf-atlas.md",
+    "sha256": "40b60d3d2ea7ac44feb1641574fb96c6929d84e4379ea7c43db21fede26ff677",
+    "bytes": 111
+  },
+  {
+    "repo": "arjun988/blender-skills",
+    "commit": "8f778d2405a214b508d4c7d80742be8e43acdd52",
+    "path": ".claude/skills/vegetation-artist/references/tree-lod.md",
+    "sha256": "658a4689ef1071cfbe3330dce7b44b5641f54971274bdb450a32a4097bef3a9c",
+    "bytes": 129
+  },
+  {
+    "repo": "arjun988/blender-skills",
+    "commit": "8f778d2405a214b508d4c7d80742be8e43acdd52",
+    "path": ".claude/skills/vegetation-artist/references/wind-vertex-colors.md",
+    "sha256": "d4c65000899c94ca72fc7c701ce87c21db859927b6ba41ecfba6feb6e2fb16a9",
+    "bytes": 118
+  },
+  {
+    "repo": "arjun988/blender-skills",
+    "commit": "8f778d2405a214b508d4c7d80742be8e43acdd52",
+    "path": "LICENSE",
+    "sha256": "693a17a74eacc8ad849d248356fba7fab357b0bef5c94f783029033ab2d950d7",
+    "bytes": 1084
+  },
+  {
+    "repo": "RobLe3/cc-blender-skill",
+    "commit": "11016c9a5847897491dde935c346571bd7548e3d",
+    "path": "LICENSE",
+    "sha256": "53551803e298669de282d339c7e85ae64e6fbf370d07ca08105d8e0a2d2fbf3d",
+    "bytes": 1063
+  },
+  {
+    "repo": "RobLe3/cc-blender-skill",
+    "commit": "11016c9a5847897491dde935c346571bd7548e3d",
+    "path": "plugin/skills/blender-modeling/SKILL.md",
+    "sha256": "787b50ca5ce131eb6cefec7e92985ddee522ea19e9f194e14b756322c902d232",
+    "bytes": 14160
+  },
+  {
+    "repo": "RobLe3/cc-blender-skill",
+    "commit": "11016c9a5847897491dde935c346571bd7548e3d",
+    "path": "plugin/skills/blender-modeling/references/overview.md",
+    "sha256": "1026110415e27f325cc653dfdc71ee4d8f84ba0563e95478621caabb3084ec60",
+    "bytes": 10126
+  },
+  {
+    "repo": "RobLe3/cc-blender-skill",
+    "commit": "11016c9a5847897491dde935c346571bd7548e3d",
+    "path": "plugin/skills/contour-to-mesh/SKILL.md",
+    "sha256": "3d5648094c36866d53528377438fa7dcc37558fc0c8c5ce4528677da8b2a7b03",
+    "bytes": 4662
+  },
+  {
+    "repo": "RobLe3/cc-blender-skill",
+    "commit": "11016c9a5847897491dde935c346571bd7548e3d",
+    "path": "plugin/skills/multiview-fit-loop/SKILL.md",
+    "sha256": "9ebb70de1fca570f6b3d323430d24a03abfebd11392c29858aa10c9edfdacd71",
+    "bytes": 2779
+  },
+  {
+    "repo": "RobLe3/cc-blender-skill",
+    "commit": "11016c9a5847897491dde935c346571bd7548e3d",
+    "path": "plugin/skills/orthographic-registration/SKILL.md",
+    "sha256": "5d165a26d7c24fae8661f49c2745480dba09cb0d339bf09b1a00ac7da0a3714d",
+    "bytes": 2093
+  },
+  {
+    "repo": "RobLe3/cc-blender-skill",
+    "commit": "11016c9a5847897491dde935c346571bd7548e3d",
+    "path": "plugin/skills/reference-analysis-validator/SKILL.md",
+    "sha256": "53850bf7af945eb0615f5042974a769d49d1101cc7e9759f7ab3b386b6b5aee8",
+    "bytes": 3361
+  },
+  {
+    "repo": "RobLe3/cc-blender-skill",
+    "commit": "11016c9a5847897491dde935c346571bd7548e3d",
+    "path": "plugin/skills/reference-analysis-validator/references/metrics-and-thresholds.md",
+    "sha256": "9b70b74286b3d9fac8bf9e00f28785abd1fc92147ba3e80658b6c5a555be4960",
+    "bytes": 1565
+  },
+  {
+    "repo": "RobLe3/cc-blender-skill",
+    "commit": "11016c9a5847897491dde935c346571bd7548e3d",
+    "path": "plugin/skills/reference-to-3d/SKILL.md",
+    "sha256": "0b8cf6d30de8caf9ec348bae936a343b9b8802b4ca518ca6ebd691b675111329",
+    "bytes": 9416
+  },
+  {
+    "repo": "RobLe3/cc-blender-skill",
+    "commit": "11016c9a5847897491dde935c346571bd7548e3d",
+    "path": "plugin/skills/reference-to-3d/references/overview.md",
+    "sha256": "ffe16563a2250421964f86d30e2fe3ec83c4b6c3f052c2d10d4a47454eb38a92",
+    "bytes": 1367
+  },
+  {
+    "repo": "RobLe3/cc-blender-skill",
+    "commit": "11016c9a5847897491dde935c346571bd7548e3d",
+    "path": "plugin/skills/wireframe-to-3d/references/blender-patterns.md",
+    "sha256": "6f242364d180e0f81a76e8474fd14438b8edbc6fc74f8e6359b741a004058079",
+    "bytes": 19912
+  }
+]

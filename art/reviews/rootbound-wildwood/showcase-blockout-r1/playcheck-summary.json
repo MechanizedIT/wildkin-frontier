@@ -1,0 +1,248 @@
+{
+  "movement": [
+    {
+      "name": "gallery-walk-forward",
+      "input": "timed keyboard events through game input",
+      "key": "w",
+      "seconds": 4.009,
+      "distanceM": 9.186423877969517,
+      "start": {
+        "x": -478,
+        "y": 11.61494255065918,
+        "z": 640
+      },
+      "end": {
+        "x": -479.29986572265625,
+        "y": 11.210606575012207,
+        "z": 649.093994140625
+      },
+      "ungroundedSamples": 0,
+      "samples": 42
+    },
+    {
+      "name": "gallery-walk-back",
+      "input": "timed keyboard events through game input",
+      "key": "s",
+      "seconds": 4.011099999994039,
+      "distanceM": 9.133494770155133,
+      "start": {
+        "x": -479.3077392578125,
+        "y": 11.208243370056152,
+        "z": 649.1492919921875
+      },
+      "end": {
+        "x": -478.01300048828125,
+        "y": 11.610037803649902,
+        "z": 640.1080322265625
+      },
+      "ungroundedSamples": 0,
+      "samples": 42
+    }
+  ],
+  "scenes": [
+    {
+      "name": "repair-overview",
+      "rootboundResidentCount": 36,
+      "rootboundVisualMeshCount": 25,
+      "residentCount": 463,
+      "colliderCount": 31
+    },
+    {
+      "name": "unloaded",
+      "rootboundResidentCount": 0,
+      "rootboundVisualMeshCount": 0,
+      "residentCount": 357,
+      "colliderCount": 60
+    },
+    {
+      "name": "returned",
+      "rootboundResidentCount": 36,
+      "rootboundVisualMeshCount": 25,
+      "residentCount": 463,
+      "colliderCount": 31
+    }
+  ],
+  "frames": [
+    {
+      "name": "meadow",
+      "baselineRender": {
+        "frame": 951,
+        "calls": 67,
+        "triangles": 109754,
+        "points": 0,
+        "lines": 0
+      },
+      "repairRender": {
+        "frame": 584,
+        "calls": 70,
+        "triangles": 117854,
+        "points": 0,
+        "lines": 0
+      },
+      "baselineColliders": 58,
+      "repairColliders": 58,
+      "addedResidentIds": [
+        "f1:s:rootbound-wildwood:gallery-east-rib",
+        "f1:s:rootbound-wildwood:gallery-west-rib",
+        "f1:s:rootbound-wildwood:meadow-east-rootline",
+        "f1:s:rootbound-wildwood:meadow-west-edge"
+      ],
+      "removedResidentIds": []
+    },
+    {
+      "name": "galleries",
+      "baselineRender": {
+        "frame": 1067,
+        "calls": 56,
+        "triangles": 95160,
+        "points": 0,
+        "lines": 0
+      },
+      "repairRender": {
+        "frame": 650,
+        "calls": 58,
+        "triangles": 101490,
+        "points": 0,
+        "lines": 0
+      },
+      "baselineColliders": 25,
+      "repairColliders": 25,
+      "addedResidentIds": [
+        "f1:s:rootbound-wildwood:gallery-east-rib",
+        "f1:s:rootbound-wildwood:gallery-west-rib",
+        "f1:s:rootbound-wildwood:meadow-east-rootline",
+        "f1:s:rootbound-wildwood:meadow-west-edge",
+        "f1:s:rootbound-wildwood:gallery-east-rib-2",
+        "f1:s:rootbound-wildwood:gallery-east-rib-3",
+        "f1:s:rootbound-wildwood:gallery-north-collar",
+        "f1:s:rootbound-wildwood:gallery-west-rib-2",
+        "f1:s:rootbound-wildwood:gallery-west-rib-3",
+        "f1:s:rootbound-wildwood:verge-east-shards",
+        "f1:s:rootbound-wildwood:verge-west-seam"
+      ],
+      "removedResidentIds": []
+    },
+    {
+      "name": "lantern",
+      "baselineRender": {
+        "frame": 1177,
+        "calls": 68,
+        "triangles": 138690,
+        "points": 0,
+        "lines": 0
+      },
+      "repairRender": {
+        "frame": 715,
+        "calls": 70,
+        "triangles": 143498,
+        "points": 0,
+        "lines": 0
+      },
+      "baselineColliders": 15,
+      "repairColliders": 15,
+      "addedResidentIds": [
+        "f1:s:rootbound-wildwood:verge-east-shards",
+        "f1:s:rootbound-wildwood:verge-west-seam",
+        "f1:s:rootbound-wildwood:gallery-east-rib-2",
+        "f1:s:rootbound-wildwood:gallery-east-rib-3",
+        "f1:s:rootbound-wildwood:gallery-north-collar",
+        "f1:s:rootbound-wildwood:gallery-west-rib-2",
+        "f1:s:rootbound-wildwood:gallery-west-rib-3",
+        "f1:s:rootbound-wildwood:verge-seam-2",
+        "f1:s:rootbound-wildwood:verge-seam-3",
+        "f1:s:rootbound-wildwood:gallery-east-rib",
+        "f1:s:rootbound-wildwood:gallery-west-rib",
+        "f1:s:rootbound-wildwood:heartroot-crown-base",
+        "f1:s:rootbound-wildwood:heartroot-crown-left",
+        "f1:s:rootbound-wildwood:heartroot-crown-right",
+        "f1:s:rootbound-wildwood:heartroot-crown-web-1",
+        "f1:s:rootbound-wildwood:heartroot-crown-web-2",
+        "f1:s:rootbound-wildwood:heartroot-crown-wing-1",
+        "f1:s:rootbound-wildwood:heartroot-crown-wing-2",
+        "f1:s:rootbound-wildwood:meadow-east-rootline",
+        "f1:s:rootbound-wildwood:meadow-west-edge"
+      ],
+      "removedResidentIds": []
+    },
+    {
+      "name": "verge",
+      "baselineRender": {
+        "frame": 1291,
+        "calls": 56,
+        "triangles": 93939,
+        "points": 0,
+        "lines": 0
+      },
+      "repairRender": {
+        "frame": 781,
+        "calls": 62,
+        "triangles": 100009,
+        "points": 0,
+        "lines": 0
+      },
+      "baselineColliders": 15,
+      "repairColliders": 15,
+      "addedResidentIds": [
+        "f1:s:rootbound-wildwood:verge-east-shards",
+        "f1:s:rootbound-wildwood:verge-west-seam",
+        "f1:s:rootbound-wildwood:gallery-east-rib-2",
+        "f1:s:rootbound-wildwood:gallery-east-rib-3",
+        "f1:s:rootbound-wildwood:gallery-north-collar",
+        "f1:s:rootbound-wildwood:gallery-west-rib-2",
+        "f1:s:rootbound-wildwood:gallery-west-rib-3",
+        "f1:s:rootbound-wildwood:verge-seam-2",
+        "f1:s:rootbound-wildwood:verge-seam-3",
+        "f1:s:rootbound-wildwood:gallery-east-rib",
+        "f1:s:rootbound-wildwood:gallery-west-rib",
+        "f1:s:rootbound-wildwood:heartroot-crown-base",
+        "f1:s:rootbound-wildwood:heartroot-crown-left",
+        "f1:s:rootbound-wildwood:heartroot-crown-right",
+        "f1:s:rootbound-wildwood:heartroot-crown-web-1",
+        "f1:s:rootbound-wildwood:heartroot-crown-web-2",
+        "f1:s:rootbound-wildwood:heartroot-crown-wing-1",
+        "f1:s:rootbound-wildwood:heartroot-crown-wing-2",
+        "f1:s:rootbound-wildwood:meadow-east-rootline",
+        "f1:s:rootbound-wildwood:meadow-west-edge"
+      ],
+      "removedResidentIds": []
+    },
+    {
+      "name": "crown",
+      "baselineRender": {
+        "frame": 1398,
+        "calls": 144,
+        "triangles": 225460,
+        "points": 0,
+        "lines": 0
+      },
+      "repairRender": {
+        "frame": 841,
+        "calls": 148,
+        "triangles": 247240,
+        "points": 0,
+        "lines": 0
+      },
+      "baselineColliders": 66,
+      "repairColliders": 66,
+      "addedResidentIds": [
+        "f1:s:rootbound-wildwood:heartroot-crown-base",
+        "f1:s:rootbound-wildwood:heartroot-crown-left",
+        "f1:s:rootbound-wildwood:heartroot-crown-right",
+        "f1:s:rootbound-wildwood:heartroot-crown-web-1",
+        "f1:s:rootbound-wildwood:heartroot-crown-web-2",
+        "f1:s:rootbound-wildwood:heartroot-crown-wing-1",
+        "f1:s:rootbound-wildwood:heartroot-crown-wing-2",
+        "f1:s:rootbound-wildwood:gallery-east-rib-2",
+        "f1:s:rootbound-wildwood:gallery-east-rib-3",
+        "f1:s:rootbound-wildwood:gallery-north-collar",
+        "f1:s:rootbound-wildwood:gallery-west-rib-2",
+        "f1:s:rootbound-wildwood:gallery-west-rib-3",
+        "f1:s:rootbound-wildwood:verge-seam-2",
+        "f1:s:rootbound-wildwood:verge-seam-3",
+        "f1:s:rootbound-wildwood:verge-east-shards",
+        "f1:s:rootbound-wildwood:verge-west-seam"
+      ],
+      "removedResidentIds": []
+    }
+  ]
+}

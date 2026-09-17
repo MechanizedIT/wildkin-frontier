@@ -1,0 +1,50 @@
+{
+  "status": "UNREVIEWED_PROBE_ONLY",
+  "blender_version": "4.5.3 LTS",
+  "coordinate_system": "Blender metres: Z=0 ground, -Y head-forward, +X right, +Z dorsal.",
+  "operation": "factory-startup; faceted shell patch; two six-sided cuff volumes; two non-coplanar tapered limb stubs; Blender native EXACT boolean union; recalculated outward normals; neutral top/side/underside renders.",
+  "source_script_sha256": "48d9a1fd000e5faa4eb255cc6e7216d00f421689405ed63288ee90f76948589f",
+  "mesh": {
+    "object": "Trailgloam_LF_LM_exact_union_junction_probe",
+    "vertices": 82,
+    "edges": 138,
+    "faces": 58,
+    "triangles": 160,
+    "validate_reported_issue": false,
+    "edges_not_exactly_two_faces": 0,
+    "nonmanifold_edges_api": 0
+  },
+  "contact": {
+    "cuff_centres_blender_XYZ": [
+      [
+        -0.23,
+        -0.17,
+        0.205
+      ],
+      [
+        -0.23,
+        0.17,
+        0.205
+      ]
+    ],
+    "centre_separation_m": 0.34000000704737265,
+    "largest_cuff_radius_m": 0.115,
+    "radial_gap_m": 0.11000000704737264,
+    "stub_axis_angle_degrees": 51.598876698804894,
+    "stub_min_Z_m": 0.015,
+    "shell_cuff_overlap_before_union_m": 0.035,
+    "result": "single connected exact-union mesh; no edges with other than two incident faces."
+  },
+  "renders": [
+    "renders/probe_top.png",
+    "renders/probe_side.png",
+    "renders/probe_underside.png"
+  ],
+  "scope_limits": [
+    "No complete creature",
+    "No rig or motion",
+    "No GLB/export",
+    "No runtime/admission",
+    "Stop for independent review before Gate A."
+  ]
+}

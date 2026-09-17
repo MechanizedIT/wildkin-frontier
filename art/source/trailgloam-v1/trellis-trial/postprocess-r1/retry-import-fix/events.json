@@ -1,0 +1,24 @@
+[
+  {
+    "at_unix": 1789430705.1815279,
+    "label": "postprocess:complete",
+    "output_sha256": "e223fdd1e9ca1d5d7299d756a142915d54107af7a10a91103338ee5c531c1933",
+    "bytes": 3889708,
+    "inventory": {
+      "glb_meshes": 1,
+      "glb_primitives": 1,
+      "vertex_count": 40868,
+      "triangle_count": 59376
+    },
+    "gpu_samples": [
+      {
+        "phase": "postprocess:complete",
+        "host_free_gib": 16.696823120117188,
+        "cuda_free_gib": 6.8671875,
+        "cuda_total_gib": 7.99951171875,
+        "cuda_allocated_gib": 2.384185791015625e-06,
+        "cuda_reserved_gib": 0.0703125
+      }
+    ]
+  }
+]

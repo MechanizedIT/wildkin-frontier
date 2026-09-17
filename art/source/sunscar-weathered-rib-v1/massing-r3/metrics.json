@@ -1,0 +1,77 @@
+{
+  "status": "R3_STRUCTURAL_HOLD",
+  "input": {
+    "path": "../geometry-plan-r3-final.json",
+    "sha256": "077016a80c180f55ee6fab77873270cd922af236415e00ae4e62448d4420189a"
+  },
+  "literalRingCounts": [
+    12,
+    12,
+    12,
+    12,
+    12,
+    12,
+    12
+  ],
+  "closure": {
+    "components": 1,
+    "nonTwoFaceEdges": 0,
+    "normalFailures": []
+  },
+  "bounds": {
+    "min": [
+      -2.200000047683716,
+      -1.0499999523162842,
+      0.0
+    ],
+    "max": [
+      2.200000047683716,
+      1.0499999523162842,
+      1.600000023841858
+    ],
+    "size": [
+      4.400000095367432,
+      2.0999999046325684,
+      1.600000023841858
+    ]
+  },
+  "grounding": {
+    "bottomZ": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ]
+  },
+  "caps": [
+    {
+      "x": -2.2,
+      "triangles": 10,
+      "profileArea": 1.684031475018065,
+      "signedSum": -1.684031475018065,
+      "absoluteSum": 1.684031475018065,
+      "windingPass": false,
+      "coveragePass": true
+    },
+    {
+      "x": 2.2,
+      "triangles": 10,
+      "profileArea": 0.9224320950116245,
+      "signedSum": 0.9224320950116245,
+      "absoluteSum": 0.9229321018065542,
+      "windingPass": false,
+      "coveragePass": false
+    }
+  ],
+  "failure": "cap winding/coverage failed"
+}

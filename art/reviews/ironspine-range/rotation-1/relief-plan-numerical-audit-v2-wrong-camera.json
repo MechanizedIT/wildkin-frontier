@@ -1,0 +1,64 @@
+{
+  "status": "HOLD_NO_SAFE_FRUSTUM_CANDIDATE",
+  "method": "2m grid in each recorded camera neighborhood; safe() checks full 9x12m ellipse perimeter/interior samples against all protected envelopes and 1.2m all-segment route corridor; ranking uses a 2m vertical before/after pixel displacement.",
+  "protectedCounts": {
+    "sources": 19,
+    "homes": 0,
+    "scenery": 2
+  },
+  "rankedTop": [
+    {
+      "pose": "arrival",
+      "x": -2090,
+      "z": -3172,
+      "baseY": 8.06469102255588,
+      "screenBase": {
+        "x": 10.977307633981857,
+        "y": 195.11699351718497,
+        "z": 0.9923280993770038
+      },
+      "screenTop": {
+        "x": 1.2654321567094033,
+        "y": 117.7572848739093,
+        "z": 0.99192612527917
+      },
+      "verticalPixels": 77.35970864327567
+    },
+    {
+      "pose": "arrival",
+      "x": -2090,
+      "z": -3174,
+      "baseY": 8.028327326065543,
+      "screenBase": {
+        "x": 47.379620524782666,
+        "y": 172.25030928931565,
+        "z": 0.992799345580392
+      },
+      "screenTop": {
+        "x": 39.96324675960324,
+        "y": 98.54891719063379,
+        "z": 0.9924439695079675
+      },
+      "verticalPixels": 73.70139209868186
+    }
+  ],
+  "chosen": [
+    {
+      "pose": "arrival",
+      "x": -2090,
+      "z": -3172,
+      "baseY": 8.06469102255588,
+      "screenBase": {
+        "x": 10.977307633981857,
+        "y": 195.11699351718497,
+        "z": 0.9923280993770038
+      },
+      "screenTop": {
+        "x": 1.2654321567094033,
+        "y": 117.7572848739093,
+        "z": 0.99192612527917
+      },
+      "verticalPixels": 77.35970864327567
+    }
+  ]
+}

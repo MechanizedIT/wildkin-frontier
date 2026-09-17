@@ -1,0 +1,181 @@
+{
+  "glbSHA256": "d3163edb5536dfd4d1fa39895f2a8e2bac71372d83cbe854913c667786f4dab7",
+  "source": "../trailgloam-rig-r1 and fitted-r1a/roundtrip-receipt.json",
+  "twoCycles": true,
+  "speedMps": 0.21212121212121213,
+  "feet": {
+    "front_left": {
+      "windows": [
+        {
+          "samples": 20,
+          "startSeconds": 0.0,
+          "endSeconds": 0.6333333333333334,
+          "driftM": 4.4348263983362557e-07,
+          "maxAbsSoleM": 0.007170596159994602
+        },
+        {
+          "samples": 20,
+          "startSeconds": 1.1,
+          "endSeconds": 1.7333333333333334,
+          "driftM": 4.4348263994464787e-07,
+          "maxAbsSoleM": 0.007170596159994602
+        }
+      ]
+    },
+    "front_right": {
+      "windows": [
+        {
+          "samples": 4,
+          "startSeconds": 0.0,
+          "endSeconds": 0.1,
+          "driftM": 2.2529351595412805e-07,
+          "maxAbsSoleM": 0.0071763233281672
+        },
+        {
+          "samples": 20,
+          "startSeconds": 0.5666666666666667,
+          "endSeconds": 1.2,
+          "driftM": 5.68712600568233e-07,
+          "maxAbsSoleM": 0.007176385726779699
+        },
+        {
+          "samples": 16,
+          "startSeconds": 1.6666666666666667,
+          "endSeconds": 2.166666666666667,
+          "driftM": 5.68712600568233e-07,
+          "maxAbsSoleM": 0.007176385726779699
+        }
+      ]
+    },
+    "mid_front_left": {
+      "windows": [
+        {
+          "samples": 4,
+          "startSeconds": 0.0,
+          "endSeconds": 0.1,
+          "driftM": 2.515436423045081e-07,
+          "maxAbsSoleM": 0.007131203543394804
+        },
+        {
+          "samples": 20,
+          "startSeconds": 0.5666666666666667,
+          "endSeconds": 1.2,
+          "driftM": 3.122320080262142e-07,
+          "maxAbsSoleM": 0.007131203543394804
+        },
+        {
+          "samples": 16,
+          "startSeconds": 1.6666666666666667,
+          "endSeconds": 2.166666666666667,
+          "driftM": 3.122320079151919e-07,
+          "maxAbsSoleM": 0.0071311271749436855
+        }
+      ]
+    },
+    "mid_front_right": {
+      "windows": [
+        {
+          "samples": 20,
+          "startSeconds": 0.0,
+          "endSeconds": 0.6333333333333334,
+          "driftM": 5.566712582005806e-07,
+          "maxAbsSoleM": 0.00714777410030365
+        },
+        {
+          "samples": 20,
+          "startSeconds": 1.1,
+          "endSeconds": 1.7333333333333334,
+          "driftM": 5.566712582005806e-07,
+          "maxAbsSoleM": 0.00714777410030365
+        }
+      ]
+    },
+    "mid_rear_left": {
+      "windows": [
+        {
+          "samples": 20,
+          "startSeconds": 0.0,
+          "endSeconds": 0.6333333333333334,
+          "driftM": 2.135983621504023e-07,
+          "maxAbsSoleM": 0.007106245495378971
+        },
+        {
+          "samples": 20,
+          "startSeconds": 1.1,
+          "endSeconds": 1.7333333333333334,
+          "driftM": 2.1359836216428008e-07,
+          "maxAbsSoleM": 0.007106245495378971
+        }
+      ]
+    },
+    "mid_rear_right": {
+      "windows": [
+        {
+          "samples": 4,
+          "startSeconds": 0.0,
+          "endSeconds": 0.1,
+          "driftM": 1.9193899752911747e-07,
+          "maxAbsSoleM": 0.007144787814468145
+        },
+        {
+          "samples": 20,
+          "startSeconds": 0.5666666666666667,
+          "endSeconds": 1.2,
+          "driftM": 3.029601742809973e-07,
+          "maxAbsSoleM": 0.007144787814468145
+        },
+        {
+          "samples": 16,
+          "startSeconds": 1.6666666666666667,
+          "endSeconds": 2.166666666666667,
+          "driftM": 1.9211209173475297e-07,
+          "maxAbsSoleM": 0.00714476453140378
+        }
+      ]
+    },
+    "rear_left": {
+      "windows": [
+        {
+          "samples": 4,
+          "startSeconds": 0.0,
+          "endSeconds": 0.1,
+          "driftM": 8.585477118128182e-08,
+          "maxAbsSoleM": 0.008342158049345016
+        },
+        {
+          "samples": 20,
+          "startSeconds": 0.5666666666666667,
+          "endSeconds": 1.2,
+          "driftM": 4.4239891894282124e-07,
+          "maxAbsSoleM": 0.008342292159795761
+        },
+        {
+          "samples": 16,
+          "startSeconds": 1.6666666666666667,
+          "endSeconds": 2.166666666666667,
+          "driftM": 4.4239891894282124e-07,
+          "maxAbsSoleM": 0.008342292159795761
+        }
+      ]
+    },
+    "rear_right": {
+      "windows": [
+        {
+          "samples": 20,
+          "startSeconds": 0.0,
+          "endSeconds": 0.6333333333333334,
+          "driftM": 5.091079557928424e-07,
+          "maxAbsSoleM": 0.007618255913257599
+        },
+        {
+          "samples": 20,
+          "startSeconds": 1.1,
+          "endSeconds": 1.7333333333333334,
+          "driftM": 5.091079557373313e-07,
+          "maxAbsSoleM": 0.007618255913257599
+        }
+      ]
+    }
+  },
+  "maxStanceDriftM": 5.68712600568233e-07
+}

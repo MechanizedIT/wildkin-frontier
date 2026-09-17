@@ -1,0 +1,23 @@
+{
+  "status":"PROPOSED_PREIMPLEMENTATION_EVIDENCE",
+  "inputs":{
+    "route":"lattice-path-corridor-audit-r2.json",
+    "routeMeters":485.982,
+    "routeSegments":74,
+    "maxObservedSlope":0.31633,
+    "slopeLimit":0.32,
+    "routeCenterCorridorMeters":1.2,
+    "arrivalPose":{"x":-2080,"z":-3160,"yaw":-2.783},
+    "interiorPose":{"x":-2095,"z":-3080,"yaw":2.622},
+    "destinationPose":{"x":-2140,"z":-3005,"yaw":-0.733},
+    "buttressR2":"single safe left flank only; 2.49m; no opposing safe flank"
+  },
+  "candidateReliefAnchors":[
+    {"id":"arrival-west","x":-2089,"z":-3154,"radiusX":12,"radiusZ":16,"heightUpperBound":2.0},
+    {"id":"arrival-east","x":-2069,"z":-3150,"radiusX":11,"radiusZ":15,"heightUpperBound":2.0},
+    {"id":"ramp-west","x":-2103,"z":-3079,"radiusX":13,"radiusZ":19,"heightUpperBound":2.0},
+    {"id":"ramp-east","x":-2075,"z":-3045,"radiusX":13,"radiusZ":19,"heightUpperBound":2.0},
+    {"id":"crown-lip","x":-2157,"z":-3008,"radiusX":14,"radiusZ":10,"heightUpperBound":1.25}
+  ],
+  "claims":"Candidate centers and upper bounds only. Final masked heights, support, slope and screen coverage have not yet been computed and must gate implementation."
+}

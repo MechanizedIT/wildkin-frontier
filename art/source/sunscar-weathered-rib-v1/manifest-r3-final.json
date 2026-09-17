@@ -1,0 +1,11 @@
+{
+  "change": "Literal numerical ring XYZ arrays, checked shelf heights/extents and expected 164 triangles; direct UTF-8 load, no prose formula interpretation.",
+  "input": {
+    "path": "geometry-plan-r3-final.json",
+    "sha256": "077016a80c180f55ee6fab77873270cd922af236415e00ae4e62448d4420189a"
+  },
+  "preservedR3": "f18e84621e2211607ad640da5897128bf2a7372ab6c78087eb69ea0c1b783010",
+  "schemaVersion": 1,
+  "asset": "sunscar-weathered-rib-v1",
+  "status": "final pre-builder R3 pending independent review"
+}

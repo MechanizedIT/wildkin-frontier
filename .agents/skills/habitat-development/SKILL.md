@@ -5,6 +5,12 @@ description: Design, implement, review, and hand off one Wildkin Frontier habita
 
 # Habitat development
 
+**Latest owner review direction:** apply [Rootbound practical asset reuse and showcase review](../../../docs/ROOTBOUND_ASSET_REUSE_REVIEW.md). Attractive, useful actual results may be used despite target differences or lower scores; older fixed score thresholds below are superseded for this focused run. Review reusable components, material-yield ideas, arrangement/rotation/scale/tint variants, and useful curve-authored roots/trunks. Preserve focused correctness and actual gameplay proof.
+
+
+**Focused Rootbound override (latest September 14 owner direction):** use [ROOTBOUND_FOCUSED_GOAL.md](../../../docs/ROOTBOUND_FOCUSED_GOAL.md). Work continuously within Rootbound and its constituents; up to six substantial attempts per constituent/composition experiment, independent review each time, method change after two repeated defects. After six unsuccessful attempts, work on another Rootbound constituent and revisit with a concrete new approach. Keep useful partial gains against the retained baseline; preserve held candidates and reusable parts. Earlier three-pass/rotate-away rules below are historical for this focused run.
+
+
 Use this project-local skill when a task changes the terrain, composition, flora, resources, landmarks, routes, encounters, lighting, or recognizable identity of one Wildkin Frontier habitat. It specializes the general Dream Loop. It is not permission to expand every region, add unrelated systems, or spend an entire unattended session polishing one place.
 
 Read `AGENTS.md`, `docs/SESSION_START.md`, `docs/CURRENT_SLICE.md`, the latest handoff, and the habitat packet before production. For Rootbound Wildwood, read `docs/habitats/rootbound-wildwood/PACKET.md`.
@@ -28,6 +34,8 @@ A habitat is not finished because it has a name, palette, or uniformly scattered
 
 ## Baseline first
 
+**Latest focused Rootbound exploration direction:** use `docs/habitats/rootbound-wildwood/TRAVERSAL_INTENT.md`. Do not require ordinary-walk reachability everywhere. Account for current eligible climbing and actual harvestable clearing; distinguish intentional optional difficulty from traps. Focus proof on the main outing, necessary interactions, deliberately used climb/clear transitions, changed shared contracts and recovery risks. Avoid exhaustive or repeated terrain searches for low-impact art edits. Broad decor destruction and cooldown evacuation remain proposals, not assumptions supporting admission.
+
 Capture the actual current game before making a target:
 
 - one repeatable overhead or inspector view covering the selected bounds;
@@ -37,7 +45,15 @@ Capture the actual current game before making a target:
 
 Use the same locations, camera class, weather/lighting state, and seed for comparisons. A generated concept image cannot prove that the real camera, collision, or asset kit can achieve it.
 
+Keep the complete ordered proposed route, not only representative room centres. A terrain lattice's grade limit does not prove mesh collision or ordinary traversal. Check the full movement corridor against resource bodies, scenery colliders and wildlife movement disks, then prove ascent and return with ordinary input. At gathering stops, record actual interaction eligibility and collected inventory; depletion can leave a loose pickup outside collection range. Health changes along the trace identify unsafe shortcuts through creature territory.
+
+Plan passability against the terrain triangles actually rendered and used by physics, with the real player footprint, before treating an analytic height-sampler route as feasible. Fungal's smooth-centerline route passed while 696 footprint samples on the actual 2 m triangles exceeded its grade limit. Use that same mesh/footprint predicate in the bounded route search, then verify compressed segments again; smoothing or compression must not bypass it. A held longer route does not prevent baseline-based targets for a known supported pocket, but those targets cannot imply an admitted longer circuit.
+
+Project all transformed collision vertices to XZ and form their actual 2D convex hull before measuring footprint clearance. Arbitrary 3D vertex order is not a polygon boundary. Check full route segments and gathering side trips against hull edges and interiors, plus densely sampled support across the footprint. Native contact and unload/reentry remain required after source integration.
+
 ## Build the target
+
+**Owner requirement (September 14 continuous goal): every habitat gets a dedicated planning session and high-quality target images before its structural pass.** Prepare/review that habitat's route/terrain/ecology/composition/asset packet, then have a target author produce 2–4 portrait gameplay directions from actual current baselines, player scale and HUD. An independent visual director selects and checks feasibility before implementation. This is required for each habitat in the rotation, not a Rootbound-only optional step. Later visits revisit the plan and target; preserve a valid selected target and regenerate when direction or evidence calls for it. An image-tool failure uses the documented packet/existing-target fallback with an explicit limitation, rather than falsely claiming new targets were made.
 
 Use Dream Loop only when appearance, composition, silhouette, or normal-play readability is the principal uncertainty.
 
@@ -53,9 +69,41 @@ The target must show or specify:
 
 Check physical feasibility before production: climb limits, support samples, player clearance, companion access, collider cost, camera far plane, and loaded-neighborhood bounds.
 
+Distinguish an accepted outcome constraint from the current algorithm that achieves it. Preserving a supported route's full width and safe slopes does not automatically require zero height change everywhere inside it. Fungal's initial plan mistakenly promoted the existing preservation mask into an owner-locked rule. Read the actual contract and review this distinction before declaring a target impossible. A terrain regrade may be proposed within authorized habitat work only with final rendered-triangle/player-footprint proof, complete resource/creature/scenery support, ordinary traversal and persistence checks. Do not shrink required widths, relax slope limits or treat this as permission to alter a genuinely locked invariant.
+
+Before freezing placements, project the proposed defining forms through each actual comparison camera. Record camera position/look direction, world-space anchor and approximate full-geometry screen bounds; check that foreground, room edge and destination anchors are in front of the player/camera and inside the useful portrait area. A map label such as “left edge” does not prove a visible left edge. Validate bank height after all support masks, not just its unmasked tuning value. Use this inexpensive projection/height check during planning, before spending a structural pass.
+
+Include conditional HUD panels observed at that location, such as the Observe banner, even when a later diagnostic capture temporarily lacks them. A plant center outside the HUD does not establish that its full mesh is clear. Judge the actual preview's perceptual value before implementing a technically valid placement; four distant plants are not evidence of a new habitat room.
+
+Calibrate an analytical camera against one recorded native camera position/direction and a known projected mesh before using it to reject a method. Ironspine's first relief search inverted the yaw's X/Z signs and falsely rejected visible terrain. A few failed guessed anchors prove only those placements failed. Adaptive planning should search the actual visible area, evaluate the final smooth mask, and return computed candidate evidence rather than a checklist of work left for the builder. Do not silently replace a masked profile with an all-or-nothing whole-footprint rejection.
+
+### Target direction and asset matching
+
+When the habitat's visual direction is uncertain, assign a separate **visual target agent** to inspect the actual portrait baselines, habitat packet/diagrams, and any owner concepts. Generate 2–4 bounded portrait gameplay directions using the actual camera, player scale and HUD-safe composition. An independent **visual director** selects the strongest feasible target or consolidates its strongest ideas. Save candidates, the selected target, prompts/source notes and review under the habitat's `art/targets/<habitat>/concepts/` directory.
+
+Translate the selection into five implementable priorities, an existing-asset/system map, a short missing-asset list, deferred runtime aspirations, and frozen comparison poses. The selected image owns perceptual direction; the packet and diagrams still own route, ecology, collision, persistence, streaming and performance requirements. Generated art is direction only. If image generation fails, continue with the packet and existing targets.
+
+**Owner-approved workflow (September 14): create important missing target assets.** Compare each target-defining form with the actual library's appearance, full geometry bounds and runtime behavior. When a suitable match is missing, make its creation a bounded production task through the asset loop below. Preserve the intended silhouette, scale hierarchy and material character instead of forcing an unsuitable library substitute. Existing-kit availability alone is not a reason to remove a defining target form.
+
+Identify the smallest reusable asset or kit that closes the consequential gap. Do not reproduce every decorative object literally, produce a whole biome collection, or add unsupported mechanics from a concept image. Asset work stays inside the current batch/iteration/GPU budget. Record an honest deferred asset or HOLD if that budget or physical feasibility prevents completion; do not silently expand it.
+
+Audit the complete relevant library, including authored mesh recipes and external GLBs; an older packet's short kit list is not a complete inventory. Render plausible matches and measure full transformed bounds and gameplay/collision roles before declaring a gap. Map each defining target form to an actual matching asset or one explicit new-asset task. A tree name does not establish canopy shape, and an omitted log entry does not prove a log must be made. Keep base camera configuration separate from the actual effective camera pose and framing.
+
+### Missing-asset Dream Loop
+
+Use `.agents/skills/wildkin-development/SKILL.md`, `.agents/skills/wildkin-asset-forge/SKILL.md`, and the project Dream Loop workflow for each required new asset:
+
+1. **Asset contract and target author:** extract its role from the selected habitat target; fix intended dimensions, palette/materials, ground contact, collider/clearance needs, mobile cost and normal-camera use. A target author generates a clean, single-subject construction target, with complementary views when necessary. Preserve the habitat target and source/prompt notes. Verify the actual generator's input requirements; a multi-panel sheet is not automatically valid single-object input.
+2. **Independent reference review:** a different agent checks the actual image for silhouette, complete geometry, connections, unwanted objects, grounding and modelability. Record PASS/HOLD with visible evidence before image-to-3D. A prompt or apparent transparency is not proof.
+3. **Separate asset builder:** another agent creates one bounded candidate through the documented guarded TRELLIS/Blender or suitable construction method. For manual Blender modeling, use [asset-modeling-director](../asset-modeling-director/SKILL.md) between reference review and construction: an independently checked measured plan, then an early untextured massing gate. Preserve raw master, editable source, parameters and provenance. Serialize heavy GPU work; no paid fallback or guard reduction.
+4. **Independent mesh and game-scale judge:** the reviewer inspects neutral front/rear/side/three-quarter renders, the actual mesh and gameplay-sized views. Check likeness, topology, material/triangle cost, contact and collider fit; for moving assets also check motion/deformation. Return the three most consequential gaps and one consolidated repair packet. The target author and builder cannot independently PASS their own output.
+5. **Bounded repair and integration:** repair only those gaps within the [production loop policy](../../../docs/PRODUCTION_LOOP_POLICY.md): at most three substantial passes, one initial candidate and up to two focused repairs. Root integrates an admitted asset through the existing registry/render/physics/placement owners, then compares matching actual habitat screenshots and walks its relevant contact/clearance path. Keep generated targets separate from runtime evidence. Failed reference/mesh/runtime gates remain HOLD, with a changed-method recommendation rather than endless retries.
+
+The parent coordinates the target author, builder and independent judge with one writer per domain and preserves the reserved review slot. The current owner's authorization to develop the habitat includes routine creation of its identified missing assets; request input only for a consequential unresolved tradeoff, spending, destructive action or genuine blocker. Adding an asset loop does not restart the habitat's structural/repair allowance.
+
 ## Bounded habitat loop
 
-Default to **two implementation rounds**. A third round is allowed only for a hero surface when the repair changes structure rather than merely color, scale, or density.
+Default to **three substantial implementation passes**, one structural pass and up to two focused repairs, under [the project loop policy](../../../docs/PRODUCTION_LOOP_POLICY.md). Stop early on PASS. A repeated consequential gap requires a changed structural method before spending a remaining pass.
 
 ### Round 0 — contract and structural plan
 
@@ -88,9 +136,9 @@ A reviewer who did not implement the pass receives raw baseline/current images, 
 
 Do not reward effort, test count, or generated target beauty. Judge the actual game.
 
-### Round 2 — focused repair
+### Rounds 2–3 — focused repairs
 
-Repair the three consequential gaps only. Rerun invalidated proof, not every prior check. If the same structural gap remains after two rounds, stop that method. Preserve an honest HOLD and move to another batch or redesign the terrain/asset approach.
+Repair the consequential gaps in the current consolidated review only. Rerun invalidated proof, not every prior check. Change method when a structural gap repeats; do not continue the same failed placement approach. After the third substantial pass, preserve an honest HOLD if needed and move to another authorized batch or stop.
 
 ### Play and checkpoint
 
@@ -109,7 +157,7 @@ Score each axis from 0–10 and include a short reason:
 7. **Mobile visual hierarchy** — the player, interactables, threats, and route remain legible under the HUD.
 8. **Performance and lifecycle** — bounded residents, stable IDs, streaming, collision, save/reload, and package behavior.
 
-Project visual admission normally requires **8/10 overall**, no critical axis below **6.5**, and no correctness blocker. A lower-scoring result may remain a documented HOLD or a provisional owner-delegated candidate; do not relabel it as accepted.
+For the focused Rootbound showcase, visual scores are advisory. Admit an attractive useful result with explicit remaining debt when actual composition and the relevant correctness checks support it; target mismatch or a lower score alone is not a blocker.
 
 ## World-building rules
 
@@ -122,6 +170,7 @@ Project visual admission normally requires **8/10 overall**, no critical axis be
 - Preserve sightlines through dense zones; a player should usually see either a landmark, a route cue, or a meaningful nearby interaction.
 - Distinguish a habitat through terrain, silhouette, traversal, ecology, and play—not only hue.
 - Prefer replacement and composition improvements over simply raising global caps.
+- For a small exact suppression of allocated scenery, preserve the existing sampler/infill/sort/cap sequence and filter at the shared final selection stage when required to keep every other record unchanged. An early removal can refill the gap or perturb later allocations. Verify synchronous and incremental outputs, alternate worlds and resident collider retirement; noninteractive scenery can still be solid.
 - Check the route from the actual phone framing. Avoid placing critical cues permanently under the upper-left objective card, lower-left joystick, or lower-right actions.
 - Use authored hero landforms and landmarks where composition matters; use seeded recipes for local natural variation.
 
@@ -142,7 +191,7 @@ Do not build the complete streamed continent as a monolithic Blender scene. Runt
 A long-running orchestrator may work on this habitat for at most:
 
 - one structural pass;
-- one focused repair pass;
+- up to two focused repair passes;
 - one independent review after each meaningful pass.
 
 Then it must checkpoint and move to another authorized lane or stop. It may not spend the whole unattended session nudging one habitat toward a score. See `.agents/skills/overnight-orchestrator/SKILL.md`.

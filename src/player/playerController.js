@@ -12,6 +12,7 @@ import {
   surfaceBuoyancyDelta,
   surfaceWaterMode,
 } from "../movement/surfaceSwim.js";
+import { isSlidableTerrainSupport, resolveTerrainSlide } from '../movement/terrainSlide.js';
 
 // Phase 1.2 — Rapier KinematicCharacterController migration.
 // Wildkin owns intent/speeds/accel/facing/dodge/jump/climb. Rapier owns collision/slide/grounding.
@@ -72,6 +73,7 @@ export function createPlayerController(playerMesh, playground, camera, moveCfg, 
     currentStrength: 0,
     waterborne: false,
     lastDryPosition: null,
+    slideVelocity: null,
   };
   let moveSpeedMultiplier = 1;
 
@@ -303,6 +305,7 @@ export function createPlayerController(playerMesh, playground, camera, moveCfg, 
     state.coyoteRemaining = 0;
     state.climbable = null;
     state.mantleData = null;
+    state.slideVelocity = null;
     beginAirborneTracking();
     return true;
   }
@@ -316,7 +319,7 @@ export function createPlayerController(playerMesh, playground, camera, moveCfg, 
   function resetJumpState() {
     climbing?.reset();
     cancelPendingJump();
-    if (["JUMP","FALL","CLIMB","MANTLE","SWIM","WADE"].includes(state.mode)) state.mode = "IDLE";
+    if (["JUMP","FALL","SLIDE","CLIMB","MANTLE","SWIM","WADE"].includes(state.mode)) state.mode = "IDLE";
     state.jumpData = null;
     state.fallHVel = null;
     state.airCap = 0;
@@ -324,6 +327,7 @@ export function createPlayerController(playerMesh, playground, camera, moveCfg, 
     cancelAirborneTracking();
     pendingLandingImpact = null;
     clearWaterState();
+    state.slideVelocity = null;
   }
 
   function updateJumpRequestWindow(dt, intent) {
@@ -355,6 +359,7 @@ export function createPlayerController(playerMesh, playground, camera, moveCfg, 
     state.verticalVelocity = verticalLaunch;
     state.grounded = false;
     state.fallHVel = null;
+    state.slideVelocity = null;
     state.jumpBufferRemaining = 0;
     state.coyoteRemaining = 0;
     beginAirborneTracking();
@@ -418,6 +423,29 @@ export function createPlayerController(playerMesh, playground, camera, moveCfg, 
     syncPosFromPhysics();
     refreshSurfaceMode();
     return res;
+  }
+
+  function beginTerrainSlide(support, { preserveAirborneTracking = false } = {}) {
+    if (!isSlidableTerrainSupport(support)) return false;
+    state.mode = "SLIDE";
+    state.grounded = true;
+    state.verticalVelocity = 0;
+    state.jumpData = null;
+    state.fallHVel = null;
+    state.airCap = 0;
+    state.slideVelocity ??= { x: state.vel.x, z: state.vel.z };
+    if (!preserveAirborneTracking) cancelAirborneTracking();
+    return true;
+  }
+
+  function beginFallFromTerrainSlide(preMoveFeetY = getFeetY()) {
+    state.mode = "FALL";
+    state.grounded = false;
+    state.fallHVel = state.slideVelocity ? { ...state.slideVelocity } : { x: state.vel.x, z: state.vel.z };
+    state.airCap = Math.max(moveCfg.airMinSpeedCap ?? moveCfg.walkSpeed, Math.hypot(state.fallHVel.x, state.fallHVel.z));
+    state.verticalVelocity = Math.min(0, state.verticalVelocity);
+    state.slideVelocity = null;
+    beginAirborneTracking(preMoveFeetY);
   }
 
   function updateSurfaceSwim(dt, intent, combatOpts, water) {
@@ -570,7 +598,9 @@ export function createPlayerController(playerMesh, playground, camera, moveCfg, 
 
     if (climbing?.update(fixedDt, intent)) { syncMesh(fixedDt); return; }
 
-    const canStartOrdinaryJump = state.mode !== "JUMP" && state.mode !== "DODGE" && state.mode !== "CLIMB" && state.mode !== "MANTLE";
+    // A steep surface is collision support, never a fresh jump/coyote
+    // foothold. Existing jumps retain authority through their active branch.
+    const canStartOrdinaryJump = state.mode !== "JUMP" && state.mode !== "DODGE" && state.mode !== "CLIMB" && state.mode !== "MANTLE" && state.mode !== "SLIDE";
     if (canStartOrdinaryJump && state.jumpBufferRemaining > 0 && (state.grounded || state.coyoteRemaining > 0)) {
       startOrdinaryJump();
     }
@@ -589,6 +619,16 @@ export function createPlayerController(playerMesh, playground, camera, moveCfg, 
       if (hvLen > 0.1) state.facing = Math.atan2(jd.hVel.x, jd.hVel.z);
       state.speed = hvLen;
       state.vel.set(jd.hVel.x, 0, jd.hVel.z);
+
+      // A descending jump that meets a slide-band terrain face has made a
+      // genuine landing. Record that impact once, then let the surface carry
+      // the player instead of continuing a false airborne state.
+      if (state.verticalVelocity <= 0.1 && res.terrainSupport?.slidable) {
+        recordLandingImpact();
+        beginTerrainSlide(res.terrainSupport, { preserveAirborneTracking: true });
+        syncMesh(fixedDt);
+        return;
+      }
 
       // landing: grounded + descending; Rapier determines actual landing position — no horizontal magnet
       let landed = false;
@@ -633,6 +673,12 @@ export function createPlayerController(playerMesh, playground, camera, moveCfg, 
       state.speed = hvLen;
       // keep vel in sync for landing carry
       state.vel.set(state.fallHVel.x, 0, state.fallHVel.z);
+      if (res.terrainSupport?.slidable) {
+        recordLandingImpact();
+        beginTerrainSlide(res.terrainSupport, { preserveAirborneTracking: true });
+        syncMesh(fixedDt);
+        return;
+      }
       if (res.grounded) {
         recordLandingImpact();
         state.mode = "IDLE";
@@ -673,6 +719,45 @@ export function createPlayerController(playerMesh, playground, camera, moveCfg, 
       }
       syncMesh(fixedDt);
       return;
+    }
+
+    // Sliding is terrain-only. It runs after airborne/dodge authority and
+    // before ordinary locomotion so an input cannot claim a steep foothold.
+    if (state.mode === "SLIDE") {
+      const support = characterPhysics.getTerrainSupport?.();
+      if (!isSlidableTerrainSupport(support)) {
+        if (support?.walkable) {
+          state.grounded = true;
+          state.slideVelocity = null;
+          state.mode = "IDLE";
+        } else {
+          beginFallFromTerrainSlide();
+          syncMesh(fixedDt);
+          return;
+        }
+      } else {
+        const motion = resolveTerrainSlide({ support, inputDirection: worldDir, velocity: state.slideVelocity, dt: fixedDt, config: moveCfg });
+        state.slideVelocity = { x: motion.x, z: motion.z };
+        const result = rapierMove(motion.x, motion.z, -(moveCfg.slopeSlideStickSpeed ?? 1.25), fixedDt);
+        if (state.mode === "SWIM") { syncMesh(fixedDt); return; }
+        if (result.terrainSupport?.slidable) {
+          state.grounded = true;
+          state.speed = motion.speed;
+          state.vel.set(motion.x, 0, motion.z);
+          if (motion.speed > .1) state.facing = Math.atan2(motion.x, motion.z);
+          syncMesh(fixedDt);
+          return;
+        }
+        if (result.terrainSupport?.walkable) {
+          state.grounded = true;
+          state.slideVelocity = null;
+          state.mode = "IDLE";
+        } else {
+          beginFallFromTerrainSlide();
+          syncMesh(fixedDt);
+          return;
+        }
+      }
     }
 
     // --- Ground / air: dodge request ---
@@ -829,11 +914,15 @@ export function createPlayerController(playerMesh, playground, camera, moveCfg, 
       state.verticalVelocity = 0;
     }
 
-    rapierMove(state.vel.x, state.vel.z, state.verticalVelocity, fixedDt);
+    const normalMove = rapierMove(state.vel.x, state.vel.z, state.verticalVelocity, fixedDt);
     if (state.mode === "SWIM") { syncMesh(fixedDt); return; }
 
     // Transition to FALL if we just left ground without authored JUMP (walk/fall off ledge)
     if (!state.grounded && wasGrounded && state.mode !== "JUMP") {
+      if (beginTerrainSlide(normalMove.terrainSupport)) {
+        syncMesh(fixedDt);
+        return;
+      }
       beginAirborneTracking(preMoveFeetY);
       state.mode = "FALL";
       // Preserve actual horizontal velocity at takeoff, cap at max(walkSpeed, preSpeed)

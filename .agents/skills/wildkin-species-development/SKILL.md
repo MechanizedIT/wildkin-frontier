@@ -5,6 +5,12 @@ description: Design, produce, integrate, review, and hand off one distinct Wildk
 
 # Wildkin species development
 
+**Latest owner review direction:** apply [Rootbound practical asset reuse and showcase review](../../../docs/ROOTBOUND_ASSET_REUSE_REVIEW.md). Attractive, useful actual results may be used despite target differences or lower scores; older fixed score thresholds below are superseded for this focused run. Review reusable components, material-yield ideas, arrangement/rotation/scale/tint variants, and useful curve-authored roots/trunks. Preserve focused correctness and actual gameplay proof.
+
+
+**Focused Rootbound override (latest September 14 owner direction):** use [ROOTBOUND_FOCUSED_GOAL.md](../../../docs/ROOTBOUND_FOCUSED_GOAL.md). Work continuously within Rootbound and its constituents; up to six substantial attempts per constituent/composition experiment, independent review each time, method change after two repeated defects. After six unsuccessful attempts, work on another Rootbound constituent and revisit with a concrete new approach. Keep useful partial gains against the retained baseline; preserve held candidates and reusable parts. Earlier three-pass/rotate-away rules below are historical for this focused run.
+
+
 Use this project-local skill for a new Wildkin species or a substantial revision to one species. It composes the existing `wildkin-asset-forge` and general `wildkin-development` skills. It is not permission to produce a large roster before one species has a useful, readable field loop.
 
 Read `AGENTS.md`, `docs/SESSION_START.md`, `docs/CURRENT_SLICE.md`, the relevant habitat packet, `docs/EARLY_ALPHA_PLAN.md`, and the current species/runtime owners in `docs/CODE_MAP.md`.
@@ -36,18 +42,32 @@ Use `.agents/skills/wildkin-asset-forge/SKILL.md`.
 
 Typical flow:
 
-1. Produce or select one approved clean reference.
+1. For an existing species, first render its actual current mesh from front, rear, both sides and three-quarter at neutral and phone sizes. Measure complete bounds and defining part thickness; freeze unchanged component and sibling-species geometry/material/transform evidence. Use these findings to bound the revision. Then produce a clean complementary-view design target with source/proportion notes.
 2. Independent reference review for anatomy, silhouette, impossible joins, background contamination, and mesh-generation risk.
-3. Run one local TRELLIS 2 generation at a time.
+3. Choose the suitable bounded production method. For manual Blender or code-native geometry, use the asset-modeling director: tool-informed measured plan, independent plan review, separate builder, then early massing review. For TRELLIS, verify that the reviewed input matches its single-object requirements and run only one heavy job at a time.
 4. Inspect front, rear, side, three-quarter, underside/feet, and gameplay-sized renders.
 5. Clean and normalize in Blender; preserve raw generation and editable source.
 6. Rig/animate only after the neutral mesh passes.
 7. Export a bounded GLB and inspect it in Three.js at actual species scale.
 8. Independent visual/motion review.
 
-Default to two model rounds. A third requires a structural change such as a new reference, topology repair, or different generation/rig method. Do not repeat unchanged parameters.
+An existing code-native species need not become a GLB to repair its geometry. Preserve its current runtime path when that is the smallest useful change; prove actual instantiated geometry, attachments and animation rather than granting a format-based exemption. Emberhorn's side baseline exposed 0.05m-deep legs hidden by its front view, redirecting the work from unnecessary horn redesign to measured limb volume and mane attachment. Keep shared helpers and other species unchanged unless a separately scoped consistency fix is warranted.
+
+Trace the real factory before claiming integration. This project normally loads
+baked `asset.parts` through `world.json` → `world.generated.js` →
+`createVisualAssetVisual`; a changed mesh-kit constructor is only authoring
+source until that recipe is rebaked. Use the focused `--asset <id>` bake selector
+after neutral retention, generate world data, and compare actual factory meshes
+against the reviewed source with the serializer's declared precision. Freeze
+all unselected recipes, regions, collider and gameplay metadata. The first
+Emberhorn encounter after source edits still displayed its old recipe, so its
+runtime judgment was reopened and repeated after this chain was corrected.
+
+Default to three substantial model passes: one initial candidate and up to two focused repairs under [the project loop policy](../../../docs/PRODUCTION_LOOP_POLICY.md). A repeated consequential gap requires a changed reference, topology or generation/rig method before using a remaining pass. Stop early on PASS; do not repeat unchanged parameters.
 
 ### Gameplay species lane
+
+Before proposing new APIs, inspect the actual existing owner functions and record their signatures, data fields and transaction semantics in the species plan. Distinguish missing seams from APIs merely absent from an older document. Use concrete starting ranges/timings labeled existing or provisional, and write acceptance cases with observable outcomes. Never promise refunds, rollback, reachability or saved effects that the current owner does not provide. Review the plan before implementation; a generic list of owner filenames is not an implementation-ready handoff.
 
 Work from the species card and existing owners:
 
@@ -106,7 +126,7 @@ Default batch:
 7. Complete a normal-input discover → bond → return → select/use → reload story.
 8. Checkpoint or preserve as an explicit HOLD.
 
-Do not spend an unattended night trying to rescue one failed creature. After two substantial visual rounds or two repeated gameplay gaps, preserve the candidate and move to another authorized batch or stop.
+Do not spend an unattended night trying to rescue one failed creature. Cap the visual and gameplay production loops at three substantial passes each. Repeated gaps require a changed method within the remaining allowance; if none fits, preserve HOLD and move to another authorized batch or stop. These separate gates do not multiply the species or overnight batch count.
 
 ## Unique-role rules
 

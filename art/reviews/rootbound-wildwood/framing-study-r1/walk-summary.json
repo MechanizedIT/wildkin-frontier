@@ -1,0 +1,16 @@
+[
+  {
+    "name": "pitch32-forward-walk",
+    "durationSeconds": 4.006799999997019,
+    "horizontalDistance": 9.070634096986597,
+    "groundedSamples": 42,
+    "samples": 42
+  },
+  {
+    "name": "pitch32-return-walk",
+    "durationSeconds": 4.010100000008941,
+    "horizontalDistance": 9.056310353767428,
+    "groundedSamples": 42,
+    "samples": 42
+  }
+]

@@ -1,0 +1,242 @@
+[
+  {
+    "pose": "meadow",
+    "variant": "baseline",
+    "pitchDegrees": 36.0,
+    "projectionShift": 0,
+    "focusRecovery": "clear",
+    "requestedDistance": 11.59107954420122,
+    "effectiveDistance": 11.59107954420122,
+    "player": {
+      "pos": {
+        "x": -475,
+        "y": 14.077618598937988,
+        "z": 590
+      },
+      "grounded": true,
+      "mode": "IDLE"
+    },
+    "calls": 90,
+    "triangles": 174588
+  },
+  {
+    "pose": "meadow",
+    "variant": "shift",
+    "pitchDegrees": 36.0,
+    "projectionShift": 0.12,
+    "focusRecovery": "clear",
+    "requestedDistance": 11.59107954420122,
+    "effectiveDistance": 11.59107954420122,
+    "player": {
+      "pos": {
+        "x": -475,
+        "y": 14.077618598937988,
+        "z": 590
+      },
+      "grounded": true,
+      "mode": "IDLE"
+    },
+    "calls": 90,
+    "triangles": 178504
+  },
+  {
+    "pose": "meadow",
+    "variant": "tilt",
+    "pitchDegrees": 28.0,
+    "projectionShift": 0.12,
+    "focusRecovery": "clear",
+    "requestedDistance": 11.59107954420122,
+    "effectiveDistance": 11.59107954420122,
+    "player": {
+      "pos": {
+        "x": -475,
+        "y": 14.077618598937988,
+        "z": 590
+      },
+      "grounded": true,
+      "mode": "IDLE"
+    },
+    "calls": 92,
+    "triangles": 180436
+  },
+  {
+    "pose": "meadow",
+    "variant": "pitch32",
+    "pitchDegrees": 32.0,
+    "projectionShift": 0,
+    "focusRecovery": "clear",
+    "requestedDistance": 11.59107954420122,
+    "effectiveDistance": 11.59107954420122,
+    "player": {
+      "pos": {
+        "x": -475,
+        "y": 14.077618598937988,
+        "z": 590
+      },
+      "grounded": true,
+      "mode": "IDLE"
+    },
+    "calls": 92,
+    "triangles": 180436
+  },
+  {
+    "pose": "galleries",
+    "variant": "baseline",
+    "pitchDegrees": 36.0,
+    "projectionShift": 0,
+    "focusRecovery": "clear",
+    "requestedDistance": 11.59107954420122,
+    "effectiveDistance": 11.59107954420122,
+    "player": {
+      "pos": {
+        "x": -478,
+        "y": 11.61494255065918,
+        "z": 640
+      },
+      "grounded": true,
+      "mode": "IDLE"
+    },
+    "calls": 83,
+    "triangles": 178204
+  },
+  {
+    "pose": "galleries",
+    "variant": "shift",
+    "pitchDegrees": 36.0,
+    "projectionShift": 0.12,
+    "focusRecovery": "clear",
+    "requestedDistance": 11.59107954420122,
+    "effectiveDistance": 11.59107954420122,
+    "player": {
+      "pos": {
+        "x": -478,
+        "y": 11.61494255065918,
+        "z": 640
+      },
+      "grounded": true,
+      "mode": "IDLE"
+    },
+    "calls": 86,
+    "triangles": 184022
+  },
+  {
+    "pose": "galleries",
+    "variant": "tilt",
+    "pitchDegrees": 28.0,
+    "projectionShift": 0.12,
+    "focusRecovery": "clear",
+    "requestedDistance": 11.59107954420122,
+    "effectiveDistance": 11.59107954420122,
+    "player": {
+      "pos": {
+        "x": -478,
+        "y": 11.61494255065918,
+        "z": 640
+      },
+      "grounded": true,
+      "mode": "IDLE"
+    },
+    "calls": 86,
+    "triangles": 184022
+  },
+  {
+    "pose": "galleries",
+    "variant": "pitch32",
+    "pitchDegrees": 32.0,
+    "projectionShift": 0,
+    "focusRecovery": "clear",
+    "requestedDistance": 11.59107954420122,
+    "effectiveDistance": 11.59107954420122,
+    "player": {
+      "pos": {
+        "x": -478,
+        "y": 11.61494255065918,
+        "z": 640
+      },
+      "grounded": true,
+      "mode": "IDLE"
+    },
+    "calls": 86,
+    "triangles": 184022
+  },
+  {
+    "pose": "crown",
+    "variant": "baseline",
+    "pitchDegrees": 36.0,
+    "projectionShift": 0,
+    "focusRecovery": "clear",
+    "requestedDistance": 11.59107954420122,
+    "effectiveDistance": 11.59107954420122,
+    "player": {
+      "pos": {
+        "x": -477,
+        "y": 9.997814178466797,
+        "z": 709
+      },
+      "grounded": true,
+      "mode": "IDLE"
+    },
+    "calls": 160,
+    "triangles": 295652
+  },
+  {
+    "pose": "crown",
+    "variant": "shift",
+    "pitchDegrees": 36.0,
+    "projectionShift": 0.12,
+    "focusRecovery": "clear",
+    "requestedDistance": 11.59107954420122,
+    "effectiveDistance": 11.59107954420122,
+    "player": {
+      "pos": {
+        "x": -477,
+        "y": 9.997814178466797,
+        "z": 709
+      },
+      "grounded": true,
+      "mode": "IDLE"
+    },
+    "calls": 196,
+    "triangles": 433858
+  },
+  {
+    "pose": "crown",
+    "variant": "tilt",
+    "pitchDegrees": 28.0,
+    "projectionShift": 0.12,
+    "focusRecovery": "clear",
+    "requestedDistance": 11.59107954420122,
+    "effectiveDistance": 11.59107954420122,
+    "player": {
+      "pos": {
+        "x": -477,
+        "y": 9.997814178466797,
+        "z": 709
+      },
+      "grounded": true,
+      "mode": "IDLE"
+    },
+    "calls": 247,
+    "triangles": 457851
+  },
+  {
+    "pose": "crown",
+    "variant": "pitch32",
+    "pitchDegrees": 32.0,
+    "projectionShift": 0,
+    "focusRecovery": "clear",
+    "requestedDistance": 11.59107954420122,
+    "effectiveDistance": 11.59107954420122,
+    "player": {
+      "pos": {
+        "x": -477,
+        "y": 9.997814178466797,
+        "z": 709
+      },
+      "grounded": true,
+      "mode": "IDLE"
+    },
+    "calls": 192,
+    "triangles": 442494
+  }
+]

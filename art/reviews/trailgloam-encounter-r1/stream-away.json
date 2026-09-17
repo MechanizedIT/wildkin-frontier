@@ -1,0 +1,27 @@
+{
+  "ms": 430723.200000003,
+  "packaged": false,
+  "actor": null,
+  "player": {
+    "pos": {
+      "x": 0,
+      "y": 0.5219966173171997,
+      "z": 0
+    },
+    "facing": 3.141592653589793,
+    "grounded": true,
+    "health": 7
+  },
+  "render": {
+    "frame": 12029,
+    "calls": 166,
+    "triangles": 233659,
+    "points": 72,
+    "lines": 0
+  },
+  "sourceIds": [
+    "f1:w:-1:1:0",
+    "f1:w:1:-1:0",
+    "f1:w:1:1:0"
+  ]
+}

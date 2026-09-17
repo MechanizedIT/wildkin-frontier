@@ -168,7 +168,14 @@ export function createWorldInteractionAnchor({ scene, registry, creatures, getBa
     camera.getWorldPosition(origin); direction.subVectors(anchor, origin);
     const distance = direction.length(); ray.set(origin, direction.normalize()); ray.far = Math.max(0, distance - .2);
     const candidates = entry.occluders.filter(n => visible(n) && [].concat(n.material).some(m => m && m.opacity > .5));
-    entry.blocked = ray.intersectObjects(candidates, false).length > 0;
+    entry.blocked = ray.intersectObjects(candidates, false).some(hit => {
+      // Instanced canopies keep an opaque shared material and fade individual
+      // trees in the shader. Match that visible instance, just as the material
+      // filter above already matches an ordinary faded mesh.
+      const visibility = hit.object.isInstancedMesh && Number.isInteger(hit.instanceId)
+        ? hit.object.geometry.getAttribute('playerVisibility') : null;
+      return !visibility || visibility.getX(hit.instanceId) > .5;
+    });
     return entry.blocked;
   }
   function isOccluded(camera, anchor, dt) {

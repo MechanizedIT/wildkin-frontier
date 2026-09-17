@@ -1,0 +1,204 @@
+{
+  "status": "UNREVIEWED_GATE_A_INITIAL_MASSING_TOPOLOGY_HOLD",
+  "blender_version": "4.5.3 LTS",
+  "coordinate_system": "Blender metres: Z=0 ground, -Y head-forward, +X right, +Z dorsal. Future glTF conversion is not performed in this candidate.",
+  "source_script_sha256": "bfe1340f06be1629e928b978a5999e533135c40c6c0f1a3528854ddc13bcaeee",
+  "operations": "Factory-startup; faceted UV-sphere saucer/head/belly volumes; six explicit cuff/upper/lower/hoof chains; two closed socketed tapered-prism fronds; native Blender EXACT unions; one .055m voxel weld to make audited massing surface; outward-normal recalculation; neutral renders only.",
+  "mesh": {
+    "object": "Trailgloam_GateA_audited_neutral_massing",
+    "vertices": 3616,
+    "edges": 7224,
+    "faces": 3612,
+    "triangles": 7224,
+    "validation_changed_mesh": false,
+    "edges_not_exactly_two_faces": 0,
+    "connected_vertex_components": 2,
+    "component_bounds_m": [
+      {
+        "vertices": 3496,
+        "min": [
+          -0.9375,
+          -1.0143378973007202,
+          -0.7715436220169067
+        ],
+        "max": [
+          0.9375,
+          0.8544442653656006,
+          0.8263333439826965
+        ]
+      },
+      {
+        "vertices": 120,
+        "min": [
+          0.47176218032836914,
+          0.601015567779541,
+          -0.7711362838745117
+        ],
+        "max": [
+          0.7440505027770996,
+          0.8544442653656006,
+          -0.5415236353874207
+        ]
+      }
+    ],
+    "bounds_m": {
+      "min": [
+        -0.9375,
+        -1.0143378973007202,
+        -0.7715436220169067
+      ],
+      "max": [
+        0.9375,
+        0.8544442653656006,
+        0.8263333439826965
+      ],
+      "span": [
+        1.875,
+        1.8687821626663208,
+        1.5978769659996033
+      ]
+    }
+  },
+  "contact_graph": {
+    "chain_count": 6,
+    "chains": {
+      "LF": [
+        "shell",
+        "LF_socket_bridge",
+        "LF_cuff",
+        "LF_upper",
+        "LF_lower",
+        "LF_hoof_bridge",
+        "LF_hoof_contact",
+        "LF_hoof",
+        "ground_Z0"
+      ],
+      "LM": [
+        "shell",
+        "LM_socket_bridge",
+        "LM_cuff",
+        "LM_upper",
+        "LM_lower",
+        "LM_hoof_bridge",
+        "LM_hoof_contact",
+        "LM_hoof",
+        "ground_Z0"
+      ],
+      "LR": [
+        "shell",
+        "LR_socket_bridge",
+        "LR_cuff",
+        "LR_upper",
+        "LR_lower",
+        "LR_hoof_bridge",
+        "LR_hoof_contact",
+        "LR_hoof",
+        "ground_Z0"
+      ],
+      "RF": [
+        "shell",
+        "RF_socket_bridge",
+        "RF_cuff",
+        "RF_upper",
+        "RF_lower",
+        "RF_hoof_bridge",
+        "RF_hoof_contact",
+        "RF_hoof",
+        "ground_Z0"
+      ],
+      "RM": [
+        "shell",
+        "RM_socket_bridge",
+        "RM_cuff",
+        "RM_upper",
+        "RM_lower",
+        "RM_hoof_bridge",
+        "RM_hoof_contact",
+        "RM_hoof",
+        "ground_Z0"
+      ],
+      "RR": [
+        "shell",
+        "RR_socket_bridge",
+        "RR_cuff",
+        "RR_upper",
+        "RR_lower",
+        "RR_hoof_bridge",
+        "RR_hoof_contact",
+        "RR_hoof",
+        "ground_Z0"
+      ],
+      "frond_L": [
+        "shell",
+        "frond_L_socket",
+        "frond_L_fold_base",
+        "frond_L_fold_tip"
+      ],
+      "frond_R": [
+        "shell",
+        "frond_R_socket",
+        "frond_R_fold_base",
+        "frond_R_fold_tip"
+      ]
+    },
+    "frond_paths": {
+      "L": [
+        "shell",
+        "frond_L_socket",
+        "frond_L_fold_base",
+        "frond_L_fold_tip"
+      ],
+      "R": [
+        "shell",
+        "frond_R_socket",
+        "frond_R_fold_base",
+        "frond_R_fold_tip"
+      ]
+    },
+    "verification": "Exact-union plus .055m voxel-weld audit found zero edges with other than two incident faces, but two vertex components. The second component is the right-rear hoof assembly, so this is an explicit Gate-A topology HOLD for independent review, not a connectivity pass."
+  },
+  "ground_contact": {
+    "LF": {
+      "hoof_centre_Z_m": 0.06,
+      "sole_bottom_Z_m": 0.0
+    },
+    "LM": {
+      "hoof_centre_Z_m": 0.06,
+      "sole_bottom_Z_m": 0.0
+    },
+    "LR": {
+      "hoof_centre_Z_m": 0.06,
+      "sole_bottom_Z_m": 0.0
+    },
+    "RF": {
+      "hoof_centre_Z_m": 0.06,
+      "sole_bottom_Z_m": 0.0
+    },
+    "RM": {
+      "hoof_centre_Z_m": 0.06,
+      "sole_bottom_Z_m": 0.0
+    },
+    "RR": {
+      "hoof_centre_Z_m": 0.06,
+      "sole_bottom_Z_m": 0.0
+    }
+  },
+  "renders": [
+    "renders/gate-a/front.png",
+    "renders/gate-a/rear.png",
+    "renders/gate-a/left.png",
+    "renders/gate-a/right.png",
+    "renders/gate-a/top.png",
+    "renders/gate-a/underside.png",
+    "renders/gate-a/three_quarter.png",
+    "renders/gate-a/three_quarter_96.png",
+    "renders/gate-a/three_quarter_48.png"
+  ],
+  "scope_limits": [
+    "Initial Gate-A only",
+    "No rig/motion",
+    "No GLB/export",
+    "No runtime/admission",
+    "Independent judge required before any repair."
+  ]
+}

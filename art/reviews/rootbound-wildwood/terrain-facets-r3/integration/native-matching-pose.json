@@ -1,0 +1,222 @@
+{
+  "player": {
+    "pos": {
+      "x": -449,
+      "y": 9.89130973815918,
+      "z": 675
+    },
+    "grounded": true,
+    "mode": "IDLE",
+    "verticalVelocity": 0
+  },
+  "height": 9.381366960443422,
+  "camera": [
+    -455.99276139193347,
+    17.604375352389624,
+    668.7520763407613
+  ],
+  "cameraFollow": {
+    "yaw": -2.3,
+    "pitch": 0.6283185307179586,
+    "portrait": true,
+    "portraitPitch": 0.6283185307179586,
+    "landscapePitch": 0.5585053606381855,
+    "zoom": 1,
+    "userZoom": 1,
+    "requestedDistance": 11.59107954420122,
+    "collisionDistance": 11.59107954420122,
+    "effectiveDistance": 11.59107954420122,
+    "focusRecovery": "clear",
+    "horizontalDistance": 6.55,
+    "height": 5,
+    "center": [
+      -449,
+      10.791309738159185,
+      675
+    ]
+  },
+  "render": {
+    "frame": 3733,
+    "calls": 59,
+    "triangles": 127672,
+    "points": 0,
+    "lines": 0
+  },
+  "grounds": [
+    {
+      "x": 0,
+      "z": 0,
+      "indexed": true,
+      "positions": 676,
+      "vertexColors": false
+    },
+    {
+      "x": 0,
+      "z": 0,
+      "indexed": true,
+      "positions": 676,
+      "vertexColors": false
+    },
+    {
+      "x": 0,
+      "z": 0,
+      "indexed": true,
+      "positions": 676,
+      "vertexColors": false
+    },
+    {
+      "x": 0,
+      "z": 0,
+      "indexed": true,
+      "positions": 676,
+      "vertexColors": false
+    },
+    {
+      "x": 0,
+      "z": 0,
+      "indexed": true,
+      "positions": 676,
+      "vertexColors": false
+    },
+    {
+      "x": 0,
+      "z": 0,
+      "indexed": true,
+      "positions": 676,
+      "vertexColors": false
+    },
+    {
+      "x": 0,
+      "z": 0,
+      "indexed": true,
+      "positions": 676,
+      "vertexColors": false
+    },
+    {
+      "x": 0,
+      "z": 0,
+      "indexed": true,
+      "positions": 676,
+      "vertexColors": false
+    },
+    {
+      "x": 0,
+      "z": 0,
+      "indexed": true,
+      "positions": 676,
+      "vertexColors": false
+    },
+    {
+      "x": 0,
+      "z": 0,
+      "indexed": true,
+      "positions": 676,
+      "vertexColors": false
+    },
+    {
+      "x": 0,
+      "z": 0,
+      "indexed": true,
+      "positions": 676,
+      "vertexColors": false
+    },
+    {
+      "x": 0,
+      "z": 0,
+      "indexed": false,
+      "positions": 3750,
+      "vertexColors": true
+    },
+    {
+      "x": 0,
+      "z": 0,
+      "indexed": false,
+      "positions": 3750,
+      "vertexColors": true
+    },
+    {
+      "x": 0,
+      "z": 0,
+      "indexed": true,
+      "positions": 676,
+      "vertexColors": false
+    },
+    {
+      "x": 0,
+      "z": 0,
+      "indexed": true,
+      "positions": 676,
+      "vertexColors": false
+    },
+    {
+      "x": 0,
+      "z": 0,
+      "indexed": true,
+      "positions": 676,
+      "vertexColors": false
+    },
+    {
+      "x": 0,
+      "z": 0,
+      "indexed": true,
+      "positions": 676,
+      "vertexColors": false
+    },
+    {
+      "x": 0,
+      "z": 0,
+      "indexed": true,
+      "positions": 676,
+      "vertexColors": false
+    },
+    {
+      "x": 0,
+      "z": 0,
+      "indexed": true,
+      "positions": 676,
+      "vertexColors": false
+    },
+    {
+      "x": 0,
+      "z": 0,
+      "indexed": true,
+      "positions": 676,
+      "vertexColors": false
+    },
+    {
+      "x": 0,
+      "z": 0,
+      "indexed": true,
+      "positions": 676,
+      "vertexColors": false
+    },
+    {
+      "x": 0,
+      "z": 0,
+      "indexed": true,
+      "positions": 676,
+      "vertexColors": false
+    },
+    {
+      "x": 0,
+      "z": 0,
+      "indexed": true,
+      "positions": 676,
+      "vertexColors": false
+    },
+    {
+      "x": 0,
+      "z": 0,
+      "indexed": true,
+      "positions": 676,
+      "vertexColors": false
+    },
+    {
+      "x": 0,
+      "z": 0,
+      "indexed": true,
+      "positions": 676,
+      "vertexColors": false
+    }
+  ]
+}

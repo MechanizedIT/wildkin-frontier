@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import { afterEach, describe, it } from "node:test";
 import * as THREE from "three";
 import { createPlayer } from "../src/player/createPlayer.js";
-import { PLAYER_SWIM_VISUAL } from "../src/player/externalPlayerModel.js";
+import { PLAYER_SLIDE_VISUAL, PLAYER_SWIM_VISUAL } from "../src/player/externalPlayerModel.js";
 import { createPlayerVisuals } from "../src/player/playerVisuals.js";
 import { createFieldTool } from "../src/tools/fieldTool.js";
 import { clearModelAssetCacheForTests, registerModelTemplateForTests } from "../src/assets/modelAssetRuntime.js";
@@ -131,5 +131,48 @@ describe("opt-in external player visual", () => {
     assert.equal(adapter.animator.activeState, "walk");
     assert.ok(adapter.model.rotation.x < swimmingPitch, "shore exit blends the visual child back upright");
     assert.ok(adapter.model.position.y > swimmingY, "shore exit also removes the temporary waterline offset");
+  });
+
+  it("uses a frozen braced idle pose for terrain slides and blends it away on stable ground", () => {
+    registerModelTemplateForTests(descriptor.model.path, template());
+    const player = createPlayer(descriptor);
+    const adapter = player.userData.externalPlayerModel;
+    adapter.update(1, "SLIDE", 3);
+    assert.equal(adapter.animator.activeState, "idle", "slides do not play full walking strides");
+    assert.equal(adapter.animator.active.getEffectiveTimeScale(), 0, "the braced slide pose holds its leg phase");
+    assert.ok(Math.abs(adapter.model.rotation.x - PLAYER_SLIDE_VISUAL.pitchRadians) < 1e-4,
+      "the model child visibly leans into the downhill motion");
+    assert.ok(Math.abs(adapter.model.position.y - PLAYER_SLIDE_VISUAL.modelYOffset) < 1e-4,
+      "the braced model lowers without moving the authoritative capsule");
+    adapter.update(.5, "WALK", 3.3);
+    assert.equal(adapter.animator.activeState, "walk");
+    assert.ok(adapter.animator.active.getEffectiveTimeScale() > 0, "ordinary locomotion restores its clip cadence");
+    assert.ok(adapter.model.rotation.x < PLAYER_SLIDE_VISUAL.pitchRadians * .02, "grounded exit blends upright");
+    assert.ok(adapter.model.position.y > PLAYER_SLIDE_VISUAL.modelYOffset * .02, "grounded exit removes the lowered offset");
+  });
+
+  it("unfreezes the shared idle action when a slide ends without movement input", () => {
+    registerModelTemplateForTests(descriptor.model.path, template());
+    const player = createPlayer(descriptor);
+    const adapter = player.userData.externalPlayerModel;
+    adapter.update(.02, "SLIDE", 3);
+    assert.equal(adapter.animator.active.getEffectiveTimeScale(), 0);
+    const phase = adapter.animator.active.time;
+    adapter.update(.1, "IDLE", 0);
+    assert.equal(adapter.animator.activeState, "idle");
+    assert.equal(adapter.animator.active.getEffectiveTimeScale(), 1, "idle restores its normal cadence after a slide");
+    assert.ok(adapter.animator.active.time > phase, "the restored idle action advances");
+  });
+
+  it("does not replace an active attack with the slide presentation", () => {
+    registerModelTemplateForTests(descriptor.model.path, template());
+    const player = createPlayer(descriptor);
+    const adapter = player.userData.externalPlayerModel;
+    adapter.update(1, "SLIDE", 3);
+    adapter.playAction("attack");
+    adapter.update(.01, "SLIDE", 3);
+    assert.equal(adapter.animator.activeState, "attack", "weapon action remains authoritative over slide presentation");
+    assert.ok(adapter.model.rotation.x < PLAYER_SLIDE_VISUAL.pitchRadians,
+      "the frozen slide lean begins blending away while the upright action plays");
   });
 });

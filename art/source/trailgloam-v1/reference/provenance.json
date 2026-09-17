@@ -1,0 +1,19 @@
+{
+  "date": "2026-09-14",
+  "imageModel": "undisclosed",
+  "referenceAuthor": "/root",
+  "independentReviewer": "/root/independent_review",
+  "status": "HOLD",
+  "trellisRun": false,
+  "blenderRun": false,
+  "images": [
+    {
+      "name": "reference-v1.png",
+      "sha256": "5d5558ed311c631f8dd6609eed4bd56dfe965c64a27dbdd3541237b4c2cc68e3"
+    },
+    {
+      "name": "reference-v2.png",
+      "sha256": "ff24137dbc4cca44c2e9c8caaabe8e143481cced093e561e1963ac10b8e25322"
+    }
+  ]
+}

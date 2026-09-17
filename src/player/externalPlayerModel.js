@@ -6,7 +6,7 @@ import { createExternalModelVisual, createVisualAnimationController, disposeExte
 const MODE_CLIPS = {
   IDLE: "idle", WALK: "walk", RUN: "run", SNEAK: "sneak", JUMP: "jump",
   FALL: "fall", DODGE: "dodge", CLIMB: "climb", MANTLE: "mantle",
-  WADE: "walk", SWIM: "climb",
+  WADE: "walk", SLIDE: "idle", SWIM: "climb",
 };
 const ONE_SHOT_MODES = new Set(["JUMP", "DODGE", "MANTLE"]);
 const PRIORITY_POSE_MODES = new Set(["CLIMB", "MANTLE", "SWIM"]);
@@ -18,6 +18,13 @@ export const PLAYER_SWIM_VISUAL = Object.freeze({
   pitchRadians: Math.PI * .475,
   modelYOffset: -.08,
   blendRate: 10,
+});
+export const PLAYER_SLIDE_VISUAL = Object.freeze({
+  // The admitted explorer has no dedicated slide clip. Freeze the idle pose
+  // rather than play full strides while physics carries the body downhill.
+  pitchRadians: .18,
+  modelYOffset: -.035,
+  blendRate: 12,
 });
 
 export function createExternalPlayerModel(playerGroup, descriptor) {
@@ -32,6 +39,18 @@ export function createExternalPlayerModel(playerGroup, descriptor) {
   let previousMode = null;
   let actionRemaining = 0;
   let lastClimbPhase = 0;
+
+  function blendPresentationPose(dt, mode) {
+    const isSwim = mode === "SWIM";
+    const isSlide = mode === "SLIDE";
+    const profile = isSwim ? PLAYER_SWIM_VISUAL : isSlide ? PLAYER_SLIDE_VISUAL : null;
+    const targetPitch = profile?.pitchRadians ?? 0;
+    const targetY = profile?.modelYOffset ?? 0;
+    const blendRate = profile?.blendRate ?? PLAYER_SWIM_VISUAL.blendRate;
+    const visualBlend = 1 - Math.exp(-blendRate * Math.max(0, dt));
+    model.rotation.x += (targetPitch - model.rotation.x) * visualBlend;
+    model.position.y += (targetY - model.position.y) * visualBlend;
+  }
 
   const adapter = {
     model,
@@ -57,6 +76,8 @@ export function createExternalPlayerModel(playerGroup, descriptor) {
       if (actionRemaining > 0 && !traversalMode) {
         animator?.update(dt);
         actionRemaining = Math.max(0, actionRemaining - dt);
+        // Attacks/hurt retain their authored clip and upright weapon pose.
+        blendPresentationPose(dt, "IDLE");
         previousMode = null;
         return;
       }
@@ -77,6 +98,10 @@ export function createExternalPlayerModel(playerGroup, descriptor) {
       // in reverse. Every ordinary locomotion mode keeps its old unsigned API.
       const visualSpeed = mode === "SWIM" ? Math.max(.55, Number(speed) || 0) : speed;
       animator?.setLocomotionSpeed(stagedMantle ? 0 : visualSpeed, { allowReverse: mode === "CLIMB" });
+      if (mode === "SLIDE") animator?.setPlaybackRate(0);
+      // SLIDE and IDLE share the idle action. Replaying that action is a no-op,
+      // so this common grounded exit must explicitly restore its cadence.
+      else if (mode === "IDLE" && previousMode === "SLIDE") animator?.setPlaybackRate(1);
       if (mode === "MANTLE" && Number.isFinite(mantleDuration) && mantleDuration > 0) {
         const clipDuration = animator?.active?.getClip?.().duration;
         if (Number.isFinite(clipDuration) && clipDuration > 0) {
@@ -87,11 +112,7 @@ export function createExternalPlayerModel(playerGroup, descriptor) {
         }
       }
       animator?.update(dt);
-      const targetPitch = mode === "SWIM" ? PLAYER_SWIM_VISUAL.pitchRadians : 0;
-      const targetY = mode === "SWIM" ? PLAYER_SWIM_VISUAL.modelYOffset : 0;
-      const visualBlend = 1 - Math.exp(-PLAYER_SWIM_VISUAL.blendRate * Math.max(0, dt));
-      model.rotation.x += (targetPitch - model.rotation.x) * visualBlend;
-      model.position.y += (targetY - model.position.y) * visualBlend;
+      blendPresentationPose(dt, mode);
       if (animator?.activeState === "climb") lastClimbPhase = animator.active.time;
       previousMode = mode;
     },

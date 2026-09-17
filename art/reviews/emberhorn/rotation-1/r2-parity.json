@@ -1,0 +1,287 @@
+{
+  "siblings": [
+    {
+      "id": "asset_wildkin_mossling",
+      "exact": true
+    },
+    {
+      "id": "asset_wildkin_tidefin",
+      "exact": true
+    },
+    {
+      "id": "asset_wildkin_skydancer",
+      "exact": true
+    },
+    {
+      "id": "asset_thornprowler",
+      "exact": true
+    },
+    {
+      "id": "asset_cinderjaw",
+      "exact": true
+    },
+    {
+      "id": "asset_heartwood_guardian",
+      "exact": true
+    }
+  ],
+  "parts": [
+    {
+      "baselineIndex": 0,
+      "candidateIndex": 0,
+      "name": "heavy_feline_torso",
+      "occurrence": 0,
+      "changed": false,
+      "allowed": false
+    },
+    {
+      "baselineIndex": 1,
+      "candidateIndex": 1,
+      "name": "broad_brow_head",
+      "occurrence": 0,
+      "changed": false,
+      "allowed": false
+    },
+    {
+      "baselineIndex": 2,
+      "candidateIndex": 2,
+      "name": "ivory_chest_muzzle",
+      "occurrence": 0,
+      "changed": false,
+      "allowed": false
+    },
+    {
+      "baselineIndex": 3,
+      "candidateIndex": 3,
+      "name": "heavy_leg",
+      "occurrence": 0,
+      "changed": true,
+      "allowed": true
+    },
+    {
+      "baselineIndex": 4,
+      "candidateIndex": 7,
+      "name": "dark_hoof",
+      "occurrence": 0,
+      "changed": false,
+      "allowed": false
+    },
+    {
+      "baselineIndex": 5,
+      "candidateIndex": 4,
+      "name": "heavy_leg",
+      "occurrence": 1,
+      "changed": true,
+      "allowed": true
+    },
+    {
+      "baselineIndex": 6,
+      "candidateIndex": 8,
+      "name": "dark_hoof",
+      "occurrence": 1,
+      "changed": false,
+      "allowed": false
+    },
+    {
+      "baselineIndex": 7,
+      "candidateIndex": 5,
+      "name": "heavy_leg",
+      "occurrence": 2,
+      "changed": true,
+      "allowed": true
+    },
+    {
+      "baselineIndex": 8,
+      "candidateIndex": 9,
+      "name": "dark_hoof",
+      "occurrence": 2,
+      "changed": false,
+      "allowed": false
+    },
+    {
+      "baselineIndex": 9,
+      "candidateIndex": 6,
+      "name": "heavy_leg",
+      "occurrence": 3,
+      "changed": true,
+      "allowed": true
+    },
+    {
+      "baselineIndex": 10,
+      "candidateIndex": 10,
+      "name": "dark_hoof",
+      "occurrence": 3,
+      "changed": false,
+      "allowed": false
+    },
+    {
+      "baselineIndex": 11,
+      "candidateIndex": 11,
+      "name": "inset_almond_eye",
+      "occurrence": 0,
+      "changed": false,
+      "allowed": false
+    },
+    {
+      "baselineIndex": 12,
+      "candidateIndex": 12,
+      "name": "eye_glint",
+      "occurrence": 0,
+      "changed": false,
+      "allowed": false
+    },
+    {
+      "baselineIndex": 13,
+      "candidateIndex": 13,
+      "name": "inset_almond_eye",
+      "occurrence": 1,
+      "changed": false,
+      "allowed": false
+    },
+    {
+      "baselineIndex": 14,
+      "candidateIndex": 14,
+      "name": "eye_glint",
+      "occurrence": 1,
+      "changed": false,
+      "allowed": false
+    },
+    {
+      "baselineIndex": 15,
+      "candidateIndex": 15,
+      "name": "asymmetric_horn",
+      "occurrence": 0,
+      "changed": false,
+      "allowed": false
+    },
+    {
+      "baselineIndex": 16,
+      "candidateIndex": 16,
+      "name": "asymmetric_horn",
+      "occurrence": 1,
+      "changed": false,
+      "allowed": false
+    },
+    {
+      "baselineIndex": 17,
+      "candidateIndex": 17,
+      "name": "layered_mane",
+      "occurrence": 0,
+      "changed": true,
+      "allowed": true
+    },
+    {
+      "baselineIndex": 18,
+      "candidateIndex": 18,
+      "name": "layered_mane",
+      "occurrence": 1,
+      "changed": true,
+      "allowed": true
+    },
+    {
+      "baselineIndex": 19,
+      "candidateIndex": 19,
+      "name": "layered_mane",
+      "occurrence": 2,
+      "changed": true,
+      "allowed": true
+    },
+    {
+      "baselineIndex": 20,
+      "candidateIndex": 20,
+      "name": "layered_mane",
+      "occurrence": 3,
+      "changed": true,
+      "allowed": true
+    },
+    {
+      "baselineIndex": 21,
+      "candidateIndex": 21,
+      "name": "layered_mane",
+      "occurrence": 4,
+      "changed": true,
+      "allowed": true
+    },
+    {
+      "baselineIndex": 22,
+      "candidateIndex": 22,
+      "name": "layered_mane",
+      "occurrence": 5,
+      "changed": true,
+      "allowed": true
+    },
+    {
+      "baselineIndex": 23,
+      "candidateIndex": 23,
+      "name": "layered_mane",
+      "occurrence": 6,
+      "changed": true,
+      "allowed": true
+    },
+    {
+      "baselineIndex": 24,
+      "candidateIndex": 24,
+      "name": "layered_mane",
+      "occurrence": 7,
+      "changed": true,
+      "allowed": true
+    },
+    {
+      "baselineIndex": 25,
+      "candidateIndex": 25,
+      "name": "layered_mane",
+      "occurrence": 8,
+      "changed": true,
+      "allowed": true
+    },
+    {
+      "baselineIndex": 26,
+      "candidateIndex": 26,
+      "name": "layered_mane",
+      "occurrence": 9,
+      "changed": true,
+      "allowed": true
+    },
+    {
+      "baselineIndex": 27,
+      "candidateIndex": 27,
+      "name": "layered_mane",
+      "occurrence": 10,
+      "changed": true,
+      "allowed": true
+    },
+    {
+      "baselineIndex": 28,
+      "candidateIndex": 28,
+      "name": "layered_mane",
+      "occurrence": 11,
+      "changed": true,
+      "allowed": true
+    },
+    {
+      "baselineIndex": 29,
+      "candidateIndex": 29,
+      "name": "layered_mane",
+      "occurrence": 12,
+      "changed": true,
+      "allowed": true
+    },
+    {
+      "baselineIndex": 30,
+      "candidateIndex": 30,
+      "name": "layered_mane",
+      "occurrence": 13,
+      "changed": true,
+      "allowed": true
+    },
+    {
+      "baselineIndex": 31,
+      "candidateIndex": 31,
+      "name": "layered_mane",
+      "occurrence": 14,
+      "changed": true,
+      "allowed": true
+    }
+  ],
+  "pass": true
+}

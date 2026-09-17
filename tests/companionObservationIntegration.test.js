@@ -19,3 +19,24 @@ test('world taming queries never discover wildlife, hold a valid target, and sti
   assert.equal(system.getNearbyInteraction(pos).id,'a','invalid range drops previous immediately');
   assert.equal(writes,0,'UI query has no encounter/save mutation');
 });
+
+test('nearby Wildkin refreshes from Omni-tool attack to only its selected matching catch item', () => {
+  const animal = { state: { id: 'moss', visualAssetId: 'asset_wildkin_mossling', pos: { x: 3, y: .5, z: 0 }, playerDamaged: false } };
+  let selected = { id: 'omni_tool', kind: 'tool' };
+  const system = createCompanionSystem({ scene: new THREE.Scene(), registry: { getLootChestById: () => null },
+    progress: { getState: () => ({ securedCompanions: [], discoveredSpecies: [] }), getModifiers: () => ({ captureCapacity: 1 }) },
+    creatures: { getActiveAliveCreatures: () => [animal] }, playerController: { getState: () => ({ pos: { x: 0, y: .5, z: 0 } }) },
+    isActive: () => true, getSectionId: () => 'verge', getSelectedEquipment: () => selected });
+  const pos = { x: 0, y: .5, z: 0 };
+  let interaction = system.getNearbyInteraction(pos);
+  assert.equal(interaction.label, 'ATTACK'); assert.equal(interaction.action, 'attack');
+  selected = { id: 'berry_lure', kind: 'taming' };
+  interaction = system.getNearbyInteraction(pos);
+  assert.equal(interaction.label, 'PLACE BERRIES'); assert.equal(interaction.action, 'catch');
+  selected = { id: 'woven_snare', kind: 'taming' };
+  interaction = system.getNearbyInteraction(pos);
+  assert.equal(interaction.action, 'select-taming-item'); assert.equal(interaction.disabled, true);
+  selected = null;
+  interaction = system.getNearbyInteraction(pos);
+  assert.equal(interaction.action, 'select-taming-item'); assert.equal(interaction.disabled, true);
+});

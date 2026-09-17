@@ -1,0 +1,124 @@
+{
+  "status": "candidate; independent model review and native admission pending",
+  "builder": "tools/art/build-emergency-barricades.py",
+  "reference": "art/targets/crash-camp-v1/target.png",
+  "style": "art/style/explorer-master.png",
+  "axis": "glTF meters: X along wall, Y up, +Z outboard brace",
+  "pivot": [
+    0,
+    0,
+    0
+  ],
+  "modularPitch": 2.8,
+  "straightBounds": {
+    "min": [
+      -1.4,
+      0,
+      -0.184
+    ],
+    "max": [
+      1.4,
+      1.7,
+      0.62
+    ]
+  },
+  "collisionRecommendation": {
+    "panel": {
+      "center": [
+        0,
+        0.85,
+        0
+      ],
+      "size": [
+        2.8,
+        1.7,
+        0.368
+      ]
+    },
+    "feet": [
+      {
+        "center": [
+          -1.22,
+          0.08,
+          0.4
+        ],
+        "size": [
+          0.3,
+          0.16,
+          0.44
+        ]
+      },
+      {
+        "center": [
+          1.22,
+          0.08,
+          0.4
+        ],
+        "size": [
+          0.3,
+          0.16,
+          0.44
+        ]
+      }
+    ],
+    "brace": "Optional convex wedge per side: X center +/-1.22 width .24; Y/Z polygon [(0,-.13),(0,.62),(.13,.62),(.97,.22),(.97,.13)]. Never full-height box over feet.",
+    "cornerPost": {
+      "center": [
+        0,
+        0.85,
+        0
+      ],
+      "size": [
+        0.52,
+        1.7,
+        0.52
+      ]
+    },
+    "note": "Descriptor recommendations only; parent must validate actual compound/convex support and runtime access."
+  },
+  "render": {
+    "engine": "Cycles CPU",
+    "threads": 2,
+    "samples": 12,
+    "freshGLB": true,
+    "images": [
+      "front.png",
+      "rear.png",
+      "three-quarter.png",
+      "side.png",
+      "corner-post.png",
+      "game-scale-neutral.png"
+    ]
+  },
+  "materials": "one matte opaque palette material per GLB; 64x8 embedded PNG; metallic=0 roughness=1, no emission",
+  "files": {
+    "build-emergency-barricades.py": {
+      "sha256": "a00536bd2e7a860389c24a181f29d695517796a4f2ac7734d850e15e5f493625",
+      "bytes": 10487
+    },
+    "emergency-barricade-editable.blend": {
+      "sha256": "03823b59d9856b3f619cc87649ae75898b1ba6c1308c1448fab2e2a6e9326278",
+      "bytes": 553564
+    },
+    "emergency-barricade.glb": {
+      "sha256": "6b4eb0fc93620361fcffc04750550b1d7f95dcd88468b8458021f409c191be1e",
+      "bytes": 73968
+    },
+    "emergency-corner-post-editable.blend": {
+      "sha256": "9ca58625ec179064a66345ac933987e6544c4bdec665405da260851333e70273",
+      "bytes": 466052
+    },
+    "emergency-corner-post.glb": {
+      "sha256": "7fad00245a31e0b5e85caf722c57eb1292d572e90bf59c19da8b991df9cfa449",
+      "bytes": 34068
+    },
+    "geometry-facts.json": {
+      "sha256": "cf68194fb8bb61c97509c8ae7307a13bab83a8107430d18763312583cfab117a",
+      "bytes": 3133
+    },
+    "palette.png": {
+      "sha256": "a54bcfe4f6099f8d059892719dbd920c34ca67c3fc2449109287e2f0303723bb",
+      "bytes": 240
+    }
+  }
+}

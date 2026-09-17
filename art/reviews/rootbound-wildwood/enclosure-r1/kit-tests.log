@@ -1,0 +1,40 @@
+TAP version 13
+# Subtest: every Author asset has a maintained mesh kit or a local model, and kit transforms stay finite
+ok 1 - every Author asset has a maintained mesh kit or a local model, and kit transforms stay finite
+  ---
+  duration_ms: 856.9444
+  type: 'test'
+  ...
+# Subtest: closed faceted meshes face outward on both caps
+ok 2 - closed faceted meshes face outward on both caps
+  ---
+  duration_ms: 1.1011
+  type: 'test'
+  ...
+# Subtest: resource visual rebuild retains the harvest chunk contract and Author/runtime bounds
+ok 3 - resource visual rebuild retains the harvest chunk contract and Author/runtime bounds
+  ---
+  duration_ms: 26.3179
+  type: 'test'
+  ...
+# Subtest: explorer rig and equipped tool instantiate with bounded geometry and preserved gait anchors
+ok 4 - explorer rig and equipped tool instantiate with bounded geometry and preserved gait anchors
+  ---
+  duration_ms: 19.362
+  type: 'test'
+  ...
+# Subtest: builtin dimensional fits survive authored placement for either fence axis and scaled machines
+ok 5 - builtin dimensional fits survive authored placement for either fence axis and scaled machines
+  ---
+  duration_ms: 29.2832
+  type: 'test'
+  ...
+1..5
+# tests 5
+# suites 0
+# pass 5
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 1293.3397

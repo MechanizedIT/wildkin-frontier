@@ -16,6 +16,26 @@ const SKYBREAK_HOME_RADIUS = 3.1;
 const SKYBREAK_HOME_GRID = .5;
 const CALDERA_HOME_GRID = 2;
 const FUNGAL_HOME_GRID = 2;
+const ROOTBOUND_TRAILGLOAM_HOME_RADIUS = 3.3;
+const ROOTBOUND_TRAILGLOAM_HOME_GRID = .5;
+const ROOTBOUND_TRAILGLOAM_AUTHORED_ROAM_SPEED = .21212121212121213;
+// `wander` deliberately uses 35% of this existing rusher value. Keep its
+// ordinary drift aligned with the fitted WalkDiagnostic clip; flee and return
+// retain their existing rusher multipliers.
+const ROOTBOUND_TRAILGLOAM_MOVE_SPEED = ROOTBOUND_TRAILGLOAM_AUTHORED_ROAM_SPEED / .35;
+
+export const FRONTIER_ROOTBOUND_TRAILGLOAM_ANCHOR = Object.freeze({
+  index: 700, cx: -10, cz: 13,
+  x: -463, z: 685,
+  roamRadius: 1.8, leashRadius: 3, fleeLeashRadius: ROOTBOUND_TRAILGLOAM_HOME_RADIUS,
+});
+export const FRONTIER_ROOTBOUND_MEADOW_MOSSLING_ANCHOR = Object.freeze({
+  // East of the arrival trail: visible from the low Meadow route, with open
+  // ground for its first retreat and the root gallery behind it.
+  index: 701, cx: -10, cz: 11,
+  x: -458, z: 591,
+  roamRadius: 4.4, leashRadius: 8.5,
+});
 
 export const FRONTIER_CALDERA_WILDLIFE_ANCHOR = Object.freeze({
   index: 300, cx: 17, cz: -40,
@@ -166,6 +186,43 @@ function hasSafeFungalHome(x, z, options) {
   });
 }
 
+function defaultWorld(world) {
+  return world?.edition === DEFAULT_FRONTIER_WORLD.edition && world?.seed === DEFAULT_FRONTIER_WORLD.seed;
+}
+
+function hasSafeRootboundTrailgloamHome(x, z, options) {
+  const radius = ROOTBOUND_TRAILGLOAM_HOME_RADIUS;
+  const steps = Math.ceil(radius / ROOTBOUND_TRAILGLOAM_HOME_GRID);
+  for (let ix = -steps; ix <= steps; ix += 1) {
+    for (let iz = -steps; iz <= steps; iz += 1) {
+      const dx = ix * ROOTBOUND_TRAILGLOAM_HOME_GRID, dz = iz * ROOTBOUND_TRAILGLOAM_HOME_GRID;
+      if (dx * dx + dz * dz > radius * radius) continue;
+      const sample = terrainSample(x + dx, z + dz, options);
+      if (!Number.isFinite(sample.height) || sample.habitatId !== 'rootbound-wildwood') return false;
+      for (const [ox, oz] of [[ROOTBOUND_TRAILGLOAM_HOME_GRID, 0], [0, ROOTBOUND_TRAILGLOAM_HOME_GRID]]) {
+        if ((dx + ox) ** 2 + (dz + oz) ** 2 > radius * radius) continue;
+        const neighbor = terrainSample(x + dx + ox, z + dz + oz, options);
+        if (!Number.isFinite(neighbor.height)
+          || Math.abs(neighbor.height - sample.height) / ROOTBOUND_TRAILGLOAM_HOME_GRID > MAX_SLOPE) return false;
+      }
+    }
+  }
+  return hasFootprintSupport(x, z, {
+    getHeight: (sx, sz) => terrainSample(sx, sz, options).height,
+    radius,
+    maxSlope: MAX_SLOPE,
+  });
+}
+
+function hasSafeRootboundMeadowMosslingHome(x, z, options) {
+  const radius = FRONTIER_ROOTBOUND_MEADOW_MOSSLING_ANCHOR.leashRadius;
+  return hasFootprintSupport(x, z, {
+    getHeight: (sx, sz) => terrainSample(sx, sz, options).height,
+    radius,
+    maxSlope: MAX_SLOPE,
+  });
+}
+
 function habitatEcotype(sample) {
   return sample.habitatBlend.wetland >= sample.habitatBlend.fernUpland ? 'fen' : 'grove';
 }
@@ -257,6 +314,32 @@ function admittedThornprowlerAsset(visualAssets) {
     ? { asset, recipe } : null;
 }
 
+function admittedRootboundTrailgloamAsset(visualAssets) {
+  const asset = (visualAssets ?? []).find(candidate => candidate?.id === 'asset_wildkin_trailgloam');
+  const recipe = asset?.gameplay?.wildkin;
+  const model = asset?.model;
+  return asset?.gameplay?.role === 'wildkin'
+    && recipe?.speciesTag === 'trailgloam'
+    && recipe.archetype === 'rusher'
+    && recipe.temperament === 'SKITTISH'
+    && recipe.health === 6
+    && recipe.moveSpeed === ROOTBOUND_TRAILGLOAM_MOVE_SPEED
+    && recipe.damage === 1
+    && recipe.respawnSeconds === 28
+    && recipe.roamRadius === 1.8
+    && recipe.noticeRadius === 7
+    && recipe.personalSpace === 2
+    && recipe.leashRadius === 3
+    && Array.isArray(recipe.hostileSpecies) && recipe.hostileSpecies.length === 0
+    && model?.path === 'assets/models/trailgloam-fitted-r1/model.glb'
+    && model?.scale === 1
+    && model?.pivot?.x === 0 && model?.pivot?.y === 0 && model?.pivot?.z === 0
+    && model?.clips?.idle === 'Loaded'
+    && model?.clips?.walk === 'WalkDiagnostic'
+    && model?.locomotion?.walk === ROOTBOUND_TRAILGLOAM_AUTHORED_ROAM_SPEED
+    ? asset : null;
+}
+
 function movementDiskIntersectsCalderaCore(placement) {
   const radius = Math.max(0, placement.roamRadius ?? 0, placement.leashRadius ?? 0, placement.fleeLeashRadius ?? 0);
   return Math.hypot(
@@ -321,6 +404,62 @@ function makeFixedFungalEncounter(options) {
   return homeDiskIsLand(placement, options) ? placement : null;
 }
 
+function makeFixedRootboundTrailgloamEncounter(options) {
+  if (!defaultWorld(options.world)) return null;
+  const asset = admittedRootboundTrailgloamAsset(options.visualAssets);
+  if (!asset) return null;
+  const anchor = FRONTIER_ROOTBOUND_TRAILGLOAM_ANCHOR;
+  const sample = terrainSample(anchor.x, anchor.z, options);
+  if (!Number.isFinite(sample.height) || sample.habitatId !== 'rootbound-wildwood'
+    || !hasSafeRootboundTrailgloamHome(anchor.x, anchor.z, options)) return null;
+  const { base } = placementBase(anchor.cx, anchor.cz, anchor.index, anchor.x, anchor.z, options);
+  const placement = Object.freeze({
+    ...base,
+    type: 'rusher',
+    speciesTag: 'trailgloam',
+    temperament: 'SKITTISH',
+    roamRadius: anchor.roamRadius,
+    noticeRadius: 7,
+    personalSpace: 2,
+    leashRadius: anchor.leashRadius,
+    fleeLeashRadius: anchor.fleeLeashRadius,
+    visualAssetId: asset.id,
+    facingYaw: .8,
+    hostileSpecies: Object.freeze([]),
+    configOverrides: Object.freeze({
+      health: 6, moveSpeed: ROOTBOUND_TRAILGLOAM_MOVE_SPEED, damage: 1, respawnSeconds: 28,
+      // The fitted central shell is low and broad. This existing rusher
+      // capsule intentionally covers that body only; feet and fronds remain
+      // decorative until a later anatomy-specific collision decision.
+      capsuleRadius: .48, capsuleHalfHeight: .02,
+    }),
+    genome: null,
+    residentPriority: 1,
+    rootboundTrailgloamFeature: true,
+  });
+  return homeDiskIsLand(placement, options) ? placement : null;
+}
+
+function makeFixedRootboundMeadowMosslingEncounter(options) {
+  if (!defaultWorld(options.world) || !admittedWildkinAsset(options.visualAssets, 'mossling')) return null;
+  const anchor = FRONTIER_ROOTBOUND_MEADOW_MOSSLING_ANCHOR;
+  const sample = terrainSample(anchor.x, anchor.z, options);
+  if (!Number.isFinite(sample.height) || sample.habitatId !== 'rootbound-wildwood'
+    || !hasSafeRootboundMeadowMosslingHome(anchor.x, anchor.z, options)) return null;
+  const placement = makeMosslingPlacement(anchor.cx, anchor.cz, anchor.index, anchor.x, anchor.z, options);
+  const fixed = Object.freeze({
+    ...placement,
+    roamRadius: anchor.roamRadius,
+    leashRadius: anchor.leashRadius,
+    // Face the open Meadow approach; the native skittish controller retreats
+    // away from an approaching player toward the Gallery-side root cover.
+    facingYaw: Math.PI,
+    residentPriority: 1,
+    rootboundMeadowMosslingFeature: true,
+  });
+  return homeDiskIsLand(fixed, options) ? fixed : null;
+}
+
 function nearbyRegionalPlaces(cx, cz, options) {
   if (!hasRegionalPlaceAssets(options.visualAssets)) return [];
   const places = [];
@@ -365,6 +504,14 @@ export function sampleFrontierWildlifeChunk(cx, cz, options = {}) {
   if (cx === FRONTIER_FUNGAL_WILDLIFE_ANCHOR.cx && cz === FRONTIER_FUNGAL_WILDLIFE_ANCHOR.cz) {
     const fixed = makeFixedFungalEncounter(sampleOptions);
     return fixed ? [fixed] : [];
+  }
+  if (cx === FRONTIER_ROOTBOUND_TRAILGLOAM_ANCHOR.cx && cz === FRONTIER_ROOTBOUND_TRAILGLOAM_ANCHOR.cz) {
+    const fixed = makeFixedRootboundTrailgloamEncounter(sampleOptions);
+    if (fixed) return [fixed];
+  }
+  if (cx === FRONTIER_ROOTBOUND_MEADOW_MOSSLING_ANCHOR.cx && cz === FRONTIER_ROOTBOUND_MEADOW_MOSSLING_ANCHOR.cz) {
+    const fixed = makeFixedRootboundMeadowMosslingEncounter(sampleOptions);
+    if (fixed) return [fixed];
   }
   if (!starterShelf && !emberShelf && !skybreakCrown && roll(0, 13) >= .22) return [];
   // Sample each neighboring owner at most once for this chunk. A place center

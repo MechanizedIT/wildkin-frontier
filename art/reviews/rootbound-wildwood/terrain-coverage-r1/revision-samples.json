@@ -1,0 +1,139 @@
+{
+  "schema": "rootbound-terrain-coverage-r1-revision-samples/v1",
+  "samples": {
+    "galleryWest": [
+      {
+        "x": -508,
+        "z": 620,
+        "heightDelta": 0,
+        "facetDelta": 0,
+        "feature": "spore-meadow",
+        "primaryLaneM": 15.644893553505504,
+        "optionalLaneM": 80.65977932030313
+      },
+      {
+        "x": -508,
+        "z": 646,
+        "heightDelta": 0,
+        "facetDelta": 0,
+        "feature": "spore-meadow",
+        "primaryLaneM": 13.990407672734738,
+        "optionalLaneM": 65.74191965557439
+      },
+      {
+        "x": -508,
+        "z": 674,
+        "heightDelta": 0,
+        "facetDelta": 0,
+        "feature": "spore-meadow",
+        "primaryLaneM": 13.038210147787465,
+        "optionalLaneM": 59.008473967727724
+      },
+      {
+        "x": -506,
+        "z": 698,
+        "heightDelta": 0,
+        "facetDelta": 0,
+        "feature": "spore-meadow",
+        "primaryLaneM": 12.753221947835828,
+        "optionalLaneM": 54.037024344425184
+      }
+    ],
+    "galleryEast": [
+      {
+        "x": -458,
+        "z": 625,
+        "heightDelta": 0,
+        "facetDelta": 0,
+        "feature": "spore-meadow",
+        "primaryLaneM": 20.75393128341747,
+        "optionalLaneM": 50.80354318352215
+      },
+      {
+        "x": -457,
+        "z": 652,
+        "heightDelta": 0,
+        "facetDelta": 0,
+        "feature": "spore-meadow",
+        "primaryLaneM": 16.6909234082453,
+        "optionalLaneM": 24.351591323771842
+      },
+      {
+        "x": -457,
+        "z": 678,
+        "heightDelta": -0.9666287900366031,
+        "facetDelta": 0,
+        "feature": "lantern-hollow",
+        "primaryLaneM": 6.360282592056522,
+        "optionalLaneM": 8.54400374531753
+      },
+      {
+        "x": -459,
+        "z": 697,
+        "heightDelta": 0.17166819697101815,
+        "facetDelta": 0,
+        "feature": "spore-meadow",
+        "primaryLaneM": 3.796283011826483,
+        "optionalLaneM": 7.0710678118654755
+      }
+    ],
+    "vergeEast": [
+      {
+        "x": -421,
+        "z": 676,
+        "heightDelta": 0,
+        "facetDelta": 0,
+        "feature": "spore-meadow",
+        "primaryLaneM": 28.017851452243796,
+        "optionalLaneM": 7.1587051080156545
+      },
+      {
+        "x": -408,
+        "z": 688,
+        "heightDelta": 0,
+        "facetDelta": 0,
+        "feature": "spore-meadow",
+        "primaryLaneM": 42.42640687119285,
+        "optionalLaneM": 9.219544457292887
+      },
+      {
+        "x": -407,
+        "z": 701,
+        "heightDelta": 0,
+        "facetDelta": 0,
+        "feature": "spore-meadow",
+        "primaryLaneM": 45.254833995939045,
+        "optionalLaneM": 10.63014581273465
+      }
+    ],
+    "crownWest": [
+      {
+        "x": -508,
+        "z": 718,
+        "heightDelta": 0,
+        "facetDelta": 0,
+        "feature": "spore-meadow",
+        "primaryLaneM": 21.97923548381131,
+        "optionalLaneM": 60.16643582596529
+      },
+      {
+        "x": -510,
+        "z": 728,
+        "heightDelta": 0,
+        "facetDelta": 0,
+        "feature": "spore-meadow",
+        "primaryLaneM": 29.276689162230877,
+        "optionalLaneM": 66.24198064671678
+      },
+      {
+        "x": -506,
+        "z": 736,
+        "heightDelta": 0,
+        "facetDelta": 0,
+        "feature": "spore-meadow",
+        "primaryLaneM": 30.492931441967468,
+        "optionalLaneM": 67.20119046564577
+      }
+    ]
+  }
+}

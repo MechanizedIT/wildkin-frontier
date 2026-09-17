@@ -1,0 +1,167 @@
+[
+  {
+    "label": "background:parent-before-child",
+    "time": "2026-09-14T20:02:36.847009+00:00",
+    "free_gib": 16.90581512451172,
+    "required_free_gib": 9.646280284970999
+  },
+  {
+    "label": "background:child-start",
+    "time": "2026-09-14T20:02:40.172411+00:00",
+    "free_gib": 16.514034271240234,
+    "pid": 35780
+  },
+  {
+    "label": "background:complete",
+    "time": "2026-09-14T20:02:51.178841+00:00",
+    "free_gib": 14.738258361816406,
+    "output_sha256": "3fcb89b4c26985c536dffeb6536a3279eb67aff3dd5efec9c1c5704d8c6d18e1"
+  },
+  {
+    "label": "background:child-exited",
+    "time": "2026-09-14T20:02:53.079246+00:00",
+    "free_gib": 16.89535140991211,
+    "exit_code": 0
+  },
+  {
+    "label": "conditioning:parent-before-child",
+    "time": "2026-09-14T20:02:53.094243+00:00",
+    "free_gib": 16.89315414428711,
+    "required_free_gib": 10.258530080318451
+  },
+  {
+    "label": "conditioning:child-start",
+    "time": "2026-09-14T20:02:56.180586+00:00",
+    "free_gib": 16.471813201904297,
+    "pid": 32416
+  },
+  {
+    "label": "handoff:conditioning.pt",
+    "time": "2026-09-14T20:03:04.498299+00:00",
+    "free_gib": 15.877655029296875,
+    "sha256": "dccf51b00b687084c84fb81287d4e250778255d2f3a90bf54b2bde87bdbecc11",
+    "bytes": 8431501
+  },
+  {
+    "label": "conditioning:child-exited",
+    "time": "2026-09-14T20:03:05.818769+00:00",
+    "free_gib": 16.89400863647461,
+    "exit_code": 0
+  },
+  {
+    "label": "sparse:parent-before-child",
+    "time": "2026-09-14T20:03:05.831764+00:00",
+    "free_gib": 16.894012451171875,
+    "required_free_gib": 15.632583007216454
+  },
+  {
+    "label": "sparse:child-start",
+    "time": "2026-09-14T20:03:08.890661+00:00",
+    "free_gib": 16.51837158203125,
+    "pid": 38796
+  },
+  {
+    "label": "handoff:coords.pt",
+    "time": "2026-09-14T20:04:01.168601+00:00",
+    "free_gib": 11.174053192138672,
+    "sha256": "8365e44acf4d0ba1f20516b24834eb1f37058342cc634c251192744e6dc2555c",
+    "bytes": 38946
+  },
+  {
+    "label": "handoff:rng-after-sparse.pt",
+    "time": "2026-09-14T20:04:01.196350+00:00",
+    "free_gib": 11.175434112548828,
+    "sha256": "510f638d8c17eacc94e8e5f38c2cd483d9bc3f4cefa92a420755050aea4c2fcb",
+    "bytes": 6957
+  },
+  {
+    "label": "sparse:child-exited",
+    "time": "2026-09-14T20:04:03.196426+00:00",
+    "free_gib": 16.871639251708984,
+    "exit_code": 0
+  },
+  {
+    "label": "shape-flow:parent-before-child",
+    "time": "2026-09-14T20:04:03.210449+00:00",
+    "free_gib": 16.871112823486328,
+    "required_free_gib": 15.221092782914639
+  },
+  {
+    "label": "shape-flow:child-start",
+    "time": "2026-09-14T20:04:06.412545+00:00",
+    "free_gib": 16.451244354248047,
+    "pid": 7736
+  },
+  {
+    "label": "handoff:shape.pt",
+    "time": "2026-09-14T20:04:51.305335+00:00",
+    "free_gib": 10.701026916503906,
+    "sha256": "a35dc4c9a1ff8e0d6671afd9f3a2f8a327474f3bdfd3c0c56592e0eba526a56a",
+    "bytes": 338581
+  },
+  {
+    "label": "handoff:rng-after-shape.pt",
+    "time": "2026-09-14T20:04:51.333417+00:00",
+    "free_gib": 10.701007843017578,
+    "sha256": "d502273c97874e16b38db28edbba2934c6ba3a15f3d6955774ef41abdc3c17e0",
+    "bytes": 6949
+  },
+  {
+    "label": "shape-flow:child-exited",
+    "time": "2026-09-14T20:04:53.351213+00:00",
+    "free_gib": 16.891746520996094,
+    "exit_code": 0
+  },
+  {
+    "label": "texture-flow:parent-before-child",
+    "time": "2026-09-14T20:04:53.364214+00:00",
+    "free_gib": 16.891822814941406,
+    "required_free_gib": 15.221367441117764
+  },
+  {
+    "label": "texture-flow:child-start",
+    "time": "2026-09-14T20:04:56.687645+00:00",
+    "free_gib": 16.444072723388672,
+    "pid": 41092
+  },
+  {
+    "label": "handoff:texture.pt",
+    "time": "2026-09-14T20:05:40.930499+00:00",
+    "free_gib": 11.336036682128906,
+    "sha256": "6ee4bbc19cd86952cd25df8dc97ae7a84e86b08ab601721cc7d802908cfe9c9b",
+    "bytes": 338597
+  },
+  {
+    "label": "texture-flow:child-exited",
+    "time": "2026-09-14T20:05:43.012161+00:00",
+    "free_gib": 16.94156265258789,
+    "exit_code": 0
+  },
+  {
+    "label": "decode:parent-before-child",
+    "time": "2026-09-14T20:05:43.022163+00:00",
+    "free_gib": 16.943504333496094,
+    "required_free_gib": 13.299913866445422
+  },
+  {
+    "label": "decode:child-start",
+    "time": "2026-09-14T20:05:46.322534+00:00",
+    "free_gib": 16.533626556396484,
+    "pid": 29360
+  },
+  {
+    "label": "decode:geometry-budget",
+    "time": "2026-09-14T20:06:12.780973+00:00",
+    "free_gib": 13.345355987548828,
+    "decoded_faces": 6755672,
+    "decoded_vertices": 2052588,
+    "face_limit": 750000,
+    "mode": "full-export"
+  },
+  {
+    "label": "decode:child-failed",
+    "time": "2026-09-14T20:06:14.542225+00:00",
+    "free_gib": 19.071346282958984,
+    "exit_code": 1
+  }
+]

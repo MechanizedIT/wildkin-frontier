@@ -1,0 +1,29 @@
+[
+  {
+    "at_unix": 1789430011.1694,
+    "label": "decode-state:complete",
+    "state_sha256": "5e7faaacda9cc4bc6999828405365f065995aee73e56292f623d4eab7494b7c1",
+    "raw_sha256": "38b6173aa7a38f8c407f9c2a700016608504e2c949fe513323703afad595cb3f"
+  },
+  {
+    "at_unix": 1789430216.5253081,
+    "label": "HOLD_POSTPROCESS_ERROR",
+    "error": "module 'flex_gemm.kernels' has no attribute 'triton'",
+    "gpu_samples": [
+      {
+        "phase": "postprocess:exception",
+        "host_free_gib": 16.53978729248047,
+        "cuda_free_gib": 6.779296875,
+        "cuda_total_gib": 7.99951171875,
+        "cuda_allocated_gib": 0.1380610466003418,
+        "cuda_reserved_gib": 0.158203125
+      }
+    ]
+  },
+  {
+    "at_unix": 1789430217.3259568,
+    "label": "terminal:HOLD",
+    "child": "postprocess",
+    "exit_code": 1
+  }
+]

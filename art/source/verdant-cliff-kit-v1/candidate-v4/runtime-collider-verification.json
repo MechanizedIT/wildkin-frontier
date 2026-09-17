@@ -1,0 +1,23 @@
+{
+  "validator": "src/world/convexCollider.js validateConvexCollider",
+  "proof": [
+    {
+      "name": "toe",
+      "vertices": 18,
+      "indices": 96,
+      "status": "PASS"
+    },
+    {
+      "name": "buttress",
+      "vertices": 25,
+      "indices": 138,
+      "status": "PASS"
+    },
+    {
+      "name": "ledge",
+      "vertices": 25,
+      "indices": 138,
+      "status": "PASS"
+    }
+  ]
+}

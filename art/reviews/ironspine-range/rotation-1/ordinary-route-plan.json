@@ -1,0 +1,402 @@
+{
+  "note": "Complete reviewed 75-node lattice plus two provisional ordinary-input mineral approaches; runtime proof pending.",
+  "points": [
+    {
+      "name": "Ascent lattice 0",
+      "x": -2080,
+      "z": -3160
+    },
+    {
+      "name": "Lower gully iron west approach",
+      "x": -2075.4,
+      "z": -3159.5,
+      "gather": true
+    },
+    {
+      "name": "Lower gully route return",
+      "x": -2080,
+      "z": -3160
+    },
+    {
+      "name": "Ascent lattice 1",
+      "x": -2080,
+      "z": -3155
+    },
+    {
+      "name": "Ascent lattice 2",
+      "x": -2075,
+      "z": -3150
+    },
+    {
+      "name": "Ascent lattice 3",
+      "x": -2070,
+      "z": -3145
+    },
+    {
+      "name": "Ascent lattice 4",
+      "x": -2070,
+      "z": -3140
+    },
+    {
+      "name": "Ascent lattice 5",
+      "x": -2065,
+      "z": -3135
+    },
+    {
+      "name": "Ascent lattice 6",
+      "x": -2060,
+      "z": -3130
+    },
+    {
+      "name": "Ascent lattice 7",
+      "x": -2065,
+      "z": -3125
+    },
+    {
+      "name": "Ascent lattice 8",
+      "x": -2070,
+      "z": -3120
+    },
+    {
+      "name": "Ascent lattice 9",
+      "x": -2075,
+      "z": -3115
+    },
+    {
+      "name": "Ascent lattice 10",
+      "x": -2080,
+      "z": -3110
+    },
+    {
+      "name": "Ascent lattice 11",
+      "x": -2085,
+      "z": -3105
+    },
+    {
+      "name": "Ascent lattice 12",
+      "x": -2080,
+      "z": -3105
+    },
+    {
+      "name": "Ascent lattice 13",
+      "x": -2085,
+      "z": -3100
+    },
+    {
+      "name": "Ascent lattice 14",
+      "x": -2080,
+      "z": -3100
+    },
+    {
+      "name": "Ascent lattice 15",
+      "x": -2075,
+      "z": -3100
+    },
+    {
+      "name": "Ascent lattice 16",
+      "x": -2080,
+      "z": -3095
+    },
+    {
+      "name": "Ascent lattice 17",
+      "x": -2085,
+      "z": -3090
+    },
+    {
+      "name": "Ascent lattice 18",
+      "x": -2090,
+      "z": -3085
+    },
+    {
+      "name": "Ascent lattice 19",
+      "x": -2095,
+      "z": -3080
+    },
+    {
+      "name": "Ascent lattice 20",
+      "x": -2100,
+      "z": -3075
+    },
+    {
+      "name": "Ascent lattice 21",
+      "x": -2105,
+      "z": -3070
+    },
+    {
+      "name": "Ascent lattice 22",
+      "x": -2110,
+      "z": -3065
+    },
+    {
+      "name": "Ascent lattice 23",
+      "x": -2115,
+      "z": -3060
+    },
+    {
+      "name": "Ascent lattice 24",
+      "x": -2110,
+      "z": -3060
+    },
+    {
+      "name": "Ascent lattice 25",
+      "x": -2115,
+      "z": -3055
+    },
+    {
+      "name": "Ascent lattice 26",
+      "x": -2120,
+      "z": -3050
+    },
+    {
+      "name": "Ascent lattice 27",
+      "x": -2125,
+      "z": -3045
+    },
+    {
+      "name": "Ascent lattice 28",
+      "x": -2130,
+      "z": -3040
+    },
+    {
+      "name": "Ascent lattice 29",
+      "x": -2135,
+      "z": -3035
+    },
+    {
+      "name": "Ascent lattice 30",
+      "x": -2140,
+      "z": -3030
+    },
+    {
+      "name": "Ascent lattice 31",
+      "x": -2145,
+      "z": -3025
+    },
+    {
+      "name": "Ascent lattice 32",
+      "x": -2150,
+      "z": -3020
+    },
+    {
+      "name": "Ascent lattice 33",
+      "x": -2145,
+      "z": -3020
+    },
+    {
+      "name": "Ascent lattice 34",
+      "x": -2140,
+      "z": -3020
+    },
+    {
+      "name": "Ascent lattice 35",
+      "x": -2145,
+      "z": -3015
+    },
+    {
+      "name": "Ascent lattice 36",
+      "x": -2150,
+      "z": -3010
+    },
+    {
+      "name": "Ascent lattice 37",
+      "x": -2145,
+      "z": -3010
+    },
+    {
+      "name": "Crown iron west approach",
+      "x": -2145.2,
+      "z": -3005.2,
+      "gather": true
+    },
+    {
+      "name": "Crown route return",
+      "x": -2145,
+      "z": -3010
+    },
+    {
+      "name": "Descent lattice 38",
+      "x": -2150,
+      "z": -3010
+    },
+    {
+      "name": "Descent lattice 39",
+      "x": -2145,
+      "z": -3015
+    },
+    {
+      "name": "Descent lattice 40",
+      "x": -2140,
+      "z": -3020
+    },
+    {
+      "name": "Descent lattice 41",
+      "x": -2145,
+      "z": -3020
+    },
+    {
+      "name": "Descent lattice 42",
+      "x": -2150,
+      "z": -3020
+    },
+    {
+      "name": "Descent lattice 43",
+      "x": -2145,
+      "z": -3025
+    },
+    {
+      "name": "Descent lattice 44",
+      "x": -2140,
+      "z": -3030
+    },
+    {
+      "name": "Descent lattice 45",
+      "x": -2135,
+      "z": -3035
+    },
+    {
+      "name": "Descent lattice 46",
+      "x": -2130,
+      "z": -3040
+    },
+    {
+      "name": "Descent lattice 47",
+      "x": -2125,
+      "z": -3045
+    },
+    {
+      "name": "Descent lattice 48",
+      "x": -2120,
+      "z": -3050
+    },
+    {
+      "name": "Descent lattice 49",
+      "x": -2115,
+      "z": -3055
+    },
+    {
+      "name": "Descent lattice 50",
+      "x": -2110,
+      "z": -3060
+    },
+    {
+      "name": "Descent lattice 51",
+      "x": -2115,
+      "z": -3060
+    },
+    {
+      "name": "Descent lattice 52",
+      "x": -2110,
+      "z": -3065
+    },
+    {
+      "name": "Descent lattice 53",
+      "x": -2105,
+      "z": -3070
+    },
+    {
+      "name": "Descent lattice 54",
+      "x": -2100,
+      "z": -3075
+    },
+    {
+      "name": "Descent lattice 55",
+      "x": -2095,
+      "z": -3080
+    },
+    {
+      "name": "Descent lattice 56",
+      "x": -2090,
+      "z": -3085
+    },
+    {
+      "name": "Descent lattice 57",
+      "x": -2085,
+      "z": -3090
+    },
+    {
+      "name": "Descent lattice 58",
+      "x": -2080,
+      "z": -3095
+    },
+    {
+      "name": "Descent lattice 59",
+      "x": -2075,
+      "z": -3100
+    },
+    {
+      "name": "Descent lattice 60",
+      "x": -2080,
+      "z": -3100
+    },
+    {
+      "name": "Descent lattice 61",
+      "x": -2085,
+      "z": -3100
+    },
+    {
+      "name": "Descent lattice 62",
+      "x": -2080,
+      "z": -3105
+    },
+    {
+      "name": "Descent lattice 63",
+      "x": -2085,
+      "z": -3105
+    },
+    {
+      "name": "Descent lattice 64",
+      "x": -2080,
+      "z": -3110
+    },
+    {
+      "name": "Descent lattice 65",
+      "x": -2075,
+      "z": -3115
+    },
+    {
+      "name": "Descent lattice 66",
+      "x": -2070,
+      "z": -3120
+    },
+    {
+      "name": "Descent lattice 67",
+      "x": -2065,
+      "z": -3125
+    },
+    {
+      "name": "Descent lattice 68",
+      "x": -2060,
+      "z": -3130
+    },
+    {
+      "name": "Descent lattice 69",
+      "x": -2065,
+      "z": -3135
+    },
+    {
+      "name": "Descent lattice 70",
+      "x": -2070,
+      "z": -3140
+    },
+    {
+      "name": "Descent lattice 71",
+      "x": -2070,
+      "z": -3145
+    },
+    {
+      "name": "Descent lattice 72",
+      "x": -2075,
+      "z": -3150
+    },
+    {
+      "name": "Descent lattice 73",
+      "x": -2080,
+      "z": -3155
+    },
+    {
+      "name": "Descent lattice 74",
+      "x": -2080,
+      "z": -3160
+    }
+  ]
+}

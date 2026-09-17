@@ -1,0 +1,1571 @@
+{
+  "schema": "trailgloam-full-r6-cpu-feasibility-v1",
+  "parameters_sha256": "d4486853b73d8a7cc7b917013faeadd199ae10de55604e5801873a1568b3228b",
+  "reference": {
+    "path": "art/source/trailgloam-v1/multiview/trailgloam-orthographic-v1.png",
+    "sha256": "ba0b19c941f58b2468fb9aed3d62a995acedeb431fedd3e5932e5f1668da24a8"
+  },
+  "axis": "Blender metres, Z-up; head=-Y; right=+X; ground=Z0",
+  "parts": {
+    "saucer": {
+      "vertices": 48,
+      "triangles": 92,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "degenerate_faces": 0,
+      "outward_centroid_dot_min": 0.00046171005085854247,
+      "finite": true,
+      "bounds": {
+        "min": [
+          -0.7,
+          -0.78,
+          0.4
+        ],
+        "max": [
+          0.7,
+          0.78,
+          1.2
+        ],
+        "extent": [
+          1.4,
+          1.56,
+          0.7999999999999999
+        ]
+      }
+    },
+    "head": {
+      "vertices": 12,
+      "triangles": 20,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "degenerate_faces": 0,
+      "outward_centroid_dot_min": 0.008531143592743007,
+      "finite": true,
+      "bounds": {
+        "min": [
+          -0.28,
+          -0.8289294608339919,
+          0.31150207420927845
+        ],
+        "max": [
+          0.28,
+          -0.26681704984764665,
+          0.8844519055518274
+        ],
+        "extent": [
+          0.56,
+          0.5621124109863452,
+          0.572949831342549
+        ]
+      }
+    },
+    "eye_L": {
+      "vertices": 12,
+      "triangles": 20,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "degenerate_faces": 0,
+      "outward_centroid_dot_min": 6.962758074211677e-05,
+      "finite": true,
+      "bounds": {
+        "min": [
+          -0.185,
+          -0.8234469099377285,
+          0.4826049883562324
+        ],
+        "max": [
+          -0.07500000000000001,
+          -0.7152604988356231,
+          0.5773950116437677
+        ],
+        "extent": [
+          0.10999999999999999,
+          0.10818641110210536,
+          0.09479002328753533
+        ]
+      }
+    },
+    "eye_R": {
+      "vertices": 12,
+      "triangles": 20,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "degenerate_faces": 0,
+      "outward_centroid_dot_min": 6.96275807421168e-05,
+      "finite": true,
+      "bounds": {
+        "min": [
+          0.07500000000000001,
+          -0.8234469099377285,
+          0.4826049883562324
+        ],
+        "max": [
+          0.185,
+          -0.7152604988356231,
+          0.5773950116437677
+        ],
+        "extent": [
+          0.10999999999999999,
+          0.10818641110210536,
+          0.09479002328753533
+        ]
+      }
+    },
+    "LF_link0": {
+      "vertices": 12,
+      "triangles": 20,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "degenerate_faces": 0,
+      "outward_centroid_dot_min": 0.0015565641183774453,
+      "finite": true,
+      "bounds": {
+        "min": [
+          -0.7896192015491548,
+          -0.6142034897869898,
+          0.3579776225250592
+        ],
+        "max": [
+          -0.4008872709668696,
+          -0.274314216151148,
+          0.7118436107669782
+        ],
+        "extent": [
+          0.38873193058228517,
+          0.3398892736358418,
+          0.353865988241919
+        ]
+      }
+    },
+    "LF_link1": {
+      "vertices": 12,
+      "triangles": 20,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "degenerate_faces": 0,
+      "outward_centroid_dot_min": 0.001273171542887632,
+      "finite": true,
+      "bounds": {
+        "min": [
+          -0.8177804918691041,
+          -0.8287671745946781,
+          0.13261146003431595
+        ],
+        "max": [
+          -0.5439531671551884,
+          -0.4518554834151386,
+          0.4952142499610046
+        ],
+        "extent": [
+          0.2738273247139157,
+          0.3769116911795395,
+          0.36260278992668865
+        ]
+      }
+    },
+    "LF_link2": {
+      "vertices": 12,
+      "triangles": 20,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "degenerate_faces": 0,
+      "outward_centroid_dot_min": 0.000456476062630232,
+      "finite": true,
+      "bounds": {
+        "min": [
+          -0.8003190936900068,
+          -0.9542340020393383,
+          0.11732694282310245
+        ],
+        "max": [
+          -0.561455575352265,
+          -0.709734088591661,
+          0.2839522903156698
+        ],
+        "extent": [
+          0.23886351833774178,
+          0.2444999134476773,
+          0.16662534749256736
+        ]
+      }
+    },
+    "LF_hoof": {
+      "vertices": 8,
+      "triangles": 12,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "degenerate_faces": 0,
+      "outward_centroid_dot_min": 0.05211647999999993,
+      "finite": true,
+      "bounds": {
+        "min": [
+          -1.03,
+          -1.17,
+          0
+        ],
+        "max": [
+          -0.45,
+          -0.65,
+          0.48
+        ],
+        "extent": [
+          0.5800000000000001,
+          0.5199999999999999,
+          0.48
+        ]
+      }
+    },
+    "LF_cuff0": {
+      "vertices": 12,
+      "triangles": 20,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "degenerate_faces": 0,
+      "outward_centroid_dot_min": 0.0018725634293329009,
+      "finite": true,
+      "bounds": {
+        "min": [
+          -0.8868716047278481,
+          -0.7064196702288771,
+          0.27233896702602867
+        ],
+        "max": [
+          -0.5531283952721519,
+          -0.35358032977112297,
+          0.5876610329739713
+        ],
+        "extent": [
+          0.33374320945569624,
+          0.3528393404577541,
+          0.31532206594794265
+        ]
+      }
+    },
+    "LF_cuff1": {
+      "vertices": 12,
+      "triangles": 20,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "degenerate_faces": 0,
+      "outward_centroid_dot_min": 0.0018725634293329007,
+      "finite": true,
+      "bounds": {
+        "min": [
+          -0.7995951860780285,
+          -0.9036620558042037,
+          0.033262502347187195
+        ],
+        "max": [
+          -0.4604048139219715,
+          -0.6163379441957964,
+          0.3467374976528128
+        ],
+        "extent": [
+          0.33919037215605696,
+          0.2873241116084073,
+          0.3134749953056256
+        ]
+      }
+    },
+    "LF_cuff2": {
+      "vertices": 12,
+      "triangles": 20,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "degenerate_faces": 0,
+      "outward_centroid_dot_min": 0.0018725634293329002,
+      "finite": true,
+      "bounds": {
+        "min": [
+          -0.9175365187086276,
+          -1.0733119283408925,
+          0.07314843069934374
+        ],
+        "max": [
+          -0.5624634812913724,
+          -0.7466880716591077,
+          0.3668515693006562
+        ],
+        "extent": [
+          0.35507303741725527,
+          0.32662385668178484,
+          0.2937031386013125
+        ]
+      }
+    },
+    "LM_link0": {
+      "vertices": 12,
+      "triangles": 20,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "degenerate_faces": 0,
+      "outward_centroid_dot_min": 0.001577286848413615,
+      "finite": true,
+      "bounds": {
+        "min": [
+          -0.887934332315387,
+          -0.20935771069333753,
+          0.3556099773899918
+        ],
+        "max": [
+          -0.49280189509615113,
+          0.0929064894242472,
+          0.704534116602282
+        ],
+        "extent": [
+          0.39513243721923585,
+          0.3022642001175847,
+          0.34892413921229026
+        ]
+      }
+    },
+    "LM_link1": {
+      "vertices": 12,
+      "triangles": 20,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "degenerate_faces": 0,
+      "outward_centroid_dot_min": 0.0012990123599227223,
+      "finite": true,
+      "bounds": {
+        "min": [
+          -0.9238244192002618,
+          -0.3853036311927187,
+          0.13451606850935546
+        ],
+        "max": [
+          -0.6586345111037695,
+          -0.024427691826456058,
+          0.49304992214845966
+        ],
+        "extent": [
+          0.26518990809649234,
+          0.36087593936626267,
+          0.35853385363910417
+        ]
+      }
+    },
+    "LM_link2": {
+      "vertices": 12,
+      "triangles": 20,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "degenerate_faces": 0,
+      "outward_centroid_dot_min": 0.0004528698383852032,
+      "finite": true,
+      "bounds": {
+        "min": [
+          -0.9282890922592957,
+          -0.4727758199370843,
+          0.11332974932785536
+        ],
+        "max": [
+          -0.6951260315235277,
+          -0.23866384098058596,
+          0.2874698205914873
+        ],
+        "extent": [
+          0.23316306073576798,
+          0.23411197895649832,
+          0.17414007126363193
+        ]
+      }
+    },
+    "LM_hoof": {
+      "vertices": 8,
+      "triangles": 12,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "degenerate_faces": 0,
+      "outward_centroid_dot_min": 0.05211647999999997,
+      "finite": true,
+      "bounds": {
+        "min": [
+          -1.17,
+          -0.6699999999999999,
+          0
+        ],
+        "max": [
+          -0.5900000000000001,
+          -0.14999999999999997,
+          0.48
+        ],
+        "extent": [
+          0.5799999999999998,
+          0.52,
+          0.48
+        ]
+      }
+    },
+    "LM_cuff0": {
+      "vertices": 12,
+      "triangles": 20,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "degenerate_faces": 0,
+      "outward_centroid_dot_min": 0.0018725634293328985,
+      "finite": true,
+      "bounds": {
+        "min": [
+          -0.9814679550782487,
+          -0.2879362495124608,
+          0.2761329111722934
+        ],
+        "max": [
+          -0.6585320449217512,
+          0.06793624951246072,
+          0.5838670888277067
+        ],
+        "extent": [
+          0.3229359101564975,
+          0.35587249902492146,
+          0.3077341776554133
+        ]
+      }
+    },
+    "LM_cuff1": {
+      "vertices": 12,
+      "triangles": 20,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "degenerate_faces": 0,
+      "outward_centroid_dot_min": 0.001872563429332901,
+      "finite": true,
+      "bounds": {
+        "min": [
+          -0.9254402790002925,
+          -0.4651793259922701,
+          0.031309730909792596
+        ],
+        "max": [
+          -0.5745597209997075,
+          -0.15482067400772992,
+          0.3486902690902074
+        ],
+        "extent": [
+          0.35088055800058493,
+          0.31035865198454016,
+          0.3173805381804148
+        ]
+      }
+    },
+    "LM_cuff2": {
+      "vertices": 12,
+      "triangles": 20,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "degenerate_faces": 0,
+      "outward_centroid_dot_min": 0.0018725634293328983,
+      "finite": true,
+      "bounds": {
+        "min": [
+          -1.0446771047684782,
+          -0.586835131262579,
+          0.07176326662367438
+        ],
+        "max": [
+          -0.7153228952315218,
+          -0.23316486873742098,
+          0.36823673337632556
+        ],
+        "extent": [
+          0.3293542095369564,
+          0.35367026252515804,
+          0.2964734667526512
+        ]
+      }
+    },
+    "LR_link0": {
+      "vertices": 12,
+      "triangles": 20,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "degenerate_faces": 0,
+      "outward_centroid_dot_min": 0.0014714832420951592,
+      "finite": true,
+      "bounds": {
+        "min": [
+          -0.7703476426220448,
+          0.24699535030513334,
+          0.34814891269720405
+        ],
+        "max": [
+          -0.40005949702040366,
+          0.5818440917314827,
+          0.6916489628440863
+        ],
+        "extent": [
+          0.37028814560164114,
+          0.33484874142634935,
+          0.34350005014688223
+        ]
+      }
+    },
+    "LR_link1": {
+      "vertices": 12,
+      "triangles": 20,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "degenerate_faces": 0,
+      "outward_centroid_dot_min": 0.0011520045474266495,
+      "finite": true,
+      "bounds": {
+        "min": [
+          -0.7948924730838215,
+          0.41686851004108383,
+          0.13601114430134822
+        ],
+        "max": [
+          -0.526494623686237,
+          0.7631557111638462,
+          0.48135097238483154
+        ],
+        "extent": [
+          0.2683978493975845,
+          0.34628720112276234,
+          0.3453398280834833
+        ]
+      }
+    },
+    "LR_link2": {
+      "vertices": 12,
+      "triangles": 20,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "degenerate_faces": 0,
+      "outward_centroid_dot_min": 0.00045647606263023215,
+      "finite": true,
+      "bounds": {
+        "min": [
+          -0.7803190936900067,
+          0.6397340885916609,
+          0.11732694282310245
+        ],
+        "max": [
+          -0.541455575352265,
+          0.8842340020393382,
+          0.2839522903156698
+        ],
+        "extent": [
+          0.23886351833774178,
+          0.2444999134476773,
+          0.16662534749256736
+        ]
+      }
+    },
+    "LR_hoof": {
+      "vertices": 8,
+      "triangles": 12,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "degenerate_faces": 0,
+      "outward_centroid_dot_min": 0.05211648000000001,
+      "finite": true,
+      "bounds": {
+        "min": [
+          -1.01,
+          0.58,
+          0
+        ],
+        "max": [
+          -0.43,
+          1.1,
+          0.48
+        ],
+        "extent": [
+          0.5800000000000001,
+          0.5200000000000001,
+          0.48
+        ]
+      }
+    },
+    "LR_cuff0": {
+      "vertices": 12,
+      "triangles": 20,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "degenerate_faces": 0,
+      "outward_centroid_dot_min": 0.0018725634293329,
+      "finite": true,
+      "bounds": {
+        "min": [
+          -0.8659119008979896,
+          0.3233084859390847,
+          0.2637420862252552
+        ],
+        "max": [
+          -0.5340880991020103,
+          0.6766915140609153,
+          0.5762579137747448
+        ],
+        "extent": [
+          0.33182380179597937,
+          0.35338302812183064,
+          0.3125158275494896
+        ]
+      }
+    },
+    "LR_cuff1": {
+      "vertices": 12,
+      "triangles": 20,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "degenerate_faces": 0,
+      "outward_centroid_dot_min": 0.0018725634293329007,
+      "finite": true,
+      "bounds": {
+        "min": [
+          -0.7788392195904468,
+          0.5432826980483335,
+          0.03185553247293686
+        ],
+        "max": [
+          -0.44116078040955325,
+          0.8367173019516664,
+          0.34814446752706313
+        ],
+        "extent": [
+          0.3376784391808935,
+          0.29343460390333287,
+          0.31628893505412625
+        ]
+      }
+    },
+    "LR_cuff2": {
+      "vertices": 12,
+      "triangles": 20,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "degenerate_faces": 0,
+      "outward_centroid_dot_min": 0.0018725634293329009,
+      "finite": true,
+      "bounds": {
+        "min": [
+          -0.8975365187086276,
+          0.6766880716591076,
+          0.07314843069934374
+        ],
+        "max": [
+          -0.5424634812913723,
+          1.0033119283408924,
+          0.3668515693006562
+        ],
+        "extent": [
+          0.35507303741725527,
+          0.32662385668178484,
+          0.2937031386013125
+        ]
+      }
+    },
+    "RF_link0": {
+      "vertices": 12,
+      "triangles": 20,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "degenerate_faces": 0,
+      "outward_centroid_dot_min": 0.001556564118377448,
+      "finite": true,
+      "bounds": {
+        "min": [
+          0.4008872709668696,
+          -0.6142034897869898,
+          0.3579776225250592
+        ],
+        "max": [
+          0.7896192015491548,
+          -0.274314216151148,
+          0.7118436107669782
+        ],
+        "extent": [
+          0.38873193058228517,
+          0.3398892736358418,
+          0.353865988241919
+        ]
+      }
+    },
+    "RF_link1": {
+      "vertices": 12,
+      "triangles": 20,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "degenerate_faces": 0,
+      "outward_centroid_dot_min": 0.0012731715428876335,
+      "finite": true,
+      "bounds": {
+        "min": [
+          0.5439531671551884,
+          -0.8287671745946781,
+          0.13261146003431595
+        ],
+        "max": [
+          0.8177804918691041,
+          -0.4518554834151386,
+          0.4952142499610046
+        ],
+        "extent": [
+          0.2738273247139157,
+          0.3769116911795395,
+          0.36260278992668865
+        ]
+      }
+    },
+    "RF_link2": {
+      "vertices": 12,
+      "triangles": 20,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "degenerate_faces": 0,
+      "outward_centroid_dot_min": 0.00045647606263023144,
+      "finite": true,
+      "bounds": {
+        "min": [
+          0.561455575352265,
+          -0.9542340020393383,
+          0.11732694282310245
+        ],
+        "max": [
+          0.8003190936900068,
+          -0.709734088591661,
+          0.2839522903156698
+        ],
+        "extent": [
+          0.23886351833774178,
+          0.2444999134476773,
+          0.16662534749256736
+        ]
+      }
+    },
+    "RF_hoof": {
+      "vertices": 8,
+      "triangles": 12,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "degenerate_faces": 0,
+      "outward_centroid_dot_min": 0.052116479999999986,
+      "finite": true,
+      "bounds": {
+        "min": [
+          0.45,
+          -1.17,
+          0
+        ],
+        "max": [
+          1.03,
+          -0.65,
+          0.48
+        ],
+        "extent": [
+          0.5800000000000001,
+          0.5199999999999999,
+          0.48
+        ]
+      }
+    },
+    "RF_cuff0": {
+      "vertices": 12,
+      "triangles": 20,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "degenerate_faces": 0,
+      "outward_centroid_dot_min": 0.0018725634293328996,
+      "finite": true,
+      "bounds": {
+        "min": [
+          0.5531283952721519,
+          -0.7064196702288771,
+          0.27233896702602867
+        ],
+        "max": [
+          0.8868716047278481,
+          -0.35358032977112297,
+          0.5876610329739713
+        ],
+        "extent": [
+          0.33374320945569624,
+          0.3528393404577541,
+          0.31532206594794265
+        ]
+      }
+    },
+    "RF_cuff1": {
+      "vertices": 12,
+      "triangles": 20,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "degenerate_faces": 0,
+      "outward_centroid_dot_min": 0.0018725634293328972,
+      "finite": true,
+      "bounds": {
+        "min": [
+          0.4604048139219715,
+          -0.9036620558042037,
+          0.033262502347187195
+        ],
+        "max": [
+          0.7995951860780285,
+          -0.6163379441957964,
+          0.3467374976528128
+        ],
+        "extent": [
+          0.33919037215605696,
+          0.2873241116084073,
+          0.3134749953056256
+        ]
+      }
+    },
+    "RF_cuff2": {
+      "vertices": 12,
+      "triangles": 20,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "degenerate_faces": 0,
+      "outward_centroid_dot_min": 0.001872563429332899,
+      "finite": true,
+      "bounds": {
+        "min": [
+          0.5624634812913724,
+          -1.0733119283408925,
+          0.07314843069934374
+        ],
+        "max": [
+          0.9175365187086276,
+          -0.7466880716591077,
+          0.3668515693006562
+        ],
+        "extent": [
+          0.35507303741725527,
+          0.32662385668178484,
+          0.2937031386013125
+        ]
+      }
+    },
+    "RM_link0": {
+      "vertices": 12,
+      "triangles": 20,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "degenerate_faces": 0,
+      "outward_centroid_dot_min": 0.0015772868484136176,
+      "finite": true,
+      "bounds": {
+        "min": [
+          0.4928018950961511,
+          -0.20935771069333753,
+          0.3556099773899918
+        ],
+        "max": [
+          0.887934332315387,
+          0.0929064894242472,
+          0.704534116602282
+        ],
+        "extent": [
+          0.3951324372192359,
+          0.3022642001175847,
+          0.34892413921229026
+        ]
+      }
+    },
+    "RM_link1": {
+      "vertices": 12,
+      "triangles": 20,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "degenerate_faces": 0,
+      "outward_centroid_dot_min": 0.001299012359922723,
+      "finite": true,
+      "bounds": {
+        "min": [
+          0.6586345111037695,
+          -0.3853036311927187,
+          0.13451606850935546
+        ],
+        "max": [
+          0.9238244192002618,
+          -0.024427691826456044,
+          0.49304992214845966
+        ],
+        "extent": [
+          0.26518990809649234,
+          0.36087593936626267,
+          0.35853385363910417
+        ]
+      }
+    },
+    "RM_link2": {
+      "vertices": 12,
+      "triangles": 20,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "degenerate_faces": 0,
+      "outward_centroid_dot_min": 0.00045286983838520274,
+      "finite": true,
+      "bounds": {
+        "min": [
+          0.6951260315235277,
+          -0.4727758199370843,
+          0.11332974932785536
+        ],
+        "max": [
+          0.9282890922592957,
+          -0.23866384098058596,
+          0.2874698205914873
+        ],
+        "extent": [
+          0.23316306073576798,
+          0.23411197895649832,
+          0.17414007126363193
+        ]
+      }
+    },
+    "RM_hoof": {
+      "vertices": 8,
+      "triangles": 12,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "degenerate_faces": 0,
+      "outward_centroid_dot_min": 0.05211647999999997,
+      "finite": true,
+      "bounds": {
+        "min": [
+          0.5900000000000001,
+          -0.6699999999999999,
+          0
+        ],
+        "max": [
+          1.17,
+          -0.14999999999999997,
+          0.48
+        ],
+        "extent": [
+          0.5799999999999998,
+          0.52,
+          0.48
+        ]
+      }
+    },
+    "RM_cuff0": {
+      "vertices": 12,
+      "triangles": 20,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "degenerate_faces": 0,
+      "outward_centroid_dot_min": 0.0018725634293328976,
+      "finite": true,
+      "bounds": {
+        "min": [
+          0.6585320449217512,
+          -0.2879362495124607,
+          0.2761329111722934
+        ],
+        "max": [
+          0.9814679550782487,
+          0.06793624951246072,
+          0.5838670888277067
+        ],
+        "extent": [
+          0.3229359101564975,
+          0.35587249902492146,
+          0.3077341776554133
+        ]
+      }
+    },
+    "RM_cuff1": {
+      "vertices": 12,
+      "triangles": 20,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "degenerate_faces": 0,
+      "outward_centroid_dot_min": 0.0018725634293329004,
+      "finite": true,
+      "bounds": {
+        "min": [
+          0.5745597209997075,
+          -0.4651793259922701,
+          0.031309730909792596
+        ],
+        "max": [
+          0.9254402790002925,
+          -0.15482067400772992,
+          0.3486902690902074
+        ],
+        "extent": [
+          0.35088055800058493,
+          0.31035865198454016,
+          0.3173805381804148
+        ]
+      }
+    },
+    "RM_cuff2": {
+      "vertices": 12,
+      "triangles": 20,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "degenerate_faces": 0,
+      "outward_centroid_dot_min": 0.0018725634293328991,
+      "finite": true,
+      "bounds": {
+        "min": [
+          0.7153228952315218,
+          -0.586835131262579,
+          0.07176326662367438
+        ],
+        "max": [
+          1.0446771047684782,
+          -0.23316486873742098,
+          0.36823673337632556
+        ],
+        "extent": [
+          0.3293542095369564,
+          0.35367026252515804,
+          0.2964734667526512
+        ]
+      }
+    },
+    "RR_link0": {
+      "vertices": 12,
+      "triangles": 20,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "degenerate_faces": 0,
+      "outward_centroid_dot_min": 0.0014714832420951568,
+      "finite": true,
+      "bounds": {
+        "min": [
+          0.40005949702040366,
+          0.24699535030513334,
+          0.34814891269720405
+        ],
+        "max": [
+          0.7703476426220448,
+          0.5818440917314827,
+          0.6916489628440863
+        ],
+        "extent": [
+          0.37028814560164114,
+          0.33484874142634935,
+          0.34350005014688223
+        ]
+      }
+    },
+    "RR_link1": {
+      "vertices": 12,
+      "triangles": 20,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "degenerate_faces": 0,
+      "outward_centroid_dot_min": 0.00115200454742665,
+      "finite": true,
+      "bounds": {
+        "min": [
+          0.526494623686237,
+          0.41686851004108383,
+          0.13601114430134822
+        ],
+        "max": [
+          0.7948924730838215,
+          0.7631557111638462,
+          0.48135097238483154
+        ],
+        "extent": [
+          0.2683978493975845,
+          0.34628720112276234,
+          0.3453398280834833
+        ]
+      }
+    },
+    "RR_link2": {
+      "vertices": 12,
+      "triangles": 20,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "degenerate_faces": 0,
+      "outward_centroid_dot_min": 0.00045647606263023155,
+      "finite": true,
+      "bounds": {
+        "min": [
+          0.541455575352265,
+          0.6397340885916609,
+          0.11732694282310245
+        ],
+        "max": [
+          0.7803190936900067,
+          0.8842340020393382,
+          0.2839522903156698
+        ],
+        "extent": [
+          0.23886351833774178,
+          0.2444999134476773,
+          0.16662534749256736
+        ]
+      }
+    },
+    "RR_hoof": {
+      "vertices": 8,
+      "triangles": 12,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "degenerate_faces": 0,
+      "outward_centroid_dot_min": 0.05211648000000001,
+      "finite": true,
+      "bounds": {
+        "min": [
+          0.43,
+          0.58,
+          0
+        ],
+        "max": [
+          1.01,
+          1.1,
+          0.48
+        ],
+        "extent": [
+          0.5800000000000001,
+          0.5200000000000001,
+          0.48
+        ]
+      }
+    },
+    "RR_cuff0": {
+      "vertices": 12,
+      "triangles": 20,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "degenerate_faces": 0,
+      "outward_centroid_dot_min": 0.0018725634293329009,
+      "finite": true,
+      "bounds": {
+        "min": [
+          0.5340880991020103,
+          0.3233084859390847,
+          0.2637420862252552
+        ],
+        "max": [
+          0.8659119008979896,
+          0.6766915140609153,
+          0.5762579137747448
+        ],
+        "extent": [
+          0.33182380179597937,
+          0.35338302812183064,
+          0.3125158275494896
+        ]
+      }
+    },
+    "RR_cuff1": {
+      "vertices": 12,
+      "triangles": 20,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "degenerate_faces": 0,
+      "outward_centroid_dot_min": 0.001872563429332899,
+      "finite": true,
+      "bounds": {
+        "min": [
+          0.44116078040955325,
+          0.5432826980483335,
+          0.03185553247293686
+        ],
+        "max": [
+          0.7788392195904468,
+          0.8367173019516664,
+          0.34814446752706313
+        ],
+        "extent": [
+          0.3376784391808935,
+          0.29343460390333287,
+          0.31628893505412625
+        ]
+      }
+    },
+    "RR_cuff2": {
+      "vertices": 12,
+      "triangles": 20,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "degenerate_faces": 0,
+      "outward_centroid_dot_min": 0.001872563429332899,
+      "finite": true,
+      "bounds": {
+        "min": [
+          0.5424634812913723,
+          0.6766880716591076,
+          0.07314843069934374
+        ],
+        "max": [
+          0.8975365187086276,
+          1.0033119283408924,
+          0.3668515693006562
+        ],
+        "extent": [
+          0.35507303741725527,
+          0.32662385668178484,
+          0.2937031386013125
+        ]
+      }
+    },
+    "collar_L": {
+      "vertices": 12,
+      "triangles": 20,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "degenerate_faces": 0,
+      "outward_centroid_dot_min": 0.0011065051400693982,
+      "finite": true,
+      "bounds": {
+        "min": [
+          -0.3508661114749651,
+          0.06246438464000566,
+          0.9984122571092828
+        ],
+        "max": [
+          -0.07913388852503489,
+          0.3175356153599943,
+          1.2715877428907172
+        ],
+        "extent": [
+          0.2717322229499302,
+          0.25507123071998866,
+          0.27317548578143436
+        ]
+      }
+    },
+    "frond_L": {
+      "vertices": 12,
+      "triangles": 20,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "degenerate_faces": 0,
+      "outward_centroid_dot_min": 0.00016602099412103312,
+      "finite": true,
+      "bounds": {
+        "min": [
+          -0.6713002383563481,
+          0.05023769107786813,
+          1.0823661729284588
+        ],
+        "max": [
+          -0.17729381021172178,
+          0.4697623089221319,
+          1.6429046015055568
+        ],
+        "extent": [
+          0.49400642814462636,
+          0.41952461784426376,
+          0.560538428577098
+        ]
+      }
+    },
+    "collar_R": {
+      "vertices": 12,
+      "triangles": 20,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "degenerate_faces": 0,
+      "outward_centroid_dot_min": 0.0010596139332322873,
+      "finite": true,
+      "bounds": {
+        "min": [
+          0.07983065874190544,
+          0.06306161625446617,
+          0.9965718703489573
+        ],
+        "max": [
+          0.3501693412580945,
+          0.3169383837455338,
+          1.2634281296510428
+        ],
+        "extent": [
+          0.2703386825161891,
+          0.25387676749106763,
+          0.26685625930208545
+        ]
+      }
+    },
+    "frond_R": {
+      "vertices": 12,
+      "triangles": 20,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "degenerate_faces": 0,
+      "outward_centroid_dot_min": 0.0004266801088989665,
+      "finite": true,
+      "bounds": {
+        "min": [
+          0.1762642937694806,
+          0.0550674857261948,
+          1.0732879508123943
+        ],
+        "max": [
+          0.6308145547548742,
+          0.4449325142738052,
+          1.5933443596627836
+        ],
+        "extent": [
+          0.45455026098539364,
+          0.3898650285476104,
+          0.5200564088503894
+        ]
+      }
+    }
+  },
+  "complete_bounds_m": {
+    "min": [
+      -1.17,
+      -1.17,
+      0
+    ],
+    "max": [
+      1.17,
+      1.1,
+      1.6429046015055568
+    ],
+    "extent": [
+      2.34,
+      2.27,
+      1.6429046015055568
+    ]
+  },
+  "head_root_inside_saucer": {
+    "contained": true,
+    "max_outward_plane_distance": -0.0555480944481726,
+    "point_count": 6
+  },
+  "eye_bases_inside_head": [
+    {
+      "contained": true,
+      "max_outward_plane_distance": -0.017960041607737204,
+      "point_count": 6
+    },
+    {
+      "contained": true,
+      "max_outward_plane_distance": -0.017960041607737225,
+      "point_count": 6
+    }
+  ],
+  "legs": [
+    {
+      "leg": "LF",
+      "coxa_root_ring_inside_saucer": {
+        "contained": false,
+        "max_outward_plane_distance": 0.012611319488933466,
+        "point_count": 6
+      },
+      "hoof_min_z": 0,
+      "cuff0_contains_adjoining_rings": {
+        "contained": true,
+        "max_outward_plane_distance": -0.029693746498641246,
+        "point_count": 12
+      },
+      "cuff1_contains_adjoining_rings": {
+        "contained": true,
+        "max_outward_plane_distance": -0.039209171667697655,
+        "point_count": 12
+      },
+      "cuff2_contains_lower_ring": {
+        "contained": true,
+        "max_outward_plane_distance": -0.06945523738351195,
+        "point_count": 6
+      },
+      "hoof_contains_lower_cuff_ring": {
+        "contained": true,
+        "max_outward_plane_distance": -0.021646135679719663,
+        "point_count": 6
+      }
+    },
+    {
+      "leg": "LM",
+      "coxa_root_ring_inside_saucer": {
+        "contained": true,
+        "max_outward_plane_distance": -0.0025899253955885965,
+        "point_count": 6
+      },
+      "hoof_min_z": 0,
+      "cuff0_contains_adjoining_rings": {
+        "contained": true,
+        "max_outward_plane_distance": -0.02622491280326245,
+        "point_count": 12
+      },
+      "cuff1_contains_adjoining_rings": {
+        "contained": true,
+        "max_outward_plane_distance": -0.028173278151684595,
+        "point_count": 12
+      },
+      "cuff2_contains_lower_ring": {
+        "contained": true,
+        "max_outward_plane_distance": -0.06564472560686041,
+        "point_count": 6
+      },
+      "hoof_contains_lower_cuff_ring": {
+        "contained": true,
+        "max_outward_plane_distance": -0.021226807319615796,
+        "point_count": 6
+      }
+    },
+    {
+      "leg": "LR",
+      "coxa_root_ring_inside_saucer": {
+        "contained": false,
+        "max_outward_plane_distance": 0.0073438025438299775,
+        "point_count": 6
+      },
+      "hoof_min_z": 0,
+      "cuff0_contains_adjoining_rings": {
+        "contained": true,
+        "max_outward_plane_distance": -0.030115449576297255,
+        "point_count": 12
+      },
+      "cuff1_contains_adjoining_rings": {
+        "contained": true,
+        "max_outward_plane_distance": -0.036649968203622034,
+        "point_count": 12
+      },
+      "cuff2_contains_lower_ring": {
+        "contained": true,
+        "max_outward_plane_distance": -0.06945523738351198,
+        "point_count": 6
+      },
+      "hoof_contains_lower_cuff_ring": {
+        "contained": true,
+        "max_outward_plane_distance": -0.021646135679719673,
+        "point_count": 6
+      }
+    },
+    {
+      "leg": "RF",
+      "coxa_root_ring_inside_saucer": {
+        "contained": false,
+        "max_outward_plane_distance": 0.010024240903007547,
+        "point_count": 6
+      },
+      "hoof_min_z": 0,
+      "cuff0_contains_adjoining_rings": {
+        "contained": true,
+        "max_outward_plane_distance": -0.02969374649864122,
+        "point_count": 12
+      },
+      "cuff1_contains_adjoining_rings": {
+        "contained": true,
+        "max_outward_plane_distance": -0.03920917166769764,
+        "point_count": 12
+      },
+      "cuff2_contains_lower_ring": {
+        "contained": true,
+        "max_outward_plane_distance": -0.06945523738351198,
+        "point_count": 6
+      },
+      "hoof_contains_lower_cuff_ring": {
+        "contained": true,
+        "max_outward_plane_distance": -0.03966239124075564,
+        "point_count": 6
+      }
+    },
+    {
+      "leg": "RM",
+      "coxa_root_ring_inside_saucer": {
+        "contained": true,
+        "max_outward_plane_distance": -0.0001050533933239367,
+        "point_count": 6
+      },
+      "hoof_min_z": 0,
+      "cuff0_contains_adjoining_rings": {
+        "contained": true,
+        "max_outward_plane_distance": -0.02622491280326244,
+        "point_count": 12
+      },
+      "cuff1_contains_adjoining_rings": {
+        "contained": true,
+        "max_outward_plane_distance": -0.028173278151684616,
+        "point_count": 12
+      },
+      "cuff2_contains_lower_ring": {
+        "contained": true,
+        "max_outward_plane_distance": -0.06564472560686038,
+        "point_count": 6
+      },
+      "hoof_contains_lower_cuff_ring": {
+        "contained": true,
+        "max_outward_plane_distance": -0.0442652546678616,
+        "point_count": 6
+      }
+    },
+    {
+      "leg": "RR",
+      "coxa_root_ring_inside_saucer": {
+        "contained": false,
+        "max_outward_plane_distance": 0.010231195340182388,
+        "point_count": 6
+      },
+      "hoof_min_z": 0,
+      "cuff0_contains_adjoining_rings": {
+        "contained": true,
+        "max_outward_plane_distance": -0.03011544957629725,
+        "point_count": 12
+      },
+      "cuff1_contains_adjoining_rings": {
+        "contained": true,
+        "max_outward_plane_distance": -0.03664996820362201,
+        "point_count": 12
+      },
+      "cuff2_contains_lower_ring": {
+        "contained": true,
+        "max_outward_plane_distance": -0.06945523738351195,
+        "point_count": 6
+      },
+      "hoof_contains_lower_cuff_ring": {
+        "contained": true,
+        "max_outward_plane_distance": -0.03966239124075564,
+        "point_count": 6
+      }
+    }
+  ],
+  "fronds": [
+    {
+      "id": "L",
+      "blade_root_inside_closed_collar": {
+        "contained": true,
+        "max_outward_plane_distance": -0.007463212466839335,
+        "point_count": 4
+      },
+      "collar_root_inside_saucer": {
+        "contained": true,
+        "max_outward_plane_distance": -0.09109768000904155,
+        "point_count": 6
+      }
+    },
+    {
+      "id": "R",
+      "blade_root_inside_closed_collar": {
+        "contained": true,
+        "max_outward_plane_distance": -0.006500951747320214,
+        "point_count": 4
+      },
+      "collar_root_inside_saucer": {
+        "contained": true,
+        "max_outward_plane_distance": -0.09417270937590634,
+        "point_count": 6
+      }
+    }
+  ],
+  "surface_zbuffer_exposure_256": {
+    "front": {
+      "L": 1048,
+      "R": 921
+    },
+    "three_quarter": {
+      "L": 942,
+      "R": 531
+    }
+  },
+  "all_closed_outward": true,
+  "all_contacts": false,
+  "limits": [
+    "No Blender/GPU/render/full candidate before independent plan and source review.",
+    "No export, rig, runtime, collider, gameplay or baked-recipe work."
+  ],
+  "pre_refactor_parity": {
+    "literal_geometry_bounds_equal": true,
+    "frond_exposure_equal": true,
+    "prior_leg_contact_subset_equal": true
+  },
+  "frond_exposure_pass": true
+}

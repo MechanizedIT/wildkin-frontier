@@ -1,0 +1,16 @@
+{
+  "type": "box",
+  "coordinateSpace": "Blender source, Z-up",
+  "dimensions": [
+    2.9,
+    2.3,
+    2.7
+  ],
+  "center": [
+    0,
+    0,
+    1.35
+  ],
+  "scope": "continuous lower trunk/root core only; outer wedge tips and all canopy are non-solid",
+  "runtimeMapping": "The GLB exporter uses Y-up. An eventual runtime owner must map this source-space proposal to dimensions [2.9, 2.7, 2.3] and center [0, 1.35, 0], then refit it after placement."
+}

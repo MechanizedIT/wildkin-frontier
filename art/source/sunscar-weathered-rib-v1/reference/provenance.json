@@ -1,0 +1,34 @@
+{
+  "status": "single generated isolated reference direction only; independent asset-reference review and planner/build authorization pending",
+  "tool": "built-in image_gen",
+  "backend": "undisclosed",
+  "createdAt": "2026-09-14",
+  "input": {
+    "role": "style and environment-language reference only",
+    "file": "art/targets/sunscar-desert/concepts/selected.png",
+    "sha256": "49617b755f721bd4847a88293e160f8c64f5442c8c3e58d01cce30d2d6c49836"
+  },
+  "output": {
+    "file": "weathered-rib-target-v1.png",
+    "sha256": "157070274fef13f6449840c9acfdce4ec660d50e84d1244e74a3b7c3dd2a5529",
+    "generatedOriginal": "C:\\Users\\cwood\\.codex\\generated_images\\01a09fa9-040a-7212-9128-ec476d69360f\\exec-093873d6-b1f9-4a75-8459-1fd36fa67f02.png",
+    "generatedOriginalSha256": "157070274fef13f6449840c9acfdce4ec660d50e84d1244e74a3b7c3dd2a5529",
+    "nativeDimensions": "1536x1024 PNG"
+  },
+  "promptFile": "reference-prompt.txt",
+  "promptSha256": "a880c55593a0c9322202671a64a605506ffdc27f134f8262e6a6f9156282ef6b",
+  "scaleDeclaration": "scale-declaration.md",
+  "scaleDeclarationSha256": "6b22ac1096a358a8dea8cc06d5b3568c4224da37fce4c55240108bb80059b5dd",
+  "declaredEnvelopeMeters": {
+    "xLong": 4.4,
+    "yDepth": 2.1,
+    "zUpMax": 1.6
+  },
+  "constraints": [
+    "one isolated opaque sandstone rock only",
+    "broad horizontal weathered-rib silhouette, fully grounded",
+    "no ruler or inferred orthographic claim; separate construction scale declaration required",
+    "no vegetation, crystals, scene, HUD, architecture, mechanics, creature, arch, cave, or tall landmark",
+    "target is not selected/admitted and does not authorize Blender, runtime, export, placement, or collision work"
+  ]
+}

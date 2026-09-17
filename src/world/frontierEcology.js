@@ -7,6 +7,7 @@ import { hasRegionalPlaceAssets, sampleFrontierRegionalPlaceChunk } from './fron
 import { hasFrontierLandFootprint } from './frontierContinent.js';
 import { FRONTIER_CALDERA_CONFIG, overlapsFrontierCalderaClearLane, sampleFrontierCalderaFeature } from './frontierCaldera.js';
 import { FRONTIER_FUNGAL_CONFIG, overlapsFrontierFungalOuting } from './frontierFungalHollow.js';
+import { rootboundResourcesForChunk } from './rootboundRewards.js';
 
 const EDGE = 3;
 const CAMP_CLEARANCE = 6;
@@ -41,6 +42,7 @@ export const FRONTIER_CALDERA_RESOURCE_ANCHORS = Object.freeze({
 });
 export const FRONTIER_FUNGAL_BLOSSOM_ANCHORS = FRONTIER_FUNGAL_CONFIG.blossoms;
 const MAX_FORAGE_PER_CHUNK = 12;
+const ROOTBOUND_FIXED_MAX_SLOPE = .18;
 // Indices 0..31 belong to the ordinary coordinate-seeded attempts. These fixed
 // sources use a disjoint saved-ID range so existing depletion records never move.
 const SKYBREAK_STAGED_FORAGE = Object.freeze(new Map([
@@ -241,6 +243,35 @@ function admittedLuminousBlossom(visualAssets) {
   return recipe?.dropId === 'wildflower' && recipe.maxChunks === 3 && recipe.feedbackProfile === 'fiber' ? asset : null;
 }
 
+function sampleFixedRootboundResource(anchor, options) {
+  const visualAsset = anchor.assetId ? harvestableAsset(options.visualAssets, anchor.assetId) : null;
+  if (anchor.assetId && !visualAsset) return null;
+  const sample = terrainSample(anchor.x, anchor.z, options);
+  const height = heightAt(anchor.x, anchor.z, options);
+  const radius = (REGIONAL_ASSET_FOOTPRINT_RADIUS[anchor.assetId] ?? FOOTPRINT_RADIUS[anchor.type]) * anchor.uniformScale;
+  if (!Number.isFinite(height) || sample?.habitatId !== 'rootbound-wildwood'
+    || !hasFrontierLandFootprint(anchor.x, anchor.z, {
+      radius, getTerrainSample: (x, z) => terrainSample(x, z, options), world: options.world,
+    }) || !hasFootprintSupport(anchor.x, anchor.z, {
+      radius, maxSlope: ROOTBOUND_FIXED_MAX_SLOPE,
+      getHeight: (x, z) => heightAt(x, z, options),
+    })) return null;
+  return {
+    type: anchor.type,
+    visualAsset: visualAsset ?? undefined,
+    id: makeFrontierResourceId(anchor.cx, anchor.cz, anchor.index),
+    chunkId: `${anchor.cx},${anchor.cz}`,
+    placementIndex: anchor.index,
+    regionId: 'camp',
+    persistentFinite: true,
+    rootboundReward: true,
+    pos: { x: anchor.x, y: height, z: anchor.z },
+    rotY: anchor.yaw,
+    uniformScale: anchor.uniformScale,
+    tint: anchor.type === 'fiber' && !visualAsset ? '#8eb65a' : undefined,
+  };
+}
+
 function sampleFixedFungalBlossom(anchor, visualAsset, options) {
   if (!visualAsset) return null;
   const sample = terrainSample(anchor.x, anchor.z, options);
@@ -293,6 +324,12 @@ export function sampleFrontierForageChunk(cx, cz, { getHeight, getTerrainSample,
   }
   const regionalPlace = nearbyRegionalPlaces.find(place => place.cx === cx && place.cz === cz) ?? null;
   const placements = [];
+  // Rootbound rewards publish before ordinary candidates so a local forage cap
+  // cannot displace their explicit saved identities.
+  for (const anchor of rootboundResourcesForChunk(cx, cz)) {
+    const fixed = sampleFixedRootboundResource(anchor, { getHeight, getTerrainSample, visualAssets, terrainOptions, world });
+    if (fixed) placements.push(fixed);
+  }
   // Fixed blossoms publish before ordinary candidates so the per-chunk cap can
   // never displace their stable depletion identities. One exact asset preflight
   // governs all four chunks; invalid art leaves every blossom retryable.

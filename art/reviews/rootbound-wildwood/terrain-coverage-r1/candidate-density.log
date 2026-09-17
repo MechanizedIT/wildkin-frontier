@@ -1,0 +1,110 @@
+{
+  "baselineSha256": "92f4d504437a8be020a554349658dd4d9daca5dd55b3538fc572f7bc57fbb111",
+  "changedVertices": 746,
+  "changedTriangles": 1849,
+  "maxDelta": 0.8499999999999996,
+  "maxChangedTriangleSlope": 0.48345025126615093,
+  "maxLaneInterpolatedDeltaM": 0.041071991767317684,
+  "sourceCounts": [
+    298,
+    298
+  ],
+  "sourceDiff": [],
+  "projections": {
+    "meadow": [
+      {
+        "band": "meadow-edge",
+        "projectedVertices": 79,
+        "usefulFrameVertices": 4,
+        "clippedNdcBounds": [
+          -0.9352921769082478,
+          -0.8927361730461036,
+          0.48509598360711387,
+          0.6404694200277806
+        ]
+      }
+    ],
+    "galleries": [
+      {
+        "band": "gallery-inner",
+        "projectedVertices": 132,
+        "usefulFrameVertices": 7,
+        "clippedNdcBounds": [
+          0.298538340010904,
+          0.855644534022338,
+          0.3802264946461591,
+          0.6421553492027117
+        ]
+      }
+    ],
+    "lantern": [],
+    "verge": [
+      {
+        "band": "verge-outer",
+        "projectedVertices": 102,
+        "usefulFrameVertices": 5,
+        "clippedNdcBounds": [
+          -0.9464938739335961,
+          -0.38660000180735515,
+          0.4860885889875597,
+          0.641312880992634
+        ]
+      }
+    ],
+    "crown": [
+      {
+        "band": "crown-backdrop",
+        "projectedVertices": 203,
+        "usefulFrameVertices": 5,
+        "clippedNdcBounds": [
+          -0.468250112174149,
+          0.6894182005851339,
+          0.579932424194496,
+          0.6496148841052273
+        ]
+      }
+    ]
+  }
+}
+[
+  {
+    name: 'meadow',
+    before: 1079,
+    after: 1191,
+    added: 112,
+    removed: [],
+    curated: 7
+  },
+  {
+    name: 'galleries',
+    before: 456,
+    after: 730,
+    added: 274,
+    removed: [],
+    curated: 26
+  },
+  {
+    name: 'lantern',
+    before: 62,
+    after: 379,
+    added: 317,
+    removed: [],
+    curated: 36
+  },
+  {
+    name: 'verge',
+    before: 62,
+    after: 379,
+    added: 317,
+    removed: [],
+    curated: 36
+  },
+  {
+    name: 'crown',
+    before: 1106,
+    after: 1370,
+    added: 264,
+    removed: [],
+    curated: 31
+  }
+]

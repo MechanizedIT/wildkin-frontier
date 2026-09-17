@@ -1,0 +1,761 @@
+{
+  "schema": "trailgloam-segmented-r4-cpu-proof-v1",
+  "parameters_sha256": "68a804de3b15404714c5565c2e5d2d8f886c7c319cc5687db27e7f5ce1de23f5",
+  "envelope_m": {
+    "min": [
+      -1.07,
+      -1.08,
+      0.0
+    ],
+    "max": [
+      1.07,
+      1.0,
+      1.78
+    ],
+    "extent": [
+      2.14,
+      2.08,
+      1.78
+    ]
+  },
+  "six_closed_chains": [
+    {
+      "id": "LF",
+      "sole_z_m": 0.0,
+      "hoof_center_z_m": 0.11,
+      "chain_lengths_m": [
+        0.3509985754956849,
+        0.34438350715445126,
+        0.2024845673131659
+      ],
+      "covered_overlap_m": {
+        "shell_to_coxa_m": 0.075,
+        "coxa_to_upper_m": 0.065,
+        "upper_to_lower_m": 0.06,
+        "lower_to_hoof_m": 0.055,
+        "collar_extra_radius_m": 0.025,
+        "rule": "Every element is a separately capped closed low-poly prism. A dark six-sided cuff spans each overlap and remains visibly proud; no shell aperture, Boolean, weld, or bridge is used."
+      }
+    },
+    {
+      "id": "LM",
+      "sole_z_m": 0.0,
+      "hoof_center_z_m": 0.11,
+      "chain_lengths_m": [
+        0.3266496594212215,
+        0.32015621187164245,
+        0.18248287590894657
+      ],
+      "covered_overlap_m": {
+        "shell_to_coxa_m": 0.075,
+        "coxa_to_upper_m": 0.065,
+        "upper_to_lower_m": 0.06,
+        "lower_to_hoof_m": 0.055,
+        "collar_extra_radius_m": 0.025,
+        "rule": "Every element is a separately capped closed low-poly prism. A dark six-sided cuff spans each overlap and remains visibly proud; no shell aperture, Boolean, weld, or bridge is used."
+      }
+    },
+    {
+      "id": "LR",
+      "sole_z_m": 0.0,
+      "hoof_center_z_m": 0.11,
+      "chain_lengths_m": [
+        0.33181320046074114,
+        0.31160872901765757,
+        0.2024845673131659
+      ],
+      "covered_overlap_m": {
+        "shell_to_coxa_m": 0.075,
+        "coxa_to_upper_m": 0.065,
+        "upper_to_lower_m": 0.06,
+        "lower_to_hoof_m": 0.055,
+        "collar_extra_radius_m": 0.025,
+        "rule": "Every element is a separately capped closed low-poly prism. A dark six-sided cuff spans each overlap and remains visibly proud; no shell aperture, Boolean, weld, or bridge is used."
+      }
+    },
+    {
+      "id": "RF",
+      "sole_z_m": 0.0,
+      "hoof_center_z_m": 0.11,
+      "chain_lengths_m": [
+        0.3509985754956849,
+        0.34438350715445126,
+        0.2024845673131659
+      ],
+      "covered_overlap_m": {
+        "shell_to_coxa_m": 0.075,
+        "coxa_to_upper_m": 0.065,
+        "upper_to_lower_m": 0.06,
+        "lower_to_hoof_m": 0.055,
+        "collar_extra_radius_m": 0.025,
+        "rule": "Every element is a separately capped closed low-poly prism. A dark six-sided cuff spans each overlap and remains visibly proud; no shell aperture, Boolean, weld, or bridge is used."
+      }
+    },
+    {
+      "id": "RM",
+      "sole_z_m": 0.0,
+      "hoof_center_z_m": 0.11,
+      "chain_lengths_m": [
+        0.3266496594212215,
+        0.32015621187164245,
+        0.18248287590894657
+      ],
+      "covered_overlap_m": {
+        "shell_to_coxa_m": 0.075,
+        "coxa_to_upper_m": 0.065,
+        "upper_to_lower_m": 0.06,
+        "lower_to_hoof_m": 0.055,
+        "collar_extra_radius_m": 0.025,
+        "rule": "Every element is a separately capped closed low-poly prism. A dark six-sided cuff spans each overlap and remains visibly proud; no shell aperture, Boolean, weld, or bridge is used."
+      }
+    },
+    {
+      "id": "RR",
+      "sole_z_m": 0.0,
+      "hoof_center_z_m": 0.11,
+      "chain_lengths_m": [
+        0.33181320046074114,
+        0.31160872901765757,
+        0.2024845673131659
+      ],
+      "covered_overlap_m": {
+        "shell_to_coxa_m": 0.075,
+        "coxa_to_upper_m": 0.065,
+        "upper_to_lower_m": 0.06,
+        "lower_to_hoof_m": 0.055,
+        "collar_extra_radius_m": 0.025,
+        "rule": "Every element is a separately capped closed low-poly prism. A dark six-sided cuff spans each overlap and remains visibly proud; no shell aperture, Boolean, weld, or bridge is used."
+      }
+    }
+  ],
+  "covered_joint_contract": {
+    "shell_to_coxa_m": 0.075,
+    "coxa_to_upper_m": 0.065,
+    "upper_to_lower_m": 0.06,
+    "lower_to_hoof_m": 0.055,
+    "collar_extra_radius_m": 0.025,
+    "rule": "Every element is a separately capped closed low-poly prism. A dark six-sided cuff spans each overlap and remains visibly proud; no shell aperture, Boolean, weld, or bridge is used."
+  },
+  "frond_contract": {
+    "collar_full_diameter_m": 0.24,
+    "collar_height_m": 0.12,
+    "shell_overlap_m": 0.075,
+    "blade_base_inside_collar_m": 0.065,
+    "rule": "Each blade is a closed asymmetric folded 6-sided prism with uncapped construction base bridged to its own collar before final cap; both remain separate from shell and overlap it under the collar."
+  },
+  "view_projection_proxy": {
+    "front": {
+      "axes": [
+        0,
+        2
+      ],
+      "nonzero_projected_anchor_paths": 6,
+      "chains": [
+        {
+          "id": "LF",
+          "root_screen": [
+            -0.48,
+            0.63
+          ],
+          "hoof_screen": [
+            -0.74,
+            0.11
+          ],
+          "first_segment_screen_length_m": 0.31240998703626616,
+          "nonzero_projected_anchor_path_proxy": true
+        },
+        {
+          "id": "LM",
+          "root_screen": [
+            -0.57,
+            0.62
+          ],
+          "hoof_screen": [
+            -0.88,
+            0.11
+          ],
+          "first_segment_screen_length_m": 0.31400636936215165,
+          "nonzero_projected_anchor_path_proxy": true
+        },
+        {
+          "id": "LR",
+          "root_screen": [
+            -0.48,
+            0.61
+          ],
+          "hoof_screen": [
+            -0.72,
+            0.11
+          ],
+          "first_segment_screen_length_m": 0.2906888370749726,
+          "nonzero_projected_anchor_path_proxy": true
+        },
+        {
+          "id": "RF",
+          "root_screen": [
+            0.48,
+            0.63
+          ],
+          "hoof_screen": [
+            0.74,
+            0.11
+          ],
+          "first_segment_screen_length_m": 0.31240998703626616,
+          "nonzero_projected_anchor_path_proxy": true
+        },
+        {
+          "id": "RM",
+          "root_screen": [
+            0.57,
+            0.62
+          ],
+          "hoof_screen": [
+            0.88,
+            0.11
+          ],
+          "first_segment_screen_length_m": 0.31400636936215165,
+          "nonzero_projected_anchor_path_proxy": true
+        },
+        {
+          "id": "RR",
+          "root_screen": [
+            0.48,
+            0.61
+          ],
+          "hoof_screen": [
+            0.72,
+            0.11
+          ],
+          "first_segment_screen_length_m": 0.2906888370749726,
+          "nonzero_projected_anchor_path_proxy": true
+        }
+      ]
+    },
+    "rear": {
+      "axes": [
+        0,
+        2
+      ],
+      "nonzero_projected_anchor_paths": 6,
+      "chains": [
+        {
+          "id": "LF",
+          "root_screen": [
+            -0.48,
+            0.63
+          ],
+          "hoof_screen": [
+            -0.74,
+            0.11
+          ],
+          "first_segment_screen_length_m": 0.31240998703626616,
+          "nonzero_projected_anchor_path_proxy": true
+        },
+        {
+          "id": "LM",
+          "root_screen": [
+            -0.57,
+            0.62
+          ],
+          "hoof_screen": [
+            -0.88,
+            0.11
+          ],
+          "first_segment_screen_length_m": 0.31400636936215165,
+          "nonzero_projected_anchor_path_proxy": true
+        },
+        {
+          "id": "LR",
+          "root_screen": [
+            -0.48,
+            0.61
+          ],
+          "hoof_screen": [
+            -0.72,
+            0.11
+          ],
+          "first_segment_screen_length_m": 0.2906888370749726,
+          "nonzero_projected_anchor_path_proxy": true
+        },
+        {
+          "id": "RF",
+          "root_screen": [
+            0.48,
+            0.63
+          ],
+          "hoof_screen": [
+            0.74,
+            0.11
+          ],
+          "first_segment_screen_length_m": 0.31240998703626616,
+          "nonzero_projected_anchor_path_proxy": true
+        },
+        {
+          "id": "RM",
+          "root_screen": [
+            0.57,
+            0.62
+          ],
+          "hoof_screen": [
+            0.88,
+            0.11
+          ],
+          "first_segment_screen_length_m": 0.31400636936215165,
+          "nonzero_projected_anchor_path_proxy": true
+        },
+        {
+          "id": "RR",
+          "root_screen": [
+            0.48,
+            0.61
+          ],
+          "hoof_screen": [
+            0.72,
+            0.11
+          ],
+          "first_segment_screen_length_m": 0.2906888370749726,
+          "nonzero_projected_anchor_path_proxy": true
+        }
+      ]
+    },
+    "left": {
+      "axes": [
+        1,
+        2
+      ],
+      "nonzero_projected_anchor_paths": 6,
+      "chains": [
+        {
+          "id": "LF",
+          "root_screen": [
+            -0.37,
+            0.63
+          ],
+          "hoof_screen": [
+            -0.91,
+            0.11
+          ],
+          "first_segment_screen_length_m": 0.25612496949731395,
+          "nonzero_projected_anchor_path_proxy": true
+        },
+        {
+          "id": "LM",
+          "root_screen": [
+            -0.02,
+            0.62
+          ],
+          "hoof_screen": [
+            -0.41,
+            0.11
+          ],
+          "first_segment_screen_length_m": 0.2102379604162864,
+          "nonzero_projected_anchor_path_proxy": true
+        },
+        {
+          "id": "LR",
+          "root_screen": [
+            0.34,
+            0.61
+          ],
+          "hoof_screen": [
+            0.84,
+            0.11
+          ],
+          "first_segment_screen_length_m": 0.2483948469674844,
+          "nonzero_projected_anchor_path_proxy": true
+        },
+        {
+          "id": "RF",
+          "root_screen": [
+            -0.37,
+            0.63
+          ],
+          "hoof_screen": [
+            -0.91,
+            0.11
+          ],
+          "first_segment_screen_length_m": 0.25612496949731395,
+          "nonzero_projected_anchor_path_proxy": true
+        },
+        {
+          "id": "RM",
+          "root_screen": [
+            -0.02,
+            0.62
+          ],
+          "hoof_screen": [
+            -0.41,
+            0.11
+          ],
+          "first_segment_screen_length_m": 0.2102379604162864,
+          "nonzero_projected_anchor_path_proxy": true
+        },
+        {
+          "id": "RR",
+          "root_screen": [
+            0.34,
+            0.61
+          ],
+          "hoof_screen": [
+            0.84,
+            0.11
+          ],
+          "first_segment_screen_length_m": 0.2483948469674844,
+          "nonzero_projected_anchor_path_proxy": true
+        }
+      ]
+    },
+    "right": {
+      "axes": [
+        1,
+        2
+      ],
+      "nonzero_projected_anchor_paths": 6,
+      "chains": [
+        {
+          "id": "LF",
+          "root_screen": [
+            -0.37,
+            0.63
+          ],
+          "hoof_screen": [
+            -0.91,
+            0.11
+          ],
+          "first_segment_screen_length_m": 0.25612496949731395,
+          "nonzero_projected_anchor_path_proxy": true
+        },
+        {
+          "id": "LM",
+          "root_screen": [
+            -0.02,
+            0.62
+          ],
+          "hoof_screen": [
+            -0.41,
+            0.11
+          ],
+          "first_segment_screen_length_m": 0.2102379604162864,
+          "nonzero_projected_anchor_path_proxy": true
+        },
+        {
+          "id": "LR",
+          "root_screen": [
+            0.34,
+            0.61
+          ],
+          "hoof_screen": [
+            0.84,
+            0.11
+          ],
+          "first_segment_screen_length_m": 0.2483948469674844,
+          "nonzero_projected_anchor_path_proxy": true
+        },
+        {
+          "id": "RF",
+          "root_screen": [
+            -0.37,
+            0.63
+          ],
+          "hoof_screen": [
+            -0.91,
+            0.11
+          ],
+          "first_segment_screen_length_m": 0.25612496949731395,
+          "nonzero_projected_anchor_path_proxy": true
+        },
+        {
+          "id": "RM",
+          "root_screen": [
+            -0.02,
+            0.62
+          ],
+          "hoof_screen": [
+            -0.41,
+            0.11
+          ],
+          "first_segment_screen_length_m": 0.2102379604162864,
+          "nonzero_projected_anchor_path_proxy": true
+        },
+        {
+          "id": "RR",
+          "root_screen": [
+            0.34,
+            0.61
+          ],
+          "hoof_screen": [
+            0.84,
+            0.11
+          ],
+          "first_segment_screen_length_m": 0.2483948469674844,
+          "nonzero_projected_anchor_path_proxy": true
+        }
+      ]
+    },
+    "top": {
+      "axes": [
+        0,
+        1
+      ],
+      "nonzero_projected_anchor_paths": 6,
+      "chains": [
+        {
+          "id": "LF",
+          "root_screen": [
+            -0.48,
+            -0.37
+          ],
+          "hoof_screen": [
+            -0.74,
+            -0.91
+          ],
+          "first_segment_screen_length_m": 0.2884441020371192,
+          "nonzero_projected_anchor_path_proxy": true
+        },
+        {
+          "id": "LM",
+          "root_screen": [
+            -0.57,
+            -0.02
+          ],
+          "hoof_screen": [
+            -0.88,
+            -0.41
+          ],
+          "first_segment_screen_length_m": 0.26570660511172844,
+          "nonzero_projected_anchor_path_proxy": true
+        },
+        {
+          "id": "LR",
+          "root_screen": [
+            -0.48,
+            0.34
+          ],
+          "hoof_screen": [
+            -0.72,
+            0.84
+          ],
+          "first_segment_screen_length_m": 0.27202941017470883,
+          "nonzero_projected_anchor_path_proxy": true
+        },
+        {
+          "id": "RF",
+          "root_screen": [
+            0.48,
+            -0.37
+          ],
+          "hoof_screen": [
+            0.74,
+            -0.91
+          ],
+          "first_segment_screen_length_m": 0.2884441020371192,
+          "nonzero_projected_anchor_path_proxy": true
+        },
+        {
+          "id": "RM",
+          "root_screen": [
+            0.57,
+            -0.02
+          ],
+          "hoof_screen": [
+            0.88,
+            -0.41
+          ],
+          "first_segment_screen_length_m": 0.26570660511172844,
+          "nonzero_projected_anchor_path_proxy": true
+        },
+        {
+          "id": "RR",
+          "root_screen": [
+            0.48,
+            0.34
+          ],
+          "hoof_screen": [
+            0.72,
+            0.84
+          ],
+          "first_segment_screen_length_m": 0.27202941017470883,
+          "nonzero_projected_anchor_path_proxy": true
+        }
+      ]
+    },
+    "underside": {
+      "axes": [
+        0,
+        1
+      ],
+      "nonzero_projected_anchor_paths": 6,
+      "chains": [
+        {
+          "id": "LF",
+          "root_screen": [
+            -0.48,
+            -0.37
+          ],
+          "hoof_screen": [
+            -0.74,
+            -0.91
+          ],
+          "first_segment_screen_length_m": 0.2884441020371192,
+          "nonzero_projected_anchor_path_proxy": true
+        },
+        {
+          "id": "LM",
+          "root_screen": [
+            -0.57,
+            -0.02
+          ],
+          "hoof_screen": [
+            -0.88,
+            -0.41
+          ],
+          "first_segment_screen_length_m": 0.26570660511172844,
+          "nonzero_projected_anchor_path_proxy": true
+        },
+        {
+          "id": "LR",
+          "root_screen": [
+            -0.48,
+            0.34
+          ],
+          "hoof_screen": [
+            -0.72,
+            0.84
+          ],
+          "first_segment_screen_length_m": 0.27202941017470883,
+          "nonzero_projected_anchor_path_proxy": true
+        },
+        {
+          "id": "RF",
+          "root_screen": [
+            0.48,
+            -0.37
+          ],
+          "hoof_screen": [
+            0.74,
+            -0.91
+          ],
+          "first_segment_screen_length_m": 0.2884441020371192,
+          "nonzero_projected_anchor_path_proxy": true
+        },
+        {
+          "id": "RM",
+          "root_screen": [
+            0.57,
+            -0.02
+          ],
+          "hoof_screen": [
+            0.88,
+            -0.41
+          ],
+          "first_segment_screen_length_m": 0.26570660511172844,
+          "nonzero_projected_anchor_path_proxy": true
+        },
+        {
+          "id": "RR",
+          "root_screen": [
+            0.48,
+            0.34
+          ],
+          "hoof_screen": [
+            0.72,
+            0.84
+          ],
+          "first_segment_screen_length_m": 0.27202941017470883,
+          "nonzero_projected_anchor_path_proxy": true
+        }
+      ]
+    },
+    "three_quarter": {
+      "axes": [
+        0,
+        2
+      ],
+      "nonzero_projected_anchor_paths": 6,
+      "chains": [
+        {
+          "id": "LF",
+          "root_screen": [
+            -0.48,
+            0.63
+          ],
+          "hoof_screen": [
+            -0.74,
+            0.11
+          ],
+          "first_segment_screen_length_m": 0.31240998703626616,
+          "nonzero_projected_anchor_path_proxy": true
+        },
+        {
+          "id": "LM",
+          "root_screen": [
+            -0.57,
+            0.62
+          ],
+          "hoof_screen": [
+            -0.88,
+            0.11
+          ],
+          "first_segment_screen_length_m": 0.31400636936215165,
+          "nonzero_projected_anchor_path_proxy": true
+        },
+        {
+          "id": "LR",
+          "root_screen": [
+            -0.48,
+            0.61
+          ],
+          "hoof_screen": [
+            -0.72,
+            0.11
+          ],
+          "first_segment_screen_length_m": 0.2906888370749726,
+          "nonzero_projected_anchor_path_proxy": true
+        },
+        {
+          "id": "RF",
+          "root_screen": [
+            0.48,
+            0.63
+          ],
+          "hoof_screen": [
+            0.74,
+            0.11
+          ],
+          "first_segment_screen_length_m": 0.31240998703626616,
+          "nonzero_projected_anchor_path_proxy": true
+        },
+        {
+          "id": "RM",
+          "root_screen": [
+            0.57,
+            0.62
+          ],
+          "hoof_screen": [
+            0.88,
+            0.11
+          ],
+          "first_segment_screen_length_m": 0.31400636936215165,
+          "nonzero_projected_anchor_path_proxy": true
+        },
+        {
+          "id": "RR",
+          "root_screen": [
+            0.48,
+            0.61
+          ],
+          "hoof_screen": [
+            0.72,
+            0.11
+          ],
+          "first_segment_screen_length_m": 0.2906888370749726,
+          "nonzero_projected_anchor_path_proxy": true
+        }
+      ]
+    }
+  },
+  "limits": [
+    "Anchor/centerline projection only; no mesh rasterization or occlusion proof.",
+    "Actual Blender all-angle renders and overlap inspection remain required."
+  ]
+}

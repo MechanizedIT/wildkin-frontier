@@ -1,0 +1,128 @@
+{
+  "schema": "lantern-r5-topology-audit-v1",
+  "source": {
+    "path": "raw-geometry.ply",
+    "sha256": "e25bdd049cf9a7d8d4e1a7df9e4193e9840b0b550c6052b134d3d88cd6276120",
+    "bytes": 41776379,
+    "header_bytes": 397,
+    "format": "binary_little_endian_1.0",
+    "position_dtype": "float32",
+    "vertex_count": 1077634,
+    "face_count": 2218798
+  },
+  "method": {
+    "no_geometry_mutation": true,
+    "no_self_intersection_test": true,
+    "position_access": "read-only numpy.memmap",
+    "edge_test": "undirected packed uint64 edge incidence",
+    "area_test": "float64 cross product in 200000-face chunks",
+    "normal_winding_test": "not tested"
+  },
+  "findings": {
+    "nonfinite_position_scalars": 0,
+    "repeated_index_faces": 0,
+    "zero_area_faces": 0,
+    "unused_vertices": 1145,
+    "unique_undirected_edges": 3304351,
+    "boundary_edges": 67425,
+    "nonmanifold_edges": 99060,
+    "edge_incidence_histogram": {
+      "1": 67425,
+      "2": 3137866,
+      "3": 83003,
+      "4": 16057
+    },
+    "components": {
+      "method": "temporary LLVM clang++ union-find on undirected triangle-edge adjacency; labels summarized with read-only NumPy memmaps",
+      "face_bearing_component_count": 4,
+      "all_vertex_component_count": 1149,
+      "cross_component_faces": 0,
+      "largest_by_area": [
+        {
+          "component": 2,
+          "root_vertex": 1579,
+          "faces": 2169924,
+          "vertices": 1052031,
+          "area": 2.9471108363464267,
+          "bounds": {
+            "min": [
+              -0.5003722906112671,
+              -0.2924528121948242,
+              -0.2969053387641907
+            ],
+            "max": [
+              0.4995916485786438,
+              0.10028254985809326,
+              0.2909446358680725
+            ]
+          }
+        },
+        {
+          "component": 823,
+          "root_vertex": 844810,
+          "faces": 48862,
+          "vertices": 24443,
+          "area": 0.06435959676698502,
+          "bounds": {
+            "min": [
+              0.1402457356452942,
+              0.13534462451934814,
+              -0.28856518864631653
+            ],
+            "max": [
+              0.3443666696548462,
+              0.2899187207221985,
+              -0.18266946077346802
+            ]
+          }
+        },
+        {
+          "component": 738,
+          "root_vertex": 746517,
+          "faces": 6,
+          "vertices": 8,
+          "area": 4.273386424550224e-06,
+          "bounds": {
+            "min": [
+              0.043787479400634766,
+              -0.11414843797683716,
+              0.017128467559814453
+            ],
+            "max": [
+              0.047859787940979004,
+              -0.11276033520698547,
+              0.01872354745864868
+            ]
+          }
+        },
+        {
+          "component": 1095,
+          "root_vertex": 1051621,
+          "faces": 6,
+          "vertices": 7,
+          "area": 2.0271166859213104e-06,
+          "bounds": {
+            "min": [
+              0.41364365816116333,
+              -0.07509562373161316,
+              0.1771983504295349
+            ],
+            "max": [
+              0.4148399829864502,
+              -0.07367703318595886,
+              0.17886334657669067
+            ]
+          }
+        }
+      ],
+      "note": "Isolated unused vertices each remain their own all-vertex component; face-bearing count is the topology result. Components use vertex-edge adjacency: a shared vertex joins shells.",
+      "connectivity": "vertex-connected through triangle edges; components that touch only at one vertex are joined"
+    }
+  },
+  "execution": {
+    "python": "3.10.11",
+    "numpy": "2.2.6",
+    "elapsed_seconds": 0.961,
+    "component_solver": "clang++ 17 -O3 temporary union-find; no repository script or dependency added"
+  }
+}

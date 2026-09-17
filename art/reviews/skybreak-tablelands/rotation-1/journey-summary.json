@@ -1,0 +1,183 @@
+{
+  "complete": true,
+  "wholeSeconds": 401.724,
+  "wholeDistance": 590.3655839764325,
+  "localCircuit": {
+    "from": "Skybreak western base",
+    "to": "West side of old terrace",
+    "seconds": 185.563,
+    "distance": 256.0905507212231,
+    "traceStart": 498,
+    "traceEnd": 1310
+  },
+  "interactions": [
+    {
+      "name": "Western supply berries",
+      "before": [
+        {
+          "count": 1,
+          "id": "fiber"
+        },
+        {
+          "count": 17,
+          "id": "berries"
+        },
+        {
+          "count": 3,
+          "id": "wood"
+        },
+        {
+          "count": 6,
+          "id": "wildflower"
+        },
+        {
+          "count": 2,
+          "id": "crystal_shard"
+        },
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "eligible": [
+        {
+          "id": "f1:r:-1:-4:100",
+          "pos": {
+            "x": -20,
+            "y": 7.3863606452941895,
+            "z": -166
+          },
+          "remaining": 4
+        }
+      ],
+      "after": [
+        {
+          "count": 1,
+          "id": "fiber"
+        },
+        {
+          "count": 20,
+          "id": "berries"
+        },
+        {
+          "count": 3,
+          "id": "wood"
+        },
+        {
+          "count": 6,
+          "id": "wildflower"
+        },
+        {
+          "count": 2,
+          "id": "crystal_shard"
+        },
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ]
+    },
+    {
+      "name": "East cap crystal approach",
+      "before": [
+        {
+          "count": 1,
+          "id": "fiber"
+        },
+        {
+          "count": 20,
+          "id": "berries"
+        },
+        {
+          "count": 3,
+          "id": "wood"
+        },
+        {
+          "count": 6,
+          "id": "wildflower"
+        },
+        {
+          "count": 2,
+          "id": "crystal_shard"
+        },
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "eligible": [
+        {
+          "id": "f1:r:0:-5:100",
+          "pos": {
+            "x": 32,
+            "y": 28.41777801513672,
+            "z": -214
+          },
+          "remaining": 4
+        }
+      ],
+      "after": [
+        {
+          "count": 1,
+          "id": "fiber"
+        },
+        {
+          "count": 20,
+          "id": "berries"
+        },
+        {
+          "count": 3,
+          "id": "wood"
+        },
+        {
+          "count": 6,
+          "id": "wildflower"
+        },
+        {
+          "count": 2,
+          "id": "crystal_shard"
+        },
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ]
+    }
+  ],
+  "reload": {
+    "progressExact": true,
+    "inventoryExact": true,
+    "ecologyExact": true
+  },
+  "health": 5,
+  "detours": 1,
+  "errors": []
+}

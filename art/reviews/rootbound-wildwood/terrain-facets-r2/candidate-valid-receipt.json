@@ -1,0 +1,45 @@
+{
+  "mode": "renderer-only broad facet candidate",
+  "changedVertexCopies": 39,
+  "maxDeltaM": 0.3482158990335178,
+  "maxTintDelta": 0.05500000000000005,
+  "chunks": 2,
+  "physics": "unchanged; this is not support proof",
+  "pose": {
+    "x": -449,
+    "y": 9.559901237487793,
+    "z": 675
+  },
+  "camera": [
+    -455.99276139193347,
+    17.272966851718238,
+    668.7520763407613
+  ],
+  "cameraFollow": {
+    "yaw": -2.3,
+    "pitch": 0.6283185307179586,
+    "portrait": true,
+    "portraitPitch": 0.6283185307179586,
+    "landscapePitch": 0.5585053606381855,
+    "zoom": 1,
+    "userZoom": 1,
+    "requestedDistance": 11.59107954420122,
+    "collisionDistance": 11.59107954420122,
+    "effectiveDistance": 11.59107954420122,
+    "focusRecovery": "clear",
+    "horizontalDistance": 6.55,
+    "height": 5,
+    "center": [
+      -449,
+      10.459901237487797,
+      675
+    ]
+  },
+  "render": {
+    "frame": 723,
+    "calls": 59,
+    "triangles": 127672,
+    "points": 0,
+    "lines": 0
+  }
+}

@@ -29,6 +29,7 @@ import { createCampCareInteraction } from '../companions/campCareInteraction.js'
 import { FRONTIER_TERRAIN_CONFIG } from '../world/frontierTerrain.js';
 import { createCampGarden } from '../base/campGarden.js';
 import { createCampBreedingGrowth } from '../companions/campBreedingGrowth.js';
+import { resolveWildkinInteractionActivation } from '../companions/wildkinInteraction.js';
 
 const SETTINGS_KEY = "wildkin.settings";
 export function createBetaGame(deps) {
@@ -47,7 +48,8 @@ export function createBetaGame(deps) {
   const observatoryMechanisms = createObservatoryMechanisms({ scene, registry, progress });
   const playerOcclusion = initializePlayerOcclusion({ scene, camera: deps.camera, getPlayerPosition: () => playerController.getState().pos });
   const guardianEncounter = createGuardianEncounter({ scene, getGuardian: () => creatures.getCreatures().find(c => c.state.id === "wildkin_guardian"), getPlayerState: () => playerController.getState(), playerCombat, audio, onPulse: ({ target }) => pulse(target, 0xffbd63), onWarning: text => toast("Heartwood Guardian", text) });
-  const companions = createCompanionSystem({ app, scene, camera: deps.camera, registry, progress, creatures, playerController, playerCombat, physicsWorld: deps.physicsWorld, playerCollider: deps.playerCollider, getTerrainHeight: deps.getTerrainHeight, getSurfaceWater: deps.getSurfaceWater, getCampCareAnchor: () => {
+  let equipment = null;
+  const companions = createCompanionSystem({ app, scene, camera: deps.camera, registry, progress, creatures, playerController, playerCombat, physicsWorld: deps.physicsWorld, playerCollider: deps.playerCollider, getTerrainHeight: deps.getTerrainHeight, getSurfaceWater: deps.getSurfaceWater, getSelectedEquipment: () => equipment?.selectedItem?.() ?? null, getCampCareAnchor: () => {
     if (!canCareAtCamp()) return null;
     const care = progress.getCampCare(), bed = care && base.getWildkinBed(care.bedId);
     return bed ? { ...bed, wildkinId: care.wildkinId } : null;
@@ -80,7 +82,7 @@ export function createBetaGame(deps) {
     getPlayerPosition: () => playerController.getState().pos, notify: toast,
     onChanged: plot => { pickupSystem.resetInventory(); shell?.update(); pulse(plot.anchorPos, 0x91e5a5); audio.playPickup('berries'); } });
   const physicalInventory = createPhysicalInventory({app,progress,registry,getPlayerState:()=>playerController.getState(),isCamp,canOpen:()=>!authorEnabled&&!deps.isOtherBlocking()&&!companions.isBlocking()&&!base.isBlocking(),onBlockingChanged,onChanged:()=>{pickupSystem.resetInventory();shell?.update();},onOpenJournal:()=>shell?.open('journal')});
-  const equipment = createEquipmentSystem({
+  equipment = createEquipmentSystem({
     progress, isCamp,
     cancelTool: () => onGameplayAction?.('equipmentCancel'),
     setToolEquipped: equipped => { deps.fieldTool?.setEquipped(equipped); app.classList.toggle('non-tool-equipped', !equipped); },
@@ -286,6 +288,16 @@ export function createBetaGame(deps) {
       }
       const rootfallInfo=rootfall.getNearbyInteraction(pos);
       return rootfallInfo&&isVisible(rootfallInfo)?rootfallInfo:companions.getNearbyInteraction(pos);
+    },
+    activateWildkinInteraction(info) {
+      const selected = equipment?.selectedItem?.();
+      const action = resolveWildkinInteractionActivation(info, selected);
+      if (!action) return { ok: false, reason: 'selection-changed' };
+      if (action === 'attack') {
+        onGameplayAction?.('contextualAttack');
+        return { ok: true, action: 'attack' };
+      }
+      return { ok: !!companions.beginBond(info.id), action: 'catch' };
     },
     beginBond: companions.beginBond,
     canUseFieldTool: () => !isSurfaceSwimming(playerController.getState()) && (session.isActive() || isCamp()),

@@ -1,0 +1,267 @@
+{
+  "schema": "trailgloam-hoof-r7-cpu-feasibility-v1",
+  "parameters_sha256": "41d4d2440763bc6e5685daea4ad3aa208ba51add706446651d5a80e310eb418b",
+  "r6_source_hashes": {
+    "parameters.json": "cc4e081fda9efca9792d3e336133e1413360c57b1ac8acfe263a64de35d3b3e0",
+    "cpu-feasibility.py": "667d72d660a8c70b78b8e8f7c7ee6d92e7271563cb8b02c313b6a124421d9d28",
+    "build_probe.py": "18ffc6c31220607742affc03edfad86bd11e36018ca86b5ad4ce51bfd3ab4d01"
+  },
+  "axis": "Blender metres, Z-up; head=-Y; right=+X; sole plane Z=0",
+  "pads": {
+    "LF_hoof_r7": {
+      "vertices": 24,
+      "triangles": 44,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "degenerate_faces": 0,
+      "outward_centroid_dot_min": 6.937789649885274e-05,
+      "finite": true,
+      "bounds": {
+        "min": [
+          -0.9503473111561427,
+          -1.104984358264304,
+          0.0
+        ],
+        "max": [
+          -0.634740177545844,
+          -0.8615121473164644,
+          0.3687622509134196
+        ],
+        "extent": [
+          0.3156071336102987,
+          0.24347221094783955,
+          0.3687622509134196
+        ]
+      }
+    },
+    "LM_hoof_r7": {
+      "vertices": 24,
+      "triangles": 44,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "degenerate_faces": 0,
+      "outward_centroid_dot_min": 8.650945647008135e-05,
+      "finite": true,
+      "bounds": {
+        "min": [
+          -1.0774457959226094,
+          -0.619396220640775,
+          0.0
+        ],
+        "max": [
+          -0.8267997663129798,
+          -0.308560605261957,
+          0.3703958698943802
+        ],
+        "extent": [
+          0.25064602960962956,
+          0.31083561537881804,
+          0.3703958698943802
+        ]
+      }
+    },
+    "LR_hoof_r7": {
+      "vertices": 24,
+      "triangles": 44,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "degenerate_faces": 0,
+      "outward_centroid_dot_min": 6.937789649885185e-05,
+      "finite": true,
+      "bounds": {
+        "min": [
+          -0.9303473111561426,
+          0.7915121473164644,
+          0.0
+        ],
+        "max": [
+          -0.6147401775458439,
+          1.0349843582643037,
+          0.3687622509134196
+        ],
+        "extent": [
+          0.3156071336102987,
+          0.24347221094783933,
+          0.3687622509134196
+        ]
+      }
+    },
+    "RF_hoof_r7": {
+      "vertices": 24,
+      "triangles": 44,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "degenerate_faces": 0,
+      "outward_centroid_dot_min": 6.937789649885228e-05,
+      "finite": true,
+      "bounds": {
+        "min": [
+          0.6347401775458439,
+          -1.104984358264304,
+          0.0
+        ],
+        "max": [
+          0.9503473111561426,
+          -0.8615121473164644,
+          0.3687622509134196
+        ],
+        "extent": [
+          0.3156071336102987,
+          0.24347221094783955,
+          0.3687622509134196
+        ]
+      }
+    },
+    "RM_hoof_r7": {
+      "vertices": 24,
+      "triangles": 44,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "degenerate_faces": 0,
+      "outward_centroid_dot_min": 8.650945647008163e-05,
+      "finite": true,
+      "bounds": {
+        "min": [
+          0.8267997663129798,
+          -0.619396220640775,
+          0.0
+        ],
+        "max": [
+          1.0774457959226094,
+          -0.308560605261957,
+          0.3703958698943802
+        ],
+        "extent": [
+          0.25064602960962956,
+          0.31083561537881804,
+          0.3703958698943802
+        ]
+      }
+    },
+    "RR_hoof_r7": {
+      "vertices": 24,
+      "triangles": 44,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "degenerate_faces": 0,
+      "outward_centroid_dot_min": 6.937789649885228e-05,
+      "finite": true,
+      "bounds": {
+        "min": [
+          0.614740177545844,
+          0.7915121473164645,
+          0.0
+        ],
+        "max": [
+          0.9303473111561427,
+          1.034984358264304,
+          0.3687622509134196
+        ],
+        "extent": [
+          0.3156071336102987,
+          0.24347221094783944,
+          0.3687622509134196
+        ]
+      }
+    }
+  },
+  "replacement_bounds_m": {
+    "min": [
+      -1.0774457959226094,
+      -1.104984358264304,
+      0.0
+    ],
+    "max": [
+      1.0774457959226094,
+      1.034984358264304,
+      0.3703958698943802
+    ],
+    "extent": [
+      2.1548915918452187,
+      2.1399687165286077,
+      0.3703958698943802
+    ]
+  },
+  "contacts": [
+    {
+      "leg": "LF",
+      "full_terminal_cuff_end_ring_inside_closed_socket": {
+        "contained": true,
+        "source_ring_vertex_count": 6,
+        "minimum_radial_clearance_m": 0.032,
+        "minimum_axial_clearance_m": 0.012,
+        "method": "each source cap vertex is centered between same-index expanded socket vertices at plus/minus actual cuff-axis clearance"
+      },
+      "sole_min_z": 0.0,
+      "sole_max_z": 0.0
+    },
+    {
+      "leg": "LM",
+      "full_terminal_cuff_end_ring_inside_closed_socket": {
+        "contained": true,
+        "source_ring_vertex_count": 6,
+        "minimum_radial_clearance_m": 0.032,
+        "minimum_axial_clearance_m": 0.012,
+        "method": "each source cap vertex is centered between same-index expanded socket vertices at plus/minus actual cuff-axis clearance"
+      },
+      "sole_min_z": 0.0,
+      "sole_max_z": 0.0
+    },
+    {
+      "leg": "LR",
+      "full_terminal_cuff_end_ring_inside_closed_socket": {
+        "contained": true,
+        "source_ring_vertex_count": 6,
+        "minimum_radial_clearance_m": 0.032,
+        "minimum_axial_clearance_m": 0.012,
+        "method": "each source cap vertex is centered between same-index expanded socket vertices at plus/minus actual cuff-axis clearance"
+      },
+      "sole_min_z": 0.0,
+      "sole_max_z": 0.0
+    },
+    {
+      "leg": "RF",
+      "full_terminal_cuff_end_ring_inside_closed_socket": {
+        "contained": true,
+        "source_ring_vertex_count": 6,
+        "minimum_radial_clearance_m": 0.032,
+        "minimum_axial_clearance_m": 0.012,
+        "method": "each source cap vertex is centered between same-index expanded socket vertices at plus/minus actual cuff-axis clearance"
+      },
+      "sole_min_z": 0.0,
+      "sole_max_z": 0.0
+    },
+    {
+      "leg": "RM",
+      "full_terminal_cuff_end_ring_inside_closed_socket": {
+        "contained": true,
+        "source_ring_vertex_count": 6,
+        "minimum_radial_clearance_m": 0.032,
+        "minimum_axial_clearance_m": 0.012,
+        "method": "each source cap vertex is centered between same-index expanded socket vertices at plus/minus actual cuff-axis clearance"
+      },
+      "sole_min_z": 0.0,
+      "sole_max_z": 0.0
+    },
+    {
+      "leg": "RR",
+      "full_terminal_cuff_end_ring_inside_closed_socket": {
+        "contained": true,
+        "source_ring_vertex_count": 6,
+        "minimum_radial_clearance_m": 0.032,
+        "minimum_axial_clearance_m": 0.012,
+        "method": "each source cap vertex is centered between same-index expanded socket vertices at plus/minus actual cuff-axis clearance"
+      },
+      "sole_min_z": 0.0,
+      "sole_max_z": 0.0
+    }
+  ],
+  "all_closed_outward": true,
+  "all_cuff_contacts": true,
+  "all_grounded": true,
+  "limits": [
+    "No change to R6 saucer, head, eyes, fronds, legs, cuffs, link points, transforms, or materials.",
+    "No claws, split-toe mechanic, rig, collider, runtime, export, or gameplay work.",
+    "No Blender or GPU execution before independent plan and source review."
+  ]
+}

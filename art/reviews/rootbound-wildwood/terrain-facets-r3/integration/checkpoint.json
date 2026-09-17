@@ -1,0 +1,143 @@
+{
+  "schema": "rootbound-facets-r3-checkpoint-v1",
+  "date": "2026-09-15T00:56:43.760Z",
+  "baseCommit": "ecaf94f",
+  "scope": "One retained Rootbound Lantern-threshold floor treatment; default world only",
+  "bounds": {
+    "x": [
+      -458,
+      -436
+    ],
+    "z": [
+      666,
+      688
+    ]
+  },
+  "chunks": [
+    "-10,13",
+    "-9,13"
+  ],
+  "sourceHashes": [
+    {
+      "Path": "C:\\Users\\cwood\\Documents\\mobile-rpg\\src\\world\\frontierRootbound.js",
+      "Hash": "C098E8F816A38080C0149DD618D90094FE5F0949FE492843F19E942F8397C74E"
+    },
+    {
+      "Path": "C:\\Users\\cwood\\Documents\\mobile-rpg\\src\\world\\frontierRegion.js",
+      "Hash": "C8EBD02A7D9C14A43C8598747A04BF2A25B671A0FE467BCC54FEAE8E411B6FA0"
+    },
+    {
+      "Path": "C:\\Users\\cwood\\Documents\\mobile-rpg\\src\\world\\frontierTerrain.js",
+      "Hash": "D2434265F4A20F711B48FDF4DF01CF64E24DA87F6CC465AC3D7ADAB061562ED4"
+    },
+    {
+      "Path": "C:\\Users\\cwood\\Documents\\mobile-rpg\\src\\world\\frontierChunkRuntime.js",
+      "Hash": "4CDCADBE8D76E07D5CC35DD7EB35F2113B2FC952E2865DB3DA34384054FB3678"
+    },
+    {
+      "Path": "C:\\Users\\cwood\\Documents\\mobile-rpg\\tests\\rootboundCircuit.test.js",
+      "Hash": "7766C699FF88DE4055AE0FBEF36B4F46911F89EF975BB0703DE0AE57D01B7B13"
+    },
+    {
+      "Path": "C:\\Users\\cwood\\Documents\\mobile-rpg\\art\\reviews\\rootbound-wildwood\\terrain-facets-r3\\integration\\evidence.mjs",
+      "Hash": "044BFFDE7A950E341085A44B90F8C13D0BF18322FB61F4CA2C9E0D0A481DB59F"
+    }
+  ],
+  "developer": {
+    "pose": "native-matching-pose.json",
+    "forward": {
+      "file": "native-forward.json",
+      "input": "timed keyboard events through game input",
+      "key": "w",
+      "samples": 22,
+      "seconds": 2.01,
+      "distanceM": 4.5851227401600525,
+      "allGrounded": true,
+      "start": {
+        "x": -449,
+        "y": 9.89130973815918,
+        "z": 675
+      },
+      "end": {
+        "x": -445.5757751464844,
+        "y": 9.754463195800781,
+        "z": 678.0492553710938
+      },
+      "renderFrames": 60
+    },
+    "back": {
+      "file": "native-back.json",
+      "input": "timed keyboard events through game input",
+      "key": "s",
+      "samples": 22,
+      "seconds": 2.0202000000029803,
+      "distanceM": 4.494100636227496,
+      "allGrounded": true,
+      "start": {
+        "x": -445.5341491699219,
+        "y": 9.743803977966309,
+        "z": 678.08642578125
+      },
+      "end": {
+        "x": -448.86767578125,
+        "y": 9.899771690368652,
+        "z": 675.0724487304688
+      },
+      "renderFrames": 55
+    },
+    "settle": {
+      "pos": {
+        "x": -448.9093017578125,
+        "y": 9.895735740661621,
+        "z": 675.0352783203125
+      },
+      "grounded": true,
+      "mode": "IDLE",
+      "verticalVelocity": 0
+    }
+  },
+  "packaged": {
+    "entry": "dist/submission/index.html",
+    "sha256": "e74ced16fa0d8eb60dfe2d74b6d84aacaf5a2e3f9f59fb0567c6460df405864e",
+    "pose": "packaged-pose.json",
+    "matchesDeveloper": true,
+    "forward": {
+      "file": "packaged-forward.json",
+      "input": "timed keyboard events through game input",
+      "key": "w",
+      "samples": 17,
+      "seconds": 2.0068999999910595,
+      "distanceM": 3.427708951829557,
+      "allGrounded": true,
+      "start": {
+        "x": -449,
+        "y": 9.89130973815918,
+        "z": 675
+      },
+      "end": {
+        "x": -446.4391174316406,
+        "y": 9.876635551452637,
+        "z": 677.2783813476562
+      },
+      "renderFrames": 45
+    }
+  },
+  "support": "support-proof.json",
+  "validation": {
+    "npmTest": 1434,
+    "npmVerify": "PASS",
+    "npmZip": "PASS",
+    "zipBytes": 21599407,
+    "zipSHA256": "4f0f9f298d467b9e2446b67be3afc39ca03b30c44db989411170b1df3adb923a"
+  },
+  "limitations": [
+    "Protected Scout timed keyboard event fixture, not physical-phone input or whole-outing/persistence proof",
+    "Pre-existing unlocated MutationObserver errors retained; render and movement continued",
+    "Ground improvement is subtle and localized; larger habitat composition remains unfinished"
+  ],
+  "unrelatedPathsExcluded": [
+    "tests/verdantUplands.test.js",
+    "tools/compose-verdant-cliffs.mjs",
+    "tools/compose-verdant-uplands.mjs"
+  ]
+}

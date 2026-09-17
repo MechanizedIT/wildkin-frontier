@@ -1,0 +1,18 @@
+{"source": "C:\\Users\\cwood\\Tools\\trellis2-stableprojectorz\\code\\models\\hub\\models--microsoft--TRELLIS.2-4B\\snapshots\\af44b45f2e35a493886929c6d786e563ec68364d\\pipeline.json", "sha256": "222c359ab1ed9bc6735a640a34f95d47f8681b9bc4aaa101bfb80274676253c6", "profile": "512-only", "model_keys": ["sparse_structure_decoder", "sparse_structure_flow_model", "shape_slat_decoder", "shape_slat_flow_model_512", "tex_slat_decoder", "tex_slat_flow_model_512"], "excluded_checkpoint_gib": 4.81423656642437, "memory_note": "Checkpoint bytes omitted, not a measured RAM saving. Guarded startup/inference proof required."}
+[SPARSE] Conv backend: flex_gemm; Attention backend: flash_attn
+
+[System Info] Python: 3.11.9   | PyTorch: 2.8.0+cu128 | CUDA: 12.8
+
+
+==================================================
+Trellis2-StableProjectorz API Server is starting up:
+If it's the first time, neural nets will download. Next runs will be faster.
+Touching this window will pause it. If it happens, click inside it and press 'Enter' to unpause
+==================================================
+
+[INIT] flex_gemm EXPLICIT_GEMM patch applied.
+[INIT] flex_gemm Triton fallback patch applied.
+[INIT] Loading Trellis 2 pipeline, please wait...
+[ATTENTION] Using backend: flash_attn
+Please wait...
+[RAM GUARD] Stopping owned TRELLIS process: only 5.80 GiB free.

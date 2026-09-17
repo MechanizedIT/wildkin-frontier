@@ -1,0 +1,7 @@
+Use case: precise-object-edit
+Asset type: portrait mobile gameplay visual target for Shatterfen rotation 1.
+Input image: authoritative native destination gameplay frame. Preserve exact portrait 412x915 framing, actual route-facing camera, player size/pose, and all current HUD and touch controls without alteration.
+Primary request: transform only the sparse wetland environment into the north return hummock: a calm dry raised but shallow irregular hummock beneath and around the player, a narrow shallow dark teal channel cue behind a clearly dry return opening, asymmetric grouped reed and lily patches concentrated at its edges, and a few low rounded mossy stones. The scene must read as dry hummock → channel edge → open return, with one visibly clear central pedestrian corridor.
+Style/medium: matching existing Wildkin Frontier low-poly mobile art, soft daylight; mint-green ground, desaturated teal channel cue, olive reeds, muted purple background caps, sparse rather than uniformly scattered detail.
+Composition/framing: retain player and HUD safe composition. Create a low near-side shoulder and quiet far edge; preserve broad readable negative space through the return opening.
+Constraints: shallow supported wetland terrain only; no deep water, no swimming/wading or water mechanic, no bridge, no building, no new resource or Wildkin, no terrain cliff, no architecture, no dense scatter, no HUD/text/player changes. Target art only; no runtime-fit claim.

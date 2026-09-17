@@ -1,0 +1,77 @@
+{
+  "status": "PROBE_AUDITED_BEFORE_RENDER",
+  "fan_deletion_semantics": {
+    "after_faces_only": {
+      "pivot_valid": true,
+      "pivot_edges": 6,
+      "wire_edges": 6
+    },
+    "after_pivot_delete": {
+      "pivot_valid": false,
+      "remaining_wire_edges": 6
+    }
+  },
+  "mesh": {
+    "vertices": 24,
+    "faces": 20,
+    "components": 1,
+    "non_two_face_edges": 0,
+    "bvh_nonadjacent_overlaps": 0,
+    "aperture": [
+      {
+        "bmesh_index": 12,
+        "coordinate": [
+          0.1599999964237213,
+          0.0,
+          0.3199999928474426
+        ]
+      },
+      {
+        "bmesh_index": 13,
+        "coordinate": [
+          0.07999999821186066,
+          0.1385640650987625,
+          0.3199999928474426
+        ]
+      },
+      {
+        "bmesh_index": 14,
+        "coordinate": [
+          -0.07999999821186066,
+          0.1385640650987625,
+          0.3199999928474426
+        ]
+      },
+      {
+        "bmesh_index": 15,
+        "coordinate": [
+          -0.1599999964237213,
+          1.959434864874595e-17,
+          0.3199999928474426
+        ]
+      },
+      {
+        "bmesh_index": 16,
+        "coordinate": [
+          -0.07999999821186066,
+          -0.1385640650987625,
+          0.3199999928474426
+        ]
+      },
+      {
+        "bmesh_index": 17,
+        "coordinate": [
+          0.07999999821186066,
+          -0.1385640650987625,
+          0.3199999928474426
+        ]
+      }
+    ]
+  },
+  "limits": [
+    "one abstract shell/collar only",
+    "no creature",
+    "no export",
+    "no runtime"
+  ]
+}

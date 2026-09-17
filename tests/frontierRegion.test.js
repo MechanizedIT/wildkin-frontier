@@ -130,7 +130,7 @@ test('the three retained base grammars keep distinct morphology and palettes', (
 });
 
 test('Caldera profile leaves a zero-weight habitat core numerically unchanged', () => {
-  const rootbound = sampleFrontierRegion(-425, 650);
+  const rootbound = sampleFrontierRegion(-425, 650, { disableRootbound: true });
   assert.equal(rootbound.calderaWeight, 0);
   assert.equal(rootbound.calderaFeature, null);
   assert.equal(rootbound.height, 9.955295973644231);

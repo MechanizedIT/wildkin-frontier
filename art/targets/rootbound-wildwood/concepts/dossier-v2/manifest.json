@@ -1,0 +1,100 @@
+{
+  "generatedAt": "2026-09-14T18:50:17.445Z",
+  "tool": "built-in image_gen",
+  "backendModel": "undisclosed",
+  "status": "reviewed provisional scene references; not native-camera acceptance or runtime evidence",
+  "sources": [
+    {
+      "path": "art/reviews/rootbound-wildwood/restart-r2-arrival.png",
+      "bytes": 225799,
+      "sha256": "4ac72639f6fc623635b776dd6afb925767615e04a306868700a749ee0bf56ba9"
+    },
+    {
+      "path": "art/reviews/rootbound-wildwood/restart-r2-gallery.png",
+      "bytes": 228006,
+      "sha256": "1e7805b08b9ceb6bd89a1f84ab6333ac3b1029c61fc56fd8ac98fdd4bd01a351"
+    },
+    {
+      "path": "art/reviews/rootbound-wildwood/restart-r2-destination.png",
+      "bytes": 221450,
+      "sha256": "0fbe1c4b97011f1a820a1ba4dde9f00b49836765f50e0f33515fe56ea79aacb0"
+    },
+    {
+      "path": "art/targets/rootbound-wildwood/concepts/selected.png",
+      "bytes": 1740152,
+      "sha256": "a777ef424e0189c98a7c4cfa77968e12fb7547fbeb63a83a9944bfe99d7a3454"
+    },
+    {
+      "path": "art/targets/rootbound-wildwood/layout-target-v2.svg",
+      "bytes": 11906,
+      "sha256": "d73f5fe4a080dee27ec0f7d23e210d9d46ff72c6535d53dec131c2997fefe570"
+    },
+    {
+      "path": "art/targets/rootbound-wildwood/composition-target-v2.svg",
+      "bytes": 8430,
+      "sha256": "c1087a1f446dd758da60ac44accfb40f5989c5c23279b4b1573440a5ecfb3075"
+    }
+  ],
+  "files": [
+    {
+      "path": "art/targets/rootbound-wildwood/concepts/dossier-v2/heartroot-crown-v1-prompt.md",
+      "bytes": 2005,
+      "sha256": "b4c5d52bec219369eb5bff9d58833d12e50ad16db485e45946c8ece54a9cbb71"
+    },
+    {
+      "path": "art/targets/rootbound-wildwood/concepts/dossier-v2/heartroot-crown-v1.png",
+      "bytes": 1957297,
+      "sha256": "cec9211b2ca249d62295a79420734215f8af466b417f1b3f2b3cf9e8edd30b2f"
+    },
+    {
+      "path": "art/targets/rootbound-wildwood/concepts/dossier-v2/lantern-grove-v1-prompt.md",
+      "bytes": 1897,
+      "sha256": "c8189e1158e0d18f957ddeade13c848b147b56d7ce6a4608582a52e40d20fcc0"
+    },
+    {
+      "path": "art/targets/rootbound-wildwood/concepts/dossier-v2/lantern-grove-v1.png",
+      "bytes": 1793694,
+      "sha256": "11d486f0787acad10a241088ca439de82bfdcd984a2b6572df45bf76b862fca7"
+    },
+    {
+      "path": "art/targets/rootbound-wildwood/concepts/dossier-v2/orientation-meadow-v1-prompt.md",
+      "bytes": 1929,
+      "sha256": "255a625dbc51f2777270f05702400c49463930f468c869458068e5ff7738e8ac"
+    },
+    {
+      "path": "art/targets/rootbound-wildwood/concepts/dossier-v2/orientation-meadow-v1.png",
+      "bytes": 1908839,
+      "sha256": "b92f611905d930d8f68c73c8a71b8b4eee2e94b2e50dfdb19b298c9583eb9709"
+    },
+    {
+      "path": "art/targets/rootbound-wildwood/concepts/dossier-v2/root-galleries-v1-prompt.md",
+      "bytes": 2105,
+      "sha256": "6b10874de0288ee3b1a51ac5b860b041dbd9e78e6f36011ff3818f859a5e2337"
+    },
+    {
+      "path": "art/targets/rootbound-wildwood/concepts/dossier-v2/root-galleries-v1.png",
+      "bytes": 1795848,
+      "sha256": "07b2a4d797528ec819ad976d78587cc4cffc752c23464a85b2d22e96fc7e2195"
+    },
+    {
+      "path": "art/targets/rootbound-wildwood/concepts/dossier-v2/thornstone-verge-v1-prompt.md",
+      "bytes": 1891,
+      "sha256": "f9b1a593022dc5b52921dc6b3e8f162be6c06072d7a88764fd8d076299264d97"
+    },
+    {
+      "path": "art/targets/rootbound-wildwood/concepts/dossier-v2/thornstone-verge-v1.png",
+      "bytes": 1917370,
+      "sha256": "94a95892193d93e0dbce88fe256c4d49d25c34ef332da943e906266358e5f608"
+    },
+    {
+      "path": "art/targets/rootbound-wildwood/concepts/dossier-v2/whole-map-v1-prompt.md",
+      "bytes": 2895,
+      "sha256": "452b3fc6d01626989bc83cccb35dd6e593612946563885a417ef78b0adacbcde"
+    },
+    {
+      "path": "art/targets/rootbound-wildwood/concepts/dossier-v2/whole-map-v1.png",
+      "bytes": 2924244,
+      "sha256": "888d5f2c8e265d7affe3ba9da059c283696daeb34b3a07abb8eae63fa59eb742"
+    }
+  ]
+}

@@ -1,0 +1,378 @@
+{
+  "note": "Actual game createVisualAssetVisual and world.js generated recipes compared with reviewed modeling source. Serialization rounds vertices/pivots to4decimals; world coordinate tolerance0.000101m. All indices/material flags exact. No runtime factory changes.",
+  "preserved": {
+    "otherTopLevel": true,
+    "assetOrder": true,
+    "otherAssets": true,
+    "selectedMetadata": true
+  },
+  "invalid": [
+    {
+      "args": [
+        "--asset",
+        "missing-id"
+      ],
+      "rejected": true,
+      "worldUnchanged": true
+    },
+    {
+      "args": [
+        "--asset"
+      ],
+      "rejected": true,
+      "worldUnchanged": true
+    },
+    {
+      "args": [
+        "--asset",
+        "asset_wildkin_emberhorn",
+        "--asset",
+        "asset_wildkin_emberhorn"
+      ],
+      "rejected": true,
+      "worldUnchanged": true
+    },
+    {
+      "args": [
+        "--asset",
+        "asset_wildkin_mossling"
+      ],
+      "rejected": true,
+      "worldUnchanged": true
+    }
+  ],
+  "results": [
+    {
+      "id": "asset_thornprowler",
+      "parts": [
+        {
+          "index": 0,
+          "name": "crouched_predator_torso",
+          "vertices": 28,
+          "triangles": 52,
+          "maxError": 0.000042125582695007324,
+          "exactIndices": true,
+          "material": {
+            "color": true,
+            "flatShading": true,
+            "side": true,
+            "roughness": true
+          }
+        },
+        {
+          "index": 1,
+          "name": "low_brow_head",
+          "vertices": 24,
+          "triangles": 44,
+          "maxError": 0.000026881694793701172,
+          "exactIndices": true,
+          "material": {
+            "color": true,
+            "flatShading": true,
+            "side": true,
+            "roughness": true
+          }
+        },
+        {
+          "index": 2,
+          "name": "angular_jaw",
+          "vertices": 10,
+          "triangles": 16,
+          "maxError": 0.000035919249057769775,
+          "exactIndices": true,
+          "material": {
+            "color": true,
+            "flatShading": true,
+            "side": true,
+            "roughness": true
+          }
+        },
+        {
+          "index": 3,
+          "name": "articulated_leg",
+          "vertices": 32,
+          "triangles": 60,
+          "maxError": 0.00004971027374267578,
+          "exactIndices": true,
+          "material": {
+            "color": true,
+            "flatShading": true,
+            "side": true,
+            "roughness": true
+          }
+        },
+        {
+          "index": 4,
+          "name": "clawed_paw",
+          "vertices": 108,
+          "triangles": 36,
+          "maxError": 0.000043551623821302954,
+          "exactIndices": true,
+          "material": {
+            "color": true,
+            "flatShading": true,
+            "side": true,
+            "roughness": true
+          }
+        },
+        {
+          "index": 5,
+          "name": "articulated_leg",
+          "vertices": 32,
+          "triangles": 60,
+          "maxError": 0.00004971027374267578,
+          "exactIndices": true,
+          "material": {
+            "color": true,
+            "flatShading": true,
+            "side": true,
+            "roughness": true
+          }
+        },
+        {
+          "index": 6,
+          "name": "clawed_paw",
+          "vertices": 108,
+          "triangles": 36,
+          "maxError": 0.000043551623821302954,
+          "exactIndices": true,
+          "material": {
+            "color": true,
+            "flatShading": true,
+            "side": true,
+            "roughness": true
+          }
+        },
+        {
+          "index": 7,
+          "name": "articulated_leg",
+          "vertices": 32,
+          "triangles": 60,
+          "maxError": 0.00004971027374267578,
+          "exactIndices": true,
+          "material": {
+            "color": true,
+            "flatShading": true,
+            "side": true,
+            "roughness": true
+          }
+        },
+        {
+          "index": 8,
+          "name": "clawed_paw",
+          "vertices": 108,
+          "triangles": 36,
+          "maxError": 0.00004355162382124744,
+          "exactIndices": true,
+          "material": {
+            "color": true,
+            "flatShading": true,
+            "side": true,
+            "roughness": true
+          }
+        },
+        {
+          "index": 9,
+          "name": "articulated_leg",
+          "vertices": 32,
+          "triangles": 60,
+          "maxError": 0.00004971027374267578,
+          "exactIndices": true,
+          "material": {
+            "color": true,
+            "flatShading": true,
+            "side": true,
+            "roughness": true
+          }
+        },
+        {
+          "index": 10,
+          "name": "clawed_paw",
+          "vertices": 108,
+          "triangles": 36,
+          "maxError": 0.00004355162382124744,
+          "exactIndices": true,
+          "material": {
+            "color": true,
+            "flatShading": true,
+            "side": true,
+            "roughness": true
+          }
+        },
+        {
+          "index": 11,
+          "name": "inset_almond_eye",
+          "vertices": 8,
+          "triangles": 6,
+          "maxError": 0.000005241930484789492,
+          "exactIndices": true,
+          "material": {
+            "color": true,
+            "flatShading": true,
+            "side": true,
+            "roughness": true
+          }
+        },
+        {
+          "index": 12,
+          "name": "eye_glint",
+          "vertices": 8,
+          "triangles": 6,
+          "maxError": 0.000024355947971343994,
+          "exactIndices": true,
+          "material": {
+            "color": true,
+            "flatShading": true,
+            "side": true,
+            "roughness": true
+          }
+        },
+        {
+          "index": 13,
+          "name": "inset_almond_eye",
+          "vertices": 8,
+          "triangles": 6,
+          "maxError": 0.000005241930484789492,
+          "exactIndices": true,
+          "material": {
+            "color": true,
+            "flatShading": true,
+            "side": true,
+            "roughness": true
+          }
+        },
+        {
+          "index": 14,
+          "name": "eye_glint",
+          "vertices": 8,
+          "triangles": 6,
+          "maxError": 0.000024355947971343994,
+          "exactIndices": true,
+          "material": {
+            "color": true,
+            "flatShading": true,
+            "side": true,
+            "roughness": true
+          }
+        },
+        {
+          "index": 15,
+          "name": "staggered_dorsal_thorn",
+          "vertices": 7,
+          "triangles": 10,
+          "maxError": 0.0000286102294921875,
+          "exactIndices": true,
+          "material": {
+            "color": true,
+            "flatShading": true,
+            "side": true,
+            "roughness": true
+          }
+        },
+        {
+          "index": 16,
+          "name": "staggered_dorsal_thorn",
+          "vertices": 7,
+          "triangles": 10,
+          "maxError": 0.00003147125244140625,
+          "exactIndices": true,
+          "material": {
+            "color": true,
+            "flatShading": true,
+            "side": true,
+            "roughness": true
+          }
+        },
+        {
+          "index": 17,
+          "name": "staggered_dorsal_thorn",
+          "vertices": 7,
+          "triangles": 10,
+          "maxError": 0.00003445148468017578,
+          "exactIndices": true,
+          "material": {
+            "color": true,
+            "flatShading": true,
+            "side": true,
+            "roughness": true
+          }
+        },
+        {
+          "index": 18,
+          "name": "staggered_dorsal_thorn",
+          "vertices": 7,
+          "triangles": 10,
+          "maxError": 0.00004976987838745117,
+          "exactIndices": true,
+          "material": {
+            "color": true,
+            "flatShading": true,
+            "side": true,
+            "roughness": true
+          }
+        },
+        {
+          "index": 19,
+          "name": "staggered_dorsal_thorn",
+          "vertices": 7,
+          "triangles": 10,
+          "maxError": 0.000019311904907226562,
+          "exactIndices": true,
+          "material": {
+            "color": true,
+            "flatShading": true,
+            "side": true,
+            "roughness": true
+          }
+        },
+        {
+          "index": 20,
+          "name": "staggered_dorsal_thorn",
+          "vertices": 7,
+          "triangles": 10,
+          "maxError": 0.00004124641418457031,
+          "exactIndices": true,
+          "material": {
+            "color": true,
+            "flatShading": true,
+            "side": true,
+            "roughness": true
+          }
+        },
+        {
+          "index": 21,
+          "name": "staggered_dorsal_thorn",
+          "vertices": 7,
+          "triangles": 10,
+          "maxError": 0.00002002716064453125,
+          "exactIndices": true,
+          "material": {
+            "color": true,
+            "flatShading": true,
+            "side": true,
+            "roughness": true
+          }
+        },
+        {
+          "index": 22,
+          "name": "sweeping_tail",
+          "vertices": 114,
+          "triangles": 180,
+          "maxError": 0.00004932284355163574,
+          "exactIndices": true,
+          "material": {
+            "color": true,
+            "flatShading": true,
+            "side": true,
+            "roughness": true
+          }
+        }
+      ],
+      "triangles": 770,
+      "meshes": 23
+    }
+  ],
+  "worldSha256": "a797ec7a593f69b5f400ee730b4ec2edc02e37d4acc67aab09c45c66bac9f796",
+  "kitSha256": "b1b34688b902baf7bb502ec9c6e190126bad14ac9dddec081a85dfb0b301ac70",
+  "pass": true
+}

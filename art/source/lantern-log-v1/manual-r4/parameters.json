@@ -1,0 +1,171 @@
+{
+  "schema": "lantern-log-manual-r4-proposed",
+  "r3_parameters_sha256": "7d04105d455170836a2d3056f654f03a4603b58af6ad818114852e452c06e7e3",
+  "repair_plan_sha256": "ea67844829f66aa54d73561cf0fc56dd1b1e8db80232cf754a0bfdd1f9a80e81",
+  "body": {
+    "original_angles_deg": [
+      0,
+      30,
+      60,
+      90,
+      120,
+      150,
+      180,
+      210,
+      240,
+      270,
+      300,
+      330
+    ],
+    "extra_angles_deg": [
+      165,
+      175,
+      185,
+      215,
+      225,
+      235,
+      290,
+      300,
+      310,
+      335,
+      345,
+      355
+    ],
+    "grooves": [
+      {
+        "angles": [
+          165,
+          175,
+          185
+        ],
+        "valley_deg": 175,
+        "depth_m": 0.025
+      },
+      {
+        "angles": [
+          215,
+          225,
+          235
+        ],
+        "valley_deg": 225,
+        "depth_m": 0.03
+      },
+      {
+        "angles": [
+          290,
+          300,
+          310
+        ],
+        "valley_deg": 300,
+        "depth_m": 0.025
+      },
+      {
+        "angles": [
+          335,
+          345,
+          355
+        ],
+        "valley_deg": 345,
+        "depth_m": 0.018
+      }
+    ],
+    "longitudinal_weights": [
+      0,
+      0.65,
+      1,
+      0.6,
+      0
+    ],
+    "lower_belly_factors": [
+      1.06,
+      1.0,
+      1.12,
+      0.96,
+      0.84
+    ],
+    "lower_belly_shift_y_m": [
+      -0.005,
+      0,
+      -0.025,
+      0.01,
+      0.005
+    ],
+    "near_outer_x_offsets_m": [
+      -0.045,
+      0.025,
+      -0.075,
+      -0.14,
+      -0.055,
+      0.012,
+      -0.105,
+      -0.02,
+      -0.145,
+      -0.03,
+      -0.095,
+      0.02
+    ],
+    "near_inner_radial_factors": [
+      1.02,
+      0.94,
+      1.0,
+      0.96,
+      1.03,
+      0.93,
+      1.0,
+      0.95,
+      1.02,
+      1.0,
+      0.96,
+      1.01
+    ],
+    "far_outer_x_offsets_m": [
+      0.03,
+      -0.025,
+      0.05,
+      0.08,
+      -0.035,
+      0.025,
+      -0.04,
+      0.015,
+      -0.03,
+      0.01,
+      0.045,
+      -0.02
+    ],
+    "far_upper_z_raise_m": {
+      "60": 0.035,
+      "90": 0.11,
+      "120": 0.02
+    }
+  },
+  "comparison": {
+    "views": [
+      "front-near-end",
+      "opposite-end",
+      "near-side",
+      "far-side",
+      "top",
+      "underside",
+      "principal-threequarter"
+    ],
+    "sizes": [
+      512,
+      96,
+      48
+    ],
+    "minimum_margin_fraction": 0.05,
+    "r3_blend": "art/source/lantern-log-v1/manual-r3/candidate-r3/lantern-log-manual-r3.blend"
+  },
+  "palette": {
+    "source_space": "sRGB hex from r3 parameters",
+    "r4_shader_space": "linear conversion per IEC 61966-2-1",
+    "roughness": 1,
+    "metallic": 0
+  },
+  "retention": {
+    "mushroom_stems": 6,
+    "mushroom_caps": 6,
+    "moss_patches": 3,
+    "r3_bark_strips_removed": 6
+  }
+}

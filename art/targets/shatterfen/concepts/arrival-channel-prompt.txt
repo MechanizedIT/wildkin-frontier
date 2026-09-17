@@ -1,0 +1,7 @@
+Use case: precise-object-edit
+Asset type: portrait mobile gameplay visual target for Shatterfen rotation 1.
+Input image: the authoritative native arrival gameplay frame. Preserve the exact portrait 412x915 mobile framing, camera/player scale, player character, and all current HUD and control layout. Preserve the actual route-facing camera composition.
+Primary request: transform only the sparse wetland environment into a clear shallow Shatterfen arrival room: a dry low hummock under the player, a shallow dark teal-green channel cue set beyond the safe open lane, one grouped reed cluster and one small lily cluster at the channel edge, with a few low mossy stone fragments. Make a dry open central path and a clear forward opening toward the east reach. Use low-poly mobile game quality, shallow supported terrain only.
+Style/medium: existing Wildkin Frontier low-poly, soft daylight, mint-green wetland palette with teal water-dark accents, olive reeds, muted purple caps only in background.
+Composition/framing: preserve player and HUD safe composition; use an asymmetric low left bank and a quieter right edge to frame the channel. Maintain useful negative space in the central travel lane.
+Constraints: no new water mechanic, no deep water, no bridge, no building, no new resource, no changed Wildkin, no new UI, no text changes, no player/HUD replacement, no dense scatter, no tall cliffs, no fantasy architecture. This is a target image, not a runtime-fit claim.

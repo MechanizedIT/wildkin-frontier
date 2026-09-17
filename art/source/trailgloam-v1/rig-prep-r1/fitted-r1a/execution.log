@@ -1,0 +1,29 @@
+BlenderMCP: cannot start server in background mode (blender -b) - commands would never execute
+BlenderMCP: run Blender with a GUI, or use a virtual display: xvfb-run -a blender
+BlenderMCP addon registered
+BlenderMCP server stopped
+BlenderMCP addon unregistered
+19:48:37 | INFO: Data are loaded, start creating Blender stuff
+19:48:37 | INFO: Blender create Mesh node geometry_0
+19:48:37 | INFO: glTF import finished in 0.14s
+Info: Saved as "trailgloam-fitted.blend"
+INFO Draco mesh compression is available, use library at C:\Program Files\Blender Foundation\Blender 4.5\4.5\scripts\addons_core\io_scene_gltf2\extern_draco.dll
+19:48:43 | INFO: Starting glTF 2.0 export
+19:48:43 | INFO: Extracting primitive: geometry_0
+19:48:44 | WARNING: More than one shader node tex image used for a texture. The resulting glTF sampler will behave like the first shader node tex image.
+19:48:44 | INFO: Primitives created: 1
+19:48:44 | INFO: Finished glTF 2.0 export in 0.9438889026641846 s
+
+19:48:44 | INFO: Data are loaded, start creating Blender stuff
+19:48:44 | INFO: Blender create Mesh node geometry_0
+19:48:45 | INFO: glTF import finished in 0.39s
+Blender 4.5.3 LTS (hash 67807e1800cc built 2025-09-09 01:33:33)
+Traceback (most recent call last):
+  File "C:\Users\cwood\Documents\mobile-rpg\art\source\trailgloam-v1\rig-prep-r1\build_fitted_diagnostic.py", line 171, in <module>
+    assert len(mesh.data.vertices)==expected_vertices
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError
+
+Error: script failed, file: 'art/source/trailgloam-v1/rig-prep-r1/build_fitted_diagnostic.py', exiting.
+
+Blender quit

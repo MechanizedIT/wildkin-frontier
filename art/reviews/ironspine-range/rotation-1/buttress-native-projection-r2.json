@@ -1,0 +1,52 @@
+{
+  "note": "Actual camera, complete mesh and convex hull projection of diagnostic models without physics or resident lifecycle. Central window y160..640 approximate HUD safety; not occlusion/collision proof.",
+  "views": [
+    {
+      "pose": {
+        "name": "arrival",
+        "x": -2080,
+        "z": -3160,
+        "yaw": -2.783
+      },
+      "camera": [
+        -2083.2910549614385,
+        17.023033608920898,
+        -3168.780900818081
+      ],
+      "direction": [
+        0.28392997812580834,
+        -0.5877852522924952,
+        0.7575567732579029
+      ],
+      "probes": [
+        {
+          "name": "gully-left",
+          "asset": "asset_verdant_cliff_buttress",
+          "x": -2077,
+          "z": -3157,
+          "yaw": 0,
+          "scale": 0.65,
+          "baseY": 9.0255,
+          "mesh": {
+            "minX": 31.58579277825459,
+            "minY": 233.14463946845277,
+            "maxX": 165.14568147386146,
+            "maxY": 400.44013906667846,
+            "central": 1160,
+            "front": 1160,
+            "total": 1160
+          },
+          "hull": {
+            "minX": 25.259376394944873,
+            "minY": 225.69529093323746,
+            "maxX": 171.1927187976128,
+            "maxY": 405.6475247024376,
+            "central": 19,
+            "front": 19,
+            "total": 19
+          }
+        }
+      ]
+    }
+  ]
+}

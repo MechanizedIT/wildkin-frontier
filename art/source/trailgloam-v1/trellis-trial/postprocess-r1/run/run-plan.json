@@ -1,0 +1,28 @@
+{
+  "archive": "C:\\Users\\cwood\\Documents\\mobile-rpg\\.dream-loop\\trailgloam-trellis\\geometry-ply-v1-run",
+  "archive_pins": {
+    "events.json": "f33b61ed5f631e28c3f38c6f1f2b00c327f7a7d9f734d7e7403d09e7dcfc2eef",
+    "plan.json": "de37c5ee50b2d93d9069c469d280cb44e179778e92c429d32de7264101f86b77",
+    "rng-after-shape.pt": "d1ab7479e18f557e504bd55ccb9bd0c3be917f5033e00adb9fb5a692828f1620",
+    "rng-after-sparse.pt": "510f638d8c17eacc94e8e5f38c2cd483d9bc3f4cefa92a420755050aea4c2fcb"
+  },
+  "decimation_target": 60000,
+  "decode_host_entry_gib": 13.299913866445422,
+  "decoded_faces": 1804432,
+  "decoded_vertices": 889679,
+  "executed_runner_sha256": "62a0a119267a8c17a48daf51f5894302adce856851d1c89883a700a02d07fbfa",
+  "face_cap": 1900000,
+  "input_sha256": "417daef7277d21dd3c5f53abc92fe4e63f11f575cf04a7e9cca7bae3d2afc2ff",
+  "mode": "trailgloam-postprocess-v1",
+  "plan_sha256": "9fa8f42aee808a81216c5ae0b7fd324e5744ca1c56f59bc08b1976ce66532f5d",
+  "post_host_entry_gib": 8.0,
+  "post_vram_entry_gib": 6.0,
+  "post_vram_phase_gib": 1.0,
+  "private_output": "C:\\Users\\cwood\\Documents\\mobile-rpg\\.dream-loop\\trailgloam-trellis\\postprocess-r1",
+  "profile": "trailgloam-postprocess-v1",
+  "public_output": "C:\\Users\\cwood\\Documents\\mobile-rpg\\art\\source\\trailgloam-v1\\trellis-trial\\postprocess-r1\\run",
+  "raw_master_sha256": "38b6173aa7a38f8c407f9c2a700016608504e2c949fe513323703afad595cb3f",
+  "reserve_gib": 6.0,
+  "schema": "trailgloam-postprocess-run-plan-v1",
+  "texture_size": 1024
+}

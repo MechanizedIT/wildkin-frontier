@@ -1,0 +1,361 @@
+{
+  "note": "Actual bundled portable worldRegistry records equal the focused baked source records. Existing creature factory constructs all three reviewed models from those actual packaged records; isolated nonshipping fixtures only. Full vertex/material parity is separately proven on developer factory.",
+  "result": [
+    {
+      "id": "asset_wildkin_emberhorn",
+      "mesh": [
+        {
+          "vertices": 28,
+          "triangles": 52
+        },
+        {
+          "vertices": 28,
+          "triangles": 52
+        },
+        {
+          "vertices": 18,
+          "triangles": 32
+        },
+        {
+          "vertices": 24,
+          "triangles": 44
+        },
+        {
+          "vertices": 24,
+          "triangles": 44
+        },
+        {
+          "vertices": 24,
+          "triangles": 44
+        },
+        {
+          "vertices": 24,
+          "triangles": 44
+        },
+        {
+          "vertices": 108,
+          "triangles": 36
+        },
+        {
+          "vertices": 108,
+          "triangles": 36
+        },
+        {
+          "vertices": 108,
+          "triangles": 36
+        },
+        {
+          "vertices": 108,
+          "triangles": 36
+        },
+        {
+          "vertices": 8,
+          "triangles": 6
+        },
+        {
+          "vertices": 8,
+          "triangles": 6
+        },
+        {
+          "vertices": 8,
+          "triangles": 6
+        },
+        {
+          "vertices": 8,
+          "triangles": 6
+        },
+        {
+          "vertices": 133,
+          "triangles": 216
+        },
+        {
+          "vertices": 133,
+          "triangles": 216
+        },
+        {
+          "vertices": 15,
+          "triangles": 26
+        },
+        {
+          "vertices": 15,
+          "triangles": 26
+        },
+        {
+          "vertices": 15,
+          "triangles": 26
+        },
+        {
+          "vertices": 15,
+          "triangles": 26
+        },
+        {
+          "vertices": 15,
+          "triangles": 26
+        },
+        {
+          "vertices": 15,
+          "triangles": 26
+        },
+        {
+          "vertices": 15,
+          "triangles": 26
+        },
+        {
+          "vertices": 15,
+          "triangles": 26
+        },
+        {
+          "vertices": 15,
+          "triangles": 26
+        },
+        {
+          "vertices": 15,
+          "triangles": 26
+        },
+        {
+          "vertices": 15,
+          "triangles": 26
+        },
+        {
+          "vertices": 15,
+          "triangles": 26
+        },
+        {
+          "vertices": 15,
+          "triangles": 26
+        },
+        {
+          "vertices": 15,
+          "triangles": 26
+        },
+        {
+          "vertices": 15,
+          "triangles": 26
+        }
+      ],
+      "triangles": 1302,
+      "sourceRecipeExact": true
+    },
+    {
+      "id": "asset_cinderjaw",
+      "mesh": [
+        {
+          "vertices": 28,
+          "triangles": 52
+        },
+        {
+          "vertices": 24,
+          "triangles": 44
+        },
+        {
+          "vertices": 10,
+          "triangles": 16
+        },
+        {
+          "vertices": 32,
+          "triangles": 60
+        },
+        {
+          "vertices": 108,
+          "triangles": 36
+        },
+        {
+          "vertices": 32,
+          "triangles": 60
+        },
+        {
+          "vertices": 108,
+          "triangles": 36
+        },
+        {
+          "vertices": 32,
+          "triangles": 60
+        },
+        {
+          "vertices": 108,
+          "triangles": 36
+        },
+        {
+          "vertices": 32,
+          "triangles": 60
+        },
+        {
+          "vertices": 108,
+          "triangles": 36
+        },
+        {
+          "vertices": 8,
+          "triangles": 6
+        },
+        {
+          "vertices": 8,
+          "triangles": 6
+        },
+        {
+          "vertices": 8,
+          "triangles": 6
+        },
+        {
+          "vertices": 8,
+          "triangles": 6
+        },
+        {
+          "vertices": 10,
+          "triangles": 16
+        },
+        {
+          "vertices": 10,
+          "triangles": 16
+        },
+        {
+          "vertices": 10,
+          "triangles": 16
+        },
+        {
+          "vertices": 10,
+          "triangles": 16
+        },
+        {
+          "vertices": 10,
+          "triangles": 16
+        },
+        {
+          "vertices": 10,
+          "triangles": 16
+        },
+        {
+          "vertices": 10,
+          "triangles": 16
+        },
+        {
+          "vertices": 10,
+          "triangles": 16
+        },
+        {
+          "vertices": 10,
+          "triangles": 16
+        },
+        {
+          "vertices": 10,
+          "triangles": 16
+        },
+        {
+          "vertices": 10,
+          "triangles": 16
+        },
+        {
+          "vertices": 10,
+          "triangles": 16
+        },
+        {
+          "vertices": 133,
+          "triangles": 216
+        }
+      ],
+      "triangles": 928,
+      "sourceRecipeExact": true
+    },
+    {
+      "id": "asset_thornprowler",
+      "mesh": [
+        {
+          "vertices": 28,
+          "triangles": 52
+        },
+        {
+          "vertices": 24,
+          "triangles": 44
+        },
+        {
+          "vertices": 10,
+          "triangles": 16
+        },
+        {
+          "vertices": 32,
+          "triangles": 60
+        },
+        {
+          "vertices": 108,
+          "triangles": 36
+        },
+        {
+          "vertices": 32,
+          "triangles": 60
+        },
+        {
+          "vertices": 108,
+          "triangles": 36
+        },
+        {
+          "vertices": 32,
+          "triangles": 60
+        },
+        {
+          "vertices": 108,
+          "triangles": 36
+        },
+        {
+          "vertices": 32,
+          "triangles": 60
+        },
+        {
+          "vertices": 108,
+          "triangles": 36
+        },
+        {
+          "vertices": 8,
+          "triangles": 6
+        },
+        {
+          "vertices": 8,
+          "triangles": 6
+        },
+        {
+          "vertices": 8,
+          "triangles": 6
+        },
+        {
+          "vertices": 8,
+          "triangles": 6
+        },
+        {
+          "vertices": 7,
+          "triangles": 10
+        },
+        {
+          "vertices": 7,
+          "triangles": 10
+        },
+        {
+          "vertices": 7,
+          "triangles": 10
+        },
+        {
+          "vertices": 7,
+          "triangles": 10
+        },
+        {
+          "vertices": 7,
+          "triangles": 10
+        },
+        {
+          "vertices": 7,
+          "triangles": 10
+        },
+        {
+          "vertices": 7,
+          "triangles": 10
+        },
+        {
+          "vertices": 114,
+          "triangles": 180
+        }
+      ],
+      "triangles": 770,
+      "sourceRecipeExact": true
+    }
+  ],
+  "errors": [],
+  "external": [],
+  "pass": true
+}

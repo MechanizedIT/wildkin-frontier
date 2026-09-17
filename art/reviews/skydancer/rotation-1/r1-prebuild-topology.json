@@ -1,0 +1,150 @@
+{
+  "planSha256": "f0f7f43b6444abd8a0f51af5ac5f9049ae3a659b4db63d512781b9cf76902ee0",
+  "note": "Literal approved triangles, directed-edge and nonzero volume audit before source emission. Uniform whole-shell reversal implements the approved outward-winding requirement without geometry changes.",
+  "audit": [
+    {
+      "name": "right_folded_wing",
+      "vertices": 32,
+      "triangles": 60,
+      "originalVolume": -0.05129126540000003,
+      "badEdges": 0,
+      "globalWindingReversed": true
+    },
+    {
+      "name": "right_upper_cover_plate",
+      "vertices": 8,
+      "triangles": 12,
+      "originalVolume": 0.0008213333333333289,
+      "badEdges": 0,
+      "globalWindingReversed": false
+    },
+    {
+      "name": "right_mid_cover_plate",
+      "vertices": 8,
+      "triangles": 12,
+      "originalVolume": 0.0022145000000000094,
+      "badEdges": 0,
+      "globalWindingReversed": false
+    },
+    {
+      "name": "right_lower_cover_plate",
+      "vertices": 8,
+      "triangles": 12,
+      "originalVolume": 0.0011069999999999897,
+      "badEdges": 0,
+      "globalWindingReversed": false
+    },
+    {
+      "name": "right_bent_avian_leg",
+      "vertices": 34,
+      "triangles": 64,
+      "originalVolume": 0.008870372200000011,
+      "badEdges": 0,
+      "globalWindingReversed": false
+    },
+    {
+      "name": "right_talon_foot",
+      "vertices": 8,
+      "triangles": 12,
+      "originalVolume": -0.0041135,
+      "badEdges": 0,
+      "globalWindingReversed": true
+    },
+    {
+      "name": "right_toe_1",
+      "vertices": 8,
+      "triangles": 12,
+      "originalVolume": 0.0003563499999999999,
+      "badEdges": 0,
+      "globalWindingReversed": false
+    },
+    {
+      "name": "right_toe_2",
+      "vertices": 8,
+      "triangles": 12,
+      "originalVolume": 0.00035635000000000007,
+      "badEdges": 0,
+      "globalWindingReversed": false
+    },
+    {
+      "name": "right_toe_3",
+      "vertices": 8,
+      "triangles": 12,
+      "originalVolume": 0.0003563500000000002,
+      "badEdges": 0,
+      "globalWindingReversed": false
+    },
+    {
+      "name": "left_folded_wing",
+      "vertices": 32,
+      "triangles": 60,
+      "originalVolume": 0.05129126540000003,
+      "badEdges": 0,
+      "globalWindingReversed": false
+    },
+    {
+      "name": "left_upper_cover_plate",
+      "vertices": 8,
+      "triangles": 12,
+      "originalVolume": -0.0008213333333333289,
+      "badEdges": 0,
+      "globalWindingReversed": true
+    },
+    {
+      "name": "left_mid_cover_plate",
+      "vertices": 8,
+      "triangles": 12,
+      "originalVolume": -0.0022145000000000094,
+      "badEdges": 0,
+      "globalWindingReversed": true
+    },
+    {
+      "name": "left_lower_cover_plate",
+      "vertices": 8,
+      "triangles": 12,
+      "originalVolume": -0.0011069999999999897,
+      "badEdges": 0,
+      "globalWindingReversed": true
+    },
+    {
+      "name": "left_bent_avian_leg",
+      "vertices": 34,
+      "triangles": 64,
+      "originalVolume": -0.008870372200000011,
+      "badEdges": 0,
+      "globalWindingReversed": true
+    },
+    {
+      "name": "left_talon_foot",
+      "vertices": 8,
+      "triangles": 12,
+      "originalVolume": 0.0041135,
+      "badEdges": 0,
+      "globalWindingReversed": false
+    },
+    {
+      "name": "left_toe_1",
+      "vertices": 8,
+      "triangles": 12,
+      "originalVolume": -0.0003563499999999999,
+      "badEdges": 0,
+      "globalWindingReversed": true
+    },
+    {
+      "name": "left_toe_2",
+      "vertices": 8,
+      "triangles": 12,
+      "originalVolume": -0.00035635000000000007,
+      "badEdges": 0,
+      "globalWindingReversed": true
+    },
+    {
+      "name": "left_toe_3",
+      "vertices": 8,
+      "triangles": 12,
+      "originalVolume": -0.0003563500000000002,
+      "badEdges": 0,
+      "globalWindingReversed": true
+    }
+  ]
+}

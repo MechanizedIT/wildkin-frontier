@@ -1,0 +1,90 @@
+{
+  "status": "Proposed final route; not yet run",
+  "fixture": "Diagnostic local start, ordinary controls afterward; no Camp commute claim",
+  "points": [
+    {
+      "name": "Crystal fan east approach",
+      "x": -1972.3,
+      "z": -4.8,
+      "gather": true
+    },
+    {
+      "name": "Open basin east edge",
+      "x": -1954,
+      "z": -5
+    },
+    {
+      "name": "Ore rib close approach",
+      "x": -1932.6,
+      "z": -15,
+      "gather": true
+    },
+    {
+      "name": "West skirt approach",
+      "x": -1944,
+      "z": 5
+    },
+    {
+      "name": "West of Emberhorn home",
+      "x": -1944,
+      "z": 28
+    },
+    {
+      "name": "West skirt exit",
+      "x": -1944,
+      "z": 47
+    },
+    {
+      "name": "North fiber approach",
+      "x": -1937,
+      "z": 84,
+      "gather": true
+    },
+    {
+      "name": "North crystal east turn",
+      "x": -1931.7,
+      "z": 84
+    },
+    {
+      "name": "North crystal close approach",
+      "x": -1932.5,
+      "z": 87.1,
+      "gather": true
+    },
+    {
+      "name": "North pocket return turn",
+      "x": -1928,
+      "z": 88
+    },
+    {
+      "name": "East mineral return",
+      "x": -1892,
+      "z": 64
+    },
+    {
+      "name": "East basin middle",
+      "x": -1912,
+      "z": 48
+    },
+    {
+      "name": "East of Emberhorn home",
+      "x": -1916,
+      "z": 28
+    },
+    {
+      "name": "East skirt exit",
+      "x": -1916,
+      "z": 10
+    },
+    {
+      "name": "Southern exposed return",
+      "x": -1940,
+      "z": 0
+    },
+    {
+      "name": "Crystal fan local return",
+      "x": -1970,
+      "z": -2
+    }
+  ]
+}

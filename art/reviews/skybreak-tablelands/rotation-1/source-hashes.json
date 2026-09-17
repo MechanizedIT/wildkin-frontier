@@ -1,0 +1,5 @@
+{
+  "src/world/frontierLandformVisual.js": "d608cb66a533759d3f7bc075e275ebad10eb2331dad5ce1437b8155c2d980174",
+  "src/world/frontierChunkRuntime.js": "7ed0f6e1de276a6d015e1a733cfdaf546ac2e7999488441213693decc446da07",
+  "tests/frontierLandformVisual.test.js": "fa7da852ca6a0dd5ef2afba49ed1e46311e571efc6cf1294348c47ccf10d2055"
+}

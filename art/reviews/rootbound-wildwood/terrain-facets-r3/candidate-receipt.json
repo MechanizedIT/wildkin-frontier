@@ -1,0 +1,8 @@
+{
+  "mode": "R3 cloned render-only irregular triangular facet field",
+  "affectedChunks": 2,
+  "faces": 2500,
+  "changedVertices": 600,
+  "physics": "unchanged",
+  "restore": "original geometry/material retained"
+}

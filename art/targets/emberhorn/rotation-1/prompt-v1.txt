@@ -1,0 +1,6 @@
+Use case: stylized-concept
+Asset type: neutral multi-view construction target for an existing low-poly mobile game creature.
+
+Input images: actual Emberhorn front/right/three-quarter renders are anatomy references; the Sunscar interior is a scale-and-role reference.
+
+Primary request: one clean multi-view reference sheet for the same Emberhorn, with a large three-quarter hero view plus consistent front, true right-side, and rear supporting views. Preserve a warm brick-red, heavy compact quadruped with a broad low torso, blunt head, ivory muzzle/chest, exactly two paired swept ivory horns, four thick fully volumetric jointed legs ending in four planted dark hooves, and a compact connected dark-red/ember mane crest integrated from brow across neck to shoulder. Improve only leg volume/grounded stance and connected compact mane silhouette. Use a neutral light-gray studio background and faceted low-poly game-concept rendering. Avoid extra limbs/horns, wings, rider, armor, spikes, effects, scenery, UI, thin blade legs, paper mane, photorealism, and watermark.

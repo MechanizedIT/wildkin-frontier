@@ -1,0 +1,117 @@
+{
+  "sourceCheckpoint": "0f6b32b before Sunscar source changes",
+  "note": "Expected selection is frozen prior output minus only independently reviewed IDs, after cap/infill allocation. Alternate and Camp expected output unchanged.",
+  "cases": [
+    {
+      "cx": -40,
+      "cz": -1,
+      "world": {
+        "edition": 1,
+        "seed": 1327115068
+      },
+      "beforeCount": 626,
+      "afterCount": 620,
+      "removed": [
+        "f2c:s:-40:-1:seed-1",
+        "f2c:s:-40:-1:seed-3",
+        "f2c:s:-40:-1:seed-4",
+        "f2c:s:-40:-1:seed-5",
+        "f2c:s:-40:-1:seed-6",
+        "f2c:s:-40:-1:seed-7"
+      ],
+      "beforeHash": "172ad72304284f6ba55f72778acb534d0891df4bcf21f8346f0abd165ad490e2",
+      "expectedAfterHash": "a5b93572cd594bbc9b50e8f886f3f033cdcdef3d28534a588a18a021785cb29c",
+      "ordinaryHash": "4fa274100c5be0629eaa2b1b4f56468c99308d38f55d0f74431d7e40453fc3a7"
+    },
+    {
+      "cx": -39,
+      "cz": 1,
+      "world": {
+        "edition": 1,
+        "seed": 1327115068
+      },
+      "beforeCount": 621,
+      "afterCount": 615,
+      "removed": [
+        "f2c:s:-39:1:seed-0",
+        "f2c:s:-39:1:seed-1",
+        "f2c:s:-39:1:seed-2",
+        "f2c:s:-39:1:seed-3",
+        "f2c:s:-39:1:seed-5",
+        "f2c:s:-39:1:seed-6"
+      ],
+      "beforeHash": "709b379a7aec6a9dda44f9a2c95c549493914a60d2a7e16e28645b64154dfdca",
+      "expectedAfterHash": "c75f866a1b1514220157b4556ac389edef6a4fe52194e61a484eccf658c2af6d",
+      "ordinaryHash": "0415e59f4ac57c027011178938a3929623d8f27c37e24d92512aa269b642efc9"
+    },
+    {
+      "cx": -40,
+      "cz": 0,
+      "world": {
+        "edition": 1,
+        "seed": 1327115068
+      },
+      "beforeCount": 625,
+      "afterCount": 613,
+      "removed": [
+        "f2c:s:-40:-1:seed-1",
+        "f2c:s:-39:1:seed-0",
+        "f2c:s:-40:-1:seed-3",
+        "f2c:s:-39:1:seed-1",
+        "f2c:s:-40:-1:seed-4",
+        "f2c:s:-39:1:seed-2",
+        "f2c:s:-40:-1:seed-5",
+        "f2c:s:-39:1:seed-3",
+        "f2c:s:-40:-1:seed-6",
+        "f2c:s:-39:1:seed-5",
+        "f2c:s:-40:-1:seed-7",
+        "f2c:s:-39:1:seed-6"
+      ],
+      "beforeHash": "853f598ee68e4a668e6f23be6dbb04b9602b2390f8f2d6c24e952ddde62691c2",
+      "expectedAfterHash": "a5aabfd4bb0c76dc26f8bd754293ad9088f3080d482bd60689a9351cd146192a",
+      "ordinaryHash": "a17608c1e964220fc597286d063f169086eb7851a86c742009975bddf7ef9229"
+    },
+    {
+      "cx": -40,
+      "cz": -1,
+      "world": {
+        "edition": 1,
+        "seed": 12345
+      },
+      "beforeCount": 630,
+      "afterCount": 630,
+      "removed": [],
+      "beforeHash": "2446e18c1f70170477137657f7ef08587d4e490f8b93908d193ee8a85b7de15e",
+      "expectedAfterHash": "2446e18c1f70170477137657f7ef08587d4e490f8b93908d193ee8a85b7de15e",
+      "ordinaryHash": "e3b43aa658293d42fae1fe3b0b9bdd309cdbe14a580f7352a47f311bad270ae6"
+    },
+    {
+      "cx": -39,
+      "cz": 1,
+      "world": {
+        "edition": 1,
+        "seed": 12345
+      },
+      "beforeCount": 630,
+      "afterCount": 630,
+      "removed": [],
+      "beforeHash": "f569de781d15561c176e754e45f45affb996ec12d4e63abf764f902356323eb4",
+      "expectedAfterHash": "f569de781d15561c176e754e45f45affb996ec12d4e63abf764f902356323eb4",
+      "ordinaryHash": "4926bac8412c87ad527ec44dbf0a1fe86758b2b98cac5ed10c46b574dd649b98"
+    },
+    {
+      "cx": 0,
+      "cz": 0,
+      "world": {
+        "edition": 1,
+        "seed": 1327115068
+      },
+      "beforeCount": 357,
+      "afterCount": 357,
+      "removed": [],
+      "beforeHash": "999c4abaa60f3cd5cf5bd2671de5b2b25209130b9a0ff7e969b27997c8266800",
+      "expectedAfterHash": "999c4abaa60f3cd5cf5bd2671de5b2b25209130b9a0ff7e969b27997c8266800",
+      "ordinaryHash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    }
+  ]
+}

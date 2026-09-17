@@ -1,0 +1,9 @@
+# Sunscar Desert rotation 1 — independent pre-target review
+
+**Decision: PASS for 2–4 portrait target directions only.** The packet is a feasible bounded local mineral circuit: it preserves the existing twin crystals, iron ore, Emberhorn home/disk, north crystal, fiber pocket, return ribs, owner split, and explicit local—not Camp-to-desert—route hypothesis. The fresh fixtures are usable current-source planning evidence, not an ordinary route or duration proof.
+
+Use the captured 412×915 normal-camera fixtures and recorded inputs exactly: arrival `(-1975,-6)`, yaw `1.35`; interior/Emberhorn saddle `(-1930,28)`, yaw `-3.09`; destination `(-1934,87)`, yaw `1.11`. Preserve the actual Sunscar HUD in all targets. The interior's visible Emberhorn observation card is an active-state overlay, so its corresponding target must preserve that state or root must capture a deliberately settled alternate state before target generation; target art may not silently erase it.
+
+Target directions should cover: (1) crystal fan and a readable first rib while retaining central escape space, (2) saddle decision with a visible safe skirt and no invented danger system, and (3) sheltered north-crystal pocket with an east-return cue. A fourth direction is useful only if it uses one of those locked viewpoints or an explicitly captured ordinary-route pose.
+
+Before later source planning, selection must use actual camera projection, full source/home/resource footprints, broad lane clearance, resident cost, and a current-kit render audit. The existing tall fen stone, crystals, iron, trail stones, and sparse dry cover must not be assumed to form an eroded outcrop or broad mineral fan at portrait scale. Do not authorize terrain, asset, ecology, camera, or gameplay changes from this review. The 308.48 m / 188.8–248.8 s result remains a sampling hypothesis until a complete ordinary-input loop demonstrates interaction, encounter choice, return, streaming, and reload.

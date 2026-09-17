@@ -1,0 +1,31 @@
+{
+  "schema": "thornprowler-rotation-1-target",
+  "status": "unreviewed; independent target review required",
+  "tool": "built-in image_gen edit; one call",
+  "sourceBaseline": {
+    "baseline-rear.png": "72259914D9550BCCAEF7AB0B606484037792E7D579F702F034809F8DFD04FEBF",
+    "baseline-threequarter-48.png": "52A425D4203736234ACF5E87349BC1FE156426BD47B51782CDBA3D40C6C065D8",
+    "baseline-right.png": "510DB7885FCFDBE518C9E8DB2A076A2E89C91A00E779555577DB0F1CF1D5D301",
+    "baseline-left.png": "2157B2C8531324C2FD771E16D7C01D8D6E6AD21661DC8CD515F2EBA810541249",
+    "baseline-threequarter-96.png": "9B226075D13EBAA877F2DF0F06341ED5ADC108D423451E9189E69B1D79733EEF",
+    "baseline-top.png": "E9E197C7CED1288E3C8E5D04AD16E35875FF78F335E47DF4C1654775518D6ADE",
+    "baseline-threequarter.png": "28F9E0BCB64FD74BF8E5A3AFF39007CD9614B7B6796DCFE4F3ED2DCD260328C0",
+    "baseline-front.png": "8558869FF9ED9BE3ADB269DBFBD36328FEAC045BB7E1EAC61DED8DC5C4989F13",
+    "baseline-mesh.json": "9B5ED603966C4FC014EFB5FEB36D750B26DB0083FFFDE0DF05BD443CA66D932A"
+  },
+  "output": {
+    "sha256": "DF5C0B34C9417572C71053A481E960A32442C64E7745DF7959391C6C9BB27C28",
+    "path": "grounded-limbs-construction-target.png"
+  },
+  "prompt": {
+    "sha256": "93D6AF336AD909F99992B3564707A161B62F0BA741F3F8AB080F2536195AC1FE",
+    "path": "prompt.txt"
+  },
+  "envelope": {
+    "widthMeters": 1.47,
+    "heightMeters": 1.26,
+    "lengthNote": "inferred depth",
+    "lengthMeters": 2.99
+  },
+  "scope": "four grounded volumetric leg/paw joins and grounded dorsal thorn bases only; identity and behavior preserved"
+}

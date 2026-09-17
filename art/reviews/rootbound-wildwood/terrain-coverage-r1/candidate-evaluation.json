@@ -1,0 +1,225 @@
+{
+  "baselineSha256": "92f4d504437a8be020a554349658dd4d9daca5dd55b3538fc572f7bc57fbb111",
+  "changedVertices": 746,
+  "changedTriangles": 1849,
+  "maxDelta": 0.8499999999999996,
+  "maxChangedTriangleSlope": 0.48345025126615093,
+  "maxLaneInterpolatedDeltaM": 0.041071991767317684,
+  "sourceCounts": [
+    298,
+    298
+  ],
+  "sourceDiff": [],
+  "projections": {
+    "meadow": [
+      {
+        "band": "meadow-edge",
+        "projectedVertices": 79,
+        "usefulFrameVertices": 4,
+        "clippedNdcBounds": [
+          -0.9352921769082478,
+          -0.8927361730461036,
+          0.48509598360711387,
+          0.6404694200277806
+        ]
+      },
+      {
+        "band": "gallery-inner",
+        "projectedVertices": 146,
+        "usefulFrameVertices": 0,
+        "clippedNdcBounds": null
+      },
+      {
+        "band": "gallery-east",
+        "projectedVertices": 151,
+        "usefulFrameVertices": 0,
+        "clippedNdcBounds": null
+      },
+      {
+        "band": "gallery-return-edge",
+        "projectedVertices": 187,
+        "usefulFrameVertices": 0,
+        "clippedNdcBounds": null
+      },
+      {
+        "band": "verge-outer",
+        "projectedVertices": 110,
+        "usefulFrameVertices": 0,
+        "clippedNdcBounds": null
+      },
+      {
+        "band": "crown-backdrop",
+        "projectedVertices": 203,
+        "usefulFrameVertices": 0,
+        "clippedNdcBounds": null
+      }
+    ],
+    "galleries": [
+      {
+        "band": "meadow-edge",
+        "projectedVertices": 0,
+        "usefulFrameVertices": 0,
+        "clippedNdcBounds": null
+      },
+      {
+        "band": "gallery-inner",
+        "projectedVertices": 132,
+        "usefulFrameVertices": 7,
+        "clippedNdcBounds": [
+          0.298538340010904,
+          0.855644534022338,
+          0.3802264946461591,
+          0.6421553492027117
+        ]
+      },
+      {
+        "band": "gallery-east",
+        "projectedVertices": 136,
+        "usefulFrameVertices": 0,
+        "clippedNdcBounds": null
+      },
+      {
+        "band": "gallery-return-edge",
+        "projectedVertices": 173,
+        "usefulFrameVertices": 0,
+        "clippedNdcBounds": null
+      },
+      {
+        "band": "verge-outer",
+        "projectedVertices": 110,
+        "usefulFrameVertices": 0,
+        "clippedNdcBounds": null
+      },
+      {
+        "band": "crown-backdrop",
+        "projectedVertices": 203,
+        "usefulFrameVertices": 0,
+        "clippedNdcBounds": null
+      }
+    ],
+    "lantern": [
+      {
+        "band": "meadow-edge",
+        "projectedVertices": 0,
+        "usefulFrameVertices": 0,
+        "clippedNdcBounds": null
+      },
+      {
+        "band": "gallery-inner",
+        "projectedVertices": 2,
+        "usefulFrameVertices": 0,
+        "clippedNdcBounds": null
+      },
+      {
+        "band": "gallery-east",
+        "projectedVertices": 17,
+        "usefulFrameVertices": 0,
+        "clippedNdcBounds": null
+      },
+      {
+        "band": "gallery-return-edge",
+        "projectedVertices": 0,
+        "usefulFrameVertices": 0,
+        "clippedNdcBounds": null
+      },
+      {
+        "band": "verge-outer",
+        "projectedVertices": 110,
+        "usefulFrameVertices": 0,
+        "clippedNdcBounds": null
+      },
+      {
+        "band": "crown-backdrop",
+        "projectedVertices": 203,
+        "usefulFrameVertices": 0,
+        "clippedNdcBounds": null
+      }
+    ],
+    "verge": [
+      {
+        "band": "meadow-edge",
+        "projectedVertices": 0,
+        "usefulFrameVertices": 0,
+        "clippedNdcBounds": null
+      },
+      {
+        "band": "gallery-inner",
+        "projectedVertices": 0,
+        "usefulFrameVertices": 0,
+        "clippedNdcBounds": null
+      },
+      {
+        "band": "gallery-east",
+        "projectedVertices": 0,
+        "usefulFrameVertices": 0,
+        "clippedNdcBounds": null
+      },
+      {
+        "band": "gallery-return-edge",
+        "projectedVertices": 0,
+        "usefulFrameVertices": 0,
+        "clippedNdcBounds": null
+      },
+      {
+        "band": "verge-outer",
+        "projectedVertices": 102,
+        "usefulFrameVertices": 5,
+        "clippedNdcBounds": [
+          -0.9464938739335961,
+          -0.38660000180735515,
+          0.4860885889875597,
+          0.641312880992634
+        ]
+      },
+      {
+        "band": "crown-backdrop",
+        "projectedVertices": 201,
+        "usefulFrameVertices": 0,
+        "clippedNdcBounds": null
+      }
+    ],
+    "crown": [
+      {
+        "band": "meadow-edge",
+        "projectedVertices": 0,
+        "usefulFrameVertices": 0,
+        "clippedNdcBounds": null
+      },
+      {
+        "band": "gallery-inner",
+        "projectedVertices": 0,
+        "usefulFrameVertices": 0,
+        "clippedNdcBounds": null
+      },
+      {
+        "band": "gallery-east",
+        "projectedVertices": 0,
+        "usefulFrameVertices": 0,
+        "clippedNdcBounds": null
+      },
+      {
+        "band": "gallery-return-edge",
+        "projectedVertices": 0,
+        "usefulFrameVertices": 0,
+        "clippedNdcBounds": null
+      },
+      {
+        "band": "verge-outer",
+        "projectedVertices": 110,
+        "usefulFrameVertices": 0,
+        "clippedNdcBounds": null
+      },
+      {
+        "band": "crown-backdrop",
+        "projectedVertices": 203,
+        "usefulFrameVertices": 5,
+        "clippedNdcBounds": [
+          -0.468250112174149,
+          0.6894182005851339,
+          0.579932424194496,
+          0.6496148841052273
+        ]
+      }
+    ]
+  }
+}

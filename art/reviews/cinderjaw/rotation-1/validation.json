@@ -1,0 +1,29 @@
+[
+  {
+    "label": "test",
+    "command": "npm test",
+    "exitCode": 0,
+    "seconds": 113.672,
+    "tests": 1426,
+    "failures": 0,
+    "tail": "  ---\n  duration_ms: 1.2605\n  type: 'test'\n  ...\n# Subtest: cached targets exclude their own geometry and recover after retirement and recreation\nok 945 - cached targets exclude their own geometry and recover after retirement and recreation\n  ---\n  duration_ms: 1.806\n  type: 'test'\n  ...\n1..945\n# tests 1426\n# suites 174\n# pass 1426\n# fail 0\n# cancelled 0\n# skipped 0\n# todo 0\n# duration_ms 112689.6893\n"
+  },
+  {
+    "label": "verify",
+    "command": "npm run verify",
+    "exitCode": 0,
+    "seconds": 114.083,
+    "tests": 1426,
+    "failures": 0,
+    "tail": "# cancelled 0\n# skipped 0\n# todo 0\n# duration_ms 109630.9411\n[check-world] PASS — world.json and world.generated.js in sync\n[check-campaign] PASS — route, carried renewable economy, companion identity, finale order, and coarse walkability are coherent.\nsection_1: XP 62 (L2), reachable renewable harvest {\"wood\":26,\"stone\":12,\"fiber\":9,\"berries\":16,\"iron_ore\":10,\"crystal_shard\":0,\"wildflower\":3}\nsection_2: XP 263 (L3), reachable renewable harvest {\"wood\":36,\"stone\":24,\"fiber\":15,\"berries\":16,\"iron_ore\":10,\"crystal_shard\":8,\"wildflower\":6}\nsection_3: XP 503 (L4), reachable renewable harvest {\"wood\":41,\"stone\":28,\"fiber\":18,\"berries\":16,\"iron_ore\":35,\"crystal_shard\":12,\"wildflower\":6}\nsection_4: XP 865 (L5), reachable renewable harvest {\"wood\":46,\"stone\":32,\"fiber\":21,\"berries\":16,\"iron_ore\":50,\"crystal_shard\":32,\"wildflower\":9}\nsection_5: XP 1145 (L5), reachable renewable harvest {\"wood\":51,\"stone\":36,\"fiber\":24,\"berries\":16,\"iron_ore\":50,\"crystal_shard\":76,\"wildflower\":9}\n[check-campaign] Coarse walkability is an estimate only; run a physical playtest before release.\n[build] wrote dist\\submission\\index.html (15745.4 KB)\n[build] vendor/three.module.js 1243.1 KB\n[build] vendor/rapier.js 2790.6 KB\n[build] submission dir: dist\\submission\n[build] next: npm run validate  |  npm run zip\n[validate] submission size 45242.0 KB (44.18 MB)\n[validate] PASS — submission looks compliant\n"
+  },
+  {
+    "label": "zip",
+    "command": "npm run zip",
+    "exitCode": 0,
+    "seconds": 7.397,
+    "tests": 0,
+    "failures": 0,
+    "tail": "\n> wildkin-frontier@0.3.0-alpha.1 zip\n> node tools/zip-submission.mjs\n\n[zip] created dist\\submission.zip (21090.0 KB, 20.60 MB)\n"
+  }
+]

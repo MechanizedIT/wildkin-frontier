@@ -1,0 +1,147 @@
+{
+  "status": "READY_FOR_INDEPENDENT_REVIEW",
+  "candidate": "Cinderjaw native anatomy R2 focused repair",
+  "scope": "Cinderjaw mesh only; no baked-recipe, world, collider, spawn, or gameplay change.",
+  "preservedR1Evidence": [
+    "baseline-sibling-hashes.json",
+    "r1-sibling-hashes.json",
+    "r1-parity.json",
+    "candidate-r1-audit.json"
+  ],
+  "frozenInputs": {
+    "docs/species/cinderjaw/anatomy-plan-r2.md": "da960c49f9161c2f1ed5f11bc807cf1703e33e2f6729d4e3d1bbace4c2a5115d",
+    "docs/species/cinderjaw/anatomy-plan-r2.json": "150287b2d45fa8e63b5e258ce39087df12ef32e848ab23439c0c1664a868a115",
+    "docs/species/cinderjaw/anatomy-plan-r2-review.md": "11d43c0dca8f3a01391fe41e6cccb7732b4e14baa28871d2726e378e9e04e251"
+  },
+  "sourceSha256": "b903852d608b9ea2c8ed189e2e9049360e137e6272c1785636373c3bba88989a",
+  "focusedTest": "node --test tests/cinderjawAnatomyMesh.test.js",
+  "geometry": {
+    "children": 28,
+    "triangles": 928,
+    "bounds": {
+      "min": [
+        -0.7630977737903595,
+        0.011147144138813021,
+        -1.7880706787109375
+      ],
+      "max": [
+        0.7799999713897705,
+        1.0224871635437012,
+        1.5
+      ],
+      "size": [
+        1.54309774518013,
+        1.011340019404888,
+        3.2880706787109375
+      ]
+    },
+    "limbs": [
+      {
+        "vertices": 32,
+        "triangles": 60,
+        "closed": true,
+        "signedVolume": 0.05465490647905569
+      },
+      {
+        "vertices": 32,
+        "triangles": 60,
+        "closed": true,
+        "signedVolume": 0.053766606809128495
+      },
+      {
+        "vertices": 32,
+        "triangles": 60,
+        "closed": true,
+        "signedVolume": 0.03698993837615579
+      },
+      {
+        "vertices": 32,
+        "triangles": 60,
+        "closed": true,
+        "signedVolume": 0.03716723512437966
+      }
+    ],
+    "shingles": [
+      {
+        "vertices": 10,
+        "triangles": 16,
+        "closed": true,
+        "signedVolume": 0.003057306484340335
+      },
+      {
+        "vertices": 10,
+        "triangles": 16,
+        "closed": true,
+        "signedVolume": 0.0031918329824249404
+      },
+      {
+        "vertices": 10,
+        "triangles": 16,
+        "closed": true,
+        "signedVolume": 0.0030552208846610675
+      },
+      {
+        "vertices": 10,
+        "triangles": 16,
+        "closed": true,
+        "signedVolume": 0.0033104239640328725
+      },
+      {
+        "vertices": 10,
+        "triangles": 16,
+        "closed": true,
+        "signedVolume": 0.00335908526034721
+      },
+      {
+        "vertices": 10,
+        "triangles": 16,
+        "closed": true,
+        "signedVolume": 0.003478222847828805
+      },
+      {
+        "vertices": 10,
+        "triangles": 16,
+        "closed": true,
+        "signedVolume": 0.0033324552806163533
+      },
+      {
+        "vertices": 10,
+        "triangles": 16,
+        "closed": true,
+        "signedVolume": 0.00366643062517449
+      },
+      {
+        "vertices": 10,
+        "triangles": 16,
+        "closed": true,
+        "signedVolume": 0.0033417453311363407
+      },
+      {
+        "vertices": 10,
+        "triangles": 16,
+        "closed": true,
+        "signedVolume": 0.0035012362628369445
+      },
+      {
+        "vertices": 10,
+        "triangles": 16,
+        "closed": true,
+        "signedVolume": 0.0033422830937711503
+      },
+      {
+        "vertices": 10,
+        "triangles": 16,
+        "closed": true,
+        "signedVolume": 0.0036778679501969997
+      }
+    ]
+  },
+  "contracts": {
+    "literalR2Arrays": true,
+    "limbs": true,
+    "shingles": true,
+    "contacts": "Focused test raycasts the unchanged torso at all V2 upper-cap shell points and all 5x12 shingle base/top probe points; it also checks claw overlap above each retained ankle.",
+    "siblingParity": "Focused test preserves all six sibling component orders; root browser snapshot gate still owns exact material/transform parity."
+  },
+  "nextGate": "Root capture plus independent all-angle/48px/96px review. No bake or runtime factory claim is authorized."
+}

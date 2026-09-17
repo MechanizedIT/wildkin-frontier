@@ -1,0 +1,78 @@
+TAP version 13
+# Subtest: Rootbound circuit has finite room grammar and neutral exterior
+ok 1 - Rootbound circuit has finite room grammar and neutral exterior
+  ---
+  duration_ms: 7.7132
+  type: 'test'
+  ...
+# Subtest: Rootbound terrain keeps supported source identities and grounds every admitted resource and home
+not ok 2 - Rootbound terrain keeps supported source identities and grounds every admitted resource and home
+  ---
+  duration_ms: 1214.1942
+  type: 'test'
+  location: 'C:\\Users\\cwood\\Documents\\mobile-rpg\\tests\\rootboundCircuit.test.js:54:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    f1:w:-8:13:0 analytical home support
+    
+    false !== true
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: true
+  actual: false
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (file:///C:/Users/cwood/Documents/mobile-rpg/tests/rootboundCircuit.test.js:106:12)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async startSubtestAfterBootstrap (node:internal/test_runner/harness:296:3)
+  ...
+# Subtest: Rootbound profile colors apply only to the protected default world
+ok 3 - Rootbound profile colors apply only to the protected default world
+  ---
+  duration_ms: 1591.1371
+  type: 'test'
+  ...
+# Subtest: resident protection plates fade without a terrain step at their boundaries
+ok 4 - resident protection plates fade without a terrain step at their boundaries
+  ---
+  duration_ms: 1.1233
+  type: 'test'
+  ...
+# Subtest: curated Rootbound props use existing admission and remain localized
+ok 5 - curated Rootbound props use existing admission and remain localized
+  ---
+  duration_ms: 1147.2395
+  type: 'test'
+  ...
+# Subtest: Rootbound facet field is a shared default-world height surface with exact chunk seams
+ok 6 - Rootbound facet field is a shared default-world height surface with exact chunk seams
+  ---
+  duration_ms: 755.1456
+  type: 'test'
+  ...
+# Subtest: Rootbound facet chunks use a render-only per-face material while physics keeps the shared chunk
+ok 7 - Rootbound facet chunks use a render-only per-face material while physics keeps the shared chunk
+  ---
+  duration_ms: 3242.2198
+  type: 'test'
+  ...
+# Subtest: Rootbound shoulders change real terrain while full and height-only samplers agree with mesh vertices
+ok 8 - Rootbound shoulders change real terrain while full and height-only samplers agree with mesh vertices
+  ---
+  duration_ms: 213.6351
+  type: 'test'
+  ...
+1..8
+# tests 8
+# suites 0
+# pass 7
+# fail 1
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 8843.5694

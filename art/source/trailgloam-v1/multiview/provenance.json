@@ -1,0 +1,17 @@
+{
+  "date": "2026-09-14",
+  "method": "built-in image generation",
+  "imageModel": "undisclosed",
+  "author": "/root/species_design",
+  "status": "PENDING_INDEPENDENT_REVIEW",
+  "generationCount": 1,
+  "sourceMethod": "new orthographic construction sheet; not an edit or continuation of held beauty-reference method",
+  "trellisRun": false,
+  "blenderRun": false,
+  "files": [
+    {
+      "name": "trailgloam-orthographic-v1.png",
+      "sha256": "ba0b19c941f58b2468fb9aed3d62a995acedeb431fedd3e5932e5f1668da24a8"
+    }
+  ]
+}

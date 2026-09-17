@@ -1,0 +1,220 @@
+TAP version 13
+# Subtest: runtime ground cover leaves the staged crystal interaction clear using actual asset roles
+ok 1 - runtime ground cover leaves the staged crystal interaction clear using actual asset roles
+  ---
+  duration_ms: 459.7438
+  type: 'test'
+  ...
+# Subtest: scenery replaces physics and camera registrations only when terrain residency changes
+ok 2 - scenery replaces physics and camera registrations only when terrain residency changes
+  ---
+  duration_ms: 35.198
+  type: 'test'
+  ...
+# Subtest: a failed scenery construction retains the old resident and can retry the same snapshot
+ok 3 - a failed scenery construction retains the old resident and can retry the same snapshot
+  ---
+  duration_ms: 23.464
+  type: 'test'
+  ...
+# Subtest: a failed physics replacement disposes the new visual and preserves the old resident for retry
+ok 4 - a failed physics replacement disposes the new visual and preserves the old resident for retry
+  ---
+  duration_ms: 24.4886
+  type: 'test'
+  ...
+# Subtest: upcoming scenery stays detached across budgeted frames and transfers exactly once at the matching boundary
+ok 5 - upcoming scenery stays detached across budgeted frames and transfers exactly once at the matching boundary
+  ---
+  duration_ms: 24.3268
+  type: 'test'
+  ...
+# Subtest: reversal and inactive retirement cancel partial or ready scenery without changing the published scene early
+ok 6 - reversal and inactive retirement cancel partial or ready scenery without changing the published scene early
+  ---
+  duration_ms: 28.1403
+  type: 'test'
+  ...
+# Subtest: a rejected prepared physics publication retires only its candidate and permits same-boundary retry
+ok 7 - a rejected prepared physics publication retires only its candidate and permits same-boundary retry
+  ---
+  duration_ms: 21.195
+  type: 'test'
+  ...
+# Subtest: arriving early finishes the same partial visual instead of duplicating it or publishing an incomplete graph
+ok 8 - arriving early finishes the same partial visual instead of duplicating it or publishing an incomplete graph
+  ---
+  duration_ms: 19.3958
+  type: 'test'
+  ...
+# Subtest: speculative failure is suppressed for its prediction and ordinary boundary generation remains retryable
+ok 9 - speculative failure is suppressed for its prediction and ordinary boundary generation remains retryable
+  ---
+  duration_ms: 21.0199
+  type: 'test'
+  ...
+# Subtest: regional groundcover reduces density and warms tint within the same visual and collider owners
+ok 10 - regional groundcover reduces density and warms tint within the same visual and collider owners
+  ---
+  duration_ms: 16.1657
+  type: 'test'
+  ...
+# Subtest: Caldera ground patches are sparse low burnt tufts and carry their treatment through the cache key
+ok 11 - Caldera ground patches are sparse low burnt tufts and carry their treatment through the cache key
+  ---
+  duration_ms: 5.5372
+  type: 'test'
+  ...
+# Subtest: Fungal ground patches use the muted teal tone and keep that treatment in the cache identity
+ok 12 - Fungal ground patches use the muted teal tone and keep that treatment in the cache identity
+  ---
+  duration_ms: 5.0956
+  type: 'test'
+  ...
+# Subtest: scenery aligns external canopies and compact solid cores to world-space terrain surfaces
+ok 13 - scenery aligns external canopies and compact solid cores to world-space terrain surfaces
+  ---
+  duration_ms: 22.1402
+  type: 'test'
+  ...
+# Subtest: low scenery keeps authored parts in one owned draw beside instanced ground cover
+ok 14 - low scenery keeps authored parts in one owned draw beside instanced ground cover
+  ---
+  duration_ms: 2.3803
+  type: 'test'
+  ...
+# Subtest: per-build low assets preserve legacy world geometry attributes and stone surfaces
+ok 15 - per-build low assets preserve legacy world geometry attributes and stone surfaces
+  ---
+  duration_ms: 5.9006
+  type: 'test'
+  ...
+# Subtest: negative render-cell batches have complete native frustum bounds and share one asset geometry
+ok 16 - negative render-cell batches have complete native frustum bounds and share one asset geometry
+  ---
+  duration_ms: 4.9776
+  type: 'test'
+  ...
+# Subtest: repeated render-cell batches retire instance buffers and shared asset geometry exactly once
+ok 17 - repeated render-cell batches retire instance buffers and shared asset geometry exactly once
+  ---
+  duration_ms: 1.4662
+  type: 'test'
+  ...
+# Subtest: temporary raw parts are disposed when local asset compilation fails
+ok 18 - temporary raw parts are disposed when local asset compilation fails
+  ---
+  duration_ms: 1.79
+  type: 'test'
+  ...
+# Subtest: ground placement failure retires ground instance buffers exactly once
+ok 19 - ground placement failure retires ground instance buffers exactly once
+  ---
+  duration_ms: 2.1639
+  type: 'test'
+  ...
+# Subtest: compiled geometry and a partial instance batch are released when matrix preparation fails
+ok 20 - compiled geometry and a partial instance batch are released when matrix preparation fails
+  ---
+  duration_ms: 1.2331
+  type: 'test'
+  ...
+# Subtest: admitted Skybreak flowers and trail stones stay in the existing nonsolid low-prop batch
+ok 21 - admitted Skybreak flowers and trail stones stay in the existing nonsolid low-prop batch
+  ---
+  duration_ms: 1.2411
+  type: 'test'
+  ...
+# Subtest: a regional bloom formation batches each local asset with only its two compact stone solids
+ok 22 - a regional bloom formation batches each local asset with only its two compact stone solids
+  ---
+  duration_ms: 2.3704
+  type: 'test'
+  ...
+# Subtest: staged ground cover is bounded and uses the injected terrain height
+ok 23 - staged ground cover is bounded and uses the injected terrain height
+  ---
+  duration_ms: 1.5573
+  type: 'test'
+  ...
+# Subtest: ground cover caps at 640 deterministic clusters in one instanced draw
+ok 24 - ground cover caps at 640 deterministic clusters in one instanced draw
+  ---
+  duration_ms: 14.5677
+  type: 'test'
+  ...
+# Subtest: runtime ground patch cache preserves capped output and reuses complete overlapping patches
+ok 25 - runtime ground patch cache preserves capped output and reuses complete overlapping patches
+  ---
+  duration_ms: 25.5807
+  type: 'test'
+  ...
+# Subtest: ground patch cache is bounded, prunable, and rejects changed owner/world contracts
+ok 26 - ground patch cache is bounded, prunable, and rejects changed owner/world contracts
+  ---
+  duration_ms: 4.5558
+  type: 'test'
+  ...
+# Subtest: failed ground preparation does not publish a partial cache entry
+ok 27 - failed ground preparation does not publish a partial cache entry
+  ---
+  duration_ms: 1.558
+  type: 'test'
+  ...
+# Subtest: incremental visual job matches synchronous output and transfers result ownership
+ok 28 - incremental visual job matches synchronous output and transfers result ownership
+  ---
+  duration_ms: 2.3225
+  type: 'test'
+  ...
+# Subtest: incremental visual cancellation retires partially accumulated resources exactly once
+ok 29 - incremental visual cancellation retires partially accumulated resources exactly once
+  ---
+  duration_ms: 1.0959
+  type: 'test'
+  ...
+# Subtest: dense infill cannot displace established ordinary or whole-place ground dressing
+ok 30 - dense infill cannot displace established ordinary or whole-place ground dressing
+  ---
+  duration_ms: 9.8844
+  type: 'test'
+  ...
+# Subtest: injected ground-cover policy can exclude a whole patch without affecting low props
+ok 31 - injected ground-cover policy can exclude a whole patch without affecting low props
+  ---
+  duration_ms: 0.8346
+  type: 'test'
+  ...
+# Subtest: disposal releases owned low resources without destroying the shared canopy template
+ok 32 - disposal releases owned low resources without destroying the shared canopy template
+  ---
+  duration_ms: 1.5468
+  type: 'test'
+  ...
+# Subtest: sloped foreground rock fades when the upper sightline clears it but the body is hidden
+ok 33 - sloped foreground rock fades when the upper sightline clears it but the body is hidden
+  ---
+  duration_ms: 13.2222
+  type: 'test'
+  ...
+# Subtest: placed scenery can join and leave visibility ownership without leaking shared material state
+ok 34 - placed scenery can join and leave visibility ownership without leaking shared material state
+  ---
+  duration_ms: 3.69
+  type: 'test'
+  ...
+# Subtest: camera inside a one-sided scaled crown fades its own prop even when exit-face rays miss
+ok 35 - camera inside a one-sided scaled crown fades its own prop even when exit-face rays miss
+  ---
+  duration_ms: 1.7101
+  type: 'test'
+  ...
+1..35
+# tests 35
+# suites 0
+# pass 35
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 1314.7826

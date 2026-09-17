@@ -1,0 +1,106 @@
+{
+  "status": "UNREVIEWED_FINAL_R3_CANDIDATE",
+  "input": {
+    "path": "docs/species/emberhorn/anatomy-plan-r3.json",
+    "sha256": "0750de83205296514bf017213adb72899d6651d1ab5485a1aa58d6ff856daa63"
+  },
+  "sourceSha256": "0fe671c481118b388568a628484e15b918442a3e679555460ef2948574ae4724",
+  "preservedReceipts": [
+    "r1-parity.json",
+    "r1-sibling-hashes.json",
+    "r2-topology-audit.json"
+  ],
+  "checks": {
+    "maneCount": 15,
+    "legs": 4,
+    "hooves": 4,
+    "horns": 2,
+    "wedges": [
+      {
+        "closed": true,
+        "volume": 0.02260705670686328,
+        "depth": 0.36000001430511475
+      },
+      {
+        "closed": true,
+        "volume": 0.02509510071507637,
+        "depth": 0.36000001430511475
+      },
+      {
+        "closed": true,
+        "volume": 0.022641712602999034,
+        "depth": 0.36000001430511475
+      },
+      {
+        "closed": true,
+        "volume": 0.023202451331495906,
+        "depth": 0.36000001430511475
+      },
+      {
+        "closed": true,
+        "volume": 0.023775792263988335,
+        "depth": 0.36000001430511475
+      },
+      {
+        "closed": true,
+        "volume": 0.021998103830336416,
+        "depth": 0.36000001430511475
+      },
+      {
+        "closed": true,
+        "volume": 0.02389648995827902,
+        "depth": 0.36000001430511475
+      },
+      {
+        "closed": true,
+        "volume": 0.020976357999291918,
+        "depth": 0.36000001430511475
+      },
+      {
+        "closed": true,
+        "volume": 0.021619106160816273,
+        "depth": 0.36000001430511475
+      },
+      {
+        "closed": true,
+        "volume": 0.022288891747660394,
+        "depth": 0.36000001430511475
+      },
+      {
+        "closed": true,
+        "volume": 0.021023224277887363,
+        "depth": 0.36000001430511475
+      },
+      {
+        "closed": true,
+        "volume": 0.022759066301435964,
+        "depth": 0.36000001430511475
+      },
+      {
+        "closed": true,
+        "volume": 0.01986390634605277,
+        "depth": 0.36000001430511475
+      },
+      {
+        "closed": true,
+        "volume": 0.020610535442738723,
+        "depth": 0.36000001430511475
+      },
+      {
+        "closed": true,
+        "volume": 0.02137946969340824,
+        "depth": 0.36000001430511475
+      }
+    ],
+    "allClosed": true,
+    "allPositive": true,
+    "allDepth36": true,
+    "literalSkinSections": 45,
+    "positiveApexClearance": true,
+    "middleHigherThanEnds": true,
+    "buriedBases": true
+  },
+  "evidenceLimits": [
+    "Root-owned renders must judge visible burial, ridge readability, and 48/96px presentation."
+  ]
+}

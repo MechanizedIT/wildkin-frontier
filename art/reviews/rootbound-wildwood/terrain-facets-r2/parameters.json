@@ -1,0 +1,26 @@
+{
+  "schema": "rootbound-terrain-facets-r2-proposal-v1",
+  "status": "CPU/render-preview proposal only",
+  "reference": {
+    "r1Rectangle": { "minX": -454, "maxX": -438, "minZ": 670, "maxZ": 688 },
+    "destinationPose": { "playerXZ": [-449, 675], "yaw": -2.3, "pitchRad": 0.6283185307179586, "effectiveDistanceM": 11.59107954420122, "fovDeg": 52, "framePx": [412, 915] }
+  },
+  "mesh": { "gridStepM": 2, "boundaryFadeM": 2 },
+  "localAxes": {
+    "forwardXZ": [0.7457052121767203, 0.6662760212798241],
+    "cameraRightXZ": [0.6662760212798241, -0.7457052121767203]
+  },
+  "lane": { "sideHalfWidthM": 1.65, "sideTransitionM": 1.1, "meaning": "zero-height center lane along forward axis" },
+  "facetFan": {
+    "nearForwardM": -1.5,
+    "farForwardM": 10,
+    "leftPlanePeakM": 0.26,
+    "rightPlaneTroughM": -0.2,
+    "leftForwardSlope": 0.022,
+    "rightForwardSlope": -0.018,
+    "vertexColorMultiplierDeltaAtFullWeight": [0.035, 0.055, 0.02],
+    "purpose": "three broad 2m-grid planes: retained lane, slightly raised camera-left shoulder, slightly lowered camera-right shoulder; preview multipliers are white at the boundary and multiply the existing baked map"
+  },
+  "notRuntime": ["No height sampler, terrain query, mesh, physics, support, resource, home, scenery, save, or color source is changed by this file."]
+}
+

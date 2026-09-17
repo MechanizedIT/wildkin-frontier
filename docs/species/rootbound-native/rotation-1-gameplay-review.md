@@ -1,0 +1,19 @@
+# Trailgloam rotation 1 gameplay — independent contract review
+
+## Decision: HOLD for implementation; design direction is compatible
+
+The plan correctly reuses the existing field-taming transaction rather than inventing a second capture path. Its spending/retry description matches the current code: `begin` validates target, range, grounding, placement and supplies before consuming; `finish` preserves the paid ready attempt after `capture` returns `save-failed`; and successful capture commits the pending record before the creature is retired. The proposed resource read is also appropriately read-only: `getActiveNodes()` filters removed/inactive residents, while caller filtering can require `persistentFinite`, `visibleInPlay`, `chunkId`, finite position, `READY`, and positive remaining chunks. A copied stable-ID result avoids a second resource registry.
+
+The following implementation contracts must be added to the frozen plan before code begins:
+
+1. **Specify the Trailgloam catalog/encounter boundary.** `COMPANION_BY_ID`, `identifyCompanion`, and `fieldTaming.begin` currently know only four species; the stage map has no `trailgloam` entry. A later cohesive species admission must add the catalog entry, a real visual/encounter identity, `trailgloam:lure`, and its existing-supply reference together. The ability code must also define Trailgloam's seal/secret behavior explicitly so a missing `secret` cannot accidentally enter `findNearbySealChest`. This remains blocked by the held visual/species admission.
+2. **Define the cue as presentation with an authoritative recheck owner.** `useAbility()` currently calls `onAbility(speciesId, playerPos, individualId)`, while `createCompanionAbilityFx.trigger` has no target payload or 1.2-second target cue. The plan must state that the companion owner resolves the candidate once, passes an optional copied target `{id,pos}` only for Trailgloam, and rechecks that ID through `resourceSystem.getActiveNodes()` during the cue. The presentation owner clears the marker on failed recheck; it must not retain or mutate a resource node, create a pickup, or persist a cue.
+3. **Freeze ability ordering and failure semantics.** For Trailgloam, perform normal expedition/swim/active-selection/cooldown guards, then resolve the eligible target before setting cooldown, pulse, audio, or generic ability effects. “No target” must return the stated message with cooldown unchanged. A valid cue must still leave harvesting, depletion, resource visibility, and sibling abilities unchanged. Tests must cover the existing seal path and every current species callback so the optional payload cannot alter their semantics.
+
+The provisional 12 m XZ / 2.2 m vertical / 1.2 s cue / 8 s cooldown values are correctly labeled provisional. They need targeted selection, cooldown, depletion-during-cue, and save/reload tests only after the above owner boundaries are frozen. No runtime work is authorized by this review.
+
+## Revised-plan recheck: PASS for a future cohesive implementation boundary
+
+The revised plan closes the three identified contract gaps. It now requires the catalog, identification, allow-list, berry-supply, encounter and `trailgloam:lure` stage-map changes as one later species-admission boundary; explicitly gives Trailgloam no secret/seal path; and preserves the four existing secret mappings. It defines the optional fourth ability payload, copied target data, read-only target-ID recheck, cue clear lifecycle, and no-target-before-cooldown/pulse/audio/FX ordering. It also retains sibling three-argument calls and callback/seal semantics.
+
+This PASS is implementation-readiness only. The held Trailgloam visual/reference admission still blocks runtime work, and the provisional values still require the stated focused tests when that admission exists.

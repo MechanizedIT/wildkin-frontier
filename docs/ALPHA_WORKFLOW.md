@@ -1,5 +1,7 @@
 # Wildkin playable-batch loop — two-batch trial
 
+**Current policy:** [PRODUCTION_LOOP_POLICY.md](PRODUCTION_LOOP_POLICY.md) supersedes the trial's older repair caps: three substantial passes per production loop, separate independent review, and bounded missing-asset target/build/judge work. The observations below remain historical evidence.
+
 <!-- RESTART-REVIEW -->
 ## Restart review — shorten closure and keep inspection honest
 

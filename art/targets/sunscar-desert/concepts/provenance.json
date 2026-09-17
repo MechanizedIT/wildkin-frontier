@@ -1,0 +1,34 @@
+{
+  "status": "two generated target directions only; independent selection and feasibility review pending",
+  "tool": "built-in image_gen",
+  "backend": "undisclosed",
+  "createdAt": "2026-09-14",
+  "reviewGate": "docs/habitats/sunscar-desert/rotation-1-plan-review.md PASS for 2 target directions only",
+  "constraints": [
+    "The actual 412x915 portrait fixtures, 36-degree camera, player scale, mobile framing, and source-correct Sunscar HUD were edit invariants.",
+    "Arrival covers the crystal-fan direction; destination covers the north-crystal direction. Interior overlay complexity is intentionally outside this two-target pair.",
+    "These are visual directions only and do not select, admit, authorize source work, or prove feasibility."
+  ],
+  "images": [
+    {
+      "id": "sunscar-arrival-crystal-fan-v1",
+      "file": "target-arrival-v1.png",
+      "sha256": "fafb7d02f97a411b8f97f66581913ece0aa63913f63c5b88936c8a7db47829b3",
+      "source": "art/reviews/sunscar-desert/rotation-1/baseline-arrival.png",
+      "sourceSha256": "660d7d02791b19f530f572cdbab51651b05a9a7ed87a50865bd8844967f249aa",
+      "generatedOriginal": "C:\\Users\\cwood\\.codex\\generated_images\\01a09fa9-040a-7212-9128-ec476d69360f\\exec-20c33dfa-e090-4151-a1a9-6472b70c146b.png",
+      "generatedOriginalSha256": "fafb7d02f97a411b8f97f66581913ece0aa63913f63c5b88936c8a7db47829b3",
+      "prompt": "Edit this exact 412x915 portrait gameplay screenshot. Preserve the existing Wildkin Frontier player character, camera height/angle, mobile HUD, minimap, quest text, buttons, and the actual Sunscar Desert palette and lighting; do not remove, replace, or invent HUD elements. Create a high-quality feasible gameplay art target for the crystal-fan arrival: retain a wide clear central run and player-scale negative space, keep the existing nearby crystal/stone identities legible, and shape the open basin with one broken eroded sandstone rib on the far/right edge plus a lower fractured rib on the left edge. Add clustered dry dark trail stones and restrained sparse dry scrub only at rib feet, with small teal mineral shards grouped near the arrival fan, leaving the player and source approach unobstructed. Make mineral forms faceted low-poly and grounded, with shallow shadow/recess readable in portrait. No buildings, bridges, heat mechanics, water, vehicles, enemies, cinematic fog, or extra UI."
+    },
+    {
+      "id": "sunscar-north-crystal-destination-v1",
+      "file": "target-destination-v1.png",
+      "sha256": "49617b755f721bd4847a88293e160f8c64f5442c8c3e58d01cce30d2d6c49836",
+      "source": "art/reviews/sunscar-desert/rotation-1/baseline-destination.png",
+      "sourceSha256": "576e5da6617a6f5c0433e20b49e0744c38fcd3354ca28f58da9154fc5e978ed6",
+      "generatedOriginal": "C:\\Users\\cwood\\.codex\\generated_images\\01a09fa9-040a-7212-9128-ec476d69360f\\exec-976d4f86-a5a1-4064-aaf0-605088663597.png",
+      "generatedOriginalSha256": "49617b755f721bd4847a88293e160f8c64f5442c8c3e58d01cce30d2d6c49836",
+      "prompt": "Edit this exact 412x915 portrait gameplay screenshot. Preserve the existing Wildkin Frontier player character, camera height/angle, mobile HUD, minimap, quest text, buttons, and the actual Sunscar Desert palette and lighting; do not remove, replace, or invent HUD elements. Create a high-quality feasible gameplay art target for the north-crystal destination: keep the existing tall turquoise crystal source recognizable and reachable, but frame it as a sheltered mineral cleft with a forward low eroded sandstone rib, a compact uneven fan of smaller teal crystal shards, and grouped dark trail stones at the pocket edges. Keep a broad open center/approach lane and a clear east-facing return cue formed by spaced pale rib fragments and sparse stone clusters, all at player-readable portrait scale. Use grounded stylized faceted low-poly geometry, shallow recess shadows, and visible negative space. No buildings, bridges, heat mechanics, water, new enemies, cinematic fog, or extra UI."
+    }
+  ]
+}

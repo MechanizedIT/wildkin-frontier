@@ -1,0 +1,79 @@
+{
+  "note": "Actual camera, complete mesh and convex hull projection of diagnostic models without physics or resident lifecycle. Central window y160..640 approximate HUD safety; not occlusion/collision proof.",
+  "views": [
+    {
+      "pose": {
+        "name": "arrival",
+        "x": -2080,
+        "z": -3160,
+        "yaw": -2.783
+      },
+      "camera": [
+        -2083.2910549614385,
+        17.023033608920905,
+        -3168.780900818081
+      ],
+      "direction": [
+        0.28392997812580834,
+        -0.5877852522924952,
+        0.7575567732579029
+      ],
+      "probes": [
+        {
+          "name": "bank-front",
+          "asset": "asset_verdant_cliff_buttress",
+          "x": -2078,
+          "z": -3159,
+          "yaw": 1.5707963267948966,
+          "scale": 0.65,
+          "baseY": 8.8067,
+          "mesh": {
+            "minX": 46.68620560104909,
+            "minY": 321.1467991961251,
+            "maxX": 156.5277407536543,
+            "maxY": 510.8724722371479,
+            "central": 1160,
+            "front": 1160,
+            "total": 1160
+          },
+          "hull": {
+            "minX": 39.50702924212271,
+            "minY": 312.648611870189,
+            "maxX": 161.75492723695152,
+            "maxY": 517.9757037960977,
+            "central": 19,
+            "front": 19,
+            "total": 19
+          }
+        },
+        {
+          "name": "bank-rear",
+          "asset": "asset_verdant_cliff_buttress",
+          "x": -2077,
+          "z": -3156,
+          "yaw": 0,
+          "scale": 0.65,
+          "baseY": 9.1187,
+          "mesh": {
+            "minX": 60.869660672011534,
+            "minY": 204.0326939196615,
+            "maxX": 187.2356931833146,
+            "maxY": 365.2744532262245,
+            "central": 1160,
+            "front": 1160,
+            "total": 1160
+          },
+          "hull": {
+            "minX": 55.54148297902722,
+            "minY": 197.09655034437125,
+            "maxX": 192.83869021640837,
+            "maxY": 369.964758590204,
+            "central": 19,
+            "front": 19,
+            "total": 19
+          }
+        }
+      ]
+    }
+  ]
+}

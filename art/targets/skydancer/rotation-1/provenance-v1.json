@@ -1,0 +1,42 @@
+{
+  "generator": "built-in image generation tool",
+  "callCount": 1,
+  "generatedOriginal": "C:\\Users\\cwood\\.codex\\generated_images\\01a09ef2-0244-78c2-a3a8-a7269c89f80a\\exec-03f87048-39af-4c74-b208-709a2c066dd4.png",
+  "inputs": [
+    {
+      "path": "art/reviews/skydancer/rotation-1/baseline-front.png",
+      "sha256": "4E88B8F296778166DBF1A26B773C862D86237F665D3CD3BEC2B1324A15BA0A80"
+    },
+    {
+      "path": "art/reviews/skydancer/rotation-1/baseline-left.png",
+      "sha256": "57779227D824351C8316AFD5095E7E0472F4EF4B58BF11BD2C8202DDB17DECD4"
+    },
+    {
+      "path": "art/reviews/skydancer/rotation-1/baseline-rear.png",
+      "sha256": "495BC5DDE04470321E8C70BC726457B420D85C3C624AB230E2DF017B868E5E4F"
+    },
+    {
+      "path": "art/reviews/skydancer/rotation-1/baseline-threequarter.png",
+      "sha256": "1A19736DA036053D1488E86B7599C7099CCBC5BDABEBF8AAC936E98D4E25CD3C"
+    },
+    {
+      "path": "docs/species/skydancer/rotation-1-source-audit.md",
+      "sha256": "F186BF7CD0FD6681EE1A0CB4195CD95137EF1555AF857690EC9ED48E77EC5270"
+    }
+  ],
+  "outputs": [
+    {
+      "path": "art/targets/skydancer/rotation-1/skydancer-construction-target-v1.png",
+      "sha256": "95296B034A5B1363195811AF35DDAB455B99125F94B223DBA44EAB57B95A19A2"
+    },
+    {
+      "path": "art/targets/skydancer/rotation-1/target-prompt-v1.md",
+      "sha256": "A1D7F1B4AED546067745880CE37D489D3EE0C52952793E5E07628EB1228251D2"
+    },
+    {
+      "path": "art/targets/skydancer/rotation-1/source-notes-v1.md",
+      "sha256": "E9C4ACCC37CE71DF7917A8B45CA11BC869E296D702009B3AEC992DAEA3E32B38"
+    }
+  ],
+  "inference": "Direction-only multi-view reference; dimensions remain runtime-derived."
+}

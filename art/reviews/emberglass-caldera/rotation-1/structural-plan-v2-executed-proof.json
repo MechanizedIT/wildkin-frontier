@@ -1,0 +1,182 @@
+{
+  "status": "bounded-three-candidate-executed-triangle-footprint-and-ecology-survey",
+  "candidates": [
+    {
+      "id": "A",
+      "check": {
+        "baselineMaxTriangleGradient": 1.1721280105326637,
+        "finalMaxTriangleGradient": 1.0587481370756708,
+        "baselineFailCount": 374,
+        "finalFailCount": 516,
+        "introducedFailCount": 68,
+        "resolvedFailCount": 0,
+        "introducedFirst": [
+          [
+            848,
+            -1966,
+            0.4828822273487523
+          ],
+          [
+            847.68,
+            -1966,
+            0.4828822273487523
+          ],
+          [
+            847.7043585495963,
+            -1966.122458698357,
+            0.4828822273487523
+          ],
+          [
+            847.7737258300203,
+            -1966.2262741699797,
+            0.4828822273487523
+          ],
+          [
+            847.8775413016432,
+            -1966.2956414504035,
+            0.4828822273487523
+          ]
+        ]
+      },
+      "resourceDeltas": [
+        0,
+        0
+      ],
+      "homeDelta": 0
+    },
+    {
+      "id": "B",
+      "check": {
+        "baselineMaxTriangleGradient": 1.1721280105326637,
+        "finalMaxTriangleGradient": 1.0934859322947896,
+        "baselineFailCount": 374,
+        "finalFailCount": 506,
+        "introducedFailCount": 66,
+        "resolvedFailCount": 2,
+        "introducedFirst": [
+          [
+            848,
+            -1966,
+            0.3778814671975865
+          ],
+          [
+            847.68,
+            -1966,
+            0.3778814671975865
+          ],
+          [
+            847.7043585495963,
+            -1966.122458698357,
+            0.3778814671975865
+          ],
+          [
+            847.7737258300203,
+            -1966.2262741699797,
+            0.3778814671975865
+          ],
+          [
+            847.8775413016432,
+            -1966.2956414504035,
+            0.3778814671975865
+          ]
+        ]
+      },
+      "resourceDeltas": [
+        0,
+        0
+      ],
+      "homeDelta": 0
+    },
+    {
+      "id": "C",
+      "check": {
+        "baselineMaxTriangleGradient": 1.1721280105326637,
+        "finalMaxTriangleGradient": 1.0802272879007384,
+        "baselineFailCount": 374,
+        "finalFailCount": 454,
+        "introducedFailCount": 40,
+        "resolvedFailCount": 2,
+        "introducedFirst": [
+          [
+            848,
+            -1966,
+            0.43509681059811983
+          ],
+          [
+            847.68,
+            -1966,
+            0.43509681059811983
+          ],
+          [
+            847.7043585495963,
+            -1966.122458698357,
+            0.43509681059811983
+          ],
+          [
+            847.7737258300203,
+            -1966.2262741699797,
+            0.43509681059811983
+          ],
+          [
+            847.8775413016432,
+            -1966.2956414504035,
+            0.43509681059811983
+          ]
+        ]
+      },
+      "resourceDeltas": [
+        0,
+        0
+      ],
+      "homeDelta": 0
+    }
+  ],
+  "ecology": {
+    "16,-41": {
+      "scenery": [],
+      "forage": []
+    },
+    "16,-40": {
+      "scenery": [],
+      "forage": []
+    },
+    "16,-39": {
+      "scenery": [],
+      "forage": [
+        "f1:r:16:-39:0",
+        "f1:r:16:-39:1",
+        "f1:r:16:-39:2",
+        "f1:r:16:-39:3",
+        "f1:r:16:-39:4",
+        "f1:r:16:-39:5"
+      ]
+    },
+    "17,-41": {
+      "scenery": [],
+      "forage": []
+    },
+    "17,-40": {
+      "scenery": [],
+      "forage": []
+    },
+    "17,-39": {
+      "scenery": [],
+      "forage": [
+        "f1:r:17:-39:0",
+        "f1:r:17:-39:1",
+        "f1:r:17:-39:2",
+        "f1:r:17:-39:3",
+        "f1:r:17:-39:4",
+        "f1:r:17:-39:5",
+        "f1:r:17:-39:6",
+        "f1:r:17:-39:7"
+      ]
+    }
+  },
+  "ecologyParity": "NOT_PERFORMED: source is unchanged and candidate support failure ends the bounded screen set; this is a baseline enumeration only, not an after-diff",
+  "auditSource": {
+    "path": "art/reviews/emberglass-caldera/rotation-1/structural-plan-v2-executed-proof.mjs",
+    "repoRootCommand": "node art/reviews/emberglass-caldera/rotation-1/structural-plan-v2-executed-proof.mjs",
+    "sha256": "ed7c33b5d90503ea00b9d3fa5617fd472f6b1af33183642fb5870ed80fe654cc"
+  }
+}

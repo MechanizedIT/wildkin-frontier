@@ -1,0 +1,3712 @@
+{
+  "label": "enclosure-before",
+  "errors": [],
+  "frames": [
+    {
+      "name": "crown-outlook",
+      "pos": {
+        "x": -470,
+        "y": 24.908954620361328,
+        "z": 722
+      },
+      "grounded": true,
+      "mode": "IDLE",
+      "terrain": 24.360773638912036,
+      "render": {
+        "frame": 576,
+        "calls": 134,
+        "triangles": 207516,
+        "points": 0,
+        "lines": 0
+      },
+      "fps": 159,
+      "scenery": {
+        "residentCount": 388,
+        "residentIds": [
+          "f1:s:rootbound-wildwood:heartroot-living-landmark",
+          "f1:s:rootbound-wildwood:forest--455-712",
+          "f1:s:rootbound-wildwood:forest--455-712-bush-0",
+          "f1:s:rootbound-wildwood:forest--455-719",
+          "f1:s:rootbound-wildwood:forest--455-719-bush-0",
+          "f1:s:rootbound-wildwood:forest--462-719",
+          "f1:s:rootbound-wildwood:forest--462-719-bush-0",
+          "f1:s:rootbound-wildwood:forest--462-727",
+          "f1:s:rootbound-wildwood:forest--462-727-bush-0",
+          "f1:s:rootbound-wildwood:forest--462-727-bush-1",
+          "f1:s:rootbound-wildwood:forest--462-734",
+          "f1:s:rootbound-wildwood:forest--462-734-bush-1",
+          "f1:s:rootbound-wildwood:forest--470-727",
+          "f1:s:rootbound-wildwood:forest--470-727-bush-0",
+          "f1:s:rootbound-wildwood:forest--470-727-bush-1",
+          "f1:s:rootbound-wildwood:forest--477-704",
+          "f1:s:rootbound-wildwood:forest--477-712",
+          "f1:s:rootbound-wildwood:forest--477-712-bush-1",
+          "f1:s:rootbound-wildwood:forest--485-719-bush-0",
+          "f1:s:rootbound-wildwood:forest--485-727-bush-0",
+          "f1:s:rootbound-wildwood:forest--485-727-bush-1",
+          "f1:s:rootbound-wildwood:forest--485-734",
+          "f1:s:rootbound-wildwood:forest--485-734-bush-0",
+          "f1:s:rootbound-wildwood:forest--485-734-bush-1",
+          "f1:s:rootbound-wildwood:forest--492-712",
+          "f1:s:rootbound-wildwood:forest--492-712-bush-0",
+          "f1:s:rootbound-wildwood:forest--492-719",
+          "f1:s:rootbound-wildwood:forest--492-719-bush-0",
+          "f1:s:rootbound-wildwood:forest--492-727",
+          "f1:s:rootbound-wildwood:forest--492-727-bush-0",
+          "f1:s:rootbound-wildwood:forest--492-734",
+          "f1:s:rootbound-wildwood:forest--500-704-bush-0",
+          "f1:s:rootbound-wildwood:forest--500-712",
+          "f1:s:rootbound-wildwood:forest--500-719-bush-0",
+          "f1:s:rootbound-wildwood:heartroot-core",
+          "f1:s:rootbound-wildwood:heartroot-crown-base",
+          "f1:s:rootbound-wildwood:heartroot-crown-left",
+          "f1:s:rootbound-wildwood:heartroot-crown-right",
+          "f1:s:rootbound-wildwood:heartroot-crown-web-1",
+          "f1:s:rootbound-wildwood:heartroot-crown-web-2",
+          "f1:s:rootbound-wildwood:heartroot-crown-wing-1",
+          "f1:s:rootbound-wildwood:heartroot-crown-wing-2",
+          "f1:s:rootbound-wildwood:heartroot-wing-east",
+          "f1:s:rootbound-wildwood:heartroot-wing-west",
+          "f1:s:rootbound-wildwood:edge-gallery-east-02",
+          "f1:s:rootbound-wildwood:edge-gallery-east-03",
+          "f1:s:rootbound-wildwood:edge-gallery-east-04",
+          "f1:s:rootbound-wildwood:edge-gallery-west-04",
+          "f1:s:rootbound-wildwood:edge-grove-rear-02",
+          "f1:s:rootbound-wildwood:forest--402-719",
+          "f1:s:rootbound-wildwood:forest--402-734",
+          "f1:s:rootbound-wildwood:forest--410-712",
+          "f1:s:rootbound-wildwood:forest--410-719",
+          "f1:s:rootbound-wildwood:forest--417-704",
+          "f1:s:rootbound-wildwood:forest--425-712",
+          "f1:s:rootbound-wildwood:forest--432-719",
+          "f1:s:rootbound-wildwood:forest--432-727",
+          "f1:s:rootbound-wildwood:forest--440-712",
+          "f1:s:rootbound-wildwood:forest--440-712-bush-0",
+          "f1:s:rootbound-wildwood:forest--440-719-bush-0",
+          "f1:s:rootbound-wildwood:forest--440-734",
+          "f1:s:rootbound-wildwood:forest--447-719",
+          "f1:s:rootbound-wildwood:forest--447-719-bush-0",
+          "f1:s:rootbound-wildwood:forest--455-652",
+          "f1:s:rootbound-wildwood:forest--455-659",
+          "f1:s:rootbound-wildwood:forest--455-659-bush-0",
+          "f1:s:rootbound-wildwood:forest--462-652",
+          "f1:s:rootbound-wildwood:forest--462-652-bush-0",
+          "f1:s:rootbound-wildwood:forest--462-652-bush-1",
+          "f1:s:rootbound-wildwood:forest--462-659",
+          "f1:s:rootbound-wildwood:forest--462-659-bush-0",
+          "f1:s:rootbound-wildwood:forest--462-659-bush-1",
+          "f1:s:rootbound-wildwood:forest--462-689",
+          "f1:s:rootbound-wildwood:forest--462-697",
+          "f1:s:rootbound-wildwood:forest--462-697-bush-0",
+          "f1:s:rootbound-wildwood:forest--470-652",
+          "f1:s:rootbound-wildwood:forest--470-652-bush-0",
+          "f1:s:rootbound-wildwood:forest--470-652-bush-1",
+          "f1:s:rootbound-wildwood:forest--470-659",
+          "f1:s:rootbound-wildwood:forest--470-659-bush-1",
+          "f1:s:rootbound-wildwood:forest--470-674",
+          "f1:s:rootbound-wildwood:forest--470-674-bush-0",
+          "f1:s:rootbound-wildwood:forest--470-674-bush-1",
+          "f1:s:rootbound-wildwood:forest--470-682",
+          "f1:s:rootbound-wildwood:forest--470-689",
+          "f1:s:rootbound-wildwood:forest--470-689-bush-0",
+          "f1:s:rootbound-wildwood:forest--470-697",
+          "f1:s:rootbound-wildwood:forest--470-697-bush-0",
+          "f1:s:rootbound-wildwood:forest--470-697-bush-1",
+          "f1:s:rootbound-wildwood:forest--477-667",
+          "f1:s:rootbound-wildwood:forest--477-667-bush-0",
+          "f1:s:rootbound-wildwood:forest--477-667-bush-1",
+          "f1:s:rootbound-wildwood:forest--477-682",
+          "f1:s:rootbound-wildwood:forest--477-682-bush-0",
+          "f1:s:rootbound-wildwood:forest--477-689",
+          "f1:s:rootbound-wildwood:forest--477-704-bush-0",
+          "f1:s:rootbound-wildwood:forest--485-652",
+          "f1:s:rootbound-wildwood:forest--485-652-bush-0",
+          "f1:s:rootbound-wildwood:forest--485-659",
+          "f1:s:rootbound-wildwood:forest--485-659-bush-0",
+          "f1:s:rootbound-wildwood:forest--485-667",
+          "f1:s:rootbound-wildwood:forest--485-667-bush-0",
+          "f1:s:rootbound-wildwood:forest--485-697",
+          "f1:s:rootbound-wildwood:forest--485-697-bush-0",
+          "f1:s:rootbound-wildwood:forest--500-682-bush-0",
+          "f1:s:rootbound-wildwood:forest--500-682-bush-1",
+          "f1:s:rootbound-wildwood:forest--500-704",
+          "f1:s:rootbound-wildwood:forest--500-712-bush-1",
+          "f1:s:rootbound-wildwood:forest--500-719",
+          "f1:s:rootbound-wildwood:forest--500-719-bush-1",
+          "f1:s:rootbound-wildwood:forest--500-727",
+          "f1:s:rootbound-wildwood:forest--500-727-bush-0",
+          "f1:s:rootbound-wildwood:forest--507-712",
+          "f1:s:rootbound-wildwood:forest--507-712-bush-0",
+          "f1:s:rootbound-wildwood:forest--507-727",
+          "f1:s:rootbound-wildwood:forest--515-704",
+          "f1:s:rootbound-wildwood:forest--515-704-bush-1",
+          "f1:s:rootbound-wildwood:forest--515-734",
+          "f1:s:rootbound-wildwood:forest--515-734-bush-0",
+          "f1:s:rootbound-wildwood:forest--515-734-bush-1",
+          "f1:s:rootbound-wildwood:gallery-north-collar",
+          "f1:s:rootbound-wildwood:gallery-terminus",
+          "f1:s:rootbound-wildwood:gallery-west-rib-3",
+          "f1:s:rootbound-wildwood:verge-seam-2",
+          "f1:s:rootbound-wildwood:verge-shelf-frame-3",
+          "f1:s:rootbound-wildwood:verge-shelf-rubble-3",
+          "f1:s:rootbound-wildwood:verge-shelf-rubble-4",
+          "f1:s:rootbound-wildwood:edge-grove-east-01",
+          "f1:s:rootbound-wildwood:forest--402-682",
+          "f1:s:rootbound-wildwood:forest--410-652",
+          "f1:s:rootbound-wildwood:forest--410-652-bush-0",
+          "f1:s:rootbound-wildwood:forest--417-659",
+          "f1:s:rootbound-wildwood:forest--417-659-bush-0",
+          "f1:s:rootbound-wildwood:forest--417-659-bush-1",
+          "f1:s:rootbound-wildwood:forest--417-682",
+          "f1:s:rootbound-wildwood:forest--425-652",
+          "f1:s:rootbound-wildwood:forest--425-652-bush-0",
+          "f1:s:rootbound-wildwood:forest--425-659",
+          "f1:s:rootbound-wildwood:forest--425-659-bush-0",
+          "f1:s:rootbound-wildwood:forest--425-659-bush-1",
+          "f1:s:rootbound-wildwood:forest--425-697",
+          "f1:s:rootbound-wildwood:forest--432-659",
+          "f1:s:rootbound-wildwood:forest--432-659-bush-0",
+          "f1:s:rootbound-wildwood:forest--432-667",
+          "f1:s:rootbound-wildwood:forest--432-667-bush-1",
+          "f1:s:rootbound-wildwood:forest--432-689",
+          "f1:s:rootbound-wildwood:forest--440-652-bush-0",
+          "f1:s:rootbound-wildwood:forest--440-652-bush-1",
+          "f1:s:rootbound-wildwood:forest--440-659",
+          "f1:s:rootbound-wildwood:forest--440-659-bush-0",
+          "f1:s:rootbound-wildwood:forest--440-659-bush-1",
+          "f1:s:rootbound-wildwood:forest--440-667",
+          "f1:s:rootbound-wildwood:forest--440-667-bush-0",
+          "f1:s:rootbound-wildwood:forest--440-667-bush-1",
+          "f1:s:rootbound-wildwood:forest--440-682",
+          "f1:s:rootbound-wildwood:forest--440-689",
+          "f1:s:rootbound-wildwood:forest--440-689-bush-0",
+          "f1:s:rootbound-wildwood:forest--440-689-bush-1",
+          "f1:s:rootbound-wildwood:forest--440-697",
+          "f1:s:rootbound-wildwood:forest--440-697-bush-0",
+          "f1:s:rootbound-wildwood:forest--440-697-bush-1",
+          "f1:s:rootbound-wildwood:forest--447-659",
+          "f1:s:rootbound-wildwood:forest--447-659-bush-0",
+          "f1:s:rootbound-wildwood:forest--447-659-bush-1",
+          "f1:s:rootbound-wildwood:forest--500-652",
+          "f1:s:rootbound-wildwood:forest--500-659",
+          "f1:s:rootbound-wildwood:forest--500-659-bush-0",
+          "f1:s:rootbound-wildwood:forest--500-659-bush-1",
+          "f1:s:rootbound-wildwood:forest--500-667",
+          "f1:s:rootbound-wildwood:forest--500-667-bush-0",
+          "f1:s:rootbound-wildwood:forest--500-682",
+          "f1:s:rootbound-wildwood:forest--500-689-bush-0",
+          "f1:s:rootbound-wildwood:forest--500-697-bush-1",
+          "f1:s:rootbound-wildwood:forest--507-652-bush-0",
+          "f1:s:rootbound-wildwood:forest--507-667",
+          "f1:s:rootbound-wildwood:forest--507-667-bush-0",
+          "f1:s:rootbound-wildwood:forest--507-674",
+          "f1:s:rootbound-wildwood:forest--507-682",
+          "f1:s:rootbound-wildwood:forest--507-682-bush-0",
+          "f1:s:rootbound-wildwood:forest--507-697",
+          "f1:s:rootbound-wildwood:forest--507-697-bush-0",
+          "f1:s:rootbound-wildwood:forest--507-697-bush-1",
+          "f1:s:rootbound-wildwood:forest--515-652",
+          "f1:s:rootbound-wildwood:forest--515-659",
+          "f1:s:rootbound-wildwood:forest--515-659-bush-0",
+          "f1:s:rootbound-wildwood:forest--515-659-bush-1",
+          "f1:s:rootbound-wildwood:forest--515-667-bush-0",
+          "f1:s:rootbound-wildwood:forest--515-667-bush-1",
+          "f1:s:rootbound-wildwood:forest--515-674",
+          "f1:s:rootbound-wildwood:forest--515-674-bush-0",
+          "f1:s:rootbound-wildwood:forest--515-689",
+          "f1:s:rootbound-wildwood:forest--515-689-bush-0",
+          "f1:s:rootbound-wildwood:forest--515-689-bush-1",
+          "f1:s:rootbound-wildwood:grove-fallen-timber-1",
+          "f1:s:rootbound-wildwood:lantern-log",
+          "f1:s:rootbound-wildwood:lantern-ring-a",
+          "f1:s:rootbound-wildwood:verge-east-shards",
+          "f1:s:rootbound-wildwood:verge-shelf-frame-0",
+          "f1:s:rootbound-wildwood:verge-shelf-frame-1",
+          "f1:s:rootbound-wildwood:verge-shelf-frame-2",
+          "f1:s:rootbound-wildwood:verge-shelf-frame-4",
+          "f1:s:rootbound-wildwood:verge-shelf-rubble-0",
+          "f1:s:rootbound-wildwood:verge-shelf-rubble-1",
+          "f1:s:rootbound-wildwood:verge-shelf-rubble-2",
+          "f1:s:rootbound-wildwood:verge-west-seam",
+          "f2c:s:-10:15:seed-1",
+          "f2c:s:-11:15:seed-1",
+          "f2c:s:-9:15:seed-0",
+          "f2c:s:-10:14:seed-17",
+          "f2c:s:-11:14:seed-1",
+          "f2c:s:-10:13:seed-1",
+          "f2c:s:-10:15:seed-2",
+          "f2c:s:-11:13:seed-3",
+          "f2c:s:-11:15:seed-2",
+          "f2c:s:-9:13:seed-22",
+          "f2c:s:-9:15:seed-1",
+          "f2c:s:-10:14:seed-19",
+          "f2c:s:-11:14:seed-10",
+          "f2c:s:-10:13:seed-10",
+          "f2c:s:-10:15:seed-3",
+          "f2c:s:-11:13:seed-8",
+          "f2c:s:-11:15:seed-3",
+          "f2c:s:-9:15:seed-2",
+          "f2c:s:-10:14:seed-20",
+          "f2c:s:-11:14:seed-13",
+          "f2c:s:-10:15:seed-4",
+          "f2c:s:-11:15:seed-4",
+          "f2c:s:-9:15:seed-4",
+          "f2c:s:-10:14:seed-23",
+          "f2c:s:-11:14:seed-4",
+          "f2c:s:-10:15:seed-5",
+          "f2c:s:-11:15:seed-5",
+          "f2c:s:-9:15:seed-5",
+          "f2c:s:-11:14:seed-7",
+          "f2c:s:-10:15:seed-7",
+          "f2c:s:-11:15:seed-7",
+          "f2c:s:-9:15:seed-8",
+          "f2c:s:-11:14:seed-9",
+          "f2c:i:-10:14:1",
+          "f2c:i:-11:14:0",
+          "f2c:i:-10:13:10",
+          "f2c:i:-10:15:0",
+          "f2c:i:-9:14:10",
+          "f2c:i:-11:13:0",
+          "f2c:i:-11:15:0",
+          "f2c:i:-9:13:118",
+          "f2c:i:-9:15:1",
+          "f2c:i:-10:14:106",
+          "f2c:i:-11:14:100",
+          "f2c:i:-10:13:101",
+          "f2c:i:-10:15:1",
+          "f2c:i:-9:14:122",
+          "f2c:i:-11:13:100",
+          "f2c:i:-11:15:1",
+          "f2c:i:-9:13:125",
+          "f2c:i:-9:15:10",
+          "f2c:i:-10:14:11",
+          "f2c:i:-11:14:103",
+          "f2c:i:-10:13:111",
+          "f2c:i:-10:15:10",
+          "f2c:i:-9:14:129",
+          "f2c:i:-11:13:101",
+          "f2c:i:-11:15:10",
+          "f2c:i:-9:13:13",
+          "f2c:i:-9:15:100",
+          "f2c:i:-10:14:113",
+          "f2c:i:-11:14:105",
+          "f2c:i:-10:13:113",
+          "f2c:i:-10:15:100",
+          "f2c:i:-9:14:161",
+          "f2c:i:-11:13:105",
+          "f2c:i:-11:15:100",
+          "f2c:i:-9:13:139",
+          "f2c:i:-9:15:101",
+          "f2c:i:-10:14:120",
+          "f2c:i:-11:14:107",
+          "f2c:i:-10:13:117",
+          "f2c:i:-10:15:101",
+          "f2c:i:-9:14:17",
+          "f2c:i:-11:13:107",
+          "f2c:i:-11:15:101",
+          "f2c:i:-9:13:146",
+          "f2c:i:-9:15:102",
+          "f2c:i:-10:14:127",
+          "f2c:i:-11:14:109",
+          "f2c:i:-10:13:118",
+          "f2c:i:-10:15:102",
+          "f2c:i:-9:14:266",
+          "f2c:i:-11:13:108",
+          "f2c:i:-11:15:102",
+          "f2c:i:-9:13:157",
+          "f2c:i:-9:15:103",
+          "f2c:i:-10:14:131",
+          "f2c:i:-11:14:11",
+          "f2c:i:-10:13:119",
+          "f2c:i:-10:15:103",
+          "f2c:i:-9:14:273",
+          "f2c:i:-11:13:11",
+          "f2c:i:-11:15:104",
+          "f2c:i:-9:13:164",
+          "f2c:i:-9:15:104",
+          "f2c:i:-10:14:134",
+          "f2c:i:-11:14:110",
+          "f2c:i:-10:13:125",
+          "f2c:i:-10:15:105",
+          "f2c:i:-9:14:303",
+          "f2c:i:-11:13:110",
+          "f2c:i:-11:15:105",
+          "f2c:i:-9:13:171",
+          "f2c:i:-9:15:106",
+          "f2c:i:-10:14:138",
+          "f2c:i:-11:14:114",
+          "f2c:i:-10:13:126",
+          "f2c:i:-10:15:106",
+          "f2c:i:-9:14:310",
+          "f2c:i:-11:13:112",
+          "f2c:i:-11:15:106",
+          "f2c:i:-9:13:177",
+          "f2c:i:-9:15:107",
+          "f2c:i:-10:14:141",
+          "f2c:i:-11:14:116",
+          "f2c:i:-10:13:132",
+          "f2c:i:-10:15:107",
+          "f2c:i:-9:14:378",
+          "f2c:i:-11:13:114",
+          "f2c:i:-11:15:107",
+          "f2c:i:-9:13:178",
+          "f2c:i:-9:15:108",
+          "f2c:i:-10:14:148",
+          "f2c:i:-11:14:119",
+          "f2c:i:-10:13:136",
+          "f2c:i:-10:15:109",
+          "f2c:i:-9:14:385",
+          "f2c:i:-11:13:116",
+          "f2c:i:-11:15:108",
+          "f2c:i:-9:13:184",
+          "f2c:i:-9:15:109",
+          "f2c:i:-10:14:15",
+          "f2c:i:-11:14:121",
+          "f2c:i:-10:13:154",
+          "f2c:i:-10:15:11",
+          "f2c:i:-9:14:417",
+          "f2c:i:-11:13:117",
+          "f2c:i:-11:15:109",
+          "f2c:i:-9:13:189",
+          "f2c:i:-9:15:11",
+          "f2c:i:-10:14:151",
+          "f2c:i:-11:14:123",
+          "f2c:i:-10:13:157",
+          "f2c:i:-10:15:110",
+          "f2c:i:-9:14:47",
+          "f2c:i:-11:13:119",
+          "f2c:i:-11:15:11",
+          "f2c:i:-9:13:196",
+          "f2c:i:-9:15:110",
+          "f2c:i:-10:14:152",
+          "f2c:i:-11:14:125",
+          "f2c:i:-10:13:165",
+          "f2c:i:-10:15:112",
+          "f2c:i:-9:14:497",
+          "f2c:i:-11:13:121",
+          "f2c:i:-11:15:111",
+          "f2c:i:-9:13:2",
+          "f2c:i:-9:15:111",
+          "f2c:i:-10:14:155",
+          "f2c:i:-11:14:126",
+          "f2c:i:-10:13:183",
+          "f2c:i:-10:15:113",
+          "f2c:i:-9:14:54",
+          "f2c:i:-11:13:126",
+          "f2c:i:-11:15:112",
+          "f2c:i:-9:13:20",
+          "f2c:i:-9:15:113",
+          "f2c:i:-10:14:159",
+          "f2c:i:-11:14:128",
+          "f2c:i:-10:13:186",
+          "f2c:i:-10:15:114",
+          "f2c:i:-11:13:128",
+          "f2c:i:-11:15:113",
+          "f2c:i:-9:13:203",
+          "f2c:s:-10:16:seed-1",
+          "f2c:s:-12:14:seed-0",
+          "f2c:s:-11:12:seed-0",
+          "f2c:s:-11:16:seed-1",
+          "f2c:s:-12:13:seed-1",
+          "f2c:s:-8:15:seed-1",
+          "f2c:s:-9:16:seed-0",
+          "f2c:s:-12:12:seed-2"
+        ],
+        "canopyCount": 11,
+        "colliderCount": 96,
+        "clearanceRecipeCache": {
+          "forageCount": 49,
+          "wildlifeCount": 49
+        },
+        "sceneryRecipeCache": {
+          "ordinaryCount": 25,
+          "infillCount": 9
+        },
+        "groundPatchCache": {
+          "entryCount": 59,
+          "maxEntries": 512,
+          "maxPatchRecords": 13
+        },
+        "streaming": {
+          "preparedPublications": 0,
+          "unfinishedPublications": 0,
+          "synchronousPublications": 2,
+          "cancelled": 0,
+          "preparationFailures": 0,
+          "lastWorkMs": 0,
+          "maxWorkMs": 0,
+          "phase": null,
+          "target": null
+        },
+        "lowCount": 377,
+        "stoneSolidCount": 5,
+        "surfaceCount": 96,
+        "lowDrawCount": 203,
+        "lowTriangleCount": 264642,
+        "lowGeometryCount": 17,
+        "lowGeometryVertexCount": 113460,
+        "lowInstanceCount": 377,
+        "groundDrawCount": 1,
+        "groundClusterCount": 640,
+        "groundClusterTriangleCount": 10240
+      },
+      "visuals": [
+        {
+          "assetId": "asset_rootbound_oak",
+          "renderCellId": "forest:-19,29",
+          "specIds": [
+            "f1:s:rootbound-wildwood:heartroot-living-landmark",
+            "f1:s:rootbound-wildwood:forest--462-734",
+            "f1:s:rootbound-wildwood:forest--470-727"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_oak",
+          "renderCellId": "forest:-19,28",
+          "specIds": [
+            "f1:s:rootbound-wildwood:forest--455-712",
+            "f1:s:rootbound-wildwood:forest--455-719",
+            "f1:s:rootbound-wildwood:forest--462-719",
+            "f1:s:rootbound-wildwood:forest--462-727"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_bush",
+          "renderCellId": "forest:-19,28",
+          "specIds": [
+            "f1:s:rootbound-wildwood:forest--455-712-bush-0",
+            "f1:s:rootbound-wildwood:forest--455-719-bush-0",
+            "f1:s:rootbound-wildwood:forest--462-719-bush-0",
+            "f1:s:rootbound-wildwood:forest--462-727-bush-0"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_fern",
+          "renderCellId": "forest:-19,29",
+          "specIds": [
+            "f1:s:rootbound-wildwood:forest--462-727-bush-1",
+            "f1:s:rootbound-wildwood:forest--462-734-bush-1"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_bush",
+          "renderCellId": "forest:-19,29",
+          "specIds": [
+            "f1:s:rootbound-wildwood:forest--470-727-bush-0"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_fern",
+          "renderCellId": "forest:-19,28",
+          "specIds": [
+            "f1:s:rootbound-wildwood:forest--470-727-bush-1"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_birch",
+          "renderCellId": "forest:-20,28",
+          "specIds": [
+            "f1:s:rootbound-wildwood:forest--477-704"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_oak",
+          "renderCellId": "forest:-20,28",
+          "specIds": [
+            "f1:s:rootbound-wildwood:forest--477-712",
+            "f1:s:rootbound-wildwood:forest--492-712",
+            "f1:s:rootbound-wildwood:forest--492-719",
+            "f1:s:rootbound-wildwood:forest--500-712"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_fern",
+          "renderCellId": "forest:-20,28",
+          "specIds": [
+            "f1:s:rootbound-wildwood:forest--477-712-bush-1"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_bush",
+          "renderCellId": "forest:-20,28",
+          "specIds": [
+            "f1:s:rootbound-wildwood:forest--485-719-bush-0",
+            "f1:s:rootbound-wildwood:forest--485-727-bush-0",
+            "f1:s:rootbound-wildwood:forest--492-712-bush-0",
+            "f1:s:rootbound-wildwood:forest--492-719-bush-0",
+            "f1:s:rootbound-wildwood:forest--500-704-bush-0",
+            "f1:s:rootbound-wildwood:forest--500-719-bush-0"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_fern",
+          "renderCellId": "forest:-20,29",
+          "specIds": [
+            "f1:s:rootbound-wildwood:forest--485-727-bush-1",
+            "f1:s:rootbound-wildwood:forest--485-734-bush-1"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_oak",
+          "renderCellId": "forest:-20,29",
+          "specIds": [
+            "f1:s:rootbound-wildwood:forest--485-734",
+            "f1:s:rootbound-wildwood:forest--492-727",
+            "f1:s:rootbound-wildwood:forest--492-734"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_bush",
+          "renderCellId": "forest:-20,29",
+          "specIds": [
+            "f1:s:rootbound-wildwood:forest--485-734-bush-0",
+            "f1:s:rootbound-wildwood:forest--492-727-bush-0"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_heartroot_core_placeholder",
+          "renderCellId": "-38,58",
+          "specIds": [
+            "f1:s:rootbound-wildwood:heartroot-core"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_block_root",
+          "renderCellId": "-39,58",
+          "specIds": [
+            "f1:s:rootbound-wildwood:heartroot-crown-base"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_block_leaf",
+          "renderCellId": "-39,58",
+          "specIds": [
+            "f1:s:rootbound-wildwood:heartroot-crown-left",
+            "f1:s:rootbound-wildwood:heartroot-crown-wing-1"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_block_leaf",
+          "renderCellId": "-38,58",
+          "specIds": [
+            "f1:s:rootbound-wildwood:heartroot-crown-right",
+            "f1:s:rootbound-wildwood:heartroot-crown-wing-2"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_block_root",
+          "renderCellId": "-38,57",
+          "specIds": [
+            "f1:s:rootbound-wildwood:heartroot-crown-web-1"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_block_root",
+          "renderCellId": "-38,58",
+          "specIds": [
+            "f1:s:rootbound-wildwood:heartroot-crown-web-2"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_heartroot_wing_placeholder",
+          "renderCellId": "-37,58",
+          "specIds": [
+            "f1:s:rootbound-wildwood:heartroot-wing-east"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_heartroot_wing_placeholder",
+          "renderCellId": "-39,58",
+          "specIds": [
+            "f1:s:rootbound-wildwood:heartroot-wing-west"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_block_root",
+          "renderCellId": "-38,52",
+          "specIds": [
+            "f1:s:rootbound-wildwood:edge-gallery-east-02",
+            "f1:s:rootbound-wildwood:edge-gallery-east-04"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_block_leaf",
+          "renderCellId": "-38,52",
+          "specIds": [
+            "f1:s:rootbound-wildwood:edge-gallery-east-03"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_block_leaf",
+          "renderCellId": "-39,53",
+          "specIds": [
+            "f1:s:rootbound-wildwood:edge-gallery-west-04"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_block_root",
+          "renderCellId": "-36,56",
+          "specIds": [
+            "f1:s:rootbound-wildwood:edge-grove-rear-02"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_oak",
+          "renderCellId": "forest:-17,28",
+          "specIds": [
+            "f1:s:rootbound-wildwood:forest--402-719",
+            "f1:s:rootbound-wildwood:forest--410-719",
+            "f1:s:rootbound-wildwood:forest--417-704"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_oak",
+          "renderCellId": "forest:-17,29",
+          "specIds": [
+            "f1:s:rootbound-wildwood:forest--402-734"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_birch",
+          "renderCellId": "forest:-17,28",
+          "specIds": [
+            "f1:s:rootbound-wildwood:forest--410-712",
+            "f1:s:rootbound-wildwood:forest--425-712"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_oak",
+          "renderCellId": "forest:-18,28",
+          "specIds": [
+            "f1:s:rootbound-wildwood:forest--432-719",
+            "f1:s:rootbound-wildwood:forest--447-719"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_birch",
+          "renderCellId": "forest:-18,29",
+          "specIds": [
+            "f1:s:rootbound-wildwood:forest--432-727",
+            "f1:s:rootbound-wildwood:forest--440-734"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_birch",
+          "renderCellId": "forest:-18,28",
+          "specIds": [
+            "f1:s:rootbound-wildwood:forest--440-712"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_bush",
+          "renderCellId": "forest:-18,28",
+          "specIds": [
+            "f1:s:rootbound-wildwood:forest--440-712-bush-0",
+            "f1:s:rootbound-wildwood:forest--440-719-bush-0",
+            "f1:s:rootbound-wildwood:forest--447-719-bush-0"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_birch",
+          "renderCellId": "forest:-19,26",
+          "specIds": [
+            "f1:s:rootbound-wildwood:forest--455-652",
+            "f1:s:rootbound-wildwood:forest--462-659",
+            "f1:s:rootbound-wildwood:forest--470-659"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_oak",
+          "renderCellId": "forest:-19,26",
+          "specIds": [
+            "f1:s:rootbound-wildwood:forest--455-659",
+            "f1:s:rootbound-wildwood:forest--462-652",
+            "f1:s:rootbound-wildwood:forest--470-652",
+            "f1:s:rootbound-wildwood:forest--470-674"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_bush",
+          "renderCellId": "forest:-19,26",
+          "specIds": [
+            "f1:s:rootbound-wildwood:forest--455-659-bush-0",
+            "f1:s:rootbound-wildwood:forest--462-652-bush-0",
+            "f1:s:rootbound-wildwood:forest--462-659-bush-0",
+            "f1:s:rootbound-wildwood:forest--470-652-bush-0",
+            "f1:s:rootbound-wildwood:forest--470-674-bush-0"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_fern",
+          "renderCellId": "forest:-19,26",
+          "specIds": [
+            "f1:s:rootbound-wildwood:forest--462-652-bush-1",
+            "f1:s:rootbound-wildwood:forest--462-659-bush-1",
+            "f1:s:rootbound-wildwood:forest--470-652-bush-1",
+            "f1:s:rootbound-wildwood:forest--470-659-bush-1",
+            "f1:s:rootbound-wildwood:forest--470-674-bush-1"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_oak",
+          "renderCellId": "forest:-19,27",
+          "specIds": [
+            "f1:s:rootbound-wildwood:forest--462-689",
+            "f1:s:rootbound-wildwood:forest--470-689",
+            "f1:s:rootbound-wildwood:forest--470-697"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_birch",
+          "renderCellId": "forest:-19,27",
+          "specIds": [
+            "f1:s:rootbound-wildwood:forest--462-697",
+            "f1:s:rootbound-wildwood:forest--470-682"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_bush",
+          "renderCellId": "forest:-19,27",
+          "specIds": [
+            "f1:s:rootbound-wildwood:forest--462-697-bush-0",
+            "f1:s:rootbound-wildwood:forest--470-689-bush-0",
+            "f1:s:rootbound-wildwood:forest--470-697-bush-0"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_fern",
+          "renderCellId": "forest:-19,27",
+          "specIds": [
+            "f1:s:rootbound-wildwood:forest--470-697-bush-1"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_birch",
+          "renderCellId": "forest:-20,26",
+          "specIds": [
+            "f1:s:rootbound-wildwood:forest--477-667",
+            "f1:s:rootbound-wildwood:forest--485-652",
+            "f1:s:rootbound-wildwood:forest--485-659"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_bush",
+          "renderCellId": "forest:-20,26",
+          "specIds": [
+            "f1:s:rootbound-wildwood:forest--477-667-bush-0",
+            "f1:s:rootbound-wildwood:forest--485-652-bush-0",
+            "f1:s:rootbound-wildwood:forest--485-659-bush-0",
+            "f1:s:rootbound-wildwood:forest--485-667-bush-0"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_fern",
+          "renderCellId": "forest:-20,26",
+          "specIds": [
+            "f1:s:rootbound-wildwood:forest--477-667-bush-1"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_oak",
+          "renderCellId": "forest:-20,27",
+          "specIds": [
+            "f1:s:rootbound-wildwood:forest--477-682",
+            "f1:s:rootbound-wildwood:forest--477-689"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_bush",
+          "renderCellId": "forest:-20,27",
+          "specIds": [
+            "f1:s:rootbound-wildwood:forest--477-682-bush-0",
+            "f1:s:rootbound-wildwood:forest--477-704-bush-0",
+            "f1:s:rootbound-wildwood:forest--485-697-bush-0",
+            "f1:s:rootbound-wildwood:forest--500-682-bush-0"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_oak",
+          "renderCellId": "forest:-20,26",
+          "specIds": [
+            "f1:s:rootbound-wildwood:forest--485-667"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_birch",
+          "renderCellId": "forest:-20,27",
+          "specIds": [
+            "f1:s:rootbound-wildwood:forest--485-697"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_fern",
+          "renderCellId": "forest:-20,27",
+          "specIds": [
+            "f1:s:rootbound-wildwood:forest--500-682-bush-1"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_oak",
+          "renderCellId": "forest:-21,28",
+          "specIds": [
+            "f1:s:rootbound-wildwood:forest--500-704",
+            "f1:s:rootbound-wildwood:forest--500-719",
+            "f1:s:rootbound-wildwood:forest--507-712",
+            "f1:s:rootbound-wildwood:forest--515-704"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_fern",
+          "renderCellId": "forest:-21,28",
+          "specIds": [
+            "f1:s:rootbound-wildwood:forest--500-712-bush-1",
+            "f1:s:rootbound-wildwood:forest--500-719-bush-1",
+            "f1:s:rootbound-wildwood:forest--515-704-bush-1"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_oak",
+          "renderCellId": "forest:-21,29",
+          "specIds": [
+            "f1:s:rootbound-wildwood:forest--500-727",
+            "f1:s:rootbound-wildwood:forest--507-727",
+            "f1:s:rootbound-wildwood:forest--515-734"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_bush",
+          "renderCellId": "forest:-21,29",
+          "specIds": [
+            "f1:s:rootbound-wildwood:forest--500-727-bush-0",
+            "f1:s:rootbound-wildwood:forest--515-734-bush-0"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_bush",
+          "renderCellId": "forest:-21,28",
+          "specIds": [
+            "f1:s:rootbound-wildwood:forest--507-712-bush-0"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_fern",
+          "renderCellId": "forest:-21,29",
+          "specIds": [
+            "f1:s:rootbound-wildwood:forest--515-734-bush-1"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_block_leaf",
+          "renderCellId": "-39,55",
+          "specIds": [
+            "f1:s:rootbound-wildwood:gallery-north-collar"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_gallery_lintel_placeholder",
+          "renderCellId": "-39,52",
+          "specIds": [
+            "f1:s:rootbound-wildwood:gallery-terminus"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_block_leaf",
+          "renderCellId": "-40,54",
+          "specIds": [
+            "f1:s:rootbound-wildwood:gallery-west-rib-3"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_block_thorn",
+          "renderCellId": "-33,56",
+          "specIds": [
+            "f1:s:rootbound-wildwood:verge-seam-2",
+            "f2c:i:-9:14:303"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_block_thorn",
+          "renderCellId": "forest:-17,28",
+          "specIds": [
+            "f1:s:rootbound-wildwood:verge-shelf-frame-3",
+            "f1:s:rootbound-wildwood:verge-shelf-rubble-3"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_block_thorn",
+          "renderCellId": "forest:-18,28",
+          "specIds": [
+            "f1:s:rootbound-wildwood:verge-shelf-rubble-4"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_block_leaf",
+          "renderCellId": "-34,52",
+          "specIds": [
+            "f1:s:rootbound-wildwood:edge-grove-east-01"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_birch",
+          "renderCellId": "forest:-17,27",
+          "specIds": [
+            "f1:s:rootbound-wildwood:forest--402-682",
+            "f1:s:rootbound-wildwood:forest--417-682"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_oak",
+          "renderCellId": "forest:-17,26",
+          "specIds": [
+            "f1:s:rootbound-wildwood:forest--410-652"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_bush",
+          "renderCellId": "forest:-17,26",
+          "specIds": [
+            "f1:s:rootbound-wildwood:forest--410-652-bush-0",
+            "f1:s:rootbound-wildwood:forest--417-659-bush-0",
+            "f1:s:rootbound-wildwood:forest--425-652-bush-0",
+            "f1:s:rootbound-wildwood:forest--425-659-bush-0"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_birch",
+          "renderCellId": "forest:-17,26",
+          "specIds": [
+            "f1:s:rootbound-wildwood:forest--417-659",
+            "f1:s:rootbound-wildwood:forest--425-659"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_fern",
+          "renderCellId": "forest:-17,26",
+          "specIds": [
+            "f1:s:rootbound-wildwood:forest--417-659-bush-1"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_oak",
+          "renderCellId": "forest:-18,26",
+          "specIds": [
+            "f1:s:rootbound-wildwood:forest--425-652",
+            "f1:s:rootbound-wildwood:forest--447-659"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_fern",
+          "renderCellId": "forest:-18,26",
+          "specIds": [
+            "f1:s:rootbound-wildwood:forest--425-659-bush-1",
+            "f1:s:rootbound-wildwood:forest--432-667-bush-1",
+            "f1:s:rootbound-wildwood:forest--440-652-bush-1",
+            "f1:s:rootbound-wildwood:forest--440-659-bush-1",
+            "f1:s:rootbound-wildwood:forest--440-667-bush-1",
+            "f1:s:rootbound-wildwood:forest--447-659-bush-1"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_birch",
+          "renderCellId": "forest:-18,27",
+          "specIds": [
+            "f1:s:rootbound-wildwood:forest--425-697",
+            "f1:s:rootbound-wildwood:forest--440-682",
+            "f1:s:rootbound-wildwood:forest--440-689",
+            "f1:s:rootbound-wildwood:forest--440-697"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_birch",
+          "renderCellId": "forest:-18,26",
+          "specIds": [
+            "f1:s:rootbound-wildwood:forest--432-659",
+            "f1:s:rootbound-wildwood:forest--432-667",
+            "f1:s:rootbound-wildwood:forest--440-659",
+            "f1:s:rootbound-wildwood:forest--440-667"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_bush",
+          "renderCellId": "forest:-18,26",
+          "specIds": [
+            "f1:s:rootbound-wildwood:forest--432-659-bush-0",
+            "f1:s:rootbound-wildwood:forest--440-652-bush-0",
+            "f1:s:rootbound-wildwood:forest--440-659-bush-0",
+            "f1:s:rootbound-wildwood:forest--440-667-bush-0",
+            "f1:s:rootbound-wildwood:forest--447-659-bush-0"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_oak",
+          "renderCellId": "forest:-18,27",
+          "specIds": [
+            "f1:s:rootbound-wildwood:forest--432-689"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_bush",
+          "renderCellId": "forest:-18,27",
+          "specIds": [
+            "f1:s:rootbound-wildwood:forest--440-689-bush-0",
+            "f1:s:rootbound-wildwood:forest--440-697-bush-0"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_fern",
+          "renderCellId": "forest:-18,27",
+          "specIds": [
+            "f1:s:rootbound-wildwood:forest--440-689-bush-1",
+            "f1:s:rootbound-wildwood:forest--440-697-bush-1"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_oak",
+          "renderCellId": "forest:-21,26",
+          "specIds": [
+            "f1:s:rootbound-wildwood:forest--500-652",
+            "f1:s:rootbound-wildwood:forest--507-674",
+            "f1:s:rootbound-wildwood:forest--515-652",
+            "f1:s:rootbound-wildwood:forest--515-674"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_birch",
+          "renderCellId": "forest:-21,26",
+          "specIds": [
+            "f1:s:rootbound-wildwood:forest--500-659",
+            "f1:s:rootbound-wildwood:forest--500-667",
+            "f1:s:rootbound-wildwood:forest--507-667",
+            "f1:s:rootbound-wildwood:forest--515-659"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_bush",
+          "renderCellId": "forest:-21,26",
+          "specIds": [
+            "f1:s:rootbound-wildwood:forest--500-659-bush-0",
+            "f1:s:rootbound-wildwood:forest--500-667-bush-0",
+            "f1:s:rootbound-wildwood:forest--507-652-bush-0",
+            "f1:s:rootbound-wildwood:forest--507-667-bush-0",
+            "f1:s:rootbound-wildwood:forest--515-659-bush-0",
+            "f1:s:rootbound-wildwood:forest--515-667-bush-0",
+            "f1:s:rootbound-wildwood:forest--515-674-bush-0"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_fern",
+          "renderCellId": "forest:-21,26",
+          "specIds": [
+            "f1:s:rootbound-wildwood:forest--500-659-bush-1",
+            "f1:s:rootbound-wildwood:forest--515-659-bush-1",
+            "f1:s:rootbound-wildwood:forest--515-667-bush-1"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_oak",
+          "renderCellId": "forest:-21,27",
+          "specIds": [
+            "f1:s:rootbound-wildwood:forest--500-682"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_bush",
+          "renderCellId": "forest:-21,27",
+          "specIds": [
+            "f1:s:rootbound-wildwood:forest--500-689-bush-0",
+            "f1:s:rootbound-wildwood:forest--507-682-bush-0",
+            "f1:s:rootbound-wildwood:forest--507-697-bush-0",
+            "f1:s:rootbound-wildwood:forest--515-689-bush-0"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_fern",
+          "renderCellId": "forest:-21,27",
+          "specIds": [
+            "f1:s:rootbound-wildwood:forest--500-697-bush-1",
+            "f1:s:rootbound-wildwood:forest--507-697-bush-1",
+            "f1:s:rootbound-wildwood:forest--515-689-bush-1"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_birch",
+          "renderCellId": "forest:-21,27",
+          "specIds": [
+            "f1:s:rootbound-wildwood:forest--507-682",
+            "f1:s:rootbound-wildwood:forest--507-697",
+            "f1:s:rootbound-wildwood:forest--515-689"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_fallen_log",
+          "renderCellId": "forest:-18,26",
+          "specIds": [
+            "f1:s:rootbound-wildwood:grove-fallen-timber-1"
+          ]
+        },
+        {
+          "assetId": "asset_fallen_log",
+          "renderCellId": "-36,54",
+          "specIds": [
+            "f1:s:rootbound-wildwood:lantern-log"
+          ]
+        },
+        {
+          "assetId": "asset_mushroom_ring",
+          "renderCellId": "-36,54",
+          "specIds": [
+            "f1:s:rootbound-wildwood:lantern-ring-a",
+            "f2c:i:-9:13:184"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_block_thorn",
+          "renderCellId": "-33,55",
+          "specIds": [
+            "f1:s:rootbound-wildwood:verge-east-shards",
+            "f2c:i:-9:13:157",
+            "f2c:i:-9:13:164",
+            "f2c:i:-9:13:189"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_block_thorn",
+          "renderCellId": "forest:-17,27",
+          "specIds": [
+            "f1:s:rootbound-wildwood:verge-shelf-frame-0",
+            "f1:s:rootbound-wildwood:verge-shelf-frame-1",
+            "f1:s:rootbound-wildwood:verge-shelf-frame-2",
+            "f1:s:rootbound-wildwood:verge-shelf-rubble-0",
+            "f1:s:rootbound-wildwood:verge-shelf-rubble-1",
+            "f1:s:rootbound-wildwood:verge-shelf-rubble-2"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_block_thorn",
+          "renderCellId": "forest:-18,27",
+          "specIds": [
+            "f1:s:rootbound-wildwood:verge-shelf-frame-4"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_block_thorn",
+          "renderCellId": "-34,54",
+          "specIds": [
+            "f1:s:rootbound-wildwood:verge-west-seam"
+          ]
+        },
+        {
+          "assetId": "asset_fen_reed",
+          "renderCellId": "-40,57",
+          "specIds": [
+            "f2c:s:-10:14:seed-17"
+          ]
+        },
+        {
+          "assetId": "asset_fen_lily",
+          "renderCellId": "-43,58",
+          "specIds": [
+            "f2c:s:-11:14:seed-1"
+          ]
+        },
+        {
+          "assetId": "asset_fen_reed",
+          "renderCellId": "-40,53",
+          "specIds": [
+            "f2c:s:-10:13:seed-1",
+            "f2c:i:-10:13:10",
+            "f2c:i:-10:13:101"
+          ]
+        },
+        {
+          "assetId": "asset_mushroom_ring",
+          "renderCellId": "-37,62",
+          "specIds": [
+            "f2c:s:-10:15:seed-2"
+          ]
+        },
+        {
+          "assetId": "asset_fen_reed",
+          "renderCellId": "-41,54",
+          "specIds": [
+            "f2c:s:-11:13:seed-3"
+          ]
+        },
+        {
+          "assetId": "asset_fen_lily",
+          "renderCellId": "-43,62",
+          "specIds": [
+            "f2c:s:-11:15:seed-2",
+            "f2c:s:-11:15:seed-5"
+          ]
+        },
+        {
+          "assetId": "asset_mushroom_ring",
+          "renderCellId": "-36,53",
+          "specIds": [
+            "f2c:s:-9:13:seed-22"
+          ]
+        },
+        {
+          "assetId": "asset_fen_lily",
+          "renderCellId": "-34,62",
+          "specIds": [
+            "f2c:s:-9:15:seed-1"
+          ]
+        },
+        {
+          "assetId": "asset_fen_reed",
+          "renderCellId": "-38,57",
+          "specIds": [
+            "f2c:s:-10:14:seed-19"
+          ]
+        },
+        {
+          "assetId": "asset_fen_reed",
+          "renderCellId": "-44,58",
+          "specIds": [
+            "f2c:s:-11:14:seed-10",
+            "f2c:s:-11:14:seed-4"
+          ]
+        },
+        {
+          "assetId": "asset_fen_lily",
+          "renderCellId": "-39,53",
+          "specIds": [
+            "f2c:s:-10:13:seed-10",
+            "f2c:i:-10:13:119",
+            "f2c:i:-10:13:126"
+          ]
+        },
+        {
+          "assetId": "asset_fen_reed",
+          "renderCellId": "-39,61",
+          "specIds": [
+            "f2c:s:-10:15:seed-3"
+          ]
+        },
+        {
+          "assetId": "asset_fen_reed",
+          "renderCellId": "-43,53",
+          "specIds": [
+            "f2c:s:-11:13:seed-8"
+          ]
+        },
+        {
+          "assetId": "asset_fen_stone",
+          "renderCellId": "-43,62",
+          "specIds": [
+            "f2c:s:-11:15:seed-3"
+          ]
+        },
+        {
+          "assetId": "asset_fen_lily",
+          "renderCellId": "-34,61",
+          "specIds": [
+            "f2c:s:-9:15:seed-2",
+            "f2c:i:-9:15:103",
+            "f2c:i:-9:15:110"
+          ]
+        },
+        {
+          "assetId": "asset_fen_lily",
+          "renderCellId": "-39,58",
+          "specIds": [
+            "f2c:s:-10:14:seed-20"
+          ]
+        },
+        {
+          "assetId": "asset_mushroom_ring",
+          "renderCellId": "-43,58",
+          "specIds": [
+            "f2c:s:-11:14:seed-13",
+            "f2c:i:-11:14:125"
+          ]
+        },
+        {
+          "assetId": "asset_mushroom_ring",
+          "renderCellId": "-39,61",
+          "specIds": [
+            "f2c:s:-10:15:seed-4"
+          ]
+        },
+        {
+          "assetId": "asset_fen_lily",
+          "renderCellId": "-43,61",
+          "specIds": [
+            "f2c:s:-11:15:seed-4"
+          ]
+        },
+        {
+          "assetId": "asset_fen_reed",
+          "renderCellId": "-34,63",
+          "specIds": [
+            "f2c:s:-9:15:seed-4"
+          ]
+        },
+        {
+          "assetId": "asset_fen_reed",
+          "renderCellId": "-39,58",
+          "specIds": [
+            "f2c:s:-10:14:seed-23",
+            "f2c:i:-10:14:155"
+          ]
+        },
+        {
+          "assetId": "asset_fen_reed",
+          "renderCellId": "-37,61",
+          "specIds": [
+            "f2c:s:-10:15:seed-5"
+          ]
+        },
+        {
+          "assetId": "asset_fen_reed",
+          "renderCellId": "-33,61",
+          "specIds": [
+            "f2c:s:-9:15:seed-5"
+          ]
+        },
+        {
+          "assetId": "asset_mushroom_ring",
+          "renderCellId": "-43,59",
+          "specIds": [
+            "f2c:s:-11:14:seed-7",
+            "f2c:i:-11:14:116"
+          ]
+        },
+        {
+          "assetId": "asset_fen_lily",
+          "renderCellId": "-39,61",
+          "specIds": [
+            "f2c:s:-10:15:seed-7",
+            "f2c:i:-10:15:10",
+            "f2c:i:-10:15:101"
+          ]
+        },
+        {
+          "assetId": "asset_mushroom_ring",
+          "renderCellId": "-44,61",
+          "specIds": [
+            "f2c:s:-11:15:seed-7"
+          ]
+        },
+        {
+          "assetId": "asset_mushroom_ring",
+          "renderCellId": "-34,61",
+          "specIds": [
+            "f2c:s:-9:15:seed-8"
+          ]
+        },
+        {
+          "assetId": "asset_fen_reed",
+          "renderCellId": "-43,58",
+          "specIds": [
+            "f2c:s:-11:14:seed-9"
+          ]
+        },
+        {
+          "assetId": "asset_fen_reed",
+          "renderCellId": "-37,58",
+          "specIds": [
+            "f2c:i:-10:14:1",
+            "f2c:i:-10:14:113",
+            "f2c:i:-10:14:152"
+          ]
+        },
+        {
+          "assetId": "asset_mushroom_ring",
+          "renderCellId": "-44,59",
+          "specIds": [
+            "f2c:i:-11:14:0",
+            "f2c:i:-11:14:119"
+          ]
+        },
+        {
+          "assetId": "asset_mushroom_ring",
+          "renderCellId": "-38,61",
+          "specIds": [
+            "f2c:i:-10:15:0"
+          ]
+        },
+        {
+          "assetId": "asset_fen_reed",
+          "renderCellId": "-36,58",
+          "specIds": [
+            "f2c:i:-9:14:10",
+            "f2c:i:-9:14:17",
+            "f2c:i:-9:14:266",
+            "f2c:i:-9:14:273"
+          ]
+        },
+        {
+          "assetId": "asset_fen_reed",
+          "renderCellId": "-44,53",
+          "specIds": [
+            "f2c:i:-11:13:0",
+            "f2c:i:-11:13:126"
+          ]
+        },
+        {
+          "assetId": "asset_fen_reed",
+          "renderCellId": "-43,60",
+          "specIds": [
+            "f2c:i:-11:15:0"
+          ]
+        },
+        {
+          "assetId": "asset_fen_reed",
+          "renderCellId": "-36,54",
+          "specIds": [
+            "f2c:i:-9:13:118",
+            "f2c:i:-9:13:177"
+          ]
+        },
+        {
+          "assetId": "asset_fen_reed",
+          "renderCellId": "-36,60",
+          "specIds": [
+            "f2c:i:-9:15:1",
+            "f2c:i:-9:15:102",
+            "f2c:i:-9:15:113"
+          ]
+        },
+        {
+          "assetId": "asset_fen_lily",
+          "renderCellId": "-37,58",
+          "specIds": [
+            "f2c:i:-10:14:106",
+            "f2c:i:-10:14:120",
+            "f2c:i:-10:14:131"
+          ]
+        },
+        {
+          "assetId": "asset_fen_lily",
+          "renderCellId": "-43,57",
+          "specIds": [
+            "f2c:i:-11:14:100",
+            "f2c:i:-11:14:107"
+          ]
+        },
+        {
+          "assetId": "asset_fen_reed",
+          "renderCellId": "-40,63",
+          "specIds": [
+            "f2c:i:-10:15:1"
+          ]
+        },
+        {
+          "assetId": "asset_fen_lily",
+          "renderCellId": "-36,57",
+          "specIds": [
+            "f2c:i:-9:14:122",
+            "f2c:i:-9:14:378",
+            "f2c:i:-9:14:385"
+          ]
+        },
+        {
+          "assetId": "asset_fen_reed",
+          "renderCellId": "-43,55",
+          "specIds": [
+            "f2c:i:-11:13:100",
+            "f2c:i:-11:13:121"
+          ]
+        },
+        {
+          "assetId": "asset_fen_lily",
+          "renderCellId": "-44,62",
+          "specIds": [
+            "f2c:i:-11:15:1"
+          ]
+        },
+        {
+          "assetId": "asset_pebble_cluster",
+          "renderCellId": "-33,54",
+          "specIds": [
+            "f2c:i:-9:13:125",
+            "f2c:i:-9:13:139",
+            "f2c:i:-9:13:2",
+            "f2c:i:-9:13:20"
+          ]
+        },
+        {
+          "assetId": "asset_fen_lily",
+          "renderCellId": "-35,63",
+          "specIds": [
+            "f2c:i:-9:15:10"
+          ]
+        },
+        {
+          "assetId": "asset_fen_reed",
+          "renderCellId": "-39,57",
+          "specIds": [
+            "f2c:i:-10:14:11"
+          ]
+        },
+        {
+          "assetId": "asset_fen_lily",
+          "renderCellId": "-44,57",
+          "specIds": [
+            "f2c:i:-11:14:103",
+            "f2c:i:-11:14:128"
+          ]
+        },
+        {
+          "assetId": "asset_fen_reed",
+          "renderCellId": "-37,52",
+          "specIds": [
+            "f2c:i:-10:13:111",
+            "f2c:i:-10:13:118",
+            "f2c:i:-10:13:136"
+          ]
+        },
+        {
+          "assetId": "asset_fen_reed",
+          "renderCellId": "-36,57",
+          "specIds": [
+            "f2c:i:-9:14:129"
+          ]
+        },
+        {
+          "assetId": "asset_fen_lily",
+          "renderCellId": "-44,52",
+          "specIds": [
+            "f2c:i:-11:13:101"
+          ]
+        },
+        {
+          "assetId": "asset_fen_reed",
+          "renderCellId": "-44,60",
+          "specIds": [
+            "f2c:i:-11:15:10",
+            "f2c:i:-11:15:108"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_block_thorn",
+          "renderCellId": "-33,54",
+          "specIds": [
+            "f2c:i:-9:13:13",
+            "f2c:i:-9:13:146"
+          ]
+        },
+        {
+          "assetId": "asset_mushroom_ring",
+          "renderCellId": "-33,61",
+          "specIds": [
+            "f2c:i:-9:15:100"
+          ]
+        },
+        {
+          "assetId": "asset_fen_lily",
+          "renderCellId": "-44,59",
+          "specIds": [
+            "f2c:i:-11:14:105"
+          ]
+        },
+        {
+          "assetId": "asset_fen_lily",
+          "renderCellId": "-37,54",
+          "specIds": [
+            "f2c:i:-10:13:113"
+          ]
+        },
+        {
+          "assetId": "asset_fen_reed",
+          "renderCellId": "-37,63",
+          "specIds": [
+            "f2c:i:-10:15:100"
+          ]
+        },
+        {
+          "assetId": "asset_fen_lily",
+          "renderCellId": "-36,58",
+          "specIds": [
+            "f2c:i:-9:14:161"
+          ]
+        },
+        {
+          "assetId": "asset_fen_lily",
+          "renderCellId": "-43,53",
+          "specIds": [
+            "f2c:i:-11:13:105"
+          ]
+        },
+        {
+          "assetId": "asset_fen_reed",
+          "renderCellId": "-42,62",
+          "specIds": [
+            "f2c:i:-11:15:100"
+          ]
+        },
+        {
+          "assetId": "asset_fen_reed",
+          "renderCellId": "-35,62",
+          "specIds": [
+            "f2c:i:-9:15:101",
+            "f2c:i:-9:15:108"
+          ]
+        },
+        {
+          "assetId": "asset_fen_reed",
+          "renderCellId": "-40,55",
+          "specIds": [
+            "f2c:i:-10:13:117"
+          ]
+        },
+        {
+          "assetId": "asset_mushroom_ring",
+          "renderCellId": "-43,55",
+          "specIds": [
+            "f2c:i:-11:13:107",
+            "f2c:i:-11:13:114"
+          ]
+        },
+        {
+          "assetId": "asset_fen_lily",
+          "renderCellId": "-43,60",
+          "specIds": [
+            "f2c:i:-11:15:101"
+          ]
+        },
+        {
+          "assetId": "asset_fen_reed",
+          "renderCellId": "-38,58",
+          "specIds": [
+            "f2c:i:-10:14:127",
+            "f2c:i:-10:14:141",
+            "f2c:i:-10:14:148"
+          ]
+        },
+        {
+          "assetId": "asset_fen_reed",
+          "renderCellId": "-43,59",
+          "specIds": [
+            "f2c:i:-11:14:109",
+            "f2c:i:-11:14:123"
+          ]
+        },
+        {
+          "assetId": "asset_mushroom_ring",
+          "renderCellId": "-40,62",
+          "specIds": [
+            "f2c:i:-10:15:102"
+          ]
+        },
+        {
+          "assetId": "asset_fen_reed",
+          "renderCellId": "-41,52",
+          "specIds": [
+            "f2c:i:-11:13:108"
+          ]
+        },
+        {
+          "assetId": "asset_fen_lily",
+          "renderCellId": "-41,61",
+          "specIds": [
+            "f2c:i:-11:15:102"
+          ]
+        },
+        {
+          "assetId": "asset_fen_lily",
+          "renderCellId": "-43,56",
+          "specIds": [
+            "f2c:i:-11:14:11"
+          ]
+        },
+        {
+          "assetId": "asset_fen_reed",
+          "renderCellId": "-38,63",
+          "specIds": [
+            "f2c:i:-10:15:103",
+            "f2c:i:-10:15:110"
+          ]
+        },
+        {
+          "assetId": "asset_fen_lily",
+          "renderCellId": "-43,54",
+          "specIds": [
+            "f2c:i:-11:13:11"
+          ]
+        },
+        {
+          "assetId": "asset_mushroom_ring",
+          "renderCellId": "-41,63",
+          "specIds": [
+            "f2c:i:-11:15:104"
+          ]
+        },
+        {
+          "assetId": "asset_fen_lily",
+          "renderCellId": "-36,62",
+          "specIds": [
+            "f2c:i:-9:15:104"
+          ]
+        },
+        {
+          "assetId": "asset_fen_lily",
+          "renderCellId": "-38,58",
+          "specIds": [
+            "f2c:i:-10:14:134",
+            "f2c:i:-10:14:15",
+            "f2c:i:-10:14:159"
+          ]
+        },
+        {
+          "assetId": "asset_mushroom_ring",
+          "renderCellId": "-44,57",
+          "specIds": [
+            "f2c:i:-11:14:110"
+          ]
+        },
+        {
+          "assetId": "asset_fen_lily",
+          "renderCellId": "-38,52",
+          "specIds": [
+            "f2c:i:-10:13:125",
+            "f2c:i:-10:13:157"
+          ]
+        },
+        {
+          "assetId": "asset_fen_stone",
+          "renderCellId": "-38,61",
+          "specIds": [
+            "f2c:i:-10:15:105"
+          ]
+        },
+        {
+          "assetId": "asset_fen_reed",
+          "renderCellId": "-44,55",
+          "specIds": [
+            "f2c:i:-11:13:110",
+            "f2c:i:-11:13:117"
+          ]
+        },
+        {
+          "assetId": "asset_mushroom_ring",
+          "renderCellId": "-42,60",
+          "specIds": [
+            "f2c:i:-11:15:105"
+          ]
+        },
+        {
+          "assetId": "asset_pebble_cluster",
+          "renderCellId": "-33,55",
+          "specIds": [
+            "f2c:i:-9:13:171",
+            "f2c:i:-9:13:178",
+            "f2c:i:-9:13:196",
+            "f2c:i:-9:13:203"
+          ]
+        },
+        {
+          "assetId": "asset_fen_stone",
+          "renderCellId": "-35,60",
+          "specIds": [
+            "f2c:i:-9:15:106"
+          ]
+        },
+        {
+          "assetId": "asset_mushroom_ring",
+          "renderCellId": "-37,58",
+          "specIds": [
+            "f2c:i:-10:14:138"
+          ]
+        },
+        {
+          "assetId": "asset_fen_reed",
+          "renderCellId": "-43,57",
+          "specIds": [
+            "f2c:i:-11:14:114"
+          ]
+        },
+        {
+          "assetId": "asset_fen_lily",
+          "renderCellId": "-39,62",
+          "specIds": [
+            "f2c:i:-10:15:106"
+          ]
+        },
+        {
+          "assetId": "asset_pebble_cluster",
+          "renderCellId": "-33,56",
+          "specIds": [
+            "f2c:i:-9:14:310",
+            "f2c:i:-9:14:47",
+            "f2c:i:-9:14:54"
+          ]
+        },
+        {
+          "assetId": "asset_fen_lily",
+          "renderCellId": "-44,53",
+          "specIds": [
+            "f2c:i:-11:13:112"
+          ]
+        },
+        {
+          "assetId": "asset_fen_lily",
+          "renderCellId": "-44,61",
+          "specIds": [
+            "f2c:i:-11:15:106"
+          ]
+        },
+        {
+          "assetId": "asset_fen_lily",
+          "renderCellId": "-33,61",
+          "specIds": [
+            "f2c:i:-9:15:107"
+          ]
+        },
+        {
+          "assetId": "asset_fen_reed",
+          "renderCellId": "-38,52",
+          "specIds": [
+            "f2c:i:-10:13:132"
+          ]
+        },
+        {
+          "assetId": "asset_mushroom_ring",
+          "renderCellId": "-37,63",
+          "specIds": [
+            "f2c:i:-10:15:107"
+          ]
+        },
+        {
+          "assetId": "asset_fen_lily",
+          "renderCellId": "-42,62",
+          "specIds": [
+            "f2c:i:-11:15:107"
+          ]
+        },
+        {
+          "assetId": "asset_fen_reed",
+          "renderCellId": "-37,62",
+          "specIds": [
+            "f2c:i:-10:15:109",
+            "f2c:i:-10:15:11"
+          ]
+        },
+        {
+          "assetId": "asset_mushroom_ring",
+          "renderCellId": "-43,53",
+          "specIds": [
+            "f2c:i:-11:13:116"
+          ]
+        },
+        {
+          "assetId": "asset_fen_lily",
+          "renderCellId": "-33,63",
+          "specIds": [
+            "f2c:i:-9:15:109"
+          ]
+        },
+        {
+          "assetId": "asset_fen_reed",
+          "renderCellId": "-44,57",
+          "specIds": [
+            "f2c:i:-11:14:121"
+          ]
+        },
+        {
+          "assetId": "asset_fen_lily",
+          "renderCellId": "-40,53",
+          "specIds": [
+            "f2c:i:-10:13:154"
+          ]
+        },
+        {
+          "assetId": "asset_mushroom_ring",
+          "renderCellId": "-36,58",
+          "specIds": [
+            "f2c:i:-9:14:417"
+          ]
+        },
+        {
+          "assetId": "asset_fen_reed",
+          "renderCellId": "-41,61",
+          "specIds": [
+            "f2c:i:-11:15:109"
+          ]
+        },
+        {
+          "assetId": "asset_fen_lily",
+          "renderCellId": "-33,60",
+          "specIds": [
+            "f2c:i:-9:15:11"
+          ]
+        },
+        {
+          "assetId": "asset_mushroom_ring",
+          "renderCellId": "-40,57",
+          "specIds": [
+            "f2c:i:-10:14:151"
+          ]
+        },
+        {
+          "assetId": "asset_mushroom_ring",
+          "renderCellId": "-44,53",
+          "specIds": [
+            "f2c:i:-11:13:119"
+          ]
+        },
+        {
+          "assetId": "asset_mushroom_ring",
+          "renderCellId": "-42,61",
+          "specIds": [
+            "f2c:i:-11:15:11"
+          ]
+        },
+        {
+          "assetId": "asset_fen_reed",
+          "renderCellId": "-40,54",
+          "specIds": [
+            "f2c:i:-10:13:165"
+          ]
+        },
+        {
+          "assetId": "asset_fen_reed",
+          "renderCellId": "-38,61",
+          "specIds": [
+            "f2c:i:-10:15:112"
+          ]
+        },
+        {
+          "assetId": "asset_mushroom_ring",
+          "renderCellId": "-36,57",
+          "specIds": [
+            "f2c:i:-9:14:497"
+          ]
+        },
+        {
+          "assetId": "asset_fen_stone",
+          "renderCellId": "-41,63",
+          "specIds": [
+            "f2c:i:-11:15:111"
+          ]
+        },
+        {
+          "assetId": "asset_mushroom_ring",
+          "renderCellId": "-36,62",
+          "specIds": [
+            "f2c:i:-9:15:111"
+          ]
+        },
+        {
+          "assetId": "asset_fen_reed",
+          "renderCellId": "-44,59",
+          "specIds": [
+            "f2c:i:-11:14:126"
+          ]
+        },
+        {
+          "assetId": "asset_mushroom_ring",
+          "renderCellId": "-39,54",
+          "specIds": [
+            "f2c:i:-10:13:183"
+          ]
+        },
+        {
+          "assetId": "asset_fen_lily",
+          "renderCellId": "-40,62",
+          "specIds": [
+            "f2c:i:-10:15:113"
+          ]
+        },
+        {
+          "assetId": "asset_fen_stone",
+          "renderCellId": "-43,60",
+          "specIds": [
+            "f2c:i:-11:15:112"
+          ]
+        },
+        {
+          "assetId": "asset_mushroom_ring",
+          "renderCellId": "-40,54",
+          "specIds": [
+            "f2c:i:-10:13:186"
+          ]
+        },
+        {
+          "assetId": "asset_fen_lily",
+          "renderCellId": "-37,63",
+          "specIds": [
+            "f2c:i:-10:15:114"
+          ]
+        },
+        {
+          "assetId": "asset_mushroom_ring",
+          "renderCellId": "-44,55",
+          "specIds": [
+            "f2c:i:-11:13:128"
+          ]
+        },
+        {
+          "assetId": "asset_fen_reed",
+          "renderCellId": "-44,61",
+          "specIds": [
+            "f2c:i:-11:15:113"
+          ]
+        }
+      ],
+      "overflow": false
+    },
+    {
+      "name": "grove-interior",
+      "pos": {
+        "x": -453.111572265625,
+        "y": 14.838481903076172,
+        "z": 679.9580078125
+      },
+      "grounded": true,
+      "mode": "IDLE",
+      "terrain": 14.2984672322853,
+      "render": {
+        "frame": 1451,
+        "calls": 56,
+        "triangles": 122860,
+        "points": 0,
+        "lines": 0
+      },
+      "fps": 146,
+      "scenery": {
+        "residentCount": 364,
+        "residentIds": [
+          "f1:s:rootbound-wildwood:heartroot-living-landmark",
+          "f1:s:rootbound-wildwood:edge-gallery-east-02",
+          "f1:s:rootbound-wildwood:edge-gallery-east-03",
+          "f1:s:rootbound-wildwood:edge-gallery-east-04",
+          "f1:s:rootbound-wildwood:edge-gallery-west-04",
+          "f1:s:rootbound-wildwood:forest--455-652",
+          "f1:s:rootbound-wildwood:forest--455-659",
+          "f1:s:rootbound-wildwood:forest--455-659-bush-0",
+          "f1:s:rootbound-wildwood:forest--462-652",
+          "f1:s:rootbound-wildwood:forest--462-652-bush-0",
+          "f1:s:rootbound-wildwood:forest--462-652-bush-1",
+          "f1:s:rootbound-wildwood:forest--462-659",
+          "f1:s:rootbound-wildwood:forest--462-659-bush-0",
+          "f1:s:rootbound-wildwood:forest--462-659-bush-1",
+          "f1:s:rootbound-wildwood:forest--462-689",
+          "f1:s:rootbound-wildwood:forest--462-697",
+          "f1:s:rootbound-wildwood:forest--462-697-bush-0",
+          "f1:s:rootbound-wildwood:forest--470-652",
+          "f1:s:rootbound-wildwood:forest--470-652-bush-0",
+          "f1:s:rootbound-wildwood:forest--470-652-bush-1",
+          "f1:s:rootbound-wildwood:forest--470-659",
+          "f1:s:rootbound-wildwood:forest--470-659-bush-1",
+          "f1:s:rootbound-wildwood:forest--470-674",
+          "f1:s:rootbound-wildwood:forest--470-674-bush-0",
+          "f1:s:rootbound-wildwood:forest--470-674-bush-1",
+          "f1:s:rootbound-wildwood:forest--470-682",
+          "f1:s:rootbound-wildwood:forest--470-689",
+          "f1:s:rootbound-wildwood:forest--470-689-bush-0",
+          "f1:s:rootbound-wildwood:forest--470-697",
+          "f1:s:rootbound-wildwood:forest--470-697-bush-0",
+          "f1:s:rootbound-wildwood:forest--470-697-bush-1",
+          "f1:s:rootbound-wildwood:forest--477-667",
+          "f1:s:rootbound-wildwood:forest--477-667-bush-0",
+          "f1:s:rootbound-wildwood:forest--477-667-bush-1",
+          "f1:s:rootbound-wildwood:forest--477-682",
+          "f1:s:rootbound-wildwood:forest--477-682-bush-0",
+          "f1:s:rootbound-wildwood:forest--477-689",
+          "f1:s:rootbound-wildwood:forest--477-704-bush-0",
+          "f1:s:rootbound-wildwood:forest--485-652",
+          "f1:s:rootbound-wildwood:forest--485-652-bush-0",
+          "f1:s:rootbound-wildwood:forest--485-659",
+          "f1:s:rootbound-wildwood:forest--485-659-bush-0",
+          "f1:s:rootbound-wildwood:forest--485-667",
+          "f1:s:rootbound-wildwood:forest--485-667-bush-0",
+          "f1:s:rootbound-wildwood:forest--485-697",
+          "f1:s:rootbound-wildwood:forest--485-697-bush-0",
+          "f1:s:rootbound-wildwood:forest--500-682-bush-0",
+          "f1:s:rootbound-wildwood:forest--500-682-bush-1",
+          "f1:s:rootbound-wildwood:gallery-north-collar",
+          "f1:s:rootbound-wildwood:gallery-terminus",
+          "f1:s:rootbound-wildwood:gallery-west-rib-3",
+          "f1:s:rootbound-wildwood:edge-grove-east-01",
+          "f1:s:rootbound-wildwood:forest--402-682",
+          "f1:s:rootbound-wildwood:forest--410-652",
+          "f1:s:rootbound-wildwood:forest--410-652-bush-0",
+          "f1:s:rootbound-wildwood:forest--417-659",
+          "f1:s:rootbound-wildwood:forest--417-659-bush-0",
+          "f1:s:rootbound-wildwood:forest--417-659-bush-1",
+          "f1:s:rootbound-wildwood:forest--417-682",
+          "f1:s:rootbound-wildwood:forest--425-652",
+          "f1:s:rootbound-wildwood:forest--425-652-bush-0",
+          "f1:s:rootbound-wildwood:forest--425-659",
+          "f1:s:rootbound-wildwood:forest--425-659-bush-0",
+          "f1:s:rootbound-wildwood:forest--425-659-bush-1",
+          "f1:s:rootbound-wildwood:forest--425-697",
+          "f1:s:rootbound-wildwood:forest--432-659",
+          "f1:s:rootbound-wildwood:forest--432-659-bush-0",
+          "f1:s:rootbound-wildwood:forest--432-667",
+          "f1:s:rootbound-wildwood:forest--432-667-bush-1",
+          "f1:s:rootbound-wildwood:forest--432-689",
+          "f1:s:rootbound-wildwood:forest--440-652-bush-0",
+          "f1:s:rootbound-wildwood:forest--440-652-bush-1",
+          "f1:s:rootbound-wildwood:forest--440-659",
+          "f1:s:rootbound-wildwood:forest--440-659-bush-0",
+          "f1:s:rootbound-wildwood:forest--440-659-bush-1",
+          "f1:s:rootbound-wildwood:forest--440-667",
+          "f1:s:rootbound-wildwood:forest--440-667-bush-0",
+          "f1:s:rootbound-wildwood:forest--440-667-bush-1",
+          "f1:s:rootbound-wildwood:forest--440-682",
+          "f1:s:rootbound-wildwood:forest--440-689",
+          "f1:s:rootbound-wildwood:forest--440-689-bush-0",
+          "f1:s:rootbound-wildwood:forest--440-689-bush-1",
+          "f1:s:rootbound-wildwood:forest--440-697",
+          "f1:s:rootbound-wildwood:forest--440-697-bush-0",
+          "f1:s:rootbound-wildwood:forest--440-697-bush-1",
+          "f1:s:rootbound-wildwood:forest--447-644-bush-0",
+          "f1:s:rootbound-wildwood:forest--447-644-bush-1",
+          "f1:s:rootbound-wildwood:forest--447-659",
+          "f1:s:rootbound-wildwood:forest--447-659-bush-0",
+          "f1:s:rootbound-wildwood:forest--447-659-bush-1",
+          "f1:s:rootbound-wildwood:forest--455-622",
+          "f1:s:rootbound-wildwood:forest--455-622-bush-0",
+          "f1:s:rootbound-wildwood:forest--455-622-bush-1",
+          "f1:s:rootbound-wildwood:forest--455-637-bush-0",
+          "f1:s:rootbound-wildwood:forest--455-637-bush-1",
+          "f1:s:rootbound-wildwood:forest--455-644",
+          "f1:s:rootbound-wildwood:forest--455-644-bush-0",
+          "f1:s:rootbound-wildwood:forest--455-652-bush-0",
+          "f1:s:rootbound-wildwood:forest--455-712",
+          "f1:s:rootbound-wildwood:forest--455-712-bush-0",
+          "f1:s:rootbound-wildwood:forest--455-719",
+          "f1:s:rootbound-wildwood:forest--455-719-bush-0",
+          "f1:s:rootbound-wildwood:forest--462-614",
+          "f1:s:rootbound-wildwood:forest--462-614-bush-0",
+          "f1:s:rootbound-wildwood:forest--462-629",
+          "f1:s:rootbound-wildwood:forest--462-629-bush-0",
+          "f1:s:rootbound-wildwood:forest--462-629-bush-1",
+          "f1:s:rootbound-wildwood:forest--462-644",
+          "f1:s:rootbound-wildwood:forest--462-644-bush-0",
+          "f1:s:rootbound-wildwood:forest--462-719",
+          "f1:s:rootbound-wildwood:forest--462-719-bush-0",
+          "f1:s:rootbound-wildwood:forest--462-727",
+          "f1:s:rootbound-wildwood:forest--462-727-bush-0",
+          "f1:s:rootbound-wildwood:forest--462-727-bush-1",
+          "f1:s:rootbound-wildwood:forest--462-734",
+          "f1:s:rootbound-wildwood:forest--462-734-bush-1",
+          "f1:s:rootbound-wildwood:forest--470-614",
+          "f1:s:rootbound-wildwood:forest--470-614-bush-0",
+          "f1:s:rootbound-wildwood:forest--470-614-bush-1",
+          "f1:s:rootbound-wildwood:forest--470-629",
+          "f1:s:rootbound-wildwood:forest--470-629-bush-0",
+          "f1:s:rootbound-wildwood:forest--470-629-bush-1",
+          "f1:s:rootbound-wildwood:forest--470-637-bush-0",
+          "f1:s:rootbound-wildwood:forest--470-637-bush-1",
+          "f1:s:rootbound-wildwood:forest--470-644",
+          "f1:s:rootbound-wildwood:forest--470-644-bush-0",
+          "f1:s:rootbound-wildwood:forest--470-727",
+          "f1:s:rootbound-wildwood:forest--470-727-bush-0",
+          "f1:s:rootbound-wildwood:forest--470-727-bush-1",
+          "f1:s:rootbound-wildwood:forest--477-704",
+          "f1:s:rootbound-wildwood:forest--477-712",
+          "f1:s:rootbound-wildwood:forest--477-712-bush-1",
+          "f1:s:rootbound-wildwood:forest--485-622",
+          "f1:s:rootbound-wildwood:forest--485-622-bush-0",
+          "f1:s:rootbound-wildwood:forest--485-637",
+          "f1:s:rootbound-wildwood:forest--485-637-bush-1",
+          "f1:s:rootbound-wildwood:forest--485-644",
+          "f1:s:rootbound-wildwood:forest--485-644-bush-0",
+          "f1:s:rootbound-wildwood:forest--485-644-bush-1",
+          "f1:s:rootbound-wildwood:forest--485-719-bush-0",
+          "f1:s:rootbound-wildwood:forest--485-727-bush-0",
+          "f1:s:rootbound-wildwood:forest--485-727-bush-1",
+          "f1:s:rootbound-wildwood:forest--485-734",
+          "f1:s:rootbound-wildwood:forest--485-734-bush-0",
+          "f1:s:rootbound-wildwood:forest--485-734-bush-1",
+          "f1:s:rootbound-wildwood:forest--492-712",
+          "f1:s:rootbound-wildwood:forest--492-712-bush-0",
+          "f1:s:rootbound-wildwood:forest--492-719",
+          "f1:s:rootbound-wildwood:forest--492-719-bush-0",
+          "f1:s:rootbound-wildwood:forest--492-727",
+          "f1:s:rootbound-wildwood:forest--492-727-bush-0",
+          "f1:s:rootbound-wildwood:forest--492-734",
+          "f1:s:rootbound-wildwood:forest--500-607",
+          "f1:s:rootbound-wildwood:forest--500-622",
+          "f1:s:rootbound-wildwood:forest--500-622-bush-0",
+          "f1:s:rootbound-wildwood:forest--500-637",
+          "f1:s:rootbound-wildwood:forest--500-637-bush-1",
+          "f1:s:rootbound-wildwood:forest--500-652",
+          "f1:s:rootbound-wildwood:forest--500-659",
+          "f1:s:rootbound-wildwood:forest--500-659-bush-0",
+          "f1:s:rootbound-wildwood:forest--500-659-bush-1",
+          "f1:s:rootbound-wildwood:forest--500-667",
+          "f1:s:rootbound-wildwood:forest--500-667-bush-0",
+          "f1:s:rootbound-wildwood:forest--500-682",
+          "f1:s:rootbound-wildwood:forest--500-689-bush-0",
+          "f1:s:rootbound-wildwood:forest--500-697-bush-1",
+          "f1:s:rootbound-wildwood:forest--500-704-bush-0",
+          "f1:s:rootbound-wildwood:forest--500-712",
+          "f1:s:rootbound-wildwood:forest--500-719-bush-0",
+          "f1:s:rootbound-wildwood:forest--507-652-bush-0",
+          "f1:s:rootbound-wildwood:forest--507-667",
+          "f1:s:rootbound-wildwood:forest--507-667-bush-0",
+          "f1:s:rootbound-wildwood:forest--507-674",
+          "f1:s:rootbound-wildwood:forest--507-682",
+          "f1:s:rootbound-wildwood:forest--507-682-bush-0",
+          "f1:s:rootbound-wildwood:forest--507-697",
+          "f1:s:rootbound-wildwood:forest--507-697-bush-0",
+          "f1:s:rootbound-wildwood:forest--507-697-bush-1",
+          "f1:s:rootbound-wildwood:forest--515-652",
+          "f1:s:rootbound-wildwood:forest--515-659",
+          "f1:s:rootbound-wildwood:forest--515-659-bush-0",
+          "f1:s:rootbound-wildwood:forest--515-659-bush-1",
+          "f1:s:rootbound-wildwood:forest--515-667-bush-0",
+          "f1:s:rootbound-wildwood:forest--515-667-bush-1",
+          "f1:s:rootbound-wildwood:forest--515-674",
+          "f1:s:rootbound-wildwood:forest--515-674-bush-0",
+          "f1:s:rootbound-wildwood:forest--515-689",
+          "f1:s:rootbound-wildwood:forest--515-689-bush-0",
+          "f1:s:rootbound-wildwood:forest--515-689-bush-1",
+          "f1:s:rootbound-wildwood:grove-fallen-timber-1",
+          "f1:s:rootbound-wildwood:heartroot-core",
+          "f1:s:rootbound-wildwood:heartroot-crown-base",
+          "f1:s:rootbound-wildwood:heartroot-crown-left",
+          "f1:s:rootbound-wildwood:heartroot-crown-right",
+          "f1:s:rootbound-wildwood:heartroot-crown-web-1",
+          "f1:s:rootbound-wildwood:heartroot-crown-web-2",
+          "f1:s:rootbound-wildwood:heartroot-crown-wing-1",
+          "f1:s:rootbound-wildwood:heartroot-crown-wing-2",
+          "f1:s:rootbound-wildwood:heartroot-wing-east",
+          "f1:s:rootbound-wildwood:heartroot-wing-west",
+          "f1:s:rootbound-wildwood:lantern-log",
+          "f1:s:rootbound-wildwood:lantern-ring-a",
+          "f1:s:rootbound-wildwood:meadow-east-rootline",
+          "f1:s:rootbound-wildwood:meadow-west-edge",
+          "f1:s:rootbound-wildwood:verge-east-shards",
+          "f1:s:rootbound-wildwood:verge-shelf-frame-0",
+          "f1:s:rootbound-wildwood:verge-shelf-frame-1",
+          "f1:s:rootbound-wildwood:verge-shelf-frame-2",
+          "f1:s:rootbound-wildwood:verge-shelf-frame-4",
+          "f1:s:rootbound-wildwood:verge-shelf-rubble-0",
+          "f1:s:rootbound-wildwood:verge-shelf-rubble-1",
+          "f1:s:rootbound-wildwood:verge-shelf-rubble-2",
+          "f1:s:rootbound-wildwood:verge-west-seam",
+          "f1:s:rootbound-wildwood:edge-grove-rear-02",
+          "f1:s:rootbound-wildwood:forest--402-607",
+          "f1:s:rootbound-wildwood:forest--402-607-bush-0",
+          "f1:s:rootbound-wildwood:forest--402-614-bush-0",
+          "f1:s:rootbound-wildwood:forest--402-622",
+          "f1:s:rootbound-wildwood:forest--402-622-bush-0",
+          "f1:s:rootbound-wildwood:forest--402-637",
+          "f1:s:rootbound-wildwood:forest--402-637-bush-0",
+          "f1:s:rootbound-wildwood:forest--402-644",
+          "f1:s:rootbound-wildwood:forest--402-644-bush-0",
+          "f1:s:rootbound-wildwood:forest--402-652",
+          "f1:s:rootbound-wildwood:forest--402-652-bush-0",
+          "f1:s:rootbound-wildwood:forest--402-652-bush-1",
+          "f1:s:rootbound-wildwood:forest--402-719",
+          "f1:s:rootbound-wildwood:forest--402-734",
+          "f1:s:rootbound-wildwood:forest--410-607",
+          "f1:s:rootbound-wildwood:forest--410-607-bush-0",
+          "f1:s:rootbound-wildwood:forest--410-614-bush-0",
+          "f1:s:rootbound-wildwood:forest--410-614-bush-1",
+          "f1:s:rootbound-wildwood:forest--410-629",
+          "f1:s:rootbound-wildwood:forest--410-629-bush-0",
+          "f1:s:rootbound-wildwood:forest--410-637-bush-0",
+          "f1:s:rootbound-wildwood:forest--410-644",
+          "f1:s:rootbound-wildwood:forest--410-644-bush-0",
+          "f1:s:rootbound-wildwood:forest--410-644-bush-1",
+          "f1:s:rootbound-wildwood:forest--410-652-bush-1",
+          "f1:s:rootbound-wildwood:forest--410-712",
+          "f1:s:rootbound-wildwood:forest--410-719",
+          "f1:s:rootbound-wildwood:forest--417-614",
+          "f1:s:rootbound-wildwood:forest--417-614-bush-0",
+          "f1:s:rootbound-wildwood:forest--417-614-bush-1",
+          "f1:s:rootbound-wildwood:forest--417-622",
+          "f1:s:rootbound-wildwood:forest--417-622-bush-0",
+          "f1:s:rootbound-wildwood:forest--417-644",
+          "f1:s:rootbound-wildwood:forest--417-644-bush-0",
+          "f1:s:rootbound-wildwood:forest--417-704",
+          "f1:s:rootbound-wildwood:forest--425-599",
+          "f1:s:rootbound-wildwood:forest--425-607",
+          "f1:s:rootbound-wildwood:forest--425-607-bush-0",
+          "f1:s:rootbound-wildwood:forest--425-614",
+          "f1:s:rootbound-wildwood:forest--425-614-bush-0",
+          "f1:s:rootbound-wildwood:forest--425-614-bush-1",
+          "f1:s:rootbound-wildwood:forest--425-622",
+          "f1:s:rootbound-wildwood:forest--425-622-bush-0",
+          "f1:s:rootbound-wildwood:forest--425-622-bush-1",
+          "f1:s:rootbound-wildwood:forest--425-629",
+          "f1:s:rootbound-wildwood:forest--425-629-bush-0",
+          "f1:s:rootbound-wildwood:forest--425-637",
+          "f1:s:rootbound-wildwood:forest--425-637-bush-0",
+          "f1:s:rootbound-wildwood:forest--425-637-bush-1",
+          "f1:s:rootbound-wildwood:forest--425-644",
+          "f1:s:rootbound-wildwood:forest--425-644-bush-0",
+          "f1:s:rootbound-wildwood:forest--425-644-bush-1",
+          "f1:s:rootbound-wildwood:forest--425-712",
+          "f1:s:rootbound-wildwood:forest--432-614",
+          "f1:s:rootbound-wildwood:forest--432-614-bush-0",
+          "f1:s:rootbound-wildwood:forest--432-614-bush-1",
+          "f1:s:rootbound-wildwood:forest--432-622",
+          "f1:s:rootbound-wildwood:forest--432-622-bush-0",
+          "f1:s:rootbound-wildwood:forest--432-629",
+          "f1:s:rootbound-wildwood:forest--432-629-bush-0",
+          "f1:s:rootbound-wildwood:forest--432-629-bush-1",
+          "f1:s:rootbound-wildwood:forest--432-637",
+          "f1:s:rootbound-wildwood:forest--432-637-bush-0",
+          "f1:s:rootbound-wildwood:forest--432-637-bush-1",
+          "f1:s:rootbound-wildwood:forest--432-719",
+          "f1:s:rootbound-wildwood:forest--432-727",
+          "f1:s:rootbound-wildwood:forest--440-607",
+          "f1:s:rootbound-wildwood:forest--440-607-bush-0",
+          "f1:s:rootbound-wildwood:forest--440-607-bush-1",
+          "f1:s:rootbound-wildwood:forest--440-614",
+          "f1:s:rootbound-wildwood:forest--440-614-bush-0",
+          "f1:s:rootbound-wildwood:forest--440-629",
+          "f1:s:rootbound-wildwood:forest--440-629-bush-0",
+          "f1:s:rootbound-wildwood:forest--440-629-bush-1",
+          "f1:s:rootbound-wildwood:forest--440-637",
+          "f1:s:rootbound-wildwood:forest--440-637-bush-0",
+          "f1:s:rootbound-wildwood:forest--440-637-bush-1",
+          "f1:s:rootbound-wildwood:forest--440-652",
+          "f1:s:rootbound-wildwood:forest--440-712",
+          "f1:s:rootbound-wildwood:forest--440-712-bush-0",
+          "f1:s:rootbound-wildwood:forest--440-719-bush-0",
+          "f1:s:rootbound-wildwood:forest--447-629-bush-0",
+          "f1:s:rootbound-wildwood:forest--447-652-bush-0",
+          "f1:s:rootbound-wildwood:forest--447-719-bush-0",
+          "f1:s:rootbound-wildwood:forest--500-607-bush-0",
+          "f1:s:rootbound-wildwood:forest--500-614-bush-0",
+          "f1:s:rootbound-wildwood:forest--500-614-bush-1",
+          "f1:s:rootbound-wildwood:forest--500-622-bush-1",
+          "f1:s:rootbound-wildwood:forest--500-652-bush-0",
+          "f1:s:rootbound-wildwood:forest--500-712-bush-1",
+          "f1:s:rootbound-wildwood:forest--500-719-bush-1",
+          "f1:s:rootbound-wildwood:forest--500-727-bush-0",
+          "f1:s:rootbound-wildwood:forest--507-607-bush-0",
+          "f1:s:rootbound-wildwood:forest--507-614-bush-0",
+          "f1:s:rootbound-wildwood:forest--507-622-bush-0",
+          "f1:s:rootbound-wildwood:forest--507-629-bush-0",
+          "f1:s:rootbound-wildwood:forest--507-629-bush-1",
+          "f1:s:rootbound-wildwood:forest--507-644-bush-0",
+          "f1:s:rootbound-wildwood:forest--507-644-bush-1",
+          "f1:s:rootbound-wildwood:forest--507-712-bush-0",
+          "f1:s:rootbound-wildwood:forest--515-607-bush-0",
+          "f1:s:rootbound-wildwood:forest--515-622-bush-0",
+          "f1:s:rootbound-wildwood:forest--515-629-bush-0",
+          "f1:s:rootbound-wildwood:forest--515-629-bush-1",
+          "f1:s:rootbound-wildwood:forest--515-637-bush-0",
+          "f1:s:rootbound-wildwood:forest--515-637-bush-1",
+          "f1:s:rootbound-wildwood:forest--515-644-bush-0",
+          "f1:s:rootbound-wildwood:forest--515-644-bush-1",
+          "f1:s:rootbound-wildwood:forest--515-652-bush-0",
+          "f1:s:rootbound-wildwood:forest--515-704-bush-1",
+          "f1:s:rootbound-wildwood:forest--515-734-bush-0",
+          "f1:s:rootbound-wildwood:forest--515-734-bush-1",
+          "f1:s:rootbound-wildwood:verge-seam-2",
+          "f1:s:rootbound-wildwood:verge-shelf-frame-3",
+          "f1:s:rootbound-wildwood:verge-shelf-rubble-3",
+          "f1:s:rootbound-wildwood:verge-shelf-rubble-4",
+          "f2c:s:-11:12:seed-0",
+          "f2c:s:-10:13:seed-1",
+          "f2c:s:-11:13:seed-3",
+          "f2c:s:-10:12:seed-14",
+          "f2c:s:-10:14:seed-17",
+          "f2c:s:-9:13:seed-22",
+          "f2c:s:-11:12:seed-3",
+          "f2c:s:-11:14:seed-1",
+          "f2c:s:-10:13:seed-10",
+          "f2c:s:-11:13:seed-8",
+          "f2c:s:-10:12:seed-4",
+          "f2c:s:-10:14:seed-19",
+          "f2c:s:-11:12:seed-4",
+          "f2c:s:-11:14:seed-10",
+          "f2c:s:-10:12:seed-5",
+          "f2c:s:-10:14:seed-20",
+          "f2c:s:-11:12:seed-6",
+          "f2c:s:-11:14:seed-13",
+          "f2c:s:-10:14:seed-23",
+          "f2c:s:-11:12:seed-9",
+          "f2c:s:-11:14:seed-4",
+          "f2c:s:-11:14:seed-7",
+          "f2c:s:-11:14:seed-9",
+          "f2c:i:-10:13:10",
+          "f2c:i:-11:13:0",
+          "f2c:i:-10:12:104",
+          "f1:s:rootbound-wildwood:arrival-canopy",
+          "f2c:s:-10:15:seed-1",
+          "f2c:s:-12:13:seed-1",
+          "f2c:s:-11:15:seed-1",
+          "f2c:s:-12:12:seed-2",
+          "f2c:s:-12:14:seed-0",
+          "f2c:s:-9:15:seed-0",
+          "f2c:s:-12:11:seed-1"
+        ],
+        "canopyCount": 9,
+        "colliderCount": 121,
+        "clearanceRecipeCache": {
+          "forageCount": 56,
+          "wildlifeCount": 56
+        },
+        "sceneryRecipeCache": {
+          "ordinaryCount": 30,
+          "infillCount": 12
+        },
+        "groundPatchCache": {
+          "entryCount": 91,
+          "maxEntries": 512,
+          "maxPatchRecords": 13
+        },
+        "streaming": {
+          "preparedPublications": 0,
+          "unfinishedPublications": 0,
+          "synchronousPublications": 3,
+          "cancelled": 0,
+          "preparationFailures": 0,
+          "lastWorkMs": 0,
+          "maxWorkMs": 0,
+          "phase": null,
+          "target": null
+        },
+        "lowCount": 355,
+        "stoneSolidCount": 0,
+        "surfaceCount": 121,
+        "lowDrawCount": 146,
+        "lowTriangleCount": 160982,
+        "lowGeometryCount": 15,
+        "lowGeometryVertexCount": 111126,
+        "lowInstanceCount": 355,
+        "groundDrawCount": 1,
+        "groundClusterCount": 640,
+        "groundClusterTriangleCount": 10240
+      },
+      "visuals": [
+        {
+          "assetId": "asset_rootbound_oak",
+          "renderCellId": "forest:-19,29",
+          "specIds": [
+            "f1:s:rootbound-wildwood:heartroot-living-landmark",
+            "f1:s:rootbound-wildwood:forest--462-734",
+            "f1:s:rootbound-wildwood:forest--470-727"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_block_root",
+          "renderCellId": "-38,52",
+          "specIds": [
+            "f1:s:rootbound-wildwood:edge-gallery-east-02",
+            "f1:s:rootbound-wildwood:edge-gallery-east-04"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_block_leaf",
+          "renderCellId": "-38,52",
+          "specIds": [
+            "f1:s:rootbound-wildwood:edge-gallery-east-03"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_block_leaf",
+          "renderCellId": "-39,53",
+          "specIds": [
+            "f1:s:rootbound-wildwood:edge-gallery-west-04"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_birch",
+          "renderCellId": "forest:-19,26",
+          "specIds": [
+            "f1:s:rootbound-wildwood:forest--455-652",
+            "f1:s:rootbound-wildwood:forest--462-659",
+            "f1:s:rootbound-wildwood:forest--470-659"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_oak",
+          "renderCellId": "forest:-19,26",
+          "specIds": [
+            "f1:s:rootbound-wildwood:forest--455-659",
+            "f1:s:rootbound-wildwood:forest--462-652",
+            "f1:s:rootbound-wildwood:forest--470-652",
+            "f1:s:rootbound-wildwood:forest--470-674"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_bush",
+          "renderCellId": "forest:-19,26",
+          "specIds": [
+            "f1:s:rootbound-wildwood:forest--455-659-bush-0",
+            "f1:s:rootbound-wildwood:forest--462-652-bush-0",
+            "f1:s:rootbound-wildwood:forest--462-659-bush-0",
+            "f1:s:rootbound-wildwood:forest--470-652-bush-0",
+            "f1:s:rootbound-wildwood:forest--470-674-bush-0"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_fern",
+          "renderCellId": "forest:-19,26",
+          "specIds": [
+            "f1:s:rootbound-wildwood:forest--462-652-bush-1",
+            "f1:s:rootbound-wildwood:forest--462-659-bush-1",
+            "f1:s:rootbound-wildwood:forest--470-652-bush-1",
+            "f1:s:rootbound-wildwood:forest--470-659-bush-1",
+            "f1:s:rootbound-wildwood:forest--470-674-bush-1"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_oak",
+          "renderCellId": "forest:-19,27",
+          "specIds": [
+            "f1:s:rootbound-wildwood:forest--462-689",
+            "f1:s:rootbound-wildwood:forest--470-689",
+            "f1:s:rootbound-wildwood:forest--470-697"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_birch",
+          "renderCellId": "forest:-19,27",
+          "specIds": [
+            "f1:s:rootbound-wildwood:forest--462-697",
+            "f1:s:rootbound-wildwood:forest--470-682"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_bush",
+          "renderCellId": "forest:-19,27",
+          "specIds": [
+            "f1:s:rootbound-wildwood:forest--462-697-bush-0",
+            "f1:s:rootbound-wildwood:forest--470-689-bush-0",
+            "f1:s:rootbound-wildwood:forest--470-697-bush-0"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_fern",
+          "renderCellId": "forest:-19,27",
+          "specIds": [
+            "f1:s:rootbound-wildwood:forest--470-697-bush-1"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_birch",
+          "renderCellId": "forest:-20,26",
+          "specIds": [
+            "f1:s:rootbound-wildwood:forest--477-667",
+            "f1:s:rootbound-wildwood:forest--485-652",
+            "f1:s:rootbound-wildwood:forest--485-659"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_bush",
+          "renderCellId": "forest:-20,26",
+          "specIds": [
+            "f1:s:rootbound-wildwood:forest--477-667-bush-0",
+            "f1:s:rootbound-wildwood:forest--485-652-bush-0",
+            "f1:s:rootbound-wildwood:forest--485-659-bush-0",
+            "f1:s:rootbound-wildwood:forest--485-667-bush-0"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_fern",
+          "renderCellId": "forest:-20,26",
+          "specIds": [
+            "f1:s:rootbound-wildwood:forest--477-667-bush-1"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_oak",
+          "renderCellId": "forest:-20,27",
+          "specIds": [
+            "f1:s:rootbound-wildwood:forest--477-682",
+            "f1:s:rootbound-wildwood:forest--477-689"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_bush",
+          "renderCellId": "forest:-20,27",
+          "specIds": [
+            "f1:s:rootbound-wildwood:forest--477-682-bush-0",
+            "f1:s:rootbound-wildwood:forest--477-704-bush-0",
+            "f1:s:rootbound-wildwood:forest--485-697-bush-0",
+            "f1:s:rootbound-wildwood:forest--500-682-bush-0"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_oak",
+          "renderCellId": "forest:-20,26",
+          "specIds": [
+            "f1:s:rootbound-wildwood:forest--485-667"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_birch",
+          "renderCellId": "forest:-20,27",
+          "specIds": [
+            "f1:s:rootbound-wildwood:forest--485-697"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_fern",
+          "renderCellId": "forest:-20,27",
+          "specIds": [
+            "f1:s:rootbound-wildwood:forest--500-682-bush-1"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_block_leaf",
+          "renderCellId": "-39,55",
+          "specIds": [
+            "f1:s:rootbound-wildwood:gallery-north-collar"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_gallery_lintel_placeholder",
+          "renderCellId": "-39,52",
+          "specIds": [
+            "f1:s:rootbound-wildwood:gallery-terminus"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_block_leaf",
+          "renderCellId": "-40,54",
+          "specIds": [
+            "f1:s:rootbound-wildwood:gallery-west-rib-3"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_block_leaf",
+          "renderCellId": "-34,52",
+          "specIds": [
+            "f1:s:rootbound-wildwood:edge-grove-east-01"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_birch",
+          "renderCellId": "forest:-17,27",
+          "specIds": [
+            "f1:s:rootbound-wildwood:forest--402-682",
+            "f1:s:rootbound-wildwood:forest--417-682"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_oak",
+          "renderCellId": "forest:-17,26",
+          "specIds": [
+            "f1:s:rootbound-wildwood:forest--410-652"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_bush",
+          "renderCellId": "forest:-17,26",
+          "specIds": [
+            "f1:s:rootbound-wildwood:forest--410-652-bush-0",
+            "f1:s:rootbound-wildwood:forest--417-659-bush-0",
+            "f1:s:rootbound-wildwood:forest--425-652-bush-0",
+            "f1:s:rootbound-wildwood:forest--425-659-bush-0"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_birch",
+          "renderCellId": "forest:-17,26",
+          "specIds": [
+            "f1:s:rootbound-wildwood:forest--417-659",
+            "f1:s:rootbound-wildwood:forest--425-659"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_fern",
+          "renderCellId": "forest:-17,26",
+          "specIds": [
+            "f1:s:rootbound-wildwood:forest--417-659-bush-1"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_oak",
+          "renderCellId": "forest:-18,26",
+          "specIds": [
+            "f1:s:rootbound-wildwood:forest--425-652",
+            "f1:s:rootbound-wildwood:forest--447-659"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_fern",
+          "renderCellId": "forest:-18,26",
+          "specIds": [
+            "f1:s:rootbound-wildwood:forest--425-659-bush-1",
+            "f1:s:rootbound-wildwood:forest--432-667-bush-1",
+            "f1:s:rootbound-wildwood:forest--440-652-bush-1",
+            "f1:s:rootbound-wildwood:forest--440-659-bush-1",
+            "f1:s:rootbound-wildwood:forest--440-667-bush-1",
+            "f1:s:rootbound-wildwood:forest--447-659-bush-1"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_birch",
+          "renderCellId": "forest:-18,27",
+          "specIds": [
+            "f1:s:rootbound-wildwood:forest--425-697",
+            "f1:s:rootbound-wildwood:forest--440-682",
+            "f1:s:rootbound-wildwood:forest--440-689",
+            "f1:s:rootbound-wildwood:forest--440-697"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_birch",
+          "renderCellId": "forest:-18,26",
+          "specIds": [
+            "f1:s:rootbound-wildwood:forest--432-659",
+            "f1:s:rootbound-wildwood:forest--432-667",
+            "f1:s:rootbound-wildwood:forest--440-659",
+            "f1:s:rootbound-wildwood:forest--440-667"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_bush",
+          "renderCellId": "forest:-18,26",
+          "specIds": [
+            "f1:s:rootbound-wildwood:forest--432-659-bush-0",
+            "f1:s:rootbound-wildwood:forest--440-652-bush-0",
+            "f1:s:rootbound-wildwood:forest--440-659-bush-0",
+            "f1:s:rootbound-wildwood:forest--440-667-bush-0",
+            "f1:s:rootbound-wildwood:forest--447-659-bush-0"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_oak",
+          "renderCellId": "forest:-18,27",
+          "specIds": [
+            "f1:s:rootbound-wildwood:forest--432-689"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_bush",
+          "renderCellId": "forest:-18,27",
+          "specIds": [
+            "f1:s:rootbound-wildwood:forest--440-689-bush-0",
+            "f1:s:rootbound-wildwood:forest--440-697-bush-0"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_fern",
+          "renderCellId": "forest:-18,27",
+          "specIds": [
+            "f1:s:rootbound-wildwood:forest--440-689-bush-1",
+            "f1:s:rootbound-wildwood:forest--440-697-bush-1"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_bush",
+          "renderCellId": "forest:-19,25",
+          "specIds": [
+            "f1:s:rootbound-wildwood:forest--447-644-bush-0",
+            "f1:s:rootbound-wildwood:forest--455-622-bush-0",
+            "f1:s:rootbound-wildwood:forest--455-637-bush-0",
+            "f1:s:rootbound-wildwood:forest--455-644-bush-0",
+            "f1:s:rootbound-wildwood:forest--455-652-bush-0",
+            "f1:s:rootbound-wildwood:forest--462-629-bush-0",
+            "f1:s:rootbound-wildwood:forest--462-644-bush-0",
+            "f1:s:rootbound-wildwood:forest--470-629-bush-0",
+            "f1:s:rootbound-wildwood:forest--470-637-bush-0",
+            "f1:s:rootbound-wildwood:forest--470-644-bush-0"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_fern",
+          "renderCellId": "forest:-19,25",
+          "specIds": [
+            "f1:s:rootbound-wildwood:forest--447-644-bush-1",
+            "f1:s:rootbound-wildwood:forest--455-622-bush-1",
+            "f1:s:rootbound-wildwood:forest--455-637-bush-1",
+            "f1:s:rootbound-wildwood:forest--462-629-bush-1",
+            "f1:s:rootbound-wildwood:forest--470-629-bush-1",
+            "f1:s:rootbound-wildwood:forest--470-637-bush-1"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_oak",
+          "renderCellId": "forest:-19,24",
+          "specIds": [
+            "f1:s:rootbound-wildwood:forest--455-622",
+            "f1:s:rootbound-wildwood:forest--462-614",
+            "f1:s:rootbound-wildwood:forest--470-614"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_oak",
+          "renderCellId": "forest:-19,25",
+          "specIds": [
+            "f1:s:rootbound-wildwood:forest--455-644",
+            "f1:s:rootbound-wildwood:forest--462-644",
+            "f1:s:rootbound-wildwood:forest--470-644"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_oak",
+          "renderCellId": "forest:-19,28",
+          "specIds": [
+            "f1:s:rootbound-wildwood:forest--455-712",
+            "f1:s:rootbound-wildwood:forest--455-719",
+            "f1:s:rootbound-wildwood:forest--462-719",
+            "f1:s:rootbound-wildwood:forest--462-727"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_bush",
+          "renderCellId": "forest:-19,28",
+          "specIds": [
+            "f1:s:rootbound-wildwood:forest--455-712-bush-0",
+            "f1:s:rootbound-wildwood:forest--455-719-bush-0",
+            "f1:s:rootbound-wildwood:forest--462-719-bush-0",
+            "f1:s:rootbound-wildwood:forest--462-727-bush-0"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_bush",
+          "renderCellId": "forest:-19,24",
+          "specIds": [
+            "f1:s:rootbound-wildwood:forest--462-614-bush-0",
+            "f1:s:rootbound-wildwood:forest--470-614-bush-0"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_birch",
+          "renderCellId": "forest:-19,25",
+          "specIds": [
+            "f1:s:rootbound-wildwood:forest--462-629",
+            "f1:s:rootbound-wildwood:forest--470-629"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_fern",
+          "renderCellId": "forest:-19,29",
+          "specIds": [
+            "f1:s:rootbound-wildwood:forest--462-727-bush-1",
+            "f1:s:rootbound-wildwood:forest--462-734-bush-1"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_fern",
+          "renderCellId": "forest:-19,24",
+          "specIds": [
+            "f1:s:rootbound-wildwood:forest--470-614-bush-1"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_bush",
+          "renderCellId": "forest:-19,29",
+          "specIds": [
+            "f1:s:rootbound-wildwood:forest--470-727-bush-0"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_fern",
+          "renderCellId": "forest:-19,28",
+          "specIds": [
+            "f1:s:rootbound-wildwood:forest--470-727-bush-1"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_birch",
+          "renderCellId": "forest:-20,28",
+          "specIds": [
+            "f1:s:rootbound-wildwood:forest--477-704"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_oak",
+          "renderCellId": "forest:-20,28",
+          "specIds": [
+            "f1:s:rootbound-wildwood:forest--477-712",
+            "f1:s:rootbound-wildwood:forest--492-712",
+            "f1:s:rootbound-wildwood:forest--492-719",
+            "f1:s:rootbound-wildwood:forest--500-712"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_fern",
+          "renderCellId": "forest:-20,28",
+          "specIds": [
+            "f1:s:rootbound-wildwood:forest--477-712-bush-1"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_oak",
+          "renderCellId": "forest:-20,24",
+          "specIds": [
+            "f1:s:rootbound-wildwood:forest--485-622",
+            "f1:s:rootbound-wildwood:forest--500-622"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_bush",
+          "renderCellId": "forest:-20,24",
+          "specIds": [
+            "f1:s:rootbound-wildwood:forest--485-622-bush-0"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_birch",
+          "renderCellId": "forest:-20,25",
+          "specIds": [
+            "f1:s:rootbound-wildwood:forest--485-637",
+            "f1:s:rootbound-wildwood:forest--485-644"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_fern",
+          "renderCellId": "forest:-20,25",
+          "specIds": [
+            "f1:s:rootbound-wildwood:forest--485-637-bush-1",
+            "f1:s:rootbound-wildwood:forest--485-644-bush-1",
+            "f1:s:rootbound-wildwood:forest--500-637-bush-1"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_bush",
+          "renderCellId": "forest:-20,25",
+          "specIds": [
+            "f1:s:rootbound-wildwood:forest--485-644-bush-0",
+            "f1:s:rootbound-wildwood:forest--500-622-bush-0"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_bush",
+          "renderCellId": "forest:-20,28",
+          "specIds": [
+            "f1:s:rootbound-wildwood:forest--485-719-bush-0",
+            "f1:s:rootbound-wildwood:forest--485-727-bush-0",
+            "f1:s:rootbound-wildwood:forest--492-712-bush-0",
+            "f1:s:rootbound-wildwood:forest--492-719-bush-0",
+            "f1:s:rootbound-wildwood:forest--500-704-bush-0",
+            "f1:s:rootbound-wildwood:forest--500-719-bush-0"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_fern",
+          "renderCellId": "forest:-20,29",
+          "specIds": [
+            "f1:s:rootbound-wildwood:forest--485-727-bush-1",
+            "f1:s:rootbound-wildwood:forest--485-734-bush-1"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_oak",
+          "renderCellId": "forest:-20,29",
+          "specIds": [
+            "f1:s:rootbound-wildwood:forest--485-734",
+            "f1:s:rootbound-wildwood:forest--492-727",
+            "f1:s:rootbound-wildwood:forest--492-734"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_bush",
+          "renderCellId": "forest:-20,29",
+          "specIds": [
+            "f1:s:rootbound-wildwood:forest--485-734-bush-0",
+            "f1:s:rootbound-wildwood:forest--492-727-bush-0"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_birch",
+          "renderCellId": "forest:-20,24",
+          "specIds": [
+            "f1:s:rootbound-wildwood:forest--500-607"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_oak",
+          "renderCellId": "forest:-20,25",
+          "specIds": [
+            "f1:s:rootbound-wildwood:forest--500-637"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_oak",
+          "renderCellId": "forest:-21,26",
+          "specIds": [
+            "f1:s:rootbound-wildwood:forest--500-652",
+            "f1:s:rootbound-wildwood:forest--507-674",
+            "f1:s:rootbound-wildwood:forest--515-652",
+            "f1:s:rootbound-wildwood:forest--515-674"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_birch",
+          "renderCellId": "forest:-21,26",
+          "specIds": [
+            "f1:s:rootbound-wildwood:forest--500-659",
+            "f1:s:rootbound-wildwood:forest--500-667",
+            "f1:s:rootbound-wildwood:forest--507-667",
+            "f1:s:rootbound-wildwood:forest--515-659"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_bush",
+          "renderCellId": "forest:-21,26",
+          "specIds": [
+            "f1:s:rootbound-wildwood:forest--500-659-bush-0",
+            "f1:s:rootbound-wildwood:forest--500-667-bush-0",
+            "f1:s:rootbound-wildwood:forest--507-652-bush-0",
+            "f1:s:rootbound-wildwood:forest--507-667-bush-0",
+            "f1:s:rootbound-wildwood:forest--515-659-bush-0",
+            "f1:s:rootbound-wildwood:forest--515-667-bush-0",
+            "f1:s:rootbound-wildwood:forest--515-674-bush-0"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_fern",
+          "renderCellId": "forest:-21,26",
+          "specIds": [
+            "f1:s:rootbound-wildwood:forest--500-659-bush-1",
+            "f1:s:rootbound-wildwood:forest--515-659-bush-1",
+            "f1:s:rootbound-wildwood:forest--515-667-bush-1"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_oak",
+          "renderCellId": "forest:-21,27",
+          "specIds": [
+            "f1:s:rootbound-wildwood:forest--500-682"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_bush",
+          "renderCellId": "forest:-21,27",
+          "specIds": [
+            "f1:s:rootbound-wildwood:forest--500-689-bush-0",
+            "f1:s:rootbound-wildwood:forest--507-682-bush-0",
+            "f1:s:rootbound-wildwood:forest--507-697-bush-0",
+            "f1:s:rootbound-wildwood:forest--515-689-bush-0"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_fern",
+          "renderCellId": "forest:-21,27",
+          "specIds": [
+            "f1:s:rootbound-wildwood:forest--500-697-bush-1",
+            "f1:s:rootbound-wildwood:forest--507-697-bush-1",
+            "f1:s:rootbound-wildwood:forest--515-689-bush-1"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_birch",
+          "renderCellId": "forest:-21,27",
+          "specIds": [
+            "f1:s:rootbound-wildwood:forest--507-682",
+            "f1:s:rootbound-wildwood:forest--507-697",
+            "f1:s:rootbound-wildwood:forest--515-689"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_fallen_log",
+          "renderCellId": "forest:-18,26",
+          "specIds": [
+            "f1:s:rootbound-wildwood:grove-fallen-timber-1"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_heartroot_core_placeholder",
+          "renderCellId": "-38,58",
+          "specIds": [
+            "f1:s:rootbound-wildwood:heartroot-core"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_block_root",
+          "renderCellId": "-39,58",
+          "specIds": [
+            "f1:s:rootbound-wildwood:heartroot-crown-base"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_block_leaf",
+          "renderCellId": "-39,58",
+          "specIds": [
+            "f1:s:rootbound-wildwood:heartroot-crown-left",
+            "f1:s:rootbound-wildwood:heartroot-crown-wing-1"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_block_leaf",
+          "renderCellId": "-38,58",
+          "specIds": [
+            "f1:s:rootbound-wildwood:heartroot-crown-right",
+            "f1:s:rootbound-wildwood:heartroot-crown-wing-2"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_block_root",
+          "renderCellId": "-38,57",
+          "specIds": [
+            "f1:s:rootbound-wildwood:heartroot-crown-web-1"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_block_root",
+          "renderCellId": "-38,58",
+          "specIds": [
+            "f1:s:rootbound-wildwood:heartroot-crown-web-2"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_heartroot_wing_placeholder",
+          "renderCellId": "-37,58",
+          "specIds": [
+            "f1:s:rootbound-wildwood:heartroot-wing-east"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_heartroot_wing_placeholder",
+          "renderCellId": "-39,58",
+          "specIds": [
+            "f1:s:rootbound-wildwood:heartroot-wing-west"
+          ]
+        },
+        {
+          "assetId": "asset_fallen_log",
+          "renderCellId": "-36,54",
+          "specIds": [
+            "f1:s:rootbound-wildwood:lantern-log"
+          ]
+        },
+        {
+          "assetId": "asset_mushroom_ring",
+          "renderCellId": "-36,54",
+          "specIds": [
+            "f1:s:rootbound-wildwood:lantern-ring-a"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_block_root",
+          "renderCellId": "-38,48",
+          "specIds": [
+            "f1:s:rootbound-wildwood:meadow-east-rootline"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_block_leaf",
+          "renderCellId": "-40,48",
+          "specIds": [
+            "f1:s:rootbound-wildwood:meadow-west-edge"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_block_thorn",
+          "renderCellId": "-33,55",
+          "specIds": [
+            "f1:s:rootbound-wildwood:verge-east-shards"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_block_thorn",
+          "renderCellId": "forest:-17,27",
+          "specIds": [
+            "f1:s:rootbound-wildwood:verge-shelf-frame-0",
+            "f1:s:rootbound-wildwood:verge-shelf-frame-1",
+            "f1:s:rootbound-wildwood:verge-shelf-frame-2",
+            "f1:s:rootbound-wildwood:verge-shelf-rubble-0",
+            "f1:s:rootbound-wildwood:verge-shelf-rubble-1",
+            "f1:s:rootbound-wildwood:verge-shelf-rubble-2"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_block_thorn",
+          "renderCellId": "forest:-18,27",
+          "specIds": [
+            "f1:s:rootbound-wildwood:verge-shelf-frame-4"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_block_thorn",
+          "renderCellId": "-34,54",
+          "specIds": [
+            "f1:s:rootbound-wildwood:verge-west-seam"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_block_root",
+          "renderCellId": "-36,56",
+          "specIds": [
+            "f1:s:rootbound-wildwood:edge-grove-rear-02"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_oak",
+          "renderCellId": "forest:-17,24",
+          "specIds": [
+            "f1:s:rootbound-wildwood:forest--402-607",
+            "f1:s:rootbound-wildwood:forest--410-607",
+            "f1:s:rootbound-wildwood:forest--417-614",
+            "f1:s:rootbound-wildwood:forest--417-622",
+            "f1:s:rootbound-wildwood:forest--425-599",
+            "f1:s:rootbound-wildwood:forest--425-607",
+            "f1:s:rootbound-wildwood:forest--425-622"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_bush",
+          "renderCellId": "forest:-17,24",
+          "specIds": [
+            "f1:s:rootbound-wildwood:forest--402-607-bush-0",
+            "f1:s:rootbound-wildwood:forest--402-614-bush-0",
+            "f1:s:rootbound-wildwood:forest--402-622-bush-0",
+            "f1:s:rootbound-wildwood:forest--410-607-bush-0",
+            "f1:s:rootbound-wildwood:forest--410-614-bush-0",
+            "f1:s:rootbound-wildwood:forest--410-629-bush-0",
+            "f1:s:rootbound-wildwood:forest--417-614-bush-0",
+            "f1:s:rootbound-wildwood:forest--417-622-bush-0",
+            "f1:s:rootbound-wildwood:forest--425-607-bush-0",
+            "f1:s:rootbound-wildwood:forest--425-614-bush-0",
+            "f1:s:rootbound-wildwood:forest--425-622-bush-0"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_birch",
+          "renderCellId": "forest:-17,24",
+          "specIds": [
+            "f1:s:rootbound-wildwood:forest--402-622"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_oak",
+          "renderCellId": "forest:-17,25",
+          "specIds": [
+            "f1:s:rootbound-wildwood:forest--402-637",
+            "f1:s:rootbound-wildwood:forest--410-629",
+            "f1:s:rootbound-wildwood:forest--410-644",
+            "f1:s:rootbound-wildwood:forest--417-644",
+            "f1:s:rootbound-wildwood:forest--425-644"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_bush",
+          "renderCellId": "forest:-17,25",
+          "specIds": [
+            "f1:s:rootbound-wildwood:forest--402-637-bush-0",
+            "f1:s:rootbound-wildwood:forest--402-644-bush-0",
+            "f1:s:rootbound-wildwood:forest--402-652-bush-0",
+            "f1:s:rootbound-wildwood:forest--410-637-bush-0",
+            "f1:s:rootbound-wildwood:forest--410-644-bush-0",
+            "f1:s:rootbound-wildwood:forest--417-644-bush-0",
+            "f1:s:rootbound-wildwood:forest--425-629-bush-0"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_birch",
+          "renderCellId": "forest:-17,25",
+          "specIds": [
+            "f1:s:rootbound-wildwood:forest--402-644",
+            "f1:s:rootbound-wildwood:forest--402-652"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_fern",
+          "renderCellId": "forest:-17,25",
+          "specIds": [
+            "f1:s:rootbound-wildwood:forest--402-652-bush-1",
+            "f1:s:rootbound-wildwood:forest--410-644-bush-1",
+            "f1:s:rootbound-wildwood:forest--410-652-bush-1",
+            "f1:s:rootbound-wildwood:forest--425-644-bush-1"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_oak",
+          "renderCellId": "forest:-17,28",
+          "specIds": [
+            "f1:s:rootbound-wildwood:forest--402-719",
+            "f1:s:rootbound-wildwood:forest--410-719",
+            "f1:s:rootbound-wildwood:forest--417-704"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_oak",
+          "renderCellId": "forest:-17,29",
+          "specIds": [
+            "f1:s:rootbound-wildwood:forest--402-734"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_fern",
+          "renderCellId": "forest:-17,24",
+          "specIds": [
+            "f1:s:rootbound-wildwood:forest--410-614-bush-1",
+            "f1:s:rootbound-wildwood:forest--417-614-bush-1"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_birch",
+          "renderCellId": "forest:-17,28",
+          "specIds": [
+            "f1:s:rootbound-wildwood:forest--410-712",
+            "f1:s:rootbound-wildwood:forest--425-712"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_oak",
+          "renderCellId": "forest:-18,24",
+          "specIds": [
+            "f1:s:rootbound-wildwood:forest--425-614",
+            "f1:s:rootbound-wildwood:forest--432-614",
+            "f1:s:rootbound-wildwood:forest--432-622",
+            "f1:s:rootbound-wildwood:forest--440-607"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_fern",
+          "renderCellId": "forest:-18,24",
+          "specIds": [
+            "f1:s:rootbound-wildwood:forest--425-614-bush-1",
+            "f1:s:rootbound-wildwood:forest--425-622-bush-1",
+            "f1:s:rootbound-wildwood:forest--432-614-bush-1",
+            "f1:s:rootbound-wildwood:forest--440-607-bush-1"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_birch",
+          "renderCellId": "forest:-18,25",
+          "specIds": [
+            "f1:s:rootbound-wildwood:forest--425-629",
+            "f1:s:rootbound-wildwood:forest--440-629"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_oak",
+          "renderCellId": "forest:-18,25",
+          "specIds": [
+            "f1:s:rootbound-wildwood:forest--425-637",
+            "f1:s:rootbound-wildwood:forest--432-629",
+            "f1:s:rootbound-wildwood:forest--432-637",
+            "f1:s:rootbound-wildwood:forest--440-637",
+            "f1:s:rootbound-wildwood:forest--440-652"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_bush",
+          "renderCellId": "forest:-18,25",
+          "specIds": [
+            "f1:s:rootbound-wildwood:forest--425-637-bush-0",
+            "f1:s:rootbound-wildwood:forest--425-644-bush-0",
+            "f1:s:rootbound-wildwood:forest--432-629-bush-0",
+            "f1:s:rootbound-wildwood:forest--432-637-bush-0",
+            "f1:s:rootbound-wildwood:forest--440-629-bush-0",
+            "f1:s:rootbound-wildwood:forest--440-637-bush-0",
+            "f1:s:rootbound-wildwood:forest--447-629-bush-0",
+            "f1:s:rootbound-wildwood:forest--447-652-bush-0"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_fern",
+          "renderCellId": "forest:-18,25",
+          "specIds": [
+            "f1:s:rootbound-wildwood:forest--425-637-bush-1",
+            "f1:s:rootbound-wildwood:forest--432-629-bush-1",
+            "f1:s:rootbound-wildwood:forest--432-637-bush-1",
+            "f1:s:rootbound-wildwood:forest--440-629-bush-1",
+            "f1:s:rootbound-wildwood:forest--440-637-bush-1"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_bush",
+          "renderCellId": "forest:-18,24",
+          "specIds": [
+            "f1:s:rootbound-wildwood:forest--432-614-bush-0",
+            "f1:s:rootbound-wildwood:forest--432-622-bush-0",
+            "f1:s:rootbound-wildwood:forest--440-607-bush-0",
+            "f1:s:rootbound-wildwood:forest--440-614-bush-0"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_oak",
+          "renderCellId": "forest:-18,28",
+          "specIds": [
+            "f1:s:rootbound-wildwood:forest--432-719"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_birch",
+          "renderCellId": "forest:-18,29",
+          "specIds": [
+            "f1:s:rootbound-wildwood:forest--432-727"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_birch",
+          "renderCellId": "forest:-18,24",
+          "specIds": [
+            "f1:s:rootbound-wildwood:forest--440-614"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_birch",
+          "renderCellId": "forest:-18,28",
+          "specIds": [
+            "f1:s:rootbound-wildwood:forest--440-712"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_bush",
+          "renderCellId": "forest:-18,28",
+          "specIds": [
+            "f1:s:rootbound-wildwood:forest--440-712-bush-0",
+            "f1:s:rootbound-wildwood:forest--440-719-bush-0",
+            "f1:s:rootbound-wildwood:forest--447-719-bush-0"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_bush",
+          "renderCellId": "forest:-21,24",
+          "specIds": [
+            "f1:s:rootbound-wildwood:forest--500-607-bush-0",
+            "f1:s:rootbound-wildwood:forest--500-614-bush-0",
+            "f1:s:rootbound-wildwood:forest--507-607-bush-0",
+            "f1:s:rootbound-wildwood:forest--507-614-bush-0",
+            "f1:s:rootbound-wildwood:forest--507-622-bush-0",
+            "f1:s:rootbound-wildwood:forest--515-607-bush-0",
+            "f1:s:rootbound-wildwood:forest--515-622-bush-0"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_fern",
+          "renderCellId": "forest:-21,24",
+          "specIds": [
+            "f1:s:rootbound-wildwood:forest--500-614-bush-1",
+            "f1:s:rootbound-wildwood:forest--507-629-bush-1"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_fern",
+          "renderCellId": "forest:-21,25",
+          "specIds": [
+            "f1:s:rootbound-wildwood:forest--500-622-bush-1",
+            "f1:s:rootbound-wildwood:forest--507-644-bush-1",
+            "f1:s:rootbound-wildwood:forest--515-629-bush-1",
+            "f1:s:rootbound-wildwood:forest--515-637-bush-1",
+            "f1:s:rootbound-wildwood:forest--515-644-bush-1"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_bush",
+          "renderCellId": "forest:-21,25",
+          "specIds": [
+            "f1:s:rootbound-wildwood:forest--500-652-bush-0",
+            "f1:s:rootbound-wildwood:forest--507-629-bush-0",
+            "f1:s:rootbound-wildwood:forest--507-644-bush-0",
+            "f1:s:rootbound-wildwood:forest--515-629-bush-0",
+            "f1:s:rootbound-wildwood:forest--515-637-bush-0",
+            "f1:s:rootbound-wildwood:forest--515-644-bush-0",
+            "f1:s:rootbound-wildwood:forest--515-652-bush-0"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_fern",
+          "renderCellId": "forest:-21,28",
+          "specIds": [
+            "f1:s:rootbound-wildwood:forest--500-712-bush-1",
+            "f1:s:rootbound-wildwood:forest--500-719-bush-1",
+            "f1:s:rootbound-wildwood:forest--515-704-bush-1"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_bush",
+          "renderCellId": "forest:-21,29",
+          "specIds": [
+            "f1:s:rootbound-wildwood:forest--500-727-bush-0",
+            "f1:s:rootbound-wildwood:forest--515-734-bush-0"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_bush",
+          "renderCellId": "forest:-21,28",
+          "specIds": [
+            "f1:s:rootbound-wildwood:forest--507-712-bush-0"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_fern",
+          "renderCellId": "forest:-21,29",
+          "specIds": [
+            "f1:s:rootbound-wildwood:forest--515-734-bush-1"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_block_thorn",
+          "renderCellId": "-33,56",
+          "specIds": [
+            "f1:s:rootbound-wildwood:verge-seam-2"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_block_thorn",
+          "renderCellId": "forest:-17,28",
+          "specIds": [
+            "f1:s:rootbound-wildwood:verge-shelf-frame-3",
+            "f1:s:rootbound-wildwood:verge-shelf-rubble-3"
+          ]
+        },
+        {
+          "assetId": "asset_rootbound_block_thorn",
+          "renderCellId": "forest:-18,28",
+          "specIds": [
+            "f1:s:rootbound-wildwood:verge-shelf-rubble-4"
+          ]
+        },
+        {
+          "assetId": "asset_fen_reed",
+          "renderCellId": "-40,53",
+          "specIds": [
+            "f2c:s:-10:13:seed-1",
+            "f2c:i:-10:13:10"
+          ]
+        },
+        {
+          "assetId": "asset_fen_reed",
+          "renderCellId": "-41,54",
+          "specIds": [
+            "f2c:s:-11:13:seed-3"
+          ]
+        },
+        {
+          "assetId": "asset_fen_lily",
+          "renderCellId": "-38,49",
+          "specIds": [
+            "f2c:s:-10:12:seed-14"
+          ]
+        },
+        {
+          "assetId": "asset_fen_reed",
+          "renderCellId": "-40,57",
+          "specIds": [
+            "f2c:s:-10:14:seed-17"
+          ]
+        },
+        {
+          "assetId": "asset_mushroom_ring",
+          "renderCellId": "-36,53",
+          "specIds": [
+            "f2c:s:-9:13:seed-22"
+          ]
+        },
+        {
+          "assetId": "asset_mushroom_ring",
+          "renderCellId": "-43,50",
+          "specIds": [
+            "f2c:s:-11:12:seed-3"
+          ]
+        },
+        {
+          "assetId": "asset_fen_lily",
+          "renderCellId": "-43,58",
+          "specIds": [
+            "f2c:s:-11:14:seed-1"
+          ]
+        },
+        {
+          "assetId": "asset_fen_lily",
+          "renderCellId": "-39,53",
+          "specIds": [
+            "f2c:s:-10:13:seed-10"
+          ]
+        },
+        {
+          "assetId": "asset_fen_reed",
+          "renderCellId": "-43,53",
+          "specIds": [
+            "f2c:s:-11:13:seed-8"
+          ]
+        },
+        {
+          "assetId": "asset_fen_reed",
+          "renderCellId": "-38,50",
+          "specIds": [
+            "f2c:s:-10:12:seed-4"
+          ]
+        },
+        {
+          "assetId": "asset_fen_reed",
+          "renderCellId": "-38,57",
+          "specIds": [
+            "f2c:s:-10:14:seed-19"
+          ]
+        },
+        {
+          "assetId": "asset_fen_lily",
+          "renderCellId": "-43,49",
+          "specIds": [
+            "f2c:s:-11:12:seed-4"
+          ]
+        },
+        {
+          "assetId": "asset_fen_reed",
+          "renderCellId": "-44,58",
+          "specIds": [
+            "f2c:s:-11:14:seed-10",
+            "f2c:s:-11:14:seed-4"
+          ]
+        },
+        {
+          "assetId": "asset_fen_reed",
+          "renderCellId": "-38,49",
+          "specIds": [
+            "f2c:s:-10:12:seed-5"
+          ]
+        },
+        {
+          "assetId": "asset_fen_lily",
+          "renderCellId": "-39,58",
+          "specIds": [
+            "f2c:s:-10:14:seed-20"
+          ]
+        },
+        {
+          "assetId": "asset_mushroom_ring",
+          "renderCellId": "-43,49",
+          "specIds": [
+            "f2c:s:-11:12:seed-6"
+          ]
+        },
+        {
+          "assetId": "asset_mushroom_ring",
+          "renderCellId": "-43,58",
+          "specIds": [
+            "f2c:s:-11:14:seed-13"
+          ]
+        },
+        {
+          "assetId": "asset_fen_reed",
+          "renderCellId": "-39,58",
+          "specIds": [
+            "f2c:s:-10:14:seed-23"
+          ]
+        },
+        {
+          "assetId": "asset_fen_lily",
+          "renderCellId": "-43,50",
+          "specIds": [
+            "f2c:s:-11:12:seed-9"
+          ]
+        },
+        {
+          "assetId": "asset_mushroom_ring",
+          "renderCellId": "-43,59",
+          "specIds": [
+            "f2c:s:-11:14:seed-7"
+          ]
+        },
+        {
+          "assetId": "asset_fen_reed",
+          "renderCellId": "-43,58",
+          "specIds": [
+            "f2c:s:-11:14:seed-9"
+          ]
+        },
+        {
+          "assetId": "asset_fen_reed",
+          "renderCellId": "-44,53",
+          "specIds": [
+            "f2c:i:-11:13:0"
+          ]
+        },
+        {
+          "assetId": "asset_fen_reed",
+          "renderCellId": "-38,48",
+          "specIds": [
+            "f2c:i:-10:12:104"
+          ]
+        }
+      ],
+      "overflow": false
+    }
+  ]
+}

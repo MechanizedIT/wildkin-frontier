@@ -1,0 +1,16 @@
+BlenderMCP: cannot start server in background mode (blender -b) - commands would never execute
+BlenderMCP: run Blender with a GUI, or use a virtual display: xvfb-run -a blender
+BlenderMCP addon registered
+BlenderMCP server stopped
+BlenderMCP addon unregistered
+19:45:38 | INFO: Data are loaded, start creating Blender stuff
+19:45:38 | INFO: Blender create Mesh node geometry_0
+19:45:38 | INFO: glTF import finished in 0.11s
+Blender 4.5.3 LTS (hash 67807e1800cc built 2025-09-09 01:33:33)
+Traceback (most recent call last):
+  File "C:\Users\cwood\Documents\mobile-rpg\art\source\trailgloam-v1\rig-prep-r1\build_fitted_diagnostic.py", line 149, in <module>
+    assert max(r['reachClamp'] for rows in pose_receipts.values() for row in rows for r in row['feet'].values())<.015,'Reach limit exceeds diagnostic allowance'
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Reach limit exceeds diagnostic allowance
+
+Blender quit

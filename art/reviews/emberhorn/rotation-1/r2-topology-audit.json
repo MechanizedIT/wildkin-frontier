@@ -1,0 +1,431 @@
+{
+  "status": "UNREVIEWED_FOCUSED_R2_MANECANDIDATE",
+  "input": {
+    "path": "docs/species/emberhorn/anatomy-plan-r2.json",
+    "sha256": "7a45176b2e4c636abe6649f122ec2d6bcf5a3342160e3d076821a3e796aab2c4"
+  },
+  "source": {
+    "path": "src/world/wildkinMeshKit.js",
+    "sha256": "b53ac3e824a6fc6d6e16c5fa29cc3563b5d42fbf324909e8da90383166002262"
+  },
+  "preservedR1Evidence": [
+    "r1-parity.json",
+    "r1-sibling-hashes.json",
+    "r1-mesh.json"
+  ],
+  "topology": {
+    "legs": [
+      {
+        "index": 0,
+        "vertices": 24,
+        "triangles": 44,
+        "closedTwoFaceEdges": true,
+        "signedVolume": 0.0508745607180468,
+        "localBounds": {
+          "min": [
+            -0.20999999344348907,
+            0.18000000715255737,
+            0.11999999731779099
+          ],
+          "max": [
+            0.20999999344348907,
+            0.7799999713897705,
+            0.5849999785423279
+          ]
+        },
+        "depth": 0.4649999812245369
+      },
+      {
+        "index": 1,
+        "vertices": 24,
+        "triangles": 44,
+        "closedTwoFaceEdges": true,
+        "signedVolume": 0.0508745607180468,
+        "localBounds": {
+          "min": [
+            -0.20999999344348907,
+            0.18000000715255737,
+            0.11999999731779099
+          ],
+          "max": [
+            0.20999999344348907,
+            0.7799999713897705,
+            0.5849999785423279
+          ]
+        },
+        "depth": 0.4649999812245369
+      },
+      {
+        "index": 2,
+        "vertices": 24,
+        "triangles": 44,
+        "closedTwoFaceEdges": true,
+        "signedVolume": 0.049925859865590616,
+        "localBounds": {
+          "min": [
+            -0.20999999344348907,
+            0.18000000715255737,
+            -0.6600000262260437
+          ],
+          "max": [
+            0.20999999344348907,
+            0.7799999713897705,
+            -0.23999999463558197
+          ]
+        },
+        "depth": 0.42000003159046173
+      },
+      {
+        "index": 3,
+        "vertices": 24,
+        "triangles": 44,
+        "closedTwoFaceEdges": true,
+        "signedVolume": 0.049925859865590616,
+        "localBounds": {
+          "min": [
+            -0.20999999344348907,
+            0.18000000715255737,
+            -0.6600000262260437
+          ],
+          "max": [
+            0.20999999344348907,
+            0.7799999713897705,
+            -0.23999999463558197
+          ]
+        },
+        "depth": 0.42000003159046173
+      }
+    ],
+    "mane": [
+      {
+        "index": 0,
+        "vertices": 15,
+        "triangles": 26,
+        "closedTwoFaceEdges": true,
+        "signedVolume": 0.010705446448742122,
+        "localBounds": {
+          "min": [
+            -0.10999999940395355,
+            0,
+            -0.18000000715255737
+          ],
+          "max": [
+            0.10999999940395355,
+            0.28999999165534973,
+            0.18000000715255737
+          ]
+        },
+        "depth": 0.36000001430511475
+      },
+      {
+        "index": 1,
+        "vertices": 15,
+        "triangles": 26,
+        "closedTwoFaceEdges": true,
+        "signedVolume": 0.011997483114517433,
+        "localBounds": {
+          "min": [
+            -0.10999999940395355,
+            0,
+            -0.18000000715255737
+          ],
+          "max": [
+            0.10999999940395355,
+            0.32499998807907104,
+            0.18000000715255737
+          ]
+        },
+        "depth": 0.36000001430511475
+      },
+      {
+        "index": 2,
+        "vertices": 15,
+        "triangles": 26,
+        "closedTwoFaceEdges": true,
+        "signedVolume": 0.013289520129773422,
+        "localBounds": {
+          "min": [
+            -0.10999999940395355,
+            0,
+            -0.18000000715255737
+          ],
+          "max": [
+            0.10999999940395355,
+            0.36000001430511475,
+            0.18000000715255737
+          ]
+        },
+        "depth": 0.36000001430511475
+      },
+      {
+        "index": 3,
+        "vertices": 15,
+        "triangles": 26,
+        "closedTwoFaceEdges": true,
+        "signedVolume": 0.011997483114517433,
+        "localBounds": {
+          "min": [
+            -0.10999999940395355,
+            0,
+            -0.18000000715255737
+          ],
+          "max": [
+            0.10999999940395355,
+            0.32499998807907104,
+            0.18000000715255737
+          ]
+        },
+        "depth": 0.36000001430511475
+      },
+      {
+        "index": 4,
+        "vertices": 15,
+        "triangles": 26,
+        "closedTwoFaceEdges": true,
+        "signedVolume": 0.010705446448742122,
+        "localBounds": {
+          "min": [
+            -0.10999999940395355,
+            0,
+            -0.18000000715255737
+          ],
+          "max": [
+            0.10999999940395355,
+            0.28999999165534973,
+            0.18000000715255737
+          ]
+        },
+        "depth": 0.36000001430511475
+      },
+      {
+        "index": 5,
+        "vertices": 15,
+        "triangles": 26,
+        "closedTwoFaceEdges": true,
+        "signedVolume": 0.0110746001496219,
+        "localBounds": {
+          "min": [
+            -0.10999999940395355,
+            0,
+            -0.18000000715255737
+          ],
+          "max": [
+            0.10999999940395355,
+            0.30000001192092896,
+            0.18000000715255737
+          ]
+        },
+        "depth": 0.36000001430511475
+      },
+      {
+        "index": 6,
+        "vertices": 15,
+        "triangles": 26,
+        "closedTwoFaceEdges": true,
+        "signedVolume": 0.012366636755785115,
+        "localBounds": {
+          "min": [
+            -0.10999999940395355,
+            0,
+            -0.18000000715255737
+          ],
+          "max": [
+            0.10999999940395355,
+            0.33500000834465027,
+            0.18000000715255737
+          ]
+        },
+        "depth": 0.36000001430511475
+      },
+      {
+        "index": 7,
+        "vertices": 15,
+        "triangles": 26,
+        "closedTwoFaceEdges": true,
+        "signedVolume": 0.01365867330771183,
+        "localBounds": {
+          "min": [
+            -0.10999999940395355,
+            0,
+            -0.18000000715255737
+          ],
+          "max": [
+            0.10999999940395355,
+            0.3700000047683716,
+            0.18000000715255737
+          ]
+        },
+        "depth": 0.36000001430511475
+      },
+      {
+        "index": 8,
+        "vertices": 15,
+        "triangles": 26,
+        "closedTwoFaceEdges": true,
+        "signedVolume": 0.012366636755785115,
+        "localBounds": {
+          "min": [
+            -0.10999999940395355,
+            0,
+            -0.18000000715255737
+          ],
+          "max": [
+            0.10999999940395355,
+            0.33500000834465027,
+            0.18000000715255737
+          ]
+        },
+        "depth": 0.36000001430511475
+      },
+      {
+        "index": 9,
+        "vertices": 15,
+        "triangles": 26,
+        "closedTwoFaceEdges": true,
+        "signedVolume": 0.0110746001496219,
+        "localBounds": {
+          "min": [
+            -0.10999999940395355,
+            0,
+            -0.18000000715255737
+          ],
+          "max": [
+            0.10999999940395355,
+            0.30000001192092896,
+            0.18000000715255737
+          ]
+        },
+        "depth": 0.36000001430511475
+      },
+      {
+        "index": 10,
+        "vertices": 15,
+        "triangles": 26,
+        "closedTwoFaceEdges": true,
+        "signedVolume": 0.009228833249910487,
+        "localBounds": {
+          "min": [
+            -0.10999999940395355,
+            0,
+            -0.18000000715255737
+          ],
+          "max": [
+            0.10999999940395355,
+            0.25,
+            0.18000000715255737
+          ]
+        },
+        "depth": 0.36000001430511475
+      },
+      {
+        "index": 11,
+        "vertices": 15,
+        "triangles": 26,
+        "closedTwoFaceEdges": true,
+        "signedVolume": 0.010520869858856498,
+        "localBounds": {
+          "min": [
+            -0.10999999940395355,
+            0,
+            -0.18000000715255737
+          ],
+          "max": [
+            0.10999999940395355,
+            0.2849999964237213,
+            0.18000000715255737
+          ]
+        },
+        "depth": 0.36000001430511475
+      },
+      {
+        "index": 12,
+        "vertices": 15,
+        "triangles": 26,
+        "closedTwoFaceEdges": true,
+        "signedVolume": 0.011812906579550038,
+        "localBounds": {
+          "min": [
+            -0.10999999940395355,
+            0,
+            -0.18000000715255737
+          ],
+          "max": [
+            0.10999999940395355,
+            0.3199999928474426,
+            0.18000000715255737
+          ]
+        },
+        "depth": 0.36000001430511475
+      },
+      {
+        "index": 13,
+        "vertices": 15,
+        "triangles": 26,
+        "closedTwoFaceEdges": true,
+        "signedVolume": 0.010520869858856498,
+        "localBounds": {
+          "min": [
+            -0.10999999940395355,
+            0,
+            -0.18000000715255737
+          ],
+          "max": [
+            0.10999999940395355,
+            0.2849999964237213,
+            0.18000000715255737
+          ]
+        },
+        "depth": 0.36000001430511475
+      },
+      {
+        "index": 14,
+        "vertices": 15,
+        "triangles": 26,
+        "closedTwoFaceEdges": true,
+        "signedVolume": 0.009228833249910487,
+        "localBounds": {
+          "min": [
+            -0.10999999940395355,
+            0,
+            -0.18000000715255737
+          ],
+          "max": [
+            0.10999999940395355,
+            0.25,
+            0.18000000715255737
+          ]
+        },
+        "depth": 0.36000001430511475
+      }
+    ]
+  },
+  "modelBounds": {
+    "min": [
+      -0.8556354641914368,
+      -0.007705714702606198,
+      -0.699999988079071
+    ],
+    "max": [
+      0.8556354641914368,
+      2.065474033355713,
+      1.308
+    ],
+    "size": [
+      1.7112709283828735,
+      2.073179748058319,
+      2.007999988079071
+    ]
+  },
+  "checks": {
+    "legsPreservedCount": 4,
+    "maneCount": 15,
+    "allManeClosed": true,
+    "allManePositiveVolume": true,
+    "allManeDepth36": true,
+    "hornCount": 2,
+    "hoofCount": 4
+  },
+  "evidenceLimits": [
+    "Root must capture neutral and phone-scale views. This audit cannot establish buried bases, sloped visible crest contours, or portrait/charge readability."
+  ]
+}

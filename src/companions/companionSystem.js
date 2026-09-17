@@ -13,8 +13,9 @@ import { createCreatureObservation } from './creatureObservation.js';
 import { createWildkinGenome, normalizeWildkinGenome } from '../creatures/wildkinGenome.js';
 import { cloneWildkinIndividual, MAX_PENDING_WILDKIN, normalizeWildkinIndividual } from '../creatures/wildkinIndividual.js';
 import { applyWildkinAppearance } from '../creatures/wildkinAppearance.js';
+import { describeWildkinInteraction } from './wildkinInteraction.js';
 
-export function createCompanionSystem({ app, scene, camera = null, registry, progress, creatures, playerController, playerCombat, physicsWorld, playerCollider = null, hasCacheMechanism = () => false, isActive, getSectionId, getRunId = () => null, getTerrainHeight = null, getSurfaceWater = () => null, getCampCareAnchor = () => null, getCampYoungAnchor = () => null, onBlockingChanged, toast, pulse, audio, onAbility = () => {}, strikeMinerals = () => ({ hits: 0, sources: 0, depleted: 0, interrupted: false }) }) {
+export function createCompanionSystem({ app, scene, camera = null, registry, progress, creatures, playerController, playerCombat, physicsWorld, playerCollider = null, hasCacheMechanism = () => false, isActive, getSectionId, getRunId = () => null, getTerrainHeight = null, getSurfaceWater = () => null, getCampCareAnchor = () => null, getCampYoungAnchor = () => null, getSelectedEquipment = () => null, onBlockingChanged, toast, pulse, audio, onAbility = () => {}, strikeMinerals = () => ({ hits: 0, sources: 0, depleted: 0, interrupted: false }) }) {
   let pending = [], cooldown = 0, elapsed = 0, fixedElapsed = 0;
   let interactionTargetId = null;
   const followers = new Map();
@@ -175,7 +176,15 @@ export function createCompanionSystem({ app, scene, camera = null, registry, pro
       // button can cover the animal we want the player to watch eating/moving.
       if (['lure', 'feed', 'snare', 'perch', 'challenge'].includes(active.stage)) return null;
       const target = creatures.getActiveAliveCreatures().find(c => c.state.id === active.id);
-      if (target) return { type: "bond", id: active.id, species: COMPANION_BY_ID[active.speciesId], target, distance: Math.hypot(target.state.pos.x-pos.x,target.state.pos.z-pos.z), label: active.label.split(" · ")[0], detail: active.detail };
+      if (target) {
+        const species = COMPANION_BY_ID[active.speciesId];
+        const requiredEquipmentId = active.stage === 'offer' ? 'berry_lure' : active.stage === 'tether' ? 'reinforced_tether' : species.taming.supply;
+        const selected = getSelectedEquipment();
+        const presentation = describeWildkinInteraction({ species, eligibility: { ok: true }, selectedItem: selected,
+          actionLabel: active.label.split(" · ")[0], detail: active.detail, requiredEquipmentId,
+          requiredEquipmentName: requiredEquipmentId.replaceAll('_', ' ') });
+        return { type: "bond", id: active.id, species, target, distance: Math.hypot(target.state.pos.x-pos.x,target.state.pos.z-pos.z), ...presentation };
+      }
     }
     let best = null, previous = null;
     for (const target of creatures.getActiveAliveCreatures()) {
@@ -185,16 +194,19 @@ export function createCompanionSystem({ app, scene, camera = null, registry, pro
       if (distance > getFieldTamingRange(species.id) || Math.abs(target.state.pos.y - pos.y) > 2.2) continue;
       const eligible = eligibility(target, species);
       if (!eligible.ok && progress.isWildkinSourceCaptured?.(getOriginId(target))) continue;
-      const blockedLabel = target.state.playerDamaged ? 'WARY' : pending.some(record => record.originId === getOriginId(target)) ? 'BONDED' : pending.length >= progress.getModifiers().captureCapacity ? 'BONDS FULL' : 'UNAVAILABLE';
-      const candidate = { type: "bond", id: target.state.id, species, target, distance, disabled: !eligible.ok, label: eligible.ok ? species.taming.action : blockedLabel, detail: eligible.ok ? species.taming.guide : eligible.reason };
+      const presentation = describeWildkinInteraction({ species, eligibility: eligible, selectedItem: getSelectedEquipment(),
+        actionLabel: species.taming.action, detail: species.taming.guide,
+        requiredEquipmentName: species.taming.supply.replaceAll('_', ' ') });
+      const candidate = { type: "bond", id: target.state.id, species, target, distance, _tamingEligible: eligible.ok, ...presentation };
       if (target.state.id === interactionTargetId) previous = candidate;
       // An ineligible closer Wildkin must not hide another actionable target.
-      if (best && !best.disabled && !eligible.ok) continue;
-      if (best && best.disabled === !eligible.ok && distance >= best.distance) continue;
+      if (best && best._tamingEligible && !eligible.ok) continue;
+      if (best && best._tamingEligible === eligible.ok && distance >= best.distance) continue;
       best = candidate;
     }
-    if (previous && best && previous.disabled === best.disabled && previous.distance <= best.distance + 1) best = previous;
+    if (previous && best && previous._tamingEligible === best._tamingEligible && previous.distance <= best.distance + 1) best = previous;
     interactionTargetId = best?.id ?? null;
+    if (best) delete best._tamingEligible;
     return best;
   }
   function beginBond(id) {

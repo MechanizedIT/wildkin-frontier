@@ -1,0 +1,16 @@
+{
+ "date":"2026-09-14",
+ "method":"Existing guarded Small512 project launcher",
+ "ownedProcessId":9112,
+ "startedUtc":"2026-09-14T11:13:01.1091039Z",
+ "observedPrelaunchFreeGiB":18.43,
+ "requiredPreimportFreeGiB":18,
+ "reserveGiB":6,
+ "outcome":"Owned watchdog terminated startup before inference",
+ "watchdogObservedFreeGiB":5.25,
+ "inferenceStarted":false,
+ "meshProduced":false,
+ "guardChanged":false,
+ "source":"tools/art/trellis-small-profile.py",
+ "nextMethod":"Existing separately guarded stage-scoped runner, pending technical readiness review. This is not an admitted or proven pipeline."
+}

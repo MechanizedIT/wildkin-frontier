@@ -1,0 +1,114 @@
+{
+  "schema": "lantern-cleanup-r6-feasibility-v2",
+  "execution": "CPU-only; no Blender/GPU/model output",
+  "source": {
+    "path": "art\\source\\lantern-log-v1\\geometry-ply-r5\\raw-geometry.ply",
+    "sha256": "e25bdd049cf9a7d8d4e1a7df9e4193e9840b0b550c6052b134d3d88cd6276120",
+    "vertices": 1077634,
+    "faces": 2218798
+  },
+  "deduplication_diagnosis": {
+    "exact_coordinate_diagnostic_sha256": "1c2e053255e4bd0720a5cdb6e985a3096b5b9361edfe428b9b708c72baa0df77",
+    "duplicate_exact_position_vertices": 0,
+    "duplicate_raw_index_triangles_ignoring_winding": 0,
+    "conclusion": "weld/dedup cannot repair the selected raw field"
+  },
+  "selected_work_component": {
+    "root_vertex": 1579,
+    "faces": 2169924,
+    "vertices": 1052031,
+    "bounds_raw_xyz": {
+      "min": [
+        -0.5003722906112671,
+        -0.2924528121948242,
+        -0.2969053387641907
+      ],
+      "max": [
+        0.4995916485786438,
+        0.10028254985809326,
+        0.2909446358680725
+      ]
+    },
+    "span_raw_xyz": [
+      0.9999639391899109,
+      0.3927353620529175,
+      0.5878499746322632
+    ]
+  },
+  "excluded_from_work_preserved_in_raw_master": [
+    {
+      "root_vertex": 844810,
+      "faces": 48862,
+      "bounds": {
+        "min": [
+          0.1402457356452942,
+          0.13534462451934814,
+          -0.28856518864631653
+        ],
+        "max": [
+          0.3443666696548462,
+          0.2899187207221985,
+          -0.18266946077346802
+        ]
+      }
+    },
+    {
+      "root_vertex": 746517,
+      "faces": 6,
+      "bounds": {
+        "min": [
+          0.043787479400634766,
+          -0.11414843797683716,
+          0.017128467559814453
+        ],
+        "max": [
+          0.047859787940979004,
+          -0.11276033520698547,
+          0.01872354745864868
+        ]
+      }
+    },
+    {
+      "root_vertex": 1051621,
+      "faces": 6,
+      "bounds": {
+        "min": [
+          0.41364365816116333,
+          -0.07509562373161316,
+          0.1771983504295349
+        ],
+        "max": [
+          0.4148399829864502,
+          -0.07367703318595886,
+          0.17886334657669067
+        ]
+      }
+    }
+  ],
+  "single_voxel_reconstruction": {
+    "voxel_size_raw_units": 0.006,
+    "grid_dimensions_with_two_cell_margin": [
+      169,
+      68,
+      100
+    ],
+    "bounded_aabb_cell_count": 1149200,
+    "triangle_gate": {
+      "minimum": 35000,
+      "maximum": 600000
+    }
+  },
+  "global_r5_topology_not_component_attribution": {
+    "global_boundary_edges": 67425,
+    "global_nonmanifold_edges": 99060,
+    "required_before_apply": "Builder records selected-main edge incidence separately; global audit does not allocate defects to this component."
+  },
+  "limits": {
+    "one_reconstruction_only": true,
+    "no_resolution_fallback": true,
+    "no_crop_probe": true,
+    "no_master_mutation": true,
+    "no_fullprofile_rerun": true,
+    "no_runtime_export_or_admission": true
+  }
+}

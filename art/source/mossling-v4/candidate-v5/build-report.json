@@ -1,0 +1,598 @@
+{
+  "input": "C:\\Users\\cwood\\Documents\\mobile-rpg\\assets\\models\\mossling-v3\\model.glb",
+  "inputSHA256": "ca044bb9321423c8d4e83aedce7697d98109eafbeeafbefbdf3d0e13a58e9cf9",
+  "output": "C:\\Users\\cwood\\Documents\\mobile-rpg\\art\\source\\mossling-v4\\candidate-v5\\model.glb",
+  "outputSHA256": "1d731b5d875c08857bc1dd005136a8f4e4fad5feffc89b90bdf7cfbbd424325b",
+  "bodyMaterial": "wildkin_body",
+  "overlay": {
+    "object": "mossling_v4_iris_overlay",
+    "mesh": "mossling_v4_iris_overlay_mesh",
+    "vertices": 34,
+    "triangles": 48,
+    "material": "wildkin_iris",
+    "ringVertexColor": "white",
+    "pupilVertexColor": "black",
+    "materialDefault": "teal",
+    "surfaceCorrespondence": [
+      {
+        "eye": "left",
+        "pixel": [
+          501,
+          55
+        ],
+        "polygon": 126,
+        "restPoint": [
+          -0.10314143,
+          -0.6672259,
+          0.73847443
+        ],
+        "weights": {
+          "head": 0.98027787,
+          "neck": 0.01972213
+        }
+      },
+      {
+        "eye": "left",
+        "pixel": [
+          499,
+          61
+        ],
+        "polygon": 126,
+        "restPoint": [
+          -0.12303575,
+          -0.64467514,
+          0.73671448
+        ],
+        "weights": {
+          "head": 0.95845123,
+          "neck": 0.04154877
+        }
+      },
+      {
+        "eye": "left",
+        "pixel": [
+          493,
+          64
+        ],
+        "polygon": 92,
+        "restPoint": [
+          -0.13524826,
+          -0.62472308,
+          0.71656621
+        ],
+        "weights": {
+          "head": 0.92654746,
+          "neck": 0.07345255
+        }
+      },
+      {
+        "eye": "left",
+        "pixel": [
+          487,
+          61
+        ],
+        "polygon": 90,
+        "restPoint": [
+          -0.13100293,
+          -0.62737495,
+          0.68945646
+        ],
+        "weights": {
+          "head": 0.91744026,
+          "neck": 0.08255974
+        }
+      },
+      {
+        "eye": "left",
+        "pixel": [
+          485,
+          55
+        ],
+        "polygon": 88,
+        "restPoint": [
+          -0.11563808,
+          -0.64789236,
+          0.67440426
+        ],
+        "weights": {
+          "head": 0.93682324,
+          "neck": 0.06317674
+        }
+      },
+      {
+        "eye": "left",
+        "pixel": [
+          487,
+          49
+        ],
+        "polygon": 125,
+        "restPoint": [
+          -0.09033448,
+          -0.67182779,
+          0.67563123
+        ],
+        "weights": {
+          "head": 0.96085549,
+          "neck": 0.03914452
+        }
+      },
+      {
+        "eye": "left",
+        "pixel": [
+          493,
+          46
+        ],
+        "polygon": 146,
+        "restPoint": [
+          -0.07856701,
+          -0.67764926,
+          0.69620252
+        ],
+        "weights": {
+          "head": 0.97646739,
+          "neck": 0.02353263
+        }
+      },
+      {
+        "eye": "left",
+        "pixel": [
+          499,
+          49
+        ],
+        "polygon": 147,
+        "restPoint": [
+          -0.0844572,
+          -0.67864656,
+          0.7241205
+        ],
+        "weights": {
+          "head": 0.98424612,
+          "neck": 0.0157539
+        }
+      },
+      {
+        "eye": "left",
+        "pixel": [
+          496,
+          55
+        ],
+        "polygon": 126,
+        "restPoint": [
+          -0.10378406,
+          -0.65676904,
+          0.71979547
+        ],
+        "weights": {
+          "head": 0.96940187,
+          "neck": 0.03059816
+        }
+      },
+      {
+        "eye": "left",
+        "pixel": [
+          495,
+          58
+        ],
+        "polygon": 92,
+        "restPoint": [
+          -0.1142671,
+          -0.64608169,
+          0.71872091
+        ],
+        "weights": {
+          "head": 0.95515208,
+          "neck": 0.04484793
+        }
+      },
+      {
+        "eye": "left",
+        "pixel": [
+          493,
+          59
+        ],
+        "polygon": 92,
+        "restPoint": [
+          -0.1186588,
+          -0.6397838,
+          0.71188796
+        ],
+        "weights": {
+          "head": 0.94248907,
+          "neck": 0.05751095
+        }
+      },
+      {
+        "eye": "left",
+        "pixel": [
+          491,
+          58
+        ],
+        "polygon": 90,
+        "restPoint": [
+          -0.11738095,
+          -0.64085865,
+          0.7027967
+        ],
+        "weights": {
+          "head": 0.93998564,
+          "neck": 0.06001438
+        }
+      },
+      {
+        "eye": "left",
+        "pixel": [
+          490,
+          55
+        ],
+        "polygon": 90,
+        "restPoint": [
+          -0.10965338,
+          -0.65060884,
+          0.69542974
+        ],
+        "weights": {
+          "head": 0.95141811,
+          "neck": 0.04858189
+        }
+      },
+      {
+        "eye": "left",
+        "pixel": [
+          491,
+          52
+        ],
+        "polygon": 124,
+        "restPoint": [
+          -0.09892652,
+          -0.66308844,
+          0.69603008
+        ],
+        "weights": {
+          "head": 0.96377311,
+          "neck": 0.03622691
+        }
+      },
+      {
+        "eye": "left",
+        "pixel": [
+          493,
+          51
+        ],
+        "polygon": 125,
+        "restPoint": [
+          -0.09272248,
+          -0.66718811,
+          0.70321554
+        ],
+        "weights": {
+          "head": 0.97216104,
+          "neck": 0.02783898
+        }
+      },
+      {
+        "eye": "left",
+        "pixel": [
+          495,
+          52
+        ],
+        "polygon": 124,
+        "restPoint": [
+          -0.09453402,
+          -0.6651153,
+          0.71285337
+        ],
+        "weights": {
+          "head": 0.97553774,
+          "neck": 0.02446228
+        }
+      },
+      {
+        "eye": "left",
+        "pixel": [
+          493,
+          55
+        ],
+        "polygon": 90,
+        "restPoint": [
+          -0.10611431,
+          -0.65284663,
+          0.70785415
+        ],
+        "weights": {
+          "head": 0.95808585,
+          "neck": 0.04191417
+        }
+      },
+      {
+        "eye": "right",
+        "pixel": [
+          251,
+          480
+        ],
+        "polygon": 10778,
+        "restPoint": [
+          0.16980298,
+          -0.56486517,
+          0.69588113
+        ],
+        "weights": {
+          "head": 0.81062323,
+          "neck": 0.18937677
+        }
+      },
+      {
+        "eye": "right",
+        "pixel": [
+          249,
+          485
+        ],
+        "polygon": 10779,
+        "restPoint": [
+          0.17463529,
+          -0.5510428,
+          0.7151143
+        ],
+        "weights": {
+          "head": 0.8023634,
+          "neck": 0.19763661
+        }
+      },
+      {
+        "eye": "right",
+        "pixel": [
+          244,
+          487
+        ],
+        "polygon": 10780,
+        "restPoint": [
+          0.16743396,
+          -0.56745732,
+          0.74953341
+        ],
+        "weights": {
+          "head": 0.85931092,
+          "neck": 0.1406891
+        }
+      },
+      {
+        "eye": "right",
+        "pixel": [
+          239,
+          485
+        ],
+        "polygon": 10770,
+        "restPoint": [
+          0.15513007,
+          -0.59836674,
+          0.75860351
+        ],
+        "weights": {
+          "head": 0.9068411,
+          "neck": 0.09315891
+        }
+      },
+      {
+        "eye": "right",
+        "pixel": [
+          237,
+          480
+        ],
+        "polygon": 10769,
+        "restPoint": [
+          0.14260091,
+          -0.62575305,
+          0.74174547
+        ],
+        "weights": {
+          "head": 0.93774351,
+          "neck": 0.06225648
+        }
+      },
+      {
+        "eye": "right",
+        "pixel": [
+          239,
+          475
+        ],
+        "polygon": 10769,
+        "restPoint": [
+          0.1344976,
+          -0.62647653,
+          0.72014683
+        ],
+        "weights": {
+          "head": 0.93762738,
+          "neck": 0.06237262
+        }
+      },
+      {
+        "eye": "right",
+        "pixel": [
+          244,
+          473
+        ],
+        "polygon": 10767,
+        "restPoint": [
+          0.13937254,
+          -0.61567658,
+          0.69789171
+        ],
+        "weights": {
+          "head": 0.92104598,
+          "neck": 0.07895402
+        }
+      },
+      {
+        "eye": "right",
+        "pixel": [
+          249,
+          475
+        ],
+        "polygon": 10766,
+        "restPoint": [
+          0.15400533,
+          -0.59882712,
+          0.69629914
+        ],
+        "weights": {
+          "head": 0.88838364,
+          "neck": 0.11161637
+        }
+      },
+      {
+        "eye": "right",
+        "pixel": [
+          247,
+          480
+        ],
+        "polygon": 10779,
+        "restPoint": [
+          0.16036877,
+          -0.5851984,
+          0.71030205
+        ],
+        "weights": {
+          "head": 0.86117371,
+          "neck": 0.13882631
+        }
+      },
+      {
+        "eye": "right",
+        "pixel": [
+          246,
+          482
+        ],
+        "polygon": 10780,
+        "restPoint": [
+          0.16154571,
+          -0.58224642,
+          0.72024405
+        ],
+        "weights": {
+          "head": 0.86645025,
+          "neck": 0.13354977
+        }
+      },
+      {
+        "eye": "right",
+        "pixel": [
+          244,
+          483
+        ],
+        "polygon": 10780,
+        "restPoint": [
+          0.15933397,
+          -0.58715945,
+          0.73571211
+        ],
+        "weights": {
+          "head": 0.88602577,
+          "neck": 0.11397426
+        }
+      },
+      {
+        "eye": "right",
+        "pixel": [
+          242,
+          482
+        ],
+        "polygon": 10770,
+        "restPoint": [
+          0.15424585,
+          -0.60013658,
+          0.7371822
+        ],
+        "weights": {
+          "head": 0.90309136,
+          "neck": 0.09690866
+        }
+      },
+      {
+        "eye": "right",
+        "pixel": [
+          241,
+          480
+        ],
+        "polygon": 10768,
+        "restPoint": [
+          0.14899436,
+          -0.61339009,
+          0.73065102
+        ],
+        "weights": {
+          "head": 0.91692788,
+          "neck": 0.08307213
+        }
+      },
+      {
+        "eye": "right",
+        "pixel": [
+          242,
+          478
+        ],
+        "polygon": 10768,
+        "restPoint": [
+          0.14663225,
+          -0.61224794,
+          0.72002119
+        ],
+        "weights": {
+          "head": 0.91866724,
+          "neck": 0.08133276
+        }
+      },
+      {
+        "eye": "right",
+        "pixel": [
+          244,
+          477
+        ],
+        "polygon": 10768,
+        "restPoint": [
+          0.1478304,
+          -0.60706669,
+          0.71059215
+        ],
+        "weights": {
+          "head": 0.91164002,
+          "neck": 0.08835999
+        }
+      },
+      {
+        "eye": "right",
+        "pixel": [
+          246,
+          478
+        ],
+        "polygon": 10766,
+        "restPoint": [
+          0.15349996,
+          -0.60119718,
+          0.71079499
+        ],
+        "weights": {
+          "head": 0.89666152,
+          "neck": 0.10333851
+        }
+      },
+      {
+        "eye": "right",
+        "pixel": [
+          244,
+          480
+        ],
+        "polygon": 10770,
+        "restPoint": [
+          0.1536528,
+          -0.60131431,
+          0.72290254
+        ],
+        "weights": {
+          "head": 0.90059154,
+          "neck": 0.09940848
+        }
+      }
+    ]
+  },
+  "notes": "V3 body/texture/rig/actions imported unchanged. Every overlay point was manually selected from eye pixels and mapped through its V3 UV triangle with interpolated body weights."
+}

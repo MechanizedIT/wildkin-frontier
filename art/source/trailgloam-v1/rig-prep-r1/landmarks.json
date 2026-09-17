@@ -1,0 +1,322 @@
+{
+  "schema": "trailgloam-rig-builder-landmarks-r4",
+  "source": {
+    "path": "art/source/trailgloam-v1/trellis-trial/postprocess-r1/retry-import-fix/raw-textured-simplified.glb",
+    "sha256": "e223fdd1e9ca1d5d7299d756a142915d54107af7a10a91103338ee5c531c1933"
+  },
+  "axis": {
+    "coordinates": "actual Blender world, Z-up; use with no extra axis rotation",
+    "forward": "-Y provisional visual face direction"
+  },
+  "scale": {
+    "uniform": 1.819557524224725,
+    "runtime_height_m": 0.9,
+    "ground_shift_z": 0.45138146095598897
+  },
+  "body": {
+    "pivot": [
+      0.004783,
+      -0.026652,
+      -0.090609
+    ],
+    "head": {
+      "pivot": [
+        0.006071,
+        -0.333711,
+        0.010542
+      ],
+      "tip": [
+        0.006071,
+        -0.333711,
+        0.010542
+      ]
+    }
+  },
+  "fronds": [
+    {
+      "id": "left",
+      "root": [
+        -0.102328,
+        0.106477,
+        0.148278
+      ],
+      "tip": [
+        -0.190207,
+        0.169315,
+        0.196999
+      ]
+    },
+    {
+      "id": "right",
+      "root": [
+        0.110713,
+        0.107132,
+        0.158586
+      ],
+      "tip": [
+        0.19001,
+        0.166971,
+        0.19411
+      ]
+    }
+  ],
+  "legs": [
+    {
+      "id": "front_left",
+      "attachment_root_provisional": [
+        -0.181753,
+        -0.248765,
+        0.045349
+      ],
+      "knee": [
+        -0.252435,
+        -0.345507,
+        -0.103682
+      ],
+      "ankle": [
+        -0.284938,
+        -0.385584,
+        -0.216753
+      ],
+      "sole": {
+        "target_xy": [
+          -0.284938,
+          -0.385584
+        ],
+        "z": -0.243693,
+        "bounds_min": [
+          -0.359987,
+          -0.463418,
+          -0.243693
+        ]
+      }
+    },
+    {
+      "id": "front_right",
+      "attachment_root_provisional": [
+        0.16332,
+        -0.254078,
+        0.041378
+      ],
+      "knee": [
+        0.226833,
+        -0.352886,
+        -0.116419
+      ],
+      "ankle": [
+        0.269282,
+        -0.387458,
+        -0.216648
+      ],
+      "sole": {
+        "target_xy": [
+          0.269282,
+          -0.387458
+        ],
+        "z": -0.243462,
+        "bounds_min": [
+          0.193652,
+          -0.464846,
+          -0.243462
+        ]
+      }
+    },
+    {
+      "id": "mid_front_left",
+      "attachment_root_provisional": [
+        -0.237493,
+        -0.120751,
+        0.006104
+      ],
+      "knee": [
+        -0.329852,
+        -0.16771,
+        -0.113896
+      ],
+      "ankle": [
+        -0.379676,
+        -0.17213,
+        -0.218284
+      ],
+      "sole": {
+        "target_xy": [
+          -0.379676,
+          -0.17213
+        ],
+        "z": -0.243337,
+        "bounds_min": [
+          -0.465343,
+          -0.247516,
+          -0.243337
+        ]
+      }
+    },
+    {
+      "id": "mid_front_right",
+      "attachment_root_provisional": [
+        0.230929,
+        -0.131291,
+        0.003619
+      ],
+      "knee": [
+        0.320735,
+        -0.182348,
+        -0.119974
+      ],
+      "ankle": [
+        0.382014,
+        -0.182753,
+        -0.217627
+      ],
+      "sole": {
+        "target_xy": [
+          0.382014,
+          -0.182753
+        ],
+        "z": -0.244144,
+        "bounds_min": [
+          0.303944,
+          -0.256387,
+          -0.244144
+        ]
+      }
+    },
+    {
+      "id": "mid_rear_left",
+      "attachment_root_provisional": [
+        -0.243433,
+        0.026817,
+        0.009944
+      ],
+      "knee": [
+        -0.338101,
+        0.037245,
+        -0.110078
+      ],
+      "ankle": [
+        -0.412358,
+        0.038602,
+        -0.217387
+      ],
+      "sole": {
+        "target_xy": [
+          -0.412358,
+          0.038602
+        ],
+        "z": -0.243719,
+        "bounds_min": [
+          -0.49519,
+          -0.035733,
+          -0.243719
+        ]
+      }
+    },
+    {
+      "id": "mid_rear_right",
+      "attachment_root_provisional": [
+        0.250923,
+        0.027642,
+        0.008797
+      ],
+      "knee": [
+        0.348505,
+        0.038392,
+        -0.115283
+      ],
+      "ankle": [
+        0.412482,
+        0.040941,
+        -0.217101
+      ],
+      "sole": {
+        "target_xy": [
+          0.412482,
+          0.040941
+        ],
+        "z": -0.24414,
+        "bounds_min": [
+          0.334748,
+          -0.031094,
+          -0.24414
+        ]
+      }
+    },
+    {
+      "id": "rear_left",
+      "attachment_root_provisional": [
+        -0.158854,
+        0.237997,
+        0.015147
+      ],
+      "knee": [
+        -0.22063,
+        0.330551,
+        -0.090075
+      ],
+      "ankle": [
+        -0.268693,
+        0.37593,
+        -0.203906
+      ],
+      "sole": {
+        "target_xy": [
+          -0.268693,
+          0.37593
+        ],
+        "z": -0.240269,
+        "bounds_min": [
+          -0.357564,
+          0.309002,
+          -0.240269
+        ]
+      }
+    },
+    {
+      "id": "rear_right",
+      "attachment_root_provisional": [
+        0.166551,
+        0.233637,
+        0.021193
+      ],
+      "knee": [
+        0.231321,
+        0.324496,
+        -0.081676
+      ],
+      "ankle": [
+        0.274411,
+        0.378979,
+        -0.199235
+      ],
+      "sole": {
+        "target_xy": [
+          0.274411,
+          0.378979
+        ],
+        "z": -0.231992,
+        "bounds_min": [
+          0.196032,
+          0.311373,
+          -0.231992
+        ]
+      }
+    }
+  ],
+  "gait": {
+    "stance_group_a": [
+      "front_left",
+      "mid_front_right",
+      "mid_rear_left",
+      "rear_right"
+    ],
+    "stance_group_b": [
+      "front_right",
+      "mid_front_left",
+      "mid_rear_right",
+      "rear_left"
+    ],
+    "loaded_pose_lift_m": 0.045,
+    "walk_cycle_seconds": 1.1,
+    "scope": "diagnostic only; no admission"
+  }
+}

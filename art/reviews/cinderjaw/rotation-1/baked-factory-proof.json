@@ -1,0 +1,903 @@
+{
+  "note": "Actual game createVisualAssetVisual and world.js generated recipes compared with reviewed modeling source. Serialization rounds vertices/pivots to4decimals; world coordinate tolerance0.000101m. All indices/material flags exact. No runtime factory changes.",
+  "preserved": {
+    "otherTopLevel": true,
+    "assetOrder": true,
+    "otherAssets": true,
+    "selectedMetadata": true
+  },
+  "invalid": [
+    {
+      "args": [
+        "--asset",
+        "missing-id"
+      ],
+      "rejected": true,
+      "worldUnchanged": true
+    },
+    {
+      "args": [
+        "--asset"
+      ],
+      "rejected": true,
+      "worldUnchanged": true
+    },
+    {
+      "args": [
+        "--asset",
+        "asset_wildkin_emberhorn",
+        "--asset",
+        "asset_wildkin_emberhorn"
+      ],
+      "rejected": true,
+      "worldUnchanged": true
+    },
+    {
+      "args": [
+        "--asset",
+        "asset_wildkin_mossling"
+      ],
+      "rejected": true,
+      "worldUnchanged": true
+    }
+  ],
+  "results": [
+    {
+      "id": "asset_wildkin_emberhorn",
+      "parts": [
+        {
+          "index": 0,
+          "name": "heavy_feline_torso",
+          "vertices": 28,
+          "triangles": 52,
+          "maxError": 0.00004565715789794922,
+          "exactIndices": true,
+          "material": {
+            "color": true,
+            "flatShading": true,
+            "side": true,
+            "roughness": true
+          }
+        },
+        {
+          "index": 1,
+          "name": "broad_brow_head",
+          "vertices": 28,
+          "triangles": 52,
+          "maxError": 0.00004649162292480469,
+          "exactIndices": true,
+          "material": {
+            "color": true,
+            "flatShading": true,
+            "side": true,
+            "roughness": true
+          }
+        },
+        {
+          "index": 2,
+          "name": "ivory_chest_muzzle",
+          "vertices": 18,
+          "triangles": 32,
+          "maxError": 0.000032067298889160156,
+          "exactIndices": true,
+          "material": {
+            "color": true,
+            "flatShading": true,
+            "side": true,
+            "roughness": true
+          }
+        },
+        {
+          "index": 3,
+          "name": "heavy_leg",
+          "vertices": 24,
+          "triangles": 44,
+          "maxError": 0.000040590763092041016,
+          "exactIndices": true,
+          "material": {
+            "color": true,
+            "flatShading": true,
+            "side": true,
+            "roughness": true
+          }
+        },
+        {
+          "index": 4,
+          "name": "heavy_leg",
+          "vertices": 24,
+          "triangles": 44,
+          "maxError": 0.000040590763092041016,
+          "exactIndices": true,
+          "material": {
+            "color": true,
+            "flatShading": true,
+            "side": true,
+            "roughness": true
+          }
+        },
+        {
+          "index": 5,
+          "name": "heavy_leg",
+          "vertices": 24,
+          "triangles": 44,
+          "maxError": 0.000040590763092041016,
+          "exactIndices": true,
+          "material": {
+            "color": true,
+            "flatShading": true,
+            "side": true,
+            "roughness": true
+          }
+        },
+        {
+          "index": 6,
+          "name": "heavy_leg",
+          "vertices": 24,
+          "triangles": 44,
+          "maxError": 0.000040590763092041016,
+          "exactIndices": true,
+          "material": {
+            "color": true,
+            "flatShading": true,
+            "side": true,
+            "roughness": true
+          }
+        },
+        {
+          "index": 7,
+          "name": "dark_hoof",
+          "vertices": 108,
+          "triangles": 36,
+          "maxError": 0.00004613026976585388,
+          "exactIndices": true,
+          "material": {
+            "color": true,
+            "flatShading": true,
+            "side": true,
+            "roughness": true
+          }
+        },
+        {
+          "index": 8,
+          "name": "dark_hoof",
+          "vertices": 108,
+          "triangles": 36,
+          "maxError": 0.00004613026976585388,
+          "exactIndices": true,
+          "material": {
+            "color": true,
+            "flatShading": true,
+            "side": true,
+            "roughness": true
+          }
+        },
+        {
+          "index": 9,
+          "name": "dark_hoof",
+          "vertices": 108,
+          "triangles": 36,
+          "maxError": 0.00004613026976585388,
+          "exactIndices": true,
+          "material": {
+            "color": true,
+            "flatShading": true,
+            "side": true,
+            "roughness": true
+          }
+        },
+        {
+          "index": 10,
+          "name": "dark_hoof",
+          "vertices": 108,
+          "triangles": 36,
+          "maxError": 0.00004613026976585388,
+          "exactIndices": true,
+          "material": {
+            "color": true,
+            "flatShading": true,
+            "side": true,
+            "roughness": true
+          }
+        },
+        {
+          "index": 11,
+          "name": "inset_almond_eye",
+          "vertices": 8,
+          "triangles": 6,
+          "maxError": 0.000005241930484789492,
+          "exactIndices": true,
+          "material": {
+            "color": true,
+            "flatShading": true,
+            "side": true,
+            "roughness": true
+          }
+        },
+        {
+          "index": 12,
+          "name": "eye_glint",
+          "vertices": 8,
+          "triangles": 6,
+          "maxError": 0.000024355947971343994,
+          "exactIndices": true,
+          "material": {
+            "color": true,
+            "flatShading": true,
+            "side": true,
+            "roughness": true
+          }
+        },
+        {
+          "index": 13,
+          "name": "inset_almond_eye",
+          "vertices": 8,
+          "triangles": 6,
+          "maxError": 0.000005241930484789492,
+          "exactIndices": true,
+          "material": {
+            "color": true,
+            "flatShading": true,
+            "side": true,
+            "roughness": true
+          }
+        },
+        {
+          "index": 14,
+          "name": "eye_glint",
+          "vertices": 8,
+          "triangles": 6,
+          "maxError": 0.000024355947971343994,
+          "exactIndices": true,
+          "material": {
+            "color": true,
+            "flatShading": true,
+            "side": true,
+            "roughness": true
+          }
+        },
+        {
+          "index": 15,
+          "name": "asymmetric_horn",
+          "vertices": 133,
+          "triangles": 216,
+          "maxError": 0.000049114227294921875,
+          "exactIndices": true,
+          "material": {
+            "color": true,
+            "flatShading": true,
+            "side": true,
+            "roughness": true
+          }
+        },
+        {
+          "index": 16,
+          "name": "asymmetric_horn",
+          "vertices": 133,
+          "triangles": 216,
+          "maxError": 0.000049114227294921875,
+          "exactIndices": true,
+          "material": {
+            "color": true,
+            "flatShading": true,
+            "side": true,
+            "roughness": true
+          }
+        },
+        {
+          "index": 17,
+          "name": "layered_mane",
+          "vertices": 15,
+          "triangles": 26,
+          "maxError": 0.00004929304122924805,
+          "exactIndices": true,
+          "material": {
+            "color": true,
+            "flatShading": true,
+            "side": true,
+            "roughness": true
+          }
+        },
+        {
+          "index": 18,
+          "name": "layered_mane",
+          "vertices": 15,
+          "triangles": 26,
+          "maxError": 0.000049054622650146484,
+          "exactIndices": true,
+          "material": {
+            "color": true,
+            "flatShading": true,
+            "side": true,
+            "roughness": true
+          }
+        },
+        {
+          "index": 19,
+          "name": "layered_mane",
+          "vertices": 15,
+          "triangles": 26,
+          "maxError": 0.00004336237907409668,
+          "exactIndices": true,
+          "material": {
+            "color": true,
+            "flatShading": true,
+            "side": true,
+            "roughness": true
+          }
+        },
+        {
+          "index": 20,
+          "name": "layered_mane",
+          "vertices": 15,
+          "triangles": 26,
+          "maxError": 0.00003674626350402832,
+          "exactIndices": true,
+          "material": {
+            "color": true,
+            "flatShading": true,
+            "side": true,
+            "roughness": true
+          }
+        },
+        {
+          "index": 21,
+          "name": "layered_mane",
+          "vertices": 15,
+          "triangles": 26,
+          "maxError": 0.000048220157623291016,
+          "exactIndices": true,
+          "material": {
+            "color": true,
+            "flatShading": true,
+            "side": true,
+            "roughness": true
+          }
+        },
+        {
+          "index": 22,
+          "name": "layered_mane",
+          "vertices": 15,
+          "triangles": 26,
+          "maxError": 0.00004604458808898926,
+          "exactIndices": true,
+          "material": {
+            "color": true,
+            "flatShading": true,
+            "side": true,
+            "roughness": true
+          }
+        },
+        {
+          "index": 23,
+          "name": "layered_mane",
+          "vertices": 15,
+          "triangles": 26,
+          "maxError": 0.00003653764724731445,
+          "exactIndices": true,
+          "material": {
+            "color": true,
+            "flatShading": true,
+            "side": true,
+            "roughness": true
+          }
+        },
+        {
+          "index": 24,
+          "name": "layered_mane",
+          "vertices": 15,
+          "triangles": 26,
+          "maxError": 0.000045746564865112305,
+          "exactIndices": true,
+          "material": {
+            "color": true,
+            "flatShading": true,
+            "side": true,
+            "roughness": true
+          }
+        },
+        {
+          "index": 25,
+          "name": "layered_mane",
+          "vertices": 15,
+          "triangles": 26,
+          "maxError": 0.00004182755947113037,
+          "exactIndices": true,
+          "material": {
+            "color": true,
+            "flatShading": true,
+            "side": true,
+            "roughness": true
+          }
+        },
+        {
+          "index": 26,
+          "name": "layered_mane",
+          "vertices": 15,
+          "triangles": 26,
+          "maxError": 0.0000489652156829834,
+          "exactIndices": true,
+          "material": {
+            "color": true,
+            "flatShading": true,
+            "side": true,
+            "roughness": true
+          }
+        },
+        {
+          "index": 27,
+          "name": "layered_mane",
+          "vertices": 15,
+          "triangles": 26,
+          "maxError": 0.00004744529724121094,
+          "exactIndices": true,
+          "material": {
+            "color": true,
+            "flatShading": true,
+            "side": true,
+            "roughness": true
+          }
+        },
+        {
+          "index": 28,
+          "name": "layered_mane",
+          "vertices": 15,
+          "triangles": 26,
+          "maxError": 0.000049054622650146484,
+          "exactIndices": true,
+          "material": {
+            "color": true,
+            "flatShading": true,
+            "side": true,
+            "roughness": true
+          }
+        },
+        {
+          "index": 29,
+          "name": "layered_mane",
+          "vertices": 15,
+          "triangles": 26,
+          "maxError": 0.00004947185516357422,
+          "exactIndices": true,
+          "material": {
+            "color": true,
+            "flatShading": true,
+            "side": true,
+            "roughness": true
+          }
+        },
+        {
+          "index": 30,
+          "name": "layered_mane",
+          "vertices": 15,
+          "triangles": 26,
+          "maxError": 0.00004604458808898926,
+          "exactIndices": true,
+          "material": {
+            "color": true,
+            "flatShading": true,
+            "side": true,
+            "roughness": true
+          }
+        },
+        {
+          "index": 31,
+          "name": "layered_mane",
+          "vertices": 15,
+          "triangles": 26,
+          "maxError": 0.00004807114601135254,
+          "exactIndices": true,
+          "material": {
+            "color": true,
+            "flatShading": true,
+            "side": true,
+            "roughness": true
+          }
+        }
+      ],
+      "triangles": 1302,
+      "meshes": 32
+    },
+    {
+      "id": "asset_cinderjaw",
+      "parts": [
+        {
+          "index": 0,
+          "name": "armored_reptile_torso",
+          "vertices": 28,
+          "triangles": 52,
+          "maxError": 0.00004947185516357422,
+          "exactIndices": true,
+          "material": {
+            "color": true,
+            "flatShading": true,
+            "side": true,
+            "roughness": true
+          }
+        },
+        {
+          "index": 1,
+          "name": "wide_armored_skull",
+          "vertices": 24,
+          "triangles": 44,
+          "maxError": 0.00004607439041137695,
+          "exactIndices": true,
+          "material": {
+            "color": true,
+            "flatShading": true,
+            "side": true,
+            "roughness": true
+          }
+        },
+        {
+          "index": 2,
+          "name": "broad_cream_jaw",
+          "vertices": 10,
+          "triangles": 16,
+          "maxError": 0.00004565715789794922,
+          "exactIndices": true,
+          "material": {
+            "color": true,
+            "flatShading": true,
+            "side": true,
+            "roughness": true
+          }
+        },
+        {
+          "index": 3,
+          "name": "low_clawed_leg",
+          "vertices": 32,
+          "triangles": 60,
+          "maxError": 0.00004971027374267578,
+          "exactIndices": true,
+          "material": {
+            "color": true,
+            "flatShading": true,
+            "side": true,
+            "roughness": true
+          }
+        },
+        {
+          "index": 4,
+          "name": "claw",
+          "vertices": 108,
+          "triangles": 36,
+          "maxError": 0.00004714280366897167,
+          "exactIndices": true,
+          "material": {
+            "color": true,
+            "flatShading": true,
+            "side": true,
+            "roughness": true
+          }
+        },
+        {
+          "index": 5,
+          "name": "low_clawed_leg",
+          "vertices": 32,
+          "triangles": 60,
+          "maxError": 0.00004971027374267578,
+          "exactIndices": true,
+          "material": {
+            "color": true,
+            "flatShading": true,
+            "side": true,
+            "roughness": true
+          }
+        },
+        {
+          "index": 6,
+          "name": "claw",
+          "vertices": 108,
+          "triangles": 36,
+          "maxError": 0.00004714280366897167,
+          "exactIndices": true,
+          "material": {
+            "color": true,
+            "flatShading": true,
+            "side": true,
+            "roughness": true
+          }
+        },
+        {
+          "index": 7,
+          "name": "low_clawed_leg",
+          "vertices": 32,
+          "triangles": 60,
+          "maxError": 0.00004971027374267578,
+          "exactIndices": true,
+          "material": {
+            "color": true,
+            "flatShading": true,
+            "side": true,
+            "roughness": true
+          }
+        },
+        {
+          "index": 8,
+          "name": "claw",
+          "vertices": 108,
+          "triangles": 36,
+          "maxError": 0.00004714280366897167,
+          "exactIndices": true,
+          "material": {
+            "color": true,
+            "flatShading": true,
+            "side": true,
+            "roughness": true
+          }
+        },
+        {
+          "index": 9,
+          "name": "low_clawed_leg",
+          "vertices": 32,
+          "triangles": 60,
+          "maxError": 0.00004971027374267578,
+          "exactIndices": true,
+          "material": {
+            "color": true,
+            "flatShading": true,
+            "side": true,
+            "roughness": true
+          }
+        },
+        {
+          "index": 10,
+          "name": "claw",
+          "vertices": 108,
+          "triangles": 36,
+          "maxError": 0.00004714280366897167,
+          "exactIndices": true,
+          "material": {
+            "color": true,
+            "flatShading": true,
+            "side": true,
+            "roughness": true
+          }
+        },
+        {
+          "index": 11,
+          "name": "inset_almond_eye",
+          "vertices": 8,
+          "triangles": 6,
+          "maxError": 0.000005241930484789492,
+          "exactIndices": true,
+          "material": {
+            "color": true,
+            "flatShading": true,
+            "side": true,
+            "roughness": true
+          }
+        },
+        {
+          "index": 12,
+          "name": "eye_glint",
+          "vertices": 8,
+          "triangles": 6,
+          "maxError": 0.000024355947971343994,
+          "exactIndices": true,
+          "material": {
+            "color": true,
+            "flatShading": true,
+            "side": true,
+            "roughness": true
+          }
+        },
+        {
+          "index": 13,
+          "name": "inset_almond_eye",
+          "vertices": 8,
+          "triangles": 6,
+          "maxError": 0.000005241930484789492,
+          "exactIndices": true,
+          "material": {
+            "color": true,
+            "flatShading": true,
+            "side": true,
+            "roughness": true
+          }
+        },
+        {
+          "index": 14,
+          "name": "eye_glint",
+          "vertices": 8,
+          "triangles": 6,
+          "maxError": 0.000024355947971343994,
+          "exactIndices": true,
+          "material": {
+            "color": true,
+            "flatShading": true,
+            "side": true,
+            "roughness": true
+          }
+        },
+        {
+          "index": 15,
+          "name": "overlap_cara_tile",
+          "vertices": 10,
+          "triangles": 16,
+          "maxError": 0.00004363059997558594,
+          "exactIndices": true,
+          "material": {
+            "color": true,
+            "flatShading": true,
+            "side": true,
+            "roughness": true
+          }
+        },
+        {
+          "index": 16,
+          "name": "overlap_cara_tile",
+          "vertices": 10,
+          "triangles": 16,
+          "maxError": 0.00004863739013671875,
+          "exactIndices": true,
+          "material": {
+            "color": true,
+            "flatShading": true,
+            "side": true,
+            "roughness": true
+          }
+        },
+        {
+          "index": 17,
+          "name": "overlap_cara_tile",
+          "vertices": 10,
+          "triangles": 16,
+          "maxError": 0.00004363059997558594,
+          "exactIndices": true,
+          "material": {
+            "color": true,
+            "flatShading": true,
+            "side": true,
+            "roughness": true
+          }
+        },
+        {
+          "index": 18,
+          "name": "overlap_cara_tile",
+          "vertices": 10,
+          "triangles": 16,
+          "maxError": 0.00004363059997558594,
+          "exactIndices": true,
+          "material": {
+            "color": true,
+            "flatShading": true,
+            "side": true,
+            "roughness": true
+          }
+        },
+        {
+          "index": 19,
+          "name": "overlap_cara_tile",
+          "vertices": 10,
+          "triangles": 16,
+          "maxError": 0.00004361942410469055,
+          "exactIndices": true,
+          "material": {
+            "color": true,
+            "flatShading": true,
+            "side": true,
+            "roughness": true
+          }
+        },
+        {
+          "index": 20,
+          "name": "overlap_cara_tile",
+          "vertices": 10,
+          "triangles": 16,
+          "maxError": 0.00004851818084716797,
+          "exactIndices": true,
+          "material": {
+            "color": true,
+            "flatShading": true,
+            "side": true,
+            "roughness": true
+          }
+        },
+        {
+          "index": 21,
+          "name": "overlap_cara_tile",
+          "vertices": 10,
+          "triangles": 16,
+          "maxError": 0.00004857778549194336,
+          "exactIndices": true,
+          "material": {
+            "color": true,
+            "flatShading": true,
+            "side": true,
+            "roughness": true
+          }
+        },
+        {
+          "index": 22,
+          "name": "overlap_cara_tile",
+          "vertices": 10,
+          "triangles": 16,
+          "maxError": 0.00004792213439941406,
+          "exactIndices": true,
+          "material": {
+            "color": true,
+            "flatShading": true,
+            "side": true,
+            "roughness": true
+          }
+        },
+        {
+          "index": 23,
+          "name": "overlap_cara_tile",
+          "vertices": 10,
+          "triangles": 16,
+          "maxError": 0.00004392862319946289,
+          "exactIndices": true,
+          "material": {
+            "color": true,
+            "flatShading": true,
+            "side": true,
+            "roughness": true
+          }
+        },
+        {
+          "index": 24,
+          "name": "overlap_cara_tile",
+          "vertices": 10,
+          "triangles": 16,
+          "maxError": 0.000043623149394989014,
+          "exactIndices": true,
+          "material": {
+            "color": true,
+            "flatShading": true,
+            "side": true,
+            "roughness": true
+          }
+        },
+        {
+          "index": 25,
+          "name": "overlap_cara_tile",
+          "vertices": 10,
+          "triangles": 16,
+          "maxError": 0.000043623149394989014,
+          "exactIndices": true,
+          "material": {
+            "color": true,
+            "flatShading": true,
+            "side": true,
+            "roughness": true
+          }
+        },
+        {
+          "index": 26,
+          "name": "overlap_cara_tile",
+          "vertices": 10,
+          "triangles": 16,
+          "maxError": 0.00004678964614868164,
+          "exactIndices": true,
+          "material": {
+            "color": true,
+            "flatShading": true,
+            "side": true,
+            "roughness": true
+          }
+        },
+        {
+          "index": 27,
+          "name": "heavy_reptile_tail",
+          "vertices": 133,
+          "triangles": 216,
+          "maxError": 0.000049948692321777344,
+          "exactIndices": true,
+          "material": {
+            "color": true,
+            "flatShading": true,
+            "side": true,
+            "roughness": true
+          }
+        }
+      ],
+      "triangles": 928,
+      "meshes": 28
+    }
+  ],
+  "worldSha256": "6665d297b023e6da7d292e214effebed07a3073b999553979461c5c820f37be5",
+  "kitSha256": "b903852d608b9ea2c8ed189e2e9049360e137e6272c1785636373c3bba88989a",
+  "pass": true
+}

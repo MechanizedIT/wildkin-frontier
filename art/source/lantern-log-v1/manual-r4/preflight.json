@@ -1,0 +1,8 @@
+{
+  "status": "CPU_SOURCE_PREPARED_NOT_BLENDER_EXECUTED",
+  "parameters_sha256": "797d79dd9b4d407b9abaf48ba2fd1a88554c6a5d4a101bffc36be87bc5703952",
+  "angular_samples": 23,
+  "planned_render_count": 42,
+  "preserved_r3_meshes": 22,
+  "r4_bark_strips": 0
+}

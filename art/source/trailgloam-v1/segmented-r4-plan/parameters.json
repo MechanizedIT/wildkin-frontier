@@ -1,0 +1,364 @@
+{
+  "schema": "trailgloam-segmented-r4-v1",
+  "status": "PROPOSED_FOR_INDEPENDENT_REVIEW",
+  "axis": "Blender metres, Z-up; head=-Y; right=+X; ground=Z0",
+  "reference": {
+    "path": "art/source/trailgloam-v1/multiview/trailgloam-orthographic-v1.png",
+    "sha256": "ba0b19c941f58b2468fb9aed3d62a995acedeb431fedd3e5932e5f1668da24a8"
+  },
+  "parts": {
+    "shell": {
+      "center": [
+        0,
+        0.06,
+        0.78
+      ],
+      "full_dimensions": [
+        1.3,
+        1.1,
+        0.64
+      ],
+      "closed": "faceted 12x4 ellipsoid, capped poles"
+    },
+    "belly": {
+      "center": [
+        0,
+        0.06,
+        0.54
+      ],
+      "full_dimensions": [
+        1.12,
+        0.94,
+        0.22
+      ],
+      "closed": "separate flattened faceted ellipsoid"
+    },
+    "head": {
+      "center": [
+        0,
+        -0.47,
+        0.43
+      ],
+      "full_dimensions": [
+        0.5,
+        0.4,
+        0.36
+      ],
+      "closed": "five-section wedge, overlaps shell 0.10m",
+      "contact_method": "axis-aligned ellipsoid surface interval against shell ellipsoid; compute from literal centres/full dimensions"
+    }
+  },
+  "legs": [
+    {
+      "id": "LF",
+      "side": "L",
+      "points": [
+        [
+          -0.48,
+          -0.37,
+          0.63
+        ],
+        [
+          -0.72,
+          -0.53,
+          0.43
+        ],
+        [
+          -0.63,
+          -0.76,
+          0.19
+        ],
+        [
+          -0.74,
+          -0.91,
+          0.11
+        ]
+      ],
+      "radii": [
+        0.115,
+        0.105,
+        0.085
+      ],
+      "hoof_full_dimensions": [
+        0.36,
+        0.34,
+        0.22
+      ]
+    },
+    {
+      "id": "LM",
+      "side": "L",
+      "points": [
+        [
+          -0.57,
+          -0.02,
+          0.62
+        ],
+        [
+          -0.82,
+          -0.11,
+          0.43
+        ],
+        [
+          -0.75,
+          -0.31,
+          0.19
+        ],
+        [
+          -0.88,
+          -0.41,
+          0.11
+        ]
+      ],
+      "radii": [
+        0.12,
+        0.11,
+        0.09
+      ],
+      "hoof_full_dimensions": [
+        0.38,
+        0.34,
+        0.22
+      ]
+    },
+    {
+      "id": "LR",
+      "side": "L",
+      "points": [
+        [
+          -0.48,
+          0.34,
+          0.61
+        ],
+        [
+          -0.7,
+          0.5,
+          0.42
+        ],
+        [
+          -0.61,
+          0.69,
+          0.19
+        ],
+        [
+          -0.72,
+          0.84,
+          0.11
+        ]
+      ],
+      "radii": [
+        0.115,
+        0.105,
+        0.085
+      ],
+      "hoof_full_dimensions": [
+        0.36,
+        0.32,
+        0.22
+      ]
+    },
+    {
+      "id": "RF",
+      "side": "R",
+      "points": [
+        [
+          0.48,
+          -0.37,
+          0.63
+        ],
+        [
+          0.72,
+          -0.53,
+          0.43
+        ],
+        [
+          0.63,
+          -0.76,
+          0.19
+        ],
+        [
+          0.74,
+          -0.91,
+          0.11
+        ]
+      ],
+      "radii": [
+        0.115,
+        0.105,
+        0.085
+      ],
+      "hoof_full_dimensions": [
+        0.36,
+        0.34,
+        0.22
+      ]
+    },
+    {
+      "id": "RM",
+      "side": "R",
+      "points": [
+        [
+          0.57,
+          -0.02,
+          0.62
+        ],
+        [
+          0.82,
+          -0.11,
+          0.43
+        ],
+        [
+          0.75,
+          -0.31,
+          0.19
+        ],
+        [
+          0.88,
+          -0.41,
+          0.11
+        ]
+      ],
+      "radii": [
+        0.12,
+        0.11,
+        0.09
+      ],
+      "hoof_full_dimensions": [
+        0.38,
+        0.34,
+        0.22
+      ]
+    },
+    {
+      "id": "RR",
+      "side": "R",
+      "points": [
+        [
+          0.48,
+          0.34,
+          0.61
+        ],
+        [
+          0.7,
+          0.5,
+          0.42
+        ],
+        [
+          0.61,
+          0.69,
+          0.19
+        ],
+        [
+          0.72,
+          0.84,
+          0.11
+        ]
+      ],
+      "radii": [
+        0.115,
+        0.105,
+        0.085
+      ],
+      "hoof_full_dimensions": [
+        0.36,
+        0.32,
+        0.22
+      ]
+    }
+  ],
+  "joint_overlap": {
+    "shell_to_coxa_m": 0.075,
+    "coxa_to_upper_m": 0.065,
+    "upper_to_lower_m": 0.06,
+    "lower_to_hoof_m": 0.055,
+    "collar_extra_radius_m": 0.025,
+    "rule": "Every element is a separately capped closed low-poly prism. A dark six-sided cuff spans each overlap and remains visibly proud; no shell aperture, Boolean, weld, or bridge is used."
+  },
+  "fronds": [
+    {
+      "id": "L",
+      "socket": [
+        -0.23,
+        0.22,
+        1.05
+      ],
+      "centers": [
+        [
+          -0.23,
+          0.22,
+          1.08
+        ],
+        [
+          -0.31,
+          0.28,
+          1.4
+        ],
+        [
+          -0.39,
+          0.25,
+          1.78
+        ]
+      ],
+      "full_width_depth": [
+        [
+          0.24,
+          0.12
+        ],
+        [
+          0.34,
+          0.16
+        ],
+        [
+          0.06,
+          0.045
+        ]
+      ]
+    },
+    {
+      "id": "R",
+      "socket": [
+        0.23,
+        0.22,
+        1.05
+      ],
+      "centers": [
+        [
+          0.23,
+          0.22,
+          1.08
+        ],
+        [
+          0.3,
+          0.27,
+          1.36
+        ],
+        [
+          0.37,
+          0.24,
+          1.68
+        ]
+      ],
+      "full_width_depth": [
+        [
+          0.24,
+          0.12
+        ],
+        [
+          0.32,
+          0.15
+        ],
+        [
+          0.06,
+          0.045
+        ]
+      ]
+    }
+  ],
+  "frond_overlap": {
+    "collar_full_diameter_m": 0.24,
+    "collar_height_m": 0.12,
+    "shell_overlap_m": 0.075,
+    "blade_base_inside_collar_m": 0.065,
+    "construction": "separately closed six-sided folded blade and separately closed six-sided collar; blade base overlaps collar; neither is bridged or uncapped."
+  }
+}

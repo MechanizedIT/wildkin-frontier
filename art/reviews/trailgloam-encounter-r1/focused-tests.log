@@ -1,0 +1,238 @@
+TAP version 13
+# Subtest: wildlife rejects a home whose complete movement disk reaches the wet margin
+ok 1 - wildlife rejects a home whose complete movement disk reaches the wet margin
+  ---
+  duration_ms: 2.8472
+  type: 'test'
+  ...
+# Subtest: starter wildlife keeps the first two Mossling identities and adds stable side encounters
+ok 2 - starter wildlife keeps the first two Mossling identities and adds stable side encounters
+  ---
+  duration_ms: 14.1265
+  type: 'test'
+  ...
+# Subtest: generated side encounters deliberately match shipped catalog behavior
+ok 3 - generated side encounters deliberately match shipped catalog behavior
+  ---
+  duration_ms: 3.5894
+  type: 'test'
+  ...
+# Subtest: regional wildlife preserves zero-influence Mosslings and gives the Sunscar witness one bounded signature
+ok 4 - regional wildlife preserves zero-influence Mosslings and gives the Sunscar witness one bounded signature
+  ---
+  duration_ms: 4.998
+  type: 'test'
+  ...
+# Subtest: regional wildlife rejects an intersecting full home disk and retries outside the whole bloom
+ok 5 - regional wildlife rejects an intersecting full home disk and retries outside the whole bloom
+  ---
+  duration_ms: 4.9087
+  type: 'test'
+  ...
+# Subtest: Caldera admits one stable territorial Emberhorn on its complete supported bowl disk
+ok 6 - Caldera admits one stable territorial Emberhorn on its complete supported bowl disk
+  ---
+  duration_ms: 23.6513
+  type: 'test'
+  ...
+# Subtest: Caldera encounter fails closed, replaces broad generic wildlife, and keeps the fixed core unique
+ok 7 - Caldera encounter fails closed, replaces broad generic wildlife, and keeps the fixed core unique
+  ---
+  duration_ms: 9.5463
+  type: 'test'
+  ...
+# Subtest: Caldera fixed Emberhorn wins residency and stays absent after capture
+ok 8 - Caldera fixed Emberhorn wins residency and stays absent after capture
+  ---
+  duration_ms: 46.6449
+  type: 'test'
+  ...
+# Subtest: Fungal Hollow admits one exact aggressive Thornprowler on its full supported home disk
+ok 9 - Fungal Hollow admits one exact aggressive Thornprowler on its full supported home disk
+  ---
+  duration_ms: 24.2472
+  type: 'test'
+  ...
+# Subtest: Thornprowler exact-asset admission fails closed on aliases, recipe drift, and unsafe support
+ok 10 - Thornprowler exact-asset admission fails closed on aliases, recipe drift, and unsafe support
+  ---
+  duration_ms: 1.507
+  type: 'test'
+  ...
+# Subtest: ordinary wildlife movement disks remain outside the complete Fungal outing
+ok 11 - ordinary wildlife movement disks remain outside the complete Fungal outing
+  ---
+  duration_ms: 1.3576
+  type: 'test'
+  ...
+# Subtest: Fungal resident priority loads the Thornprowler once and normal retirement restores the same origin
+ok 12 - Fungal resident priority loads the Thornprowler once and normal retirement restores the same origin
+  ---
+  duration_ms: 52.5825
+  type: 'test'
+  ...
+# Subtest: Rootbound admits one exact, cadence-correct Trailgloam source without changing Mossling identities
+ok 13 - Rootbound admits one exact, cadence-correct Trailgloam source without changing Mossling identities
+  ---
+  duration_ms: 32.9437
+  type: 'test'
+  ...
+# Subtest: Rootbound Trailgloam fails closed for alternate worlds, recipe drift, and unsafe home support
+ok 14 - Rootbound Trailgloam fails closed for alternate worlds, recipe drift, and unsafe home support
+  ---
+  duration_ms: 10.5743
+  type: 'test'
+  ...
+# Subtest: Rootbound Trailgloam has one stable resident across ordinary stream retirement
+ok 15 - Rootbound Trailgloam has one stable resident across ordinary stream retirement
+  ---
+  duration_ms: 38.3454
+  type: 'test'
+  ...
+# Subtest: runtime bounds live sources, retires unloaded chunks, and never restores a captured source
+ok 16 - runtime bounds live sources, retires unloaded chunks, and never restores a captured source
+  ---
+  duration_ms: 12.6735
+  type: 'test'
+  ...
+# Subtest: runtime does not exceed the four generated-resident cap
+ok 17 - runtime does not exceed the four generated-resident cap
+  ---
+  duration_ms: 2.6063
+  type: 'test'
+  ...
+# Subtest: runtime admits at most one ordinary regional signature while retaining lower-draw neighbors
+ok 18 - runtime admits at most one ordinary regional signature while retaining lower-draw neighbors
+  ---
+  duration_ms: 2.6327
+  type: 'test'
+  ...
+# Subtest: staged animals replace a lower-priority random resident when their chunk enters residency
+ok 19 - staged animals replace a lower-priority random resident when their chunk enters residency
+  ---
+  duration_ms: 6.9428
+  type: 'test'
+  ...
+# Subtest: a chunk fills its remaining stable source when a cap slot later opens
+ok 20 - a chunk fills its remaining stable source when a cap slot later opens
+  ---
+  duration_ms: 4.2356
+  type: 'test'
+  ...
+# Subtest: generated creature retirement disposes only generated residents and reset retains authored lifecycle
+ok 21 - generated creature retirement disposes only generated residents and reset retains authored lifecycle
+  ---
+  duration_ms: 36.718
+  type: 'test'
+  ...
+# Subtest: staged Mossling flee remains autonomous but turns back at its local boundary
+ok 22 - staged Mossling flee remains autonomous but turns back at its local boundary
+  ---
+  duration_ms: 15.8079
+  type: 'test'
+  ...
+# Subtest: Skybreak crown has one stable ordinary-expression Mossling with a supported home
+ok 23 - Skybreak crown has one stable ordinary-expression Mossling with a supported home
+  ---
+  duration_ms: 100.4855
+  type: 'test'
+  ...
+# Subtest: Skybreak crown Mossling flees toward the cliff only to its supported return boundary
+ok 24 - Skybreak crown Mossling flees toward the cliff only to its supported return boundary
+  ---
+  duration_ms: 31.6455
+  type: 'test'
+  ...
+# Subtest: Skybreak crown source participates in bounded neighbor selection and stays absent after capture
+ok 25 - Skybreak crown source participates in bounded neighbor selection and stays absent after capture
+  ---
+  duration_ms: 56.1505
+  type: 'test'
+  ...
+# Subtest: Rootbound circuit has finite room grammar and neutral exterior
+ok 26 - Rootbound circuit has finite room grammar and neutral exterior
+  ---
+  duration_ms: 6.7087
+  type: 'test'
+  ...
+# Subtest: Rootbound terrain preserves every existing source in the circuit border
+ok 27 - Rootbound terrain preserves every existing source in the circuit border
+  ---
+  duration_ms: 1110.7413
+  type: 'test'
+  ...
+# Subtest: Rootbound profile colors apply only to the protected default world
+ok 28 - Rootbound profile colors apply only to the protected default world
+  ---
+  duration_ms: 1499.3139
+  type: 'test'
+  ...
+# Subtest: resident protection plates fade without a terrain step at their boundaries
+ok 29 - resident protection plates fade without a terrain step at their boundaries
+  ---
+  duration_ms: 0.83
+  type: 'test'
+  ...
+# Subtest: curated Rootbound props use existing admission and remain localized
+ok 30 - curated Rootbound props use existing admission and remain localized
+  ---
+  duration_ms: 781.369
+  type: 'test'
+  ...
+# Subtest: Rootbound facet field is a shared default-world height surface with exact chunk seams
+ok 31 - Rootbound facet field is a shared default-world height surface with exact chunk seams
+  ---
+  duration_ms: 560.1492
+  type: 'test'
+  ...
+# Subtest: Rootbound facet chunks use a render-only per-face material while physics keeps the shared chunk
+ok 32 - Rootbound facet chunks use a render-only per-face material while physics keeps the shared chunk
+  ---
+  duration_ms: 2573.8952
+  type: 'test'
+  ...
+# Subtest: Rootbound shoulders change real terrain while full and height-only samplers agree with mesh vertices
+ok 33 - Rootbound shoulders change real terrain while full and height-only samplers agree with mesh vertices
+  ---
+  duration_ms: 161.8787
+  type: 'test'
+  ...
+# Subtest: every Author asset has a maintained mesh kit or a local model, and kit transforms stay finite
+ok 34 - every Author asset has a maintained mesh kit or a local model, and kit transforms stay finite
+  ---
+  duration_ms: 921.9756
+  type: 'test'
+  ...
+# Subtest: closed faceted meshes face outward on both caps
+ok 35 - closed faceted meshes face outward on both caps
+  ---
+  duration_ms: 1.0972
+  type: 'test'
+  ...
+# Subtest: resource visual rebuild retains the harvest chunk contract and Author/runtime bounds
+ok 36 - resource visual rebuild retains the harvest chunk contract and Author/runtime bounds
+  ---
+  duration_ms: 21.7499
+  type: 'test'
+  ...
+# Subtest: explorer rig and equipped tool instantiate with bounded geometry and preserved gait anchors
+ok 37 - explorer rig and equipped tool instantiate with bounded geometry and preserved gait anchors
+  ---
+  duration_ms: 21.3927
+  type: 'test'
+  ...
+# Subtest: builtin dimensional fits survive authored placement for either fence axis and scaled machines
+ok 38 - builtin dimensional fits survive authored placement for either fence axis and scaled machines
+  ---
+  duration_ms: 32.9081
+  type: 'test'
+  ...
+1..38
+# tests 38
+# suites 0
+# pass 38
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 7385.2086
