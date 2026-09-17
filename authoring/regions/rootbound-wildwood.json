@@ -17,6 +17,7 @@
   "collections": {
     "terrain": "WK_TERRAIN",
     "static": "WK_STATIC",
+    "unique": "WK_UNIQUE",
     "gameplay": "WK_GAMEPLAY",
     "guides": "WK_GUIDES",
     "alwaysLoaded": "WK_ALWAYS"
