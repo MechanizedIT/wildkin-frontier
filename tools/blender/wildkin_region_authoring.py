@@ -1,10 +1,10 @@
 bl_info = {
     "name": "Wildkin Region Authoring",
     "author": "Wildkin Frontier",
-    "version": (0, 1, 0),
+    "version": (0, 2, 0),
     "blender": (4, 2, 0),
     "location": "3D View > Sidebar > Wildkin",
-    "description": "Author Wildkin Frontier habitat terrain, streamed scenery, and gameplay markers in Blender",
+    "description": "Author Wildkin Frontier habitat terrain, asset placements, unique geometry, and gameplay markers in Blender",
     "category": "3D View",
 }
 
@@ -17,7 +17,14 @@ from bpy.props import StringProperty, FloatProperty, PointerProperty
 from bpy.types import Operator, Panel, PropertyGroup
 from bpy_extras.io_utils import ImportHelper
 
-COLLECTIONS = ("WK_GUIDES", "WK_TERRAIN", "WK_STATIC", "WK_GAMEPLAY", "WK_ALWAYS")
+COLLECTIONS = (
+    "WK_GUIDES",
+    "WK_TERRAIN",
+    "WK_STATIC",
+    "WK_UNIQUE",
+    "WK_GAMEPLAY",
+    "WK_ALWAYS",
+)
 
 
 def ensure_collection(name):
@@ -44,6 +51,17 @@ def blender_to_game(location):
         "y": float(location.z),
         "z": float(-location.y),
     }
+
+
+def custom_primitive_props(obj):
+    result = {}
+    for key in obj.keys():
+        if key == "_RNA_UI":
+            continue
+        value = obj[key]
+        if isinstance(value, (str, int, float, bool)) or value is None:
+            result[key] = value
+    return result
 
 
 def clear_guides(collection):
@@ -94,12 +112,14 @@ def recursive_objects(collection):
 
 def select_only(objects):
     bpy.ops.object.select_all(action="DESELECT")
+    active = None
     for obj in objects:
         if obj.name in bpy.context.view_layer.objects:
             obj.hide_set(False)
             obj.select_set(True)
-    if objects:
-        bpy.context.view_layer.objects.active = objects[0]
+            active = active or obj
+    if active:
+        bpy.context.view_layer.objects.active = active
 
 
 def export_glb(filepath, objects):
@@ -121,19 +141,44 @@ def export_glb(filepath, objects):
     return True
 
 
+def chunk_for_game_position(position, chunk_size):
+    return {
+        "cx": math.floor(position["x"] / chunk_size),
+        "cz": math.floor(position["z"] / chunk_size),
+    }
+
+
 def marker_payload(obj):
-    custom = {}
-    for key in obj.keys():
-        if key == "_RNA_UI":
-            continue
-        value = obj[key]
-        if isinstance(value, (str, int, float, bool)) or value is None:
-            custom[key] = value
+    custom = custom_primitive_props(obj)
     return {
         "name": obj.name,
         "type": custom.pop("wk_type", "marker"),
         "id": custom.pop("wk_id", obj.name),
         "position": blender_to_game(obj.matrix_world.translation),
+        "properties": custom,
+    }
+
+
+def placement_payload(obj, chunk_size):
+    custom = custom_primitive_props(obj)
+    asset_id = custom.pop("wk_asset_id", None)
+    if not asset_id:
+        return None
+    position = blender_to_game(obj.matrix_world.translation)
+    scale = obj.matrix_world.to_scale()
+    rotation = obj.matrix_world.to_euler("XYZ")
+    uniform_scale = (abs(scale.x) + abs(scale.y) + abs(scale.z)) / 3.0
+    return {
+        "name": obj.name,
+        "id": custom.pop("wk_id", obj.name),
+        "assetId": asset_id,
+        "position": position,
+        # Wildkin scenery is currently upright/yaw-authored. Blender Z rotation
+        # maps to Three.js Y yaw under this project's X/-Z/Y convention.
+        "yaw": float(rotation.z),
+        "uniformScale": float(uniform_scale),
+        "scale3": {"x": float(scale.x), "y": float(scale.z), "z": float(scale.y)},
+        "chunk": chunk_for_game_position(position, chunk_size),
         "properties": custom,
     }
 
@@ -239,16 +284,16 @@ class WK_OT_add_marker(Operator):
 class WK_OT_export_region(Operator):
     bl_idname = "wk.export_region"
     bl_label = "Export Wildkin Region"
-    bl_description = "Export terrain, always-loaded art, streamed static chunks, and gameplay metadata"
+    bl_description = "Export terrain, reusable asset placements, unique chunk geometry, and gameplay metadata"
 
     def execute(self, context):
         settings = context.scene.wk_region
         collections = ensure_layout()
         output_root = Path(bpy.path.abspath(settings.output_root)).resolve()
         region_root = output_root / settings.region_id
-        chunks_root = region_root / "chunks"
+        unique_root = region_root / "unique-chunks"
         region_root.mkdir(parents=True, exist_ok=True)
-        chunks_root.mkdir(parents=True, exist_ok=True)
+        unique_root.mkdir(parents=True, exist_ok=True)
 
         config = {}
         config_path = bpy.path.abspath(settings.config_path) if settings.config_path else ""
@@ -265,23 +310,31 @@ class WK_OT_export_region(Operator):
         if export_glb(region_root / "always.glb", always_objects):
             assets["always"] = f"assets/world-authored/{settings.region_id}/always.glb"
 
-        grouped = {}
+        placements = []
+        missing_asset_ids = []
         for obj in recursive_objects(collections["WK_STATIC"]):
+            placement = placement_payload(obj, settings.chunk_size)
+            if placement is None:
+                missing_asset_ids.append(obj.name)
+            else:
+                placements.append(placement)
+
+        grouped_unique = {}
+        for obj in recursive_objects(collections["WK_UNIQUE"]):
             if obj.type not in {"MESH", "CURVE", "EMPTY"}:
                 continue
             game_pos = blender_to_game(obj.matrix_world.translation)
-            cx = math.floor(game_pos["x"] / settings.chunk_size)
-            cz = math.floor(game_pos["z"] / settings.chunk_size)
-            grouped.setdefault((cx, cz), []).append(obj)
+            chunk = chunk_for_game_position(game_pos, settings.chunk_size)
+            grouped_unique.setdefault((chunk["cx"], chunk["cz"]), []).append(obj)
 
-        chunk_records = []
-        for (cx, cz), objects in sorted(grouped.items()):
+        unique_chunks = []
+        for (cx, cz), objects in sorted(grouped_unique.items()):
             filename = f"{cx}_{cz}.glb"
-            if export_glb(chunks_root / filename, objects):
-                chunk_records.append({
+            if export_glb(unique_root / filename, objects):
+                unique_chunks.append({
                     "cx": cx,
                     "cz": cz,
-                    "path": f"assets/world-authored/{settings.region_id}/chunks/{filename}",
+                    "path": f"assets/world-authored/{settings.region_id}/unique-chunks/{filename}",
                 })
 
         markers = [marker_payload(obj) for obj in recursive_objects(collections["WK_GAMEPLAY"])]
@@ -291,16 +344,20 @@ class WK_OT_export_region(Operator):
             "chunkSize": settings.chunk_size,
             "bounds": config.get("bounds"),
             "assets": assets,
-            "chunks": chunk_records,
+            "placements": sorted(placements, key=lambda item: (item["chunk"]["cz"], item["chunk"]["cx"], item["id"])),
+            "uniqueChunks": unique_chunks,
             "markers": markers,
-            "coordinateConvention": "Three.js X/Y-up/Z; exported from Blender X/-Z/Y",
+            "coordinateConvention": "Three.js X/Y-up/Z; authored in Blender X/-Z/Y",
         }
         with open(region_root / "manifest.json", "w", encoding="utf-8") as handle:
             json.dump(manifest, handle, indent=2)
             handle.write("\n")
 
         bpy.ops.object.select_all(action="DESELECT")
-        self.report({"INFO"}, f"Exported {settings.region_id}: {len(chunk_records)} chunks, {len(markers)} markers")
+        if missing_asset_ids:
+            self.report({"WARNING"}, f"Exported, but {len(missing_asset_ids)} WK_STATIC objects lack wk_asset_id")
+        else:
+            self.report({"INFO"}, f"Exported {settings.region_id}: {len(placements)} placements, {len(unique_chunks)} unique chunks, {len(markers)} markers")
         return {"FINISHED"}
 
 
@@ -326,7 +383,8 @@ class WK_PT_region_authoring(Panel):
         layout.operator("wk.export_region", icon="EXPORT")
         layout.separator()
         layout.label(text="WK_TERRAIN: sculpted habitat mesh")
-        layout.label(text="WK_STATIC: streamed scenery")
+        layout.label(text="WK_STATIC: reusable asset placements")
+        layout.label(text="WK_UNIQUE: streamed unique geometry")
         layout.label(text="WK_GAMEPLAY: marker empties")
         layout.label(text="WK_ALWAYS: hero/always-loaded art")
 
