@@ -1,6 +1,6 @@
 # Blender world authoring for Wildkin Frontier
 
-This is an experimental visual-authoring workflow. It does **not** replace the live runtime yet. The goal is to let a human visually sculpt habitats and place scenery/gameplay markers in Blender while preserving Wildkin Frontier's current Three.js/Rapier runtime and 50 m streaming grid.
+This is an experimental visual-authoring workflow. It does **not** replace the live runtime yet. The goal is to let a human visually sculpt habitats and place scenery/gameplay markers in Blender while preserving Wildkin Frontier's current Three.js/Rapier runtime, asset registry, and 50 m streaming grid.
 
 ## Why this workflow
 
@@ -14,38 +14,40 @@ Recommended split:
 
 ## Region/file strategy
 
-Use **one editable `.blend` file per habitat**. Do not export the entire continent as one monolithic GLB.
+Use **one editable `.blend` file per habitat**. Do not build the whole continent in one giant Blender file and do not export the whole continent as one GLB.
 
 For Rootbound, a practical source file is:
 
 `Wildkin-Rootbound-Wildwood.blend`
 
-The exporter creates:
+The exporter creates roughly:
 
 ```text
 assets/world-authored/rootbound-wildwood/
-  manifest.json
-  terrain.glb
-  always.glb                # optional hero/always-loaded art
-  chunks/
+  manifest.json             # repeated asset placements + gameplay markers
+  terrain.glb               # one habitat terrain mesh at first
+  always.glb                # optional hero/always-loaded unique art
+  unique-chunks/            # only truly unique streamed geometry
     -11_11.glb
     -11_12.glb
     ...
 ```
 
-The habitat source can stay visually unified inside Blender, while exported static scenery follows the game's existing 50 m chunk grid. This gives you one comfortable editing scene without forcing the browser to load every prop on the continent at once.
+Repeated trees, bushes, stones, logs and other registered Wildkin assets are **not baked into every chunk GLB**. Blender exports their `assetId`, transform and chunk into `manifest.json`, so the runtime can keep using its existing cached/instanced assets. This avoids duplicating the same tree geometry across many files and keeps mobile memory/download costs under control.
 
 ### Terrain loading recommendation
 
-For the first implementation, load **one terrain mesh for the active habitat** rather than splitting the terrain mesh into many tiny GLBs. Rootbound is only about 200 m × 200 m. This avoids visible terrain seams and makes sculpting pleasant.
+For the first implementation, load **one terrain mesh for the active habitat** rather than splitting terrain into many tiny GLBs. Rootbound's authored footprint is about 200 m × 200 m, so this is a reasonable first experiment and avoids sculpt seams.
 
-If terrain later becomes too heavy, split it into larger 100 m tiles or build an authored heightfield/LOD pipeline. Do not begin with that complexity.
+If terrain later becomes too heavy, split it into larger tiles (for example 100 m), export an authored heightfield, or add LOD. Do not begin with that complexity.
 
 ### Scenery streaming recommendation
 
-Scenery is exported by the existing 50 m world chunk coordinate. A tree/log/rock belongs to the chunk containing its object origin. Linked Blender duplicates are encouraged so repeated art can share source mesh data.
+Reusable scenery follows the game's existing 50 m chunk coordinate through placement records. A tree/log/rock belongs to the chunk containing its object origin.
 
-The current game already streams world chunks around the player, so a future runtime adapter can load/unload the matching authored GLB chunks alongside those residents instead of replacing the whole streaming system.
+Only genuinely unique geometry that cannot be represented by a registered asset goes in `WK_UNIQUE`; that geometry is exported to chunk GLBs.
+
+The current game already streams world chunks around the player, so a future runtime adapter can activate authored placements and unique geometry alongside the same resident chunks instead of replacing the whole streaming system.
 
 ## Blender coordinate convention
 
@@ -55,14 +57,14 @@ Wildkin/Three.js uses:
 - Y = up
 - Z = horizontal world Z
 
-Blender uses X/Y as the ground plane and Z as up. The authoring convention is therefore:
+Blender uses X/Y as the ground plane and Z as up. The authoring convention is:
 
 - Blender X = game X
 - Blender Y = **negative game Z**
 - Blender Z = game Y / elevation
 - 1 Blender unit = 1 meter
 
-The add-on handles marker conversion automatically. Blender's glTF exporter handles the visual scene axis conversion for GLB output.
+The add-on converts placement/marker positions automatically. Blender's glTF exporter handles visual scene axis conversion for GLB output.
 
 ## Install the add-on
 
@@ -79,10 +81,9 @@ The add-on targets Blender 4.2+.
 
 ## Start Rootbound
 
-1. Create a new Blender file and save it somewhere outside Git, preferably your Google Drive backup folder.
+1. Create a new Blender file and save it outside Git, preferably in your Google Drive backup folder.
 2. In the Wildkin panel choose **Initialize Wildkin Collections**.
-3. Choose **Load Region Config** and select:
-   `authoring/regions/rootbound-wildwood.json`
+3. Choose **Load Region Config** and select `authoring/regions/rootbound-wildwood.json`.
 4. Rootbound's bounds, five subregion anchors, current main/optional route and important gameplay seeds appear as non-rendered guides.
 5. Set **Export Root** to the repository's `assets/world-authored` directory.
 
@@ -90,9 +91,10 @@ The standard collections are:
 
 - `WK_GUIDES` — route/bounds/reference helpers; never exported.
 - `WK_TERRAIN` — sculpted habitat terrain; exported as `terrain.glb`.
-- `WK_STATIC` — trees, logs, stones, ruins and other streamed environment art.
+- `WK_STATIC` — reusable registered game assets. Geometry is only for Blender preview; export writes placement records. Give each object `wk_asset_id`.
+- `WK_UNIQUE` — one-off meshes/curves that really need their geometry exported; streamed by 50 m chunk.
 - `WK_GAMEPLAY` — Empty objects that export as gameplay metadata.
-- `WK_ALWAYS` — optional hero art loaded with the habitat, such as a major landmark.
+- `WK_ALWAYS` — optional unique hero art loaded with the habitat, such as a major landmark.
 
 ## Sculpting terrain
 
@@ -104,48 +106,39 @@ A simple first terrain workflow:
 4. Move it into `WK_TERRAIN`.
 5. Use Sculpt Mode for broad height changes first: Grab, Smooth, Flatten/Scrape and similar brushes.
 6. Preserve deliberate route widths and camera-readable shelves instead of adding uniform noise.
-7. Use a Multires/Subdivision workflow only if the resulting browser mesh remains appropriate after export/decimation.
+7. Use Multires/Subdivision only if the exported browser mesh stays reasonable after final reduction.
 
-For Wildkin's faceted style, the final runtime terrain can stay comparatively low-poly. Large readable landforms matter more than tiny sculpt detail.
+For Wildkin's faceted style, large readable landforms matter more than tiny sculpt detail.
 
 ## Painting terrain
 
-Blender gives you several useful options:
+Blender supports several useful authoring channels:
 
 - **Vertex/Color Attributes** for low-cost biome/material masks and stylized tinting.
 - **Texture Paint** when you need actual image textures.
-- **Weight Paint / vertex groups** for authoring masks such as grass density, wet soil, rock, no-spawn or foliage zones.
+- **Weight Paint / vertex groups** for masks such as grass density, wet soil, rock or no-spawn areas.
 
-For the first Wildkin integration, prefer named Color Attributes or vertex groups over a complex splat-map shader. They are easier to inspect and can later be baked into the runtime's existing terrain/color logic.
+For the first Wildkin integration, prefer named Color Attributes or vertex groups over a complex splat-map shader. They are easy to inspect and can later be baked into the runtime's existing terrain/color logic.
 
-Suggested attributes/groups:
+Suggested experimental attributes/groups: `ground_color`, `foliage_density`, `no_spawn`, `wetness`, `rockiness`. The live runtime does not consume these yet.
 
-- `ground_color`
-- `foliage_density`
-- `no_spawn`
-- `wetness`
-- `rockiness`
+## Placing reusable objects
 
-These are proposed authoring names; the live runtime does not consume them yet.
+Put repeated environment assets under `WK_STATIC`: trees, bushes, logs, common rocks, fungal clusters and other art already represented by a Wildkin asset ID.
 
-## Placing objects
+For each object, add an Object Custom Property:
 
-Put visual environment objects under `WK_STATIC`.
+`wk_asset_id = "asset_rootbound_oak"`
 
-Good candidates:
+Optionally add `wk_id` when the placement needs a stable authored identity. Keep these props upright and use Blender Z rotation for yaw; the exporter records position, yaw and scale.
 
-- trees
-- bushes
-- logs
-- rocks
-- fungal clusters
-- ruins
-- root arches
-- small environmental set dressing
+The object's preview geometry is **not** exported from `WK_STATIC`. That means you can use linked Blender copies or proxy meshes freely without multiplying runtime asset bytes.
 
-Use linked duplicates/collection instances when repeating the same asset. The exported chunk is selected by the object's world-space origin.
+## Placing unique geometry
 
-Put a unique landmark that you always want present while Rootbound is active under `WK_ALWAYS` instead.
+Put true one-off environment geometry under `WK_UNIQUE`, such as a bespoke ruin or root arch that has no reusable Wildkin asset entry. The exporter groups these by 50 m chunk and creates `unique-chunks/<cx>_<cz>.glb`.
+
+If a supposedly unique object starts appearing repeatedly, promote it to the asset registry and move instances to `WK_STATIC` instead.
 
 ## Gameplay markers
 
@@ -153,57 +146,37 @@ Press **Add Gameplay Marker** to create an Empty under `WK_GAMEPLAY`.
 
 In **Object Properties → Custom Properties**, set at minimum:
 
-- `wk_type`: semantic type, e.g. `resource`, `cache`, `wildkin-home`, `discovery`, `spawn`, `portal`.
+- `wk_type`: `resource`, `cache`, `wildkin-home`, `discovery`, `spawn`, `portal`, etc.
 - `wk_id`: stable game identifier.
 
-Add additional primitive custom properties as needed, for example:
+Additional primitive custom properties are exported too, for example `resource_type = "iron"`, `species = "trailgloam"`, `radius = 5.0`, `quantity = 3`.
 
-- `resource_type = "iron"`
-- `species = "trailgloam"`
-- `radius = 5.0`
-- `quantity = 3`
-
-The exporter writes these into `manifest.json`. Guides are not gameplay markers; copy/replace them with real markers when you decide their final locations.
+Guides are not gameplay markers; replace/copy a guide into a real marker only when you decide its final location.
 
 ## Export
 
 Choose **Export Wildkin Region**.
 
-The add-on exports:
+The add-on writes:
 
 - `WK_TERRAIN` → `terrain.glb`
 - `WK_ALWAYS` → `always.glb` when present
-- `WK_STATIC` → one GLB per 50 m chunk
-- `WK_GAMEPLAY` → `manifest.json`
+- `WK_STATIC` → reusable placement entries in `manifest.json`
+- `WK_UNIQUE` → per-50 m unique chunk GLBs
+- `WK_GAMEPLAY` → marker entries in `manifest.json`
 
-Custom properties on exported geometry are also included as glTF extras.
+To sanity-check an exported Rootbound folder from the repository root:
+
+`node tools/validate-authored-region.mjs rootbound-wildwood`
 
 ## What is not wired into the live game yet
 
-The first branch deliberately stops before changing the game runtime. Existing Rootbound code remains authoritative until an authored-region adapter is implemented and verified.
+This branch deliberately stops before changing gameplay. Existing Rootbound code remains authoritative until an authored-region adapter is implemented and verified.
 
-The next integration step should be small and reversible:
-
-1. load `rootbound-wildwood/manifest.json` locally;
-2. stream `chunks/<cx>_<cz>.glb` with the existing frontier chunk residency;
-3. load `terrain.glb` only while Rootbound is active;
-4. initially use Blender only for visual scenery while existing procedural terrain/collision remains authoritative;
-5. once visual placement is proven, switch Rootbound terrain/collision to authored terrain or an exported heightfield;
-6. finally migrate resource/Wildkin/discovery markers from code to the manifest one owner at a time.
-
-This avoids trying to rewrite terrain, physics, ecology, persistence and scenery in one change.
+The next integration should be small and reversible: read the Rootbound manifest, use only its `WK_STATIC` placements for a short Meadow → first Gallery test while existing procedural terrain/collision remains authoritative, then compare that slice in actual play. Once the placement loop is proven, integrate terrain/collision and gameplay markers one owner at a time.
 
 ## Suggested first experiment
 
-Do **not** rebuild all of Rootbound immediately.
-
-Use a copy of the current region guides and visually author only the **Orientation Meadow → first Root Gallery** section:
-
-- sculpt a readable rise;
-- place 10–20 trees/logs/rocks;
-- create one resource marker;
-- export it;
-- integrate that slice in the game;
-- compare it against the current code-authored version on desktop and phone.
+Do **not** rebuild all of Rootbound immediately. Visually author only the **Orientation Meadow → first Root Gallery** section: sculpt a readable rise, place 10–20 registered trees/logs/rocks, add one gameplay marker, export, and compare it against the current code-authored version on desktop and phone.
 
 If that loop feels good to work in, expand to the rest of Rootbound.
