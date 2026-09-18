@@ -180,3 +180,45 @@ The next integration should be small and reversible: read the Rootbound manifest
 Do **not** rebuild all of Rootbound immediately. Visually author only the **Orientation Meadow → first Root Gallery** section: sculpt a readable rise, place 10–20 registered trees/logs/rocks, add one gameplay marker, export, and compare it against the current code-authored version on desktop and phone.
 
 If that loop feels good to work in, expand to the rest of Rootbound.
+
+
+## Load the actual current terrain
+
+The region config alone creates guides; it does not contain a terrain mesh. To generate a Blender reference from the current game terrain:
+
+```bash
+node tools/export-authoring-terrain-reference.mjs rootbound-wildwood
+```
+
+This writes:
+
+```text
+authoring/reference/rootbound-wildwood-terrain-reference.json
+```
+
+In Blender, use **Wildkin → Load Terrain Reference** and select that file.
+
+The add-on creates:
+
+- `GUIDE_CURRENT_TERRAIN` — the actual terrain sampled from the current game, including Rootbound's existing code-authored structural profile.
+- `GUIDE_BASE_TERRAIN` — the same world with the Rootbound structural profile disabled; hidden by default.
+- route curves, zone markers and gameplay seed markers are projected onto the current terrain surface.
+
+Choose **Create Sculpt Terrain from Reference** to duplicate the current reference into `WK_TERRAIN` as an editable mesh. Keep the original guide mesh untouched so it remains a before/reference surface.
+
+The sampler defaults to the game's standard 2 m terrain spacing plus 20 m of context outside the habitat bounds.
+
+## Blending neighboring terrain
+
+Do not stitch habitat meshes by hand at a single hard border. Treat authored habitat terrain as a deformation over the shared continent surface.
+
+Rootbound currently uses an 18 m blend collar. The config draws two boundary guides:
+
+- `GUIDE_REGION_BOUNDS` — the outer habitat ownership boundary.
+- `GUIDE_TERRAIN_BLEND_INNER` — the inner edge of the blend collar.
+
+Inside the inner guide, sculpt freely. Between the inner guide and outer boundary, taper authored changes back toward the shared/base terrain. At the outer boundary, the authored terrain must match the shared base terrain.
+
+This is the same basic seam strategy already used by the code-authored Rootbound profile: local relief fades into the common world instead of two unrelated meshes being expected to meet perfectly.
+
+When a neighboring habitat is authored later, load/export enough padded reference terrain to see both sides of the shared edge. Each habitat keeps its own editable file, but both use the same underlying continent surface and both return to that shared surface at their ownership edges.
