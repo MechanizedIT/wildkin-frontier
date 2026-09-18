@@ -1,0 +1,201 @@
+{
+  "schemaVersion": 1,
+  "regionId": "rootbound-wildwood",
+  "displayName": "Rootbound Wildwood",
+  "chunkSize": 50,
+  "bounds": {
+    "minX": -525,
+    "maxX": -325,
+    "minZ": 550,
+    "maxZ": 750
+  },
+  "coordinateConvention": {
+    "game": "Three.js: X horizontal, Y up, Z horizontal",
+    "blender": "Blender: X = game X, Y = -game Z, Z = game Y",
+    "units": "meters"
+  },
+  "collections": {
+    "terrain": "WK_TERRAIN",
+    "static": "WK_STATIC",
+    "unique": "WK_UNIQUE",
+    "gameplay": "WK_GAMEPLAY",
+    "guides": "WK_GUIDES",
+    "alwaysLoaded": "WK_ALWAYS"
+  },
+  "subregions": [
+    {
+      "id": "spore-meadow",
+      "label": "Orientation Meadow",
+      "x": -475,
+      "z": 590,
+      "radiusX": 31,
+      "radiusZ": 27
+    },
+    {
+      "id": "root-gallery",
+      "label": "Root Galleries",
+      "x": -477,
+      "z": 650,
+      "radiusX": 32,
+      "radiusZ": 43
+    },
+    {
+      "id": "lantern-hollow",
+      "label": "Lantern Grove",
+      "x": -444,
+      "z": 679,
+      "radiusX": 18,
+      "radiusZ": 15
+    },
+    {
+      "id": "thornstone-verge",
+      "label": "Thornstone Verge",
+      "x": -415,
+      "z": 694,
+      "radiusX": 33,
+      "radiusZ": 31
+    },
+    {
+      "id": "heartroot-crown",
+      "label": "Heartroot Crown",
+      "x": -475,
+      "z": 720,
+      "radiusX": 37,
+      "radiusZ": 30
+    }
+  ],
+  "primaryRoute": [
+    {
+      "x": -475,
+      "z": 590,
+      "elevation": 0
+    },
+    {
+      "x": -478,
+      "z": 613,
+      "elevation": 1.7
+    },
+    {
+      "x": -480,
+      "z": 643,
+      "elevation": 5.2
+    },
+    {
+      "x": -472,
+      "z": 663,
+      "elevation": 6.9
+    },
+    {
+      "x": -449,
+      "z": 675,
+      "elevation": 4.3
+    },
+    {
+      "x": -452,
+      "z": 696,
+      "elevation": 7.2
+    },
+    {
+      "x": -480,
+      "z": 720,
+      "elevation": 15.2
+    },
+    {
+      "x": -493,
+      "z": 701,
+      "elevation": 10.2
+    },
+    {
+      "x": -495,
+      "z": 673,
+      "elevation": 7.1
+    },
+    {
+      "x": -494,
+      "z": 646,
+      "elevation": 5.1
+    },
+    {
+      "x": -492,
+      "z": 615,
+      "elevation": 1.8
+    },
+    {
+      "x": -475,
+      "z": 590,
+      "elevation": 0
+    }
+  ],
+  "optionalRoute": [
+    {
+      "x": -449,
+      "z": 675,
+      "elevation": 4.3
+    },
+    {
+      "x": -427,
+      "z": 680,
+      "elevation": 7.5
+    },
+    {
+      "x": -415,
+      "z": 694,
+      "elevation": 10.5
+    },
+    {
+      "x": -430,
+      "z": 711,
+      "elevation": 9.4
+    },
+    {
+      "x": -452,
+      "z": 696,
+      "elevation": 7.2
+    }
+  ],
+  "gameplaySeeds": [
+    {
+      "id": "meadow-supplies",
+      "type": "resource-pocket",
+      "x": -481,
+      "z": 600
+    },
+    {
+      "id": "gallery-alcove",
+      "type": "resource-pocket",
+      "x": -484,
+      "z": 678
+    },
+    {
+      "id": "lantern-cache",
+      "type": "cache",
+      "x": -452,
+      "z": 680
+    },
+    {
+      "id": "trailgloam-home",
+      "type": "wildkin-home",
+      "x": -463,
+      "z": 685
+    },
+    {
+      "id": "verge-minerals",
+      "type": "resource-pocket",
+      "x": -419,
+      "z": 700
+    },
+    {
+      "id": "crown-cache",
+      "type": "cache",
+      "x": -475,
+      "z": 716
+    },
+    {
+      "id": "heartroot-landmark",
+      "type": "landmark",
+      "x": -470,
+      "z": 728
+    }
+  ],
+  "terrainBlendWidth": 18
+}
