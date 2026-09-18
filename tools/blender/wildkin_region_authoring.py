@@ -106,6 +106,91 @@ def make_bounds(collection, bounds):
     return make_route_curve(collection, "GUIDE_REGION_BOUNDS", points)
 
 
+def sample_reference_height(reference, x, z, field="currentHeights"):
+    values = reference.get(field) or []
+    nx = int(reference.get("nx", 0))
+    nz = int(reference.get("nz", 0))
+    step = float(reference.get("step", 1.0))
+    x0 = float(reference.get("x0", 0.0))
+    z0 = float(reference.get("z0", 0.0))
+    if nx < 2 or nz < 2 or len(values) != nx * nz or step <= 0:
+        return 0.0
+    fx = max(0.0, min(nx - 1.000001, (x - x0) / step))
+    fz = max(0.0, min(nz - 1.000001, (z - z0) / step))
+    ix = min(nx - 2, int(math.floor(fx)))
+    iz = min(nz - 2, int(math.floor(fz)))
+    tx = fx - ix
+    tz = fz - iz
+    def h(dx, dz):
+        return float(values[(iz + dz) * nx + (ix + dx)])
+    a, b, c, d = h(0, 0), h(1, 0), h(0, 1), h(1, 1)
+    return (a + (b - a) * tx) * (1 - tz) + (c + (d - c) * tx) * tz
+
+
+def create_reference_mesh(collection, name, reference, field):
+    old = bpy.data.objects.get(name)
+    if old:
+        bpy.data.objects.remove(old, do_unlink=True)
+    values = reference.get(field) or []
+    nx = int(reference.get("nx", 0))
+    nz = int(reference.get("nz", 0))
+    step = float(reference.get("step", 1.0))
+    x0 = float(reference.get("x0", 0.0))
+    z0 = float(reference.get("z0", 0.0))
+    if nx < 2 or nz < 2 or len(values) != nx * nz:
+        raise ValueError(f"{field} does not match reference dimensions")
+    vertices = []
+    for iz in range(nz):
+        gz = z0 + iz * step
+        for ix in range(nx):
+            gx = x0 + ix * step
+            vertices.append(game_to_blender(gx, float(values[iz * nx + ix]), gz))
+    faces = []
+    for iz in range(nz - 1):
+        for ix in range(nx - 1):
+            a = iz * nx + ix
+            b = a + 1
+            c = a + nx
+            d = c + 1
+            faces.append((a, c, b))
+            faces.append((b, c, d))
+    mesh = bpy.data.meshes.new(name + "_MESH")
+    mesh.from_pydata(vertices, [], faces)
+    mesh.update()
+    obj = bpy.data.objects.new(name, mesh)
+    obj.hide_render = True
+    obj["wk_terrain_reference"] = field
+    collection.objects.link(obj)
+    return obj
+
+
+def project_guides_to_reference(guides, reference):
+    for obj in guides.objects:
+        if obj.name in {"GUIDE_CURRENT_TERRAIN", "GUIDE_BASE_TERRAIN"}:
+            continue
+        if obj.type == "EMPTY":
+            game = blender_to_game(obj.location)
+            obj.location.z = sample_reference_height(reference, game["x"], game["z"]) + 0.35
+        elif obj.type == "CURVE":
+            for spline in obj.data.splines:
+                for point in spline.points:
+                    gx = float(point.co.x)
+                    gz = float(-point.co.y)
+                    point.co.z = sample_reference_height(reference, gx, gz) + 0.25
+
+
+def copy_reference_to_terrain(source, terrain_collection):
+    if source is None or source.type != "MESH":
+        raise ValueError("Load a current terrain reference first")
+    copy = source.copy()
+    copy.data = source.data.copy()
+    copy.name = "Rootbound_Sculpt_Terrain"
+    copy.hide_render = False
+    copy["wk_authored_terrain"] = True
+    terrain_collection.objects.link(copy)
+    return copy
+
+
 def recursive_objects(collection):
     return list(collection.all_objects) if collection else []
 
@@ -262,6 +347,49 @@ class WK_OT_import_config(Operator, ImportHelper):
         return {"FINISHED"}
 
 
+class WK_OT_import_terrain_reference(Operator, ImportHelper):
+    bl_idname = "wk.import_terrain_reference"
+    bl_label = "Load Terrain Reference"
+    bl_description = "Load sampled Wildkin terrain and drape the guides onto the actual current surface"
+    filename_ext = ".json"
+    filter_glob: StringProperty(default="*.json", options={"HIDDEN"})
+
+    def execute(self, context):
+        try:
+            with open(self.filepath, "r", encoding="utf-8") as handle:
+                reference = json.load(handle)
+            guides = ensure_collection("WK_GUIDES")
+            current = create_reference_mesh(guides, "GUIDE_CURRENT_TERRAIN", reference, "currentHeights")
+            base = create_reference_mesh(guides, "GUIDE_BASE_TERRAIN", reference, "baseHeights")
+            base.hide_set(True)
+            current.display_type = "SOLID"
+            project_guides_to_reference(guides, reference)
+            context.view_layer.objects.active = current
+            current.select_set(True)
+            self.report({"INFO"}, "Loaded current terrain; base terrain is hidden in WK_GUIDES")
+            return {"FINISHED"}
+        except Exception as exc:
+            self.report({"ERROR"}, f"Could not load terrain reference: {exc}")
+            return {"CANCELLED"}
+
+
+class WK_OT_create_sculpt_terrain(Operator):
+    bl_idname = "wk.create_sculpt_terrain"
+    bl_label = "Create Sculpt Terrain from Reference"
+    bl_description = "Duplicate the sampled current terrain into WK_TERRAIN as an editable starting mesh"
+
+    def execute(self, context):
+        source = bpy.data.objects.get("GUIDE_CURRENT_TERRAIN")
+        try:
+            terrain = copy_reference_to_terrain(source, ensure_collection("WK_TERRAIN"))
+        except Exception as exc:
+            self.report({"ERROR"}, str(exc))
+            return {"CANCELLED"}
+        select_only([terrain])
+        self.report({"INFO"}, "Created editable Rootbound_Sculpt_Terrain in WK_TERRAIN")
+        return {"FINISHED"}
+
+
 class WK_OT_add_marker(Operator):
     bl_idname = "wk.add_gameplay_marker"
     bl_label = "Add Gameplay Marker"
@@ -373,6 +501,8 @@ class WK_PT_region_authoring(Panel):
         settings = context.scene.wk_region
         layout.operator("wk.initialize_region", icon="OUTLINER_COLLECTION")
         layout.operator("wk.import_region_config", icon="FILE_FOLDER")
+        layout.operator("wk.import_terrain_reference", icon="MESH_GRID")
+        layout.operator("wk.create_sculpt_terrain", icon="SCULPTMODE_HLT")
         layout.separator()
         layout.prop(settings, "region_id")
         layout.prop(settings, "chunk_size")
@@ -393,6 +523,8 @@ classes = (
     WKRegionSettings,
     WK_OT_initialize,
     WK_OT_import_config,
+    WK_OT_import_terrain_reference,
+    WK_OT_create_sculpt_terrain,
     WK_OT_add_marker,
     WK_OT_export_region,
     WK_PT_region_authoring,
