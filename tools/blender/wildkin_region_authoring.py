@@ -106,6 +106,22 @@ def make_bounds(collection, bounds):
     return make_route_curve(collection, "GUIDE_REGION_BOUNDS", points)
 
 
+def make_inset_bounds(collection, bounds, inset):
+    inset = max(0.0, float(inset or 0.0))
+    if inset <= 0:
+        return None
+    points = [
+        {"x": bounds["minX"] + inset, "z": bounds["minZ"] + inset},
+        {"x": bounds["maxX"] - inset, "z": bounds["minZ"] + inset},
+        {"x": bounds["maxX"] - inset, "z": bounds["maxZ"] - inset},
+        {"x": bounds["minX"] + inset, "z": bounds["maxZ"] - inset},
+        {"x": bounds["minX"] + inset, "z": bounds["minZ"] + inset},
+    ]
+    obj = make_route_curve(collection, "GUIDE_TERRAIN_BLEND_INNER", points)
+    obj["wk_guide"] = "terrain-blend-inner"
+    return obj
+
+
 def sample_reference_height(reference, x, z, field="currentHeights"):
     values = reference.get(field) or []
     nx = int(reference.get("nx", 0))
@@ -317,6 +333,7 @@ class WK_OT_import_config(Operator, ImportHelper):
         bounds = config.get("bounds")
         if bounds:
             make_bounds(guides, bounds)
+            make_inset_bounds(guides, bounds, config.get("terrainBlendWidth", 0))
 
         for item in config.get("subregions", []):
             obj = make_guide_empty(
