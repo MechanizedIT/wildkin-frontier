@@ -1,6 +1,14 @@
 # Wildkin Frontier — current scope and checkpoint
 
-## Active owner goal — September 15, 2026
+## Active owner goal — September 21, 2026
+
+Chris replaced the portrait-first finite-continent direction with a web/PC-first game that remains compatible with mobile landscape. The new world target is effectively infinite and procedural in all three axes, fully voxel-destructible, and streamed as cubic X/Y/Z chunks. Terrain and environmental matter have material/tool/drop rules; unsupported voxel components become bounded physical actors. Existing preset-part harvestables remain and should gain part-aware multiple drops, while giant harvestables may be voxel structures. Blender world authoring is paused.
+
+The end-to-end product, architecture, migration, performance, persistence, habitat-generation, destruction, collapse, and validation plan is [INFINITE_VOXEL_WORLD_PLAN.md](INFINITE_VOXEL_WORLD_PLAN.md). Its destination is approved; chunk size, mesher choice, detailed budgets, smooth-versus-block meshing, lighting depth, fluids, and old-save transfer remain provisional until the Phase 0 voxel-lab evidence settles them.
+
+This planning checkpoint changes no runtime code and does not resume production. The current finite Rootbound build remains the last verified playable baseline. Next implementation, when freshly authorized, is Phase 0 only: an isolated voxel lab. All older continuous Rootbound/habitat instructions below are historical.
+
+## Historical owner goal — September 15, 2026
 
 Chris freshly authorized goal-mode buildout of the complete Rootbound habitat and all subhabitats/constituents, repeating plan → build → independent review → polish until he stops the run or usage ends. Prior workflow rituals do not constrain this work; useful skills/guidance may be used. Asset priority: suitable free online art, then local TRELLIS 2, then Blender. [Current build plan](ROOTBOUND_BUILDOUT.md). Root owns integration on main; unrelated Verdant/source work is preserved. No push.
 

@@ -1,5 +1,7 @@
 # Historical habitat rotation — superseded by focused Rootbound goal
 
+> **Further superseded September 21, 2026:** Blender/finite-habitat production is paused while the [infinite destructible voxel world plan](INFINITE_VOXEL_WORLD_PLAN.md) becomes the active product direction. Do not restart this rotation without fresh owner instruction.
+
 **Superseded by the latest owner direction.** Continue [Rootbound focused goal](ROOTBOUND_FOCUSED_GOAL.md); do not resume this queue. Preserve every prior result and uncompleted planning artifact.
 
 Owner authorization: September 14, 2026, explicit goal mode. Chris requested repeated passes through every habitat, parallel Wildkin iteration, and ongoing refinement of the skills/loops, until he says to stop. This supersedes the original Rootbound stop and three-batch session limit. No push is authorized.

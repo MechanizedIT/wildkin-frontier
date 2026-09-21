@@ -1,5 +1,7 @@
 # Game Design — Wildkin Frontier
 
+> **Active September 21 direction:** Wildkin Frontier is web/PC-first with mobile-landscape compatibility. Its world is an effectively infinite procedural voxel frontier, streamed in cubic X/Y/Z chunks and destructible as environmental matter. Materials, tools, multiple yields, structural support, collapse physics, and permanent world edits are core exploration systems. The former portrait-first finite continent and fixed ten-habitat target are historical. See [the approved end-to-end plan](INFINITE_VOXEL_WORLD_PLAN.md).
+
 **Heartwood opening checkpoint — September13:** The first Heartwood clearing now has four solid trees and sixteen grouped low plants, with exploration-led opening/return guidance. A fresh guided outing earned a Salvage bench and a trail ration without a Wildkin capture. **1,404 tests and package gates pass** (44.40 MB unpacked /20.59 MB ZIP); scoped visual R1 passes **8.8/10**. Builder progress and the restored original Mossling Camp match developer/portable reload exactly. [Actual views and proof](../art/reviews/heartwood-opening/receipt.md).
 
 Next: establish a coherent, fuller Heartwood starter circuit across departure, Wildkin and forage views. Begin with native blockouts and the bounded starter-only budget alternative in the next-circuit audit; preserve the accepted Camp clearing and existing gameplay identities. Six isolated extra props may leave the same sparse stretches, so judge the complete route before choosing production counts. No new species or framework. Ten finished habitats remain required and the continuous goal stays active.
@@ -8,11 +10,19 @@ Next: establish a coherent, fuller Heartwood starter circuit across departure, W
 
 **Exploration-first direction:** Chris identifies discovery/exploration, Wildkin collecting and base building/crafting as overlapping motivations. Creatures, equipment and Camp aid exploration; later physical machines/logistics can support factory-style building. Avoid routine care obligations displacing chosen expeditions. See EARLY_ALPHA_PLAN.md for current scope.
 
-> **Active direction: Living Frontier.** Wildkin Frontier is a portrait-mobile-first, offline single-player exploration and creature-life game. Five visible quick slots sit at the bottom of portrait play, with movement above them on the left and selected/context actions above them on the right. Landscape and desktop remain supported. [Current slice](CURRENT_SLICE.md) owns live implementation and evidence; [Living Frontier plan](LIVING_FRONTIER_PLAN.md) owns the staged destination.
+> **Historical Living Frontier direction (superseded September 21).** The portrait-first finite-continent framing and its portrait HUD composition are retained as implementation history. The active product direction is the web/PC-first infinite voxel plan above.
 
 Tidefin's Tidal Ward now shows its three seconds of real protection on the ability button and dome, then the remaining portion of its26-second cooldown. A controlled northern-ridge outing verified a blocked territorial charge, five gathered iron and an unharmed physical return to Camp. Rusher/spitter warning completion was repaired so continued intrusion can actually escalate. Players can still detour or capture that threat; Ward is a useful option, not a mandatory species key. The actual prepared fixture, automated activation timing and reload proof are in `art/reviews/tidal-ward/receipt.md`.
 
 ## Current product overview
+
+### Current voxel destination
+
+The approved destination is an offline single-player exploration and creature-life game on an effectively infinite procedural alien voxel world. Exploration leads; collecting distinct individual Wildkin is second; building, crafting, care, and breeding are third. A habitat is a coherent generated system of terrain, strata, ecology, resources, traversal, landmarks, atmosphere, and Wildkin niches—not a palette swap. The player can permanently alter environmental matter, harvest multiple products from readable materials/parts, and trigger bounded physical collapse when voxel structures lose support. Desktop keyboard/mouse and controller are primary; mobile landscape retains a lower-budget touch profile.
+
+The existing finite Rootbound build remains the playable baseline while the new world kernel is proven in an isolated lab. It is not evidence that the voxel destination is implemented.
+
+### Existing finite baseline — migration history
 
 The playable foundation is a physical Camp and short outing loop: leave Camp, explore a bounded nearby frontier, use the personal atlas, encounter or capture individual Wildkin, return to Camp, and continue from a browser-local save. The world uses one fixed deterministic edition with a shared descriptor across terrain, ecology, scenery, and wildlife. In the local foundation, a broad irregular province field drives three weighted grammars—lush rolling ground, pale Sunscar ribs/basins and taller directional Ironspine ridges—outside the exact Camp/starter-route/Skybreak reserve. The inspector exposes this generation evidence for development only; final admission remains pending.
 

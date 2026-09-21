@@ -1,5 +1,7 @@
 # Architecture — Wildkin Frontier foundations
 
+> **Active architectural direction — September 21:** replace the finite heightfield/static-world authority through gated migration to the cubic-chunk voxel kernel in [INFINITE_VOXEL_WORLD_PLAN.md](INFINITE_VOXEL_WORLD_PLAN.md). Preserve one frame loop, explicit state ownership, Three.js, Rapier, offline packaging, and the current playable build during the lab phases. The destination is approved; exact chunk size, mesher component, radii, and advanced lighting/fluid choices remain provisional until Phase 0 evidence. Older architecture below describes the current finite baseline and migration inputs, not the final world authority.
+
 **Rootbound bounded trial (September14, visual HOLD):** one pure `frontierRootbound` module supplies finite relief/color and ten curated existing-asset placements for x[-525,-325], z[550,750] in the default world. The region sampler applies the profile once; shared terrain vertices and Rapier terrain consume that same height. The terrain-side static life footprint snapshot and three resident chunk plates have smooth skirts, keeping existing resource/support and wildlife-home identity without importing ecology into terrain. Focused tests fingerprint the actual original sources, exercise complete resident support disks and mesh triangles, and fail if generator changes stale that snapshot. The scenery recipe suppresses ordinary/infill pieces only in this circuit, then admits the curated pieces through the actual asset catalog and existing exclusion rules. Alternate worlds, outside-circuit surfaces, Camp/Heartwood/Fungal/Caldera and the earned Rootbound cache retain their earlier owners. No save schema, ecology ledger, runtime loop, dependency, ability or species was added. This placement/relief trial remains provisional because normal-camera rooms and navigation failed independent review. [Receipt](../art/reviews/rootbound-wildwood/receipt.md).
 
 <!-- SCOUT-CONTRACT -->
@@ -99,7 +101,7 @@ Browser QA is split into normal-input first expedition, diagnostic boundary setu
 - Mutable state has one explicit owner.
 - Dependencies are injected, not hidden in gameplay globals.
 - Gameplay rules should be testable independently of rendering where practical.
-- Mobile-first: capped DPR, bounded pools, limited active simulation, minimal per-frame allocation.
+- Web/PC-first with a required lower-budget mobile-landscape profile: capped/adaptive DPR, bounded pools, limited active simulation, and minimal per-frame allocation.
 - Offline-safe: all runtime libraries/assets/data local.
 - Prefer small explicit systems over framework-heavy ECS/behavior-tree/editor architecture.
 - Shared-contract changes follow the permanent `AGENTS.md` Change Closure / Consistency Sweep rule.

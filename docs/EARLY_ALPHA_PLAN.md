@@ -1,5 +1,7 @@
 # Early alpha: Wildkin make the frontier useful
 
+> **Historical plan:** superseded September 21, 2026 by the [infinite destructible voxel world plan](INFINITE_VOXEL_WORLD_PLAN.md). Retain its proven gameplay loops and admission lessons as migration inputs; do not treat its finite-continent or portrait-first scope as current.
+
 **Heartwood opening checkpoint — September13:** The first Heartwood clearing now has four solid trees and sixteen grouped low plants, with exploration-led opening/return guidance. A fresh guided outing earned a Salvage bench and a trail ration without a Wildkin capture. **1,404 tests and package gates pass** (44.40 MB unpacked /20.59 MB ZIP); scoped visual R1 passes **8.8/10**. Builder progress and the restored original Mossling Camp match developer/portable reload exactly. [Actual views and proof](../art/reviews/heartwood-opening/receipt.md).
 
 Next: establish a coherent, fuller Heartwood starter circuit across departure, Wildkin and forage views. Begin with native blockouts and the bounded starter-only budget alternative in the next-circuit audit; preserve the accepted Camp clearing and existing gameplay identities. Six isolated extra props may leave the same sparse stretches, so judge the complete route before choosing production counts. No new species or framework. Ten finished habitats remain required and the continuous goal stays active.

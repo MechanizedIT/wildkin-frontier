@@ -1,6 +1,12 @@
 # Resume Wildkin Frontier
 
-## Active Rootbound goal — September 15, 2026
+## Active direction — September 21, 2026
+
+Read [the infinite voxel world plan](INFINITE_VOXEL_WORLD_PLAN.md) before doing production work. Chris has made Wildkin Frontier web/PC-first with mobile-landscape compatibility and replaced the finite heightfield continent with an effectively infinite procedural cubic-chunk voxel world. Environmental matter is destructible; materials determine tools, yields, cohesion and collapse behavior; unsupported components become bounded physics actors. Preset-part harvestables remain, with multi-drop parts, and giant harvestables may be voxel-built. Blender world authoring is paused.
+
+This checkpoint is planning-only. Do not resume Rootbound buildout or implement the voxel runtime without a fresh implementation request. The first authorized implementation batch should be the isolated Phase 0 voxel lab and must preserve the existing finite build as a working baseline.
+
+## Historical Rootbound goal — September 15, 2026
 
 Fresh owner direction supersedes the historical stop below. Build the whole Rootbound region through repeated plan, implementation, independent review and polish. Use suitable free online assets first, then local TRELLIS 2 and Blender for missing forms. [Current plan and evidence](ROOTBOUND_BUILDOUT.md). Work on main locally; preserve unrelated work; no push.
 
