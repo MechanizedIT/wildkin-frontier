@@ -4,6 +4,8 @@
 **Owner direction:** September 21, 2026.
 **Scope of this document:** plan only. It does not admit a voxel runtime, change saves, or resume Blender world authoring.
 
+**Phase 0 implementation and smooth refinement:** the fresh September 21 instruction authorizes the isolated lab only. Chris subsequently requested “voxels that are smooth, like space engineers, but maybe smaller voxels so that a minecraft size block can be smoothed.” Smooth destructible density terrain is now the target, superseding the provisional one-metre/block-only starting point below. The lab compares 0.5 m and 0.25 m sample spacing, 16³/32³ cubic chunks, Surface Nets and marching tetrahedra. The original block meshers remain measured baselines. These sample sizes and algorithms are provisional engineering choices; no shipping-world migration is authorized. [Evidence and gate](VOXEL_PHASE0_REPORT.md).
+
 ## 1. Locked direction
 
 The following are owner decisions, not provisional agent recommendations:
@@ -96,7 +98,7 @@ Do not add the complete `@voxelize/core`, a second physics engine, React, an ECS
 
 Recommended starting candidate, subject to the Phase 0 benchmark:
 
-- **Voxel size:** 1 meter for terrain and large structures. Smaller visual detail remains shader/mesh/prop detail, not smaller persistent voxels.
+- **Voxel size (superseded starting proposal):** 1 metre block cells. The active smooth spike compares persistent scalar samples at 0.5 m and 0.25 m instead; surface vertices interpolate between samples.
 - **Storage chunk:** 32 × 32 × 32 voxels (32 m cube).
 - **Mesh dirty region:** eight 16³ octants inside a storage chunk, so one edit need not rebuild the entire draw geometry.
 - **Border data:** one-voxel padded neighbor shell for correct faces, ambient occlusion, lighting, and connectivity.
@@ -440,6 +442,7 @@ Build an isolated developer lab, not yet the shipping world:
 - deterministic seed generation with FastNoise Lite;
 - compare 16³ and 32³ chunks;
 - compare `@voxelize/wasm-mesher`, a `block-mesh-rs` wrapper, and only if necessary a minimal JS worker mesher;
+- under the owner's smooth refinement, retain those block baselines and compare Surface Nets/marching tetrahedra at 0.5 m and 0.25 m; scalar DDA selection must resolve a real surface hit and matching material sample;
 - material faces/AO, border seams, one edit, worker cancellation, and stale revision rejection;
 - Rapier collider replace, character walk, voxel DDA selection;
 - IndexedDB edit/reload;
@@ -547,7 +550,7 @@ The owner has chosen the destination, but these engineering choices require Phas
 
 - 16³ versus 32³ storage chunks and exact voxel size;
 - Voxelize WASM mesher versus block-mesh wrapper versus minimal owned fallback;
-- block-only rendering versus a later smooth-terrain meshing profile;
+- smooth-terrain algorithm and scalar resolution (smooth shape is now owner-directed; block-only rendering is no longer a candidate destination);
 - exact PC/mobile resident radii and memory limits;
 - colored voxel-light scope;
 - water simulation depth;

@@ -1,0 +1,456 @@
+{
+  "schema": 1,
+  "timestamp": "2026-09-21T22:49:00.073Z",
+  "mesher": "surface-nets",
+  "spacing": 0.5,
+  "method": "Fresh isolated browser per run. Empty-lab baseline and fully resident lab with identical viewport/profile; forced main-heap GC before summing browser/renderer/GPU/worker process private bytes. Positive delta is an allocation estimate, not exact GPU attribution; OS allocators may retain memory. Mobile runs use desktop hardware.",
+  "runs": [
+    {
+      "profile": "desktop",
+      "size": 16,
+      "baseline": {
+        "processes": [
+          {
+            "Id": 14572,
+            "PrivateMemorySize64": 11100160,
+            "WorkingSet64": 32002048
+          },
+          {
+            "Id": 11024,
+            "PrivateMemorySize64": 8540160,
+            "WorkingSet64": 18690048
+          },
+          {
+            "Id": 17592,
+            "PrivateMemorySize64": 8392704,
+            "WorkingSet64": 17993728
+          },
+          {
+            "Id": 20212,
+            "PrivateMemorySize64": 18386944,
+            "WorkingSet64": 34111488
+          },
+          {
+            "Id": 20352,
+            "PrivateMemorySize64": 282742784,
+            "WorkingSet64": 94052352
+          },
+          {
+            "Id": 26000,
+            "PrivateMemorySize64": 19718144,
+            "WorkingSet64": 49188864
+          },
+          {
+            "Id": 29900,
+            "PrivateMemorySize64": 60088320,
+            "WorkingSet64": 168681472
+          },
+          {
+            "Id": 30188,
+            "PrivateMemorySize64": 71028736,
+            "WorkingSet64": 117026816
+          },
+          {
+            "Id": 41388,
+            "PrivateMemorySize64": 8896512,
+            "WorkingSet64": 20099072
+          }
+        ],
+        "privateBytes": 488894464,
+        "workingSetBytes": 551845888
+      },
+      "resident": {
+        "processes": [
+          {
+            "Id": 14572,
+            "PrivateMemorySize64": 11100160,
+            "WorkingSet64": 32067584
+          },
+          {
+            "Id": 11024,
+            "PrivateMemorySize64": 8552448,
+            "WorkingSet64": 18784256
+          },
+          {
+            "Id": 17592,
+            "PrivateMemorySize64": 8392704,
+            "WorkingSet64": 18071552
+          },
+          {
+            "Id": 20212,
+            "PrivateMemorySize64": 18386944,
+            "WorkingSet64": 34140160
+          },
+          {
+            "Id": 20352,
+            "PrivateMemorySize64": 294064128,
+            "WorkingSet64": 102100992
+          },
+          {
+            "Id": 26000,
+            "PrivateMemorySize64": 19763200,
+            "WorkingSet64": 49283072
+          },
+          {
+            "Id": 29900,
+            "PrivateMemorySize64": 59760640,
+            "WorkingSet64": 168476672
+          },
+          {
+            "Id": 30188,
+            "PrivateMemorySize64": 178524160,
+            "WorkingSet64": 226725888
+          },
+          {
+            "Id": 41388,
+            "PrivateMemorySize64": 8904704,
+            "WorkingSet64": 20140032
+          }
+        ],
+        "privateBytes": 607449088,
+        "workingSetBytes": 669790208
+      },
+      "incrementalPrivateBytes": 118554624,
+      "geometryAndVoxelBytes": 8761332,
+      "heap": {
+        "used": 19140742,
+        "total": 22981422,
+        "limit": 4395630592
+      }
+    },
+    {
+      "profile": "desktop",
+      "size": 32,
+      "baseline": {
+        "processes": [
+          {
+            "Id": 15300,
+            "PrivateMemorySize64": 11149312,
+            "WorkingSet64": 32043008
+          },
+          {
+            "Id": 2204,
+            "PrivateMemorySize64": 67891200,
+            "WorkingSet64": 112652288
+          },
+          {
+            "Id": 5960,
+            "PrivateMemorySize64": 57905152,
+            "WorkingSet64": 166420480
+          },
+          {
+            "Id": 14320,
+            "PrivateMemorySize64": 18370560,
+            "WorkingSet64": 34045952
+          },
+          {
+            "Id": 22676,
+            "PrivateMemorySize64": 8851456,
+            "WorkingSet64": 20078592
+          },
+          {
+            "Id": 26752,
+            "PrivateMemorySize64": 8548352,
+            "WorkingSet64": 18694144
+          },
+          {
+            "Id": 32108,
+            "PrivateMemorySize64": 277782528,
+            "WorkingSet64": 94572544
+          },
+          {
+            "Id": 36348,
+            "PrivateMemorySize64": 19906560,
+            "WorkingSet64": 49319936
+          },
+          {
+            "Id": 42184,
+            "PrivateMemorySize64": 8400896,
+            "WorkingSet64": 18006016
+          }
+        ],
+        "privateBytes": 478806016,
+        "workingSetBytes": 545832960
+      },
+      "resident": {
+        "processes": [
+          {
+            "Id": 15300,
+            "PrivateMemorySize64": 11149312,
+            "WorkingSet64": 32108544
+          },
+          {
+            "Id": 2204,
+            "PrivateMemorySize64": 217817088,
+            "WorkingSet64": 266301440
+          },
+          {
+            "Id": 5960,
+            "PrivateMemorySize64": 59715584,
+            "WorkingSet64": 168292352
+          },
+          {
+            "Id": 14320,
+            "PrivateMemorySize64": 18370560,
+            "WorkingSet64": 34074624
+          },
+          {
+            "Id": 22676,
+            "PrivateMemorySize64": 8863744,
+            "WorkingSet64": 20123648
+          },
+          {
+            "Id": 26752,
+            "PrivateMemorySize64": 8560640,
+            "WorkingSet64": 18792448
+          },
+          {
+            "Id": 32108,
+            "PrivateMemorySize64": 294563840,
+            "WorkingSet64": 104509440
+          },
+          {
+            "Id": 36348,
+            "PrivateMemorySize64": 20344832,
+            "WorkingSet64": 49807360
+          },
+          {
+            "Id": 42184,
+            "PrivateMemorySize64": 8404992,
+            "WorkingSet64": 18087936
+          }
+        ],
+        "privateBytes": 647790592,
+        "workingSetBytes": 712097792
+      },
+      "incrementalPrivateBytes": 168984576,
+      "geometryAndVoxelBytes": 13868340,
+      "heap": {
+        "used": 22501070,
+        "total": 26165246,
+        "limit": 4395630592
+      }
+    },
+    {
+      "profile": "mobile",
+      "size": 16,
+      "baseline": {
+        "processes": [
+          {
+            "Id": 39876,
+            "PrivateMemorySize64": 11100160,
+            "WorkingSet64": 31981568
+          },
+          {
+            "Id": 6236,
+            "PrivateMemorySize64": 8511488,
+            "WorkingSet64": 18272256
+          },
+          {
+            "Id": 7524,
+            "PrivateMemorySize64": 18391040,
+            "WorkingSet64": 34103296
+          },
+          {
+            "Id": 10808,
+            "PrivateMemorySize64": 57847808,
+            "WorkingSet64": 165801984
+          },
+          {
+            "Id": 11688,
+            "PrivateMemorySize64": 62238720,
+            "WorkingSet64": 108539904
+          },
+          {
+            "Id": 18160,
+            "PrivateMemorySize64": 8916992,
+            "WorkingSet64": 20111360
+          },
+          {
+            "Id": 33484,
+            "PrivateMemorySize64": 19423232,
+            "WorkingSet64": 47431680
+          },
+          {
+            "Id": 42040,
+            "PrivateMemorySize64": 110792704,
+            "WorkingSet64": 91770880
+          }
+        ],
+        "privateBytes": 297222144,
+        "workingSetBytes": 518012928
+      },
+      "resident": {
+        "processes": [
+          {
+            "Id": 39876,
+            "PrivateMemorySize64": 11100160,
+            "WorkingSet64": 32047104
+          },
+          {
+            "Id": 6236,
+            "PrivateMemorySize64": 8544256,
+            "WorkingSet64": 18788352
+          },
+          {
+            "Id": 7524,
+            "PrivateMemorySize64": 18391040,
+            "WorkingSet64": 34131968
+          },
+          {
+            "Id": 10808,
+            "PrivateMemorySize64": 59305984,
+            "WorkingSet64": 167698432
+          },
+          {
+            "Id": 11688,
+            "PrivateMemorySize64": 116498432,
+            "WorkingSet64": 166850560
+          },
+          {
+            "Id": 18160,
+            "PrivateMemorySize64": 8925184,
+            "WorkingSet64": 20152320
+          },
+          {
+            "Id": 33484,
+            "PrivateMemorySize64": 19644416,
+            "WorkingSet64": 49111040
+          },
+          {
+            "Id": 40228,
+            "PrivateMemorySize64": 8417280,
+            "WorkingSet64": 18092032
+          },
+          {
+            "Id": 42040,
+            "PrivateMemorySize64": 120758272,
+            "WorkingSet64": 100868096
+          }
+        ],
+        "privateBytes": 371585024,
+        "workingSetBytes": 607739904
+      },
+      "incrementalPrivateBytes": 74362880,
+      "geometryAndVoxelBytes": 5059236,
+      "heap": {
+        "used": 16607462,
+        "total": 20737326,
+        "limit": 4395630592
+      }
+    },
+    {
+      "profile": "mobile",
+      "size": 32,
+      "baseline": {
+        "processes": [
+          {
+            "Id": 41016,
+            "PrivateMemorySize64": 11071488,
+            "WorkingSet64": 31969280
+          },
+          {
+            "Id": 2180,
+            "PrivateMemorySize64": 18366464,
+            "WorkingSet64": 34058240
+          },
+          {
+            "Id": 19372,
+            "PrivateMemorySize64": 62242816,
+            "WorkingSet64": 108408832
+          },
+          {
+            "Id": 23640,
+            "PrivateMemorySize64": 110641152,
+            "WorkingSet64": 91897856
+          },
+          {
+            "Id": 31112,
+            "PrivateMemorySize64": 8515584,
+            "WorkingSet64": 18268160
+          },
+          {
+            "Id": 33236,
+            "PrivateMemorySize64": 18726912,
+            "WorkingSet64": 48562176
+          },
+          {
+            "Id": 40928,
+            "PrivateMemorySize64": 8421376,
+            "WorkingSet64": 18010112
+          },
+          {
+            "Id": 41772,
+            "PrivateMemorySize64": 8916992,
+            "WorkingSet64": 20115456
+          },
+          {
+            "Id": 42460,
+            "PrivateMemorySize64": 60153856,
+            "WorkingSet64": 166174720
+          }
+        ],
+        "privateBytes": 307056640,
+        "workingSetBytes": 537464832
+      },
+      "resident": {
+        "processes": [
+          {
+            "Id": 41016,
+            "PrivateMemorySize64": 11071488,
+            "WorkingSet64": 32034816
+          },
+          {
+            "Id": 2180,
+            "PrivateMemorySize64": 18366464,
+            "WorkingSet64": 34091008
+          },
+          {
+            "Id": 19372,
+            "PrivateMemorySize64": 190443520,
+            "WorkingSet64": 241012736
+          },
+          {
+            "Id": 23640,
+            "PrivateMemorySize64": 121458688,
+            "WorkingSet64": 104247296
+          },
+          {
+            "Id": 31112,
+            "PrivateMemorySize64": 8548352,
+            "WorkingSet64": 18784256
+          },
+          {
+            "Id": 33236,
+            "PrivateMemorySize64": 18767872,
+            "WorkingSet64": 48652288
+          },
+          {
+            "Id": 40928,
+            "PrivateMemorySize64": 8421376,
+            "WorkingSet64": 18087936
+          },
+          {
+            "Id": 41772,
+            "PrivateMemorySize64": 8925184,
+            "WorkingSet64": 20156416
+          },
+          {
+            "Id": 42460,
+            "PrivateMemorySize64": 60043264,
+            "WorkingSet64": 166449152
+          }
+        ],
+        "privateBytes": 446046208,
+        "workingSetBytes": 683515904
+      },
+      "incrementalPrivateBytes": 138989568,
+      "geometryAndVoxelBytes": 13868340,
+      "heap": {
+        "used": 22089478,
+        "total": 25903102,
+        "limit": 4395630592
+      }
+    }
+  ]
+}

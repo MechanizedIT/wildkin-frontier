@@ -1,5 +1,15 @@
 # Resume Wildkin Frontier
 
+## September 22 closeout
+
+Chris asked to finish Phase 0, commit on `main`, push to GitHub, and defer the physical phone test. The report records a provisional 16³ / 0.5 m Surface Nets choice from measured desktop evidence, with a HOLD on full mobile admission. Do not begin Phase 1 or resume Blender/Rootbound work from this handoff. The lab is separate from the shipping build and the untracked `authoring/` directory must remain untouched.
+
+## Phase 0 lab implementation — September 21, 2026
+
+The fresh request authorizes only Phase 0. Read [its evidence report](VOXEL_PHASE0_REPORT.md), then current Git and receipts. Start the existing server with `node tools/serve.mjs --port 8090`; the separate lab is `/lab/voxel/index.html`. Complete candidate/chunk measurements, independent review and the real-phone landscape gate, commit cohesive work directly to `main`, and stop. No shipping migration, Blender work, push, or modification of preserved untracked `authoring/`. The older planning-only status below is superseded only for this bounded lab.
+
+Latest owner steering: smooth Space Engineers-like voxel shapes, potentially smaller samples so metre-scale matter can be smoothed. The lab uses a signed scalar field, curved spherical digging and smooth debris at 0.5 m / 0.25 m. These resolutions are provisional comparison choices, not an owner-selected final resolution. User confirmed availability for a real phone test; its results are still required.
+
 ## Active direction — September 21, 2026
 
 Read [the infinite voxel world plan](INFINITE_VOXEL_WORLD_PLAN.md) before doing production work. Chris has made Wildkin Frontier web/PC-first with mobile-landscape compatibility and replaced the finite heightfield continent with an effectively infinite procedural cubic-chunk voxel world. Environmental matter is destructible; materials determine tools, yields, cohesion and collapse behavior; unsupported components become bounded physics actors. Preset-part harvestables remain, with multi-drop parts, and giant harvestables may be voxel-built. Blender world authoring is paused.

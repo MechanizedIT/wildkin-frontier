@@ -1,0 +1,17 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>Wildkin · Voxel Lab</title><link rel="icon" href="data:,"><link rel="stylesheet" href="./lab.css"></head>
+<body><canvas id="view" aria-label="Voxel world; drag to look"></canvas>
+<header><div><span class="eyebrow">WILDKIN FRONTIER / PHASE 0</span><h1>Voxel field lab</h1></div><span id="state">Preparing world…</span></header>
+<section id="panel"><details open><summary>Field controls & evidence</summary>
+<p>Walk <b>WASD</b> · drag to look · <b>Space</b> jump · <b>E</b> mine · <b>F</b> collect. Touch arrows move; drag the open view to look.</p>
+<div class="row"><label>Chunk <select id="size"><option value="16">16³</option><option value="32">32³</option></select></label><label>Profile <select id="profile"><option value="desktop">Desktop</option><option value="mobile">Mobile landscape</option></select></label><label>Tool <select id="tool"><option value="pick">Pick</option><option value="axe">Axe</option></select></label></div>
+<div class="row"><label>Shape <select id="mesher"><option value="surface-nets">Smooth · Surface Nets</option><option value="marching-tetrahedra">Smooth · tetrahedra</option><option value="js-greedy">Block · JS baseline</option><option value="block-mesh">Block · Rust WASM</option><option value="voxelize">Block · Voxelize WASM</option></select></label><label id="spacing-label">Sample <select id="spacing"><option value="0.5">0.5 m</option><option value="0.25">0.25 m</option></select></label></div>
+<div class="row"><button id="fly">Fly: off</button><button id="home">Return to court</button><button id="origin">Rebase origin</button><button id="reload">Save & reload</button></div>
+<p id="guide">At the court: dig the gray stone and orange clay samples for two different drops. Smooth mode carves a rounded scoop; the yellow outline previews its size. The wooden bridge stands ahead on one narrow post; use the axe to cut through the post and watch the connected deck fall.</p>
+<div class="row"><button id="bench">Record 20s benchmark</button><button id="export">Download evidence</button></div>
+<label>Test device <input id="device" placeholder="Phone or PC model / browser"></label>
+<pre id="diagnostics"></pre><p id="message" role="status">Separate laboratory save; the expedition is preserved.</p>
+</details></section><div id="crosshair">+</div><div id="target"></div>
+<nav id="touch-move" aria-label="Movement"><button data-key="KeyW">↑</button><div><button data-key="KeyA">←</button><button data-key="KeyS">↓</button><button data-key="KeyD">→</button></div></nav>
+<nav id="actions" aria-label="Actions"><button data-key="Space">Jump / up</button><button data-key="ControlLeft">Down</button><button id="mine">Mine</button><button id="collect">Collect</button></nav>
+<script type="module" src="./main.js"></script></body></html>

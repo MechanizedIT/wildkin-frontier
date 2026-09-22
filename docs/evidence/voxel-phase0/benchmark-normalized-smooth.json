@@ -1,0 +1,223 @@
+{
+  "timestamp": "2026-09-21T22:47:22.174Z",
+  "cpu": "11th Gen Intel(R) Core(TM) i9-11900H @ 2.50GHz",
+  "method": "One warmup and four measured repetitions; same 16m cube, generation separately timed, complete JS geometry allocation included. Node CPU only, no renderer/collider. Chunk coordinates adjusted to identical physical bounds.",
+  "runs": [
+    {
+      "spacing": 0.5,
+      "size": 16,
+      "mesher": "surface-nets",
+      "chunks": 8,
+      "physicalCubeMeters": 16,
+      "triangleCount": 14832,
+      "bytes": 460080,
+      "samples": [
+        {
+          "generationMs": 63.447499999999934,
+          "meshMs": 54.31979999999999
+        },
+        {
+          "generationMs": 69.29790000000008,
+          "meshMs": 46.82959999999997
+        },
+        {
+          "generationMs": 55.731500000000096,
+          "meshMs": 52.60559999999998
+        },
+        {
+          "generationMs": 55.281299999999874,
+          "meshMs": 45.05859999999984
+        }
+      ]
+    },
+    {
+      "spacing": 0.5,
+      "size": 16,
+      "mesher": "marching-tetrahedra",
+      "chunks": 8,
+      "physicalCubeMeters": 16,
+      "triangleCount": 43802,
+      "bytes": 4472088,
+      "samples": [
+        {
+          "generationMs": 71.51790000000028,
+          "meshMs": 162.00829999999996
+        },
+        {
+          "generationMs": 71.11610000000042,
+          "meshMs": 163.33570000000032
+        },
+        {
+          "generationMs": 63.341599999999744,
+          "meshMs": 153.6443999999999
+        },
+        {
+          "generationMs": 80.99379999999996,
+          "meshMs": 163.89229999999998
+        }
+      ]
+    },
+    {
+      "spacing": 0.5,
+      "size": 32,
+      "mesher": "surface-nets",
+      "chunks": 1,
+      "physicalCubeMeters": 16,
+      "triangleCount": 14832,
+      "bytes": 444132,
+      "samples": [
+        {
+          "generationMs": 45.29809999999998,
+          "meshMs": 46.74510000000009
+        },
+        {
+          "generationMs": 46.0963999999999,
+          "meshMs": 47.198199999999815
+        },
+        {
+          "generationMs": 68.62509999999975,
+          "meshMs": 47.98270000000002
+        },
+        {
+          "generationMs": 45.28759999999966,
+          "meshMs": 48.84739999999965
+        }
+      ]
+    },
+    {
+      "spacing": 0.5,
+      "size": 32,
+      "mesher": "marching-tetrahedra",
+      "chunks": 1,
+      "physicalCubeMeters": 16,
+      "triangleCount": 43802,
+      "bytes": 4472088,
+      "samples": [
+        {
+          "generationMs": 65.11209999999983,
+          "meshMs": 146.4639000000002
+        },
+        {
+          "generationMs": 47.44960000000037,
+          "meshMs": 156.74980000000005
+        },
+        {
+          "generationMs": 66.4393,
+          "meshMs": 147.92630000000008
+        },
+        {
+          "generationMs": 76.57670000000007,
+          "meshMs": 164.50289999999995
+        }
+      ]
+    },
+    {
+      "spacing": 0.25,
+      "size": 16,
+      "mesher": "surface-nets",
+      "chunks": 64,
+      "physicalCubeMeters": 16,
+      "triangleCount": 60284,
+      "bytes": 1942008,
+      "samples": [
+        {
+          "generationMs": 484.08740000000034,
+          "meshMs": 279.090699999997
+        },
+        {
+          "generationMs": 485.72749999999996,
+          "meshMs": 286.36949999999615
+        },
+        {
+          "generationMs": 489.1600000000053,
+          "meshMs": 288.9215000000013
+        },
+        {
+          "generationMs": 514.5492000000022,
+          "meshMs": 285.04929999999786
+        }
+      ]
+    },
+    {
+      "spacing": 0.25,
+      "size": 16,
+      "mesher": "marching-tetrahedra",
+      "chunks": 64,
+      "physicalCubeMeters": 16,
+      "triangleCount": 181252,
+      "bytes": 18636600,
+      "samples": [
+        {
+          "generationMs": 621.2245000000021,
+          "meshMs": 806.2375999999967
+        },
+        {
+          "generationMs": 615.588899999997,
+          "meshMs": 809.6179000000066
+        },
+        {
+          "generationMs": 624.0192999999927,
+          "meshMs": 803.9473000000016
+        },
+        {
+          "generationMs": 616.2962000000061,
+          "meshMs": 804.8253999999906
+        }
+      ]
+    },
+    {
+      "spacing": 0.25,
+      "size": 32,
+      "mesher": "surface-nets",
+      "chunks": 8,
+      "physicalCubeMeters": 16,
+      "triangleCount": 60284,
+      "bytes": 1869828,
+      "samples": [
+        {
+          "generationMs": 536.6153000000031,
+          "meshMs": 282.16669999999976
+        },
+        {
+          "generationMs": 535.3773999999994,
+          "meshMs": 284.20560000000114
+        },
+        {
+          "generationMs": 532.4162999999971,
+          "meshMs": 277.77760000000853
+        },
+        {
+          "generationMs": 545.4673999999977,
+          "meshMs": 278.7884000000049
+        }
+      ]
+    },
+    {
+      "spacing": 0.25,
+      "size": 32,
+      "mesher": "marching-tetrahedra",
+      "chunks": 8,
+      "physicalCubeMeters": 16,
+      "triangleCount": 181252,
+      "bytes": 18636600,
+      "samples": [
+        {
+          "generationMs": 528.1993000000039,
+          "meshMs": 796.2270000000026
+        },
+        {
+          "generationMs": 535.7442999999985,
+          "meshMs": 796.4350000000013
+        },
+        {
+          "generationMs": 542.7765999999938,
+          "meshMs": 795.7329999999965
+        },
+        {
+          "generationMs": 526.7651000000042,
+          "meshMs": 796.6234999999979
+        }
+      ]
+    }
+  ]
+}

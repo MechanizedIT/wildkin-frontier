@@ -1,5 +1,23 @@
 # Wildkin Frontier code map
 
+## Isolated smooth voxel lab (Phase 0; no shipping imports)
+
+`lab/voxel/main.js` composes one loop and controls. `coordinates.js` owns integer
+cubic addressing; `generator.js` owns block and signed-density sample fields.
+`world-state.js` alone changes scalar/material edits, drops, pack and actor
+ownership; `persistence.js` commits them to a separate IndexedDB namespace.
+`support.js` floods only the bounded bridge fixture. `worker-pool.js` and
+`worker.js` own disposable requests; `surface-nets.js`, `marching-tetrahedra.js`
+and `smooth-shading.js` turn scalar samples into geometry. `smooth-raycast.js`
+selects the interpolated surface and a matching solid material sample.
+`runtime.js` owns residency and rendering, `publication.js` prepares entire
+dirty batches before publication, `physics.js` owns Rapier, and `debris.js`
+reconstructs the detached scalar snapshot around its fixed body reference.
+Candidate block WASM adapters and provenance live under `lab/voxel/candidates`
+and `lab/voxel/vendor`; they are comparison tools only. `tests/voxel*.test.js`,
+the `tools/*voxel*.mjs` harnesses and [Phase 0 report](VOXEL_PHASE0_REPORT.md)
+own evidence. `src/` and the shipping build do not import the lab.
+
 Rootbound bounded trial (September14): `world/frontierRootbound.js` owns the default-world 200m circuit relief, static protected life footprints/three feathered resident plates, and ten curated scenery records. `frontierRegion.js` applies its height/color through the shared sampler; `frontierTerrain.js` publishes the feature; `frontierScenery.js` admits the existing assets and suppresses ordinary/infill scatter only inside the default-world circuit. `tests/rootboundCircuit.test.js` covers implicit/explicit world parity, alternate-world neutrality, original life identities, analytic/mesh support, actual asset admission and sibling surfaces. The original attempt was superseded at **3.6/10 HOLD**; the owner restarted it against the independently selected portrait target. Final restarted status is recorded in the receipt. [Trial receipt](../art/reviews/rootbound-wildwood/receipt.md). Trailgloam is a [design/reference candidate](species/rootbound-native/TRAILGLOAM_CARD.md) only; no runtime species owner changed.
 
 <!-- SCOUT-OWNERS -->

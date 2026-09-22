@@ -1,5 +1,15 @@
 # Wildkin Frontier — current scope and checkpoint
 
+## Phase 0 closeout — September 22, 2026
+
+Chris directed us to wrap Phase 0, commit and push `main`, and defer the real-phone landscape test. The isolated smooth voxel lab and desktop/desktop-emulated measurements are complete. [The evidence report](VOXEL_PHASE0_REPORT.md) provisionally favors Surface Nets, 16³ chunks and 0.5 m scalar samples. **The decision gate remains HOLD for phone performance; there is no Phase 1 authorization.** Shipping world, legacy saves, Blender work, and untracked `authoring/` remain unchanged.
+
+## Phase 0 implementation — September 21, 2026
+
+Fresh owner authorization activates **only the isolated voxel lab and evidence report**. The lab lives at `lab/voxel/index.html`; the shipping world and legacy saves remain untouched, Blender stays paused, and untracked `authoring/` is preserved. Work is directly on `main`, local only. [Phase 0 report](VOXEL_PHASE0_REPORT.md) owns its current proof and decision gate. Candidate/chunk measurements and real-phone landscape evidence are still in progress; no Phase 1 implementation or production migration is authorized.
+
+The owner's latest refinement requires **smooth destructible voxels**, with smaller samples allowing rounded metre-scale shapes. The isolated lab now defaults to Surface Nets scalar terrain and compares 0.5 m / 0.25 m samples; block meshers remain baseline evidence. Browser proof covers curved digs, material rewards, one smooth falling bridge, literal reload and origin shift. Final measurements and real-phone evidence remain open.
+
 ## Active owner goal — September 21, 2026
 
 Chris replaced the portrait-first finite-continent direction with a web/PC-first game that remains compatible with mobile landscape. The new world target is effectively infinite and procedural in all three axes, fully voxel-destructible, and streamed as cubic X/Y/Z chunks. Terrain and environmental matter have material/tool/drop rules; unsupported voxel components become bounded physical actors. Existing preset-part harvestables remain and should gain part-aware multiple drops, while giant harvestables may be voxel structures. Blender world authoring is paused.
