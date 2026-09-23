@@ -1,0 +1,1715 @@
+{
+  "seed": 9212026,
+  "cellMeters": 1.5,
+  "edgeBandMeters": 0.04,
+  "minThicknessMeters": 1,
+  "conditioning": false,
+  "splitStep": 11,
+  "sequence": [
+    {
+      "step": 0,
+      "hit": [
+        0,
+        4,
+        0
+      ],
+      "changedSamples": 25,
+      "conditionedProbes": 0,
+      "previousProbes": 1871,
+      "rawProbes": 1791,
+      "previousThin": 30,
+      "rawThin": 60,
+      "rawTriangles": 716,
+      "split": false
+    },
+    {
+      "step": 1,
+      "hit": [
+        0,
+        4,
+        -0.5
+      ],
+      "changedSamples": 26,
+      "conditionedProbes": 0,
+      "previousProbes": 1791,
+      "rawProbes": 1551,
+      "previousThin": 60,
+      "rawThin": 94,
+      "rawTriangles": 736,
+      "split": false
+    },
+    {
+      "step": 2,
+      "hit": [
+        0,
+        3,
+        0
+      ],
+      "changedSamples": 20,
+      "conditionedProbes": 0,
+      "previousProbes": 1551,
+      "rawProbes": 1369,
+      "previousThin": 94,
+      "rawThin": 121,
+      "rawTriangles": 704,
+      "split": false
+    },
+    {
+      "step": 3,
+      "hit": [
+        0,
+        5,
+        0
+      ],
+      "changedSamples": 22,
+      "conditionedProbes": 0,
+      "previousProbes": 1369,
+      "rawProbes": 1192,
+      "previousThin": 121,
+      "rawThin": 167,
+      "rawTriangles": 692,
+      "split": false
+    },
+    {
+      "step": 4,
+      "hit": [
+        0,
+        4.5,
+        -0.5
+      ],
+      "changedSamples": 13,
+      "conditionedProbes": 0,
+      "previousProbes": 1192,
+      "rawProbes": 1067,
+      "previousThin": 167,
+      "rawThin": 186,
+      "rawTriangles": 704,
+      "split": false
+    },
+    {
+      "step": 5,
+      "hit": [
+        0,
+        5.5,
+        0
+      ],
+      "changedSamples": 6,
+      "conditionedProbes": 0,
+      "previousProbes": 1067,
+      "rawProbes": 1011,
+      "previousThin": 186,
+      "rawThin": 185,
+      "rawTriangles": 684,
+      "split": false
+    },
+    {
+      "step": 6,
+      "hit": [
+        0,
+        4,
+        -1.5
+      ],
+      "changedSamples": 0,
+      "conditionedProbes": 0,
+      "previousProbes": 1011,
+      "rawProbes": 1011,
+      "previousThin": 185,
+      "rawThin": 185,
+      "rawTriangles": 684,
+      "split": false
+    },
+    {
+      "step": 7,
+      "hit": [
+        0,
+        3,
+        1
+      ],
+      "changedSamples": 22,
+      "conditionedProbes": 0,
+      "previousProbes": 1011,
+      "rawProbes": 803,
+      "previousThin": 185,
+      "rawThin": 219,
+      "rawTriangles": 624,
+      "split": false
+    },
+    {
+      "step": 8,
+      "hit": [
+        0,
+        4.5,
+        -1.5
+      ],
+      "changedSamples": 9,
+      "conditionedProbes": 0,
+      "previousProbes": 803,
+      "rawProbes": 714,
+      "previousThin": 219,
+      "rawThin": 225,
+      "rawTriangles": 576,
+      "split": false
+    },
+    {
+      "step": 9,
+      "hit": [
+        0,
+        5.5,
+        1
+      ],
+      "changedSamples": 8,
+      "conditionedProbes": 0,
+      "previousProbes": 714,
+      "rawProbes": 634,
+      "previousThin": 225,
+      "rawThin": 207,
+      "rawTriangles": 536,
+      "split": false
+    },
+    {
+      "step": 10,
+      "hit": [
+        0,
+        2.5,
+        1
+      ],
+      "changedSamples": 1,
+      "conditionedProbes": 0,
+      "previousProbes": 634,
+      "rawProbes": 625,
+      "previousThin": 207,
+      "rawThin": 198,
+      "rawTriangles": 524,
+      "split": false
+    },
+    {
+      "step": 11,
+      "hit": [
+        0,
+        3.5,
+        1.5
+      ],
+      "changedSamples": 1,
+      "conditionedProbes": 0,
+      "previousProbes": 625,
+      "rawProbes": 610,
+      "previousThin": 198,
+      "rawThin": 195,
+      "rawTriangles": 520,
+      "split": true
+    }
+  ],
+  "final": {
+    "preSplit": {
+      "occupiedProbes": 625,
+      "thinProbeCount": 198,
+      "thinBounds": [
+        [
+          5,
+          19
+        ],
+        [
+          10,
+          22
+        ],
+        [
+          5,
+          19
+        ]
+      ],
+      "triangleCount": 524,
+      "components": [
+        {
+          "cells": 169,
+          "probes": 625,
+          "fragments": 46
+        }
+      ],
+      "fragments": [
+        {
+          "id": "rock:9212026:v1:-2,3,0,0",
+          "cells": 4,
+          "probes": 6,
+          "bounds": [
+            [
+              7,
+              7
+            ],
+            [
+              10,
+              10
+            ],
+            [
+              5,
+              8
+            ]
+          ],
+          "length": [
+            1,
+            1,
+            4
+          ],
+          "aspect": 4
+        },
+        {
+          "id": "rock:9212026:v1:-3,2,-1,0",
+          "cells": 8,
+          "probes": 31,
+          "bounds": [
+            [
+              5,
+              7
+            ],
+            [
+              7,
+              9
+            ],
+            [
+              9,
+              9
+            ]
+          ],
+          "length": [
+            3,
+            3,
+            1
+          ],
+          "aspect": 3
+        },
+        {
+          "id": "rock:9212026:v1:-2,1,0,0",
+          "cells": 7,
+          "probes": 21,
+          "bounds": [
+            [
+              7,
+              9
+            ],
+            [
+              7,
+              7
+            ],
+            [
+              6,
+              8
+            ]
+          ],
+          "length": [
+            3,
+            1,
+            3
+          ],
+          "aspect": 3
+        },
+        {
+          "id": "rock:9212026:v1:-2,2,-1,0",
+          "cells": 7,
+          "probes": 20,
+          "bounds": [
+            [
+              4,
+              6
+            ],
+            [
+              7,
+              9
+            ],
+            [
+              8,
+              8
+            ]
+          ],
+          "length": [
+            3,
+            3,
+            1
+          ],
+          "aspect": 3
+        },
+        {
+          "id": "rock:9212026:v1:-1,3,-2,0",
+          "cells": 4,
+          "probes": 14,
+          "bounds": [
+            [
+              2,
+              2
+            ],
+            [
+              8,
+              9
+            ],
+            [
+              5,
+              7
+            ]
+          ],
+          "length": [
+            1,
+            2,
+            3
+          ],
+          "aspect": 3
+        },
+        {
+          "id": "rock:9212026:v1:0,2,-1,0",
+          "cells": 13,
+          "probes": 64,
+          "bounds": [
+            [
+              2,
+              3
+            ],
+            [
+              6,
+              8
+            ],
+            [
+              3,
+              6
+            ]
+          ],
+          "length": [
+            2,
+            3,
+            4
+          ],
+          "aspect": 2
+        },
+        {
+          "id": "rock:9212026:v1:0,2,0,0",
+          "cells": 11,
+          "probes": 41,
+          "bounds": [
+            [
+              3,
+              6
+            ],
+            [
+              5,
+              7
+            ],
+            [
+              2,
+              3
+            ]
+          ],
+          "length": [
+            4,
+            3,
+            2
+          ],
+          "aspect": 2
+        },
+        {
+          "id": "rock:9212026:v1:-2,3,1,0",
+          "cells": 3,
+          "probes": 14,
+          "bounds": [
+            [
+              8,
+              8
+            ],
+            [
+              9,
+              10
+            ],
+            [
+              3,
+              4
+            ]
+          ],
+          "length": [
+            1,
+            2,
+            2
+          ],
+          "aspect": 2
+        },
+        {
+          "id": "rock:9212026:v1:-1,2,-1,0",
+          "cells": 3,
+          "probes": 10,
+          "bounds": [
+            [
+              4,
+              4
+            ],
+            [
+              7,
+              8
+            ],
+            [
+              4,
+              5
+            ]
+          ],
+          "length": [
+            1,
+            2,
+            2
+          ],
+          "aspect": 2
+        },
+        {
+          "id": "rock:9212026:v1:-2,2,-2,0",
+          "cells": 3,
+          "probes": 9,
+          "bounds": [
+            [
+              3,
+              4
+            ],
+            [
+              7,
+              8
+            ],
+            [
+              9,
+              9
+            ]
+          ],
+          "length": [
+            2,
+            2,
+            1
+          ],
+          "aspect": 2
+        },
+        {
+          "id": "rock:9212026:v1:-1,2,0,0",
+          "cells": 3,
+          "probes": 9,
+          "bounds": [
+            [
+              7,
+              7
+            ],
+            [
+              7,
+              8
+            ],
+            [
+              4,
+              5
+            ]
+          ],
+          "length": [
+            1,
+            2,
+            2
+          ],
+          "aspect": 2
+        },
+        {
+          "id": "rock:9212026:v1:0,3,0,0",
+          "cells": 3,
+          "probes": 8,
+          "bounds": [
+            [
+              3,
+              4
+            ],
+            [
+              8,
+              8
+            ],
+            [
+              3,
+              4
+            ]
+          ],
+          "length": [
+            2,
+            1,
+            2
+          ],
+          "aspect": 2
+        }
+      ]
+    },
+    "rawAfterCut": {
+      "occupiedProbes": 610,
+      "thinProbeCount": 195,
+      "thinBounds": [
+        [
+          5,
+          19
+        ],
+        [
+          10,
+          22
+        ],
+        [
+          5,
+          19
+        ]
+      ],
+      "triangleCount": 520,
+      "components": [
+        {
+          "cells": 108,
+          "probes": 379,
+          "fragments": 32
+        },
+        {
+          "cells": 61,
+          "probes": 231,
+          "fragments": 16
+        }
+      ],
+      "fragments": [
+        {
+          "id": "rock:9212026:v1:-2,3,0,0",
+          "cells": 4,
+          "probes": 6,
+          "bounds": [
+            [
+              7,
+              7
+            ],
+            [
+              10,
+              10
+            ],
+            [
+              5,
+              8
+            ]
+          ],
+          "length": [
+            1,
+            1,
+            4
+          ],
+          "aspect": 4
+        },
+        {
+          "id": "rock:9212026:v1:-2,1,0,0",
+          "cells": 7,
+          "probes": 21,
+          "bounds": [
+            [
+              7,
+              9
+            ],
+            [
+              7,
+              7
+            ],
+            [
+              6,
+              8
+            ]
+          ],
+          "length": [
+            3,
+            1,
+            3
+          ],
+          "aspect": 3
+        },
+        {
+          "id": "rock:9212026:v1:-3,2,-1,0",
+          "cells": 6,
+          "probes": 20,
+          "bounds": [
+            [
+              6,
+              7
+            ],
+            [
+              7,
+              9
+            ],
+            [
+              9,
+              9
+            ]
+          ],
+          "length": [
+            2,
+            3,
+            1
+          ],
+          "aspect": 3
+        },
+        {
+          "id": "rock:9212026:v1:-1,3,-2,0",
+          "cells": 4,
+          "probes": 14,
+          "bounds": [
+            [
+              2,
+              2
+            ],
+            [
+              8,
+              9
+            ],
+            [
+              5,
+              7
+            ]
+          ],
+          "length": [
+            1,
+            2,
+            3
+          ],
+          "aspect": 3
+        },
+        {
+          "id": "rock:9212026:v1:-2,2,-1,0",
+          "cells": 4,
+          "probes": 11,
+          "bounds": [
+            [
+              4,
+              5
+            ],
+            [
+              7,
+              9
+            ],
+            [
+              8,
+              8
+            ]
+          ],
+          "length": [
+            2,
+            3,
+            1
+          ],
+          "aspect": 3
+        },
+        {
+          "id": "rock:9212026:v1:-2,2,-1,0",
+          "cells": 3,
+          "probes": 4,
+          "bounds": [
+            [
+              6,
+              6
+            ],
+            [
+              7,
+              9
+            ],
+            [
+              8,
+              8
+            ]
+          ],
+          "length": [
+            1,
+            3,
+            1
+          ],
+          "aspect": 3
+        },
+        {
+          "id": "rock:9212026:v1:0,2,-1,0",
+          "cells": 13,
+          "probes": 64,
+          "bounds": [
+            [
+              2,
+              3
+            ],
+            [
+              6,
+              8
+            ],
+            [
+              3,
+              6
+            ]
+          ],
+          "length": [
+            2,
+            3,
+            4
+          ],
+          "aspect": 2
+        },
+        {
+          "id": "rock:9212026:v1:0,2,0,0",
+          "cells": 11,
+          "probes": 41,
+          "bounds": [
+            [
+              3,
+              6
+            ],
+            [
+              5,
+              7
+            ],
+            [
+              2,
+              3
+            ]
+          ],
+          "length": [
+            4,
+            3,
+            2
+          ],
+          "aspect": 2
+        },
+        {
+          "id": "rock:9212026:v1:-2,3,1,0",
+          "cells": 3,
+          "probes": 14,
+          "bounds": [
+            [
+              8,
+              8
+            ],
+            [
+              9,
+              10
+            ],
+            [
+              3,
+              4
+            ]
+          ],
+          "length": [
+            1,
+            2,
+            2
+          ],
+          "aspect": 2
+        },
+        {
+          "id": "rock:9212026:v1:-1,2,-1,0",
+          "cells": 3,
+          "probes": 10,
+          "bounds": [
+            [
+              4,
+              4
+            ],
+            [
+              7,
+              8
+            ],
+            [
+              4,
+              5
+            ]
+          ],
+          "length": [
+            1,
+            2,
+            2
+          ],
+          "aspect": 2
+        },
+        {
+          "id": "rock:9212026:v1:-2,2,-2,0",
+          "cells": 3,
+          "probes": 9,
+          "bounds": [
+            [
+              3,
+              4
+            ],
+            [
+              7,
+              8
+            ],
+            [
+              9,
+              9
+            ]
+          ],
+          "length": [
+            2,
+            2,
+            1
+          ],
+          "aspect": 2
+        },
+        {
+          "id": "rock:9212026:v1:-1,2,0,0",
+          "cells": 3,
+          "probes": 9,
+          "bounds": [
+            [
+              7,
+              7
+            ],
+            [
+              7,
+              8
+            ],
+            [
+              4,
+              5
+            ]
+          ],
+          "length": [
+            1,
+            2,
+            2
+          ],
+          "aspect": 2
+        }
+      ]
+    },
+    "children": [
+      {
+        "occupiedProbes": 379,
+        "thinProbeCount": 140,
+        "thinBounds": [
+          [
+            5,
+            15
+          ],
+          [
+            10,
+            22
+          ],
+          [
+            5,
+            18
+          ]
+        ],
+        "triangleCount": 356,
+        "components": [
+          {
+            "cells": 108,
+            "probes": 379,
+            "fragments": 32
+          }
+        ],
+        "fragments": [
+          {
+            "id": "rock:9212026:v1:-1,3,-2,0",
+            "cells": 4,
+            "probes": 14,
+            "bounds": [
+              [
+                2,
+                2
+              ],
+              [
+                8,
+                9
+              ],
+              [
+                5,
+                7
+              ]
+            ],
+            "length": [
+              1,
+              2,
+              3
+            ],
+            "aspect": 3
+          },
+          {
+            "id": "rock:9212026:v1:-2,2,-1,0",
+            "cells": 4,
+            "probes": 11,
+            "bounds": [
+              [
+                4,
+                5
+              ],
+              [
+                7,
+                9
+              ],
+              [
+                8,
+                8
+              ]
+            ],
+            "length": [
+              2,
+              3,
+              1
+            ],
+            "aspect": 3
+          },
+          {
+            "id": "rock:9212026:v1:0,2,-1,0",
+            "cells": 13,
+            "probes": 64,
+            "bounds": [
+              [
+                2,
+                3
+              ],
+              [
+                6,
+                8
+              ],
+              [
+                3,
+                6
+              ]
+            ],
+            "length": [
+              2,
+              3,
+              4
+            ],
+            "aspect": 2
+          },
+          {
+            "id": "rock:9212026:v1:0,2,0,0",
+            "cells": 11,
+            "probes": 41,
+            "bounds": [
+              [
+                3,
+                6
+              ],
+              [
+                5,
+                7
+              ],
+              [
+                2,
+                3
+              ]
+            ],
+            "length": [
+              4,
+              3,
+              2
+            ],
+            "aspect": 2
+          },
+          {
+            "id": "rock:9212026:v1:-1,2,-1,0",
+            "cells": 3,
+            "probes": 10,
+            "bounds": [
+              [
+                4,
+                4
+              ],
+              [
+                7,
+                8
+              ],
+              [
+                4,
+                5
+              ]
+            ],
+            "length": [
+              1,
+              2,
+              2
+            ],
+            "aspect": 2
+          },
+          {
+            "id": "rock:9212026:v1:-2,2,-2,0",
+            "cells": 3,
+            "probes": 9,
+            "bounds": [
+              [
+                3,
+                4
+              ],
+              [
+                7,
+                8
+              ],
+              [
+                9,
+                9
+              ]
+            ],
+            "length": [
+              2,
+              2,
+              1
+            ],
+            "aspect": 2
+          },
+          {
+            "id": "rock:9212026:v1:0,3,0,0",
+            "cells": 3,
+            "probes": 8,
+            "bounds": [
+              [
+                3,
+                4
+              ],
+              [
+                8,
+                8
+              ],
+              [
+                3,
+                4
+              ]
+            ],
+            "length": [
+              2,
+              1,
+              2
+            ],
+            "aspect": 2
+          },
+          {
+            "id": "rock:9212026:v1:-1,1,-1,0",
+            "cells": 2,
+            "probes": 7,
+            "bounds": [
+              [
+                4,
+                4
+              ],
+              [
+                5,
+                6
+              ],
+              [
+                4,
+                4
+              ]
+            ],
+            "length": [
+              1,
+              2,
+              1
+            ],
+            "aspect": 2
+          },
+          {
+            "id": "rock:9212026:v1:-1,3,0,0",
+            "cells": 3,
+            "probes": 6,
+            "bounds": [
+              [
+                5,
+                5
+              ],
+              [
+                9,
+                10
+              ],
+              [
+                4,
+                5
+              ]
+            ],
+            "length": [
+              1,
+              2,
+              2
+            ],
+            "aspect": 2
+          },
+          {
+            "id": "rock:9212026:v1:-2,1,-2,0",
+            "cells": 2,
+            "probes": 6,
+            "bounds": [
+              [
+                5,
+                5
+              ],
+              [
+                5,
+                6
+              ],
+              [
+                9,
+                9
+              ]
+            ],
+            "length": [
+              1,
+              2,
+              1
+            ],
+            "aspect": 2
+          },
+          {
+            "id": "rock:9212026:v1:-3,2,-1,0",
+            "cells": 2,
+            "probes": 5,
+            "bounds": [
+              [
+                5,
+                5
+              ],
+              [
+                7,
+                8
+              ],
+              [
+                9,
+                9
+              ]
+            ],
+            "length": [
+              1,
+              2,
+              1
+            ],
+            "aspect": 2
+          },
+          {
+            "id": "rock:9212026:v1:-1,2,0,0",
+            "cells": 3,
+            "probes": 5,
+            "bounds": [
+              [
+                6,
+                7
+              ],
+              [
+                5,
+                6
+              ],
+              [
+                3,
+                3
+              ]
+            ],
+            "length": [
+              2,
+              2,
+              1
+            ],
+            "aspect": 2
+          }
+        ]
+      },
+      {
+        "occupiedProbes": 231,
+        "thinProbeCount": 55,
+        "thinBounds": [
+          [
+            12,
+            19
+          ],
+          [
+            14,
+            21
+          ],
+          [
+            7,
+            19
+          ]
+        ],
+        "triangleCount": 164,
+        "components": [
+          {
+            "cells": 61,
+            "probes": 231,
+            "fragments": 16
+          }
+        ],
+        "fragments": [
+          {
+            "id": "rock:9212026:v1:-2,3,0,0",
+            "cells": 4,
+            "probes": 6,
+            "bounds": [
+              [
+                7,
+                7
+              ],
+              [
+                10,
+                10
+              ],
+              [
+                5,
+                8
+              ]
+            ],
+            "length": [
+              1,
+              1,
+              4
+            ],
+            "aspect": 4
+          },
+          {
+            "id": "rock:9212026:v1:-2,1,0,0",
+            "cells": 7,
+            "probes": 21,
+            "bounds": [
+              [
+                7,
+                9
+              ],
+              [
+                7,
+                7
+              ],
+              [
+                6,
+                8
+              ]
+            ],
+            "length": [
+              3,
+              1,
+              3
+            ],
+            "aspect": 3
+          },
+          {
+            "id": "rock:9212026:v1:-3,2,-1,0",
+            "cells": 6,
+            "probes": 20,
+            "bounds": [
+              [
+                6,
+                7
+              ],
+              [
+                7,
+                9
+              ],
+              [
+                9,
+                9
+              ]
+            ],
+            "length": [
+              2,
+              3,
+              1
+            ],
+            "aspect": 3
+          },
+          {
+            "id": "rock:9212026:v1:-2,2,-1,0",
+            "cells": 3,
+            "probes": 4,
+            "bounds": [
+              [
+                6,
+                6
+              ],
+              [
+                7,
+                9
+              ],
+              [
+                8,
+                8
+              ]
+            ],
+            "length": [
+              1,
+              3,
+              1
+            ],
+            "aspect": 3
+          },
+          {
+            "id": "rock:9212026:v1:-2,3,1,0",
+            "cells": 3,
+            "probes": 14,
+            "bounds": [
+              [
+                8,
+                8
+              ],
+              [
+                9,
+                10
+              ],
+              [
+                3,
+                4
+              ]
+            ],
+            "length": [
+              1,
+              2,
+              2
+            ],
+            "aspect": 2
+          },
+          {
+            "id": "rock:9212026:v1:-1,2,0,0",
+            "cells": 3,
+            "probes": 9,
+            "bounds": [
+              [
+                7,
+                7
+              ],
+              [
+                7,
+                8
+              ],
+              [
+                4,
+                5
+              ]
+            ],
+            "length": [
+              1,
+              2,
+              2
+            ],
+            "aspect": 2
+          },
+          {
+            "id": "rock:9212026:v1:-1,3,0,0",
+            "cells": 2,
+            "probes": 6,
+            "bounds": [
+              [
+                7,
+                7
+              ],
+              [
+                9,
+                10
+              ],
+              [
+                4,
+                4
+              ]
+            ],
+            "length": [
+              1,
+              2,
+              1
+            ],
+            "aspect": 2
+          },
+          {
+            "id": "rock:9212026:v1:-3,2,0,0",
+            "cells": 2,
+            "probes": 3,
+            "bounds": [
+              [
+                8,
+                8
+              ],
+              [
+                7,
+                8
+              ],
+              [
+                9,
+                9
+              ]
+            ],
+            "length": [
+              1,
+              2,
+              1
+            ],
+            "aspect": 2
+          },
+          {
+            "id": "rock:9212026:v1:-1,2,1,0",
+            "cells": 2,
+            "probes": 2,
+            "bounds": [
+              [
+                7,
+                8
+              ],
+              [
+                9,
+                9
+              ],
+              [
+                3,
+                3
+              ]
+            ],
+            "length": [
+              2,
+              1,
+              1
+            ],
+            "aspect": 2
+          },
+          {
+            "id": "rock:9212026:v1:-2,2,0,0",
+            "cells": 23,
+            "probes": 140,
+            "bounds": [
+              [
+                7,
+                9
+              ],
+              [
+                8,
+                10
+              ],
+              [
+                5,
+                8
+              ]
+            ],
+            "length": [
+              3,
+              3,
+              4
+            ],
+            "aspect": 1.3333333333333333
+          },
+          {
+            "id": "rock:9212026:v1:-1,3,1,0",
+            "cells": 1,
+            "probes": 1,
+            "bounds": [
+              [
+                7,
+                7
+              ],
+              [
+                10,
+                10
+              ],
+              [
+                3,
+                3
+              ]
+            ],
+            "length": [
+              1,
+              1,
+              1
+            ],
+            "aspect": 1
+          },
+          {
+            "id": "rock:9212026:v1:-2,2,1,0",
+            "cells": 1,
+            "probes": 1,
+            "bounds": [
+              [
+                8,
+                8
+              ],
+              [
+                7,
+                7
+              ],
+              [
+                5,
+                5
+              ]
+            ],
+            "length": [
+              1,
+              1,
+              1
+            ],
+            "aspect": 1
+          }
+        ]
+      }
+    ],
+    "unionMissing": 0,
+    "unionExtra": 0,
+    "overlap": 0,
+    "triangleSetsEqual": true,
+    "thinFragmentTrials": [
+      {
+        "id": "rock:9212026:v1:-1,3,-2,0",
+        "hit": [
+          -1.75,
+          4.75,
+          0.75
+        ],
+        "bounds": [
+          [
+            2,
+            2
+          ],
+          [
+            8,
+            9
+          ],
+          [
+            5,
+            7
+          ]
+        ],
+        "length": [
+          1,
+          2,
+          3
+        ],
+        "volume": 14,
+        "changed": 2,
+        "loss": 15,
+        "components": 2
+      },
+      {
+        "id": "rock:9212026:v1:-2,2,-1,0",
+        "hit": [
+          -0.25,
+          4.25,
+          1.25
+        ],
+        "bounds": [
+          [
+            4,
+            5
+          ],
+          [
+            7,
+            9
+          ],
+          [
+            8,
+            8
+          ]
+        ],
+        "length": [
+          2,
+          3,
+          1
+        ],
+        "volume": 11,
+        "changed": 0,
+        "loss": 0,
+        "components": 2
+      },
+      {
+        "id": "rock:9212026:v1:-2,2,-1,0",
+        "hit": [
+          0.25,
+          4.25,
+          1.25
+        ],
+        "bounds": [
+          [
+            6,
+            6
+          ],
+          [
+            7,
+            9
+          ],
+          [
+            8,
+            8
+          ]
+        ],
+        "length": [
+          1,
+          3,
+          1
+        ],
+        "volume": 4,
+        "changed": 0,
+        "loss": 0,
+        "components": 2
+      },
+      {
+        "id": "rock:9212026:v1:-3,2,-1,0",
+        "hit": [
+          0.75,
+          4.75,
+          1.75
+        ],
+        "bounds": [
+          [
+            6,
+            7
+          ],
+          [
+            7,
+            9
+          ],
+          [
+            9,
+            9
+          ]
+        ],
+        "length": [
+          2,
+          3,
+          1
+        ],
+        "volume": 20,
+        "changed": 3,
+        "loss": 36,
+        "components": 2
+      },
+      {
+        "id": "rock:9212026:v1:-2,3,0,0",
+        "hit": [
+          0.75,
+          5.25,
+          0.75
+        ],
+        "bounds": [
+          [
+            7,
+            7
+          ],
+          [
+            10,
+            10
+          ],
+          [
+            5,
+            8
+          ]
+        ],
+        "length": [
+          1,
+          1,
+          4
+        ],
+        "volume": 6,
+        "changed": 0,
+        "loss": 0,
+        "components": 2
+      },
+      {
+        "id": "rock:9212026:v1:-2,1,0,0",
+        "hit": [
+          1.25,
+          3.75,
+          1.25
+        ],
+        "bounds": [
+          [
+            7,
+            9
+          ],
+          [
+            7,
+            7
+          ],
+          [
+            6,
+            8
+          ]
+        ],
+        "length": [
+          3,
+          1,
+          3
+        ],
+        "volume": 21,
+        "changed": 0,
+        "loss": 0,
+        "components": 2
+      }
+    ]
+  }
+}

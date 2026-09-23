@@ -11,11 +11,12 @@ function hash(seed, x, y, z, salt = 0) {
   return (h ^ (h >>> 16)) >>> 0;
 }
 function unit(h) { return h / 0x100000000; }
-export function rockDomain(seed = 9212026) {
+export function rockDomain(seed = 9212026, cellMeters = ROCK_CELL_METERS) {
   if (!Number.isSafeInteger(seed)) throw new Error('rock seed must be an integer');
+  if(![1.5,2,2.5].includes(cellMeters))throw new Error('Unsupported rock fracture-cell scale');
   const a = unit(hash(seed, 0, 0, 0, 11)) * Math.PI * 2;
   const b = (unit(hash(seed, 0, 0, 0, 23)) - .5) * .65;
-  return Object.freeze({ id: `rock:${seed}`, version: 1, seed, cellMeters: ROCK_CELL_METERS, yaw: a, pitch: b });
+  return Object.freeze({ id: `rock:${seed}${cellMeters===ROCK_CELL_METERS?'':`:s${cellMeters}`}`, version: 1, seed, cellMeters, yaw: a, pitch: b });
 }
 function fracturePoint(domain, p) {
   const c = Math.cos(domain.yaw), s = Math.sin(domain.yaw), d = Math.cos(domain.pitch), t = Math.sin(domain.pitch);
@@ -82,28 +83,37 @@ export function makeRockSamples({centers=[[0,0,0]]}={}) {
   }
   return {spacing,min,max,size,densities,materials,position};
 }
-export function cutRockSamples(samples,domain,hit) {
+export function cutRockSamples(samples,domain,hit,{edgeBandMeters=.04,material=1}={}) {
+  if(!Number.isFinite(edgeBandMeters)||edgeBandMeters<.04||edgeBandMeters>.35)throw new Error('Invalid rock cut band');
   let start=-1,best=Infinity;
   const selected=nearestRockSite(domain,hit), id=selected.id;
   for(let i=0;i<samples.densities.length;i++){
-    if(samples.densities[i]>=0)continue;
+    if(samples.densities[i]>=0||samples.materials[i]!==material)continue;
     const p=samples.position(i);if(nearestRockSite(domain,p).id!==id)continue;
     const d=squared(p,hit);if(d<best){best=d;start=i;}
   }
   if(start<0)return {id,changed:0,reason:'no occupied sample in selected fracture cell'};
   const [nx,ny,nz]=samples.size, plane=nx*ny, seen=new Uint8Array(samples.densities.length), stack=[start];seen[start]=1;
-  let changed=0;
+  const patch=[];
   while(stack.length){
-    const i=stack.pop(),p=samples.position(i);
-    const boundary=fractureCellDistance(domain,id,p);
-    const next=Math.max(samples.densities[i],-boundary+.04);
-    if(next>samples.densities[i]+1e-6){samples.densities[i]=next;samples.materials[i]=next<0?1:0;changed++;}
+    const i=stack.pop();patch.push(i);
     const x=i%nx,y=Math.floor(i/nx)%ny,z=Math.floor(i/plane);
     for(const [j,ok] of [[i-1,x>0],[i+1,x<nx-1],[i-nx,y>0],[i+nx,y<ny-1],[i-plane,z>0],[i+plane,z<nz-1]]){
-      if(!ok||seen[j]||samples.densities[j]>=0)continue;
+      if(!ok||seen[j]||samples.densities[j]>=0||samples.materials[j]!==material)continue;
       if(nearestRockSite(domain,samples.position(j)).id!==id)continue;
       seen[j]=1;stack.push(j);
     }
+  }
+  const candidates=new Set(patch);
+  if(edgeBandMeters>.04)for(const i of patch){const x=i%nx,y=Math.floor(i/nx)%ny,z=Math.floor(i/plane);
+    for(const [j,ok] of [[i-1,x>0],[i+1,x<nx-1],[i-nx,y>0],[i+nx,y<ny-1],[i-plane,z>0],[i+plane,z<nz-1]])if(ok)candidates.add(j);
+  }
+  let changed=0;
+  for(const i of candidates){if(samples.densities[i]<0&&samples.materials[i]!==material)continue;
+    const p=samples.position(i),boundary=fractureCellDistance(domain,id,p);
+    if(boundary>edgeBandMeters)continue;
+    const next=Math.max(samples.densities[i],-boundary+edgeBandMeters);
+    if(next>samples.densities[i]+1e-6){samples.densities[i]=next;samples.materials[i]=next<0?1:0;changed++;}
   }
   return {id,changed};
 }

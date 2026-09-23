@@ -1,4 +1,4 @@
-// A bounded eight-sector convex compound for the single rock fixture.
+// A bounded four-sector convex compound for the single rock fixture.
 // No dynamic triangle meshes or general decomposition machinery.
 function keepExtremes(points){
   if(points.length<=64)return points;
@@ -33,4 +33,9 @@ export function planRockColliders(mesh,localCOM){
   }
   if(!hulls.length||hulls.length>8||hulls.some(h=>h.length/3>64))throw new Error('Rock compound collider budget');
   return hulls;
+}
+export function planRockShardHull(mesh){
+  const points=[];for(let i=0;i<mesh.positions.length;i+=3)points.push([mesh.positions[i],mesh.positions[i+1],mesh.positions[i+2]]);
+  if(points.length<4)return null;
+  return new Float32Array(keepExtremes(points).flat());
 }

@@ -29,7 +29,7 @@ export class LabWorldState {
       const next=proposal.state;if(next.revision!==expectedRevision+1)throw new Error('Invalid prepared revision');
       const owned=[];const own=value=>{owned.push(value);return value;};let prepared;
       try{
-        prepared=await prepare(next,own);
+        prepared=await prepare(next,own,proposal);
         if(this.state.revision!==expectedRevision||!validate(next,prepared))return {status:'STALE',state:this.state};
         const start=this.now();await this.store.save(next);this.onTiming('saveMs',this.now()-start);
         this.state=next;

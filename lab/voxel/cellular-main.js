@@ -6,6 +6,7 @@ import { mineWorldRock, mineActorRock, actorRockSamples, quantityAudit } from '.
 import { meshRockSamples } from './matter-mesh.js';
 import { CellularRockPhysics } from './matter-physics.js';
 import { pickActorSurface, readRockScalar, validateActorHit, worldToActorDirection, actorToWorldPoint } from './matter-target.js';
+import { ROCK_PROFILE } from './matter-rock-profile.js';
 
 const canvas=document.querySelector('#scene'),stage=document.querySelector('#stage'),message=document.querySelector('#message'),stats=document.querySelector('#stats');
 const mineButton=document.querySelector('#mine'),saveButton=document.querySelector('#save'),focusButton=document.querySelector('#focus');
@@ -21,7 +22,9 @@ const sun=new THREE.DirectionalLight(0xffddad,2.4);sun.position.set(-4,9,7);scen
 const floor=new THREE.Mesh(new THREE.PlaneGeometry(128,128),new THREE.MeshStandardMaterial({color:0x344952,roughness:1}));floor.rotation.x=-Math.PI/2;floor.position.y=-.015;scene.add(floor);
 const grid=new THREE.GridHelper(128,64,0x6c8790,0x47606b);grid.position.y=.01;scene.add(grid);
 const rockMaterial=new THREE.MeshStandardMaterial({vertexColors:true,flatShading:true,side:THREE.DoubleSide,roughness:.92});
-let worldRender=null,actorRenders=new Map(),editing=false,ready=false,focus=[0,3,0],yaw=2.5,pitch=.32,distance=7.5;
+let worldRender=null,actorRenders=new Map(),shardRenders=new Map(),editing=false,ready=false,focus=[0,3,0],yaw=2.5,pitch=.32,distance=7.5;
+const visualGeometry=new THREE.TetrahedronGeometry(.13),visualMaterial=new THREE.MeshStandardMaterial({color:0x9fb6bb,flatShading:true});
+const visualPool=Array.from({length:16},()=>new THREE.Mesh(visualGeometry,visualMaterial)),visualLive=[];
 const editTimes=[],workerTimes=[],colliderTimes=[],frameTimes=[],errors=[];
 const worker=new Worker(new URL('./worker.js',import.meta.url),{type:'module'});let nextJob=0;const jobs=new Map();
 worker.onmessage=({data})=>{const job=jobs.get(data.id);if(!job)return;jobs.delete(data.id);data.error?job.reject(new Error(data.error)):job.resolve(data);};
@@ -33,8 +36,8 @@ function threeMesh(data,actorId=null){
   const g=new THREE.BufferGeometry();g.setAttribute('position',new THREE.BufferAttribute(data.positions,3));g.setAttribute('normal',new THREE.BufferAttribute(data.normals,3));
   g.setAttribute('color',new THREE.BufferAttribute(data.colors,3));g.setIndex(new THREE.BufferAttribute(data.indices,1));
   let material=rockMaterial;
-  if(actorId?.includes('/r')){material=rockMaterial.clone();const part=Number(actorId.match(/\/(\d+)$/)?.[1]??0);
-    material.color.setHex(part%2?0xb4cbd6:0xe5f0ed);}
+  if(actorId?.includes('/r')||actorId?.startsWith('shard-')){material=rockMaterial.clone();const part=Number(actorId.match(/\/(\d+)$/)?.[1]??0);
+    material.color.setHex(actorId.startsWith('shard-')?0xd8b5a0:part%2?0xb4cbd6:0xe5f0ed);}
   return new THREE.Mesh(g,material);
 }
 function disposeRender(mesh){if(mesh){scene.remove(mesh);mesh.geometry.dispose();if(mesh.material!==rockMaterial)mesh.material.dispose();}}
@@ -44,6 +47,14 @@ function syncVisuals(){
   floor.position.set(-physics.origin[0],-.015-physics.origin[1],-physics.origin[2]);grid.position.set(-physics.origin[0],.01-physics.origin[1],-physics.origin[2]);
   for(const [id,mesh] of actorRenders){const pose=physics.pose(id);if(!pose)continue;
     mesh.position.set(...pose.position.map((v,i)=>v-physics.origin[i]));mesh.quaternion.set(pose.rotation.x,pose.rotation.y,pose.rotation.z,pose.rotation.w);}
+  for(const [id,mesh] of shardRenders){const pose=physics.shardPose(id);if(!pose)continue;
+    mesh.position.set(...pose.position.map((v,i)=>v-physics.origin[i]));mesh.quaternion.set(pose.rotation.x,pose.rotation.y,pose.rotation.z,pose.rotation.w);}
+}
+function emitVisualDebris(shatter){if(!shatter)return;const q=shatter.rotation,origin=actorToWorldPoint({position:shatter.position,rotation:q},shatter.localHit);
+  const count=Math.min(3,Math.max(1,Math.ceil(shatter.probes/30)),visualPool.length);for(let i=0;i<count;i++){
+    const mesh=visualPool.pop();mesh.position.set(origin[0]+(i-1)*.18-physics.origin[0],origin[1]+.12-physics.origin[1],origin[2]+(i%2?.12:-.12)-physics.origin[2]);
+    mesh.scale.setScalar(.8+Math.min(shatter.probes,80)/160);scene.add(mesh);visualLive.push({mesh,ttl:1.1,velocity:[(i-1)*.7,.8+i*.15,(i%2?.4:-.4)]});
+  }
 }
 function showState(note=''){
   const s=owner.state,audit=quantityAudit(s),actors=s.actors.length;
@@ -51,7 +62,7 @@ function showState(note=''){
     `Boulder detached. Follow it and mine its rotated surface; cut across the middle to split it.`:
     `Boulder on a narrow rock neck. Chip the side, then sever the neck.`;
   if(note)message.textContent=note;
-  stats.textContent=`Revision ${s.revision} · actors ${actors}/4 · retired ${s.retired.length}\n`+
+  stats.textContent=`Revision ${s.revision} · actors ${actors}/4 · shards ${physics.shards.size}/4 · retired ${s.retired.length}\n`+
     `Quantity ${audit.initial}: world ${audit.world}, actors ${s.actors.reduce((n,a)=>n+(audit[a.id]||0),0)}, chips ${audit.consumed}\n`+
     `Balance ${audit.balanced?'exact':'FAILED'} · edit ${editTimes.at(-1)?.toFixed(1)??'—'} ms · worker ${workerTimes.at(-1)?.toFixed(1)??'—'} ms`;
   mineButton.disabled=saveButton.disabled=editing;
@@ -69,8 +80,8 @@ async function transition(propose,{worldChanged=false,label='Rock mined'}={}){
   try{
     const result=await owner.transactPrepared({expectedRevision:owner.state.revision,
       propose:current=>propose(captureLive(current)),
-      prepare:async(next,own)=>{
-        const bundle={world:null,actors:[]};
+      prepare:async(next,own,proposal)=>{
+        const bundle={world:null,actors:[],shards:[],visualDebris:[]};
         if(worldChanged){const reply=await meshAsync(actorRockSamples(next.world),'world',next.revision);
           if(reply.revision!==next.revision)throw new Error('Stale world mesh result');workerTimes.push(reply.meshMs);
           const mesh=own({kind:'render',value:threeMesh(reply)}).value;
@@ -85,6 +96,18 @@ async function transition(propose,{worldChanged=false,label='Rock mined'}={}){
           colliderTimes.push(performance.now()-startCollider);
           bundle.actors.push({id:actor.id,mesh,product});
         }
+        if(proposal.shatter)for(const [index,shard] of proposal.shatter.pieces.entries()){
+          if(shard.kind==='transient-physical'){
+            if(physics.shards.size+bundle.shards.length>=ROCK_PROFILE.maxTransientShardBodies)throw new Error('Transient shard body budget');
+            const id=`shard-${next.revision}-${index}`,reply=await meshAsync(shard,id,next.revision);
+            if(reply.actorId!==id||reply.revision!==next.revision)throw new Error('Stale shard mesh result');workerTimes.push(reply.meshMs);
+            if(reply.indices.length){const startCollider=performance.now(),product=physics.prepareShard(id,shard,reply);
+              if(product){own({kind:'physics',value:product});colliderTimes.push(performance.now()-startCollider);
+                const mesh=own({kind:'render',value:threeMesh(reply,id)}).value;bundle.shards.push({id,mesh,product});continue;}
+            }
+          }
+          bundle.visualDebris.push(shard);
+        }
         return bundle;
       },
       validate:(next,bundle)=>bundle.actors.every(x=>next.actors.some(a=>a.id===x.id&&a.contentRevision===x.product.revision)),
@@ -94,6 +117,8 @@ async function transition(propose,{worldChanged=false,label='Rock mined'}={}){
         const oldIds=[...actorRenders.keys()];physics.installActors(bundle.actors.map(x=>x.product),oldIds);
         for(const mesh of actorRenders.values())disposeRender(mesh);actorRenders=new Map();
         for(const actor of bundle.actors){actorRenders.set(actor.id,actor.mesh);scene.add(actor.mesh);}
+        for(const shard of bundle.shards){physics.installShard(shard.product);shardRenders.set(shard.id,shard.mesh);scene.add(shard.mesh);}
+        for(const shard of bundle.visualDebris)emitVisualDebris(shard);
         syncVisuals();
       },
     });
@@ -101,7 +126,10 @@ async function transition(propose,{worldChanged=false,label='Rock mined'}={}){
     showState(result.status==='OK'?`${label}${result.detached?' — the boulder is falling.':''}${result.split?' — it split into retained pieces.':''}`:
       result.status==='HOLD'?`HOLD: ${result.reason}`:result.status==='STALE'?'The rock moved or changed; aim again.':'No removable matter at that point.');
     return result;
-  }catch(error){errors.push(error.message);showState(owner.publicationFailed?'Publication failed after save. Reload to rebuild committed state.':`Edit retained for retry: ${error.message}`);return {status:'ERROR',reason:error.message};}
+  }catch(error){errors.push(error.message);const collisionHold=error.message.startsWith('Rock collider visible-surface gate');
+    showState(collisionHold?'HOLD: this cut cannot get safe physical collision. The rock and rewards remain as before.':
+      owner.publicationFailed?'Publication failed after save. Reload to rebuild committed state.':`Edit retained for retry: ${error.message}`);
+    return {status:collisionHold?'HOLD':'ERROR',reason:error.message};}
   finally{editing=false;showState();}
 }
 function cameraRay(clientX=canvas.clientWidth/2,clientY=canvas.clientHeight/2){
@@ -144,7 +172,11 @@ saveButton.addEventListener('click',async()=>{if(editing)return;editing=true;sho
 }catch(error){errors.push(error.message);editing=false;showState(`Save failed: ${error.message}`);}});
 let last=performance.now(),accumulator=0;function frame(now){requestAnimationFrame(frame);const dt=Math.min(.05,(now-last)/1000);last=now;
   frameTimes.push(dt*1000);if(frameTimes.length>600)frameTimes.shift();
-  if(!editing&&!owner.publicationFailed){accumulator+=dt;while(accumulator>=1/60){physics.step();accumulator-=1/60;}}
+  if(!editing&&!owner.publicationFailed){accumulator+=dt;while(accumulator>=1/60){for(const id of physics.step()){
+    disposeRender(shardRenders.get(id));shardRenders.delete(id);}accumulator-=1/60;}}
+  for(let i=visualLive.length-1;i>=0;i--){const item=visualLive[i];item.ttl-=dt;item.mesh.position.x+=item.velocity[0]*dt;
+    item.mesh.position.y+=item.velocity[1]*dt;item.mesh.position.z+=item.velocity[2]*dt;item.velocity[1]-=5*dt;
+    if(item.ttl<=0){scene.remove(item.mesh);visualPool.push(item.mesh);visualLive.splice(i,1);}}
   const pace=dt*4;if(keys.has('KeyW'))focus[2]-=pace;if(keys.has('KeyS'))focus[2]+=pace;if(keys.has('KeyA'))focus[0]-=pace;if(keys.has('KeyD'))focus[0]+=pace;
   const target=focus.map((v,i)=>v-physics.origin[i]);camera.position.set(target[0]+Math.sin(yaw)*Math.cos(pitch)*distance,target[1]+Math.sin(pitch)*distance,target[2]+Math.cos(yaw)*Math.cos(pitch)*distance);
   camera.lookAt(...target);syncVisuals();const w=canvas.clientWidth,h=canvas.clientHeight;if(canvas.width!==Math.round(w*renderer.getPixelRatio())||canvas.height!==Math.round(h*renderer.getPixelRatio())){
@@ -157,5 +189,6 @@ window.__cellularLab={get ready(){return ready},get state(){return owner.state},
   focusAt:point=>{focus=[...point]},aim:(nextYaw,nextPitch)=>{yaw=nextYaw;pitch=nextPitch},
   report:()=>({namespace,revision:owner.state.revision,audit:quantityAudit(owner.state),actors:owner.state.actors.map(a=>({id:a.id,parentId:a.parentId,contentRevision:a.contentRevision,pose:physics.pose(a.id)})),retired:owner.state.retired,
     workerTimes,colliderTimes,saveTimes,editTimes,frameP95:[...frameTimes].sort((a,b)=>a-b)[Math.floor(frameTimes.length*.95)]??null,
-    errors,bodyCount:physics.actors.size,worldColliderRevision:physics.worldProduct?.revision,colliderCounts:[...physics.actors.values()].map(a=>a.hullCount),
+    errors,bodyCount:physics.actors.size,transientShardBodies:physics.shards.size,pooledVisualDebris:visualLive.length,
+    worldColliderRevision:physics.worldProduct?.revision,colliderCounts:[...physics.actors.values()].map(a=>a.hullCount),
     triangles:[worldRender,...actorRenders.values()].filter(Boolean).map(mesh=>mesh.geometry.index.count/3)})};

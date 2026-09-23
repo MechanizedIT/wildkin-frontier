@@ -1,5 +1,9 @@
 # Resume Wildkin Frontier
 
+## September 23 Phase 0.5A.1 — collider HOLD
+
+The latest owner instruction authorized rock remnant cleanup and localized shattering only in the isolated lab. Read [the updated Phase 0.5 report](VOXEL_PHASE05_REPORT.md), current slice and Git before resuming. A bounded thickness conditioner shortens the old spires and a separate four-body transient shard pool animates consumed rock while preserving exact ledger ownership. Matched fracture-scale visuals and source/extracted-ZIP browser proof are recorded. A stricter visible-mesh/Rapier audit rejects the conditioned actor edit at a 2.86 m proxy gap before persistence; the previous actor and rewards reload unchanged. **Phase 0.5A.1 is HOLD.** Do not treat the old full-chain proof as a pass for the current candidate, expand collider budgets, change scalar spacing, begin tree/dirt, migrate shipping code or push without fresh owner direction.
+
 ## September 23 cellular rock proof — HOLD for review
 
 The owner authorized Phase 0.5A only. Start with [the actual Phase 0.5A report](VOXEL_PHASE05_REPORT.md) and current Git before resuming. The isolated `/lab/voxel/cellular-rock.html` passes the deterministic rock bite, detach, fall/rotation, actor edit, two-child split, child edit and reload browser chain in both source and extracted ZIP. Exact quantity accounting and failure rollback pass. The first irregular-cut probe passed at 0.5 m. The split silhouette develops thin spires and independent perceptual review was unavailable, so the result is **HOLD** for owner review. Do not infer permission for tree, dirt, production migration, Phase 0.5B or push. Existing Phase 0 phone HOLD and preserved `authoring/` remain.

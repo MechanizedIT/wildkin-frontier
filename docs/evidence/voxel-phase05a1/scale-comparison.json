@@ -1,0 +1,190 @@
+{
+  "timestamp": "2026-09-23T19:03:20.735Z",
+  "browser": "Edge headless/SwiftShader",
+  "viewport": [
+    1500,
+    900
+  ],
+  "seed": 9212026,
+  "results": [
+    {
+      "ready": true,
+      "condition": false,
+      "cutCount": 8,
+      "results": [
+        {
+          "scale": 1.5,
+          "triangles": 728,
+          "components": [
+            803,
+            92
+          ],
+          "conditioned": 0
+        },
+        {
+          "scale": 2,
+          "triangles": 444,
+          "components": [
+            93,
+            96,
+            43,
+            39,
+            21
+          ],
+          "conditioned": 0
+        },
+        {
+          "scale": 2.5,
+          "triangles": 548,
+          "components": [
+            470,
+            12,
+            4
+          ],
+          "conditioned": 0
+        }
+      ]
+    },
+    {
+      "ready": true,
+      "condition": true,
+      "cutCount": 8,
+      "results": [
+        {
+          "scale": 1.5,
+          "triangles": 572,
+          "components": [
+            338,
+            292,
+            92
+          ],
+          "conditioned": 194
+        },
+        {
+          "scale": 2,
+          "triangles": 348,
+          "components": [
+            78,
+            73,
+            43,
+            39,
+            6
+          ],
+          "conditioned": 75
+        },
+        {
+          "scale": 2.5,
+          "triangles": 548,
+          "components": [
+            470,
+            12,
+            4
+          ],
+          "conditioned": 0
+        }
+      ]
+    },
+    {
+      "ready": true,
+      "condition": false,
+      "cutCount": 12,
+      "results": [
+        {
+          "scale": 1.5,
+          "triangles": 636,
+          "components": [
+            379,
+            231,
+            92
+          ],
+          "conditioned": 0
+        },
+        {
+          "scale": 2,
+          "triangles": 392,
+          "components": [
+            93,
+            96,
+            21,
+            4,
+            4
+          ],
+          "conditioned": 0
+        },
+        {
+          "scale": 2.5,
+          "triangles": 480,
+          "components": [
+            272,
+            126,
+            12,
+            4
+          ],
+          "conditioned": 0
+        }
+      ]
+    },
+    {
+      "ready": true,
+      "condition": true,
+      "cutCount": 12,
+      "results": [
+        {
+          "scale": 1.5,
+          "triangles": 440,
+          "components": [
+            240,
+            166,
+            92
+          ],
+          "conditioned": 220
+        },
+        {
+          "scale": 2,
+          "triangles": 296,
+          "components": [
+            78,
+            73,
+            6,
+            4,
+            4
+          ],
+          "conditioned": 75
+        },
+        {
+          "scale": 2.5,
+          "triangles": 480,
+          "components": [
+            272,
+            126,
+            12,
+            4
+          ],
+          "conditioned": 0
+        }
+      ]
+    },
+    {
+      "ready": true,
+      "condition": false,
+      "splitStep": 11,
+      "triangles": [
+        524,
+        520,
+        520
+      ]
+    },
+    {
+      "ready": true,
+      "condition": true,
+      "splitStep": 7,
+      "triangles": [
+        584,
+        468,
+        468
+      ]
+    }
+  ],
+  "errors": [],
+  "external": []
+}

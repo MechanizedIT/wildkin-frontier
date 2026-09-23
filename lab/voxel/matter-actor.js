@@ -2,8 +2,11 @@ import { rockDomain, cutRockSamples } from './fracture-field.js';
 import { makeSupportedRockSamples, supportedRockDensity } from './matter-fixtures.js';
 import { createWorldMatterVolume, createActorMatterVolume } from './matter-volume.js';
 import { analyzeRockConnectivity } from './matter-connectivity.js';
-import { cloneRockSamples, extractRockIsland, parcelBits } from './matter-ownership.js';
+import { cloneRockSamples, extractRockIsland, parcelBits, rockMeshUnionAudit } from './matter-ownership.js';
 import { actorToWorldPoint } from './matter-target.js';
+import { conditionRockSamples, normalizeRockScalarTopology } from './matter-conditioning.js';
+import { ROCK_PROFILE } from './matter-rock-profile.js';
+import { describeRockShatter } from './matter-shatter.js';
 
 export const CELLULAR_VERSION='cellular-rock-0.5a-v1';
 const domain=rockDomain(9212026),key=p=>p.join(',');
@@ -78,10 +81,10 @@ function updateFromMask(state,currentOwner,nextOwner,after,componentByCell=null)
     else state.ownership[k]=nextOwner;
   }
 }
-export function mineWorldRock(state,hit){
-  const next=structuredClone(state),before=deserialize(state.world),after=cloneRockSamples(before),cut=cutRockSamples(after,domain,hit);
+export function mineWorldRock(state,hit,{fractureDomain=domain,edgeBandMeters=.04}={}){
+  const next=structuredClone(state),before=deserialize(state.world),after=cloneRockSamples(before),cut=cutRockSamples(after,fractureDomain,hit,{edgeBandMeters});
   if(!cut.changed)return {status:'NO_HIT',state};
-  const support=analyzeRockConnectivity(after,domain);
+  const support=analyzeRockConnectivity(after,fractureDomain);
   if(support.status!=='OK')return {status:'HOLD',reason:support.reason,state};
   const islands=support.components.filter(c=>!c.anchored);
   if(islands.length>1)return {status:'HOLD',reason:'world cut produced more than one unsupported island',state};
@@ -93,8 +96,12 @@ export function mineWorldRock(state,hit){
     const componentByCell=new Map();for(const c of support.components)for(const p of c.cells)componentByCell.set(key(p),c.anchored?'world':id);
     updateFromMask(next,'world','world',after,componentByCell);
   }else{next.world=serializeWorld(after);updateFromMask(next,'world','world',after);}
+  const survivors=islands.length?[deserialize(next.world),deserialize(next.actors.at(-1))]:[deserialize(next.world)];
+  const shatter=describeRockShatter(before,survivors,next.rewards.stoneUnits-state.rewards.stoneUnits,
+    {position:[0,0,0],rotation:{x:0,y:0,z:0,w:1},linearVelocity:[0,0,0],angularVelocity:[0,0,0]},hit,ROCK_PROFILE,fractureDomain);
+  if(shatter?.status==='HOLD')return {...shatter,state};
   next.revision++;assertBudget(next);
-  return {status:'OK',state:next,detached:islands.length,cut};
+  return {status:'OK',state:next,detached:islands.length,cut,shatter};
 }
 function componentMasks(sample,components){
   const owners=new Map();components.forEach((c,i)=>c.cells.forEach(p=>owners.set(key(p),i)));
@@ -112,16 +119,21 @@ function componentMasks(sample,components){
     if(expected[i])surviving++;const count=bits.filter(b=>b[i]).length;if(expected[i]?count!==1:count!==0)error++;
   }});
   if(error/Math.max(1,surviving)>.05)return {status:'HOLD',reason:`actor split occupancy union error ${(100*error/surviving).toFixed(2)}%`};
+  const meshAudit=rockMeshUnionAudit(sample,outputs);if(!meshAudit.matches)return {status:'HOLD',reason:`actor split surface union differs from cut field ${JSON.stringify(meshAudit)}`};
   return {status:'OK',outputs,owners,errorRate:error/Math.max(1,surviving)};
 }
-export function mineActorRock(state,actorId,expectedRevision,localHit){
+export function mineActorRock(state,actorId,expectedRevision,localHit,{fractureDomain=domain,edgeBandMeters=.04,conditioning=true,rockProfile=ROCK_PROFILE}={}){
   const next=structuredClone(state),parent=next.actors.find(a=>a.id===actorId);
   if(!parent||parent.contentRevision!==expectedRevision)return {status:'STALE',state};
-  const before=deserialize(parent),after=cloneRockSamples(before),cut=cutRockSamples(after,domain,localHit);
+  const before=deserialize(parent);let after=cloneRockSamples(before);const cut=cutRockSamples(after,fractureDomain,localHit,{edgeBandMeters});
   if(!cut.changed)return {status:'NO_HIT',state};
-  const support=analyzeRockConnectivity(after,domain,{anchor:()=>false});
+  const topology=normalizeRockScalarTopology(after,localHit,fractureDomain,{...rockProfile,cellMeters:fractureDomain.cellMeters});
+  if(topology.status!=='OK')return {...topology,state};after=topology.sample;cut.normalized=topology.removedProbes;
+  if(conditioning){const result=conditionRockSamples(after,localHit,{...rockProfile,cellMeters:fractureDomain.cellMeters},fractureDomain);
+    if(result.status!=='OK')return {...result,state};after=result.sample;cut.conditioned=result.removedProbes;cut.thinGroups=result.thinGroups;}
+  const support=analyzeRockConnectivity(after,fractureDomain,{anchor:()=>false});
   if(support.status!=='OK')return {status:'HOLD',reason:support.reason,state};
-  const retained=support.components.filter(c=>c.occupiedProbes>=64);
+  const retained=support.components.filter(c=>c.occupiedProbes>=rockProfile.physicalRetentionProbes);
   if(retained.length>4||next.actors.length-1+retained.length>4)return {status:'HOLD',reason:'four actor limit',state};
   if(!retained.length)return {status:'HOLD',reason:'no representable retained actor',state};
   if(retained.length===1){
@@ -138,7 +150,9 @@ export function mineActorRock(state,actorId,expectedRevision,localHit){
       if(kept.has(cell)&&parcelBits(remaining,p)[Number(part)])continue;
       next.ownership[k]='consumed';next.rewards.stoneUnits++;
     }
-    next.revision++;assertBudget(next);return {status:'OK',state:next,split:false,cut};
+    const shatter=describeRockShatter(before,[remaining],next.rewards.stoneUnits-state.rewards.stoneUnits,parent,localHit,rockProfile,fractureDomain);
+    if(shatter?.status==='HOLD')return {...shatter,state};
+    next.revision++;assertBudget(next);return {status:'OK',state:next,split:false,cut,shatter};
   }
   const masks=componentMasks(after,retained);if(masks.status!=='OK')return {...masks,state};
   const children=retained.map((c,i)=>{const id=`${parent.id}/r${next.revision+1}/${i}`,record=newActor(id,masks.outputs[i],parent,c);
@@ -149,7 +163,9 @@ export function mineActorRock(state,actorId,expectedRevision,localHit){
     const target=parcelBits(after,p)[Number(part)]?componentByCell.get(cell):null;
     if(target)next.ownership[k]=target;else{next.ownership[k]='consumed';next.rewards.stoneUnits++;}
   }
+  const shatter=describeRockShatter(before,masks.outputs,next.rewards.stoneUnits-state.rewards.stoneUnits,parent,localHit,rockProfile,fractureDomain);
+  if(shatter?.status==='HOLD')return {...shatter,state};
   next.actors=next.actors.filter(a=>a.id!==actorId).concat(children);next.retired.push(actorId);next.revision++;assertBudget(next);
-  return {status:'OK',state:next,split:true,children:ids,cut};
+  return {status:'OK',state:next,split:true,children:ids,cut,shatter};
 }
 export function actorRockSamples(actor){return deserialize(actor);}

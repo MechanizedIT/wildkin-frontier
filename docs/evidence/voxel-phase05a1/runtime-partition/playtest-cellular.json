@@ -1,0 +1,568 @@
+{
+  "timestamp": "2026-09-23T18:41:59.008Z",
+  "base": "http://localhost:8093/lab/voxel/cellular-rock.html",
+  "id": "cellular-proof-1790188919007",
+  "browser": "Edge headless/SwiftShader",
+  "checks": [
+    {
+      "stage": "irregular world bite",
+      "report": {
+        "namespace": "wildkin-voxel-lab-cellular-0.5a-v1-cellular-proof-1790188919007",
+        "revision": 1,
+        "audit": {
+          "world": 2115,
+          "consumed": 49,
+          "total": 2164,
+          "initial": 2164,
+          "balanced": true
+        },
+        "actors": [],
+        "retired": [],
+        "workerTimes": [
+          58.10000002384186,
+          17.5
+        ],
+        "colliderTimes": [
+          1.399999976158142,
+          7
+        ],
+        "saveTimes": [
+          31.899999976158142
+        ],
+        "editTimes": [
+          264.59999990463257
+        ],
+        "frameP95": 50,
+        "errors": [],
+        "bodyCount": 0,
+        "transientShardBodies": 1,
+        "pooledVisualDebris": 1,
+        "worldColliderRevision": 1,
+        "colliderCounts": [],
+        "triangles": [
+          708
+        ]
+      }
+    },
+    {
+      "stage": "Rapier fall/rotation",
+      "detached": {
+        "position": [
+          1.7319085597991943,
+          0.19705986976623535,
+          -1.5956813097000122
+        ],
+        "rotation": {
+          "x": 0.16981439292430878,
+          "y": 0.010995990596711636,
+          "z": 0.2900903522968292,
+          "w": 0.941748321056366
+        },
+        "linearVelocity": [
+          -1.0797439813613892,
+          -0.7107110619544983,
+          -1.1835596561431885
+        ],
+        "angularVelocity": [
+          -0.6744064092636108,
+          0.07263454049825668,
+          0.5716564655303955
+        ],
+        "sleepState": "ACTIVE"
+      },
+      "fallen": {
+        "position": [
+          -1.1969656944274902,
+          4.988304615020752,
+          -3.069247245788574
+        ],
+        "rotation": {
+          "x": -0.5828291177749634,
+          "y": 0.225129172205925,
+          "z": 0.7386789321899414,
+          "w": 0.2529439926147461
+        },
+        "linearVelocity": [
+          -1.1999003887176514,
+          0.029222222045063972,
+          -0.7249536514282227
+        ],
+        "angularVelocity": [
+          -0.3812146484851837,
+          -0.0006967955268919468,
+          0.6309208869934082
+        ],
+        "sleepState": "ACTIVE"
+      },
+      "colliders": [
+        4
+      ]
+    },
+    {
+      "stage": "rotated actor local hit",
+      "report": {
+        "namespace": "wildkin-voxel-lab-cellular-0.5a-v1-cellular-proof-1790188919007",
+        "revision": 5,
+        "audit": {
+          "world": 92,
+          "consumed": 201,
+          "rock-3": 1871,
+          "total": 2164,
+          "initial": 2164,
+          "balanced": true
+        },
+        "actors": [
+          {
+            "id": "rock-3",
+            "parentId": null,
+            "contentRevision": 2,
+            "pose": {
+              "position": [
+                -2.702996253967285,
+                5.564918041229248,
+                -3.602088451385498
+              ],
+              "rotation": {
+                "x": -0.6232548952102661,
+                "y": 0.17700988054275513,
+                "z": 0.7528287172317505,
+                "w": 0.11605921387672424
+              },
+              "linearVelocity": [
+                0.09626562893390656,
+                -0.04489140212535858,
+                0.4426977336406708
+              ],
+              "angularVelocity": [
+                0.2308635711669922,
+                0.0044747209176421165,
+                -0.049764636904001236
+              ],
+              "sleepState": "ACTIVE"
+            }
+          }
+        ],
+        "retired": [],
+        "workerTimes": [
+          247
+        ],
+        "colliderTimes": [
+          112.30000007152557
+        ],
+        "saveTimes": [
+          39.90000009536743
+        ],
+        "editTimes": [
+          693.1000000238419
+        ],
+        "frameP95": 50,
+        "errors": [],
+        "bodyCount": 1,
+        "transientShardBodies": 0,
+        "pooledVisualDebris": 0,
+        "worldColliderRevision": 4,
+        "colliderCounts": [
+          4
+        ],
+        "triangles": [
+          104,
+          576
+        ]
+      }
+    },
+    {
+      "stage": "two retained children, no old source or retired parent",
+      "report": {
+        "namespace": "wildkin-voxel-lab-cellular-0.5a-v1-cellular-proof-1790188919007",
+        "revision": 13,
+        "audit": {
+          "world": 92,
+          "consumed": 1442,
+          "rock-3/r13/0": 338,
+          "rock-3/r13/1": 292,
+          "total": 2164,
+          "initial": 2164,
+          "balanced": true
+        },
+        "actors": [
+          {
+            "id": "rock-3/r13/0",
+            "parentId": "rock-3",
+            "contentRevision": 1,
+            "pose": {
+              "position": [
+                -2.309295892715454,
+                0.8482676148414612,
+                3.9363560676574707
+              ],
+              "rotation": {
+                "x": -0.31439799070358276,
+                "y": -0.4340950846672058,
+                "z": 0.5422894358634949,
+                "w": 0.647022008895874
+              },
+              "linearVelocity": [
+                -0.00981249287724495,
+                0.00042385797132737935,
+                -0.007450807373970747
+              ],
+              "angularVelocity": [
+                -0.008604747243225574,
+                9.406009553458716e-7,
+                0.01133218128234148
+              ],
+              "sleepState": "ACTIVE"
+            }
+          },
+          {
+            "id": "rock-3/r13/1",
+            "parentId": "rock-3",
+            "contentRevision": 1,
+            "pose": {
+              "position": [
+                -9.323629379272461,
+                4.381643295288086,
+                -5.465496063232422
+              ],
+              "rotation": {
+                "x": -0.46357759833335876,
+                "y": 0.026567872613668442,
+                "z": 0.7707371115684509,
+                "w": -0.4362960457801819
+              },
+              "linearVelocity": [
+                -0.12456224113702774,
+                -0.1895560324192047,
+                -0.20937027037143707
+              ],
+              "angularVelocity": [
+                -0.3276662230491638,
+                0.00006837292312411591,
+                0.19489353895187378
+              ],
+              "sleepState": "ACTIVE"
+            }
+          }
+        ],
+        "retired": [
+          "rock-3"
+        ],
+        "workerTimes": [
+          614.5999999046326,
+          220.80000007152557,
+          86.10000002384186,
+          22.100000023841858,
+          84.89999997615814,
+          42.700000047683716,
+          32.799999952316284,
+          6.600000023841858,
+          11.800000071525574,
+          13.600000023841858,
+          18.299999952316284,
+          8.899999976158142
+        ],
+        "colliderTimes": [
+          117.90000009536743,
+          151.69999992847443,
+          42.799999952316284,
+          0.40000009536743164,
+          40.799999952316284,
+          22.800000071525574,
+          19.199999928474426,
+          11,
+          0.8999999761581421,
+          0.8999999761581421,
+          0.2999999523162842,
+          0.2999999523162842
+        ],
+        "saveTimes": [
+          95.89999997615814,
+          29.299999952316284,
+          66.20000004768372,
+          86.5,
+          50.60000002384186,
+          26,
+          57.5
+        ],
+        "editTimes": [
+          1217.6000000238419,
+          694.6999999284744,
+          632.8999999761581,
+          537.3999999761581,
+          260.7000000476837,
+          205.5,
+          15.799999952316284,
+          313.2999999523163,
+          11.099999904632568
+        ],
+        "frameP95": 50,
+        "errors": [],
+        "bodyCount": 2,
+        "transientShardBodies": 3,
+        "pooledVisualDebris": 0,
+        "worldColliderRevision": 6,
+        "colliderCounts": [
+          4,
+          4
+        ],
+        "triangles": [
+          104,
+          288,
+          180
+        ]
+      }
+    },
+    {
+      "stage": "child hit and quantity",
+      "report": {
+        "namespace": "wildkin-voxel-lab-cellular-0.5a-v1-cellular-proof-1790188919007",
+        "revision": 15,
+        "audit": {
+          "world": 92,
+          "consumed": 1457,
+          "rock-3/r13/0": 323,
+          "rock-3/r13/1": 292,
+          "total": 2164,
+          "initial": 2164,
+          "balanced": true
+        },
+        "actors": [
+          {
+            "id": "rock-3/r13/0",
+            "parentId": "rock-3",
+            "contentRevision": 2,
+            "pose": {
+              "position": [
+                -2.318147659301758,
+                0.9026497602462769,
+                3.928912401199341
+              ],
+              "rotation": {
+                "x": -0.314778208732605,
+                "y": -0.43361711502075195,
+                "z": 0.5476877093315125,
+                "w": 0.642595648765564
+              },
+              "linearVelocity": [
+                -0.13344135880470276,
+                -0.008760686032474041,
+                -0.10178357362747192
+              ],
+              "angularVelocity": [
+                -0.11945459991693497,
+                0.000016396148566855118,
+                0.1567530333995819
+              ],
+              "sleepState": "ACTIVE"
+            }
+          },
+          {
+            "id": "rock-3/r13/1",
+            "parentId": "rock-3",
+            "contentRevision": 1,
+            "pose": {
+              "position": [
+                -9.26315975189209,
+                4.3334269523620605,
+                -5.643271446228027
+              ],
+              "rotation": {
+                "x": -0.45439016819000244,
+                "y": 0.045313116163015366,
+                "z": 0.773024320602417,
+                "w": -0.4403516948223114
+              },
+              "linearVelocity": [
+                0.0003216871409676969,
+                0.00012766761938109994,
+                -0.00016984992544166744
+              ],
+              "angularVelocity": [
+                -0.00027249541017226875,
+                0.000004682410690293182,
+                -0.0005124451708979905
+              ],
+              "sleepState": "ACTIVE"
+            }
+          }
+        ],
+        "retired": [
+          "rock-3"
+        ],
+        "workerTimes": [
+          91.09999990463257,
+          59.60000002384186
+        ],
+        "colliderTimes": [
+          4.899999976158142,
+          1
+        ],
+        "saveTimes": [
+          51.10000002384186
+        ],
+        "editTimes": [
+          404.5
+        ],
+        "frameP95": 50,
+        "errors": [],
+        "bodyCount": 2,
+        "transientShardBodies": 0,
+        "pooledVisualDebris": 2,
+        "worldColliderRevision": 14,
+        "colliderCounts": [
+          4,
+          4
+        ],
+        "triangles": [
+          104,
+          280,
+          180
+        ]
+      }
+    },
+    {
+      "stage": "literal reload after child hit",
+      "report": {
+        "namespace": "wildkin-voxel-lab-cellular-0.5a-v1-cellular-proof-1790188919007",
+        "revision": 16,
+        "audit": {
+          "world": 92,
+          "consumed": 1457,
+          "rock-3/r13/0": 323,
+          "rock-3/r13/1": 292,
+          "total": 2164,
+          "initial": 2164,
+          "balanced": true
+        },
+        "actors": [
+          {
+            "id": "rock-3/r13/0",
+            "parentId": "rock-3",
+            "contentRevision": 2,
+            "pose": {
+              "position": [
+                -2.705687999725342,
+                2.482639789581299,
+                3.401829242706299
+              ],
+              "rotation": {
+                "x": -0.3498346507549286,
+                "y": -0.37932518124580383,
+                "z": 0.682100236415863,
+                "w": 0.5181385278701782
+              },
+              "linearVelocity": [
+                -0.40293389558792114,
+                0.22153227031230927,
+                -0.7461161613464355
+              ],
+              "angularVelocity": [
+                -0.958132803440094,
+                -0.013414014130830765,
+                0.5130382776260376
+              ],
+              "sleepState": "ACTIVE"
+            }
+          },
+          {
+            "id": "rock-3/r13/1",
+            "parentId": "rock-3",
+            "contentRevision": 1,
+            "pose": {
+              "position": [
+                -9.262910842895508,
+                4.330108165740967,
+                -5.643336296081543
+              ],
+              "rotation": {
+                "x": -0.4543856978416443,
+                "y": 0.045332279056310654,
+                "z": 0.7730376124382019,
+                "w": -0.4403313100337982
+              },
+              "linearVelocity": [
+                0,
+                -0.3294892907142639,
+                0
+              ],
+              "angularVelocity": [
+                0,
+                0,
+                0
+              ],
+              "sleepState": "ACTIVE"
+            }
+          }
+        ],
+        "retired": [
+          "rock-3"
+        ],
+        "workerTimes": [],
+        "colliderTimes": [],
+        "saveTimes": [],
+        "editTimes": [],
+        "frameP95": 50,
+        "errors": [],
+        "bodyCount": 2,
+        "transientShardBodies": 0,
+        "pooledVisualDebris": 0,
+        "worldColliderRevision": 16,
+        "colliderCounts": [
+          4,
+          4
+        ],
+        "triangles": [
+          104,
+          280,
+          180
+        ]
+      }
+    },
+    {
+      "stage": "native Mine button targets world and fallen actor scalar field",
+      "worldRevision": 1,
+      "before": 3,
+      "after": 4
+    },
+    {
+      "stage": "precommit failures retain world authority and products",
+      "failures": [
+        {
+          "name": "worker failure",
+          "status": "ERROR",
+          "same": true,
+          "bodyCount": 0,
+          "colliderRevision": 0,
+          "reward": 0
+        },
+        {
+          "name": "stale worker result",
+          "status": "ERROR",
+          "same": true,
+          "bodyCount": 0,
+          "colliderRevision": 0,
+          "reward": 0
+        },
+        {
+          "name": "collider preparation failure",
+          "status": "ERROR",
+          "same": true,
+          "bodyCount": 0,
+          "colliderRevision": 0,
+          "reward": 0
+        },
+        {
+          "name": "real IndexedDB abort",
+          "status": "ERROR",
+          "same": true,
+          "bodyCount": 0,
+          "colliderRevision": 0,
+          "reward": 0
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "external": [],
+  "pass": true
+}

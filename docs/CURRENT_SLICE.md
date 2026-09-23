@@ -1,5 +1,11 @@
 # Wildkin Frontier — current scope and checkpoint
 
+## Phase 0.5A.1 rock remnant and shatter checkpoint — September 23, 2026
+
+**HOLD for owner review.** The current isolated rock candidate removes orphan scalar corners, trims local thin remnant groups, fractures a narrow connection earlier, and partitions consumed material into bounded temporary physical shards with exact one-time reward accounting. Matched 1.5/2/2.5 m comparisons retain 1.5 m as the provisional fracture scale, with Surface Nets, 16³ chunks and 0.5 m samples unchanged. A wider real Rapier/visible-mesh ray audit found a 2.45 m child-collider error and a 2.86 m error on an earlier actor cut. The new preparation gate rejects that edit before save/publication; source and extracted-ZIP browser receipts prove the existing actor/rewards survive and reload. [Diagnosis, matched images and measurements](VOXEL_PHASE05_REPORT.md).
+
+The prior Phase 0.5A complete split/child/reload chain is historical evidence from before this collider gate, not an admitted chain for the current candidate. Do not proceed to tree, dirt, Phase 0.5B, production migration, or push. The separate Phase 0 phone HOLD remains.
+
 ## Phase 0.5A cellular rock proof — September 23, 2026
 
 Chris explicitly authorized one isolated recursively destructible rock, beginning at `379fe71` plus the current working tree. The fracture-field falsification probe passed at 0.5 m with 1.5 m rock cells. The browser and extracted lab ZIP complete world bite → neck severance → Rapier fall and rotation → actor-local mining → two retained physical children → child mining → literal reload, with exact 2,164-unit accounting. The new lab uses a separate save namespace and changes no shipping source or old Phase 0 save. [Actual evidence and measured limits](VOXEL_PHASE05_REPORT.md).

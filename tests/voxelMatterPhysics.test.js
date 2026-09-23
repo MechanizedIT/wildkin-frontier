@@ -48,4 +48,18 @@ test('edited rock compound remains close to its visible notched surface',async()
     assert.ok(Math.abs(meshHit.distance-bodyHit.timeOfImpact)<=.5,`${meshHit.distance} vs ${bodyHit.timeOfImpact}`);
   }finally{physics.dispose();}
 });
+test('unsafe conditioned split child collider is rejected before publication',async()=>{
+  await RAPIER.init();let state=createInitialRockState();for(const hit of [[0,4,-1.55],[.5,1.5,0],[-.5,1.5,0]])state=mineWorldRock(state,hit).state;
+  let actor=state.actors[0];state=mineActorRock(state,actor.id,actor.contentRevision,[1.55,4,0]).state;
+  const hits=[[0,4,0],[0,4,-.5],[0,3,0],[0,5,0],[0,4.5,-.5],[0,5.5,0],[0,4,-1.5],[0,3,1]];
+  for(const hit of hits){actor=state.actors[0];const edit=mineActorRock(state,actor.id,actor.contentRevision,hit);
+    assert.ok(['OK','NO_HIT'].includes(edit.status),edit.reason);state=edit.state;if(edit.split)break;}
+  assert.equal(state.actors.length,2);
+  const original=state.actors[0],child={...original,position:[0,0,0],rotation:{x:0,y:0,z:0,w:1}},
+    mesh=meshRockSamples(actorRockSamples(child)),physics=new CellularRockPhysics(RAPIER);
+  try{
+    assert.throws(()=>physics.prepareActor(child,mesh),/Rock collider visible-surface gate/);
+    assert.equal(physics.actors.size,0);
+  }finally{physics.dispose();}
+});
 function vec(p){return {x:p[0],y:p[1],z:p[2]};}
