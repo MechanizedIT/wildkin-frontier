@@ -1,0 +1,27 @@
+{
+  "timestamp": "2026-09-23T01:30:56.865Z",
+  "browser": "Edge headless/SwiftShader",
+  "viewport": [
+    1500,
+    820
+  ],
+  "seed": 9212026,
+  "spacing": 0.5,
+  "chunkSize": 16,
+  "probe": {
+    "cellResult": {
+      "id": "rock:9212026:v1:-1,-1,0,0",
+      "changed": 35
+    },
+    "triangleCount": [
+      724,
+      48,
+      616,
+      48,
+      616,
+      48
+    ]
+  },
+  "errors": [],
+  "external": []
+}

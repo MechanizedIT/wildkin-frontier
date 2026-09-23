@@ -2,9 +2,19 @@ import { generatePadded, generateSmoothPadded, hashBytes } from './generator.js'
 import { meshGreedy } from './js-mesher.js';
 import { meshSurfaceNets } from './surface-nets.js';
 import { meshMarchingTetrahedra } from './marching-tetrahedra.js';
+import { meshRockSamples } from './matter-mesh.js';
 const candidates = new Map();
 self.onmessage = async ({ data: job }) => {
   try {
+    if(job.kind==='cellular-rock-mesh'){
+      const started=performance.now();
+      const sample={min:[-3,0,-3],size:[13,13,13],densities:new Float32Array(job.densities),materials:new Uint8Array(job.materials)};
+      const {positions,normals,colors,indices}=meshRockSamples(sample);
+      const meshHash=[positions,normals,colors,indices].map(a=>hashBytes(new Uint8Array(a.buffer,a.byteOffset,a.byteLength))).join(':');
+      self.postMessage({id:job.id,kind:job.kind,actorId:job.actorId,revision:job.revision,meshMs:performance.now()-started,meshHash,
+        positions,normals,colors,indices},[positions.buffer,normals.buffer,colors.buffer,indices.buffer]);
+      return;
+    }
     let mesher;
     const smooth=['surface-nets','marching-tetrahedra'].includes(job.mesher);
     if(smooth)mesher={mesh:job.mesher==='surface-nets'?meshSurfaceNets:meshMarchingTetrahedra};

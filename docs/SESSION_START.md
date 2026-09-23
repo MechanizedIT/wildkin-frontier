@@ -1,5 +1,9 @@
 # Resume Wildkin Frontier
 
+## September 23 cellular rock proof — HOLD for review
+
+The owner authorized Phase 0.5A only. Start with [the actual Phase 0.5A report](VOXEL_PHASE05_REPORT.md) and current Git before resuming. The isolated `/lab/voxel/cellular-rock.html` passes the deterministic rock bite, detach, fall/rotation, actor edit, two-child split, child edit and reload browser chain in both source and extracted ZIP. Exact quantity accounting and failure rollback pass. The first irregular-cut probe passed at 0.5 m. The split silhouette develops thin spires and independent perceptual review was unavailable, so the result is **HOLD** for owner review. Do not infer permission for tree, dirt, production migration, Phase 0.5B or push. Existing Phase 0 phone HOLD and preserved `authoring/` remain.
+
 ## September 22 cellular matter plan — stop for review
 
 Latest task is **planning only**. Read [DESTRUCTIBLE_CELLULAR_MATTER_PLAN.md](DESTRUCTIBLE_CELLULAR_MATTER_PLAN.md) for the proposed Phase 0.5 cellular fracture, editable actors, ownership/physics transactions, tests and budgets. The recommendation is one rock through detach → rotated mining → split → child mining → reload before tree/dirt expansion. No runtime implementation began. Await owner review and a fresh explicit implementation instruction; do not infer authorization from this plan. The Phase 0 baseline and deferred phone HOLD below remain intact.

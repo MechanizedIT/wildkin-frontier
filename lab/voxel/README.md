@@ -1,4 +1,12 @@
-# Wildkin voxel lab (Phase 0 only)
+# Wildkin voxel lab
+
+## Phase 0.5A cellular rock (separate scenario)
+
+Open `/lab/voxel/cellular-rock.html` from `node tools/serve.mjs --port 8090`. A low-poly rock begins on a narrow neck. Drag to orbit, use the wheel to zoom, WASD to move the view, click or press **Mine at crosshair** to chip its scalar surface, and press **F** to follow a fallen piece. **Save & reload** performs an actual IndexedDB round trip. Mine a side, sever the neck, follow the rotating rock, cut its middle into two retained pieces, and mine a child. The status panel shows revision, actor/retired counts and exact stone-unit balance. This bounded fixture uses a new `wildkin-voxel-lab-cellular-0.5a-v1` namespace and does not read the Phase 0 save.
+
+`node tools/probe-voxel-fracture.mjs` captures the first cellular/sphere/axis comparison. `node tools/playtest-voxel-cellular.mjs` drives the complete deterministic browser sequence and failure injection; the source server must already be running. Set `VOXEL_CELLULAR_URL` to test an extracted ZIP copy. See `docs/VOXEL_PHASE05_REPORT.md` for the HOLD, evidence and limits.
+
+## Phase 0 smooth lab
 
 Run `node tools/serve.mjs --port 8090`, then open `/lab/voxel/index.html`.
 The normal `/index.html` is still the preserved expedition. This page owns a

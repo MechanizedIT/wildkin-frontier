@@ -20,6 +20,27 @@ export class LabWorldState {
     });
     this.queue = task.catch(() => {}); return task;
   }
+  transactPrepared({expectedRevision,propose,prepare,install,discard,validate=()=>true}){
+    const task=this.queue.then(async()=>{
+      if(this.publicationFailed)throw new Error('Committed cellular state requires reconstruction before interaction');
+      if(this.state.revision!==expectedRevision)return {status:'STALE',state:this.state};
+      const proposal=propose(this.state);
+      if(proposal.status!=='OK')return proposal;
+      const next=proposal.state;if(next.revision!==expectedRevision+1)throw new Error('Invalid prepared revision');
+      const owned=[];const own=value=>{owned.push(value);return value;};let prepared;
+      try{
+        prepared=await prepare(next,own);
+        if(this.state.revision!==expectedRevision||!validate(next,prepared))return {status:'STALE',state:this.state};
+        const start=this.now();await this.store.save(next);this.onTiming('saveMs',this.now()-start);
+        this.state=next;
+        try{await install(prepared,next,proposal);}catch(error){this.publicationFailed=error;throw error;}
+        return {...proposal,state:next};
+      }finally{
+        if(this.state!==next)for(const value of owned.reverse())try{discard(value);}catch{/* preserve original failure */}
+      }
+    });
+    this.queue=task.catch(()=>{});return task;
+  }
   mine(cell, tool, known = () => true, brush = {}) {
     if(this.state.mode==='smooth')return this.mineSmooth(cell,tool,known,brush);
     return this.transact(next => {
@@ -80,5 +101,16 @@ export class LabWorldState {
   }
   saveActors(poses) {
     return this.transact(next => { for (const actor of next.actors) { const pose = poses.find(p => p.id === actor.id); if (pose) Object.assign(actor, pose); } return true; });
+  }
+  saveCellularPoses(poses){
+    return this.transact(next=>{let count=0;for(const pose of poses){const actor=next.actors.find(a=>a.id===pose.id&&a.contentRevision===pose.contentRevision);
+      if(!actor)continue;
+      if(!Array.isArray(pose.position)||pose.position.length!==3||!pose.position.every(Number.isFinite)||
+        !['x','y','z','w'].every(k=>Number.isFinite(pose.rotation?.[k]))||
+        !Array.isArray(pose.linearVelocity)||pose.linearVelocity.length!==3||!pose.linearVelocity.every(Number.isFinite)||
+        !Array.isArray(pose.angularVelocity)||pose.angularVelocity.length!==3||!pose.angularVelocity.every(Number.isFinite))continue;
+      for(const field of ['position','rotation','linearVelocity','angularVelocity','sleepState'])actor[field]=structuredClone(pose[field]);
+      actor.poseRevision++;count++;
+    }return count?{count}:false;});
   }
 }

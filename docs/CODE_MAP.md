@@ -1,5 +1,9 @@
 # Wildkin Frontier code map
 
+## Phase 0.5A cellular rock lab (isolated, no shipping imports)
+
+`lab/voxel/cellular-rock.html` and `cellular-main.js` compose the one-rock browser proof and its single loop. `fracture-field.js` owns stable seeded sites and the local irregular cell cut; `matter-fixtures.js` owns the deterministic supported boulder. `matter-volume.js` supplies the shared world-generator/sparse-edit and bounded actor-snapshot read contract. `matter-connectivity.js` validates occupied structural contact and anchors; `matter-ownership.js` owns fixed subparcel accounting and extraction masks; `matter-actor.js` owns pure world/actor cuts, transfer, lineage and deterministic child split. `matter-target.js` owns scalar hits and frame transforms. `matter-mesh.js` feeds unchanged Surface Nets; `matter-colliders.js` plans bounded hulls; `matter-physics.js` owns Rapier bodies. `cellular-persistence.js` validates the separate IndexedDB namespace. `world-state.js` serializes prepared cellular transactions and pose checkpoints; `worker.js` computes cellular candidates. `fracture-probe.html/js`, `tests/voxelFractureField.test.js` and `tests/voxelMatter*.test.js`, plus `tools/probe-voxel-fracture.mjs` and `tools/playtest-voxel-cellular.mjs`, own focused evidence. [Phase 0.5A report](VOXEL_PHASE05_REPORT.md) records the HOLD and limits.
+
 ## Isolated smooth voxel lab (Phase 0; no shipping imports)
 
 `lab/voxel/main.js` composes one loop and controls. `coordinates.js` owns integer

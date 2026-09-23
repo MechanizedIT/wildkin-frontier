@@ -1,0 +1,17 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Wildkin cellular rock laboratory</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#101b21;color:#eee9d9;font:15px system-ui;overflow:hidden}#scene{width:100vw;height:100vh;display:block}
+#hud{position:absolute;top:14px;left:14px;max-width:390px;background:#12242cd9;border:1px solid #57707a;border-radius:10px;padding:14px;box-shadow:0 12px 36px #0008}
+h1{font-size:20px;line-height:1.2;margin:0 0 8px}p{margin:6px 0}button{background:#b3d3bd;color:#10211a;border:0;border-radius:6px;font:bold 14px system-ui;padding:8px 12px;margin:6px 6px 0 0;cursor:pointer}button:disabled{opacity:.45;cursor:wait}
+#message{min-height:40px;color:#f5d49a}#stats{font:12px ui-monospace,monospace;color:#b9cbd0;white-space:pre-wrap}
+#crosshair{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);pointer-events:none;font:bold 24px system-ui;text-shadow:0 0 5px #000}
+#hint{position:absolute;bottom:14px;left:14px;background:#12242cd9;padding:9px 12px;border-radius:7px;max-width:660px}
+@media(max-width:700px){#hud{max-width:min(340px,80vw);font-size:13px;padding:10px}h1{font-size:16px}#hint{max-width:90vw;font-size:12px}}
+</style>
+<canvas id="scene"></canvas><div id="crosshair">+</div>
+<aside id="hud"><h1>Cellular rock · Phase 0.5A</h1><p id="stage">Loading the supported boulder…</p><p id="message"></p>
+<button id="mine">Mine at crosshair</button><button id="focus">Follow rock (F)</button><button id="save">Save &amp; reload</button>
+<p id="stats"></p></aside>
+<div id="hint">Drag to orbit · Wheel to zoom · WASD to move the view · Click or Mine to chip stone · F follows a fallen piece. The narrow neck under the boulder is its support.</div>
+<script type="module" src="./cellular-main.js"></script></html>

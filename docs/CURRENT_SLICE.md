@@ -1,5 +1,11 @@
 # Wildkin Frontier — current scope and checkpoint
 
+## Phase 0.5A cellular rock proof — September 23, 2026
+
+Chris explicitly authorized one isolated recursively destructible rock, beginning at `379fe71` plus the current working tree. The fracture-field falsification probe passed at 0.5 m with 1.5 m rock cells. The browser and extracted lab ZIP complete world bite → neck severance → Rapier fall and rotation → actor-local mining → two retained physical children → child mining → literal reload, with exact 2,164-unit accounting. The new lab uses a separate save namespace and changes no shipping source or old Phase 0 save. [Actual evidence and measured limits](VOXEL_PHASE05_REPORT.md).
+
+**Gate: HOLD for owner/perceptual review.** After many central cuts, the split pieces have thin spires; no independent perceptual reviewer was available, and the long cut sequence used diagnostic hits. The assumption that 0.5 m scalar component masks produce a convincing recursive split silhouette remains unadmitted. Keep the Phase 0 phone HOLD separate. Do not proceed to tree, dirt, Phase 0.5B, production migration or push.
+
 ## Cellular matter planning — September 22, 2026
 
 The owner requested planning only for material-specific cellular fracture and recursively destructible matter actors. [The Phase 0.5 plan](DESTRUCTIBLE_CELLULAR_MATTER_PLAN.md) preserves the Surface Nets / 16³ / 0.5 m prototype, proposes hybrid fracture/geometry connectivity and transactional actor editing, and recommends one rock as the first bounded implementation proof. These engineering choices await owner review; **no Phase 0.5 implementation or shipping change is authorized by this planning checkpoint**. Stop for review and a fresh implementation instruction. Phase 0's deferred real-phone HOLD, paused Blender/Rootbound work and preserved `authoring/` remain unchanged.

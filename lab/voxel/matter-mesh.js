@@ -1,0 +1,21 @@
+import { meshSurfaceNets } from './surface-nets.js';
+
+export const ROCK_MESH_START=[-4,-1,-4];
+export const ROCK_CHUNK_SIZE=16;
+export function paddedRockSnapshot(samples){
+  const size=ROCK_CHUNK_SIZE,n=size+2,densities=new Float32Array(n**3),materials=new Uint8Array(n**3);
+  for(let z=-1;z<=size;z++)for(let y=-1;y<=size;y++)for(let x=-1;x<=size;x++){
+    const meter=[x,y,z].map((v,i)=>ROCK_MESH_START[i]+v*.5),
+      q=meter.map((v,i)=>Math.round((v-samples.min[i])/.5)),j=(x+1)+n*((y+1)+n*(z+1));
+    if(q.some((v,i)=>v<0||v>=samples.size[i])){densities[j]=2;continue;}
+    const i=q[0]+samples.size[0]*(q[1]+samples.size[1]*q[2]);
+    densities[j]=samples.densities[i];materials[j]=densities[j]<0?samples.materials[i]:0;
+  }
+  return {size,spacing:.5,densities,materials};
+}
+export function meshRockSamples(samples){
+  const mesh=meshSurfaceNets(paddedRockSnapshot(samples));
+  for(let i=0;i<mesh.positions.length;i++)mesh.positions[i]+=ROCK_MESH_START[i%3];
+  if(mesh.indices.length/3>8192)throw new Error('Rock render triangle budget exceeded');
+  return mesh;
+}
