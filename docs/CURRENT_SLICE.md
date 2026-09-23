@@ -1,5 +1,9 @@
 # Wildkin Frontier — current scope and checkpoint
 
+## Cellular matter planning — September 22, 2026
+
+The owner requested planning only for material-specific cellular fracture and recursively destructible matter actors. [The Phase 0.5 plan](DESTRUCTIBLE_CELLULAR_MATTER_PLAN.md) preserves the Surface Nets / 16³ / 0.5 m prototype, proposes hybrid fracture/geometry connectivity and transactional actor editing, and recommends one rock as the first bounded implementation proof. These engineering choices await owner review; **no Phase 0.5 implementation or shipping change is authorized by this planning checkpoint**. Stop for review and a fresh implementation instruction. Phase 0's deferred real-phone HOLD, paused Blender/Rootbound work and preserved `authoring/` remain unchanged.
+
 ## Phase 0 closeout — September 22, 2026
 
 Chris directed us to wrap Phase 0, commit and push `main`, and defer the real-phone landscape test. The isolated smooth voxel lab and desktop/desktop-emulated measurements are complete. [The evidence report](VOXEL_PHASE0_REPORT.md) provisionally favors Surface Nets, 16³ chunks and 0.5 m scalar samples. **The decision gate remains HOLD for phone performance; there is no Phase 1 authorization.** Shipping world, legacy saves, Blender work, and untracked `authoring/` remain unchanged.

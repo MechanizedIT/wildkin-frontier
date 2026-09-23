@@ -1,5 +1,9 @@
 # Resume Wildkin Frontier
 
+## September 22 cellular matter plan — stop for review
+
+Latest task is **planning only**. Read [DESTRUCTIBLE_CELLULAR_MATTER_PLAN.md](DESTRUCTIBLE_CELLULAR_MATTER_PLAN.md) for the proposed Phase 0.5 cellular fracture, editable actors, ownership/physics transactions, tests and budgets. The recommendation is one rock through detach → rotated mining → split → child mining → reload before tree/dirt expansion. No runtime implementation began. Await owner review and a fresh explicit implementation instruction; do not infer authorization from this plan. The Phase 0 baseline and deferred phone HOLD below remain intact.
+
 ## September 22 closeout
 
 Chris asked to finish Phase 0, commit on `main`, push to GitHub, and defer the physical phone test. The report records a provisional 16³ / 0.5 m Surface Nets choice from measured desktop evidence, with a HOLD on full mobile admission. Do not begin Phase 1 or resume Blender/Rootbound work from this handoff. The lab is separate from the shipping build and the untracked `authoring/` directory must remain untouched.
