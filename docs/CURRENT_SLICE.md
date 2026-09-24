@@ -1,6 +1,14 @@
 # Wildkin Frontier — current scope and checkpoint
 
-## Phase 0.5A.3 native voxel collision experiment — September 24, 2026
+## Phase 0.5A.4 material-aware hard-rock proof — September 24, 2026
+
+**PASS — A.4 complete; stop for owner review.** Independent review accepts this bounded experiment. Hard rock remains inside the isolated cellular lab. Visible Surface Nets and scalar matter are authoritative for mining; four-sector convex compounds provide approximate Rapier support and blocking. Small deterministic chips accumulate persistent bounded bond stress. A mostly intact supported boulder detaches, falls and rotates; a moved child splits into two persistent mineable pieces. Exact ledger accounting, recursive child damage, and literal nested save/reload are evidenced in [the A.4 report](VOXEL_PHASE05A4_REPORT.md) and [browser receipt/screenshots](evidence/voxel-phase05a4/).
+
+First dynamic fracture: 2,151 / 2,164 units remain (99.40%). The child was hit at its moved pose and split again. The reload restored three actors, their structural state, retirement lineage, quantities, and saved poses; physics resumes from those poses. The fixture uses three actors after recursive fracture, zero persistent shard bodies, and four convex sectors per body. See the receipt for timing and the bounds of the headless measurements. No shipping `src/` changes or new dependencies.
+
+This checkpoint supersedes the exact visible-surface/proxy equivalence admission gate in A.1–A.3. Those collision studies remain valuable failed evidence; no native voxel collider search is resumed. `npm test`, `npm run verify`, and `npm run zip` passed. Stop for owner review. Recommend choosing either Phase 0.5B (a second material profile) or more hard-rock feel/presentation work; do not begin either automatically.
+
+## Historical: Phase 0.5A.3 native voxel collision experiment — September 24, 2026
 
 **HOLD; STOP for owner review.** Fresh authorization from pushed `ef900a9` covers only this bounded collision experiment. Verified native Rapier 0.20.0 voxels at 0.25/0.5 m fail the unchanged surface/player gates and pass through the actual lab static terrain/trimesh, including CCD. The cuboid-floor and existing-hull terrain controls work. One actual connected-fragment fallback also fails; 16/24/32 are tested ceilings, with no unsafe merges admitted to force a count. The isolated inspector exposes these candidates; mining/ownership/save/publication, visible Surface Nets / 16³ / 0.5 m / 1.5 m cells, shipping code and persistent budgets remain unchanged. Intended small-chip mining plus separate stress and occasional structural splits is documented only. [Report and evidence](VOXEL_PHASE05A3_REPORT.md). Await owner review; no further collision search, stress/fracture gameplay, tree/dirt, migration or push.
 

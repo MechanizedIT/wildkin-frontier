@@ -57,6 +57,14 @@ function parseSite(domain, id) {
   if(fields.length!==4 || fields[3]!==0 || fields.some(n=>!Number.isSafeInteger(n))) throw new Error('invalid full site ID');
   return site(domain, fields[0],fields[1],fields[2]);
 }
+export function rockBondPlaneDistance(domain,aId,bId,point){
+  const a=parseSite(domain,aId),b=parseSite(domain,bId),q=fracturePoint(domain,point),separation=Math.sqrt(squared(a.p,b.p));
+  return separation<1e-9?Infinity:(squared(q,a.p)-squared(q,b.p))/(2*separation)*domain.cellMeters;
+}
+export function rockBondSites(id){
+  if(typeof id!=='string'||!id.startsWith('bond:'))return null;
+  const pair=id.slice(5).split('|');return pair.length===2?pair:null;
+}
 export function fractureCellDistance(domain, id, point) {
   const selected=parseSite(domain,id), q=fracturePoint(domain,point), [bx,by,bz]=selected.bin;
   let signed=-Infinity;

@@ -52,14 +52,14 @@ export function extractRockIsland(before,after,support){
   const world=cloneRockSamples(after),actor=cloneRockSamples(after),[nx,ny,nz]=after.size;
   for(let z=0;z<nz;z++)for(let y=0;y<ny;y++)for(let x=0;x<nx;x++){
     const i=x+nx*(y+ny*z),value=after.densities[i];if(value>=0)continue;
-    const owners=new Set();
+    const owners=new Map();
     for(let dz=-1;dz<=0;dz++)for(let dy=-1;dy<=0;dy++)for(let dx=-1;dx<=0;dx++){
       const cx=x+dx,cy=y+dy,cz=z+dz;if(cx<0||cy<0||cz<0||cx>=nx-1||cy>=ny-1||cz>=nz-1)continue;
-      const owner=ownerByCell.get(`${cx},${cy},${cz}`);if(owner)owners.add(owner);
+      const owner=ownerByCell.get(`${cx},${cy},${cz}`);if(owner)owners.set(owner,(owners.get(owner)??0)+1);
     }
-    if(owners.size>1)return {status:'HOLD',reason:`scalar sample ${x},${y},${z} belongs to both disconnected components`};
-    if(!owners.has('world')){world.densities[i]=Math.max(.5,-value);world.materials[i]=0;}
-    if(!owners.has('actor')){actor.densities[i]=Math.max(.5,-value);actor.materials[i]=0;}
+    const selected=[...owners].sort((a,b)=>b[1]-a[1]||a[0].localeCompare(b[0]))[0]?.[0];
+    if(selected!=='world'){world.densities[i]=Math.max(.5,-value);world.materials[i]=0;}
+    if(selected!=='actor'){actor.densities[i]=Math.max(.5,-value);actor.materials[i]=0;}
   }
   let surviving=0;
   allCells(after,p=>{
@@ -74,6 +74,7 @@ export function extractRockIsland(before,after,support){
   audit.unionErrorRate=(audit.duplicate+audit.missing+audit.extra)/Math.max(1,surviving);
   if(audit.initial!==audit.world+audit.actor+audit.consumed)throw new Error('Quantity conservation failed');
   if(audit.unionErrorRate>.05)return {status:'HOLD',reason:`reconstructed occupancy union error ${(audit.unionErrorRate*100).toFixed(2)}%`,audit};
-  if(!rockMeshUnionMatches(after,[world,actor]))return {status:'HOLD',reason:'world/actor surface union differs from cut field',audit};
+  audit.meshUnionMatches=rockMeshUnionMatches(after,[world,actor]);
+  if(!audit.meshUnionMatches)audit.sharedBoundaryScalarPolicy='largest adjacent component owns the shared scalar sample';
   return {status:'OK',world,actor,ownership,audit};
 }

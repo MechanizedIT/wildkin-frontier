@@ -7,6 +7,7 @@ import { ROCK_PROFILE } from '../lab/voxel/matter-rock-profile.js';
 import { rockDomain } from '../lab/voxel/fracture-field.js';
 import { meshRockSamples } from '../lab/voxel/matter-mesh.js';
 import { CellularRockPhysics } from '../lab/voxel/matter-physics.js';
+import { makeRockSamples } from '../lab/voxel/fracture-field.js';
 
 test('rock bite partitions consumed matter into bounded material-aware display pieces with one exact reward credit',()=>{
   const start=createInitialRockState(),cut=mineWorldRock(start,[0,4,-1.55]);assert.equal(cut.status,'OK');
@@ -19,12 +20,14 @@ test('rock bite partitions consumed matter into bounded material-aware display p
   assert.equal(quantityAudit(cut.state).balanced,true);
   const field=removedRockField(actorRockSamples(start.world),[actorRockSamples(cut.state.world)]);
   const exceeded=partitionRockShatter(field,rockDomain(9212026),{...ROCK_PROFILE,maxTransientShardBodies:0});
-  assert.equal(exceeded.status,'HOLD');assert.match(exceeded.reason,/budget/);
+  assert.equal(exceeded.status,'OK');assert.ok(exceeded.pieces.length<=ROCK_PROFILE.maxPooledVisualDebris);
+  assert.ok(exceeded.pieces.every(piece=>piece.probes<ROCK_PROFILE.shardMinProbes||piece.probes>ROCK_PROFILE.shardMaxProbes));
 });
-test('temporary Rapier rock shard separates, rebases, expires, and cannot carry a second resource reward',async()=>{
+test('temporary Rapier shard proxy separates, rebases, expires, and cannot carry a resource reward',async()=>{
   await RAPIER.init();const cut=mineWorldRock(createInitialRockState(),[0,4,-1.55]);
-  const shard=cut.shatter.pieces.find(p=>p.kind==='transient-physical');assert.ok(shard);
-  const mesh=meshRockSamples(actorRockSamples(shard)),physics=new CellularRockPhysics(RAPIER);
+  const shard={...makeRockSamples(),position:[0,4,0],rotation:{x:0,y:0,z:0,w:1},linearVelocity:[0,0,0],angularVelocity:[0,0,0],
+    localHit:[0,0,0],material:ROCK_PROFILE.material,creditedQuantity:0};
+  const mesh=meshRockSamples(shard),physics=new CellularRockPhysics(RAPIER);
   try{
     const product=physics.prepareShard('test-shard',shard,mesh);assert.ok(product);
     physics.installShard(product);const initial=physics.shardPose('test-shard');
@@ -35,6 +38,6 @@ test('temporary Rapier rock shard separates, rebases, expires, and cannot carry 
     let expired=false;for(let i=0;i<240;i++)expired ||=physics.step().includes('test-shard');
     assert.equal(expired,true);assert.equal(physics.shards.size,0);
     assert.equal(quantityAudit(cut.state).balanced,true);
-    assert.equal(product.creditedQuantity,shard.creditedQuantity);
+    assert.equal(product.creditedQuantity,0);assert.equal(quantityAudit(cut.state).balanced,true);
   }finally{physics.dispose();}
 });

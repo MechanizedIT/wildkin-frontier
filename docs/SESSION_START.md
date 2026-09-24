@@ -1,5 +1,9 @@
 # Resume Wildkin Frontier
 
+## September 24 Phase 0.5A.4 — material-aware hard-rock proof
+
+Read [the Phase 0.5A.4 report](VOXEL_PHASE05A4_REPORT.md) and [current slice](CURRENT_SLICE.md). The isolated lab now separates authoritative Surface Nets mining from approximate convex physics, applies deterministic local chips plus bounded persistent stress, and fractures a mostly intact boulder into retained actors. The browser receipt follows a detached rock through fall/rotation, two structural splits, recursively mined moved child, and literal save/reload with exact 2,164-unit accounting. Independent review passed; `npm test`, `npm run verify`, and `npm run zip` passed. Stop for owner review. No production-world migration, other material, mobile-performance claim, or automatic next phase.
+
 ## September 24 Phase 0.5A.3 — bounded experiment closed HOLD
 
 Read [the Phase 0.5A.3 report](VOXEL_PHASE05A3_REPORT.md). The native voxel API is verified in vendored Rapier 0.20.0, but 0.25/0.5 m collider candidates fail both gameplay shape gates and dynamic contact with the lab static terrain/trimesh. The sole connected-fragment fallback does not pass under the requested ceilings. No candidate is installed in gameplay; stress/fracture remains unimplemented. Source/package inspector and mining/HOLD/reload checks preserve the old build. This request authorizes a local main commit and STOP, not a push or further production.

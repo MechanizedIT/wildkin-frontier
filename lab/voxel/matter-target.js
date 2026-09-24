@@ -32,6 +32,11 @@ export function pickActorSurface(actors,{originRelative,direction,origin=[0,0,0]
   }
   return best;
 }
+export function pickWorldSurface(samples,{originRelative,direction,origin=[0,0,0],revision=0,maxDistance=8}){
+  const pose={position:[0,0,0],rotation:{x:0,y:0,z:0,w:1}},hit=pickActorSurface([{id:'world',contentRevision:revision,pose,readDensity:p=>readRockScalar(samples,p)}],
+    {originRelative,direction,origin,maxDistance});
+  return hit?{...hit,ownerId:'world',localPoint:[...hit.localPoint]}:null;
+}
 export function validateActorHit(hit,actor){
   if(!hit||!actor||hit.actorId!==actor.id||hit.contentRevision!==actor.contentRevision||hit.poseRevision!==(actor.poseRevision??0))return false;
   const a=hit.pose,b=actor.pose;

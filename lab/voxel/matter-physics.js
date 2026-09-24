@@ -43,10 +43,9 @@ export class CellularRockPhysics {
         colliders.push(this.world.createCollider(descriptor.setDensity(.6).setFriction(.85),body));
       }
       if(colliders.length>8)throw new Error('Eight collider limit');
-      const collisionAudit=auditPreparedRockCollision(this.R,mesh,record,colliders,this.origin);
-      if(!collisionAudit.passes)throw new Error(`Rock collider visible-surface gate ${JSON.stringify(collisionAudit)}`);
       body.setLinvel(vec(record.linearVelocity),false);body.setAngvel(vec(record.angularVelocity),false);
-      return {id:record.id,body,colliders,revision:record.contentRevision,hullCount:colliders.length,sleepState:record.sleepState,collisionAudit};
+      return {id:record.id,body,colliders,revision:record.contentRevision,hullCount:colliders.length,sleepState:record.sleepState,
+        proxyPolicy:'bounded convex gameplay proxy; scalar surface remains mining authority'};
     }catch(error){this.world.removeRigidBody(body);throw error;}
   }
   prepareShard(id,record,mesh){

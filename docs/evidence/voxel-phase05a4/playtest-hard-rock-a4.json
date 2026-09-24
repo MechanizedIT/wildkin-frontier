@@ -1,0 +1,1353 @@
+{
+  "timestamp": "2026-09-24T08:53:42.004Z",
+  "base": "http://localhost:8123/lab/voxel/cellular-rock.html",
+  "id": "hard-rock-a4-1790240022003",
+  "browser": "Microsoft Edge headless / SwiftShader",
+  "viewport": {
+    "width": 1280,
+    "height": 720
+  },
+  "checks": [
+    {
+      "stage": "first visible chip",
+      "revision": 1,
+      "audit": {
+        "world": 2160,
+        "consumed": 4,
+        "total": 2164,
+        "initial": 2164,
+        "balanced": true
+      },
+      "timing": {
+        "namespace": "wildkin-voxel-lab-cellular-0.5a4-v1-hard-rock-a4-1790240022003",
+        "revision": 1,
+        "audit": {
+          "world": 2160,
+          "consumed": 4,
+          "total": 2164,
+          "initial": 2164,
+          "balanced": true
+        },
+        "actors": [],
+        "retired": [],
+        "workerTimes": [
+          44.39999997615814
+        ],
+        "colliderTimes": [
+          1.2999999523162842
+        ],
+        "saveTimes": [
+          24.399999976158142
+        ],
+        "editTimes": [
+          210.79999995231628
+        ],
+        "rockWorkMetrics": [
+          {
+            "revision": 1,
+            "elapsedMs": 0,
+            "seamSamples": 0,
+            "bondId": null,
+            "chipMs": 0.2999999523162842,
+            "graphMs": 29.40000009536743,
+            "stressMs": 0.3999999761581421,
+            "connectivityMs": 16.700000047683716
+          }
+        ],
+        "frameP95": 50,
+        "errors": [],
+        "bodyCount": 0,
+        "transientShardBodies": 0,
+        "pooledVisualDebris": 1,
+        "worldColliderRevision": 1,
+        "colliderCounts": [],
+        "triangles": [
+          692
+        ]
+      }
+    },
+    {
+      "stage": "repeated small chips and stress",
+      "revision": 3,
+      "audit": {
+        "world": 2155,
+        "consumed": 9,
+        "total": 2164,
+        "initial": 2164,
+        "balanced": true
+      },
+      "weakness": {
+        "namespace": "wildkin-voxel-lab-cellular-0.5a4-v1-hard-rock-a4-1790240022003",
+        "revision": 3,
+        "audit": {
+          "world": 2155,
+          "consumed": 9,
+          "total": 2164,
+          "initial": 2164,
+          "balanced": true
+        },
+        "actors": [],
+        "retired": [],
+        "workerTimes": [
+          44.39999997615814,
+          31.899999976158142,
+          32.200000047683716
+        ],
+        "colliderTimes": [
+          1.2999999523162842,
+          1.2999999523162842,
+          0.9000000953674316
+        ],
+        "saveTimes": [
+          24.399999976158142,
+          22.899999976158142,
+          9.900000095367432
+        ],
+        "editTimes": [
+          210.79999995231628,
+          194.30000007152557,
+          185.40000009536743
+        ],
+        "rockWorkMetrics": [
+          {
+            "revision": 1,
+            "elapsedMs": 0,
+            "seamSamples": 0,
+            "bondId": null,
+            "chipMs": 0.2999999523162842,
+            "graphMs": 29.40000009536743,
+            "stressMs": 0.3999999761581421,
+            "connectivityMs": 16.700000047683716
+          },
+          {
+            "revision": 2,
+            "elapsedMs": 0,
+            "seamSamples": 0,
+            "bondId": null,
+            "chipMs": 0.10000002384185791,
+            "graphMs": 17.300000071525574,
+            "stressMs": 0.3999999761581421,
+            "connectivityMs": 22.799999952316284
+          },
+          {
+            "revision": 3,
+            "elapsedMs": 0,
+            "seamSamples": 0,
+            "bondId": null,
+            "chipMs": 0.20000004768371582,
+            "graphMs": 43.5,
+            "stressMs": 0.3999999761581421,
+            "connectivityMs": 13.399999976158142
+          }
+        ],
+        "frameP95": 50,
+        "errors": [],
+        "bodyCount": 0,
+        "transientShardBodies": 0,
+        "pooledVisualDebris": 3,
+        "worldColliderRevision": 3,
+        "colliderCounts": [],
+        "triangles": [
+          696
+        ]
+      }
+    },
+    {
+      "stage": "pre-fracture crack feedback",
+      "revision": 7,
+      "audit": {
+        "world": 2154,
+        "consumed": 10,
+        "total": 2164,
+        "initial": 2164,
+        "balanced": true
+      },
+      "timing": {
+        "namespace": "wildkin-voxel-lab-cellular-0.5a4-v1-hard-rock-a4-1790240022003",
+        "revision": 7,
+        "audit": {
+          "world": 2154,
+          "consumed": 10,
+          "total": 2164,
+          "initial": 2164,
+          "balanced": true
+        },
+        "actors": [],
+        "retired": [],
+        "workerTimes": [
+          44.39999997615814,
+          31.899999976158142,
+          32.200000047683716,
+          16.09999990463257,
+          7,
+          9.800000071525574,
+          15.099999904632568
+        ],
+        "colliderTimes": [
+          1.2999999523162842,
+          1.2999999523162842,
+          0.9000000953674316,
+          1.1999999284744263,
+          1.2999999523162842,
+          1.100000023841858,
+          1
+        ],
+        "saveTimes": [
+          24.399999976158142,
+          22.899999976158142,
+          9.900000095367432,
+          30.5,
+          21.799999952316284,
+          16.200000047683716,
+          11.399999976158142
+        ],
+        "editTimes": [
+          210.79999995231628,
+          194.30000007152557,
+          185.40000009536743,
+          143.39999997615814,
+          144.5,
+          130.60000002384186,
+          123
+        ],
+        "rockWorkMetrics": [
+          {
+            "revision": 1,
+            "elapsedMs": 0,
+            "seamSamples": 0,
+            "bondId": null,
+            "chipMs": 0.2999999523162842,
+            "graphMs": 29.40000009536743,
+            "stressMs": 0.3999999761581421,
+            "connectivityMs": 16.700000047683716
+          },
+          {
+            "revision": 2,
+            "elapsedMs": 0,
+            "seamSamples": 0,
+            "bondId": null,
+            "chipMs": 0.10000002384185791,
+            "graphMs": 17.300000071525574,
+            "stressMs": 0.3999999761581421,
+            "connectivityMs": 22.799999952316284
+          },
+          {
+            "revision": 3,
+            "elapsedMs": 0,
+            "seamSamples": 0,
+            "bondId": null,
+            "chipMs": 0.20000004768371582,
+            "graphMs": 43.5,
+            "stressMs": 0.3999999761581421,
+            "connectivityMs": 13.399999976158142
+          },
+          {
+            "revision": 4,
+            "elapsedMs": 0,
+            "seamSamples": 0,
+            "bondId": null,
+            "chipMs": 0.10000002384185791,
+            "graphMs": 10.299999952316284,
+            "stressMs": 0.20000004768371582,
+            "connectivityMs": 15.199999928474426
+          },
+          {
+            "revision": 5,
+            "elapsedMs": 0,
+            "seamSamples": 0,
+            "bondId": null,
+            "chipMs": 0.10000002384185791,
+            "graphMs": 18.899999976158142,
+            "stressMs": 0.5,
+            "connectivityMs": 26.100000023841858
+          },
+          {
+            "revision": 6,
+            "elapsedMs": 0,
+            "seamSamples": 0,
+            "bondId": null,
+            "chipMs": 0,
+            "graphMs": 14.699999928474426,
+            "stressMs": 0.30000007152557373,
+            "connectivityMs": 19.09999990463257
+          },
+          {
+            "revision": 7,
+            "elapsedMs": 0,
+            "seamSamples": 0,
+            "bondId": null,
+            "chipMs": 0.09999990463256836,
+            "graphMs": 12.700000047683716,
+            "stressMs": 0.3999999761581421,
+            "connectivityMs": 19.100000023841858
+          }
+        ],
+        "frameP95": 50,
+        "errors": [],
+        "bodyCount": 0,
+        "transientShardBodies": 0,
+        "pooledVisualDebris": 1,
+        "worldColliderRevision": 7,
+        "colliderCounts": [],
+        "triangles": [
+          692
+        ]
+      }
+    },
+    {
+      "stage": "static-to-dynamic detachment",
+      "revision": 8,
+      "audit": {
+        "world": 118,
+        "consumed": 10,
+        "rock-8": 2036,
+        "total": 2164,
+        "initial": 2164,
+        "balanced": true
+      },
+      "actors": [
+        {
+          "id": "rock-8",
+          "parentId": null,
+          "contentRevision": 1,
+          "pose": {
+            "position": [
+              0.30531585216522217,
+              -0.03580188751220703,
+              -0.000029537826776504517
+            ],
+            "rotation": {
+              "x": 0.0000035714474506676197,
+              "y": 0.000006532326551678125,
+              "z": 0.03930319473147392,
+              "w": 0.9992274045944214
+            },
+            "linearVelocity": [
+              0,
+              -1.2953336238861084,
+              0
+            ],
+            "angularVelocity": [
+              0.00018635534797795117,
+              0.00036284205270931125,
+              1.1455965042114258
+            ],
+            "sleepState": "ACTIVE"
+          }
+        }
+      ],
+      "timing": {
+        "namespace": "wildkin-voxel-lab-cellular-0.5a4-v1-hard-rock-a4-1790240022003",
+        "revision": 8,
+        "audit": {
+          "world": 118,
+          "consumed": 10,
+          "rock-8": 2036,
+          "total": 2164,
+          "initial": 2164,
+          "balanced": true
+        },
+        "actors": [
+          {
+            "id": "rock-8",
+            "parentId": null,
+            "contentRevision": 1,
+            "pose": {
+              "position": [
+                0.30531585216522217,
+                -0.03580188751220703,
+                -0.000029537826776504517
+              ],
+              "rotation": {
+                "x": 0.0000035714474506676197,
+                "y": 0.000006532326551678125,
+                "z": 0.03930319473147392,
+                "w": 0.9992274045944214
+              },
+              "linearVelocity": [
+                0,
+                -1.2953336238861084,
+                0
+              ],
+              "angularVelocity": [
+                0.00018635534797795117,
+                0.00036284205270931125,
+                1.1455965042114258
+              ],
+              "sleepState": "ACTIVE"
+            }
+          }
+        ],
+        "retired": [],
+        "workerTimes": [
+          44.39999997615814,
+          31.899999976158142,
+          32.200000047683716,
+          16.09999990463257,
+          7,
+          9.800000071525574,
+          15.099999904632568,
+          3.8000000715255737,
+          9.299999952316284
+        ],
+        "colliderTimes": [
+          1.2999999523162842,
+          1.2999999523162842,
+          0.9000000953674316,
+          1.1999999284744263,
+          1.2999999523162842,
+          1.100000023841858,
+          1,
+          0.3999999761581421,
+          40
+        ],
+        "saveTimes": [
+          24.399999976158142,
+          22.899999976158142,
+          9.900000095367432,
+          30.5,
+          21.799999952316284,
+          16.200000047683716,
+          11.399999976158142,
+          21
+        ],
+        "editTimes": [
+          210.79999995231628,
+          194.30000007152557,
+          185.40000009536743,
+          143.39999997615814,
+          144.5,
+          130.60000002384186,
+          123,
+          247.69999992847443
+        ],
+        "rockWorkMetrics": [
+          {
+            "revision": 1,
+            "elapsedMs": 0,
+            "seamSamples": 0,
+            "bondId": null,
+            "chipMs": 0.2999999523162842,
+            "graphMs": 29.40000009536743,
+            "stressMs": 0.3999999761581421,
+            "connectivityMs": 16.700000047683716
+          },
+          {
+            "revision": 2,
+            "elapsedMs": 0,
+            "seamSamples": 0,
+            "bondId": null,
+            "chipMs": 0.10000002384185791,
+            "graphMs": 17.300000071525574,
+            "stressMs": 0.3999999761581421,
+            "connectivityMs": 22.799999952316284
+          },
+          {
+            "revision": 3,
+            "elapsedMs": 0,
+            "seamSamples": 0,
+            "bondId": null,
+            "chipMs": 0.20000004768371582,
+            "graphMs": 43.5,
+            "stressMs": 0.3999999761581421,
+            "connectivityMs": 13.399999976158142
+          },
+          {
+            "revision": 4,
+            "elapsedMs": 0,
+            "seamSamples": 0,
+            "bondId": null,
+            "chipMs": 0.10000002384185791,
+            "graphMs": 10.299999952316284,
+            "stressMs": 0.20000004768371582,
+            "connectivityMs": 15.199999928474426
+          },
+          {
+            "revision": 5,
+            "elapsedMs": 0,
+            "seamSamples": 0,
+            "bondId": null,
+            "chipMs": 0.10000002384185791,
+            "graphMs": 18.899999976158142,
+            "stressMs": 0.5,
+            "connectivityMs": 26.100000023841858
+          },
+          {
+            "revision": 6,
+            "elapsedMs": 0,
+            "seamSamples": 0,
+            "bondId": null,
+            "chipMs": 0,
+            "graphMs": 14.699999928474426,
+            "stressMs": 0.30000007152557373,
+            "connectivityMs": 19.09999990463257
+          },
+          {
+            "revision": 7,
+            "elapsedMs": 0,
+            "seamSamples": 0,
+            "bondId": null,
+            "chipMs": 0.09999990463256836,
+            "graphMs": 12.700000047683716,
+            "stressMs": 0.3999999761581421,
+            "connectivityMs": 19.100000023841858
+          },
+          {
+            "revision": 8,
+            "elapsedMs": 0,
+            "seamSamples": 0,
+            "bondId": null,
+            "chipMs": 0.10000002384185791,
+            "graphMs": 13.600000023841858,
+            "stressMs": 0.3999999761581421,
+            "connectivityMs": 13.399999976158142
+          }
+        ],
+        "frameP95": 50,
+        "errors": [],
+        "bodyCount": 1,
+        "transientShardBodies": 0,
+        "pooledVisualDebris": 0,
+        "worldColliderRevision": 8,
+        "colliderCounts": [
+          4
+        ],
+        "triangles": [
+          116,
+          592
+        ]
+      }
+    },
+    {
+      "stage": "Rapier fall and rotation",
+      "motion": {
+        "position": 5.043317261597396,
+        "rotationRadians": 2.290154681527673
+      },
+      "pose": {
+        "position": [
+          -1.3546323776245117,
+          4.716623783111572,
+          0.3066806197166443
+        ],
+        "rotation": {
+          "x": 0.2978166341781616,
+          "y": 0.0009041429148055613,
+          "z": 0.8762382864952087,
+          "w": 0.37882834672927856
+        },
+        "linearVelocity": [
+          -1.7334887981414795,
+          -0.31629231572151184,
+          0.23941676318645477
+        ],
+        "angularVelocity": [
+          0.12257413566112518,
+          0.000004726226052298443,
+          0.8874980807304382
+        ],
+        "sleepState": "ACTIVE"
+      },
+      "colliders": [
+        4
+      ],
+      "bodyCount": 1
+    },
+    {
+      "stage": "first substantial dynamic fracture",
+      "revision": 9,
+      "audit": {
+        "world": 118,
+        "consumed": 13,
+        "rock-8/r9/0": 1059,
+        "rock-8/r9/1": 974,
+        "total": 2164,
+        "initial": 2164,
+        "balanced": true
+      },
+      "remainingQuantity": 2151,
+      "remainingPercent": 99.39926062846581,
+      "actors": [
+        "rock-8/r9/0",
+        "rock-8/r9/1"
+      ],
+      "pose": [
+        {
+          "id": "rock-8/r9/0",
+          "parentId": "rock-8",
+          "contentRevision": 1,
+          "pose": {
+            "position": [
+              -3.158195734024048,
+              5.504580497741699,
+              0.6700608730316162
+            ],
+            "rotation": {
+              "x": 0.3025497496128082,
+              "y": 0.024172496050596237,
+              "z": 0.9295278191566467,
+              "w": 0.20942167937755585
+            },
+            "linearVelocity": [
+              -0.5045644044876099,
+              0.23841606080532074,
+              0.10436178743839264
+            ],
+            "angularVelocity": [
+              0.043293800204992294,
+              0.0022092198487371206,
+              0.3480341136455536
+            ],
+            "sleepState": "ACTIVE"
+          }
+        },
+        {
+          "id": "rock-8/r9/1",
+          "parentId": "rock-8",
+          "contentRevision": 1,
+          "pose": {
+            "position": [
+              -3.1884560585021973,
+              5.532780170440674,
+              0.6541102528572083
+            ],
+            "rotation": {
+              "x": 0.30744802951812744,
+              "y": 0.019983047619462013,
+              "z": 0.9279611706733704,
+              "w": 0.20967718958854675
+            },
+            "linearVelocity": [
+              -0.9756911396980286,
+              0.05551926791667938,
+              -0.10563422739505768
+            ],
+            "angularVelocity": [
+              -0.03135550394654274,
+              -0.04842590540647507,
+              0.22815170884132385
+            ],
+            "sleepState": "ACTIVE"
+          }
+        }
+      ],
+      "timing": {
+        "namespace": "wildkin-voxel-lab-cellular-0.5a4-v1-hard-rock-a4-1790240022003",
+        "revision": 9,
+        "audit": {
+          "world": 118,
+          "consumed": 13,
+          "rock-8/r9/0": 1059,
+          "rock-8/r9/1": 974,
+          "total": 2164,
+          "initial": 2164,
+          "balanced": true
+        },
+        "actors": [
+          {
+            "id": "rock-8/r9/0",
+            "parentId": "rock-8",
+            "contentRevision": 1,
+            "pose": {
+              "position": [
+                -3.158195734024048,
+                5.504580497741699,
+                0.6700608730316162
+              ],
+              "rotation": {
+                "x": 0.3025497496128082,
+                "y": 0.024172496050596237,
+                "z": 0.9295278191566467,
+                "w": 0.20942167937755585
+              },
+              "linearVelocity": [
+                -0.5045644044876099,
+                0.23841606080532074,
+                0.10436178743839264
+              ],
+              "angularVelocity": [
+                0.043293800204992294,
+                0.0022092198487371206,
+                0.3480341136455536
+              ],
+              "sleepState": "ACTIVE"
+            }
+          },
+          {
+            "id": "rock-8/r9/1",
+            "parentId": "rock-8",
+            "contentRevision": 1,
+            "pose": {
+              "position": [
+                -3.1884560585021973,
+                5.532780170440674,
+                0.6541102528572083
+              ],
+              "rotation": {
+                "x": 0.30744802951812744,
+                "y": 0.019983047619462013,
+                "z": 0.9279611706733704,
+                "w": 0.20967718958854675
+              },
+              "linearVelocity": [
+                -0.9756911396980286,
+                0.05551926791667938,
+                -0.10563422739505768
+              ],
+              "angularVelocity": [
+                -0.03135550394654274,
+                -0.04842590540647507,
+                0.22815170884132385
+              ],
+              "sleepState": "ACTIVE"
+            }
+          }
+        ],
+        "retired": [
+          "rock-8"
+        ],
+        "workerTimes": [
+          44.39999997615814,
+          31.899999976158142,
+          32.200000047683716,
+          16.09999990463257,
+          7,
+          9.800000071525574,
+          15.099999904632568,
+          3.8000000715255737,
+          9.299999952316284,
+          5.099999904632568,
+          8.200000047683716
+        ],
+        "colliderTimes": [
+          1.2999999523162842,
+          1.2999999523162842,
+          0.9000000953674316,
+          1.1999999284744263,
+          1.2999999523162842,
+          1.100000023841858,
+          1,
+          0.3999999761581421,
+          40,
+          25.5,
+          10.300000071525574
+        ],
+        "saveTimes": [
+          24.399999976158142,
+          22.899999976158142,
+          9.900000095367432,
+          30.5,
+          21.799999952316284,
+          16.200000047683716,
+          11.399999976158142,
+          21,
+          25.299999952316284
+        ],
+        "editTimes": [
+          210.79999995231628,
+          194.30000007152557,
+          185.40000009536743,
+          143.39999997615814,
+          144.5,
+          130.60000002384186,
+          123,
+          247.69999992847443,
+          242.80000007152557
+        ],
+        "rockWorkMetrics": [
+          {
+            "revision": 1,
+            "elapsedMs": 0,
+            "seamSamples": 0,
+            "bondId": null,
+            "chipMs": 0.2999999523162842,
+            "graphMs": 29.40000009536743,
+            "stressMs": 0.3999999761581421,
+            "connectivityMs": 16.700000047683716
+          },
+          {
+            "revision": 2,
+            "elapsedMs": 0,
+            "seamSamples": 0,
+            "bondId": null,
+            "chipMs": 0.10000002384185791,
+            "graphMs": 17.300000071525574,
+            "stressMs": 0.3999999761581421,
+            "connectivityMs": 22.799999952316284
+          },
+          {
+            "revision": 3,
+            "elapsedMs": 0,
+            "seamSamples": 0,
+            "bondId": null,
+            "chipMs": 0.20000004768371582,
+            "graphMs": 43.5,
+            "stressMs": 0.3999999761581421,
+            "connectivityMs": 13.399999976158142
+          },
+          {
+            "revision": 4,
+            "elapsedMs": 0,
+            "seamSamples": 0,
+            "bondId": null,
+            "chipMs": 0.10000002384185791,
+            "graphMs": 10.299999952316284,
+            "stressMs": 0.20000004768371582,
+            "connectivityMs": 15.199999928474426
+          },
+          {
+            "revision": 5,
+            "elapsedMs": 0,
+            "seamSamples": 0,
+            "bondId": null,
+            "chipMs": 0.10000002384185791,
+            "graphMs": 18.899999976158142,
+            "stressMs": 0.5,
+            "connectivityMs": 26.100000023841858
+          },
+          {
+            "revision": 6,
+            "elapsedMs": 0,
+            "seamSamples": 0,
+            "bondId": null,
+            "chipMs": 0,
+            "graphMs": 14.699999928474426,
+            "stressMs": 0.30000007152557373,
+            "connectivityMs": 19.09999990463257
+          },
+          {
+            "revision": 7,
+            "elapsedMs": 0,
+            "seamSamples": 0,
+            "bondId": null,
+            "chipMs": 0.09999990463256836,
+            "graphMs": 12.700000047683716,
+            "stressMs": 0.3999999761581421,
+            "connectivityMs": 19.100000023841858
+          },
+          {
+            "revision": 8,
+            "elapsedMs": 0,
+            "seamSamples": 0,
+            "bondId": null,
+            "chipMs": 0.10000002384185791,
+            "graphMs": 13.600000023841858,
+            "stressMs": 0.3999999761581421,
+            "connectivityMs": 13.399999976158142
+          },
+          {
+            "revision": 9,
+            "elapsedMs": 78.89999997615814,
+            "seamSamples": 0,
+            "bondId": "bond:rock:9212026:v1:-1,2,0,0|rock:9212026:v1:-2,2,-1,0",
+            "largePieces": [
+              1059,
+              972
+            ],
+            "chipMs": 0,
+            "graphMs": 12.799999952316284,
+            "stressMs": 0.30000007152557373,
+            "connectivityMs": 0,
+            "maskOccupancyErrorRate": 0.038897095027080254,
+            "meshUnion": {
+              "matches": false,
+              "expected": 592,
+              "actual": 864,
+              "mismatched": 608
+            }
+          }
+        ],
+        "frameP95": 50,
+        "errors": [],
+        "bodyCount": 2,
+        "transientShardBodies": 0,
+        "pooledVisualDebris": 1,
+        "worldColliderRevision": 8,
+        "colliderCounts": [
+          4,
+          4
+        ],
+        "triangles": [
+          116,
+          432,
+          432
+        ]
+      }
+    },
+    {
+      "stage": "recursive child split at its moved pose",
+      "revision": 10,
+      "audit": {
+        "world": 118,
+        "consumed": 21,
+        "rock-8/r9/1": 974,
+        "rock-8/r9/0/r10/0": 608,
+        "rock-8/r9/0/r10/1": 443,
+        "total": 2164,
+        "initial": 2164,
+        "balanced": true
+      },
+      "rewardDelta": 8,
+      "timing": {
+        "namespace": "wildkin-voxel-lab-cellular-0.5a4-v1-hard-rock-a4-1790240022003",
+        "revision": 10,
+        "audit": {
+          "world": 118,
+          "consumed": 21,
+          "rock-8/r9/1": 974,
+          "rock-8/r9/0/r10/0": 608,
+          "rock-8/r9/0/r10/1": 443,
+          "total": 2164,
+          "initial": 2164,
+          "balanced": true
+        },
+        "actors": [
+          {
+            "id": "rock-8/r9/1",
+            "parentId": "rock-8",
+            "contentRevision": 1,
+            "pose": {
+              "position": [
+                -3.6702158451080322,
+                4.893288612365723,
+                0.06965816020965576
+              ],
+              "rotation": {
+                "x": 0.2812446653842926,
+                "y": 0.040670737624168396,
+                "z": 0.93501877784729,
+                "w": 0.21210213005542755
+              },
+              "linearVelocity": [
+                0.053685661405324936,
+                -0.06039152294397354,
+                0.25631219148635864
+              ],
+              "angularVelocity": [
+                0.1460462063550949,
+                0.07993759214878082,
+                0.018365604802966118
+              ],
+              "sleepState": "ACTIVE"
+            }
+          },
+          {
+            "id": "rock-8/r9/0/r10/0",
+            "parentId": "rock-8/r9/0",
+            "contentRevision": 1,
+            "pose": {
+              "position": [
+                -3.153639793395996,
+                5.501571178436279,
+                0.7164777517318726
+              ],
+              "rotation": {
+                "x": 0.2992895245552063,
+                "y": 0.026356792077422142,
+                "z": 0.9304877519607544,
+                "w": 0.20957998931407928
+              },
+              "linearVelocity": [
+                0.07515741884708405,
+                -0.06454062461853027,
+                0.15741440653800964
+              ],
+              "angularVelocity": [
+                0.100278340280056,
+                -0.008330360986292362,
+                -0.05128520354628563
+              ],
+              "sleepState": "ACTIVE"
+            }
+          },
+          {
+            "id": "rock-8/r9/0/r10/1",
+            "parentId": "rock-8/r9/0",
+            "contentRevision": 1,
+            "pose": {
+              "position": [
+                -3.190053939819336,
+                5.504397392272949,
+                0.686253011226654
+              ],
+              "rotation": {
+                "x": 0.307076096534729,
+                "y": 0.027233874425292015,
+                "z": 0.9292160272598267,
+                "w": 0.2037653774023056
+              },
+              "linearVelocity": [
+                0.022091640159487724,
+                -0.6659941077232361,
+                0.08798786252737045
+              ],
+              "angularVelocity": [
+                -0.10740096867084503,
+                0.04859791323542595,
+                -0.002563792746514082
+              ],
+              "sleepState": "ACTIVE"
+            }
+          }
+        ],
+        "retired": [
+          "rock-8",
+          "rock-8/r9/0"
+        ],
+        "workerTimes": [
+          44.39999997615814,
+          31.899999976158142,
+          32.200000047683716,
+          16.09999990463257,
+          7,
+          9.800000071525574,
+          15.099999904632568,
+          3.8000000715255737,
+          9.299999952316284,
+          5.099999904632568,
+          8.200000047683716,
+          5.399999976158142,
+          6.600000023841858,
+          6.100000023841858
+        ],
+        "colliderTimes": [
+          1.2999999523162842,
+          1.2999999523162842,
+          0.9000000953674316,
+          1.1999999284744263,
+          1.2999999523162842,
+          1.100000023841858,
+          1,
+          0.3999999761581421,
+          40,
+          25.5,
+          10.300000071525574,
+          11.399999976158142,
+          4.100000023841858,
+          1.1999999284744263
+        ],
+        "saveTimes": [
+          24.399999976158142,
+          22.899999976158142,
+          9.900000095367432,
+          30.5,
+          21.799999952316284,
+          16.200000047683716,
+          11.399999976158142,
+          21,
+          25.299999952316284,
+          25.299999952316284
+        ],
+        "editTimes": [
+          210.79999995231628,
+          194.30000007152557,
+          185.40000009536743,
+          143.39999997615814,
+          144.5,
+          130.60000002384186,
+          123,
+          247.69999992847443,
+          242.80000007152557,
+          235.79999995231628
+        ],
+        "rockWorkMetrics": [
+          {
+            "revision": 1,
+            "elapsedMs": 0,
+            "seamSamples": 0,
+            "bondId": null,
+            "chipMs": 0.2999999523162842,
+            "graphMs": 29.40000009536743,
+            "stressMs": 0.3999999761581421,
+            "connectivityMs": 16.700000047683716
+          },
+          {
+            "revision": 2,
+            "elapsedMs": 0,
+            "seamSamples": 0,
+            "bondId": null,
+            "chipMs": 0.10000002384185791,
+            "graphMs": 17.300000071525574,
+            "stressMs": 0.3999999761581421,
+            "connectivityMs": 22.799999952316284
+          },
+          {
+            "revision": 3,
+            "elapsedMs": 0,
+            "seamSamples": 0,
+            "bondId": null,
+            "chipMs": 0.20000004768371582,
+            "graphMs": 43.5,
+            "stressMs": 0.3999999761581421,
+            "connectivityMs": 13.399999976158142
+          },
+          {
+            "revision": 4,
+            "elapsedMs": 0,
+            "seamSamples": 0,
+            "bondId": null,
+            "chipMs": 0.10000002384185791,
+            "graphMs": 10.299999952316284,
+            "stressMs": 0.20000004768371582,
+            "connectivityMs": 15.199999928474426
+          },
+          {
+            "revision": 5,
+            "elapsedMs": 0,
+            "seamSamples": 0,
+            "bondId": null,
+            "chipMs": 0.10000002384185791,
+            "graphMs": 18.899999976158142,
+            "stressMs": 0.5,
+            "connectivityMs": 26.100000023841858
+          },
+          {
+            "revision": 6,
+            "elapsedMs": 0,
+            "seamSamples": 0,
+            "bondId": null,
+            "chipMs": 0,
+            "graphMs": 14.699999928474426,
+            "stressMs": 0.30000007152557373,
+            "connectivityMs": 19.09999990463257
+          },
+          {
+            "revision": 7,
+            "elapsedMs": 0,
+            "seamSamples": 0,
+            "bondId": null,
+            "chipMs": 0.09999990463256836,
+            "graphMs": 12.700000047683716,
+            "stressMs": 0.3999999761581421,
+            "connectivityMs": 19.100000023841858
+          },
+          {
+            "revision": 8,
+            "elapsedMs": 0,
+            "seamSamples": 0,
+            "bondId": null,
+            "chipMs": 0.10000002384185791,
+            "graphMs": 13.600000023841858,
+            "stressMs": 0.3999999761581421,
+            "connectivityMs": 13.399999976158142
+          },
+          {
+            "revision": 9,
+            "elapsedMs": 78.89999997615814,
+            "seamSamples": 0,
+            "bondId": "bond:rock:9212026:v1:-1,2,0,0|rock:9212026:v1:-2,2,-1,0",
+            "largePieces": [
+              1059,
+              972
+            ],
+            "chipMs": 0,
+            "graphMs": 12.799999952316284,
+            "stressMs": 0.30000007152557373,
+            "connectivityMs": 0,
+            "maskOccupancyErrorRate": 0.038897095027080254,
+            "meshUnion": {
+              "matches": false,
+              "expected": 592,
+              "actual": 864,
+              "mismatched": 608
+            }
+          },
+          {
+            "revision": 10,
+            "elapsedMs": 90.90000009536743,
+            "seamSamples": 0,
+            "bondId": "bond:rock:9212026:v1:-1,1,-1,0|rock:9212026:v1:-2,1,0,0",
+            "largePieces": [
+              601,
+              432
+            ],
+            "chipMs": 0.10000002384185791,
+            "graphMs": 10.100000023841858,
+            "stressMs": 0.19999992847442627,
+            "connectivityMs": 0,
+            "maskOccupancyErrorRate": 0.049370764762826716,
+            "meshUnion": {
+              "matches": false,
+              "expected": 428,
+              "actual": 552,
+              "mismatched": 380
+            }
+          }
+        ],
+        "frameP95": 50,
+        "errors": [],
+        "bodyCount": 3,
+        "transientShardBodies": 0,
+        "pooledVisualDebris": 1,
+        "worldColliderRevision": 8,
+        "colliderCounts": [
+          4,
+          4,
+          4
+        ],
+        "triangles": [
+          116,
+          432,
+          296,
+          256
+        ]
+      },
+      "nested": [
+        {
+          "id": "rock-8/r9/0/r10/0",
+          "quantity": 608,
+          "hitSequence": 10,
+          "brokenBonds": 8
+        },
+        {
+          "id": "rock-8/r9/0/r10/1",
+          "quantity": 443,
+          "hitSequence": 10,
+          "brokenBonds": 15
+        }
+      ]
+    },
+    {
+      "stage": "literal save/reload of moved nested children",
+      "revision": 11,
+      "audit": {
+        "world": 118,
+        "consumed": 21,
+        "rock-8/r9/1": 974,
+        "rock-8/r9/0/r10/0": 608,
+        "rock-8/r9/0/r10/1": 443,
+        "total": 2164,
+        "initial": 2164,
+        "balanced": true
+      },
+      "poseMatches": true,
+      "poseRestoration": [
+        {
+          "id": "rock-8/r9/1",
+          "persistedPoseDelta": {
+            "position": 0,
+            "rotationRadians": 0
+          },
+          "firstPhysicsStepDelta": {
+            "position": 0.0034723281860351562,
+            "rotationRadians": 0
+          }
+        },
+        {
+          "id": "rock-8/r9/0/r10/0",
+          "persistedPoseDelta": {
+            "position": 0,
+            "rotationRadians": 0
+          },
+          "firstPhysicsStepDelta": {
+            "position": 0.0034723281860351562,
+            "rotationRadians": 0
+          }
+        },
+        {
+          "id": "rock-8/r9/0/r10/1",
+          "persistedPoseDelta": {
+            "position": 0,
+            "rotationRadians": 0
+          },
+          "firstPhysicsStepDelta": {
+            "position": 0.0034720897674560547,
+            "rotationRadians": 0
+          }
+        }
+      ],
+      "actors": [
+        {
+          "id": "rock-8/r9/1",
+          "parentId": "rock-8",
+          "contentRevision": 1,
+          "pose": {
+            "position": [
+              -4.017510414123535,
+              4.837422847747803,
+              0.7242558002471924
+            ],
+            "rotation": {
+              "x": 0.24264559149742126,
+              "y": -0.01381363719701767,
+              "z": 0.9528369903564453,
+              "w": 0.18175265192985535
+            },
+            "linearVelocity": [
+              0,
+              -0.3294892907142639,
+              0
+            ],
+            "angularVelocity": [
+              0,
+              0,
+              0
+            ],
+            "sleepState": "ACTIVE"
+          }
+        },
+        {
+          "id": "rock-8/r9/0/r10/0",
+          "parentId": "rock-8/r9/0",
+          "contentRevision": 1,
+          "pose": {
+            "position": [
+              -5.942599296569824,
+              5.727938175201416,
+              3.7655272483825684
+            ],
+            "rotation": {
+              "x": 0.3002496659755707,
+              "y": -0.149210125207901,
+              "z": 0.9370189905166626,
+              "w": -0.09788777679204941
+            },
+            "linearVelocity": [
+              0,
+              -0.3294892907142639,
+              0
+            ],
+            "angularVelocity": [
+              0,
+              0,
+              0
+            ],
+            "sleepState": "ACTIVE"
+          }
+        },
+        {
+          "id": "rock-8/r9/0/r10/1",
+          "parentId": "rock-8/r9/0",
+          "contentRevision": 1,
+          "pose": {
+            "position": [
+              -1.4928557872772217,
+              2.981480121612549,
+              -2.8986499309539795
+            ],
+            "rotation": {
+              "x": 0.47580739855766296,
+              "y": 0.24495632946491241,
+              "z": 0.642833948135376,
+              "w": 0.5480587482452393
+            },
+            "linearVelocity": [
+              0,
+              -0.3294892907142639,
+              0
+            ],
+            "angularVelocity": [
+              0,
+              0,
+              0
+            ],
+            "sleepState": "ACTIVE"
+          }
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "external": [],
+  "pass": true
+}

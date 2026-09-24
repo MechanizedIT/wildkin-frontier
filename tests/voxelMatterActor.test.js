@@ -7,9 +7,11 @@ const splitHits=[[0,4,0],[0,4,-.5],[0,3,0],[0,5,0],[0,4.5,-.5],[0,5.5,0],
   [0,4,-1.5],[0,3,1],[0,4.5,-1.5],[0,5.5,1],[0,2.5,1],[0,3.5,1.5]];
 test('rock survives world damage, detaches once, takes a secondary hit, splits and a child takes another hit',()=>{
   let state=createInitialRockState(),original=state.initialQuantity;
-  let side=mineWorldRock(state,[0,4,-1.55]);assert.equal(side.status,'OK');state=side.state;
-  let result=mineWorldRock(state,[.5,1.5,0]);assert.equal(result.status,'OK');assert.equal(result.detached,0);state=result.state;
-  result=mineWorldRock(state,[-.5,1.5,0]);assert.equal(result.status,'OK');assert.equal(result.detached,1);state=result.state;
+  let result;
+  for(const hit of [[0,4,-1.55],[.5,1.5,0],[-.5,1.5,0],[.5,1.5,0],[-.5,1.5,0],[0,1.5,.5]]){
+    result=mineWorldRock(state,hit);assert.equal(result.status,'OK',result.reason);state=result.state;
+  }
+  assert.equal(result.detached,1);
   assert.equal(state.actors.length,1);assert.equal(quantityAudit(state).initial,original);
   const parentId=state.actors[0].id,parentRevision=state.actors[0].contentRevision;
   assert.equal(mineActorRock(state,parentId,parentRevision+1,[1.55,4,0]).status,'STALE');

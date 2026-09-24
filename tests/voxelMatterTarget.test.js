@@ -1,6 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { worldToActorPoint, actorToWorldPoint, pickActorSurface, validateActorHit } from '../lab/voxel/matter-target.js';
+import { worldToActorPoint, actorToWorldPoint, pickActorSurface, pickWorldSurface, validateActorHit } from '../lab/voxel/matter-target.js';
+import { makeSupportedRockSamples } from '../lab/voxel/matter-fixtures.js';
 
 const sphere=p=>Math.hypot(...p)-1;
 function near(a,b){assert.ok(Math.abs(a-b)<1e-8,`${a} != ${b}`);}
@@ -23,4 +24,16 @@ test('ray reaches the moved and rotated scalar surface, never old source or fals
   assert.equal(pickActorSurface([actor],{originRelative:[-4,0,0],direction:[1,0,0],origin:[0,0,0],maxDistance:8}),null);
   const hollow={...actor,readDensity:()=>1};
   assert.equal(pickActorSurface([hollow],{originRelative:[8,4,-6],direction:[1,0,0],origin:[0,0,0],maxDistance:8}),null);
+});
+
+test('world mining resolves its scalar surface and misses an empty visible recess',()=>{
+  const source=makeSupportedRockSamples(),origin=[256,128,-256],start=[0,4,-5],hit=pickWorldSurface(source,{
+    originRelative:start.map((v,i)=>v-origin[i]),direction:[0,0,1],origin,revision:9,maxDistance:8});
+  assert.ok(hit);assert.equal(hit.ownerId,'world');assert.equal(hit.contentRevision,9);
+  assert.ok(hit.localPoint[2]<-1.8&&hit.localPoint[2]>-2.4);
+  const hollow={...source,densities:new Float32Array(source.densities),materials:new Uint8Array(source.materials)};
+  for(let i=0;i<hollow.densities.length;i++)if(hollow.position(i)[0]===0&&hollow.position(i)[1]===4){
+    hollow.densities[i]=1;hollow.materials[i]=0;
+  }
+  assert.equal(pickWorldSurface(hollow,{originRelative:[0,4,0],direction:[0,0,1],maxDistance:8}),null);
 });
