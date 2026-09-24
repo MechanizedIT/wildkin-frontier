@@ -6,7 +6,7 @@ import { meshRockSamples } from './matter-mesh.js';
 const candidates = new Map();
 self.onmessage = async ({ data: job }) => {
   try {
-    if(job.kind==='cellular-rock-mesh'){
+    if(job.kind==='cellular-rock-mesh'||job.kind==='cellular-matter-mesh'){
       const started=performance.now();
       const sample={min:[-3,0,-3],size:[13,13,13],densities:new Float32Array(job.densities),materials:new Uint8Array(job.materials)};
       const {positions,normals,colors,indices}=meshRockSamples(sample);

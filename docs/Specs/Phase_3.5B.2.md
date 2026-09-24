@@ -579,7 +579,6 @@ Phase 3.5B.2 is complete only when:
 - consistency sweep covers sibling object types sharing each fixed path,
 - automated tests pass,
 - `npm run verify` passes,
-- `npm run zip` passes,
 - one rAF/fixed-step/Rapier/offline/portrait constraints remain intact,
 - human acceptance is yes.
 
@@ -595,7 +594,7 @@ Final response must include:
 
 1. concise implementation summary,
 2. a short **Consistency Sweep** section stating which sibling object families were checked when shared contracts changed,
-3. test/verify/zip result counts,
+3. test and verify result counts,
 4. only the short 7-test human checklist above (adapt exact button labels if needed),
 5. explicit stop before Phase 4.
 

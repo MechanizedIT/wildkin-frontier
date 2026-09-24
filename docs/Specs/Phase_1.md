@@ -544,7 +544,6 @@ Required before stopping:
 
 ```sh
 npm run verify
-npm run zip
 ```
 
 Add lightweight tests for pure movement/input calculations where practical.
@@ -621,7 +620,6 @@ Phase 1 is ready for human review when all of the following are true.
 - Existing automated tests/checks pass.
 - New pure movement-band/input tests pass.
 - `npm run verify` passes.
-- `npm run zip` passes.
 - Submission stays below 35 MB.
 - Dev and submission builds both load.
 - `docs/BUILD_LOG.md` is updated with the Phase 1 session.

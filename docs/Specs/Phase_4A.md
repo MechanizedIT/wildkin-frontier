@@ -759,7 +759,6 @@ Add focused tests for:
 - accepted movement/harvest/combat/ecology tests pass,
 - `npm run world:check` passes,
 - `npm run verify` passes,
-- `npm run zip` passes,
 - offline / portrait / <35 MB remain valid.
 
 ---
@@ -853,7 +852,6 @@ Phase 4A is implementation-complete only when:
 - existing accepted gameplay/Author Mode remains functional,
 - full automated tests pass,
 - `npm run verify` passes,
-- `npm run zip` passes,
 - offline / portrait / one-rAF / fixed-step / Rapier constraints remain intact,
 - human playtest confirms the mechanical loop is understandable.
 

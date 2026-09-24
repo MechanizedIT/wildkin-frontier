@@ -22,7 +22,7 @@
 5. Prefer vanilla HTML/CSS/JS + Three.js. No React, game engine, ECS, backend, CDN, or required bundler for dev. Physics/collision runtime is `@dimforge/rapier3d-compat@0.20.0` via vendored `vendor/rapier.js`; use it deliberately for approved collision, kinematic movement, and spatial queries. Do not add another physics engine.
 6. Keep the build playable at the end of every session — no console-breaking errors, desktop and mobile-landscape layouts usable, offline-safe. Preserve the current finite build during the isolated voxel-lab phases until a complete replacement vertical slice passes.
 7. Keep architecture deliberately simple and explicit for repeated agent edits. Prefer focused modules with clear ownership over frameworks or generic abstractions.
-8. Validate before stopping: `npm test`, `npm run verify`, and `npm run zip` should pass unless the active slice explicitly states otherwise. Manually confirm relevant dev/submission behavior when browser testing is required.
+8. Validate before stopping: run `npm test` and `npm run verify` unless the active slice explicitly states otherwise. Reserve shipping ZIP creation and package checks for deployment readiness. Manually confirm relevant dev/submission behavior when browser testing is required.
 9. Append a `docs/BUILD_LOG.md` entry for every AI implementation session (date/time, tool/model, goal, decisions, files changed, tests, remaining issues).
 10. Never silently change a locked design decision. Record a proposal in `docs/BUILD_LOG.md` or the relevant design doc and ask for owner confirmation.
 

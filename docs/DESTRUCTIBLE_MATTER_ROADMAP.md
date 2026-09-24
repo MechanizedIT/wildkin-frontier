@@ -1,6 +1,6 @@
 # Destructible Matter R&D Roadmap
 
-**Status:** living R&D plan after Phase 0.5A.4 hard-rock PASS  
+**Status:** living R&D plan after Phase 0.5B second-material PASS
 **Scope:** isolated destructible-matter research until a later explicit production-migration gate.
 
 ## Vision
@@ -49,6 +49,8 @@ Preserve the A.1-A.3 collision studies as negative evidence. Do not resume exact
 Build a dirt/soil profile in the isolated lab. Dirt should excavate a broader soft volume, have low cohesion, avoid rock-style long-distance crack accumulation, locally crumble/slump when unsupported, produce clods/debris under the existing tier policy, and allow a meaningful unsupported clod/overhang to detach and remain destructible.
 
 **PASS gate:** rock still behaves as rock; dirt visibly and mechanically behaves differently; both use shared matter/ownership/targeting/persistence/static-to-dynamic infrastructure; no material-specific fork of the whole engine.
+
+**Disposition (2026-09-24): PASS.** A central material strategy selects A.4's brittle-stress rock policy or a separate local-cohesion dirt policy. Both retain the shared scalar matter, Surface Nets, precision targeting, ownership/accounting, connectivity, actor/proxy lifecycle, transactional publication and persistence paths. The dirt bank visibly scoops broadly, forms a cavity, locally crumbles and releases a substantial clod that falls, rotates and remains targetable/destructible after movement and reload. The fixed support window visits a bounded 13³ fixture; crop this work spatially before applying it to streamed terrain. Exact final ledger: 3,899 dirt = 2,869 static + 0 live actor + 1,030 consumed, with zero stone. Source and built-lab sequences, matched rock comparison and receipts are in [the Phase 0.5B report](VOXEL_PHASE05B_REPORT.md) and the [evidence folder](evidence/voxel-phase05b/). Focused matter tests pass 49/49; full tests and verification pass 1,547/1,547. Independent read-only review passed. Dirt thresholds remain provisional, and mixed-material behavior was not tested.
 
 ### Phase 0.5C — Mixed-material interface
 
@@ -110,7 +112,7 @@ For every phase:
 3. Implement one uncertainty-reducing experiment.
 4. Add focused deterministic tests and failure injection.
 5. Produce human-visible browser evidence.
-6. Run full repository verification/ZIP checks.
+6. Run `npm test` and `npm run verify`; defer shipping ZIP creation and package checks until deployment readiness.
 7. Record VERIFIED / PROVISIONAL / FAILED / FUTURE findings.
 8. Commit/push only when authorized.
 9. Stop for owner review.

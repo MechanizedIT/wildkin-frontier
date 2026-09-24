@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Wildkin Frontier — Phase 0.5B material comparison</title>
+  <style>
+    :root { color-scheme: dark; font: 16px/1.45 system-ui, sans-serif; background: #10232a; color: #edf3ef; }
+    body { max-width: 1480px; margin: 0 auto; padding: 24px; }
+    h1 { margin-bottom: .25rem; }
+    .intro { color: #bacac5; max-width: 75ch; }
+    section { margin: 28px 0; }
+    h2 { margin-bottom: 10px; font-size: 1.15rem; }
+    .pair { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+    figure { margin: 0; padding: 10px; border: 1px solid #426069; border-radius: 10px; background: #172d35; }
+    figcaption { padding: 3px 5px 9px; color: #d9e5df; font-weight: 650; }
+    img { display: block; width: 100%; height: auto; border-radius: 5px; }
+    @media (max-width: 800px) { body { padding: 12px; } .pair { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <h1>Rock and dirt respond differently</h1>
+  <p class="intro">Matched browser captures from the A.4 hard-rock regression and Phase 0.5B dirt fixture. Rock builds persistent stress before a brittle split. Dirt opens a broad cavity, locally crumbles, and can release a soft clod.</p>
+
+  <section>
+    <h2>1. First interaction</h2>
+    <div class="pair">
+      <figure><figcaption>Hard rock · one small irregular chip</figcaption><img src="rock-regression/rock-first-chip.png" alt="Hard rock after a first small chip"></figure>
+      <figure><figcaption>Dirt · one broad scoop with loose-soil crumble</figcaption><img src="source/dirt-02-first-broad-scoop.png" alt="Dirt bank after a broad scoop and local crumble"></figure>
+    </div>
+  </section>
+
+  <section>
+    <h2>2. Repeated interactions</h2>
+    <div class="pair">
+      <figure><figcaption>Hard rock · accumulated bond weakness while mostly intact</figcaption><img src="rock-regression/rock-pre-fracture.png" alt="Hard rock with accumulated stress and bond cracks"></figure>
+      <figure><figcaption>Dirt · cavity undermines local support</figcaption><img src="source/dirt-03-cavity-pre-detachment.png" alt="Dirt bank with an excavated cavity and unsupported overhang"></figure>
+    </div>
+  </section>
+
+  <section>
+    <h2>3. Unsupported material detaches</h2>
+    <div class="pair">
+      <figure><figcaption>Hard rock · brittle fracture leaves persistent pieces</figcaption><img src="rock-regression/rock-detached.png" alt="Detached hard-rock pieces"></figure>
+      <figure><figcaption>Dirt · one substantial clod leaves the bank</figcaption><img src="source/dirt-04-clod-detached.png" alt="A dirt clod detached above the excavated bank"></figure>
+    </div>
+  </section>
+
+  <section>
+    <h2>4. Recursive destruction</h2>
+    <div class="pair">
+      <figure><figcaption>Hard rock · a moved child fractures recursively</figcaption><img src="rock-regression/rock-recursive-fracture.png" alt="A moved hard-rock child fractured into retained pieces"></figure>
+      <figure><figcaption>Dirt · a moved clod is dug down and crumbled</figcaption><img src="source/dirt-09-clod-broken-down.png" alt="Dirt clod after recursive digging and crumble"></figure>
+    </div>
+  </section>
+</body>
+</html>

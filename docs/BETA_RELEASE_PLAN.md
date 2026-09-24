@@ -58,7 +58,7 @@ This is a finite handcrafted adventure with repeatable expeditions, aiming at ro
 2. Parallel bounded production: world/art recipes; economy/save; explorer/lighting/atmosphere. Parent owns integration, bonding/companion play and UI.
 3. Integrate full Camp → expedition → gather/fight/bond → extract/lose → spend → travel → finale chain. Exercise sibling reset/save/input paths.
 4. Polish first launch, HUD, map, journal, results, feedback and gameplay balance from screenshots and actual browser input.
-5. Validate meaningful state invariants, compatible regressions, generated world, packaged build and archive; browser-test development/package, desktop/phone viewports and author workflow. Record candidate evidence and player-facing playtest instructions.
+5. Validate meaningful state invariants, compatible regressions and generated world; browser-test the development build, desktop/phone viewports and author workflow. Defer shipping archive creation and package parity checks until deployment readiness. Record candidate evidence and player-facing playtest instructions.
 
 ## Release gates
 
@@ -69,7 +69,7 @@ This is a finite handcrafted adventure with repeatable expeditions, aiming at ro
 - Map/menu/bonding/pause correctly block movement and attacks; visibility/focus loss cannot leave input stuck.
 - Death/extraction/portal travel reset the appropriate transient state exactly once.
 - No uncaught browser errors, external runtime dependencies, unbounded entity growth or duplicated frame loops.
-- `npm test`, `npm run verify`, `npm run zip` pass; packaged page matches development presentation.
+- `npm test` and `npm run verify` pass. Defer shipping ZIP creation and packaged-page parity checks until deployment readiness.
 - Screenshots and browser interaction evidence supplement tests; real phone feel and owner acceptance remain explicitly human checks.
 
 ## Historical requirements

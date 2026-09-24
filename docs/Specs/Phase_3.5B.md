@@ -526,7 +526,6 @@ Phase 3.5B is done only when:
 - region activation still works,
 - automated tests pass,
 - `npm run verify` passes,
-- `npm run zip` passes,
 - offline / portrait / single-rAF / fixed-step / Rapier constraints remain intact,
 - human authoring test passes.
 

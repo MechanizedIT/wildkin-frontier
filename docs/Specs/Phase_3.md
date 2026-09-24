@@ -902,7 +902,6 @@ Add focused tests:
 ### Build
 - `npm test` PASS,
 - `npm run verify` PASS,
-- `npm run zip` PASS,
 - offline/self-contained,
 - ZIP <35 MB,
 - BUILD_LOG updated.

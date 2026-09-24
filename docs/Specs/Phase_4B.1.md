@@ -1378,7 +1378,6 @@ npm test
 npm run world:generate
 npm run world:check
 npm run verify
-npm run zip
 ```
 
 Verify:
@@ -1392,7 +1391,6 @@ Verify:
 - old save migration works,
 - submission remains comfortably below 35 MB.
 
-If `npm run zip` cannot run in the sandbox because PowerShell is unavailable, report that explicitly; do not claim ZIP success.
 
 ---
 

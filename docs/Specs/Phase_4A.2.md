@@ -987,7 +987,6 @@ Phase 4A.2 is implementation-complete only when:
 - `npm test` passes,
 - `npm run world:generate` / `npm run world:check` pass as applicable,
 - `npm run verify` passes,
-- `npm run zip` passes,
 - one rAF / fixed 1/60 / Rapier / offline / portrait / <35MB guarantees remain intact,
 - docs/Build Log reflect actual implementation,
 - implementation stops before Phase 4B content/pacing work.
@@ -1002,6 +1001,6 @@ Keep closeout concise and useful:
 
 1. **Implementation summary** — grouped by Author reliability, Spawn, Input/UI, Interaction, Persistence.
 2. **Consistency Sweep** — name sibling families/paths verified.
-3. **Automated gates** — exact test/verify/zip results.
+3. **Automated gates** — exact test and verify results.
 4. **Human acceptance** — only the seven simple tests above, adapted to actual labels/shortcuts.
 5. Stop. **Do not begin Phase 4B.**

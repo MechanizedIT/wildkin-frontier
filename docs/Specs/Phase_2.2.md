@@ -248,7 +248,7 @@ Add/update:
 ### Regression
 - accepted Phase 2.1 behavior preserved
 - performance still stable
-- `npm test`, `npm run verify`, `npm run zip` PASS
+- `npm test`, `npm run verify` PASS
 - offline/self-contained
 - ZIP <35 MB
 - BUILD_LOG updated

@@ -19,3 +19,4 @@ export function meshRockSamples(samples){
   if(mesh.indices.length/3>8192)throw new Error('Rock render triangle budget exceeded');
   return mesh;
 }
+export const meshMatterSamples=meshRockSamples;

@@ -1,0 +1,781 @@
+{
+  "timestamp": "2026-09-24T18:27:56.882Z",
+  "base": "http://localhost:8123/lab/voxel/cellular-rock.html",
+  "id": "dirt-phase05b-1790274476881",
+  "browser": "Microsoft Edge headless / SwiftShader",
+  "viewport": {
+    "width": 1280,
+    "height": 720
+  },
+  "checks": [
+    {
+      "stage": "pristine dirt bank / overhang",
+      "revision": 0,
+      "initialDirtUnits": 3899,
+      "triangles": 1120
+    },
+    {
+      "stage": "first broad scoop and local crumble",
+      "revision": 1,
+      "audit": {
+        "world": 3778,
+        "consumed": 121,
+        "total": 3899,
+        "initial": 3899,
+        "materials": {
+          "dirt": {
+            "initial": 3899,
+            "world": 3778,
+            "actors": 0,
+            "consumed": 121
+          }
+        },
+        "balanced": true
+      },
+      "events": {
+        "dugUnits": {
+          "rock": 0,
+          "dirt": 80
+        },
+        "crumbledUnits": {
+          "rock": 0,
+          "dirt": 41
+        }
+      },
+      "directlyExcavated": 80,
+      "crumbled": 41,
+      "timing": {
+        "stage": "first broad scoop",
+        "editMs": 585.5,
+        "meshMs": 91.19999992847443,
+        "proxyMs": 2.399999976158142,
+        "indexedDbMs": 184.09999990463257,
+        "support": {
+          "revision": 1,
+          "elapsedMs": 182.19999992847443,
+          "seamSamples": 0,
+          "bondId": null,
+          "chipMs": 0.3999999761581421,
+          "graphMs": 0,
+          "stressMs": 0,
+          "connectivityMs": 64.10000002384186,
+          "crumbleMs": 24,
+          "supportWorkCells": 6920
+        },
+        "bodyCount": 0,
+        "transientBodies": 0,
+        "frameP95Ms": 50
+      }
+    },
+    {
+      "stage": "repeated digs / pre-detachment cavity",
+      "revision": 2,
+      "audit": {
+        "world": 3577,
+        "consumed": 322,
+        "total": 3899,
+        "initial": 3899,
+        "materials": {
+          "dirt": {
+            "initial": 3899,
+            "world": 3577,
+            "actors": 0,
+            "consumed": 322
+          }
+        },
+        "balanced": true
+      },
+      "events": {
+        "dugUnits": {
+          "rock": 0,
+          "dirt": 179
+        },
+        "crumbledUnits": {
+          "rock": 0,
+          "dirt": 143
+        }
+      },
+      "directlyExcavated": 179,
+      "crumbled": 143,
+      "timing": {
+        "stage": "repeated bank dig",
+        "editMs": 490.10000002384186,
+        "meshMs": 146.20000004768372,
+        "proxyMs": 2,
+        "indexedDbMs": 147.89999997615814,
+        "support": {
+          "revision": 2,
+          "elapsedMs": 162.39999997615814,
+          "seamSamples": 0,
+          "bondId": null,
+          "chipMs": 0.6999999284744263,
+          "graphMs": 0,
+          "stressMs": 0,
+          "connectivityMs": 41.90000009536743,
+          "crumbleMs": 36.699999928474426,
+          "supportWorkCells": 6920
+        },
+        "bodyCount": 0,
+        "transientBodies": 0,
+        "frameP95Ms": 50
+      }
+    },
+    {
+      "stage": "substantial static-to-dynamic soil clod transfer",
+      "revision": 3,
+      "clodId": "dirt-3",
+      "clodUnits": 529,
+      "audit": {
+        "world": 2869,
+        "consumed": 501,
+        "dirt-3": 529,
+        "total": 3899,
+        "initial": 3899,
+        "materials": {
+          "dirt": {
+            "initial": 3899,
+            "world": 2869,
+            "actors": 529,
+            "consumed": 501
+          }
+        },
+        "balanced": true
+      },
+      "events": {
+        "dugUnits": {
+          "rock": 0,
+          "dirt": 283
+        },
+        "crumbledUnits": {
+          "rock": 0,
+          "dirt": 218
+        }
+      },
+      "bodyCount": 1,
+      "colliders": [
+        4
+      ],
+      "timing": {
+        "stage": "static to dynamic transfer",
+        "editMs": 683.8000000715256,
+        "meshMs": 40.299999952316284,
+        "proxyMs": 21.399999976158142,
+        "indexedDbMs": 127.29999995231628,
+        "support": {
+          "revision": 3,
+          "elapsedMs": 287.1999999284744,
+          "seamSamples": 0,
+          "bondId": null,
+          "chipMs": 0.3999999761581421,
+          "graphMs": 0,
+          "stressMs": 0,
+          "connectivityMs": 36.60000002384186,
+          "crumbleMs": 21.399999976158142,
+          "supportWorkCells": 6920
+        },
+        "bodyCount": 1,
+        "transientBodies": 0,
+        "frameP95Ms": 50
+      }
+    },
+    {
+      "stage": "soil clod falls, rotates and rests on approximate collider",
+      "motion": {
+        "position": 8.229694339804723,
+        "rotationRadians": 3.059813382933789
+      },
+      "pose": {
+        "position": [
+          0.668938398361206,
+          5.599195957183838,
+          -5.9714765548706055
+        ],
+        "rotation": {
+          "x": -0.9901375770568848,
+          "y": -0.0662558302283287,
+          "z": -0.11548375338315964,
+          "w": 0.043603625148534775
+        },
+        "linearVelocity": [
+          0,
+          0,
+          0
+        ],
+        "angularVelocity": [
+          0,
+          0,
+          0
+        ],
+        "sleepState": "SLEEPING"
+      },
+      "colliderCount": 4,
+      "bodyCount": 1,
+      "timing": {
+        "stage": "clod settled",
+        "editMs": 683.8000000715256,
+        "meshMs": 40.299999952316284,
+        "proxyMs": 21.399999976158142,
+        "indexedDbMs": 127.29999995231628,
+        "support": {
+          "revision": 3,
+          "elapsedMs": 287.1999999284744,
+          "seamSamples": 0,
+          "bondId": null,
+          "chipMs": 0.3999999761581421,
+          "graphMs": 0,
+          "stressMs": 0,
+          "connectivityMs": 36.60000002384186,
+          "crumbleMs": 21.399999976158142,
+          "supportWorkCells": 6920
+        },
+        "bodyCount": 1,
+        "transientBodies": 0,
+        "frameP95Ms": 50
+      }
+    },
+    {
+      "stage": "player follows the settled moved clod",
+      "pose": {
+        "position": [
+          0.668938398361206,
+          5.599195957183838,
+          -5.9714765548706055
+        ],
+        "rotation": {
+          "x": -0.9901375770568848,
+          "y": -0.0662558302283287,
+          "z": -0.11548375338315964,
+          "w": 0.043603625148534775
+        },
+        "linearVelocity": [
+          0,
+          0,
+          0
+        ],
+        "angularVelocity": [
+          0,
+          0,
+          0
+        ],
+        "sleepState": "SLEEPING"
+      },
+      "bodyCount": 1,
+      "timing": {
+        "stage": "follow settled clod",
+        "editMs": 683.8000000715256,
+        "meshMs": 40.299999952316284,
+        "proxyMs": 21.399999976158142,
+        "indexedDbMs": 127.29999995231628,
+        "support": {
+          "revision": 3,
+          "elapsedMs": 287.1999999284744,
+          "seamSamples": 0,
+          "bondId": null,
+          "chipMs": 0.3999999761581421,
+          "graphMs": 0,
+          "stressMs": 0,
+          "connectivityMs": 36.60000002384186,
+          "crumbleMs": 21.399999976158142,
+          "supportWorkCells": 6920
+        },
+        "bodyCount": 1,
+        "transientBodies": 0,
+        "frameP95Ms": 50
+      }
+    },
+    {
+      "stage": "followed moved clod / recursive broad dig 1",
+      "revision": 4,
+      "clodId": "dirt-3",
+      "unitsBefore": 529,
+      "unitsAfter": 303,
+      "events": {
+        "dugUnits": {
+          "rock": 0,
+          "dirt": 429
+        },
+        "crumbledUnits": {
+          "rock": 0,
+          "dirt": 298
+        }
+      },
+      "audit": {
+        "world": 2869,
+        "consumed": 727,
+        "dirt-3": 303,
+        "total": 3899,
+        "initial": 3899,
+        "materials": {
+          "dirt": {
+            "initial": 3899,
+            "world": 2869,
+            "actors": 303,
+            "consumed": 727
+          }
+        },
+        "balanced": true
+      },
+      "timing": {
+        "stage": "recursive clod dig 1",
+        "editMs": 352.7999999523163,
+        "meshMs": 55.700000047683716,
+        "proxyMs": 51.39999997615814,
+        "indexedDbMs": 150.60000002384186,
+        "support": {
+          "revision": 4,
+          "elapsedMs": 46.60000002384186,
+          "chipMs": 0.6000000238418579,
+          "graphMs": 0,
+          "stressMs": 0,
+          "connectivityMs": 8.00000011920929,
+          "crumbleMs": 15.299999952316284,
+          "supportWorkCells": 6920
+        },
+        "bodyCount": 1,
+        "transientBodies": 0,
+        "frameP95Ms": 50
+      }
+    },
+    {
+      "stage": "recursive broad dig 2 leaves a small live clod",
+      "revision": 5,
+      "clodId": "dirt-3",
+      "unitsBefore": 303,
+      "unitsAfter": 108,
+      "events": {
+        "dugUnits": {
+          "rock": 0,
+          "dirt": 551
+        },
+        "crumbledUnits": {
+          "rock": 0,
+          "dirt": 371
+        }
+      },
+      "audit": {
+        "world": 2869,
+        "consumed": 922,
+        "dirt-3": 108,
+        "total": 3899,
+        "initial": 3899,
+        "materials": {
+          "dirt": {
+            "initial": 3899,
+            "world": 2869,
+            "actors": 108,
+            "consumed": 922
+          }
+        },
+        "balanced": true
+      },
+      "timing": {
+        "stage": "recursive clod dig 2",
+        "editMs": 351.7999999523163,
+        "meshMs": 85,
+        "proxyMs": 1.5,
+        "indexedDbMs": 176,
+        "support": {
+          "revision": 5,
+          "elapsedMs": 80.20000004768372,
+          "chipMs": 0.7000000476837158,
+          "graphMs": 0,
+          "stressMs": 0,
+          "connectivityMs": 15.49999988079071,
+          "crumbleMs": 35.60000002384186,
+          "supportWorkCells": 10424
+        },
+        "bodyCount": 1,
+        "transientBodies": 0,
+        "frameP95Ms": 50
+      }
+    },
+    {
+      "stage": "literal reload restores recursive dirt edits, identity, quantities and moved pose",
+      "revision": 6,
+      "audit": {
+        "world": 2869,
+        "consumed": 922,
+        "dirt-3": 108,
+        "total": 3899,
+        "initial": 3899,
+        "materials": {
+          "dirt": {
+            "initial": 3899,
+            "world": 2869,
+            "actors": 108,
+            "consumed": 922
+          }
+        },
+        "balanced": true
+      },
+      "events": {
+        "dugUnits": {
+          "rock": 0,
+          "dirt": 551
+        },
+        "crumbledUnits": {
+          "rock": 0,
+          "dirt": 371
+        }
+      },
+      "poseDelta": {
+        "position": 0.0034723281860351562,
+        "rotationRadians": 0.0005201318597628582
+      },
+      "actors": [
+        {
+          "id": "dirt-3",
+          "parentId": null,
+          "material": 2,
+          "contentRevision": 3,
+          "pose": {
+            "position": [
+              2.8360867500305176,
+              4.7649760246276855,
+              -5.334630012512207
+            ],
+            "rotation": {
+              "x": -0.9785752892494202,
+              "y": 0.14990657567977905,
+              "z": -0.11135806888341904,
+              "w": 0.08670506626367569
+            },
+            "linearVelocity": [
+              0,
+              -0.32948926091194153,
+              0
+            ],
+            "angularVelocity": [
+              0,
+              0,
+              0
+            ],
+            "sleepState": "ACTIVE"
+          }
+        }
+      ],
+      "retired": []
+    },
+    {
+      "stage": "small moved clod crumbles on recursive shovel hits",
+      "revision": 7,
+      "actions": 1,
+      "clodId": "dirt-3",
+      "audit": {
+        "world": 2869,
+        "consumed": 1030,
+        "total": 3899,
+        "initial": 3899,
+        "materials": {
+          "dirt": {
+            "initial": 3899,
+            "world": 2869,
+            "actors": 0,
+            "consumed": 1030
+          }
+        },
+        "balanced": true
+      },
+      "events": {
+        "dugUnits": {
+          "rock": 0,
+          "dirt": 632
+        },
+        "crumbledUnits": {
+          "rock": 0,
+          "dirt": 398
+        }
+      },
+      "retired": [
+        "dirt-3"
+      ],
+      "bodyCount": 0,
+      "dirtUnits": {
+        "initial": 3899,
+        "world": 2869,
+        "actors": 0,
+        "consumed": 1030
+      },
+      "finalTiming": {
+        "stage": "clod retired",
+        "editMs": 255,
+        "meshMs": null,
+        "proxyMs": null,
+        "indexedDbMs": 67.79999995231628,
+        "support": {
+          "revision": 7,
+          "elapsedMs": 124.79999995231628,
+          "chipMs": 0.6000000238418579,
+          "graphMs": 0,
+          "stressMs": 0,
+          "connectivityMs": 18.300000071525574,
+          "crumbleMs": 72.10000002384186,
+          "supportWorkCells": 6959
+        },
+        "bodyCount": 0,
+        "transientBodies": 0,
+        "frameP95Ms": 50
+      }
+    },
+    {
+      "stage": "literal reload restores the fully dug out cavity and retired clod",
+      "revision": 7,
+      "audit": {
+        "world": 2869,
+        "consumed": 1030,
+        "total": 3899,
+        "initial": 3899,
+        "materials": {
+          "dirt": {
+            "initial": 3899,
+            "world": 2869,
+            "actors": 0,
+            "consumed": 1030
+          }
+        },
+        "balanced": true
+      },
+      "events": {
+        "dugUnits": {
+          "rock": 0,
+          "dirt": 632
+        },
+        "crumbledUnits": {
+          "rock": 0,
+          "dirt": 398
+        }
+      },
+      "retired": [
+        "dirt-3"
+      ],
+      "actors": 0
+    }
+  ],
+  "errors": [],
+  "external": [],
+  "pass": true,
+  "final": {
+    "revision": 7,
+    "audit": {
+      "world": 2869,
+      "consumed": 1030,
+      "total": 3899,
+      "initial": 3899,
+      "materials": {
+        "dirt": {
+          "initial": 3899,
+          "world": 2869,
+          "actors": 0,
+          "consumed": 1030
+        }
+      },
+      "balanced": true
+    },
+    "events": {
+      "dugUnits": {
+        "rock": 0,
+        "dirt": 632
+      },
+      "crumbledUnits": {
+        "rock": 0,
+        "dirt": 398
+      }
+    },
+    "rewards": {
+      "stoneUnits": 0,
+      "dirtUnits": 1030
+    },
+    "retired": [
+      "dirt-3"
+    ],
+    "bodyCount": 0,
+    "timings": {
+      "samples": [
+        {
+          "stage": "first broad scoop",
+          "editMs": 585.5,
+          "meshMs": 91.19999992847443,
+          "proxyMs": 2.399999976158142,
+          "indexedDbMs": 184.09999990463257,
+          "support": {
+            "revision": 1,
+            "elapsedMs": 182.19999992847443,
+            "seamSamples": 0,
+            "bondId": null,
+            "chipMs": 0.3999999761581421,
+            "graphMs": 0,
+            "stressMs": 0,
+            "connectivityMs": 64.10000002384186,
+            "crumbleMs": 24,
+            "supportWorkCells": 6920
+          },
+          "bodyCount": 0,
+          "transientBodies": 0,
+          "frameP95Ms": 50
+        },
+        {
+          "stage": "repeated bank dig",
+          "editMs": 490.10000002384186,
+          "meshMs": 146.20000004768372,
+          "proxyMs": 2,
+          "indexedDbMs": 147.89999997615814,
+          "support": {
+            "revision": 2,
+            "elapsedMs": 162.39999997615814,
+            "seamSamples": 0,
+            "bondId": null,
+            "chipMs": 0.6999999284744263,
+            "graphMs": 0,
+            "stressMs": 0,
+            "connectivityMs": 41.90000009536743,
+            "crumbleMs": 36.699999928474426,
+            "supportWorkCells": 6920
+          },
+          "bodyCount": 0,
+          "transientBodies": 0,
+          "frameP95Ms": 50
+        },
+        {
+          "stage": "static to dynamic transfer",
+          "editMs": 683.8000000715256,
+          "meshMs": 40.299999952316284,
+          "proxyMs": 21.399999976158142,
+          "indexedDbMs": 127.29999995231628,
+          "support": {
+            "revision": 3,
+            "elapsedMs": 287.1999999284744,
+            "seamSamples": 0,
+            "bondId": null,
+            "chipMs": 0.3999999761581421,
+            "graphMs": 0,
+            "stressMs": 0,
+            "connectivityMs": 36.60000002384186,
+            "crumbleMs": 21.399999976158142,
+            "supportWorkCells": 6920
+          },
+          "bodyCount": 1,
+          "transientBodies": 0,
+          "frameP95Ms": 50
+        },
+        {
+          "stage": "clod settled",
+          "editMs": 683.8000000715256,
+          "meshMs": 40.299999952316284,
+          "proxyMs": 21.399999976158142,
+          "indexedDbMs": 127.29999995231628,
+          "support": {
+            "revision": 3,
+            "elapsedMs": 287.1999999284744,
+            "seamSamples": 0,
+            "bondId": null,
+            "chipMs": 0.3999999761581421,
+            "graphMs": 0,
+            "stressMs": 0,
+            "connectivityMs": 36.60000002384186,
+            "crumbleMs": 21.399999976158142,
+            "supportWorkCells": 6920
+          },
+          "bodyCount": 1,
+          "transientBodies": 0,
+          "frameP95Ms": 50
+        },
+        {
+          "stage": "follow settled clod",
+          "editMs": 683.8000000715256,
+          "meshMs": 40.299999952316284,
+          "proxyMs": 21.399999976158142,
+          "indexedDbMs": 127.29999995231628,
+          "support": {
+            "revision": 3,
+            "elapsedMs": 287.1999999284744,
+            "seamSamples": 0,
+            "bondId": null,
+            "chipMs": 0.3999999761581421,
+            "graphMs": 0,
+            "stressMs": 0,
+            "connectivityMs": 36.60000002384186,
+            "crumbleMs": 21.399999976158142,
+            "supportWorkCells": 6920
+          },
+          "bodyCount": 1,
+          "transientBodies": 0,
+          "frameP95Ms": 50
+        },
+        {
+          "stage": "recursive clod dig 1",
+          "editMs": 352.7999999523163,
+          "meshMs": 55.700000047683716,
+          "proxyMs": 51.39999997615814,
+          "indexedDbMs": 150.60000002384186,
+          "support": {
+            "revision": 4,
+            "elapsedMs": 46.60000002384186,
+            "chipMs": 0.6000000238418579,
+            "graphMs": 0,
+            "stressMs": 0,
+            "connectivityMs": 8.00000011920929,
+            "crumbleMs": 15.299999952316284,
+            "supportWorkCells": 6920
+          },
+          "bodyCount": 1,
+          "transientBodies": 0,
+          "frameP95Ms": 50
+        },
+        {
+          "stage": "recursive clod dig 2",
+          "editMs": 351.7999999523163,
+          "meshMs": 85,
+          "proxyMs": 1.5,
+          "indexedDbMs": 176,
+          "support": {
+            "revision": 5,
+            "elapsedMs": 80.20000004768372,
+            "chipMs": 0.7000000476837158,
+            "graphMs": 0,
+            "stressMs": 0,
+            "connectivityMs": 15.49999988079071,
+            "crumbleMs": 35.60000002384186,
+            "supportWorkCells": 10424
+          },
+          "bodyCount": 1,
+          "transientBodies": 0,
+          "frameP95Ms": 50
+        },
+        {
+          "stage": "clod retired",
+          "editMs": 255,
+          "meshMs": null,
+          "proxyMs": null,
+          "indexedDbMs": 67.79999995231628,
+          "support": {
+            "revision": 7,
+            "elapsedMs": 124.79999995231628,
+            "chipMs": 0.6000000238418579,
+            "graphMs": 0,
+            "stressMs": 0,
+            "connectivityMs": 18.300000071525574,
+            "crumbleMs": 72.10000002384186,
+            "supportWorkCells": 6959
+          },
+          "bodyCount": 0,
+          "transientBodies": 0,
+          "frameP95Ms": 50
+        }
+      ],
+      "sourceReloadMs": [
+        1941,
+        1134
+      ],
+      "maxima": {
+        "editMs": 683.8000000715256,
+        "meshMs": 146.20000004768372,
+        "proxyMs": 51.39999997615814,
+        "indexedDbMs": 184.09999990463257
+      },
+      "observedBodyMax": 1,
+      "observedTransientBodyMax": 0
+    },
+    "errors": [],
+    "external": []
+  }
+}

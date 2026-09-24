@@ -323,7 +323,7 @@ Phase 3.1 is ready for human review when:
 - Creatures respect home/leash and simple steering reduces obvious obstacle-sticking.
 - XP reads as large blue/cyan essence.
 - movement/traversal/harvest/combat/death/restart regressions remain good.
-- `npm test`, `npm run verify`, `npm run zip` pass.
+- `npm test`, `npm run verify` pass.
 - offline package remains <35 MB.
 - BUILD_LOG updated.
 

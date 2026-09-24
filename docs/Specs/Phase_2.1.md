@@ -686,7 +686,6 @@ Use lightweight tests. Do not add another framework.
 - Rapier remains stable
 - `npm test` PASS
 - `npm run verify` PASS
-- `npm run zip` PASS
 - submission <35 MB
 - offline/no external runtime requests
 - BUILD_LOG updated

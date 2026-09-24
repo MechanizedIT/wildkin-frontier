@@ -487,7 +487,6 @@ Phase 3.5B.1 is complete only when:
 - prior automated tests pass,
 - new focused tests pass,
 - `npm run verify` passes,
-- `npm run zip` passes,
 - one rAF / fixed step / Rapier / offline / portrait constraints remain intact,
 - **human tester says Author Mode is now practically usable for visually shaping Area 1.**
 

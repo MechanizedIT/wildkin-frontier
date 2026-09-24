@@ -60,7 +60,7 @@ Distinguish model defects from locomotion defects. The same earned journey later
 
 For natural fixed rock props, do not force every silhouette into a box. The current shared path supports a small explicit `convexHull` descriptor with flat local-Y-up `vertices`, outward triangle `indices`, and `offset`; the offline-authored surface must be closed, convex and nondegenerate with 4–64 points. Retain `collider.json` beside the model source and embed its exact data through the composer. Render/Author/Rapier must agree after scale, yaw, grounding and reload. Use separate small prop instances when a natural group needs adjoining convex masses; do not infer collision from detailed GLB triangles or add runtime decomposition. This technical support does not admit a model: actual assembly shape, readable footing and foreground visibility still require independent judgment.
 
-Run project-required `npm test`, `npm run verify` and `npm run zip` after integration, plus focused browser/Author checks appropriate to the shared path changed. Record counts and package size. Report real-device sustained performance and owner aesthetic acceptance as pending unless actually tested. Append the project build log and retain the exact evidence supporting each accepted package revision.
+Run project-required `npm test` and `npm run verify` after integration, plus focused browser/Author checks appropriate to the shared path changed. Defer shipping ZIP creation and package validation until deployment readiness. Report real-device sustained performance and owner aesthetic acceptance as pending unless actually tested. Append the project build log and retain the exact evidence supporting each accepted package revision.
 
 ## Harvestable assemblies
 

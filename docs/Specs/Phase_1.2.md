@@ -356,7 +356,7 @@ Keep disabled/unobtrusive by default.
 - Ladder climb up/down works without instant fall.
 - Mantle does not deeply teleport.
 - One rAF loop remains.
-- `npm test`, `npm run verify`, `npm run zip` pass.
+- `npm test`, `npm run verify` pass.
 - No external network.
 - Submission <35 MB.
 - Desktop + real phone manual smoke pass.

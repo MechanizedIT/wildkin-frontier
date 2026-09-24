@@ -71,7 +71,7 @@ Fix consequential findings and rerun only invalidated proof. The [project loop p
 
 ### 5. Play and checkpoint
 
-Complete one ordinary-input story from a recognizable setup. Include the main success path and the most important failure/retry path. Verify literal reload when persistent state changed. Run focused tests during work and one aggregate verify/build/ZIP at the integrated checkpoint.
+Complete one ordinary-input story from a recognizable setup. Include the main success path and the most important failure/retry path. Verify literal reload when persistent state changed. Run focused tests during work and one aggregate test/verify at the integrated checkpoint. Reserve shipping ZIP creation and package checks for deployment readiness.
 
 ## Review axes
 

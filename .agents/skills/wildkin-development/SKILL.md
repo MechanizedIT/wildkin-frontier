@@ -53,7 +53,7 @@ Use this project-local skill to coordinate a small complete change. It composes 
 
 - Serialize heavy Blender/TRELLIS work and coordinate native browser slots. Check actual RAM/VRAM against existing guards; never lower guards to force a job. Identify owned idle processes before closing anything; do not close the user's workbench. Prefer small CPU previews and bounded meshes. No paid fallback, upgrades or external publication from this skill.
 - Search selected symbols and JSON fields; read small relevant ranges. Avoid entire logs/world files, repeated giant tool outputs and unchanged polling. Reuse a proof harness only after verifying its real action, timer and camera assumptions. Wall-clock tool delay can confound encounter difficulty.
-- Run meaningful focused tests while developing. At a cohesive integrated checkpoint, the parent owns the required aggregate verification/build/ZIP and relevant native/package checks. Do not make every worker repeat that matrix; do not skip save/physics boundary checks because the UI looks correct.
+- Run meaningful focused tests while developing. At a cohesive integrated checkpoint, the parent owns aggregate tests/verify and relevant native checks. Reserve shipping ZIP creation and package checks for deployment readiness or an explicit package-proof request. Do not make every worker repeat that matrix; do not skip save/physics boundary checks because the UI looks correct.
 
 ## Close the requested work
 

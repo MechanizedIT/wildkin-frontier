@@ -1128,16 +1128,15 @@ Continue to preserve:
 
 # Build & Submission
 
-Required gates remain:
+Routine validation gates:
 
 ```text
 npm test
 npm run world:check
 npm run verify
-npm run zip
 ```
 
-Submission requirements remain:
+Shipping package requirements, checked at deployment readiness, remain:
 
 - offline runtime,
 - local vendor/assets/data,

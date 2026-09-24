@@ -1,6 +1,6 @@
 // Eight fixed interior probes per lattice cell are conserved quantity units.
 // Scalar corners are geometry context and never independently award resources.
-import { meshRockSamples } from './matter-mesh.js';
+import { meshMatterSamples } from './matter-mesh.js';
 const offsets=[.25,.75];
 const cellKey=p=>p.join(',');
 export function cloneRockSamples(source){
@@ -9,6 +9,7 @@ export function cloneRockSamples(source){
     readDensity([x,y,z]){if(x<0||y<0||z<0||x>=size[0]||y>=size[1]||z>=size[2])return 1;
       return densities[x+size[0]*(y+size[1]*z)];}};
 }
+export const cloneMatterSamples=cloneRockSamples;
 function corners(samples,[x,y,z]){const a=[];for(let dz=0;dz<2;dz++)for(let dy=0;dy<2;dy++)for(let dx=0;dx<2;dx++)a.push(samples.readDensity([x+dx,y+dy,z+dz]));return a;}
 function sample(c,u,v,w){const a=(x,y,z)=>c[x+2*y+4*z];
   return (1-w)*((1-v)*(a(0,0,0)*(1-u)+a(1,0,0)*u)+v*(a(0,1,0)*(1-u)+a(1,1,0)*u))+
@@ -22,7 +23,7 @@ export function parcelMaterial(samples,p,part){
     if(weight>best){best=weight;material=samples.materials[index];}
   }return material;
 }
-function triangleKeys(samples){const mesh=meshRockSamples(samples),keys=[];for(let i=0;i<mesh.indices.length;i+=3){const points=[];
+function triangleKeys(samples){const mesh=meshMatterSamples(samples),keys=[];for(let i=0;i<mesh.indices.length;i+=3){const points=[];
   for(let j=0;j<3;j++){const v=3*mesh.indices[i+j];points.push([mesh.positions[v],mesh.positions[v+1],mesh.positions[v+2]].map(n=>n.toFixed(3)).join(','));}
   keys.push(points.sort().join('|'));
 }return keys.sort();}
@@ -32,6 +33,24 @@ export function rockMeshUnionAudit(reference,parts){const expected=triangleKeys(
   mismatched+=[...counts.values()].reduce((a,b)=>a+b,0);
   return {matches:mismatched===0,expected:expected.length,actual:actual.length,mismatched};}
 export function rockMeshUnionMatches(reference,parts){return rockMeshUnionAudit(reference,parts).matches;}
+export const matterMeshUnionAudit=rockMeshUnionAudit;
+export const matterMeshUnionMatches=rockMeshUnionMatches;
+export function removeMatterComponents(samples,removedComponents,allComponents){
+  const out=cloneRockSamples(samples),removed=new Set(removedComponents.flatMap(c=>c.cells.map(cellKey))),retained=new Set(allComponents
+    .filter(c=>!removedComponents.includes(c)).flatMap(c=>c.cells.map(cellKey))),[nx,ny,nz]=samples.size,candidates=new Set();
+  for(const address of removed){const p=address.split(',').map(Number);for(let dz=0;dz<=1;dz++)for(let dy=0;dy<=1;dy++)for(let dx=0;dx<=1;dx++){
+    const x=p[0]+dx,y=p[1]+dy,z=p[2]+dz;candidates.add(x+nx*(y+ny*z));
+  }}
+  const contacts=(set,x,y,z)=>{let count=0;for(let dz=-1;dz<=0;dz++)for(let dy=-1;dy<=0;dy++)for(let dx=-1;dx<=0;dx++){
+    const p=[x+dx,y+dy,z+dz];if(p.some((v,i)=>v<0||v>=samples.size[i]-1))continue;if(set.has(cellKey(p)))count++;
+  }return count;};
+  let clearedSamples=0;
+  for(const i of candidates){const x=i%nx,y=Math.floor(i/nx)%ny,z=Math.floor(i/(nx*ny)),removedContacts=contacts(removed,x,y,z),retainedContacts=contacts(retained,x,y,z);
+    if(samples.densities[i]>=0||removedContacts===0||removedContacts<retainedContacts)continue;
+    out.densities[i]=Math.max(.5,-samples.densities[i]);out.materials[i]=0;clearedSamples++;
+  }
+  return {sample:out,clearedSamples,workCells:candidates.size};
+}
 function allCells(samples,fn){const n=samples.size;for(let z=0;z<n[2]-1;z++)for(let y=0;y<n[1]-1;y++)for(let x=0;x<n[0]-1;x++)fn([x,y,z]);}
 export function extractRockIsland(before,after,support){
   if(support.status!=='OK')return {status:'HOLD',reason:'support evidence unavailable'};
@@ -78,3 +97,4 @@ export function extractRockIsland(before,after,support){
   if(!audit.meshUnionMatches)audit.sharedBoundaryScalarPolicy='largest adjacent component owns the shared scalar sample';
   return {status:'OK',world,actor,ownership,audit};
 }
+export const extractMatterIsland=extractRockIsland;

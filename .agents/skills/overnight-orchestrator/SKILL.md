@@ -95,7 +95,7 @@ Use `game-feature-development` with the general `wildkin-development` and `docs/
 6. **Checkpoint**
    - ordinary-input play;
    - literal reload/persistence when changed;
-   - focused tests, then one aggregate verify/build/ZIP at the integrated checkpoint;
+   - focused tests, then one aggregate verify/build at the integrated checkpoint;
    - commit cohesive work directly to `main`;
    - update compact status and evidence.
 

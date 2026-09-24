@@ -33,7 +33,7 @@ export function pickActorSurface(actors,{originRelative,direction,origin=[0,0,0]
   return best;
 }
 export function pickWorldSurface(samples,{originRelative,direction,origin=[0,0,0],revision=0,maxDistance=8}){
-  const pose={position:[0,0,0],rotation:{x:0,y:0,z:0,w:1}},hit=pickActorSurface([{id:'world',contentRevision:revision,pose,readDensity:p=>readRockScalar(samples,p)}],
+  const pose={position:[0,0,0],rotation:{x:0,y:0,z:0,w:1}},hit=pickActorSurface([{id:'world',contentRevision:revision,pose,readDensity:p=>readMatterScalar(samples,p)}],
     {originRelative,direction,origin,maxDistance});
   return hit?{...hit,ownerId:'world',localPoint:[...hit.localPoint]}:null;
 }
@@ -42,7 +42,7 @@ export function validateActorHit(hit,actor){
   const a=hit.pose,b=actor.pose;
   return a.position.every((v,i)=>Math.abs(v-b.position[i])<1e-5)&&['x','y','z','w'].every(k=>Math.abs(a.rotation[k]-b.rotation[k])<1e-6);
 }
-export function readRockScalar(samples,point){
+export function readMatterScalar(samples,point){
   const q=point.map((v,i)=>(v-samples.min[i])/samples.spacing),base=q.map(Math.floor),f=q.map((v,i)=>v-base[i]);
   if(base.some((v,i)=>v<0||v+1>=samples.size[i]))return 2;
   let result=0;for(let z=0;z<2;z++)for(let y=0;y<2;y++)for(let x=0;x<2;x++){
@@ -51,3 +51,4 @@ export function readRockScalar(samples,point){
   }
   return result;
 }
+export const readRockScalar=readMatterScalar;

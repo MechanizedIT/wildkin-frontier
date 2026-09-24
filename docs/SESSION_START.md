@@ -1,6 +1,10 @@
 # Resume Wildkin Frontier
 
-## September 24 Phase 0.5A.4 — material-aware hard-rock proof
+## September 24 Phase 0.5B — dirt / soil second-material proof
+
+Read [the Phase 0.5B report](VOXEL_PHASE05B_REPORT.md), [current slice](CURRENT_SLICE.md), and [matter roadmap](DESTRUCTIBLE_MATTER_ROADMAP.md). **PASS; stop for owner review.** Dirt uses the same scalar Surface Nets matter and transactional actor/persistence pipeline as A.4 rock, with broad digging, bounded support loss, crumble and a falling/rotating recursive dirt clod. Source and extracted-package browser receipts pass; A.4 rock regression and independent review pass. Exact dirt ledger: 3,899 initial = 2,869 static + 0 actors + 1,030 consumed, with zero stone. `npm test` and `npm run verify` pass 1,547/1,547. The support calculation visits the bounded 13³ fixture and needs spatial cropping before streamed terrain use. Reserve shipping ZIP creation for deployment readiness; do not start Phase 0.5C or production migration automatically.
+
+## Historical September 24 Phase 0.5A.4 — material-aware hard-rock proof
 
 Read [the Phase 0.5A.4 report](VOXEL_PHASE05A4_REPORT.md) and [current slice](CURRENT_SLICE.md). The isolated lab now separates authoritative Surface Nets mining from approximate convex physics, applies deterministic local chips plus bounded persistent stress, and fractures a mostly intact boulder into retained actors. The browser receipt follows a detached rock through fall/rotation, two structural splits, recursively mined moved child, and literal save/reload with exact 2,164-unit accounting. Independent review passed; `npm test`, `npm run verify`, and `npm run zip` passed. Stop for owner review. No production-world migration, other material, mobile-performance claim, or automatic next phase.
 

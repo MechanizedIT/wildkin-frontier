@@ -701,7 +701,6 @@ npm test
 npm run world:generate
 npm run world:check
 npm run verify
-npm run zip
 ```
 
 Also confirm:

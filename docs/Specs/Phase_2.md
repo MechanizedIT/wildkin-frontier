@@ -692,7 +692,6 @@ No heavy test framework.
 ### Verification
 - `npm test` passes
 - `npm run verify` passes
-- `npm run zip` passes
 - dev/submission load
 - phone portrait works
 - offline compliance

@@ -704,7 +704,6 @@ Phase 3.1.1 is complete only when:
 - one rAF remains,
 - `npm test` PASS,
 - `npm run verify` PASS,
-- `npm run zip` PASS,
 - package remains offline and <35 MB,
 - BUILD_LOG updated.
 
@@ -724,7 +723,7 @@ Implement in this order:
 8. Change XP core to faceted cyan essence.
 9. Mirror Field Tool anatomical hand/swing.
 10. Add exact integration/regression tests.
-11. Run test/verify/zip.
+11. Run tests and verify.
 12. Update BUILD_LOG.
 13. Stop.
 

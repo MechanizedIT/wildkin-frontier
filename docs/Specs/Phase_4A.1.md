@@ -819,7 +819,6 @@ Phase 4A.1 implementation is complete only when:
 - automated tests pass,
 - `npm run world:check` passes,
 - `npm run verify` passes,
-- `npm run zip` passes,
 - one-rAF/fixed-step/Rapier/offline/portrait constraints remain intact,
 - human acceptance is still pending.
 

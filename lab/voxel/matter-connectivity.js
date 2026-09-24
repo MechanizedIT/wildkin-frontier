@@ -12,15 +12,16 @@ function corners(samples,x,y,z){const c=[];for(let dz=0;dz<2;dz++)for(let dy=0;d
 function occupied(c){let n=0;for(const x of PROBES)for(const y of PROBES)for(const z of PROBES)n+=trilinear(c,x,y,z)<0;return n;}
 function faceContact(c,axis){let n=0;for(const a of PROBES)for(const b of PROBES){const p=axis===0?[1,a,b]:axis===1?[a,1,b]:[a,b,1];n+=trilinear(c,...p)<0;}return n;}
 const directions=[[1,0,0],[0,1,0],[0,0,1]];
-export function analyzeRockConnectivity(samples,domain,{known=()=>true,anchor=([,y])=>y===0,brokenBonds=[]}={}){
+export function analyzeMatterConnectivity(samples,{known=()=>true,anchor=([,y])=>y===0,
+  identityForCell=()=> 'matter',canConnect=()=>true,brokenBonds=[]}={}){
   const cells=new Map(), limits=samples.size.map(v=>v-1),broken=new Set(brokenBonds);
   if(limits.some(v=>v>32))return {status:'HOLD',reason:'support window exceeds 32 lattice intervals'};
   for(let z=0;z<limits[2];z++)for(let y=0;y<limits[1];y++)for(let x=0;x<limits[0];x++){
     const p=[x,y,z],c=corners(samples,x,y,z),count=occupied(c);
     if(!count)continue;
     if(!known(p))return {status:'HOLD',reason:`nonresident occupied evidence at ${key(p)}`};
-    const meter=p.map((v,i)=>samples.min[i]+(v+.5)*samples.spacing);
-    cells.set(key(p),{p,c,count,id:nearestRockSite(domain,meter).id,neighbors:[]});
+    const meter=p.map((v,i)=>samples.min[i]+(v+.5)*samples.spacing),id=identityForCell(p,meter);
+    cells.set(key(p),{p,c,count,id,neighbors:[]});
     if(cells.size>32768)return {status:'HOLD',reason:'support cell budget'};
   }
   let bonds=0;
@@ -29,7 +30,7 @@ export function analyzeRockConnectivity(samples,domain,{known=()=>true,anchor=([
     if(!neighbor)continue;
     const contact=faceContact(cell.c,axis);
     if(contact===0)continue;
-    if(cell.id!==neighbor.id&&broken.has(rockBondId(cell.id,neighbor.id)))continue;
+    if(!canConnect(cell.id,neighbor.id,broken))continue;
     cell.neighbors.push(neighbor);neighbor.neighbors.push(cell);bonds++;
     if(bonds>12288)return {status:'HOLD',reason:'bond budget'};
   }
@@ -48,6 +49,11 @@ export function analyzeRockConnectivity(samples,domain,{known=()=>true,anchor=([
   }
   components.sort((a,b)=>b.cells.length-a.cells.length||key(a.cells[0]).localeCompare(key(b.cells[0])));
   return {status:'OK',components,cellCount:cells.size,bonds};
+}
+export function analyzeRockConnectivity(samples,domain,options={}){
+  return analyzeMatterConnectivity(samples,{...options,
+    identityForCell:(_cell,point)=>nearestRockSite(domain,point).id,
+    canConnect:(a,b,broken)=>a===b||!broken.has(rockBondId(a,b))});
 }
 // A failed structural bond defines the separation plane. The scalar field is
 // retained; parcel cells are assigned to one side and each child rebuilds its

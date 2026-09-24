@@ -425,7 +425,6 @@ Temporary desktop control legend allowed. Keep normal phone view uncluttered.
 ### Verification
 - `npm test` PASS.
 - `npm run verify` PASS.
-- `npm run zip` PASS.
 - Dev and submission builds load.
 - No external runtime network requests.
 - ZIP <35 MB.

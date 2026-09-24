@@ -1,8 +1,28 @@
 # Wildkin voxel lab
 
-## Phase 0.5A cellular rock (separate scenario)
+## Phase 0.5B dirt / soil proof (separate scenario)
 
-Open `/lab/voxel/cellular-rock.html` from `node tools/serve.mjs --port 8090`. A low-poly rock begins on a narrow neck. Drag to orbit, use the wheel to zoom, WASD to move the view, click or press **Mine at crosshair** to chip its scalar surface, and press **F** to follow a fallen piece. **Save & reload** performs an actual IndexedDB round trip. Mine a side, sever the neck, follow the rotating rock, cut its middle into two retained pieces, and mine a child. The status panel shows revision, actor/retired counts and exact stone-unit balance. This bounded fixture uses a new `wildkin-voxel-lab-cellular-0.5a-v1` namespace and does not read the Phase 0 save.
+Run `node tools/serve.mjs --port 8090`, then open
+`/lab/voxel/cellular-rock.html?material=dirt`. The dirt bank has a low
+overhang. Aim at visible soil and click **Dig at crosshair** (or press E) to
+make a broad scoop; repeated digs expose local crumble and can release a
+substantial clod. **Follow clod** or F follows its moved pose. **Save & reload**
+performs a literal IndexedDB round trip. The isolated dirt save namespace is
+`wildkin-voxel-lab-cellular-0.5b-dirt-v1`; it does not read or overwrite the
+rock fixture save.
+
+Click **Compare hard rock** to switch to A.4's narrow boulder and repeat the
+small-chip / accumulated-weakness / brittle-fracture sequence. Both fixtures
+use the same scalar matter, Surface Nets, target, ownership, transaction,
+actor, approximate physics and persistence infrastructure. Dirt uses local
+cohesion and crumble; it does not accumulate rock bond stress. The matched
+browser receipt is `tools/playtest-voxel-dirt-b.mjs`; see
+`docs/VOXEL_PHASE05B_REPORT.md` and
+`docs/evidence/voxel-phase05b/material-comparison.html`.
+
+## Phase 0.5A.4 hard-rock regression (separate scenario)
+
+Open `/lab/voxel/cellular-rock.html` from `node tools/serve.mjs --port 8090`. A low-poly rock begins on a narrow neck. Drag to orbit, use the wheel to zoom, WASD to move the view, click or press **Mine at crosshair** to chip its scalar surface, and press **F** to follow a fallen piece. **Save & reload** performs an actual IndexedDB round trip. Mine a side, sever the neck, follow the rotating rock, cut its middle into two retained pieces, and mine a child. The status panel shows revision, actor/retired counts and exact stone-unit balance. This bounded fixture uses the `wildkin-voxel-lab-cellular-0.5a4-v1` namespace and migrates earlier A.4 saves to its explicit rock-material ledger; it does not read the Phase 0 save.
 
 `node tools/probe-voxel-fracture.mjs` captures the first cellular/sphere/axis comparison. `node tools/playtest-voxel-cellular.mjs` drives the complete deterministic browser sequence and failure injection; the source server must already be running. Set `VOXEL_CELLULAR_URL` to test an extracted ZIP copy. See `docs/VOXEL_PHASE05_REPORT.md` for the HOLD, evidence and limits.
 

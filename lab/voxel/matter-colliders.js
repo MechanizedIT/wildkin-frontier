@@ -39,3 +39,5 @@ export function planRockShardHull(mesh){
   if(points.length<4)return null;
   return new Float32Array(keepExtremes(points).flat());
 }
+export const planMatterColliders=planRockColliders;
+export const planMatterShardHull=planRockShardHull;

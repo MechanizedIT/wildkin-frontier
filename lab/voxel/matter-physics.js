@@ -32,7 +32,7 @@ export class CellularRockPhysics {
     const collider=mesh.indices.length?this.world.createCollider(this.R.ColliderDesc.trimesh(mesh.positions,mesh.indices).setTranslation(...this.origin.map(v=>-v)).setEnabled(false)):null;
     return {collider,revision};
   }
-  prepareActor(record,mesh){
+  prepareActor(record,mesh,profile=null){
     const hulls=planRockColliders(mesh,record.localCOM),p=record.position.map((v,i)=>v-this.origin[i]);
     const body=this.world.createRigidBody(this.R.RigidBodyDesc.dynamic().setTranslation(...p).setRotation(record.rotation).setLinearDamping(.7).setAngularDamping(.7).setCcdEnabled(true).setCanSleep(true));
     body.setEnabled(false);
@@ -40,7 +40,7 @@ export class CellularRockPhysics {
     try{
       for(const points of hulls){const descriptor=this.R.ColliderDesc.convexHull(points);
         if(!descriptor)throw new Error('Degenerate rock convex hull');
-        colliders.push(this.world.createCollider(descriptor.setDensity(.6).setFriction(.85),body));
+        colliders.push(this.world.createCollider(descriptor.setDensity(profile?.actorDensity??.6).setFriction(profile?.actorFriction??.85),body));
       }
       if(colliders.length>8)throw new Error('Eight collider limit');
       body.setLinvel(vec(record.linearVelocity),false);body.setAngvel(vec(record.angularVelocity),false);
@@ -87,3 +87,4 @@ export class CellularRockPhysics {
     this.origin=[...next];this.world.propagateModifiedBodyPositionsToColliders();}
   dispose(){this.world.free();}
 }
+export const CellularMatterPhysics=CellularRockPhysics;

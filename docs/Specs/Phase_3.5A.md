@@ -397,7 +397,6 @@ Phase 3.5A is complete only when:
 - activation/deactivation is deterministic and duplicate-safe,
 - automated tests pass,
 - `npm run verify` passes,
-- `npm run zip` passes,
 - offline/portrait/single-rAF/fixed-step/Rapier constraints remain intact,
 - human boundary/re-entry regression test passes.
 
