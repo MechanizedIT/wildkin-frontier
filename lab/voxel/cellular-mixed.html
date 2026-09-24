@@ -1,5 +1,5 @@
 <!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Wildkin mixed-material matter experiment · Phase 0.5C</title>
+<title>Wildkin mixed-material matter experiment · Phase 0.5C.1</title>
 <style>
 *{box-sizing:border-box}body{margin:0;background:#101b21;color:#eee9d9;font:15px system-ui;overflow:hidden}#scene{width:100vw;height:100vh;display:block}
 #hud{position:absolute;top:14px;left:14px;max-width:400px;background:#12242cd9;border:1px solid #57707a;border-radius:10px;padding:14px;box-shadow:0 12px 36px #0008}
@@ -9,8 +9,9 @@ a#switch{display:inline-block;background:#273f49;color:#e8ddc5;border:1px solid 
 @media(max-width:700px){#hud{max-width:min(350px,82vw);font-size:13px;padding:10px}h1{font-size:16px}#hint{max-width:90vw;font-size:12px}}
 </style>
 <canvas id="scene"></canvas><div id="crosshair">+</div>
-<aside id="hud"><h1 id="title">Mixed dirt + supported stone · Phase 0.5C</h1><p id="stage">Loading the mixed fixture…</p><p id="message"></p>
+<aside id="hud"><h1 id="title">Mixed dirt + supported stone · Phase 0.5C.1</h1><p id="stage">Loading the mixed fixture…</p><p id="message"></p>
 <button id="mine">Dig / strike at crosshair</button><button id="focus">Follow actor (F)</button><button id="debug">Weakness view: cracks only (B)</button><a id="switch" href="./cellular-rock.html?material=rock">Compare hard rock</a><button id="save">Save &amp; reload</button>
+<button id="seam" hidden>Material seam: interpolated</button>
 <p id="stats"></p></aside>
 <div id="hint">Aim at soil and click or press E to scoop; aim at stone to chip it. Dig the bank below the supported boulder until support is lost, then follow the moved rock and strike its visible face. Drag to orbit · Wheel to zoom · WASD to move the view · F follows the actor · Save &amp; reload checks persistence.</div>
 <script type="module" src="./cellular-main.js"></script></html>

@@ -1,5 +1,14 @@
 # Build Log
 
+## 2026-09-24 — Phase 0.5C.1 material composition and seam proof — Codex GPT-6
+
+- **Goal:** Execute the owner-provided bounded Phase 0.5C.1 brief on `main`; compare resolved-only generation with deterministic source composition and current versus crisp material seams.
+- **Decisions:** Keep rock-over-dirt as explicit precedence (20 vs 10); keep runtime world samples and detached actors as resolved authoritative matter; classify crisp triangles by majority resolved vertex material with lower-ID tie-break; defer logical chunk seam evidence to Phase 0.5D.
+- **Files changed:** Added bounded `matter-composition.js`, buried mixed fixture and crisp shared-geometry presentation mode; added composition/reveal/seam tests, browser capture harness and preview; updated C.1 report, current slice, session start, code map, roadmap and this log. Existing unrelated untracked `authoring/` and `docs/evidence/voxel-phase05/portable/` content was preserved.
+- **Evidence:** Headless Edge/SwiftShader matched comparison: 908 triangles in both modes, 456→478 render vertices (+22), no page errors or external requests. Buried reveal preview produces dirt-only staged excavation on Surface Nets; all eight ordinary-input C browser stages pass. Thirty warm Node runs measured medians of 4.31 ms composition, 5.84 ms meshing, and 0.75 ms seam classification; retaining overlapping source arrays would add 8,788 bytes. Independent read-only review: HOLD; confirms compositor/seam logic and identifies the same explicit integration limits recorded in the report.
+- **Tests / validation:** Focused composition suite 3/3 passes. Focused C suite 8/9; the existing Rapier rotation assertion reports 0.153238 rad vs >0.25 after 300 steps. `npm test` and the final captured `npm run verify` each report 1,558/1,559 across 175 suites, with the same single assertion failing. Verify therefore stops before world/campaign checks, submission build, and validation. Browser C sequence passes all eight stages.
+- **Remaining issues:** Buried fixture reveal is a preview, not yet the persisted interactive edit/ledger/detachment chain; no meaningful logical chunk-edge seam test; existing C rotation discrepancy remains. No PASS or mobile claim.
+
 > Each AI session appends: date/time, tool/model, goal, decisions, files changed, tests/validation, remaining issues. Required for hackathon submission.
 
 ## 2026-08-18 — Phase 0 Foundation — muse-spark-1.2-contributor (OpenCode)

@@ -1,5 +1,9 @@
 # Resume Wildkin Frontier
 
+## September 24 Phase 0.5C.1 — material composition/seam experiment
+
+Read [the C.1 report](VOXEL_PHASE05C1_REPORT.md), [current slice](CURRENT_SLICE.md), and [roadmap](DESTRUCTIBLE_MATTER_ROADMAP.md). **HOLD; stop for owner review.** The bounded source compositor, buried-rock Surface Nets preview, crisp triangle seam mode, and no-regenerated-dirt regression are implemented. The HYBRID representation recommendation is provisional. The buried fixture is not yet on the persisted interactive edit/detachment path, the logical chunk seam is deferred to D, and the existing C Rapier rotation test currently misses its >0.25 rad threshold (0.153 rad observed). Do not start D without fresh owner instruction.
+
 ## September 24 Phase 0.5B — dirt / soil second-material proof
 
 Read [the Phase 0.5B report](VOXEL_PHASE05B_REPORT.md), [current slice](CURRENT_SLICE.md), and [matter roadmap](DESTRUCTIBLE_MATTER_ROADMAP.md). **PASS; stop for owner review.** Dirt uses the same scalar Surface Nets matter and transactional actor/persistence pipeline as A.4 rock, with broad digging, bounded support loss, crumble and a falling/rotating recursive dirt clod. Source and extracted-package browser receipts pass; A.4 rock regression and independent review pass. Exact dirt ledger: 3,899 initial = 2,869 static + 0 actors + 1,030 consumed, with zero stone. `npm test` and `npm run verify` pass 1,547/1,547. The support calculation visits the bounded 13³ fixture and needs spatial cropping before streamed terrain use. Reserve shipping ZIP creation for deployment readiness; do not start Phase 0.5C or production migration automatically.

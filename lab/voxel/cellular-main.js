@@ -3,7 +3,7 @@ import RAPIER from '../../vendor/rapier.js';
 import { LabWorldState } from './world-state.js';
 import { openCellularStore, CELLULAR_NAMESPACE, DIRT_CELLULAR_NAMESPACE, MIXED_CELLULAR_NAMESPACE } from './cellular-persistence.js';
 import { mineWorldMatter, mineActorMatter, createInitialRockState, createInitialDirtState, createInitialMixedState, actorMatterSamples, worldMatterSamples, quantityAudit, matterMaterialAt } from './matter-actor.js';
-import { meshMatterSamples } from './matter-mesh.js';
+import { meshMatterSamples, crispMatterSeams } from './matter-mesh.js';
 import { CellularMatterPhysics } from './matter-physics.js';
 import { pickActorSurface, pickWorldSurface, readMatterScalar, validateActorHit, worldToActorDirection, actorToWorldPoint } from './matter-target.js';
 import { rockDomain } from './fracture-field.js';
@@ -15,12 +15,13 @@ import { matterPolicyFor, MATTER_MATERIAL } from './matter-material-policy.js';
 
 const canvas=document.querySelector('#scene'),stage=document.querySelector('#stage'),message=document.querySelector('#message'),stats=document.querySelector('#stats');
 const mineButton=document.querySelector('#mine'),saveButton=document.querySelector('#save'),focusButton=document.querySelector('#focus'),debugButton=document.querySelector('#debug');
+const seamButton=document.querySelector('#seam');
 const query=new URLSearchParams(location.search),mode=query.get('material')??'rock',isDirt=mode==='dirt',isMixed=mode==='mixed'||location.pathname.endsWith('/cellular-mixed.html'),initialState=isMixed?createInitialMixedState:isDirt?createInitialDirtState:createInitialRockState,
   suffix=query.get('save'),baseNamespace=isMixed?MIXED_CELLULAR_NAMESPACE:isDirt?DIRT_CELLULAR_NAMESPACE:CELLULAR_NAMESPACE,
   namespace=suffix?`${baseNamespace}-${suffix.replace(/[^a-zA-Z0-9-]/g,'').slice(0,40)}`:baseNamespace;
-document.querySelector('#title').textContent=isMixed?'Mixed dirt + supported stone · Phase 0.5C':isDirt?'Dirt / soil matter · Phase 0.5B':'Hard-rock matter · Phase 0.5A.4';
+document.querySelector('#title').textContent=isMixed?'Mixed dirt + supported stone · Phase 0.5C.1':isDirt?'Dirt / soil matter · Phase 0.5B':'Hard-rock matter · Phase 0.5A.4';
 mineButton.textContent=isMixed?'Dig / strike at crosshair':isDirt?'Dig at crosshair':'Strike at crosshair';focusButton.textContent=isDirt?'Follow clod (F)':'Follow rock (F)';
-debugButton.hidden=isDirt;document.querySelector('#switch').textContent=isMixed?'Compare material proofs':isDirt?'Compare hard rock':'Compare dirt / soil';
+debugButton.hidden=isDirt;seamButton.hidden=!isMixed;document.querySelector('#switch').textContent=isMixed?'Compare material proofs':isDirt?'Compare hard rock':'Compare dirt / soil';
 document.querySelector('#switch').href=isMixed?'./cellular-rock.html?material=rock':isDirt?'./cellular-rock.html?material=rock':'./cellular-rock.html?material=dirt';
 document.querySelector('#hint').textContent=isMixed?
   'Aim at soil and click or press E to scoop; aim at stone to chip it. Dig the bank below the supported boulder until support is lost, then follow the moved rock and strike its visible face. Drag to orbit · Wheel to zoom · WASD to move the view · F follows the actor · Save & reload checks persistence.':isDirt?
@@ -36,6 +37,7 @@ const sun=new THREE.DirectionalLight(0xffddad,2.4);sun.position.set(-4,9,7);scen
 const floor=new THREE.Mesh(new THREE.PlaneGeometry(128,128),new THREE.MeshStandardMaterial({color:0x344952,roughness:1}));floor.rotation.x=-Math.PI/2;floor.position.y=-.015;scene.add(floor);
 const grid=new THREE.GridHelper(128,64,0x6c8790,0x47606b);grid.position.y=.01;scene.add(grid);
 const rockMaterial=new THREE.MeshStandardMaterial({vertexColors:true,flatShading:true,side:THREE.DoubleSide,roughness:.92});
+let crispSeam=false;
 let worldRender=null,actorRenders=new Map(),shardRenders=new Map(),editing=false,ready=false,debugAll=false,focus=[0,3,0],yaw=2.5,pitch=.32,distance=7.5;
 const visualGeometry=new THREE.TetrahedronGeometry(.13),visualMaterial=new THREE.MeshStandardMaterial({color:0x9fb6bb,flatShading:true});
 const visualPool=Array.from({length:16},()=>new THREE.Mesh(visualGeometry,visualMaterial)),visualLive=[];
@@ -48,12 +50,21 @@ function meshAsync(record,id,revision){return new Promise((resolve,reject)=>{con
   try{worker.postMessage({id:jobId,kind:'cellular-matter-mesh',actorId:id,revision,densities:record.densities,materials:record.materials});}
   catch(error){jobs.delete(jobId);reject(error);}});}
 function threeMesh(data,actorId=null){
+  if(crispSeam&&isMixed)data=crispMatterSeams(data);
   const g=new THREE.BufferGeometry();g.setAttribute('position',new THREE.BufferAttribute(data.positions,3));g.setAttribute('normal',new THREE.BufferAttribute(data.normals,3));
   g.setAttribute('color',new THREE.BufferAttribute(data.colors,3));g.setIndex(new THREE.BufferAttribute(data.indices,1));
   let material=rockMaterial;
   if(actorId?.includes('/r')||actorId?.startsWith('shard-')){material=rockMaterial.clone();const part=Number(actorId.match(/\/(\d+)$/)?.[1]??0);
     material.color.setHex(actorId.startsWith('shard-')?0xd8b5a0:part%2?0xb4cbd6:0xe5f0ed);}
-  return new THREE.Mesh(g,material);
+  const mesh=new THREE.Mesh(g,material);mesh.userData.renderVertices=g.attributes.position.count;return mesh;
+}
+function updateSeamMode(){
+  crispSeam=!crispSeam;seamButton.textContent=`Material seam: ${crispSeam?'crisp':'interpolated'}`;
+  const oldWorld=worldRender;if(oldWorld){disposeRender(oldWorld);worldRender=threeMesh(meshMatterSamples(worldMatterSamples(owner.state)));
+    bondOverlay(worldRender,{...owner.state.world,material:owner.state.materialId},'world');scene.add(worldRender);}
+  for(const actor of owner.state.actors){const old=actorRenders.get(actor.id);if(old)disposeRender(old);const render=threeMesh(meshMatterSamples(actorMatterSamples(actor)),actor.id);
+    bondOverlay(render,actor,actor.id);actorRenders.set(actor.id,render);scene.add(render);}
+  showState(`Shared Surface Nets surface · ${crispSeam?'crisp triangle material regions':'current vertex-color interpolation'}.`);
 }
 const structureStats=new Map(),domainForState=seed=>rockDomain(seed);
 function bondOverlay(mesh,record,id){
@@ -139,6 +150,7 @@ function installInitial(){
     const render=threeMesh(mesh,actor.id);bondOverlay(render,actor,actor.id);actorRenders.set(actor.id,render);scene.add(render);}
   physics.installActors(products);physics.step();syncVisuals();collectStructureStats();ready=true;showState(isDirt?'Aim at the dirt face and dig; edits save before they appear.':'Aim at visible stone and strike. Edits save before they appear.');
 }
+seamButton.addEventListener('click',updateSeamMode);
 installInitial();
 async function transition(propose,{worldChanged=false,label='Rock mined'}={}){
   if(editing)return {status:'BUSY'};editing=true;showState(isDirt?'Preparing soil edit…':'Preparing rock edit…');const start=performance.now();
@@ -273,4 +285,6 @@ window.__cellularLab={get ready(){return ready},get state(){return owner.state},
     frameP95:[...frameTimes].sort((a,b)=>a-b)[Math.floor(frameTimes.length*.95)]??null,
     errors,bodyCount:physics.actors.size,transientShardBodies:physics.shards.size,pooledVisualDebris:visualLive.length,
     worldColliderRevision:physics.worldProduct?.revision,colliderCounts:[...physics.actors.values()].map(a=>a.hullCount),
+    seamMode:isMixed?(crispSeam?'crisp-triangle-regions':'current-vertex-interpolation'):null,
+    renderVertices:[worldRender,...actorRenders.values()].filter(Boolean).map(mesh=>mesh.userData.renderVertices),
     triangles:[worldRender,...actorRenders.values()].filter(Boolean).map(mesh=>mesh.geometry.index.count/3)})};

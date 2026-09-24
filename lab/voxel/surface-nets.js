@@ -57,11 +57,11 @@ function makeVertex(cx, cy, cz, densities, materials, n, size, spacing) {
 
 export function meshSurfaceNets(input) {
   const { size, densities, materials, spacing=1 }=input, n=assertInput(input);
-  const vertices=new Map(), positions=[], normals=[], colors=[], indices=[];
+  const vertices=new Map(), positions=[], normals=[], colors=[], materialIds=[], shades=[], indices=[];
   const vertex=(x,y,z)=>{
     const key=hashCell(x,y,z); let id=vertices.get(key); if(id !== undefined) return id;
     const v=makeVertex(x,y,z,densities,materials,n,size,spacing); if(!v) return -1;
-    id=positions.length/3; vertices.set(key,id); positions.push(...v.position); normals.push(...v.normal);
+    id=positions.length/3; vertices.set(key,id); positions.push(...v.position); normals.push(...v.normal);materialIds.push(v.material);shades.push(v.shade);
     const color=MATERIALS[v.material]?.color || MATERIALS[1].color; colors.push(...color.map(c=>c*v.shade)); return id;
   };
   for(let axis=0;axis<3;axis++) for(let z=0;z<size;z++) for(let y=0;y<size;y++) for(let x=0;x<size;x++) {
@@ -77,5 +77,5 @@ export function meshSurfaceNets(input) {
     const nx=normals[ids[0]*3],ny=normals[ids[0]*3+1],nz=normals[ids[0]*3+2];
     if(cx*nx+cy*ny+cz*nz < 0) indices.push(tri[0],tri[2],tri[1],tri[3],tri[5],tri[4]); else indices.push(...tri);
   }
-  return { positions:new Float32Array(positions), normals:new Float32Array(normals), colors:new Float32Array(colors), indices:new Uint32Array(indices) };
+  return { positions:new Float32Array(positions), normals:new Float32Array(normals), colors:new Float32Array(colors), materialIds:new Uint8Array(materialIds), shades:new Float32Array(shades), indices:new Uint32Array(indices) };
 }

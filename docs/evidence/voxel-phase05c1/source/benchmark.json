@@ -1,0 +1,22 @@
+{
+  "runs": 30,
+  "fixtureSamples": 2197,
+  "median": {
+    "composeMs": 4.3052000000000135,
+    "meshMs": 5.84050000000002,
+    "seamClassificationMs": 0.7479000000000156
+  },
+  "control": {
+    "vertices": 456,
+    "triangles": 908
+  },
+  "crisp": {
+    "vertices": 478,
+    "triangles": 908
+  },
+  "extraRenderVertices": 22,
+  "resolvedTypedArrayBytes": 10985,
+  "retainingBothSourceDensityArraysBytes": 19773,
+  "additionalBytesIfSourceArraysWereRetained": 8788,
+  "note": "Node timings are bounded headless fixture observations; source arrays are generated transiently and are not retained in runtime state."
+}

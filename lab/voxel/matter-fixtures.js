@@ -1,4 +1,5 @@
 import { ROCK_SPACING } from './fracture-field.js';
+import { composeMatterSample, SOURCE_PRECEDENCE } from './matter-composition.js';
 
 function cylinder(x,y,z,r,lo,hi){
   const radial=Math.hypot(x,z)-r, vertical=Math.abs(y-(lo+hi)/2)-(hi-lo)/2;
@@ -55,19 +56,31 @@ export function makeDirtBankSamples(){
   return sample;
 }
 
-// Phase 0.5C bounded mixed fixture: one authored stone mass nested into a
-// single dirt volume. Samples are mutually exclusive: stone replaces the
-// dirt sample where the rock surface occupies it, so ownership never overlaps.
+// Phase 0.5C.1 control fixture. These source functions overlap by design;
+// explicit precedence resolves them before the one physical sample is stored.
 export function makeMixedMatterSamples(){
   const sample=makeDirtBankSamples();
   for(let i=0;i<sample.densities.length;i++){
-    const point=sample.position(i),base=roundedBox(point,[0,1.25,0],[2.45,1.25,2.2],.45),pillar=roundedBox(point,[0,3.4,0],[.7,1.1,.7],.18),soil=Math.min(base,pillar);
-    sample.densities[i]=soil;sample.materials[i]=soil<0?2:0;
-  }
-  for(let i=0;i<sample.densities.length;i++){
-    const point=sample.position(i),rock=ellipsoid(point,[0,4.8,0],[1.6,.9,1.4]);
-    if(rock<0){sample.densities[i]=rock;sample.materials[i]=1;}
+    const point=sample.position(i),base=roundedBox(point,[0,1.25,0],[2.45,1.25,2.2],.45),pillar=roundedBox(point,[0,3.4,0],[.7,1.1,.7],.18),soil=Math.min(base,pillar),
+      rock=ellipsoid(point,[0,4.8,0],[1.6,.9,1.4]),resolved=composeMatterSample(point,[
+        {sample:()=>soil,material:2,precedence:SOURCE_PRECEDENCE.DIRT},
+        {sample:()=>rock,material:1,precedence:SOURCE_PRECEDENCE.ROCK},
+      ]);
+    sample.densities[i]=resolved.density;sample.materials[i]=resolved.material;
   }
   sample.fixture='mixed-dirt-supported-rock';
   return sample;
+}
+
+// C.1 reveal fixture: one resolved soil body completely encloses the rock
+// source. Edits later touch only dirt-owned resolved samples.
+export function makeBuriedMixedMatterSamples(){
+  const sample=makeDirtBankSamples();
+  for(let i=0;i<sample.densities.length;i++){
+    const p=sample.position(i),dirt=roundedBox(p,[0,2.4,0],[2.45,2.4,2.2],.45),rock=ellipsoid(p,[0,3.5,0],[1.35,.8,1.2]),resolved=composeMatterSample(p,[
+      {sample:()=>dirt,material:2,precedence:SOURCE_PRECEDENCE.DIRT},{sample:()=>rock,material:1,precedence:SOURCE_PRECEDENCE.ROCK},
+    ]);
+    sample.densities[i]=resolved.density;sample.materials[i]=resolved.material;
+  }
+  sample.fixture='buried-mixed-dirt-rock';return sample;
 }

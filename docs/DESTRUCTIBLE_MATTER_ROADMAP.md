@@ -1,6 +1,6 @@
 # Destructible Matter R&D Roadmap
 
-**Status:** living R&D plan after Phase 0.5C mixed-material PASS; Phase 0.5C.1 material-composition/seam proof is the recommended next gate before terrain excavation
+**Status:** Phase 0.5C.1 HOLD after bounded source-composition/seam proof; stop for owner review
 **Scope:** isolated destructible-matter research until a later explicit production-migration gate.
 
 ## Vision
@@ -73,6 +73,8 @@ Compare the current resolved single-density/material-label representation agains
 The experiment must distinguish **source composition** from **final ownership**: physical matter is still mutually exclusive after composition, but procedural/source layers may overlap before a deterministic precedence/composition rule resolves the final sample. The renderer should support a crisp material boundary when desired, e.g. by triangle/material classification or seam-split vertices rather than relying on interpolated vertex color across rock/dirt transitions.
 
 **PASS gate:** one watertight visible surface; no cracks, overlap, z-fighting or internal duplicate faces; deterministic material precedence; dirt excavation reveals rock without corrupting either material; boundary edits remain stable; actor extraction preserves the resolved rock material; a crisp exposed rock/dirt visual seam is demonstrated; the chosen representation is documented with costs and limitations.
+
+**Disposition (2026-09-24): HOLD.** Explicit rock-over-dirt composition is deterministic and order independent; runtime state remains one resolved density/material field. The triangle-classified crisp mode preserves the shared Surface Nets triangles and positions (908 triangles; 22 extra render vertices in the captured mixed fixture). Extraction/reload tests confirm displaced dirt does not regenerate in the old rock volume. A separate fully buried fixture reveals rock progressively under dirt-only edits on the same mesher. Recommendation: HYBRID—compose only at generation boundaries, then persist resolved matter and edits. The full buried sequence has not yet gone through the persisted interactive transaction/ownership/detachment path, a meaningful chunk-edge seam probe is deferred to D, and the existing C Rapier rotation assertion currently fails at 0.153 rad vs >0.25 rad. See [C.1 report](VOXEL_PHASE05C1_REPORT.md) and [evidence board](evidence/voxel-phase05c1/material-composition.html). Stop for owner review.
 
 ### Phase 0.5D — Terrain excavation
 

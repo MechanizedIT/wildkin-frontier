@@ -94,6 +94,14 @@ test('actual dirt occupancy loss transfers a material-preserving unsupported roc
   assert.ok(result.support.workUnits<3500,'one bounded shared mixed support pass remains near B cost');
 });
 
+test('detached rock leaves persistent runtime air with no underlying dirt regeneration',()=>{
+  const initial=worldMatterSamples(createInitialMixedState()),{state}=digToDetach(),after=worldMatterSamples(state),reloaded=worldMatterSamples(validateCellularState(JSON.parse(JSON.stringify(state))));
+  const buried=[];for(let i=0;i<initial.densities.length;i++)if(initial.densities[i]<0&&initial.materials[i]===MATTER_MATERIAL.ROCK)buried.push(i);
+  assert.ok(buried.length>0);
+  for(const i of buried){assert.ok(after.densities[i]>=0,`old rock sample ${i} resolves to air`);assert.equal(after.materials[i],0,'procedural dirt did not refill the displaced rock');
+    assert.equal(reloaded.densities[i],after.densities[i]);assert.equal(reloaded.materials[i],after.materials[i]);}
+});
+
 test('moved rock keeps brittle chip/stress behavior and cannot change the dirt ledger',()=>{
   const {state}=digToDetach(),rock=state.actors.find(a=>a.material===MATTER_MATERIAL.ROCK),before=quantityAudit(state),dirtRewards=state.rewards.dirtUnits,
     local=[0,4.8,1.1],result=mineActorMatter(state,rock.id,rock.contentRevision,local);

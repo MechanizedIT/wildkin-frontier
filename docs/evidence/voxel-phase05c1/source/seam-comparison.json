@@ -1,0 +1,143 @@
+{
+  "pass": true,
+  "timestamp": "2026-09-24T21:19:34.961Z",
+  "browser": "Microsoft Edge headless / SwiftShader",
+  "viewport": {
+    "width": 1280,
+    "height": 720
+  },
+  "before": {
+    "namespace": "wildkin-voxel-lab-cellular-0.5c-mixed-v1-mixed-phase05c1-1790284771850",
+    "material": "mixed",
+    "materialId": 3,
+    "revision": 0,
+    "audit": {
+      "world": 2596,
+      "consumed": 0,
+      "total": 2596,
+      "initial": 2596,
+      "materials": {
+        "dirt": {
+          "initial": 2280,
+          "world": 2280,
+          "actors": 0,
+          "consumed": 0
+        },
+        "rock": {
+          "initial": 316,
+          "world": 316,
+          "actors": 0,
+          "consumed": 0
+        }
+      },
+      "balanced": true,
+      "ownershipMaterialValid": true
+    },
+    "events": {
+      "dugUnits": {
+        "rock": 0,
+        "dirt": 0
+      },
+      "crumbledUnits": {
+        "rock": 0,
+        "dirt": 0
+      }
+    },
+    "supportSummary": {
+      "components": 1,
+      "workUnits": 1522,
+      "anchoredRock": true,
+      "anchoredDirt": true
+    },
+    "actors": [],
+    "retired": [],
+    "workerTimes": [],
+    "colliderTimes": [],
+    "saveTimes": [],
+    "editTimes": [],
+    "matterWorkMetrics": [],
+    "rockWorkMetrics": [],
+    "frameP95": 50,
+    "errors": [],
+    "bodyCount": 0,
+    "transientShardBodies": 0,
+    "pooledVisualDebris": 0,
+    "worldColliderRevision": 0,
+    "colliderCounts": [],
+    "seamMode": "current-vertex-interpolation",
+    "renderVertices": [
+      456
+    ],
+    "triangles": [
+      908
+    ]
+  },
+  "crisp": {
+    "namespace": "wildkin-voxel-lab-cellular-0.5c-mixed-v1-mixed-phase05c1-1790284771850",
+    "material": "mixed",
+    "materialId": 3,
+    "revision": 0,
+    "audit": {
+      "world": 2596,
+      "consumed": 0,
+      "total": 2596,
+      "initial": 2596,
+      "materials": {
+        "dirt": {
+          "initial": 2280,
+          "world": 2280,
+          "actors": 0,
+          "consumed": 0
+        },
+        "rock": {
+          "initial": 316,
+          "world": 316,
+          "actors": 0,
+          "consumed": 0
+        }
+      },
+      "balanced": true,
+      "ownershipMaterialValid": true
+    },
+    "events": {
+      "dugUnits": {
+        "rock": 0,
+        "dirt": 0
+      },
+      "crumbledUnits": {
+        "rock": 0,
+        "dirt": 0
+      }
+    },
+    "supportSummary": {
+      "components": 1,
+      "workUnits": 1522,
+      "anchoredRock": true,
+      "anchoredDirt": true
+    },
+    "actors": [],
+    "retired": [],
+    "workerTimes": [],
+    "colliderTimes": [],
+    "saveTimes": [],
+    "editTimes": [],
+    "matterWorkMetrics": [],
+    "rockWorkMetrics": [],
+    "frameP95": 50,
+    "errors": [],
+    "bodyCount": 0,
+    "transientShardBodies": 0,
+    "pooledVisualDebris": 0,
+    "worldColliderRevision": 0,
+    "colliderCounts": [],
+    "seamMode": "crisp-triangle-regions",
+    "renderVertices": [
+      478
+    ],
+    "triangles": [
+      908
+    ]
+  },
+  "errors": [],
+  "external": []
+}
