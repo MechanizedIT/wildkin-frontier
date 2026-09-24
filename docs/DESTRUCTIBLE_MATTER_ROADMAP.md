@@ -1,6 +1,6 @@
 # Destructible Matter R&D Roadmap
 
-**Status:** living R&D plan after Phase 0.5C mixed-material PASS; stop for owner review
+**Status:** living R&D plan after Phase 0.5C mixed-material PASS; Phase 0.5C.1 material-composition/seam proof is the recommended next gate before terrain excavation
 **Scope:** isolated destructible-matter research until a later explicit production-migration gate.
 
 ## Vision
@@ -60,7 +60,19 @@ Create a bounded dirt+stone fixture: soil around/over/under embedded rock. Excav
 
 **PASS gate:** the same world volume supports material boundaries and one material's removal can structurally affect another without converting, duplicating or deleting matter.
 
-**Disposition (2026-09-24): PASS.** One 13³ authoritative volume contains 336 rock and 3,564 dirt units. Actual dirt occupancy removal changes shared support and transfers all rock into a dynamic ROCK actor without reward; the actor falls, remains targetable, and uses hard-rock chip/stress. Per-material and combined ledgers balance through literal reload. Dirt cohesion and rock stress remain separate registered strategies, while protected foreign samples prevent either dirt crumble path from clearing rock. Support work is 6,912–6,915 units, comparable to Phase 0.5B's 6,920–10,424. The fixture, shared contact semantics, and approximate proxy remain provisional; no production/mobile readiness is claimed. Browser captures, receipt, tests, independent review, and limitations are in [the Phase 0.5C report](VOXEL_PHASE05C_REPORT.md) and [visual sequence](evidence/voxel-phase05c/material-interaction.html). Stop for owner review; do not start Phase 0.5D without fresh authorization.
+**Disposition (2026-09-24): PASS.** One 13³ authoritative volume contains 336 rock and 3,564 dirt units. Actual dirt occupancy removal changes shared support and transfers all rock into a dynamic ROCK actor without reward; the actor falls, remains targetable, and uses hard-rock chip/stress. Per-material and combined ledgers balance through literal reload. Dirt cohesion and rock stress remain separate registered strategies, while protected foreign samples prevent either dirt crumble path from clearing rock. Support work is 6,912–6,915 units, comparable to Phase 0.5B's 6,920–10,424. The fixture, shared contact semantics, and approximate proxy remain provisional; no production/mobile readiness is claimed. Browser captures, receipt, tests, independent review, and limitations are in [the Phase 0.5C report](VOXEL_PHASE05C_REPORT.md) and [visual sequence](evidence/voxel-phase05c/material-interaction.html).
+
+**Important remaining boundary question:** C proves support, targeting, ownership and policy isolation, but its fixture resolves dirt and rock onto one shared scalar lattice with mutually exclusive material labels: rock samples overwrite dirt samples where the authored fields overlap. The current Surface Nets renderer then colors generated vertices from nearby material samples. This has not yet proved the long-term composition model for buried/overlapping procedural sources or a crisp exposed dirt↔rock seam without unintended interpolation. Resolve that explicitly before expanding to terrain chunks.
+
+### Phase 0.5C.1 — Material composition and visual seam proof
+
+**Question:** What is the simplest durable representation for multiple material sources on one shared lattice, and can an exposed dirt/rock boundary remain watertight and visually crisp through excavation?
+
+Compare the current resolved single-density/material-label representation against a layered/composited-source prototype only as far as needed to answer the question. Prefer a shared sample lattice and one final meshing pass; do not render independent overlapping dirt and rock Surface Nets meshes. Test a buried rock inclusion revealed by dirt excavation, exposed material seams, repeated edits at the boundary, and extraction of the rock into its own actor-local matter volume.
+
+The experiment must distinguish **source composition** from **final ownership**: physical matter is still mutually exclusive after composition, but procedural/source layers may overlap before a deterministic precedence/composition rule resolves the final sample. The renderer should support a crisp material boundary when desired, e.g. by triangle/material classification or seam-split vertices rather than relying on interpolated vertex color across rock/dirt transitions.
+
+**PASS gate:** one watertight visible surface; no cracks, overlap, z-fighting or internal duplicate faces; deterministic material precedence; dirt excavation reveals rock without corrupting either material; boundary edits remain stable; actor extraction preserves the resolved rock material; a crisp exposed rock/dirt visual seam is demonstrated; the chosen representation is documented with costs and limitations.
 
 ### Phase 0.5D — Terrain excavation
 
@@ -104,7 +116,7 @@ Review all evidence, simplify experimental code, define production data ownershi
 
 ## Optional later material work
 
-After the general architecture is proven, crystal, ice, sand/gravel, metal/alien matter and layered/geological stone can be introduced as targeted material-profile experiments. They should not delay the core dirt -> mixed material -> terrain -> collapse -> performance path unless a phase exposes a fundamental abstraction problem.
+After the general architecture is proven, crystal, ice, sand/gravel, metal/alien matter and layered/geological stone can be introduced as targeted material-profile experiments. They should not delay the core dirt -> mixed material -> composition/seam -> terrain -> collapse -> performance path unless a phase exposes a fundamental abstraction problem.
 
 ## Workflow for each phase
 
