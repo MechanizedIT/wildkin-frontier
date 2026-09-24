@@ -19,12 +19,40 @@ function rayScalar(read,origin,direction,maxDistance){
   }
   return null;
 }
+function rayBoundsRange(origin,direction,bounds){
+  if(!bounds?.min||!bounds?.max)return null;
+  let enter=-Infinity,exit=Infinity;
+  for(let axis=0;axis<3;axis++){
+    if(Math.abs(direction[axis])<1e-9){if(origin[axis]<bounds.min[axis]||origin[axis]>bounds.max[axis])return null;continue;}
+    let a=(bounds.min[axis]-origin[axis])/direction[axis],b=(bounds.max[axis]-origin[axis])/direction[axis];
+    if(a>b)[a,b]=[b,a];enter=Math.max(enter,a);exit=Math.min(exit,b);
+    if(exit<enter)return null;
+  }
+  return {enter:Math.max(0,enter),exit};
+}
+function rayScalarInBounds(read,origin,direction,maxDistance,bounds){
+  if(!bounds)return rayScalar(read,origin,direction,maxDistance);
+  const range=rayBoundsRange(origin,direction,bounds);if(!range)return null;
+  const limit=Math.min(maxDistance,range.exit+.1),start=Math.max(0,range.enter-.1),length=Math.hypot(...direction);
+  if(length<1e-9)return null;
+  const unit=direction.map(v=>v/length),step=.1;
+  let previous=read(origin.map((v,i)=>v+unit[i]*start));
+  for(let t=start+step;t<=limit+step*.5;t+=step){
+    const point=origin.map((v,i)=>v+unit[i]*t),value=read(point);
+    if(previous>=0&&value<0){let lo=t-step,hi=t;
+      for(let i=0;i<10;i++){const mid=(lo+hi)/2,p=origin.map((v,j)=>v+unit[j]*mid);if(read(p)<0)hi=mid;else lo=mid;}
+      return (lo+hi)/2;
+    }
+    previous=value;
+  }
+  return null;
+}
 export function pickActorSurface(actors,{originRelative,direction,origin=[0,0,0],maxDistance=8}){
   const world=originRelative.map((v,i)=>v+origin[i]),unit=direction.map(v=>v/Math.hypot(...direction));
   let best=null;
   for(const actor of actors){
     const local=worldToActorPoint(actor.pose,world),localDirection=worldToActorDirection(actor.pose,unit);
-    const distance=rayScalar(actor.readDensity,local,localDirection,maxDistance);
+    const distance=rayScalarInBounds(actor.readDensity,local,localDirection,maxDistance,actor.bounds);
     if(distance===null||best&&distance>=best.distance)continue;
     const localPoint=local.map((v,i)=>v+localDirection[i]*distance);
     best={actorId:actor.id,contentRevision:actor.contentRevision,poseRevision:actor.poseRevision??0,
@@ -33,7 +61,7 @@ export function pickActorSurface(actors,{originRelative,direction,origin=[0,0,0]
   return best;
 }
 export function pickWorldSurface(samples,{originRelative,direction,origin=[0,0,0],revision=0,maxDistance=8}){
-  const pose={position:[0,0,0],rotation:{x:0,y:0,z:0,w:1}},hit=pickActorSurface([{id:'world',contentRevision:revision,pose,readDensity:p=>readMatterScalar(samples,p)}],
+  const pose={position:[0,0,0],rotation:{x:0,y:0,z:0,w:1}},hit=pickActorSurface([{id:'world',contentRevision:revision,pose,bounds:{min:samples.min,max:samples.max},readDensity:p=>readMatterScalar(samples,p)}],
     {originRelative,direction,origin,maxDistance});
   return hit?{...hit,ownerId:'world',localPoint:[...hit.localPoint]}:null;
 }

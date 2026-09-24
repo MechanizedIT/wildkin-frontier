@@ -37,3 +37,13 @@ test('world mining resolves its scalar surface and misses an empty visible reces
   }
   assert.equal(pickWorldSurface(hollow,{originRelative:[0,4,0],direction:[0,0,1],maxDistance:8}),null);
 });
+
+test('unbounded targeting reaches a visible world or actor surface beyond the former eight-unit cap',()=>{
+  const source=makeSupportedRockSamples(),world=pickWorldSurface(source,{
+    originRelative:[0,4,-20],direction:[0,0,1],maxDistance:Infinity});
+  assert.ok(world);assert.ok(world.distance>8,`world hit should be beyond 8 units, got ${world.distance}`);
+  const actor={id:'far-rock',contentRevision:1,pose:{position:[0,0,0],rotation:{x:0,y:0,z:0,w:1}},
+    bounds:{min:[-20,-20,-20],max:[20,20,20]},readDensity:p=>Math.hypot(...p)-1};
+  const moved=pickActorSurface([actor],{originRelative:[0,0,-12],direction:[0,0,1],maxDistance:Infinity});
+  assert.ok(moved);assert.ok(moved.distance>8&&moved.distance<12);
+});

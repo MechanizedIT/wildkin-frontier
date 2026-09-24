@@ -38,3 +38,24 @@ Before PASS, route the buried fixture through the authoritative edit/save/transf
 - Browser comparison: pass; 908 triangles control/crisp, 456→478 render vertices, zero errors/external requests.
 - `npm test` and the final captured `npm run verify` each report 1,558/1,559 passing across 175 suites. The sole failure is the existing C Rapier rotation assertion (0.153238 rad vs >0.25). `verify` exits at its test step, so world/campaign checks, submission build, and submission validation were not reached in this run.
 - No ZIP/package-generation claim; production package work is not part of this lab phase.
+
+## Owner user test / review — September 24, 2026
+
+Chris reviewed the local Mixed Material Lab and Buried-rock preview in the browser and reported these perceptual/interaction findings. These are owner playtest observations, not automated proof or a phase PASS:
+
+- After mining the fallen rock, it looks like two separate pieces but they remain physically connected.
+- When mining dirt below the boulder on the dirt ledge, dirt remains visibly floating after the rock falls.
+- Continuing to mine dirt after the rock has fallen makes the rock jiggle.
+- “Material seam: crisp” creates a sharp boundary, but its repeated up/down triangular pattern looks unnatural.
+- The Buried-rock preview feels limited: it has no camera orbit, camera movement or free digging. The Scoop control removes dirt; stone is only faintly visible after “Expose stone face.”
+
+Follow-up retest for the requested controls:
+
+1. Open `lab/voxel/cellular-mixed.html` with a fresh `?save=review-controls` namespace. At the starting view, hold W briefly and observe the crosshair/ledge shift. Drag to orbit roughly a quarter turn, then hold W again. The view should pan forward along the new camera heading on the ground plane. Check A/D for camera-relative strafing and W+D for a diagonal at the same overall speed; the failure sign is movement continuing along the old fixed world axes or a faster diagonal.
+2. At the same visible dirt ledge and boulder, zoom out with the wheel until the camera is at its far stop while keeping the crosshair on the visible matter. Click the mining button or press E. Matter farther than the old eight-unit range should still be mined and its material ledger/revision should change. Aim into empty space and repeat: it should report a miss promptly with no page error or hang.
+
+The observations above remain open review items; this controls change does not claim to repair the floating matter, rock jiggle, physical connectivity, seam appearance, or preview limitations. The overall C.1 gate remains HOLD.
+
+The same follow-up updates `cameraRelativePan` for normalized ground-plane movement and uses bounds-limited, otherwise unlimited scalar ray distance for visible matter. Focused coverage: `tests/voxelCameraRelativePan.test.js`, the unbounded-range case in `tests/voxelMatterTarget.test.js`, and `tools/playtest-voxel-controls.mjs` for ordinary keyboard movement at two camera angles plus a browser mining hit beyond eight units.
+
+Control follow-up evidence: focused unit tests pass 6/6. The Edge/SwiftShader browser check confirms W pans along both 0° and 90° camera headings and mines visible world matter at 19.48 units; page errors: zero. `npm test` and `npm run verify` each report 1,561/1,562 passing across 175 suites. Both stop on the pre-existing Phase 0.5C Rapier rock-rotation assertion (0.153238 rad vs >0.25); `verify` therefore does not reach world/campaign checks or submission build/validation.

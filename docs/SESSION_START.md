@@ -1,5 +1,9 @@
 # Resume Wildkin Frontier
 
+## September 24 Phase 0.5C.1 — owner review and control follow-up
+
+Read [the C.1 report](VOXEL_PHASE05C1_REPORT.md), [current slice](CURRENT_SLICE.md), and [roadmap](DESTRUCTIBLE_MATTER_ROADMAP.md). C.1 remains **HOLD**. Owner browser review reports physically connected rock pieces, floating dirt after boulder detachment, rock jiggle during later dirt mining, an unnatural crisp triangular seam, and limited interaction in the Buried-rock preview. The follow-up makes WASD camera-relative and removes the fixed eight-unit mining-ray limit; focused tests cover both. Those fixes do not close the other perceptual findings. The buried fixture is still not on the persisted interactive edit/detachment path, the logical chunk seam is deferred to D, and the existing C Rapier rotation test misses its >0.25 rad threshold (0.153 rad observed). Do not start D without fresh owner instruction.
+
 ## September 24 Phase 0.5C.1 — material composition/seam experiment
 
 Read [the C.1 report](VOXEL_PHASE05C1_REPORT.md), [current slice](CURRENT_SLICE.md), and [roadmap](DESTRUCTIBLE_MATTER_ROADMAP.md). **HOLD; stop for owner review.** The bounded source compositor, buried-rock Surface Nets preview, crisp triangle seam mode, and no-regenerated-dirt regression are implemented. The HYBRID representation recommendation is provisional. The buried fixture is not yet on the persisted interactive edit/detachment path, the logical chunk seam is deferred to D, and the existing C Rapier rotation test currently misses its >0.25 rad threshold (0.153 rad observed). Do not start D without fresh owner instruction.

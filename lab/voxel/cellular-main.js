@@ -12,6 +12,7 @@ import { analyzeRockConnectivity } from './matter-connectivity.js';
 import { ROCK_PROFILE } from './matter-rock-profile.js';
 import { DIRT_PROFILE } from './matter-dirt-profile.js';
 import { matterPolicyFor, MATTER_MATERIAL } from './matter-material-policy.js';
+import { cameraRelativePan } from './camera-relative-pan.js';
 
 const canvas=document.querySelector('#scene'),stage=document.querySelector('#stage'),message=document.querySelector('#message'),stats=document.querySelector('#stats');
 const mineButton=document.querySelector('#mine'),saveButton=document.querySelector('#save'),focusButton=document.querySelector('#focus'),debugButton=document.querySelector('#debug');
@@ -24,9 +25,9 @@ mineButton.textContent=isMixed?'Dig / strike at crosshair':isDirt?'Dig at crossh
 debugButton.hidden=isDirt;seamButton.hidden=!isMixed;document.querySelector('#switch').textContent=isMixed?'Compare material proofs':isDirt?'Compare hard rock':'Compare dirt / soil';
 document.querySelector('#switch').href=isMixed?'./cellular-rock.html?material=rock':isDirt?'./cellular-rock.html?material=rock':'./cellular-rock.html?material=dirt';
 document.querySelector('#hint').textContent=isMixed?
-  'Aim at soil and click or press E to scoop; aim at stone to chip it. Dig the bank below the supported boulder until support is lost, then follow the moved rock and strike its visible face. Drag to orbit · Wheel to zoom · WASD to move the view · F follows the actor · Save & reload checks persistence.':isDirt?
-  'Aim at visible soil and click or press E to dig. Broad scoops weaken nearby soil; small loose soil crumbles, while a substantial unsupported clod can fall and be dug again. Drag to orbit · Wheel to zoom · WASD to move the view · F follows the clod · Save & reload checks persistence.':
-  'Aim at visible stone and click or press E. Repeated strikes make small chips while stress builds; amber/red bond lines show weakening and failure. A split rock becomes two physical, still-mineable pieces. Drag to orbit · Wheel to zoom · WASD to move the view · F follows a piece · B toggles all bonds · Save & reload checks persistence.';
+  'Aim at soil and click or press E to scoop; aim at stone to chip it. Dig the bank below the supported boulder until support is lost, then follow the moved rock and strike its visible face. Drag to orbit · Wheel to zoom · WASD pans relative to the camera · F follows the actor · Save & reload checks persistence.':isDirt?
+  'Aim at visible soil and click or press E to dig. Broad scoops weaken nearby soil; small loose soil crumbles, while a substantial unsupported clod can fall and be dug again. Drag to orbit · Wheel to zoom · WASD pans relative to the camera · F follows the clod · Save & reload checks persistence.':
+  'Aim at visible stone and click or press E. Repeated strikes make small chips while stress builds; amber/red bond lines show weakening and failure. A split rock becomes two physical, still-mineable pieces. Drag to orbit · Wheel to zoom · WASD pans relative to the camera · F follows a piece · B toggles all bonds · Save & reload checks persistence.';
 const store=await openCellularStore(namespace,initialState),state=await store.load(),materialPolicy=matterPolicyFor(state.materialId),saveTimes=[];
 const owner=new LabWorldState(store,state,{onTiming:(kind,ms)=>{if(kind==='saveMs')saveTimes.push(ms);}});
 await RAPIER.init();const physics=new CellularMatterPhysics(RAPIER);
@@ -38,7 +39,7 @@ const floor=new THREE.Mesh(new THREE.PlaneGeometry(128,128),new THREE.MeshStanda
 const grid=new THREE.GridHelper(128,64,0x6c8790,0x47606b);grid.position.y=.01;scene.add(grid);
 const rockMaterial=new THREE.MeshStandardMaterial({vertexColors:true,flatShading:true,side:THREE.DoubleSide,roughness:.92});
 let crispSeam=false;
-let worldRender=null,actorRenders=new Map(),shardRenders=new Map(),editing=false,ready=false,debugAll=false,focus=[0,3,0],yaw=2.5,pitch=.32,distance=7.5;
+let worldRender=null,actorRenders=new Map(),shardRenders=new Map(),editing=false,ready=false,debugAll=false,focus=[0,3,0],yaw=2.5,pitch=.32,distance=7.5,lastHitDistance=null;
 const visualGeometry=new THREE.TetrahedronGeometry(.13),visualMaterial=new THREE.MeshStandardMaterial({color:0x9fb6bb,flatShading:true});
 const visualPool=Array.from({length:16},()=>new THREE.Mesh(visualGeometry,visualMaterial)),visualLive=[];
 const dirtVisualPool=Array.from({length:8},()=>new THREE.Mesh(visualGeometry,new THREE.MeshStandardMaterial({color:0xa96e42,flatShading:true})));
@@ -225,16 +226,17 @@ async function transition(propose,{worldChanged=false,label='Rock mined'}={}){
 }
 function cameraRay(clientX=canvas.clientWidth/2,clientY=canvas.clientHeight/2){
   const rect=canvas.getBoundingClientRect(),mouse=new THREE.Vector2((clientX-rect.left)/rect.width*2-1,-((clientY-rect.top)/rect.height*2-1));
-  const raycaster=new THREE.Raycaster();raycaster.setFromCamera(mouse,camera);raycaster.far=8;
+  const raycaster=new THREE.Raycaster();raycaster.setFromCamera(mouse,camera);
   return raycaster;
 }
 async function mineRay(clientX,clientY){
   if(editing||owner.publicationFailed)return;
   const ray=cameraRay(clientX,clientY),worldHit=pickWorldSurface(worldMatterSamples(owner.state),{
-    originRelative:ray.ray.origin.toArray(),direction:ray.ray.direction.toArray(),origin:physics.origin,revision:owner.state.revision,maxDistance:8});
+    originRelative:ray.ray.origin.toArray(),direction:ray.ray.direction.toArray(),origin:physics.origin,revision:owner.state.revision,maxDistance:Infinity});
   const candidates=owner.state.actors.map(actor=>{const sample=actorMatterSamples(actor);return {id:actor.id,contentRevision:actor.contentRevision,poseRevision:actor.poseRevision,
-    pose:physics.pose(actor.id),readDensity:p=>readMatterScalar(sample,p)};});
-  const hit=pickActorSurface(candidates,{originRelative:ray.ray.origin.toArray(),direction:ray.ray.direction.toArray(),origin:physics.origin,maxDistance:8});
+    pose:physics.pose(actor.id),bounds:{min:sample.min,max:sample.max},readDensity:p=>readMatterScalar(sample,p)};});
+  const hit=pickActorSurface(candidates,{originRelative:ray.ray.origin.toArray(),direction:ray.ray.direction.toArray(),origin:physics.origin,maxDistance:Infinity});
+  lastHitDistance=hit&&worldHit?Math.min(hit.distance,worldHit.distance):hit?.distance??worldHit?.distance??null;
   if(hit&&(!worldHit||hit.distance<worldHit.distance)){
     const actor=candidates.find(a=>a.id===hit.actorId);if(!validateActorHit(hit,actor)){showState('Moving matter: aim again.');return;}
     const localDirection=worldToActorDirection(actor.pose,ray.ray.direction.toArray());
@@ -243,7 +245,7 @@ async function mineRay(clientX,clientY){
   }
   if(worldHit){const material=isMixed?matterMaterialAt(worldMatterSamples(owner.state),worldHit.localPoint.map((v,i)=>v+ray.ray.direction.toArray()[i]*.12)):undefined;
     return transition(s=>mineWorldMatter(s,worldHit.localPoint,{material}),{worldChanged:true,label:material===MATTER_MATERIAL.DIRT?'Soil dug':isMixed?'Rock chipped':'World rock mined'});}
-  showState(isDirt?'No dirt under the pointer. Move closer or orbit the view.':'No rock under the pointer. Move closer or orbit the view.');return {status:'NO_HIT'};
+  showState(isDirt?'No dirt surface under the crosshair. Orbit or move the view to aim at it.':'No rock surface under the crosshair. Orbit or move the view to aim at it.');return {status:'NO_HIT'};
 }
 let dragging=null;
 canvas.addEventListener('pointerdown',event=>{dragging={x:event.clientX,y:event.clientY,lastX:event.clientX,lastY:event.clientY,moved:false};canvas.setPointerCapture(event.pointerId);});
@@ -269,7 +271,7 @@ let last=performance.now(),accumulator=0;function frame(now){requestAnimationFra
   for(let i=visualLive.length-1;i>=0;i--){const item=visualLive[i];item.ttl-=dt;item.mesh.position.x+=item.velocity[0]*dt;
     item.mesh.position.y+=item.velocity[1]*dt;item.mesh.position.z+=item.velocity[2]*dt;item.velocity[1]-=5*dt;
      if(item.ttl<=0){scene.remove(item.mesh);(item.pool==='dirt'?dirtVisualPool:visualPool).push(item.mesh);visualLive.splice(i,1);}}
-  const pace=dt*4;if(keys.has('KeyW'))focus[2]-=pace;if(keys.has('KeyS'))focus[2]+=pace;if(keys.has('KeyA'))focus[0]-=pace;if(keys.has('KeyD'))focus[0]+=pace;
+  const [panX,panZ]=cameraRelativePan(keys,yaw,dt*4);focus[0]+=panX;focus[2]+=panZ;
   const target=focus.map((v,i)=>v-physics.origin[i]);camera.position.set(target[0]+Math.sin(yaw)*Math.cos(pitch)*distance,target[1]+Math.sin(pitch)*distance,target[2]+Math.cos(yaw)*Math.cos(pitch)*distance);
   camera.lookAt(...target);syncVisuals();const w=canvas.clientWidth,h=canvas.clientHeight;if(canvas.width!==Math.round(w*renderer.getPixelRatio())||canvas.height!==Math.round(h*renderer.getPixelRatio())){
     renderer.setSize(w,h,false);camera.aspect=w/h;camera.updateProjectionMatrix();}
@@ -279,6 +281,7 @@ window.__cellularLab={get ready(){return ready},get state(){return owner.state},
   mineAtWorld:hit=>transition(s=>mineWorldMatter(s,hit),{worldChanged:true,label:'Fixture matter hit'}),
   mineActorLocal:(id,hit)=>transition(s=>{const actor=s.actors.find(a=>a.id===id);return mineActorMatter(s,id,actor?.contentRevision,hit);},{label:'Fixture actor hit'}),
   focusAt:point=>{focus=[...point]},aim:(nextYaw,nextPitch)=>{yaw=nextYaw;pitch=nextPitch},
+  get view(){return {focus:[...focus],yaw,pitch,distance,lastHitDistance}},
   report:()=>({namespace,material:isMixed?'mixed':materialPolicy?.id??'unknown',materialId:owner.state.materialId,revision:owner.state.revision,audit:quantityAudit(owner.state),events:owner.state.events,supportSummary:owner.state.supportSummary??null,
     actors:owner.state.actors.map(a=>({id:a.id,parentId:a.parentId,material:a.material,contentRevision:a.contentRevision,pose:physics.pose(a.id)})),retired:owner.state.retired,
     workerTimes,colliderTimes,saveTimes,editTimes,matterWorkMetrics,rockWorkMetrics:matterWorkMetrics,
