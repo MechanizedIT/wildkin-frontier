@@ -54,3 +54,20 @@ export function makeDirtBankSamples(){
   for(let i=0;i<length;i++){const d=dirtBankDensity(position(i));densities[i]=d;materials[i]=d<0?2:0;}
   return sample;
 }
+
+// Phase 0.5C bounded mixed fixture: one authored stone mass nested into a
+// single dirt volume. Samples are mutually exclusive: stone replaces the
+// dirt sample where the rock surface occupies it, so ownership never overlaps.
+export function makeMixedMatterSamples(){
+  const sample=makeDirtBankSamples();
+  for(let i=0;i<sample.densities.length;i++){
+    const point=sample.position(i),base=roundedBox(point,[0,1.25,0],[2.45,1.25,2.2],.45),pillar=roundedBox(point,[0,3.4,0],[.7,1.1,.7],.18),soil=Math.min(base,pillar);
+    sample.densities[i]=soil;sample.materials[i]=soil<0?2:0;
+  }
+  for(let i=0;i<sample.densities.length;i++){
+    const point=sample.position(i),rock=ellipsoid(point,[0,4.8,0],[1.6,.9,1.4]);
+    if(rock<0){sample.densities[i]=rock;sample.materials[i]=1;}
+  }
+  sample.fixture='mixed-dirt-supported-rock';
+  return sample;
+}

@@ -19,7 +19,7 @@ export function chipHardRock(samples,domain,hit,sequence,profile){
   let changed=0,removedSamples=0;
   for(let z=low[2];z<=high[2];z++)for(let y=low[1];y<=high[1];y++)for(let x=low[0];x<=high[0];x++){
     const i=x+samples.size[0]*(y+samples.size[1]*z),point=samples.position(i),dx=point[0]-hit[0],dy=point[1]-hit[1],dz=point[2]-hit[2],distance=Math.hypot(dx,dy,dz);
-    if(distance>maxRadius||samples.densities[i]>=0)continue;
+    if(distance>maxRadius||samples.densities[i]>=0||samples.materials[i]!==profile.material)continue;
     const cell=point.map(v=>Math.floor(v/.25)),noise=(unit(hash(domain.seed,cell[0],cell[1],cell[2],sequence))-.5)*2;
     const ripple=.55*Math.sin(dx*3.7+sequence*.31)*Math.cos(dy*3.1-domain.seed*.00001)*Math.sin(dz*3.3+sequence*.17);
     const localRadius=profile.localChipRadius+profile.localChipVariation*(ripple+noise*.25),next=Math.max(samples.densities[i],localRadius-distance);

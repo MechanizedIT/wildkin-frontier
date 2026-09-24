@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Phase 0.5C — dirt supports hard rock</title>
+<style>
+  :root{color-scheme:dark;font:16px/1.5 system-ui,sans-serif;background:#111820;color:#edf1ee}
+  body{max-width:1100px;margin:0 auto;padding:32px 20px}h1{margin-bottom:4px}p{color:#bac7c2}
+  .chain{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;margin:24px 0}
+  figure{margin:0;background:#1c282c;border:1px solid #354648;border-radius:10px;overflow:hidden}
+  img{display:block;width:100%;aspect-ratio:16/9;object-fit:cover;background:#080d10}
+  figcaption{padding:12px 14px}b{display:block;color:#f0cf91;margin-bottom:4px}
+  .ledger{padding:16px;background:#1c282c;border-radius:10px;white-space:pre-wrap;color:#d5e0db}
+</style>
+<body>
+<h1>Dirt supports hard rock</h1>
+<p>One mixed scalar volume. Excavating supporting dirt removes the rock’s static support without changing its material or granting a reward. The moved boulder remains targetable as hard rock.</p>
+<section class="chain" aria-label="Dirt support and hard rock interaction">
+  <figure><img src="source/mixed-01-pristine-supported-boulder.png" alt="A hard-rock boulder embedded in a dirt support bank"><figcaption><b>1 · Shared starting volume</b>336 rock and 3,564 dirt units; the rock is supported by the anchored dirt.</figcaption></figure>
+  <figure><img src="source/mixed-03-partial-cavity-rock-still-static.png" alt="A first dirt scoop opens a cavity while the rock remains supported"><figcaption><b>2 · Dirt scoop</b>58 dirt units removed. All 336 rock units remain static; stone reward stays zero.</figcaption></figure>
+  <figure><img src="source/mixed-08-rock-settled.png" alt="The detached rock has fallen and rotated onto the floor"><figcaption><b>3 · Support loss</b>Further actual dirt removal splits the shared support graph. All 336 rock units transfer to one falling ROCK actor without reward.</figcaption></figure>
+  <figure><img src="source/mixed-10-first-chip-after-fall.png" alt="The moved rock is targeted and chipped after falling"><figcaption><b>4 · Hard-rock response</b>The moved surface accepts a hard-rock chip and persistent bond stress; dirt accounting stays unchanged.</figcaption></figure>
+</section>
+<h2>Final source-browser ledger</h2>
+<div class="ledger">Rock:  336 = 0 static + 334 actor + 2 consumed
+Dirt: 3,564 = 3,345 static + 0 actor + 219 consumed
+Combined: 3,900 = 3,345 static + 334 actor + 221 consumed
+Rewards: 2 stone, 219 dirt</div>
+<p>Full stages, reload deltas, timings, ownership, physics, and error/request checks are in <a href="source/playtest-voxel-mixed-c.json">the JSON receipt</a>. See <a href="../../VOXEL_PHASE05C_REPORT.md">the Phase 0.5C report</a> for limits.</p>
+</body>
+</html>

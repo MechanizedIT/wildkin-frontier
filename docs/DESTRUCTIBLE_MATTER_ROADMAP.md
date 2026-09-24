@@ -1,6 +1,6 @@
 # Destructible Matter R&D Roadmap
 
-**Status:** living R&D plan after Phase 0.5B second-material PASS
+**Status:** living R&D plan after Phase 0.5C mixed-material PASS; stop for owner review
 **Scope:** isolated destructible-matter research until a later explicit production-migration gate.
 
 ## Vision
@@ -59,6 +59,8 @@ Build a dirt/soil profile in the isolated lab. Dirt should excavate a broader so
 Create a bounded dirt+stone fixture: soil around/over/under embedded rock. Excavate soil from beneath a rock until support changes and the rock can detach/fall. Verify boundary targeting, material-specific tool response, ownership, support transfer, no cross-material corruption, and reload.
 
 **PASS gate:** the same world volume supports material boundaries and one material's removal can structurally affect another without converting, duplicating or deleting matter.
+
+**Disposition (2026-09-24): PASS.** One 13³ authoritative volume contains 336 rock and 3,564 dirt units. Actual dirt occupancy removal changes shared support and transfers all rock into a dynamic ROCK actor without reward; the actor falls, remains targetable, and uses hard-rock chip/stress. Per-material and combined ledgers balance through literal reload. Dirt cohesion and rock stress remain separate registered strategies, while protected foreign samples prevent either dirt crumble path from clearing rock. Support work is 6,912–6,915 units, comparable to Phase 0.5B's 6,920–10,424. The fixture, shared contact semantics, and approximate proxy remain provisional; no production/mobile readiness is claimed. Browser captures, receipt, tests, independent review, and limitations are in [the Phase 0.5C report](VOXEL_PHASE05C_REPORT.md) and [visual sequence](evidence/voxel-phase05c/material-interaction.html). Stop for owner review; do not start Phase 0.5D without fresh authorization.
 
 ### Phase 0.5D — Terrain excavation
 

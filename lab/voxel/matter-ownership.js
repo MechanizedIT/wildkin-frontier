@@ -35,7 +35,7 @@ export function rockMeshUnionAudit(reference,parts){const expected=triangleKeys(
 export function rockMeshUnionMatches(reference,parts){return rockMeshUnionAudit(reference,parts).matches;}
 export const matterMeshUnionAudit=rockMeshUnionAudit;
 export const matterMeshUnionMatches=rockMeshUnionMatches;
-export function removeMatterComponents(samples,removedComponents,allComponents){
+export function removeMatterComponents(samples,removedComponents,allComponents,{material=null,protectedSamples=null}={}){
   const out=cloneRockSamples(samples),removed=new Set(removedComponents.flatMap(c=>c.cells.map(cellKey))),retained=new Set(allComponents
     .filter(c=>!removedComponents.includes(c)).flatMap(c=>c.cells.map(cellKey))),[nx,ny,nz]=samples.size,candidates=new Set();
   for(const address of removed){const p=address.split(',').map(Number);for(let dz=0;dz<=1;dz++)for(let dy=0;dy<=1;dy++)for(let dx=0;dx<=1;dx++){
@@ -46,7 +46,8 @@ export function removeMatterComponents(samples,removedComponents,allComponents){
   }return count;};
   let clearedSamples=0;
   for(const i of candidates){const x=i%nx,y=Math.floor(i/nx)%ny,z=Math.floor(i/(nx*ny)),removedContacts=contacts(removed,x,y,z),retainedContacts=contacts(retained,x,y,z);
-    if(samples.densities[i]>=0||removedContacts===0||removedContacts<retainedContacts)continue;
+    if(samples.densities[i]>=0||(material!==null&&samples.materials[i]!==material)||protectedSamples?.has(i)||
+      removedContacts===0||removedContacts<retainedContacts)continue;
     out.densities[i]=Math.max(.5,-samples.densities[i]);out.materials[i]=0;clearedSamples++;
   }
   return {sample:out,clearedSamples,workCells:candidates.size};

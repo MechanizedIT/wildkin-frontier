@@ -1,0 +1,660 @@
+{
+  "timestamp": "2026-09-24T20:55:22.169Z",
+  "url": "http://localhost:8123/lab/voxel/cellular-mixed.html",
+  "browser": "Microsoft Edge headless / SwiftShader",
+  "viewport": {
+    "width": 1280,
+    "height": 720
+  },
+  "id": "mixed-phase05c-1790283322168",
+  "fixture": {
+    "seed": 9212026,
+    "spacing": 0.5,
+    "initialRock": 336,
+    "initialDirt": 3564
+  },
+  "checks": [
+    {
+      "stage": "one supported boulder in one dirt world volume",
+      "revision": 0,
+      "support": {
+        "components": 1,
+        "workUnits": 2106,
+        "anchoredRock": true,
+        "anchoredDirt": true
+      },
+      "rock": {
+        "initial": 336,
+        "world": 336,
+        "actors": 0,
+        "consumed": 0
+      },
+      "dirt": {
+        "initial": 3564,
+        "world": 3564,
+        "actors": 0,
+        "consumed": 0
+      },
+      "rewards": {
+        "stoneUnits": 0,
+        "dirtUnits": 0
+      }
+    },
+    {
+      "stage": "broad dirt scoop while rock remains supported",
+      "revision": 1,
+      "support": {
+        "components": 1,
+        "workUnits": 6915,
+        "anchoredRock": true,
+        "anchoredDirt": true,
+        "before": {
+          "components": 1,
+          "workUnits": 2106,
+          "anchoredRock": true,
+          "anchoredDirt": true
+        }
+      },
+      "audit": {
+        "world": 3842,
+        "consumed": 58,
+        "total": 3900,
+        "initial": 3900,
+        "materials": {
+          "dirt": {
+            "initial": 3564,
+            "world": 3506,
+            "actors": 0,
+            "consumed": 58
+          },
+          "rock": {
+            "initial": 336,
+            "world": 336,
+            "actors": 0,
+            "consumed": 0
+          }
+        },
+        "balanced": true,
+        "ownershipMaterialValid": true
+      },
+      "events": {
+        "dugUnits": {
+          "rock": 0,
+          "dirt": 58
+        },
+        "crumbledUnits": {
+          "rock": 0,
+          "dirt": 0
+        }
+      },
+      "workUnits": 6915
+    },
+    {
+      "stage": "literal reload before rock detachment preserves cavity and support",
+      "revision": 1,
+      "support": {
+        "components": 1,
+        "workUnits": 6915,
+        "anchoredRock": true,
+        "anchoredDirt": true,
+        "before": {
+          "components": 1,
+          "workUnits": 2106,
+          "anchoredRock": true,
+          "anchoredDirt": true
+        }
+      },
+      "audit": {
+        "world": 3842,
+        "consumed": 58,
+        "total": 3900,
+        "initial": 3900,
+        "materials": {
+          "dirt": {
+            "initial": 3564,
+            "world": 3506,
+            "actors": 0,
+            "consumed": 58
+          },
+          "rock": {
+            "initial": 336,
+            "world": 336,
+            "actors": 0,
+            "consumed": 0
+          }
+        },
+        "balanced": true,
+        "ownershipMaterialValid": true
+      },
+      "rewards": {
+        "stoneUnits": 0,
+        "dirtUnits": 58
+      }
+    },
+    {
+      "stage": "actual dirt support loss transfers stone without a reward",
+      "revision": 2,
+      "actor": {
+        "id": "rock-2-0",
+        "parentId": null,
+        "material": 1,
+        "contentRevision": 1,
+        "pose": {
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0,
+            "w": 1
+          },
+          "linearVelocity": [
+            0,
+            0,
+            0
+          ],
+          "angularVelocity": [
+            0,
+            0,
+            1.2000000476837158
+          ],
+          "sleepState": "ACTIVE"
+        }
+      },
+      "support": {
+        "components": 2,
+        "workUnits": 6912,
+        "anchoredRock": false,
+        "anchoredDirt": true,
+        "before": {
+          "components": 1,
+          "workUnits": 6915,
+          "anchoredRock": true,
+          "anchoredDirt": true
+        }
+      },
+      "transferred": 336,
+      "rewards": {
+        "stoneUnits": 0,
+        "dirtUnits": 219
+      },
+      "bodyCount": 1,
+      "proxyColliders": [
+        4
+      ],
+      "work": {
+        "revision": 2,
+        "elapsedMs": 38.10000002384186,
+        "chipMs": 0.3999999761581421,
+        "graphMs": 0,
+        "stressMs": 0,
+        "connectivityMs": 20.799999952316284,
+        "crumbleMs": 17.300000071525574,
+        "supportWorkUnits": 6912
+      }
+    },
+    {
+      "stage": "rock is visibly falling/rolling on a bounded proxy",
+      "revision": 2,
+      "pose": {
+        "position": [
+          -0.5299167633056641,
+          -1.107008695602417,
+          -1.1611436605453491
+        ],
+        "rotation": {
+          "x": 0.16437247395515442,
+          "y": 0.06456044316291809,
+          "z": -0.10437969118356705,
+          "w": 0.9787331223487854
+        },
+        "linearVelocity": [
+          -1.1701568365097046,
+          -0.608257532119751,
+          -0.9165202379226685
+        ],
+        "angularVelocity": [
+          -1.0509092807769775,
+          0.04419849067926407,
+          1.3124281167984009
+        ],
+        "sleepState": "ACTIVE"
+      },
+      "bodyCount": 1,
+      "proxyColliders": [
+        4
+      ]
+    },
+    {
+      "stage": "rock settles after translation and rotation",
+      "revision": 2,
+      "pose": {
+        "position": [
+          0.8536146879196167,
+          -1.5555624961853027,
+          -0.04443919658660889
+        ],
+        "rotation": {
+          "x": 0.006383726838976145,
+          "y": 0.0692867562174797,
+          "z": 0.065628781914711,
+          "w": 0.9954152703285217
+        },
+        "linearVelocity": [
+          0,
+          0,
+          0
+        ],
+        "angularVelocity": [
+          0,
+          0,
+          0
+        ],
+        "sleepState": "SLEEPING"
+      },
+      "bodyCount": 1,
+      "proxyColliders": [
+        4
+      ],
+      "work": {
+        "revision": 2,
+        "elapsedMs": 38.10000002384186,
+        "chipMs": 0.3999999761581421,
+        "graphMs": 0,
+        "stressMs": 0,
+        "connectivityMs": 20.799999952316284,
+        "crumbleMs": 17.300000071525574,
+        "supportWorkUnits": 6912
+      }
+    },
+    {
+      "stage": "moved target selects rock and applies brittle chip/stress",
+      "revision": 3,
+      "actor": {
+        "id": "rock-2-0",
+        "parentId": null,
+        "material": 1,
+        "contentRevision": 2,
+        "pose": {
+          "position": [
+            0.8535405397415161,
+            -1.555544137954712,
+            -0.04440923035144806
+          ],
+          "rotation": {
+            "x": 0.006382868159562349,
+            "y": 0.06929593533277512,
+            "z": 0.06563886255025864,
+            "w": 0.9954140186309814
+          },
+          "linearVelocity": [
+            -0.0006213540327735245,
+            -0.00011926508159376681,
+            0.000020963441784260795
+          ],
+          "angularVelocity": [
+            0.00005982052243780345,
+            -0.00010219906107522547,
+            0.0008158233249559999
+          ],
+          "sleepState": "ACTIVE"
+        }
+      },
+      "audit": {
+        "world": 3345,
+        "consumed": 221,
+        "rock-2-0": 334,
+        "total": 3900,
+        "initial": 3900,
+        "materials": {
+          "dirt": {
+            "initial": 3564,
+            "world": 3345,
+            "actors": 0,
+            "consumed": 219
+          },
+          "rock": {
+            "initial": 336,
+            "world": 0,
+            "actors": 334,
+            "consumed": 2
+          }
+        },
+        "balanced": true,
+        "ownershipMaterialValid": true
+      },
+      "events": {
+        "dugUnits": {
+          "rock": 2,
+          "dirt": 179
+        },
+        "crumbledUnits": {
+          "rock": 0,
+          "dirt": 40
+        }
+      },
+      "stress": {
+        "hitSequence": 1,
+        "stress": {
+          "bond:rock:9212026:v1:-1,3,0,0|rock:9212026:v1:0,3,0,0": 0.2,
+          "bond:rock:9212026:v1:-1,2,0,0|rock:9212026:v1:-1,3,0,0": 0.2,
+          "bond:rock:9212026:v1:-1,3,-1,0|rock:9212026:v1:-1,3,0,0": 0.2,
+          "bond:rock:9212026:v1:-1,2,-1,0|rock:9212026:v1:-1,3,0,0": 0.2,
+          "bond:rock:9212026:v1:-1,3,0,0|rock:9212026:v1:-2,2,0,0": 0.2,
+          "bond:rock:9212026:v1:-1,3,0,0|rock:9212026:v1:-2,3,0,0": 0.2,
+          "bond:rock:9212026:v1:-1,3,0,0|rock:9212026:v1:-2,2,-1,0": 0.2,
+          "bond:rock:9212026:v1:-1,3,0,0|rock:9212026:v1:-2,3,-1,0": 0.2,
+          "bond:rock:9212026:v1:-1,2,0,0|rock:9212026:v1:0,3,0,0": 0.124,
+          "bond:rock:9212026:v1:-1,3,-1,0|rock:9212026:v1:0,3,0,0": 0.124,
+          "bond:rock:9212026:v1:-1,2,-1,0|rock:9212026:v1:0,3,0,0": 0.124,
+          "bond:rock:9212026:v1:-1,2,-1,0|rock:9212026:v1:-1,2,0,0": 0.124,
+          "bond:rock:9212026:v1:-1,2,0,0|rock:9212026:v1:-2,2,-1,0": 0.124,
+          "bond:rock:9212026:v1:-1,2,0,0|rock:9212026:v1:-2,2,0,0": 0.124,
+          "bond:rock:9212026:v1:-1,2,-1,0|rock:9212026:v1:-1,3,-1,0": 0.124,
+          "bond:rock:9212026:v1:-1,3,-1,0|rock:9212026:v1:0,2,-1,0": 0.124,
+          "bond:rock:9212026:v1:-1,3,-1,0|rock:9212026:v1:-2,3,-1,0": 0.124,
+          "bond:rock:9212026:v1:-1,2,-1,0|rock:9212026:v1:0,2,-1,0": 0.124,
+          "bond:rock:9212026:v1:-1,2,-1,0|rock:9212026:v1:-2,2,-1,0": 0.124,
+          "bond:rock:9212026:v1:-1,2,-1,0|rock:9212026:v1:-2,3,-1,0": 0.124,
+          "bond:rock:9212026:v1:-2,2,0,0|rock:9212026:v1:-2,3,0,0": 0.124,
+          "bond:rock:9212026:v1:-2,2,-1,0|rock:9212026:v1:-2,2,0,0": 0.124,
+          "bond:rock:9212026:v1:-2,2,-1,0|rock:9212026:v1:-2,3,0,0": 0.124,
+          "bond:rock:9212026:v1:-2,3,-1,0|rock:9212026:v1:-2,3,0,0": 0.124,
+          "bond:rock:9212026:v1:-2,2,-1,0|rock:9212026:v1:-2,3,-1,0": 0.124
+        },
+        "broken": []
+      },
+      "bodyCount": 1
+    },
+    {
+      "stage": "literal reload preserves cavity, rock identity, chip stress, pose and ledgers",
+      "revision": 4,
+      "actors": [
+        {
+          "id": "rock-2-0",
+          "parentId": null,
+          "material": 1,
+          "contentRevision": 2,
+          "pose": {
+            "position": [
+              0.853439211845398,
+              -1.5590569972991943,
+              -0.044304654002189636
+            ],
+            "rotation": {
+              "x": 0.006371732335537672,
+              "y": 0.0692945271730423,
+              "z": 0.06562379002571106,
+              "w": 0.9954150915145874
+            },
+            "linearVelocity": [
+              0,
+              -0.3294892907142639,
+              0
+            ],
+            "angularVelocity": [
+              0,
+              0,
+              0
+            ],
+            "sleepState": "ACTIVE"
+          }
+        }
+      ],
+      "audit": {
+        "world": 3345,
+        "consumed": 221,
+        "rock-2-0": 334,
+        "total": 3900,
+        "initial": 3900,
+        "materials": {
+          "dirt": {
+            "initial": 3564,
+            "world": 3345,
+            "actors": 0,
+            "consumed": 219
+          },
+          "rock": {
+            "initial": 336,
+            "world": 0,
+            "actors": 334,
+            "consumed": 2
+          }
+        },
+        "balanced": true,
+        "ownershipMaterialValid": true
+      },
+      "events": {
+        "dugUnits": {
+          "rock": 2,
+          "dirt": 179
+        },
+        "crumbledUnits": {
+          "rock": 0,
+          "dirt": 40
+        }
+      },
+      "rewards": {
+        "stoneUnits": 2,
+        "dirtUnits": 219
+      },
+      "retired": []
+    }
+  ],
+  "captures": [
+    "docs/evidence/voxel-phase05c/source/mixed-01-pristine-supported-boulder.png",
+    "docs/evidence/voxel-phase05c/source/mixed-02-first-dirt-scoop.png",
+    "docs/evidence/voxel-phase05c/source/mixed-03-partial-cavity-rock-still-static.png",
+    "docs/evidence/voxel-phase05c/source/mixed-04-reloaded-pre-detachment.png",
+    "docs/evidence/voxel-phase05c/source/mixed-05-supported-rock-after-reload.png",
+    "docs/evidence/voxel-phase05c/source/mixed-06-rock-detached.png",
+    "docs/evidence/voxel-phase05c/source/mixed-07-rock-falling.png",
+    "docs/evidence/voxel-phase05c/source/mixed-08-rock-settled.png",
+    "docs/evidence/voxel-phase05c/source/mixed-09-followed-moved-rock.png",
+    "docs/evidence/voxel-phase05c/source/mixed-10-first-chip-after-fall.png",
+    "docs/evidence/voxel-phase05c/source/mixed-11-rock-weakness-view.png",
+    "docs/evidence/voxel-phase05c/source/mixed-12-reloaded-mined-rock.png"
+  ],
+  "errors": [],
+  "external": [],
+  "reloadDeltas": [
+    {
+      "beforeRevision": 1,
+      "afterRevision": 1,
+      "reloadMs": 1114,
+      "auditDelta": {
+        "rock": {
+          "world": 0,
+          "actors": 0,
+          "consumed": 0
+        },
+        "dirt": {
+          "world": 0,
+          "actors": 0,
+          "consumed": 0
+        }
+      },
+      "actorIdsBefore": [],
+      "actorIdsAfter": [],
+      "poseDeltas": []
+    },
+    {
+      "beforeRevision": 3,
+      "afterRevision": 4,
+      "reloadMs": 1044,
+      "auditDelta": {
+        "rock": {
+          "world": 0,
+          "actors": 0,
+          "consumed": 0
+        },
+        "dirt": {
+          "world": 0,
+          "actors": 0,
+          "consumed": 0
+        }
+      },
+      "actorIdsBefore": [
+        "rock-2-0"
+      ],
+      "actorIdsAfter": [
+        "rock-2-0"
+      ],
+      "poseDeltas": [
+        {
+          "id": "rock-2-0",
+          "position": 0.0034720897674560547,
+          "rotationRadians": 0
+        }
+      ]
+    }
+  ],
+  "pass": true,
+  "final": {
+    "revision": 4,
+    "audit": {
+      "world": 3345,
+      "consumed": 221,
+      "rock-2-0": 334,
+      "total": 3900,
+      "initial": 3900,
+      "materials": {
+        "dirt": {
+          "initial": 3564,
+          "world": 3345,
+          "actors": 0,
+          "consumed": 219
+        },
+        "rock": {
+          "initial": 336,
+          "world": 0,
+          "actors": 334,
+          "consumed": 2
+        }
+      },
+      "balanced": true,
+      "ownershipMaterialValid": true
+    },
+    "events": {
+      "dugUnits": {
+        "rock": 2,
+        "dirt": 179
+      },
+      "crumbledUnits": {
+        "rock": 0,
+        "dirt": 40
+      }
+    },
+    "rewards": {
+      "stoneUnits": 2,
+      "dirtUnits": 219
+    },
+    "actors": [
+      {
+        "id": "rock-2-0",
+        "parentId": null,
+        "material": 1,
+        "contentRevision": 2,
+        "pose": {
+          "position": [
+            0.853439211845398,
+            -1.5590569972991943,
+            -0.044304654002189636
+          ],
+          "rotation": {
+            "x": 0.006371732335537672,
+            "y": 0.0692945271730423,
+            "z": 0.06562379002571106,
+            "w": 0.9954150915145874
+          },
+          "linearVelocity": [
+            0,
+            -0.3294892907142639,
+            0
+          ],
+          "angularVelocity": [
+            0,
+            0,
+            0
+          ],
+          "sleepState": "ACTIVE"
+        }
+      }
+    ],
+    "retired": [],
+    "bodyCount": 1,
+    "colliders": [
+      4
+    ],
+    "support": {
+      "components": 2,
+      "workUnits": 6912,
+      "anchoredRock": false,
+      "anchoredDirt": true,
+      "before": {
+        "components": 1,
+        "workUnits": 6915,
+        "anchoredRock": true,
+        "anchoredDirt": true
+      }
+    },
+    "reloadDeltas": [
+      {
+        "beforeRevision": 1,
+        "afterRevision": 1,
+        "reloadMs": 1114,
+        "auditDelta": {
+          "rock": {
+            "world": 0,
+            "actors": 0,
+            "consumed": 0
+          },
+          "dirt": {
+            "world": 0,
+            "actors": 0,
+            "consumed": 0
+          }
+        },
+        "actorIdsBefore": [],
+        "actorIdsAfter": [],
+        "poseDeltas": []
+      },
+      {
+        "beforeRevision": 3,
+        "afterRevision": 4,
+        "reloadMs": 1044,
+        "auditDelta": {
+          "rock": {
+            "world": 0,
+            "actors": 0,
+            "consumed": 0
+          },
+          "dirt": {
+            "world": 0,
+            "actors": 0,
+            "consumed": 0
+          }
+        },
+        "actorIdsBefore": [
+          "rock-2-0"
+        ],
+        "actorIdsAfter": [
+          "rock-2-0"
+        ],
+        "poseDeltas": [
+          {
+            "id": "rock-2-0",
+            "position": 0.0034720897674560547,
+            "rotationRadians": 0
+          }
+        ]
+      }
+    ],
+    "work": [],
+    "errors": [],
+    "external": []
+  }
+}

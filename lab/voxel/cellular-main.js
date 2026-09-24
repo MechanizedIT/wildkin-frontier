@@ -1,8 +1,8 @@
 import * as THREE from '../../vendor/three.module.js';
 import RAPIER from '../../vendor/rapier.js';
 import { LabWorldState } from './world-state.js';
-import { openCellularStore, CELLULAR_NAMESPACE, DIRT_CELLULAR_NAMESPACE } from './cellular-persistence.js';
-import { mineWorldMatter, mineActorMatter, createInitialRockState, createInitialDirtState, actorMatterSamples, worldMatterSamples, quantityAudit } from './matter-actor.js';
+import { openCellularStore, CELLULAR_NAMESPACE, DIRT_CELLULAR_NAMESPACE, MIXED_CELLULAR_NAMESPACE } from './cellular-persistence.js';
+import { mineWorldMatter, mineActorMatter, createInitialRockState, createInitialDirtState, createInitialMixedState, actorMatterSamples, worldMatterSamples, quantityAudit, matterMaterialAt } from './matter-actor.js';
 import { meshMatterSamples } from './matter-mesh.js';
 import { CellularMatterPhysics } from './matter-physics.js';
 import { pickActorSurface, pickWorldSurface, readMatterScalar, validateActorHit, worldToActorDirection, actorToWorldPoint } from './matter-target.js';
@@ -15,14 +15,15 @@ import { matterPolicyFor, MATTER_MATERIAL } from './matter-material-policy.js';
 
 const canvas=document.querySelector('#scene'),stage=document.querySelector('#stage'),message=document.querySelector('#message'),stats=document.querySelector('#stats');
 const mineButton=document.querySelector('#mine'),saveButton=document.querySelector('#save'),focusButton=document.querySelector('#focus'),debugButton=document.querySelector('#debug');
-const query=new URLSearchParams(location.search),mode=query.get('material')??'rock',isDirt=mode==='dirt',initialState=isDirt?createInitialDirtState:createInitialRockState,
-  suffix=query.get('save'),baseNamespace=isDirt?DIRT_CELLULAR_NAMESPACE:CELLULAR_NAMESPACE,
+const query=new URLSearchParams(location.search),mode=query.get('material')??'rock',isDirt=mode==='dirt',isMixed=mode==='mixed'||location.pathname.endsWith('/cellular-mixed.html'),initialState=isMixed?createInitialMixedState:isDirt?createInitialDirtState:createInitialRockState,
+  suffix=query.get('save'),baseNamespace=isMixed?MIXED_CELLULAR_NAMESPACE:isDirt?DIRT_CELLULAR_NAMESPACE:CELLULAR_NAMESPACE,
   namespace=suffix?`${baseNamespace}-${suffix.replace(/[^a-zA-Z0-9-]/g,'').slice(0,40)}`:baseNamespace;
-document.querySelector('#title').textContent=isDirt?'Dirt / soil matter · Phase 0.5B':'Hard-rock matter · Phase 0.5A.4';
-mineButton.textContent=isDirt?'Dig at crosshair':'Strike at crosshair';focusButton.textContent=isDirt?'Follow clod (F)':'Follow rock (F)';
-debugButton.hidden=isDirt;document.querySelector('#switch').textContent=isDirt?'Compare hard rock':'Compare dirt / soil';
-document.querySelector('#switch').href=isDirt?'./cellular-rock.html?material=rock':'./cellular-rock.html?material=dirt';
-document.querySelector('#hint').textContent=isDirt?
+document.querySelector('#title').textContent=isMixed?'Mixed dirt + supported stone · Phase 0.5C':isDirt?'Dirt / soil matter · Phase 0.5B':'Hard-rock matter · Phase 0.5A.4';
+mineButton.textContent=isMixed?'Dig / strike at crosshair':isDirt?'Dig at crosshair':'Strike at crosshair';focusButton.textContent=isDirt?'Follow clod (F)':'Follow rock (F)';
+debugButton.hidden=isDirt;document.querySelector('#switch').textContent=isMixed?'Compare material proofs':isDirt?'Compare hard rock':'Compare dirt / soil';
+document.querySelector('#switch').href=isMixed?'./cellular-rock.html?material=rock':isDirt?'./cellular-rock.html?material=rock':'./cellular-rock.html?material=dirt';
+document.querySelector('#hint').textContent=isMixed?
+  'Aim at soil and click or press E to scoop; aim at stone to chip it. Dig the bank below the supported boulder until support is lost, then follow the moved rock and strike its visible face. Drag to orbit · Wheel to zoom · WASD to move the view · F follows the actor · Save & reload checks persistence.':isDirt?
   'Aim at visible soil and click or press E to dig. Broad scoops weaken nearby soil; small loose soil crumbles, while a substantial unsupported clod can fall and be dug again. Drag to orbit · Wheel to zoom · WASD to move the view · F follows the clod · Save & reload checks persistence.':
   'Aim at visible stone and click or press E. Repeated strikes make small chips while stress builds; amber/red bond lines show weakening and failure. A split rock becomes two physical, still-mineable pieces. Drag to orbit · Wheel to zoom · WASD to move the view · F follows a piece · B toggles all bonds · Save & reload checks persistence.';
 const store=await openCellularStore(namespace,initialState),state=await store.load(),materialPolicy=matterPolicyFor(state.materialId),saveTimes=[];
@@ -115,15 +116,18 @@ function emitSoilCrumble(event){
 }
 function showState(note=''){
   const s=owner.state,audit=quantityAudit(s),actors=s.actors.length;
-  stage.textContent=isDirt?actors>=1?`Soil clod ${actors}/${DIRT_PROFILE.maxDynamicClods}. Follow the fallen clod, let it rotate, then dig its visible surface.`:
+  stage.textContent=isMixed?actors?`Detached rock actor ${actors}/4. Follow it after the fall, then strike its current visible surface.`:
+    'One dirt bank supports one embedded stone boulder. Dig the soil below it; support follows real material contact.':isDirt?actors>=1?`Soil clod ${actors}/${DIRT_PROFILE.maxDynamicClods}. Follow the fallen clod, let it rotate, then dig its visible surface.`:
     'Dirt bank with a low overhang. Dig a broad cavity below the shelf and watch loose soil crumble before the main clod drops.':
     actors>=2?'Two retained rocks. Follow a fallen piece, strike its visible surface, then save and reload.':actors===1?
     `Rock actor ${actors}/4. Follow it, let it rotate, and keep striking near the weakened seam.`:
     `Hard-rock boulder on a narrow stone neck. Chip the side, then weaken the neck with repeated strikes.`;
   if(note)message.textContent=note;
-  const ledger=audit.materials[materialPolicy.id]??{initial:0,world:0,actors:0,consumed:0},events=s.events??{dugUnits:{},crumbledUnits:{}};
-  stats.textContent=`Revision ${s.revision} · ${materialPolicy.id} actors ${actors}/${isDirt?DIRT_PROFILE.maxDynamicClods:4} · transient bodies ${physics.shards.size}/4 · retired ${s.retired.length}\n`+
-    `${materialPolicy.id} units ${ledger.initial}: static ${ledger.world}, actors ${ledger.actors}, dug ${events.dugUnits[materialPolicy.id]??0}, crumbled ${events.crumbledUnits[materialPolicy.id]??0}\n`+
+  const materialName=isMixed?'mixed':materialPolicy?.id??'unknown',ledger=audit.materials[materialName]??{initial:0,world:0,actors:0,consumed:0},events=s.events??{dugUnits:{},crumbledUnits:{}};
+  const ledgers=isMixed?['rock','dirt'].map(name=>{const value=audit.materials[name];return `${name} ${value.initial}: static ${value.world}, actors ${value.actors}, consumed ${value.consumed}`;}).join('\n'):
+    `${materialName} units ${ledger.initial}: static ${ledger.world}, actors ${ledger.actors}, dug ${events.dugUnits[materialName]??0}, crumbled ${events.crumbledUnits[materialName]??0}`;
+  stats.textContent=`Revision ${s.revision} · ${materialName} actors ${actors}/${isDirt?DIRT_PROFILE.maxDynamicClods:4} · transient bodies ${physics.shards.size}/4 · retired ${s.retired.length}\n`+
+    `${ledgers}\n`+
     `${isDirt?'Local cohesion · no accumulated brittle stress':`Weakness ${[...structureStats.values()].reduce((n,x)=>n+x.cracked,0)} stressed · ${[...structureStats.values()].reduce((n,x)=>n+x.broken,0)} failed · ${[...structureStats.values()].reduce((n,x)=>n+x.components,0)} structural components`}\n`+
     `Balance ${audit.balanced?'exact':'FAILED'} · edit ${editTimes.at(-1)?.toFixed(1)??'—'} ms · worker ${workerTimes.at(-1)?.toFixed(1)??'—'} ms`;
   mineButton.disabled=saveButton.disabled=editing;
@@ -225,7 +229,8 @@ async function mineRay(clientX,clientY){
     const localHit=hit.localPoint.map((v,i)=>v+localDirection[i]*.12);
     return transition(s=>mineActorMatter(s,hit.actorId,hit.contentRevision,localHit),{label:isDirt?'Fallen soil dug':'Fallen rock mined'});
   }
-  if(worldHit)return transition(s=>mineWorldMatter(s,worldHit.localPoint),{worldChanged:true,label:isDirt?'Soil dug':'World rock mined'});
+  if(worldHit){const material=isMixed?matterMaterialAt(worldMatterSamples(owner.state),worldHit.localPoint.map((v,i)=>v+ray.ray.direction.toArray()[i]*.12)):undefined;
+    return transition(s=>mineWorldMatter(s,worldHit.localPoint,{material}),{worldChanged:true,label:material===MATTER_MATERIAL.DIRT?'Soil dug':isMixed?'Rock chipped':'World rock mined'});}
   showState(isDirt?'No dirt under the pointer. Move closer or orbit the view.':'No rock under the pointer. Move closer or orbit the view.');return {status:'NO_HIT'};
 }
 let dragging=null;
@@ -262,7 +267,7 @@ window.__cellularLab={get ready(){return ready},get state(){return owner.state},
   mineAtWorld:hit=>transition(s=>mineWorldMatter(s,hit),{worldChanged:true,label:'Fixture matter hit'}),
   mineActorLocal:(id,hit)=>transition(s=>{const actor=s.actors.find(a=>a.id===id);return mineActorMatter(s,id,actor?.contentRevision,hit);},{label:'Fixture actor hit'}),
   focusAt:point=>{focus=[...point]},aim:(nextYaw,nextPitch)=>{yaw=nextYaw;pitch=nextPitch},
-  report:()=>({namespace,material:materialPolicy.id,materialId:owner.state.materialId,revision:owner.state.revision,audit:quantityAudit(owner.state),events:owner.state.events,
+  report:()=>({namespace,material:isMixed?'mixed':materialPolicy?.id??'unknown',materialId:owner.state.materialId,revision:owner.state.revision,audit:quantityAudit(owner.state),events:owner.state.events,supportSummary:owner.state.supportSummary??null,
     actors:owner.state.actors.map(a=>({id:a.id,parentId:a.parentId,material:a.material,contentRevision:a.contentRevision,pose:physics.pose(a.id)})),retired:owner.state.retired,
     workerTimes,colliderTimes,saveTimes,editTimes,matterWorkMetrics,rockWorkMetrics:matterWorkMetrics,
     frameP95:[...frameTimes].sort((a,b)=>a-b)[Math.floor(frameTimes.length*.95)]??null,

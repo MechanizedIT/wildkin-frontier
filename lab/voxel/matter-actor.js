@@ -1,7 +1,7 @@
 import { rockDomain } from './fracture-field.js';
-import { makeSupportedRockSamples, makeDirtBankSamples, supportedRockDensity, dirtBankDensity } from './matter-fixtures.js';
+import { makeSupportedRockSamples, makeDirtBankSamples, makeMixedMatterSamples, supportedRockDensity, dirtBankDensity } from './matter-fixtures.js';
 import { createWorldMatterVolume, createActorMatterVolume } from './matter-volume.js';
-import { analyzeRockConnectivity } from './matter-connectivity.js';
+import { analyzeMatterConnectivity, analyzeRockConnectivity } from './matter-connectivity.js';
 import { cloneMatterSamples, cloneRockSamples, extractMatterIsland, extractRockIsland, parcelBits, parcelMaterial, rockMeshUnionAudit } from './matter-ownership.js';
 import { actorToWorldPoint } from './matter-target.js';
 import { chipHardRock, selectRockFracture } from './matter-hard-rock.js';
@@ -14,19 +14,25 @@ import { MATTER_MATERIAL, matterPolicyFor, ROCK_MATTER_POLICY, DIRT_MATTER_POLIC
 
 export const CELLULAR_VERSION='cellular-rock-0.5a4-v1';
 export const DIRT_CELLULAR_VERSION='cellular-dirt-0.5b-v1';
+export const MIXED_CELLULAR_VERSION='cellular-mixed-0.5c-v1';
 const domain=rockDomain(9212026),key=p=>p.join(',');
 const frame={spacing:.5,offset:[-3,0,-3]},actorBounds={min:[0,0,0],max:[12,12,12]};
 const parcelKey=(p,i)=>`${key(p)}:${i}`;
 function eachCell(sample,fn){for(let z=0;z<sample.size[2]-1;z++)for(let y=0;y<sample.size[1]-1;y++)for(let x=0;x<sample.size[0]-1;x++)fn([x,y,z]);}
 function serialize(sample){return {densities:Array.from(sample.densities),materials:Array.from(sample.materials)};}
-function serializeWorld(sample,fixture='rock-boulder'){const baseline=fixture==='dirt-bank'?makeDirtBankSamples():makeSupportedRockSamples(),densityEdits={};
+function serializeWorld(sample,fixture='rock-boulder'){if(fixture==='mixed-dirt-supported-rock')return {mixedSnapshot:serialize(sample),structure:sample.structure??emptyRockStructure()};
+  const baseline=fixture==='dirt-bank'?makeDirtBankSamples():makeSupportedRockSamples(),densityEdits={};
   for(let i=0;i<sample.densities.length;i++)if(sample.densities[i]!==baseline.densities[i]){
     const x=i%13,y=Math.floor(i/13)%13,z=Math.floor(i/169);densityEdits[`${x},${y},${z}`]=sample.densities[i];
   }
   return {densityEdits};
 }
 function deserialize(data,materialId=MATTER_MATERIAL.ROCK,fixture='rock-boulder'){
-  const sample=fixture==='dirt-bank'?makeDirtBankSamples():makeSupportedRockSamples();
+  const sample=fixture==='mixed-dirt-supported-rock'?makeMixedMatterSamples():fixture==='dirt-bank'?makeDirtBankSamples():makeSupportedRockSamples();
+  if(fixture==='mixed-dirt-supported-rock'){
+    if(data.mixedSnapshot){sample.densities.set(data.mixedSnapshot.densities);sample.materials.set(data.mixedSnapshot.materials);}
+    sample.structure=structuredClone(data.structure??emptyRockStructure());return sample;
+  }
   const generatorDensity=fixture==='dirt-bank'?dirtBankDensity:supportedRockDensity;
   if(data.densityEdits){
     const edits=new Map(Object.entries(data.densityEdits).map(([k,density])=>[k,{density,material:density<0?materialId:0,domain:domain.id}]));
@@ -48,11 +54,14 @@ const rewardKey=id=>id===MATTER_MATERIAL.ROCK?'stoneUnits':id===MATTER_MATERIAL.
 function quantity(ownership,owner){return Object.values(ownership).filter(v=>v===owner).length;}
 export function quantityAudit(state){
   const owners={world:quantity(state.ownership,'world'),consumed:quantity(state.ownership,'consumed')};
+  const actorMaterials=new Map(state.actors.map(actor=>[actor.id,actor.material]));let ownershipMaterialValid=true;
   for(const actor of state.actors)owners[actor.id]=quantity(state.ownership,actor.id);
   for(const item of state.fractureDebris??[])owners[item.id]=quantity(state.ownership,item.id);
   const materials={},parcelMaterials=state.parcelMaterials??{};
   for(const [key,owner] of Object.entries(state.ownership)){
     const id=parcelMaterials[key]??state.materialId??MATTER_MATERIAL.ROCK,name=materialName(id),record=materials[name]??(materials[name]={initial:0,world:0,actors:0,consumed:0});
+    if(actorMaterials.has(owner)&&actorMaterials.get(owner)!==id)ownershipMaterialValid=false;
+    if(owner!=='world'&&owner!=='consumed'&&!actorMaterials.has(owner)&&!(state.fractureDebris??[]).some(item=>item.id===owner))ownershipMaterialValid=false;
     record.initial++;if(owner==='world')record.world++;else if(owner==='consumed')record.consumed++;else record.actors++;
   }
   const total=Object.values(owners).reduce((a,b)=>a+b,0),initial=state.initialQuantity;
@@ -60,19 +69,21 @@ export function quantityAudit(state){
     const id=name==='rock'?MATTER_MATERIAL.ROCK:name==='dirt'?MATTER_MATERIAL.DIRT:-1,k=rewardKey(id);
     return k!==null&&record.consumed===(state.rewards?.[k]??0)&&record.initial===record.world+record.actors+record.consumed;
   });
-  return {...owners,total,initial,materials,balanced:total===initial&&materialBalanced};
+  return {...owners,total,initial,materials,balanced:total===initial&&materialBalanced&&ownershipMaterialValid,ownershipMaterialValid};
 }
 function createInitialMatterState(materialId,fixture){
-  const sample=fixture==='dirt-bank'?makeDirtBankSamples():makeSupportedRockSamples(),ownership={},parcelMaterials={};
+  const sample=fixture==='mixed-dirt-supported-rock'?makeMixedMatterSamples():fixture==='dirt-bank'?makeDirtBankSamples():makeSupportedRockSamples(),ownership={},parcelMaterials={};
   eachCell(sample,p=>{const bits=parcelBits(sample,p);for(let i=0;i<8;i++)if(bits[i]){const k=parcelKey(p,i);ownership[k]='world';parcelMaterials[k]=parcelMaterial(sample,p,i);}});
   const initialQuantity=Object.keys(ownership).length;
-  return {version:materialId===MATTER_MATERIAL.ROCK?CELLULAR_VERSION:DIRT_CELLULAR_VERSION,seed:9212026,spacing:.5,revision:0,initialQuantity,
-    materialId,fixture,world:materialId===MATTER_MATERIAL.ROCK?{densityEdits:{},structure:emptyRockStructure()}:{densityEdits:{}},
+  return {version:fixture==='mixed-dirt-supported-rock'?MIXED_CELLULAR_VERSION:materialId===MATTER_MATERIAL.ROCK?CELLULAR_VERSION:DIRT_CELLULAR_VERSION,seed:9212026,spacing:.5,revision:0,initialQuantity,
+    materialId,fixture,world:fixture==='mixed-dirt-supported-rock'?{mixedSnapshot:null,structure:emptyRockStructure()}:materialId===MATTER_MATERIAL.ROCK?{densityEdits:{},structure:emptyRockStructure()}:{densityEdits:{}},
     actors:[],retired:[],fractureDebris:[],ownership,parcelMaterials,rewards:{stoneUnits:0,dirtUnits:0},
     events:{dugUnits:{rock:0,dirt:0},crumbledUnits:{rock:0,dirt:0}}};
 }
 export function createInitialRockState(){return createInitialMatterState(MATTER_MATERIAL.ROCK,'rock-boulder');}
 export function createInitialDirtState(){return createInitialMatterState(MATTER_MATERIAL.DIRT,'dirt-bank');}
+export function createInitialMixedState(){const state=createInitialMatterState(3,'mixed-dirt-supported-rock'),support=mixedSupport(worldMatterSamples(state));
+  if(support.status==='OK')state.supportSummary=summarizeMixedSupport(support);return state;}
 function assertBudget(state){const policy=matterPolicyFor(state.materialId),actorLimit=policy?.profile.maxDynamicClods??4;
   if(state.actors.length>4||state.actors.length>actorLimit||state.actors.some(a=>a.densities.length>40000))throw new Error('Cellular actor budget exceeded');
   if((state.fractureDebris??[]).length>64)throw new Error('Fracture debris record budget exceeded');
@@ -356,6 +367,7 @@ export function mineActorDirt(state,actorId,expectedRevision,localHit,{fractureD
 }
 
 export function mineWorldMatter(state,hit,options={}){
+  if(state?.fixture==='mixed-dirt-supported-rock')return mineWorldMixed(state,hit,options);
   const policy=matterPolicyFor(state?.materialId);if(!policy)return {status:'HOLD',reason:`Unknown matter material ${state?.materialId}`,state};
   if(policy===ROCK_MATTER_POLICY)return mineWorldRock(state,hit,options);
   if(policy===DIRT_MATTER_POLICY)return mineWorldDirt(state,hit,options);
@@ -371,3 +383,127 @@ export function mineActorMatter(state,actorId,expectedRevision,localHit,options=
 export function worldMatterSamples(state){return deserialize(state.world,state.materialId??MATTER_MATERIAL.ROCK,state.fixture??'rock-boulder');}
 export function actorMatterSamples(actor){return deserialize(actor,actor.material??MATTER_MATERIAL.ROCK);}
 export const actorRockSamples=actorMatterSamples;
+
+function mixedCellMaterial(samples,p){
+  const counts=new Map();for(let dz=0;dz<=1;dz++)for(let dy=0;dy<=1;dy++)for(let dx=0;dx<=1;dx++){
+    const q=[p[0]+dx,p[1]+dy,p[2]+dz],i=q[0]+samples.size[0]*(q[1]+samples.size[1]*q[2]);
+    if(samples.densities[i]<0){const id=samples.materials[i];counts.set(id,(counts.get(id)??0)+1);}
+  }
+  return [...counts].sort((a,b)=>b[1]-a[1]||a[0]-b[0])[0]?.[0]??0;
+}
+export function matterMaterialAt(samples,point){
+  const q=point.map((v,i)=>(v-samples.min[i])/samples.spacing),base=q.map(Math.floor),fraction=q.map((v,i)=>v-base[i]),weights=new Map();
+  for(let dz=0;dz<=1;dz++)for(let dy=0;dy<=1;dy++)for(let dx=0;dx<=1;dx++){
+    const p=[base[0]+dx,base[1]+dy,base[2]+dz];if(p.some((v,i)=>v<0||v>=samples.size[i]))continue;
+    const i=p[0]+samples.size[0]*(p[1]+samples.size[1]*p[2]);if(samples.densities[i]>=0)continue;
+    const weight=(dx?fraction[0]:1-fraction[0])*(dy?fraction[1]:1-fraction[1])*(dz?fraction[2]:1-fraction[2]),id=samples.materials[i];
+    weights.set(id,(weights.get(id)??0)+weight);
+  }
+  return [...weights].sort((a,b)=>b[1]-a[1]||a[0]-b[0])[0]?.[0]??0;
+}
+function cloneForMaterial(samples,material){const out=cloneMatterSamples(samples);for(let i=0;i<out.densities.length;i++)if(out.materials[i]!==material){out.densities[i]=Math.max(.5,-out.densities[i]);out.materials[i]=0;}return out;}
+function componentMaterialMask(samples,material,cells){
+  const out=cloneMatterSamples(samples),set=new Set(cells.map(key)),[nx,ny,nz]=samples.size;
+  const belongs=(x,y,z)=>{let selected=0,total=0;for(let dz=-1;dz<=0;dz++)for(let dy=-1;dy<=0;dy++)for(let dx=-1;dx<=0;dx++){
+    const p=[x+dx,y+dy,z+dz];if(p.some((v,i)=>v<0||v>=samples.size[i]-1))continue;
+    const i=p[0]+nx*(p[1]+ny*p[2]);if(samples.densities[i]>=0||samples.materials[i]!==material)continue;total++;if(set.has(key(p)))selected++;
+  }return selected>0&&selected>=total/2;};
+  for(let z=0;z<nz;z++)for(let y=0;y<ny;y++)for(let x=0;x<nx;x++){const i=x+nx*(y+ny*z);
+    if(samples.densities[i]>=0||samples.materials[i]!==material||!belongs(x,y,z)){out.densities[i]=Math.max(.5,-samples.densities[i]);out.materials[i]=0;}}
+  return out;
+}
+function mixedSupport(samples){
+  const result=analyzeMatterConnectivity(samples,{anchor:([,y])=>y===0,identityForCell:p=>mixedCellMaterial(samples,p)||'air',canConnect:()=>true});
+  if(result.status!=='OK')return result;
+  const workUnits=result.cellCount+result.bonds;if(workUnits>12288)return {status:'HOLD',reason:'mixed support work cap',workUnits};
+  return {...result,workUnits};
+}
+function summarizeMixedSupport(support,workUnits=support.workUnits){return {components:support.components.length,workUnits,
+  anchoredRock:support.components.some(c=>c.anchored&&c.fragments.some(f=>f.id===MATTER_MATERIAL.ROCK)),
+  anchoredDirt:support.components.some(c=>c.anchored&&c.fragments.some(f=>f.id===MATTER_MATERIAL.DIRT))};}
+function updateMixedConsumed(next,before,after,material,kind){
+  for(const [k,owner] of Object.entries(next.ownership))if(owner==='world'&&next.parcelMaterials[k]===material){
+    const [cell,part]=k.split(':'),p=cell.split(',').map(Number),n=Number(part);
+    if(parcelBits(before,p)[n]&&!parcelBits(after,p)[n])accountConsumed(next,k,kind);
+  }
+}
+function preserveForeignParcels(state,before,edited,editedMaterial){
+  const [nx,ny]=before.size,restore=new Set();
+  for(const [k,owner] of Object.entries(state.ownership))if(owner==='world'&&state.parcelMaterials[k]!==editedMaterial){
+    const [cell,part]=k.split(':'),p=cell.split(',').map(Number),probe=Number(part);
+    if(!parcelBits(before,p)[probe]||parcelBits(edited,p)[probe])continue;
+    for(let dz=0;dz<=1;dz++)for(let dy=0;dy<=1;dy++)for(let dx=0;dx<=1;dx++)restore.add((p[0]+dx)+nx*((p[1]+dy)+ny*(p[2]+dz)));
+  }
+  for(const i of restore){edited.densities[i]=before.densities[i];edited.materials[i]=before.materials[i];}
+}
+function foreignSampleMask(state,samples,editedMaterial){
+  const [nx,ny]=samples.size,protectedSamples=new Set();
+  for(const [k,owner] of Object.entries(state.ownership))if(owner==='world'&&state.parcelMaterials[k]!==editedMaterial){
+    const [cell]=k.split(':'),p=cell.split(',').map(Number);
+    for(let dz=0;dz<=1;dz++)for(let dy=0;dy<=1;dy++)for(let dx=0;dx<=1;dx++)protectedSamples.add((p[0]+dx)+nx*((p[1]+dy)+ny*(p[2]+dz)));
+  }
+  return protectedSamples;
+}
+function mineMixedDirt(state,hit){
+  const next=structuredClone(state),before=deserialize(state.world,3,state.fixture),direct=cloneMatterSamples(before),cut=excavateDirt(direct,domain,hit,state.revision+1,DIRT_PROFILE);
+  if(!cut.changed)return {status:'NO_HIT',state};
+  preserveForeignParcels(state,before,direct,MATTER_MATERIAL.DIRT);
+  const policy=DIRT_MATTER_POLICY,cohesion=policy.analyzeSupport(direct,hit,policy.profile,{anchor:([,y])=>y===0,previous:before,
+    material:policy.material,identityForCell:p=>mixedCellMaterial(direct,p)||'air',canConnect:()=>true,
+    protectedSamples:foreignSampleMask(state,before,policy.material)});
+  if(cohesion.status!=='OK')return {...cohesion,state};
+  const support=cohesion.support,after=cloneMatterSamples(cohesion.sample);
+  const unanchored=support.components.filter(c=>!c.anchored);let detached=0,transferred=0;
+  for(const component of unanchored)for(const fragment of component.fragments){
+    const material=fragment.id;if(material!==MATTER_MATERIAL.ROCK&&material!==MATTER_MATERIAL.DIRT)continue;
+    const componentCells=new Set(fragment.cells.map(key)),owned=Object.entries(next.ownership).filter(([k,owner])=>owner==='world'&&next.parcelMaterials[k]===material&&
+      (material===MATTER_MATERIAL.ROCK||componentCells.has(k.slice(0,k.indexOf(':')))));
+    if(!owned.length)continue;
+    const dirtActorCount=next.actors.filter(a=>a.material===MATTER_MATERIAL.DIRT).length;
+    if(material===MATTER_MATERIAL.DIRT&&(owned.length<DIRT_PROFILE.persistentClodMinProbes||dirtActorCount>=DIRT_PROFILE.maxDynamicClods)){
+      for(const [ownershipKey] of owned){const [cell,part]=ownershipKey.split(':'),p=cell.split(',').map(Number),probe=Number(part);
+        if(parcelBits(after,p)[probe])accountConsumed(next,ownershipKey,'crumble');}
+      const mask=componentMaterialMask(after,material,fragment.cells);for(let i=0;i<after.densities.length;i++)if(after.materials[i]===material&&mask.densities[i]<0){after.densities[i]=Math.max(.5,-after.densities[i]);after.materials[i]=0;}
+      continue;
+    }
+    const rockActors=next.actors.filter(a=>a.material===MATTER_MATERIAL.ROCK).length,dirtActors=next.actors.filter(a=>a.material===MATTER_MATERIAL.DIRT).length;
+    if(material===MATTER_MATERIAL.ROCK&&rockActors>=4)return {status:'HOLD',reason:'rock actor budget',state};
+    const id=`${material===MATTER_MATERIAL.ROCK?'rock':'dirt'}-${state.revision+1}-${detached}`,piece=material===MATTER_MATERIAL.ROCK?cloneForMaterial(after,material):componentMaterialMask(after,material,fragment.cells),materialPolicy=matterPolicyFor(material),actor=newActor(id,piece,null,{...component,cells:fragment.cells},
+      material===MATTER_MATERIAL.ROCK?emptyRockStructure():null,materialPolicy);
+    actor.createdByTransaction=state.revision+1;let amount=0;
+    for(const [ownershipKey] of owned){const [cell,part]=ownershipKey.split(':'),p=cell.split(',').map(Number),probe=Number(part);
+      if(parcelBits(after,p)[probe]){next.ownership[ownershipKey]=id;amount++;}else accountConsumed(next,ownershipKey,'dig');}
+    if(amount){next.actors.push(actor);detached++;transferred+=amount;
+      for(let i=0;i<after.densities.length;i++)if(after.materials[i]===material&&(material===MATTER_MATERIAL.ROCK||piece.materials[i]===material)){after.densities[i]=Math.max(.5,-after.densities[i]);after.materials[i]=0;}}
+  }
+  updateMixedConsumed(next,before,after,MATTER_MATERIAL.DIRT,'dig');
+  next.world={mixedSnapshot:serialize(after),structure:emptyRockStructure()};next.supportSummary={...summarizeMixedSupport(support,cohesion.workCells),
+    before:state.supportSummary?{components:state.supportSummary.components,workUnits:state.supportSummary.workUnits,
+      anchoredRock:state.supportSummary.anchoredRock,anchoredDirt:state.supportSummary.anchoredDirt}:null};next.revision++;assertBudget(next);
+  return {status:'OK',state:next,detached,actorId:next.actors.at(-1)?.id??null,transferred,cut,
+    support:{...next.supportSummary,before:state.supportSummary??null,workUnits:cohesion.workCells},
+    crumble:{units:cohesion.crumbledProbeUnits,components:cohesion.crumbleComponents,position:[...hit]},
+    fracture:false,stress:null,fractureMetrics:{elapsedMs:cohesion.elapsedMs,chipMs:cut.elapsedMs,graphMs:0,stressMs:0,connectivityMs:cohesion.connectivityMs,
+      crumbleMs:Math.max(0,cohesion.elapsedMs-cohesion.connectivityMs),supportWorkUnits:cohesion.workCells}};
+}
+function mineMixedRock(state,hit){
+  const next=structuredClone(state),before=deserialize(state.world,3,state.fixture),rock=cloneForMaterial(before,MATTER_MATERIAL.ROCK),structure=state.world.structure??emptyRockStructure(),policy=ROCK_MATTER_POLICY,
+    chip=policy.removal(rock,domain,hit,structure.hitSequence+1,policy.profile);
+  if(!chip.changed)return {status:'NO_HIT',state};
+  const graph=policy.buildStructure(rock,domain,policy.profile,structure),impact=policy.applyStructure(graph,structure,hit,domain,policy.profile);
+  if(impact.status==='HOLD')return {...impact,state};
+  const supportStarted=performance.now(),rockSupport=policy.analyzeSupport(rock,domain,{anchor:([,y])=>y===0,brokenBonds:impact.state.broken}),connectivityMs=performance.now()-supportStarted;
+  if(rockSupport.status!=='OK')return {...rockSupport,state};
+  const after=cloneMatterSamples(before);for(let i=0;i<after.densities.length;i++)if(before.materials[i]===MATTER_MATERIAL.ROCK){after.densities[i]=rock.densities[i];after.materials[i]=rock.materials[i];}
+  updateMixedConsumed(next,before,after,MATTER_MATERIAL.ROCK,'dig');next.world={mixedSnapshot:serialize(after),structure:impact.state};next.revision++;assertBudget(next);
+  return {status:'OK',state:next,detached:0,cut:chip,stress:{hitSite:impact.hitSite,visitedNodes:impact.visitedNodes,propagatedBonds:impact.propagatedBonds,cracked:impact.cracked.length,newlyBroken:impact.newlyBroken},
+    support:{rockComponents:rockSupport.components.length,rockBonds:rockSupport.bonds},
+    fractureMetrics:{elapsedMs:chip.elapsedMs+graph.elapsedMs+impact.elapsedMs+connectivityMs,chipMs:chip.elapsedMs,graphMs:graph.elapsedMs,
+      stressMs:impact.elapsedMs,connectivityMs,supportWorkUnits:rockSupport.cellCount+rockSupport.bonds}};
+}
+export function mineWorldMixed(state,hit,{material=matterMaterialAt(worldMatterSamples(state),hit)}={}){
+  if(state?.fixture!=='mixed-dirt-supported-rock')return {status:'HOLD',reason:'Mixed policy does not match this fixture',state};
+  if(material===MATTER_MATERIAL.DIRT)return mineMixedDirt(state,hit);
+  if(material===MATTER_MATERIAL.ROCK)return mineMixedRock(state,hit);
+  return {status:'NO_HIT',state};
+}
