@@ -1,0 +1,242 @@
+[
+  {
+    "method": "four-sector",
+    "initialOverlappingHullPairs": 0,
+    "maxInitialPenetration": 0,
+    "peakBodies": 2,
+    "children": [
+      {
+        "fixture": "conditioned-child-0",
+        "position": {
+          "x": -1.2906081676483154,
+          "y": -3.343357563018799,
+          "z": -0.1576821506023407
+        },
+        "rotation": {
+          "x": 0.03770052641630173,
+          "y": -0.05761127918958664,
+          "z": -0.19832608103752136,
+          "w": 0.9777149558067322
+        },
+        "speed": 0,
+        "hulls": 4
+      },
+      {
+        "fixture": "conditioned-child-1",
+        "position": {
+          "x": -0.36951541900634766,
+          "y": -3.601747989654541,
+          "z": -0.22865068912506104
+        },
+        "rotation": {
+          "x": 0.03072570078074932,
+          "y": -0.0004898879560641944,
+          "z": -0.05645352229475975,
+          "w": 0.9979322552680969
+        },
+        "speed": 0,
+        "hulls": 4
+      }
+    ]
+  },
+  {
+    "method": "eight-sector-tight",
+    "initialOverlappingHullPairs": 0,
+    "maxInitialPenetration": 0,
+    "peakBodies": 2,
+    "children": [
+      {
+        "fixture": "conditioned-child-0",
+        "position": {
+          "x": -0.8202238082885742,
+          "y": -3.3126895427703857,
+          "z": -0.06027797609567642
+        },
+        "rotation": {
+          "x": 0.03046618588268757,
+          "y": -0.05383368954062462,
+          "z": -0.1571948081254959,
+          "w": 0.9856284856796265
+        },
+        "speed": 0,
+        "hulls": 8
+      },
+      {
+        "fixture": "conditioned-child-1",
+        "position": {
+          "x": -0.5505942106246948,
+          "y": -3.5862293243408203,
+          "z": -0.03605926036834717
+        },
+        "rotation": {
+          "x": 0.028941022232174873,
+          "y": 0.05630411207675934,
+          "z": -0.06195409968495369,
+          "w": 0.9960693120956421
+        },
+        "speed": 0,
+        "hulls": 8
+      }
+    ]
+  },
+  {
+    "method": "eight-sector",
+    "initialOverlappingHullPairs": 0,
+    "maxInitialPenetration": 0,
+    "peakBodies": 2,
+    "children": [
+      {
+        "fixture": "conditioned-child-0",
+        "position": {
+          "x": -1.2305935621261597,
+          "y": -3.343477249145508,
+          "z": -0.14096148312091827
+        },
+        "rotation": {
+          "x": 0.03680713474750519,
+          "y": -0.052010323852300644,
+          "z": -0.19754311442375183,
+          "w": 0.9782213568687439
+        },
+        "speed": 0,
+        "hulls": 8
+      },
+      {
+        "fixture": "conditioned-child-1",
+        "position": {
+          "x": -0.4502781629562378,
+          "y": -3.557657241821289,
+          "z": -0.17921501398086548
+        },
+        "rotation": {
+          "x": 0.027147972956299782,
+          "y": 0.0042373863980174065,
+          "z": -0.06915082782506943,
+          "w": 0.9972277283668518
+        },
+        "speed": 0,
+        "hulls": 8
+      }
+    ]
+  },
+  {
+    "method": "occupancy-median",
+    "initialOverlappingHullPairs": 0,
+    "maxInitialPenetration": 0,
+    "peakBodies": 2,
+    "children": [
+      {
+        "fixture": "conditioned-child-0",
+        "position": {
+          "x": -1.4711215496063232,
+          "y": -3.2559709548950195,
+          "z": -0.16782023012638092
+        },
+        "rotation": {
+          "x": 0.03152354061603546,
+          "y": 0.012890408746898174,
+          "z": -0.24620942771434784,
+          "w": 0.9686180949211121
+        },
+        "speed": 0,
+        "hulls": 8
+      },
+      {
+        "fixture": "conditioned-child-1",
+        "position": {
+          "x": -0.2927744388580322,
+          "y": -3.60657000541687,
+          "z": -0.2499637007713318
+        },
+        "rotation": {
+          "x": 0.03286321088671684,
+          "y": -0.04819100350141525,
+          "z": -0.053659457713365555,
+          "w": 0.996854305267334
+        },
+        "speed": 0,
+        "hulls": 8
+      }
+    ]
+  },
+  {
+    "method": "occupancy-gap",
+    "initialOverlappingHullPairs": 0,
+    "maxInitialPenetration": 0,
+    "peakBodies": 2,
+    "children": [
+      {
+        "fixture": "conditioned-child-0",
+        "position": {
+          "x": -1.2766056060791016,
+          "y": -3.308598518371582,
+          "z": -0.14726820588111877
+        },
+        "rotation": {
+          "x": 0.027219651266932487,
+          "y": 0.011670680716633797,
+          "z": -0.22065883874893188,
+          "w": 0.9749013781547546
+        },
+        "speed": 0,
+        "hulls": 8
+      },
+      {
+        "fixture": "conditioned-child-1",
+        "position": {
+          "x": -0.3631819486618042,
+          "y": -3.622490644454956,
+          "z": -0.18845325708389282
+        },
+        "rotation": {
+          "x": 0.029513191431760788,
+          "y": -0.01659538410604,
+          "z": -0.05038565397262573,
+          "w": 0.9981557726860046
+        },
+        "speed": 0,
+        "hulls": 8
+      }
+    ]
+  },
+  {
+    "method": "occupancy-voronoi",
+    "initialOverlappingHullPairs": 0,
+    "maxInitialPenetration": 0,
+    "peakBodies": 2,
+    "children": [
+      {
+        "fixture": "conditioned-child-0",
+        "position": {
+          "x": -1.3735600709915161,
+          "y": -3.2858059406280518,
+          "z": -0.18209144473075867
+        },
+        "rotation": {
+          "x": 0.03064391203224659,
+          "y": 0.006131763104349375,
+          "z": -0.23211821913719177,
+          "w": 0.972185492515564
+        },
+        "speed": 0,
+        "hulls": 8
+      },
+      {
+        "fixture": "conditioned-child-1",
+        "position": {
+          "x": -0.4401214122772217,
+          "y": -3.6049633026123047,
+          "z": -0.13031673431396484
+        },
+        "rotation": {
+          "x": 0.03096122480928898,
+          "y": -0.01029884908348322,
+          "z": -0.05529748648405075,
+          "w": 0.9979366660118103
+        },
+        "speed": 0,
+        "hulls": 8
+      }
+    ]
+  }
+]

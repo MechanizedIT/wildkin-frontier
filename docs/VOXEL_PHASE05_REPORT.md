@@ -1,5 +1,9 @@
 # Phase 0.5A cellular rock — isolated architecture proof
 
+## September 23 Phase 0.5A.2 collision follow-up — HOLD
+
+The [new staged investigation](VOXEL_PHASE05A2_REPORT.md) reproduces the 2.8555 m cut and 2.4518 m child errors, reconstructs the tight eight-sector initial support failure, and compares three occupied-region convex cluster methods. None passes the full chain inside eight hulls. Expanded surface rays and real player capsule/controller probes confirm further proxy defects, including weaknesses in the old initial actor that the narrow gate misses. The owner-required Stage 1 STOP applies: no new impact/stress/fracture mechanic was integrated. Source and extracted-ZIP native mining/rejected-edit/reload regressions pass; owner authorized commit/push. Prior results below remain historical.
+
 ## September 23 Phase 0.5A.1 remnant and shatter investigation — HOLD
 
 **Gate: HOLD.** The 1.5 m rock field can shorten the original spires through local thickness conditioning, and consumed rock can produce bounded temporary Rapier shards without changing the exact reward ledger. The current four-hull retained actor collider fails a broader visible-surface test after the conditioned cuts. A representative child has a **2.45 m** proxy/surface error; the source and extracted ZIP browser run find a **2.86 m** error on an earlier actor cut. Those edits now stop before persistence or product publication. No tree, dirt, shipping migration, new scalar resolution or new mesher was attempted.

@@ -1,5 +1,9 @@
 # Resume Wildkin Frontier
 
+## September 23 Phase 0.5A.2 — collision prerequisite still HOLD
+
+Read [the Phase 0.5A.2 report](VOXEL_PHASE05A2_REPORT.md) first. The newly authorized staged fracture experiment stops at its explicit Stage 1 gate: three occupied-region collider alternatives still fail the named cut within the eight-hull limit. The new collision inspector is opt-in and changes no mining runtime or saves. Existing native world/rotated-actor mining, rejected-cut rollback and literal reload are rechecked in source and extracted ZIP. No impact damage, stress propagation or new fracture event is implemented. Owner explicitly requested commit and push for this checkpoint; await owner review and fresh direction after closure. Older no-push entries below describe their historical sessions, not this authorized delivery.
+
 ## September 23 Phase 0.5A.1 — collider HOLD
 
 The latest owner instruction authorized rock remnant cleanup and localized shattering only in the isolated lab. Read [the updated Phase 0.5 report](VOXEL_PHASE05_REPORT.md), current slice and Git before resuming. A bounded thickness conditioner shortens the old spires and a separate four-body transient shard pool animates consumed rock while preserving exact ledger ownership. Matched fracture-scale visuals and source/extracted-ZIP browser proof are recorded. A stricter visible-mesh/Rapier audit rejects the conditioned actor edit at a 2.86 m proxy gap before persistence; the previous actor and rewards reload unchanged. **Phase 0.5A.1 is HOLD.** Do not treat the old full-chain proof as a pass for the current candidate, expand collider budgets, change scalar spacing, begin tree/dirt, migrate shipping code or push without fresh owner direction.

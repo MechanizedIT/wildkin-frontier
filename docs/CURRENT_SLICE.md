@@ -1,5 +1,9 @@
 # Wildkin Frontier — current scope and checkpoint
 
+## Phase 0.5A.2 collision investigation — September 23, 2026
+
+**Collision HOLD; impact/stress/fracture HOLD, not implemented.** Fresh owner direction authorized the staged experiment and a commit/push. Stage 1 reproduces the 2.8555 m cut and 2.4518 m child errors. Three occupancy-derived convex-cluster alternatives remain unsafe within eight hulls; tight eight-sector reconstruction also loses initial actor support. Expanded rays, actual player capsule/controller probes, rotated/rebased actors and source/extracted-ZIP native Mine/rejected-edit/reload evidence retain the HOLD. No candidate is installed in runtime; no damage mechanic is built over the blocker. [Full Stage 1 report, inspector and evidence](VOXEL_PHASE05A2_REPORT.md). Stop for owner review; do not resume later fracture stages, tree/dirt, production migration or the historical habitat queue automatically. The separate phone HOLD remains.
+
 ## Phase 0.5A.1 rock remnant and shatter checkpoint — September 23, 2026
 
 **HOLD for owner review.** The current isolated rock candidate removes orphan scalar corners, trims local thin remnant groups, fractures a narrow connection earlier, and partitions consumed material into bounded temporary physical shards with exact one-time reward accounting. Matched 1.5/2/2.5 m comparisons retain 1.5 m as the provisional fracture scale, with Surface Nets, 16³ chunks and 0.5 m samples unchanged. A wider real Rapier/visible-mesh ray audit found a 2.45 m child-collider error and a 2.86 m error on an earlier actor cut. The new preparation gate rejects that edit before save/publication; source and extracted-ZIP browser receipts prove the existing actor/rewards survive and reload. [Diagnosis, matched images and measurements](VOXEL_PHASE05_REPORT.md).

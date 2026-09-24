@@ -1,0 +1,189 @@
+{
+  "timestamp": "2026-09-23T20:12:36.452Z",
+  "base": "http://localhost:8098/lab/voxel/rock-collision-study.html",
+  "browser": "Edge headless / SwiftShader",
+  "views": [
+    {
+      "ready": true,
+      "fixture": "initial-detached",
+      "method": "eight-sector-tight",
+      "audit": {
+        "compared": 48,
+        "maxGap": null,
+        "worst": {
+          "start": [
+            -5,
+            4.25,
+            0
+          ],
+          "direction": [
+            1,
+            0,
+            0
+          ],
+          "visible": 3.174179792404175,
+          "proxy": null
+        },
+        "passes": false
+      },
+      "file": "initial-detached-eight-sector-tight.png"
+    },
+    {
+      "ready": true,
+      "fixture": "initial-detached",
+      "method": "occupancy-median",
+      "audit": {
+        "compared": 48,
+        "maxGap": 0.0473895558555677,
+        "worst": {
+          "start": [
+            -0.5,
+            2.75,
+            5
+          ],
+          "direction": [
+            0,
+            0,
+            -1
+          ],
+          "visible": 3.5524943360527113,
+          "proxy": 3.5051047801971436
+        },
+        "passes": true
+      },
+      "file": "initial-detached-occupancy-median.png"
+    },
+    {
+      "ready": true,
+      "fixture": "central-cut-2",
+      "method": "four-sector",
+      "audit": {
+        "compared": 48,
+        "maxGap": 2.8555065506701487,
+        "worst": {
+          "start": [
+            0,
+            3.5,
+            -5
+          ],
+          "direction": [
+            0,
+            0,
+            1
+          ],
+          "visible": 6.03478230178404,
+          "proxy": 3.1792757511138916
+        },
+        "passes": false
+      },
+      "file": "central-cut-2-four-sector.png"
+    },
+    {
+      "ready": true,
+      "fixture": "central-cut-2",
+      "method": "occupancy-median",
+      "audit": {
+        "compared": 48,
+        "maxGap": 2.854052197337629,
+        "worst": {
+          "start": [
+            0,
+            3.5,
+            -5
+          ],
+          "direction": [
+            0,
+            0,
+            1
+          ],
+          "visible": 6.03478230178404,
+          "proxy": 3.180730104446411
+        },
+        "passes": false
+      },
+      "file": "central-cut-2-occupancy-median.png"
+    },
+    {
+      "ready": true,
+      "fixture": "central-cut-2",
+      "method": "occupancy-voronoi",
+      "audit": {
+        "compared": 48,
+        "maxGap": 2.8969894760851878,
+        "worst": {
+          "start": [
+            0,
+            3.5,
+            -5
+          ],
+          "direction": [
+            0,
+            0,
+            1
+          ],
+          "visible": 6.03478230178404,
+          "proxy": 3.1377928256988525
+        },
+        "passes": false
+      },
+      "file": "central-cut-2-occupancy-voronoi.png"
+    },
+    {
+      "ready": true,
+      "fixture": "conditioned-child-0",
+      "method": "four-sector",
+      "audit": {
+        "compared": 22,
+        "maxGap": 2.451753472732574,
+        "worst": {
+          "start": [
+            -0.5,
+            4.25,
+            5
+          ],
+          "direction": [
+            0,
+            0,
+            -1
+          ],
+          "visible": 5.840810393737823,
+          "proxy": 3.389056921005249
+        },
+        "passes": false
+      },
+      "file": "conditioned-child-0-four-sector.png"
+    },
+    {
+      "ready": true,
+      "fixture": "conditioned-child-0",
+      "method": "occupancy-median",
+      "audit": {
+        "compared": 22,
+        "maxGap": 0.42430368947601593,
+        "worst": {
+          "start": [
+            5,
+            4.25,
+            0.5
+          ],
+          "direction": [
+            -1,
+            0,
+            0
+          ],
+          "visible": 6.2780014662704495,
+          "proxy": 5.853697776794434
+        },
+        "passes": true
+      },
+      "file": "conditioned-child-0-occupancy-median.png"
+    }
+  ],
+  "viewport": {
+    "width": 844,
+    "scrollWidth": 844
+  },
+  "errors": [],
+  "external": [],
+  "pass": true
+}
