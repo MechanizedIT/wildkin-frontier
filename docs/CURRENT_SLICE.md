@@ -1,5 +1,9 @@
 # Wildkin Frontier — current scope and checkpoint
 
+## Phase 0.5A.3 native voxel collision experiment — September 24, 2026
+
+**HOLD; STOP for owner review.** Fresh authorization from pushed `ef900a9` covers only this bounded collision experiment. Verified native Rapier 0.20.0 voxels at 0.25/0.5 m fail the unchanged surface/player gates and pass through the actual lab static terrain/trimesh, including CCD. The cuboid-floor and existing-hull terrain controls work. One actual connected-fragment fallback also fails; 16/24/32 are tested ceilings, with no unsafe merges admitted to force a count. The isolated inspector exposes these candidates; mining/ownership/save/publication, visible Surface Nets / 16³ / 0.5 m / 1.5 m cells, shipping code and persistent budgets remain unchanged. Intended small-chip mining plus separate stress and occasional structural splits is documented only. [Report and evidence](VOXEL_PHASE05A3_REPORT.md). Await owner review; no further collision search, stress/fracture gameplay, tree/dirt, migration or push.
+
 ## Phase 0.5A.2 collision investigation — September 23, 2026
 
 **Collision HOLD; impact/stress/fracture HOLD, not implemented.** Fresh owner direction authorized the staged experiment and a commit/push. Stage 1 reproduces the 2.8555 m cut and 2.4518 m child errors. Three occupancy-derived convex-cluster alternatives remain unsafe within eight hulls; tight eight-sector reconstruction also loses initial actor support. Expanded rays, actual player capsule/controller probes, rotated/rebased actors and source/extracted-ZIP native Mine/rejected-edit/reload evidence retain the HOLD. No candidate is installed in runtime; no damage mechanic is built over the blocker. [Full Stage 1 report, inspector and evidence](VOXEL_PHASE05A2_REPORT.md). Stop for owner review; do not resume later fracture stages, tree/dirt, production migration or the historical habitat queue automatically. The separate phone HOLD remains.

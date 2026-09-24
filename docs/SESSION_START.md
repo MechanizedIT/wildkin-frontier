@@ -1,5 +1,9 @@
 # Resume Wildkin Frontier
 
+## September 24 Phase 0.5A.3 — bounded experiment closed HOLD
+
+Read [the Phase 0.5A.3 report](VOXEL_PHASE05A3_REPORT.md). The native voxel API is verified in vendored Rapier 0.20.0, but 0.25/0.5 m collider candidates fail both gameplay shape gates and dynamic contact with the lab static terrain/trimesh. The sole connected-fragment fallback does not pass under the requested ceilings. No candidate is installed in gameplay; stress/fracture remains unimplemented. Source/package inspector and mining/HOLD/reload checks preserve the old build. This request authorizes a local main commit and STOP, not a push or further production.
+
 ## September 23 Phase 0.5A.2 — collision prerequisite still HOLD
 
 Read [the Phase 0.5A.2 report](VOXEL_PHASE05A2_REPORT.md) first. The newly authorized staged fracture experiment stops at its explicit Stage 1 gate: three occupied-region collider alternatives still fail the named cut within the eight-hull limit. The new collision inspector is opt-in and changes no mining runtime or saves. Existing native world/rotated-actor mining, rejected-cut rollback and literal reload are rechecked in source and extracted ZIP. No impact damage, stress propagation or new fracture event is implemented. Owner explicitly requested commit and push for this checkpoint; await owner review and fresh direction after closure. Older no-push entries below describe their historical sessions, not this authorized delivery.

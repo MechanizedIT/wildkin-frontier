@@ -1,5 +1,9 @@
 # Phase 0.5A cellular rock — isolated architecture proof
 
+## September 24 Phase 0.5A.3 native voxel collider study — HOLD
+
+The [bounded native voxel experiment](VOXEL_PHASE05A3_REPORT.md) verifies the exact installed Rapier 0.20.0 API and derives 0.25 m physics cells directly from authoritative occupied subparcels, with a conservative 0.5 m control. Both fail the existing surface/capsule/controller gates and dynamic contact with the actual static lab terrain/trimesh; cuboid-floor controls work. One measured connected-fragment hull fallback also fails. No representation is adopted, no visual mesher/resolution or material ownership is changed, and no stress/fracture gameplay is implemented. The future small-chip/separate-stress/occasional-split policy is documented only. **Stop for owner review.**
+
 ## September 23 Phase 0.5A.2 collision follow-up — HOLD
 
 The [new staged investigation](VOXEL_PHASE05A2_REPORT.md) reproduces the 2.8555 m cut and 2.4518 m child errors, reconstructs the tight eight-sector initial support failure, and compares three occupied-region convex cluster methods. None passes the full chain inside eight hulls. Expanded surface rays and real player capsule/controller probes confirm further proxy defects, including weaknesses in the old initial actor that the narrow gate misses. The owner-required Stage 1 STOP applies: no new impact/stress/fracture mechanic was integrated. Source and extracted-ZIP native mining/rejected-edit/reload regressions pass; owner authorized commit/push. Prior results below remain historical.

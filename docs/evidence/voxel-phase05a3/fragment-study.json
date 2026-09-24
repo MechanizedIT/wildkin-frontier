@@ -1,0 +1,4207 @@
+{
+  "timestamp": "2026-09-24T05:56:27.749Z",
+  "decision": "HOLD",
+  "scope": "One connected-fracture-fragment method; 16/24/32 ceilings. Over-ceiling raw compounds are diagnostics, never admitted runtime actors.",
+  "rows": [
+    {
+      "fixture": "initial-detached",
+      "fragmentCount": 41,
+      "plannedMs": 709.9560999999999,
+      "totalMs": 1516.3240999999998,
+      "inputBytes": 21768,
+      "initial": {
+        "legacy": {
+          "compared": 48,
+          "maxGap": 0.03088010464062485,
+          "worst": {
+            "start": [
+              5,
+              5,
+              0.5
+            ],
+            "direction": [
+              -1,
+              0,
+              0
+            ],
+            "visible": 3.459318984409668,
+            "proxy": 3.490199089050293
+          },
+          "passes": true
+        },
+        "audit": {
+          "rays": 1600,
+          "compared": 1100,
+          "falseSolidRays": 5,
+          "missingSupportRays": 4,
+          "maxEarly": 0.5958227216478238,
+          "maxLate": 2.1474228662805444,
+          "worst": {
+            "start": [
+              -1.5,
+              4.5,
+              -3.0069079399108887
+            ],
+            "direction": [
+              0,
+              0,
+              1
+            ],
+            "visible": 1.8760046201391334,
+            "proxy": 4.023427486419678,
+            "gap": 2.1474228662805444
+          }
+        },
+        "playerProfiles": [
+          {
+            "profile": "phase0-lab",
+            "halfHeight": 0.5,
+            "radius": 0.3,
+            "casts": 120,
+            "compared": 120,
+            "falseSolid": 0,
+            "missingSupport": 0,
+            "maxEarly": 0.022434234619140625,
+            "maxLate": 0.036688804626464844,
+            "worst": {
+              "start": [
+                5,
+                2.5,
+                1
+              ],
+              "direction": [
+                -1,
+                0,
+                0
+              ],
+              "expected": 3.2792983055114746,
+              "actual": 3.3159871101379395,
+              "gap": 0.036688804626464844
+            },
+            "characterController": {
+              "proxyTravel": 3.2874608039855957,
+              "visibleTravel": 3.254004716873169
+            },
+            "steppedCharacterController": {
+              "proxy": {
+                "ticks": 100,
+                "travel": 3.2874817848205566,
+                "end": {
+                  "x": 1.7125182151794434,
+                  "y": 2.5,
+                  "z": 1
+                }
+              },
+              "visible": {
+                "ticks": 100,
+                "travel": 3.2540260553359985,
+                "end": {
+                  "x": 1.7459739446640015,
+                  "y": 2.5,
+                  "z": 1
+                }
+              }
+            }
+          },
+          {
+            "profile": "shipping-player",
+            "halfHeight": 0.2,
+            "radius": 0.32,
+            "casts": 120,
+            "compared": 120,
+            "falseSolid": 0,
+            "missingSupport": 0,
+            "maxEarly": 0.021055221557617188,
+            "maxLate": 0.06400299072265625,
+            "worst": {
+              "start": [
+                -0.5,
+                2.5,
+                -5
+              ],
+              "direction": [
+                0,
+                0,
+                1
+              ],
+              "expected": 3.1625452041625977,
+              "actual": 3.226548194885254,
+              "gap": 0.06400299072265625
+            },
+            "characterController": {
+              "proxyTravel": 3.1960878372192383,
+              "visibleTravel": 3.1371822357177734
+            },
+            "steppedCharacterController": {
+              "proxy": {
+                "ticks": 100,
+                "travel": 3.196104407310486,
+                "end": {
+                  "x": -0.5,
+                  "y": 2.5,
+                  "z": -1.8038955926895142
+                }
+              },
+              "visible": {
+                "ticks": 100,
+                "travel": 3.1372082233428955,
+                "end": {
+                  "x": -0.5,
+                  "y": 2.5,
+                  "z": -1.8627917766571045
+                }
+              }
+            }
+          }
+        ],
+        "namedRecessRay": {
+          "start": [
+            0,
+            3.5,
+            -5
+          ],
+          "direction": [
+            0,
+            0,
+            1
+          ],
+          "visible": 3.084349295767345,
+          "proxy": 3.0843491554260254,
+          "gap": 1.4034131945450667e-7
+        },
+        "passes": false
+      },
+      "mergeAttempts": [
+        {
+          "from": 41,
+          "to": 40,
+          "ids": [
+            "rock:9212026:v1:-1,3,-2,0/connected-2",
+            "rock:9212026:v1:0,3,-1,0/connected-3"
+          ],
+          "passes": false,
+          "legacy": {
+            "compared": 48,
+            "maxGap": 0.03088010464062485,
+            "worst": {
+              "start": [
+                5,
+                5,
+                0.5
+              ],
+              "direction": [
+                -1,
+                0,
+                0
+              ],
+              "visible": 3.459318984409668,
+              "proxy": 3.490199089050293
+            },
+            "passes": true
+          },
+          "audit": {
+            "rays": 1600,
+            "compared": 1100,
+            "falseSolidRays": 5,
+            "missingSupportRays": 4,
+            "maxEarly": 0.5958227216478238,
+            "maxLate": 2.1474228662805444,
+            "worst": {
+              "start": [
+                -1.5,
+                4.5,
+                -3.0069079399108887
+              ],
+              "direction": [
+                0,
+                0,
+                1
+              ],
+              "visible": 1.8760046201391334,
+              "proxy": 4.023427486419678,
+              "gap": 2.1474228662805444
+            }
+          },
+          "playerProfiles": [
+            {
+              "profile": "phase0-lab",
+              "halfHeight": 0.5,
+              "radius": 0.3,
+              "casts": 120,
+              "compared": 120,
+              "falseSolid": 0,
+              "missingSupport": 0,
+              "maxEarly": 0.022434234619140625,
+              "maxLate": 0.036688804626464844,
+              "worst": {
+                "start": [
+                  5,
+                  2.5,
+                  1
+                ],
+                "direction": [
+                  -1,
+                  0,
+                  0
+                ],
+                "expected": 3.2792983055114746,
+                "actual": 3.3159871101379395,
+                "gap": 0.036688804626464844
+              },
+              "characterController": {
+                "proxyTravel": 3.2874608039855957,
+                "visibleTravel": 3.254004716873169
+              },
+              "steppedCharacterController": {
+                "proxy": {
+                  "ticks": 100,
+                  "travel": 3.2874817848205566,
+                  "end": {
+                    "x": 1.7125182151794434,
+                    "y": 2.5,
+                    "z": 1
+                  }
+                },
+                "visible": {
+                  "ticks": 100,
+                  "travel": 3.2540260553359985,
+                  "end": {
+                    "x": 1.7459739446640015,
+                    "y": 2.5,
+                    "z": 1
+                  }
+                }
+              }
+            },
+            {
+              "profile": "shipping-player",
+              "halfHeight": 0.2,
+              "radius": 0.32,
+              "casts": 120,
+              "compared": 120,
+              "falseSolid": 0,
+              "missingSupport": 0,
+              "maxEarly": 0.021055221557617188,
+              "maxLate": 0.06400299072265625,
+              "worst": {
+                "start": [
+                  -0.5,
+                  2.5,
+                  -5
+                ],
+                "direction": [
+                  0,
+                  0,
+                  1
+                ],
+                "expected": 3.1625452041625977,
+                "actual": 3.226548194885254,
+                "gap": 0.06400299072265625
+              },
+              "characterController": {
+                "proxyTravel": 3.1960878372192383,
+                "visibleTravel": 3.1371822357177734
+              },
+              "steppedCharacterController": {
+                "proxy": {
+                  "ticks": 100,
+                  "travel": 3.196104407310486,
+                  "end": {
+                    "x": -0.5,
+                    "y": 2.5,
+                    "z": -1.8038955926895142
+                  }
+                },
+                "visible": {
+                  "ticks": 100,
+                  "travel": 3.1372082233428955,
+                  "end": {
+                    "x": -0.5,
+                    "y": 2.5,
+                    "z": -1.8627917766571045
+                  }
+                }
+              }
+            }
+          ]
+        }
+      ],
+      "comparisons": [
+        {
+          "cap": 16,
+          "actualHulls": 41,
+          "withinBudget": false,
+          "passes": false,
+          "status": "HOLD",
+          "reason": "Cannot reach cap through a gate-passing adjacent merge"
+        },
+        {
+          "cap": 24,
+          "actualHulls": 41,
+          "withinBudget": false,
+          "passes": false,
+          "status": "HOLD",
+          "reason": "Cannot reach cap through a gate-passing adjacent merge"
+        },
+        {
+          "cap": 32,
+          "actualHulls": 41,
+          "withinBudget": false,
+          "passes": false,
+          "status": "HOLD",
+          "reason": "Cannot reach cap through a gate-passing adjacent merge"
+        }
+      ]
+    },
+    {
+      "fixture": "bitten-detached",
+      "fragmentCount": 42,
+      "plannedMs": 630.8611999999998,
+      "totalMs": 1319.6694000000002,
+      "inputBytes": 22380,
+      "initial": {
+        "legacy": {
+          "compared": 48,
+          "maxGap": 0.44203552161838644,
+          "worst": {
+            "start": [
+              0.5,
+              4.25,
+              -5
+            ],
+            "direction": [
+              0,
+              0,
+              1
+            ],
+            "visible": 3.7692950621762478,
+            "proxy": 3.3272595405578613
+          },
+          "passes": true
+        },
+        "audit": {
+          "rays": 1600,
+          "compared": 1094,
+          "falseSolidRays": 4,
+          "missingSupportRays": 4,
+          "maxEarly": 0.8716411293474136,
+          "maxLate": 1.9890725713931292,
+          "worst": {
+            "start": [
+              -1.5,
+              4.75,
+              -3.0069079399108887
+            ],
+            "direction": [
+              0,
+              0,
+              1
+            ],
+            "visible": 1.9296228784359724,
+            "proxy": 3.9186954498291016,
+            "gap": 1.9890725713931292
+          }
+        },
+        "playerProfiles": [
+          {
+            "profile": "phase0-lab",
+            "halfHeight": 0.5,
+            "radius": 0.3,
+            "casts": 120,
+            "compared": 120,
+            "falseSolid": 0,
+            "missingSupport": 0,
+            "maxEarly": 0.20441699028015137,
+            "maxLate": 0.036688804626464844,
+            "worst": {
+              "start": [
+                0.5,
+                4.5,
+                -5
+              ],
+              "direction": [
+                0,
+                0,
+                1
+              ],
+              "expected": 3.1373584270477295,
+              "actual": 2.932941436767578,
+              "gap": 0.20441699028015137
+            },
+            "characterController": {
+              "proxyTravel": 2.9092721939086914,
+              "visibleTravel": 3.116374969482422
+            },
+            "steppedCharacterController": {
+              "proxy": {
+                "ticks": 100,
+                "travel": 2.9092884063720703,
+                "end": {
+                  "x": 0.5,
+                  "y": 4.5,
+                  "z": -2.0907115936279297
+                }
+              },
+              "visible": {
+                "ticks": 100,
+                "travel": 3.1163790225982666,
+                "end": {
+                  "x": 0.5,
+                  "y": 4.5,
+                  "z": -1.8836209774017334
+                }
+              }
+            }
+          },
+          {
+            "profile": "shipping-player",
+            "halfHeight": 0.2,
+            "radius": 0.32,
+            "casts": 120,
+            "compared": 120,
+            "falseSolid": 0,
+            "missingSupport": 0,
+            "maxEarly": 0.2418808937072754,
+            "maxLate": 0.047739505767822266,
+            "worst": {
+              "start": [
+                1,
+                4.5,
+                -5
+              ],
+              "direction": [
+                0,
+                0,
+                1
+              ],
+              "expected": 3.5129456520080566,
+              "actual": 3.2710647583007812,
+              "gap": 0.2418808937072754
+            },
+            "characterController": {
+              "proxyTravel": 3.2470874786376953,
+              "visibleTravel": 3.4876906871795654
+            },
+            "steppedCharacterController": {
+              "proxy": {
+                "ticks": 100,
+                "travel": 3.2470903396606445,
+                "end": {
+                  "x": 1,
+                  "y": 4.5,
+                  "z": -1.7529096603393555
+                }
+              },
+              "visible": {
+                "ticks": 100,
+                "travel": 3.4877175092697144,
+                "end": {
+                  "x": 1,
+                  "y": 4.5,
+                  "z": -1.5122824907302856
+                }
+              }
+            }
+          }
+        ],
+        "namedRecessRay": {
+          "start": [
+            0,
+            3.5,
+            -5
+          ],
+          "direction": [
+            0,
+            0,
+            1
+          ],
+          "visible": 3.156615992363013,
+          "proxy": 3.156615972518921,
+          "gap": 1.984409214728089e-8
+        },
+        "passes": false
+      },
+      "mergeAttempts": [
+        {
+          "from": 42,
+          "to": 41,
+          "ids": [
+            "rock:9212026:v1:0,2,1,0/connected-25",
+            "rock:9212026:v1:-1,2,1,0/connected-30"
+          ],
+          "passes": false,
+          "legacy": {
+            "compared": 48,
+            "maxGap": 0.44203552161838644,
+            "worst": {
+              "start": [
+                0.5,
+                4.25,
+                -5
+              ],
+              "direction": [
+                0,
+                0,
+                1
+              ],
+              "visible": 3.7692950621762478,
+              "proxy": 3.3272595405578613
+            },
+            "passes": true
+          },
+          "audit": {
+            "rays": 1600,
+            "compared": 1094,
+            "falseSolidRays": 4,
+            "missingSupportRays": 4,
+            "maxEarly": 0.8716411293474136,
+            "maxLate": 1.9890725713931292,
+            "worst": {
+              "start": [
+                -1.5,
+                4.75,
+                -3.0069079399108887
+              ],
+              "direction": [
+                0,
+                0,
+                1
+              ],
+              "visible": 1.9296228784359724,
+              "proxy": 3.9186954498291016,
+              "gap": 1.9890725713931292
+            }
+          },
+          "playerProfiles": [
+            {
+              "profile": "phase0-lab",
+              "halfHeight": 0.5,
+              "radius": 0.3,
+              "casts": 120,
+              "compared": 120,
+              "falseSolid": 0,
+              "missingSupport": 0,
+              "maxEarly": 0.20441699028015137,
+              "maxLate": 0.036688804626464844,
+              "worst": {
+                "start": [
+                  0.5,
+                  4.5,
+                  -5
+                ],
+                "direction": [
+                  0,
+                  0,
+                  1
+                ],
+                "expected": 3.1373584270477295,
+                "actual": 2.932941436767578,
+                "gap": 0.20441699028015137
+              },
+              "characterController": {
+                "proxyTravel": 2.9092721939086914,
+                "visibleTravel": 3.116374969482422
+              },
+              "steppedCharacterController": {
+                "proxy": {
+                  "ticks": 100,
+                  "travel": 2.9092884063720703,
+                  "end": {
+                    "x": 0.5,
+                    "y": 4.5,
+                    "z": -2.0907115936279297
+                  }
+                },
+                "visible": {
+                  "ticks": 100,
+                  "travel": 3.1163790225982666,
+                  "end": {
+                    "x": 0.5,
+                    "y": 4.5,
+                    "z": -1.8836209774017334
+                  }
+                }
+              }
+            },
+            {
+              "profile": "shipping-player",
+              "halfHeight": 0.2,
+              "radius": 0.32,
+              "casts": 120,
+              "compared": 120,
+              "falseSolid": 0,
+              "missingSupport": 0,
+              "maxEarly": 0.2418808937072754,
+              "maxLate": 0.047739505767822266,
+              "worst": {
+                "start": [
+                  1,
+                  4.5,
+                  -5
+                ],
+                "direction": [
+                  0,
+                  0,
+                  1
+                ],
+                "expected": 3.5129456520080566,
+                "actual": 3.2710647583007812,
+                "gap": 0.2418808937072754
+              },
+              "characterController": {
+                "proxyTravel": 3.2470874786376953,
+                "visibleTravel": 3.4876906871795654
+              },
+              "steppedCharacterController": {
+                "proxy": {
+                  "ticks": 100,
+                  "travel": 3.2470903396606445,
+                  "end": {
+                    "x": 1,
+                    "y": 4.5,
+                    "z": -1.7529096603393555
+                  }
+                },
+                "visible": {
+                  "ticks": 100,
+                  "travel": 3.4877175092697144,
+                  "end": {
+                    "x": 1,
+                    "y": 4.5,
+                    "z": -1.5122824907302856
+                  }
+                }
+              }
+            }
+          ]
+        }
+      ],
+      "comparisons": [
+        {
+          "cap": 16,
+          "actualHulls": 42,
+          "withinBudget": false,
+          "passes": false,
+          "status": "HOLD",
+          "reason": "Cannot reach cap through a gate-passing adjacent merge"
+        },
+        {
+          "cap": 24,
+          "actualHulls": 42,
+          "withinBudget": false,
+          "passes": false,
+          "status": "HOLD",
+          "reason": "Cannot reach cap through a gate-passing adjacent merge"
+        },
+        {
+          "cap": 32,
+          "actualHulls": 42,
+          "withinBudget": false,
+          "passes": false,
+          "status": "HOLD",
+          "reason": "Cannot reach cap through a gate-passing adjacent merge"
+        }
+      ]
+    },
+    {
+      "fixture": "secondary-notch",
+      "fragmentCount": 45,
+      "plannedMs": 668.2502000000004,
+      "totalMs": 1465.4930000000004,
+      "inputBytes": 22380,
+      "initial": {
+        "legacy": {
+          "compared": 48,
+          "maxGap": 0.40457829391147726,
+          "worst": {
+            "start": [
+              0.5,
+              4.25,
+              -5
+            ],
+            "direction": [
+              0,
+              0,
+              1
+            ],
+            "visible": 3.7692950621762478,
+            "proxy": 3.3647167682647705
+          },
+          "passes": true
+        },
+        "audit": {
+          "rays": 1600,
+          "compared": 1076,
+          "falseSolidRays": 8,
+          "missingSupportRays": 4,
+          "maxEarly": 1.267636374046773,
+          "maxLate": 1.9890725713931292,
+          "worst": {
+            "start": [
+              -1.5,
+              4.75,
+              -3.0069079399108887
+            ],
+            "direction": [
+              0,
+              0,
+              1
+            ],
+            "visible": 1.9296228784359724,
+            "proxy": 3.9186954498291016,
+            "gap": 1.9890725713931292
+          }
+        },
+        "playerProfiles": [
+          {
+            "profile": "phase0-lab",
+            "halfHeight": 0.5,
+            "radius": 0.3,
+            "casts": 120,
+            "compared": 120,
+            "falseSolid": 0,
+            "missingSupport": 0,
+            "maxEarly": 0.1798851490020752,
+            "maxLate": 0.04746580123901367,
+            "worst": {
+              "start": [
+                0.5,
+                4.5,
+                -5
+              ],
+              "direction": [
+                0,
+                0,
+                1
+              ],
+              "expected": 3.1373584270477295,
+              "actual": 2.9574732780456543,
+              "gap": 0.1798851490020752
+            },
+            "characterController": {
+              "proxyTravel": 2.9325382709503174,
+              "visibleTravel": 3.116374969482422
+            },
+            "steppedCharacterController": {
+              "proxy": {
+                "ticks": 100,
+                "travel": 2.932600736618042,
+                "end": {
+                  "x": 0.5,
+                  "y": 4.5,
+                  "z": -2.067399263381958
+                }
+              },
+              "visible": {
+                "ticks": 100,
+                "travel": 3.1163790225982666,
+                "end": {
+                  "x": 0.5,
+                  "y": 4.5,
+                  "z": -1.8836209774017334
+                }
+              }
+            }
+          },
+          {
+            "profile": "shipping-player",
+            "halfHeight": 0.2,
+            "radius": 0.32,
+            "casts": 120,
+            "compared": 120,
+            "falseSolid": 0,
+            "missingSupport": 0,
+            "maxEarly": 0.1890103816986084,
+            "maxLate": 0.04982113838195801,
+            "worst": {
+              "start": [
+                0.5,
+                4.5,
+                -5
+              ],
+              "direction": [
+                0,
+                0,
+                1
+              ],
+              "expected": 3.1593973636627197,
+              "actual": 2.9703869819641113,
+              "gap": 0.1890103816986084
+            },
+            "characterController": {
+              "proxyTravel": 2.945342779159546,
+              "visibleTravel": 3.133528232574463
+            },
+            "steppedCharacterController": {
+              "proxy": {
+                "ticks": 100,
+                "travel": 2.945357322692871,
+                "end": {
+                  "x": 0.5,
+                  "y": 4.5,
+                  "z": -2.054642677307129
+                }
+              },
+              "visible": {
+                "ticks": 100,
+                "travel": 3.133540153503418,
+                "end": {
+                  "x": 0.5,
+                  "y": 4.5,
+                  "z": -1.866459846496582
+                }
+              }
+            }
+          }
+        ],
+        "namedRecessRay": {
+          "start": [
+            0,
+            3.5,
+            -5
+          ],
+          "direction": [
+            0,
+            0,
+            1
+          ],
+          "visible": 3.156615992363013,
+          "proxy": 3.156615972518921,
+          "gap": 1.984409214728089e-8
+        },
+        "passes": false
+      },
+      "mergeAttempts": [
+        {
+          "from": 45,
+          "to": 44,
+          "ids": [
+            "rock:9212026:v1:0,2,1,0/connected-25",
+            "rock:9212026:v1:-1,2,1,0/connected-30"
+          ],
+          "passes": false,
+          "legacy": {
+            "compared": 48,
+            "maxGap": 0.40457829391147726,
+            "worst": {
+              "start": [
+                0.5,
+                4.25,
+                -5
+              ],
+              "direction": [
+                0,
+                0,
+                1
+              ],
+              "visible": 3.7692950621762478,
+              "proxy": 3.3647167682647705
+            },
+            "passes": true
+          },
+          "audit": {
+            "rays": 1600,
+            "compared": 1076,
+            "falseSolidRays": 8,
+            "missingSupportRays": 4,
+            "maxEarly": 1.267636374046773,
+            "maxLate": 1.9890725713931292,
+            "worst": {
+              "start": [
+                -1.5,
+                4.75,
+                -3.0069079399108887
+              ],
+              "direction": [
+                0,
+                0,
+                1
+              ],
+              "visible": 1.9296228784359724,
+              "proxy": 3.9186954498291016,
+              "gap": 1.9890725713931292
+            }
+          },
+          "playerProfiles": [
+            {
+              "profile": "phase0-lab",
+              "halfHeight": 0.5,
+              "radius": 0.3,
+              "casts": 120,
+              "compared": 120,
+              "falseSolid": 0,
+              "missingSupport": 0,
+              "maxEarly": 0.1798851490020752,
+              "maxLate": 0.04746580123901367,
+              "worst": {
+                "start": [
+                  0.5,
+                  4.5,
+                  -5
+                ],
+                "direction": [
+                  0,
+                  0,
+                  1
+                ],
+                "expected": 3.1373584270477295,
+                "actual": 2.9574732780456543,
+                "gap": 0.1798851490020752
+              },
+              "characterController": {
+                "proxyTravel": 2.9325382709503174,
+                "visibleTravel": 3.116374969482422
+              },
+              "steppedCharacterController": {
+                "proxy": {
+                  "ticks": 100,
+                  "travel": 2.932600736618042,
+                  "end": {
+                    "x": 0.5,
+                    "y": 4.5,
+                    "z": -2.067399263381958
+                  }
+                },
+                "visible": {
+                  "ticks": 100,
+                  "travel": 3.1163790225982666,
+                  "end": {
+                    "x": 0.5,
+                    "y": 4.5,
+                    "z": -1.8836209774017334
+                  }
+                }
+              }
+            },
+            {
+              "profile": "shipping-player",
+              "halfHeight": 0.2,
+              "radius": 0.32,
+              "casts": 120,
+              "compared": 120,
+              "falseSolid": 0,
+              "missingSupport": 0,
+              "maxEarly": 0.1890103816986084,
+              "maxLate": 0.04982113838195801,
+              "worst": {
+                "start": [
+                  0.5,
+                  4.5,
+                  -5
+                ],
+                "direction": [
+                  0,
+                  0,
+                  1
+                ],
+                "expected": 3.1593973636627197,
+                "actual": 2.9703869819641113,
+                "gap": 0.1890103816986084
+              },
+              "characterController": {
+                "proxyTravel": 2.945342779159546,
+                "visibleTravel": 3.133528232574463
+              },
+              "steppedCharacterController": {
+                "proxy": {
+                  "ticks": 100,
+                  "travel": 2.945357322692871,
+                  "end": {
+                    "x": 0.5,
+                    "y": 4.5,
+                    "z": -2.054642677307129
+                  }
+                },
+                "visible": {
+                  "ticks": 100,
+                  "travel": 3.133540153503418,
+                  "end": {
+                    "x": 0.5,
+                    "y": 4.5,
+                    "z": -1.866459846496582
+                  }
+                }
+              }
+            }
+          ]
+        }
+      ],
+      "comparisons": [
+        {
+          "cap": 16,
+          "actualHulls": 45,
+          "withinBudget": false,
+          "passes": false,
+          "status": "HOLD",
+          "reason": "Cannot reach cap through a gate-passing adjacent merge"
+        },
+        {
+          "cap": 24,
+          "actualHulls": 45,
+          "withinBudget": false,
+          "passes": false,
+          "status": "HOLD",
+          "reason": "Cannot reach cap through a gate-passing adjacent merge"
+        },
+        {
+          "cap": 32,
+          "actualHulls": 45,
+          "withinBudget": false,
+          "passes": false,
+          "status": "HOLD",
+          "reason": "Cannot reach cap through a gate-passing adjacent merge"
+        }
+      ]
+    },
+    {
+      "fixture": "central-cut-1",
+      "fragmentCount": 50,
+      "plannedMs": 860.5474999999997,
+      "totalMs": 1674.7491,
+      "inputBytes": 24036,
+      "initial": {
+        "legacy": {
+          "compared": 48,
+          "maxGap": 0.40457829391147726,
+          "worst": {
+            "start": [
+              0.5,
+              4.25,
+              -5
+            ],
+            "direction": [
+              0,
+              0,
+              1
+            ],
+            "visible": 3.7692950621762478,
+            "proxy": 3.3647167682647705
+          },
+          "passes": true
+        },
+        "audit": {
+          "rays": 1600,
+          "compared": 1076,
+          "falseSolidRays": 8,
+          "missingSupportRays": 4,
+          "maxEarly": 1.267636374046773,
+          "maxLate": 0.506112776383457,
+          "worst": {
+            "start": [
+              1.25,
+              6.977639675140381,
+              -1
+            ],
+            "direction": [
+              0,
+              -1,
+              0
+            ],
+            "visible": 3.0768230710529987,
+            "proxy": 1.8091866970062256,
+            "gap": 1.267636374046773
+          }
+        },
+        "playerProfiles": [
+          {
+            "profile": "phase0-lab",
+            "halfHeight": 0.5,
+            "radius": 0.3,
+            "casts": 120,
+            "compared": 120,
+            "falseSolid": 0,
+            "missingSupport": 0,
+            "maxEarly": 0.1798851490020752,
+            "maxLate": 0.06455874443054199,
+            "worst": {
+              "start": [
+                0.5,
+                4.5,
+                -5
+              ],
+              "direction": [
+                0,
+                0,
+                1
+              ],
+              "expected": 3.1373584270477295,
+              "actual": 2.9574732780456543,
+              "gap": 0.1798851490020752
+            },
+            "characterController": {
+              "proxyTravel": 2.9325382709503174,
+              "visibleTravel": 3.116374969482422
+            },
+            "steppedCharacterController": {
+              "proxy": {
+                "ticks": 100,
+                "travel": 2.932600736618042,
+                "end": {
+                  "x": 0.5,
+                  "y": 4.5,
+                  "z": -2.067399263381958
+                }
+              },
+              "visible": {
+                "ticks": 100,
+                "travel": 3.1163790225982666,
+                "end": {
+                  "x": 0.5,
+                  "y": 4.5,
+                  "z": -1.8836209774017334
+                }
+              }
+            }
+          },
+          {
+            "profile": "shipping-player",
+            "halfHeight": 0.2,
+            "radius": 0.32,
+            "casts": 120,
+            "compared": 120,
+            "falseSolid": 0,
+            "missingSupport": 0,
+            "maxEarly": 0.1890103816986084,
+            "maxLate": 0.06496763229370117,
+            "worst": {
+              "start": [
+                0.5,
+                4.5,
+                -5
+              ],
+              "direction": [
+                0,
+                0,
+                1
+              ],
+              "expected": 3.1593973636627197,
+              "actual": 2.9703869819641113,
+              "gap": 0.1890103816986084
+            },
+            "characterController": {
+              "proxyTravel": 2.945342779159546,
+              "visibleTravel": 3.133528232574463
+            },
+            "steppedCharacterController": {
+              "proxy": {
+                "ticks": 100,
+                "travel": 2.945357322692871,
+                "end": {
+                  "x": 0.5,
+                  "y": 4.5,
+                  "z": -2.054642677307129
+                }
+              },
+              "visible": {
+                "ticks": 100,
+                "travel": 3.133540153503418,
+                "end": {
+                  "x": 0.5,
+                  "y": 4.5,
+                  "z": -1.866459846496582
+                }
+              }
+            }
+          }
+        ],
+        "namedRecessRay": {
+          "start": [
+            0,
+            3.5,
+            -5
+          ],
+          "direction": [
+            0,
+            0,
+            1
+          ],
+          "visible": 3.156615992363013,
+          "proxy": 3.156615972518921,
+          "gap": 1.984409214728089e-8
+        },
+        "passes": false
+      },
+      "mergeAttempts": [
+        {
+          "from": 50,
+          "to": 49,
+          "ids": [
+            "rock:9212026:v1:-1,2,-1,0/connected-18",
+            "rock:9212026:v1:-1,2,-1,0/connected-28"
+          ],
+          "passes": false,
+          "legacy": {
+            "compared": 48,
+            "maxGap": 0.40457829391147726,
+            "worst": {
+              "start": [
+                0.5,
+                4.25,
+                -5
+              ],
+              "direction": [
+                0,
+                0,
+                1
+              ],
+              "visible": 3.7692950621762478,
+              "proxy": 3.3647167682647705
+            },
+            "passes": true
+          },
+          "audit": {
+            "rays": 1600,
+            "compared": 1076,
+            "falseSolidRays": 8,
+            "missingSupportRays": 4,
+            "maxEarly": 1.267636374046773,
+            "maxLate": 0.506112776383457,
+            "worst": {
+              "start": [
+                1.25,
+                6.977639675140381,
+                -1
+              ],
+              "direction": [
+                0,
+                -1,
+                0
+              ],
+              "visible": 3.0768230710529987,
+              "proxy": 1.8091866970062256,
+              "gap": 1.267636374046773
+            }
+          },
+          "playerProfiles": [
+            {
+              "profile": "phase0-lab",
+              "halfHeight": 0.5,
+              "radius": 0.3,
+              "casts": 120,
+              "compared": 120,
+              "falseSolid": 0,
+              "missingSupport": 0,
+              "maxEarly": 0.1798851490020752,
+              "maxLate": 0.06455874443054199,
+              "worst": {
+                "start": [
+                  0.5,
+                  4.5,
+                  -5
+                ],
+                "direction": [
+                  0,
+                  0,
+                  1
+                ],
+                "expected": 3.1373584270477295,
+                "actual": 2.9574732780456543,
+                "gap": 0.1798851490020752
+              },
+              "characterController": {
+                "proxyTravel": 2.9325382709503174,
+                "visibleTravel": 3.116374969482422
+              },
+              "steppedCharacterController": {
+                "proxy": {
+                  "ticks": 100,
+                  "travel": 2.932600736618042,
+                  "end": {
+                    "x": 0.5,
+                    "y": 4.5,
+                    "z": -2.067399263381958
+                  }
+                },
+                "visible": {
+                  "ticks": 100,
+                  "travel": 3.1163790225982666,
+                  "end": {
+                    "x": 0.5,
+                    "y": 4.5,
+                    "z": -1.8836209774017334
+                  }
+                }
+              }
+            },
+            {
+              "profile": "shipping-player",
+              "halfHeight": 0.2,
+              "radius": 0.32,
+              "casts": 120,
+              "compared": 120,
+              "falseSolid": 0,
+              "missingSupport": 0,
+              "maxEarly": 0.1890103816986084,
+              "maxLate": 0.06496763229370117,
+              "worst": {
+                "start": [
+                  0.5,
+                  4.5,
+                  -5
+                ],
+                "direction": [
+                  0,
+                  0,
+                  1
+                ],
+                "expected": 3.1593973636627197,
+                "actual": 2.9703869819641113,
+                "gap": 0.1890103816986084
+              },
+              "characterController": {
+                "proxyTravel": 2.945342779159546,
+                "visibleTravel": 3.133528232574463
+              },
+              "steppedCharacterController": {
+                "proxy": {
+                  "ticks": 100,
+                  "travel": 2.945357322692871,
+                  "end": {
+                    "x": 0.5,
+                    "y": 4.5,
+                    "z": -2.054642677307129
+                  }
+                },
+                "visible": {
+                  "ticks": 100,
+                  "travel": 3.133540153503418,
+                  "end": {
+                    "x": 0.5,
+                    "y": 4.5,
+                    "z": -1.866459846496582
+                  }
+                }
+              }
+            }
+          ]
+        }
+      ],
+      "comparisons": [
+        {
+          "cap": 16,
+          "actualHulls": 50,
+          "withinBudget": false,
+          "passes": false,
+          "status": "HOLD",
+          "reason": "Cannot reach cap through a gate-passing adjacent merge"
+        },
+        {
+          "cap": 24,
+          "actualHulls": 50,
+          "withinBudget": false,
+          "passes": false,
+          "status": "HOLD",
+          "reason": "Cannot reach cap through a gate-passing adjacent merge"
+        },
+        {
+          "cap": 32,
+          "actualHulls": 50,
+          "withinBudget": false,
+          "passes": false,
+          "status": "HOLD",
+          "reason": "Cannot reach cap through a gate-passing adjacent merge"
+        }
+      ]
+    },
+    {
+      "fixture": "central-cut-2",
+      "fragmentCount": 50,
+      "plannedMs": 742.0035999999991,
+      "totalMs": 1599.3468000000003,
+      "inputBytes": 22968,
+      "initial": {
+        "legacy": {
+          "compared": 48,
+          "maxGap": 1.9469399602539523,
+          "worst": {
+            "start": [
+              5,
+              4.25,
+              -0.5
+            ],
+            "direction": [
+              -1,
+              0,
+              0
+            ],
+            "visible": 5.841409459841965,
+            "proxy": 3.8944694995880127
+          },
+          "passes": false
+        },
+        "audit": {
+          "rays": 1600,
+          "compared": 1058,
+          "falseSolidRays": 14,
+          "missingSupportRays": 6,
+          "maxEarly": 2.1751148483918943,
+          "maxLate": 1.394384648547148,
+          "worst": {
+            "start": [
+              0,
+              1.1722853183746338,
+              -0.25
+            ],
+            "direction": [
+              0,
+              1,
+              0
+            ],
+            "visible": 3.3537273190187253,
+            "proxy": 1.178612470626831,
+            "gap": 2.1751148483918943
+          }
+        },
+        "playerProfiles": [
+          {
+            "profile": "phase0-lab",
+            "halfHeight": 0.5,
+            "radius": 0.3,
+            "casts": 120,
+            "compared": 120,
+            "falseSolid": 0,
+            "missingSupport": 0,
+            "maxEarly": 0.9436120986938477,
+            "maxLate": 0.18578863143920898,
+            "worst": {
+              "start": [
+                0.5,
+                3.5,
+                -5
+              ],
+              "direction": [
+                0,
+                0,
+                1
+              ],
+              "expected": 4.526105880737305,
+              "actual": 3.582493782043457,
+              "gap": 0.9436120986938477
+            },
+            "characterController": {
+              "proxyTravel": 3.5195188522338867,
+              "visibleTravel": 4.495911121368408
+            },
+            "steppedCharacterController": {
+              "proxy": {
+                "ticks": 100,
+                "travel": 3.5195471048355103,
+                "end": {
+                  "x": 0.5,
+                  "y": 3.5,
+                  "z": -1.4804528951644897
+                }
+              },
+              "visible": {
+                "ticks": 100,
+                "travel": 4.4959253668785095,
+                "end": {
+                  "x": 0.5,
+                  "y": 3.5,
+                  "z": -0.5040746331214905
+                }
+              }
+            }
+          },
+          {
+            "profile": "shipping-player",
+            "halfHeight": 0.2,
+            "radius": 0.32,
+            "casts": 120,
+            "compared": 120,
+            "falseSolid": 0,
+            "missingSupport": 0,
+            "maxEarly": 0.8764801025390625,
+            "maxLate": 0.18877458572387695,
+            "worst": {
+              "start": [
+                5,
+                3.5,
+                -1
+              ],
+              "direction": [
+                -1,
+                0,
+                0
+              ],
+              "expected": 4.937939167022705,
+              "actual": 4.061459064483643,
+              "gap": 0.8764801025390625
+            },
+            "characterController": {
+              "proxyTravel": 4.018129348754883,
+              "visibleTravel": 4.917385578155518
+            },
+            "steppedCharacterController": {
+              "proxy": {
+                "ticks": 100,
+                "travel": 4.018374145030975,
+                "end": {
+                  "x": 0.9816258549690247,
+                  "y": 3.5,
+                  "z": -1
+                }
+              },
+              "visible": {
+                "ticks": 100,
+                "travel": 4.917396657168865,
+                "end": {
+                  "x": 0.0826033428311348,
+                  "y": 3.5,
+                  "z": -1
+                }
+              }
+            }
+          }
+        ],
+        "namedRecessRay": {
+          "start": [
+            0,
+            3.5,
+            -5
+          ],
+          "direction": [
+            0,
+            0,
+            1
+          ],
+          "visible": 6.03478230178404,
+          "proxy": 4.178807735443115,
+          "gap": 1.855974566340925
+        },
+        "passes": false
+      },
+      "mergeAttempts": [
+        {
+          "from": 50,
+          "to": 49,
+          "ids": [
+            "rock:9212026:v1:-1,1,0,0/connected-22",
+            "rock:9212026:v1:-1,2,0,0/connected-25"
+          ],
+          "passes": false,
+          "legacy": {
+            "compared": 48,
+            "maxGap": 1.9469399602539523,
+            "worst": {
+              "start": [
+                5,
+                4.25,
+                -0.5
+              ],
+              "direction": [
+                -1,
+                0,
+                0
+              ],
+              "visible": 5.841409459841965,
+              "proxy": 3.8944694995880127
+            },
+            "passes": false
+          },
+          "audit": {
+            "rays": 1600,
+            "compared": 1058,
+            "falseSolidRays": 14,
+            "missingSupportRays": 6,
+            "maxEarly": 2.1751148483918943,
+            "maxLate": 1.394384648547148,
+            "worst": {
+              "start": [
+                0,
+                1.1722853183746338,
+                -0.25
+              ],
+              "direction": [
+                0,
+                1,
+                0
+              ],
+              "visible": 3.3537273190187253,
+              "proxy": 1.178612470626831,
+              "gap": 2.1751148483918943
+            }
+          },
+          "playerProfiles": [
+            {
+              "profile": "phase0-lab",
+              "halfHeight": 0.5,
+              "radius": 0.3,
+              "casts": 120,
+              "compared": 120,
+              "falseSolid": 0,
+              "missingSupport": 0,
+              "maxEarly": 0.9436120986938477,
+              "maxLate": 0.18578863143920898,
+              "worst": {
+                "start": [
+                  0.5,
+                  3.5,
+                  -5
+                ],
+                "direction": [
+                  0,
+                  0,
+                  1
+                ],
+                "expected": 4.526105880737305,
+                "actual": 3.582493782043457,
+                "gap": 0.9436120986938477
+              },
+              "characterController": {
+                "proxyTravel": 3.5195188522338867,
+                "visibleTravel": 4.495911121368408
+              },
+              "steppedCharacterController": {
+                "proxy": {
+                  "ticks": 100,
+                  "travel": 3.5195471048355103,
+                  "end": {
+                    "x": 0.5,
+                    "y": 3.5,
+                    "z": -1.4804528951644897
+                  }
+                },
+                "visible": {
+                  "ticks": 100,
+                  "travel": 4.4959253668785095,
+                  "end": {
+                    "x": 0.5,
+                    "y": 3.5,
+                    "z": -0.5040746331214905
+                  }
+                }
+              }
+            },
+            {
+              "profile": "shipping-player",
+              "halfHeight": 0.2,
+              "radius": 0.32,
+              "casts": 120,
+              "compared": 120,
+              "falseSolid": 0,
+              "missingSupport": 0,
+              "maxEarly": 0.8764801025390625,
+              "maxLate": 0.18877458572387695,
+              "worst": {
+                "start": [
+                  5,
+                  3.5,
+                  -1
+                ],
+                "direction": [
+                  -1,
+                  0,
+                  0
+                ],
+                "expected": 4.937939167022705,
+                "actual": 4.061459064483643,
+                "gap": 0.8764801025390625
+              },
+              "characterController": {
+                "proxyTravel": 4.018129348754883,
+                "visibleTravel": 4.917385578155518
+              },
+              "steppedCharacterController": {
+                "proxy": {
+                  "ticks": 100,
+                  "travel": 4.018374145030975,
+                  "end": {
+                    "x": 0.9816258549690247,
+                    "y": 3.5,
+                    "z": -1
+                  }
+                },
+                "visible": {
+                  "ticks": 100,
+                  "travel": 4.917396657168865,
+                  "end": {
+                    "x": 0.0826033428311348,
+                    "y": 3.5,
+                    "z": -1
+                  }
+                }
+              }
+            }
+          ]
+        }
+      ],
+      "comparisons": [
+        {
+          "cap": 16,
+          "actualHulls": 50,
+          "withinBudget": false,
+          "passes": false,
+          "status": "HOLD",
+          "reason": "Cannot reach cap through a gate-passing adjacent merge"
+        },
+        {
+          "cap": 24,
+          "actualHulls": 50,
+          "withinBudget": false,
+          "passes": false,
+          "status": "HOLD",
+          "reason": "Cannot reach cap through a gate-passing adjacent merge"
+        },
+        {
+          "cap": 32,
+          "actualHulls": 50,
+          "withinBudget": false,
+          "passes": false,
+          "status": "HOLD",
+          "reason": "Cannot reach cap through a gate-passing adjacent merge"
+        }
+      ]
+    },
+    {
+      "fixture": "central-cut-3",
+      "fragmentCount": 47,
+      "plannedMs": 686.1154999999999,
+      "totalMs": 1497.3140000000003,
+      "inputBytes": 21756,
+      "initial": {
+        "legacy": {
+          "compared": 44,
+          "maxGap": 2.367069830713903,
+          "worst": {
+            "start": [
+              5,
+              3.5,
+              -0.5
+            ],
+            "direction": [
+              -1,
+              0,
+              0
+            ],
+            "visible": 6.2570577762705435,
+            "proxy": 3.8899879455566406
+          },
+          "passes": false
+        },
+        "audit": {
+          "rays": 1534,
+          "compared": 992,
+          "falseSolidRays": 20,
+          "missingSupportRays": 10,
+          "maxEarly": 2.5274161486513753,
+          "maxLate": 0.6652274131774902,
+          "worst": {
+            "start": [
+              2.8018312454223633,
+              3,
+              -0.5
+            ],
+            "direction": [
+              -1,
+              0,
+              0
+            ],
+            "visible": 4.281125107277169,
+            "proxy": 1.7537089586257935,
+            "gap": 2.5274161486513753
+          }
+        },
+        "playerProfiles": [
+          {
+            "profile": "phase0-lab",
+            "halfHeight": 0.5,
+            "radius": 0.3,
+            "casts": 120,
+            "compared": 118,
+            "falseSolid": 2,
+            "missingSupport": 0,
+            "maxEarly": 2.211163282394409,
+            "maxLate": 0.04629111289978027,
+            "worst": {
+              "start": [
+                0,
+                3,
+                -5
+              ],
+              "direction": [
+                0,
+                0,
+                1
+              ],
+              "expected": 5.160239219665527,
+              "actual": 2.949075937271118,
+              "gap": 2.211163282394409
+            },
+            "characterController": {
+              "proxyTravel": 2.910853862762451,
+              "visibleTravel": 3.1543140411376953
+            },
+            "steppedCharacterController": {
+              "proxy": {
+                "ticks": 100,
+                "travel": 2.910860061645508,
+                "end": {
+                  "x": 0,
+                  "y": 3,
+                  "z": -2.089139938354492
+                }
+              },
+              "visible": {
+                "ticks": 100,
+                "travel": 3.154465436935425,
+                "end": {
+                  "x": 0,
+                  "y": 3,
+                  "z": -1.8455345630645752
+                }
+              }
+            }
+          },
+          {
+            "profile": "shipping-player",
+            "halfHeight": 0.2,
+            "radius": 0.32,
+            "casts": 120,
+            "compared": 118,
+            "falseSolid": 0,
+            "missingSupport": 0,
+            "maxEarly": 2.0159053802490234,
+            "maxLate": 0.11718225479125977,
+            "worst": {
+              "start": [
+                -5,
+                3,
+                0
+              ],
+              "direction": [
+                1,
+                0,
+                0
+              ],
+              "expected": 5.115817070007324,
+              "actual": 3.099911689758301,
+              "gap": 2.0159053802490234
+            },
+            "characterController": {
+              "proxyTravel": 3.079291820526123,
+              "visibleTravel": 5.087331295013428
+            },
+            "steppedCharacterController": {
+              "proxy": {
+                "ticks": 100,
+                "travel": 3.0792973041534424,
+                "end": {
+                  "x": -1.9207026958465576,
+                  "y": 3,
+                  "z": 0
+                }
+              },
+              "visible": {
+                "ticks": 100,
+                "travel": 5.087346941232681,
+                "end": {
+                  "x": 0.08734694123268127,
+                  "y": 3,
+                  "z": 0
+                }
+              }
+            }
+          }
+        ],
+        "namedRecessRay": {
+          "start": [
+            0,
+            3.5,
+            -5
+          ],
+          "direction": [
+            0,
+            0,
+            1
+          ],
+          "visible": 6.036336168271488,
+          "proxy": 4.24593448638916,
+          "gap": 1.7904016818823276
+        },
+        "passes": false
+      },
+      "mergeAttempts": [
+        {
+          "from": 47,
+          "to": 46,
+          "ids": [
+            "rock:9212026:v1:0,2,1,0/connected-26",
+            "rock:9212026:v1:-1,2,0,0/connected-27"
+          ],
+          "passes": false,
+          "legacy": {
+            "compared": 44,
+            "maxGap": 2.367069830713903,
+            "worst": {
+              "start": [
+                5,
+                3.5,
+                -0.5
+              ],
+              "direction": [
+                -1,
+                0,
+                0
+              ],
+              "visible": 6.2570577762705435,
+              "proxy": 3.8899879455566406
+            },
+            "passes": false
+          },
+          "audit": {
+            "rays": 1534,
+            "compared": 992,
+            "falseSolidRays": 20,
+            "missingSupportRays": 10,
+            "maxEarly": 2.5274161486513753,
+            "maxLate": 0.6652274131774902,
+            "worst": {
+              "start": [
+                2.8018312454223633,
+                3,
+                -0.5
+              ],
+              "direction": [
+                -1,
+                0,
+                0
+              ],
+              "visible": 4.281125107277169,
+              "proxy": 1.7537089586257935,
+              "gap": 2.5274161486513753
+            }
+          },
+          "playerProfiles": [
+            {
+              "profile": "phase0-lab",
+              "halfHeight": 0.5,
+              "radius": 0.3,
+              "casts": 120,
+              "compared": 118,
+              "falseSolid": 2,
+              "missingSupport": 0,
+              "maxEarly": 2.2112033367156982,
+              "maxLate": 0.04629111289978027,
+              "worst": {
+                "start": [
+                  0,
+                  3,
+                  -5
+                ],
+                "direction": [
+                  0,
+                  0,
+                  1
+                ],
+                "expected": 5.160239219665527,
+                "actual": 2.949035882949829,
+                "gap": 2.2112033367156982
+              },
+              "characterController": {
+                "proxyTravel": 2.9108355045318604,
+                "visibleTravel": 3.1543140411376953
+              },
+              "steppedCharacterController": {
+                "proxy": {
+                  "ticks": 100,
+                  "travel": 2.9108848571777344,
+                  "end": {
+                    "x": 0,
+                    "y": 3,
+                    "z": -2.0891151428222656
+                  }
+                },
+                "visible": {
+                  "ticks": 100,
+                  "travel": 3.154465436935425,
+                  "end": {
+                    "x": 0,
+                    "y": 3,
+                    "z": -1.8455345630645752
+                  }
+                }
+              }
+            },
+            {
+              "profile": "shipping-player",
+              "halfHeight": 0.2,
+              "radius": 0.32,
+              "casts": 120,
+              "compared": 118,
+              "falseSolid": 0,
+              "missingSupport": 0,
+              "maxEarly": 2.0159053802490234,
+              "maxLate": 0.11718225479125977,
+              "worst": {
+                "start": [
+                  -5,
+                  3,
+                  0
+                ],
+                "direction": [
+                  1,
+                  0,
+                  0
+                ],
+                "expected": 5.115817070007324,
+                "actual": 3.099911689758301,
+                "gap": 2.0159053802490234
+              },
+              "characterController": {
+                "proxyTravel": 3.079291820526123,
+                "visibleTravel": 5.087331295013428
+              },
+              "steppedCharacterController": {
+                "proxy": {
+                  "ticks": 100,
+                  "travel": 3.0792973041534424,
+                  "end": {
+                    "x": -1.9207026958465576,
+                    "y": 3,
+                    "z": 0
+                  }
+                },
+                "visible": {
+                  "ticks": 100,
+                  "travel": 5.087346941232681,
+                  "end": {
+                    "x": 0.08734694123268127,
+                    "y": 3,
+                    "z": 0
+                  }
+                }
+              }
+            }
+          ]
+        }
+      ],
+      "comparisons": [
+        {
+          "cap": 16,
+          "actualHulls": 47,
+          "withinBudget": false,
+          "passes": false,
+          "status": "HOLD",
+          "reason": "Cannot reach cap through a gate-passing adjacent merge"
+        },
+        {
+          "cap": 24,
+          "actualHulls": 47,
+          "withinBudget": false,
+          "passes": false,
+          "status": "HOLD",
+          "reason": "Cannot reach cap through a gate-passing adjacent merge"
+        },
+        {
+          "cap": 32,
+          "actualHulls": 47,
+          "withinBudget": false,
+          "passes": false,
+          "status": "HOLD",
+          "reason": "Cannot reach cap through a gate-passing adjacent merge"
+        }
+      ]
+    },
+    {
+      "fixture": "central-cut-4",
+      "fragmentCount": 45,
+      "plannedMs": 618.6886999999988,
+      "totalMs": 1230.1216999999997,
+      "inputBytes": 21084,
+      "initial": {
+        "legacy": {
+          "compared": 44,
+          "maxGap": 2.601341066351499,
+          "worst": {
+            "start": [
+              0,
+              4.25,
+              5
+            ],
+            "direction": [
+              0,
+              0,
+              -1
+            ],
+            "visible": 5.813294944754209,
+            "proxy": 3.21195387840271
+          },
+          "passes": false
+        },
+        "audit": {
+          "rays": 1534,
+          "compared": 934,
+          "falseSolidRays": 40,
+          "missingSupportRays": 8,
+          "maxEarly": 3.735623386700894,
+          "maxLate": 2.3681204933397,
+          "worst": {
+            "start": [
+              0,
+              4,
+              2.874843120574951
+            ],
+            "direction": [
+              0,
+              0,
+              -1
+            ],
+            "visible": 4.73546656688049,
+            "proxy": 0.999843180179596,
+            "gap": 3.735623386700894
+          }
+        },
+        "playerProfiles": [
+          {
+            "profile": "phase0-lab",
+            "halfHeight": 0.5,
+            "radius": 0.3,
+            "casts": 120,
+            "compared": 118,
+            "falseSolid": 2,
+            "missingSupport": 0,
+            "maxEarly": 2.211163282394409,
+            "maxLate": 0.08656930923461914,
+            "worst": {
+              "start": [
+                0,
+                3,
+                -5
+              ],
+              "direction": [
+                0,
+                0,
+                1
+              ],
+              "expected": 5.160239219665527,
+              "actual": 2.949075937271118,
+              "gap": 2.211163282394409
+            },
+            "characterController": {
+              "proxyTravel": 2.910853862762451,
+              "visibleTravel": 3.1543140411376953
+            },
+            "steppedCharacterController": {
+              "proxy": {
+                "ticks": 100,
+                "travel": 2.910860061645508,
+                "end": {
+                  "x": 0,
+                  "y": 3,
+                  "z": -2.089139938354492
+                }
+              },
+              "visible": {
+                "ticks": 100,
+                "travel": 3.154465436935425,
+                "end": {
+                  "x": 0,
+                  "y": 3,
+                  "z": -1.8455345630645752
+                }
+              }
+            }
+          },
+          {
+            "profile": "shipping-player",
+            "halfHeight": 0.2,
+            "radius": 0.32,
+            "casts": 120,
+            "compared": 116,
+            "falseSolid": 0,
+            "missingSupport": 0,
+            "maxEarly": 1.9403462409973145,
+            "maxLate": 0.10062766075134277,
+            "worst": {
+              "start": [
+                -5,
+                3,
+                0
+              ],
+              "direction": [
+                1,
+                0,
+                0
+              ],
+              "expected": 5.115817070007324,
+              "actual": 3.1754708290100098,
+              "gap": 1.9403462409973145
+            },
+            "characterController": {
+              "proxyTravel": 3.151874303817749,
+              "visibleTravel": 5.087331295013428
+            },
+            "steppedCharacterController": {
+              "proxy": {
+                "ticks": 100,
+                "travel": 3.152143120765686,
+                "end": {
+                  "x": -1.847856879234314,
+                  "y": 3,
+                  "z": 0
+                }
+              },
+              "visible": {
+                "ticks": 100,
+                "travel": 5.087346941232681,
+                "end": {
+                  "x": 0.08734694123268127,
+                  "y": 3,
+                  "z": 0
+                }
+              }
+            }
+          }
+        ],
+        "namedRecessRay": {
+          "start": [
+            0,
+            3.5,
+            -5
+          ],
+          "direction": [
+            0,
+            0,
+            1
+          ],
+          "visible": 6.068769013196725,
+          "proxy": 5.796799659729004,
+          "gap": 0.2719693534677212
+        },
+        "passes": false
+      },
+      "mergeAttempts": [
+        {
+          "from": 45,
+          "to": 44,
+          "ids": [
+            "rock:9212026:v1:0,2,1,0/connected-23",
+            "rock:9212026:v1:-1,2,0,0/connected-24"
+          ],
+          "passes": false,
+          "legacy": {
+            "compared": 44,
+            "maxGap": 2.601341066351499,
+            "worst": {
+              "start": [
+                0,
+                4.25,
+                5
+              ],
+              "direction": [
+                0,
+                0,
+                -1
+              ],
+              "visible": 5.813294944754209,
+              "proxy": 3.21195387840271
+            },
+            "passes": false
+          },
+          "audit": {
+            "rays": 1534,
+            "compared": 934,
+            "falseSolidRays": 40,
+            "missingSupportRays": 8,
+            "maxEarly": 3.735623386700894,
+            "maxLate": 2.3681204933397,
+            "worst": {
+              "start": [
+                0,
+                4,
+                2.874843120574951
+              ],
+              "direction": [
+                0,
+                0,
+                -1
+              ],
+              "visible": 4.73546656688049,
+              "proxy": 0.999843180179596,
+              "gap": 3.735623386700894
+            }
+          },
+          "playerProfiles": [
+            {
+              "profile": "phase0-lab",
+              "halfHeight": 0.5,
+              "radius": 0.3,
+              "casts": 120,
+              "compared": 118,
+              "falseSolid": 2,
+              "missingSupport": 0,
+              "maxEarly": 2.2112033367156982,
+              "maxLate": 0.08656930923461914,
+              "worst": {
+                "start": [
+                  0,
+                  3,
+                  -5
+                ],
+                "direction": [
+                  0,
+                  0,
+                  1
+                ],
+                "expected": 5.160239219665527,
+                "actual": 2.949035882949829,
+                "gap": 2.2112033367156982
+              },
+              "characterController": {
+                "proxyTravel": 2.9108355045318604,
+                "visibleTravel": 3.1543140411376953
+              },
+              "steppedCharacterController": {
+                "proxy": {
+                  "ticks": 100,
+                  "travel": 2.9108848571777344,
+                  "end": {
+                    "x": 0,
+                    "y": 3,
+                    "z": -2.0891151428222656
+                  }
+                },
+                "visible": {
+                  "ticks": 100,
+                  "travel": 3.154465436935425,
+                  "end": {
+                    "x": 0,
+                    "y": 3,
+                    "z": -1.8455345630645752
+                  }
+                }
+              }
+            },
+            {
+              "profile": "shipping-player",
+              "halfHeight": 0.2,
+              "radius": 0.32,
+              "casts": 120,
+              "compared": 116,
+              "falseSolid": 0,
+              "missingSupport": 0,
+              "maxEarly": 1.9403462409973145,
+              "maxLate": 0.10062766075134277,
+              "worst": {
+                "start": [
+                  -5,
+                  3,
+                  0
+                ],
+                "direction": [
+                  1,
+                  0,
+                  0
+                ],
+                "expected": 5.115817070007324,
+                "actual": 3.1754708290100098,
+                "gap": 1.9403462409973145
+              },
+              "characterController": {
+                "proxyTravel": 3.151874303817749,
+                "visibleTravel": 5.087331295013428
+              },
+              "steppedCharacterController": {
+                "proxy": {
+                  "ticks": 100,
+                  "travel": 3.152143120765686,
+                  "end": {
+                    "x": -1.847856879234314,
+                    "y": 3,
+                    "z": 0
+                  }
+                },
+                "visible": {
+                  "ticks": 100,
+                  "travel": 5.087346941232681,
+                  "end": {
+                    "x": 0.08734694123268127,
+                    "y": 3,
+                    "z": 0
+                  }
+                }
+              }
+            }
+          ]
+        }
+      ],
+      "comparisons": [
+        {
+          "cap": 16,
+          "actualHulls": 45,
+          "withinBudget": false,
+          "passes": false,
+          "status": "HOLD",
+          "reason": "Cannot reach cap through a gate-passing adjacent merge"
+        },
+        {
+          "cap": 24,
+          "actualHulls": 45,
+          "withinBudget": false,
+          "passes": false,
+          "status": "HOLD",
+          "reason": "Cannot reach cap through a gate-passing adjacent merge"
+        },
+        {
+          "cap": 32,
+          "actualHulls": 45,
+          "withinBudget": false,
+          "passes": false,
+          "status": "HOLD",
+          "reason": "Cannot reach cap through a gate-passing adjacent merge"
+        }
+      ]
+    },
+    {
+      "fixture": "central-cut-5",
+      "fragmentCount": 45,
+      "plannedMs": 456.04279999999926,
+      "totalMs": 1196.4375999999993,
+      "inputBytes": 19884,
+      "initial": {
+        "legacy": {
+          "compared": 40,
+          "maxGap": 2.340810393737823,
+          "worst": {
+            "start": [
+              -0.5,
+              4.25,
+              5
+            ],
+            "direction": [
+              0,
+              0,
+              -1
+            ],
+            "visible": 5.840810393737823,
+            "proxy": 3.5
+          },
+          "passes": false
+        },
+        "audit": {
+          "rays": 1472,
+          "compared": 858,
+          "falseSolidRays": 68,
+          "missingSupportRays": 4,
+          "maxEarly": 3.0278720032706827,
+          "maxLate": 2.390135111259622,
+          "worst": {
+            "start": [
+              -0.25,
+              4,
+              2.874843120574951
+            ],
+            "direction": [
+              0,
+              0,
+              -1
+            ],
+            "visible": 4.1146693598762125,
+            "proxy": 1.0867973566055298,
+            "gap": 3.0278720032706827
+          }
+        },
+        "playerProfiles": [
+          {
+            "profile": "phase0-lab",
+            "halfHeight": 0.5,
+            "radius": 0.3,
+            "casts": 120,
+            "compared": 118,
+            "falseSolid": 2,
+            "missingSupport": 0,
+            "maxEarly": 1.749129295349121,
+            "maxLate": 0.08656930923461914,
+            "worst": {
+              "start": [
+                -1,
+                2.5,
+                -5
+              ],
+              "direction": [
+                0,
+                0,
+                1
+              ],
+              "expected": 5.95862340927124,
+              "actual": 4.209494113922119,
+              "gap": 1.749129295349121
+            },
+            "characterController": {
+              "proxyTravel": 4.1107611656188965,
+              "visibleTravel": 5.898623943328857
+            },
+            "steppedCharacterController": {
+              "proxy": {
+                "ticks": 100,
+                "travel": 4.111118316650391,
+                "end": {
+                  "x": -1,
+                  "y": 2.5,
+                  "z": -0.8888816833496094
+                }
+              },
+              "visible": {
+                "ticks": 100,
+                "travel": 5.898971855640411,
+                "end": {
+                  "x": -1,
+                  "y": 2.5,
+                  "z": 0.8989718556404114
+                }
+              }
+            }
+          },
+          {
+            "profile": "shipping-player",
+            "halfHeight": 0.2,
+            "radius": 0.32,
+            "casts": 120,
+            "compared": 116,
+            "falseSolid": 0,
+            "missingSupport": 0,
+            "maxEarly": 1.9403462409973145,
+            "maxLate": 0.10062766075134277,
+            "worst": {
+              "start": [
+                -5,
+                3,
+                0
+              ],
+              "direction": [
+                1,
+                0,
+                0
+              ],
+              "expected": 5.115817070007324,
+              "actual": 3.1754708290100098,
+              "gap": 1.9403462409973145
+            },
+            "characterController": {
+              "proxyTravel": 3.151874303817749,
+              "visibleTravel": 5.087331295013428
+            },
+            "steppedCharacterController": {
+              "proxy": {
+                "ticks": 100,
+                "travel": 3.152143120765686,
+                "end": {
+                  "x": -1.847856879234314,
+                  "y": 3,
+                  "z": 0
+                }
+              },
+              "visible": {
+                "ticks": 100,
+                "travel": 5.087346941232681,
+                "end": {
+                  "x": 0.08734694123268127,
+                  "y": 3,
+                  "z": 0
+                }
+              }
+            }
+          }
+        ],
+        "namedRecessRay": {
+          "start": [
+            0,
+            3.5,
+            -5
+          ],
+          "direction": [
+            0,
+            0,
+            1
+          ],
+          "visible": 6.068769013196725,
+          "proxy": 5.796799659729004,
+          "gap": 0.2719693534677212
+        },
+        "passes": false
+      },
+      "mergeAttempts": [
+        {
+          "from": 45,
+          "to": 44,
+          "ids": [
+            "rock:9212026:v1:0,2,1,0/connected-23",
+            "rock:9212026:v1:-1,2,0,0/connected-24"
+          ],
+          "passes": false,
+          "legacy": {
+            "compared": 40,
+            "maxGap": 2.340810393737823,
+            "worst": {
+              "start": [
+                -0.5,
+                4.25,
+                5
+              ],
+              "direction": [
+                0,
+                0,
+                -1
+              ],
+              "visible": 5.840810393737823,
+              "proxy": 3.5
+            },
+            "passes": false
+          },
+          "audit": {
+            "rays": 1472,
+            "compared": 858,
+            "falseSolidRays": 68,
+            "missingSupportRays": 4,
+            "maxEarly": 3.0278720032706827,
+            "maxLate": 2.390135111259622,
+            "worst": {
+              "start": [
+                -0.25,
+                4,
+                2.874843120574951
+              ],
+              "direction": [
+                0,
+                0,
+                -1
+              ],
+              "visible": 4.1146693598762125,
+              "proxy": 1.0867973566055298,
+              "gap": 3.0278720032706827
+            }
+          },
+          "playerProfiles": [
+            {
+              "profile": "phase0-lab",
+              "halfHeight": 0.5,
+              "radius": 0.3,
+              "casts": 120,
+              "compared": 118,
+              "falseSolid": 2,
+              "missingSupport": 0,
+              "maxEarly": 1.749129295349121,
+              "maxLate": 0.08656930923461914,
+              "worst": {
+                "start": [
+                  -1,
+                  2.5,
+                  -5
+                ],
+                "direction": [
+                  0,
+                  0,
+                  1
+                ],
+                "expected": 5.95862340927124,
+                "actual": 4.209494113922119,
+                "gap": 1.749129295349121
+              },
+              "characterController": {
+                "proxyTravel": 4.1107611656188965,
+                "visibleTravel": 5.898623943328857
+              },
+              "steppedCharacterController": {
+                "proxy": {
+                  "ticks": 100,
+                  "travel": 4.111118316650391,
+                  "end": {
+                    "x": -1,
+                    "y": 2.5,
+                    "z": -0.8888816833496094
+                  }
+                },
+                "visible": {
+                  "ticks": 100,
+                  "travel": 5.898971855640411,
+                  "end": {
+                    "x": -1,
+                    "y": 2.5,
+                    "z": 0.8989718556404114
+                  }
+                }
+              }
+            },
+            {
+              "profile": "shipping-player",
+              "halfHeight": 0.2,
+              "radius": 0.32,
+              "casts": 120,
+              "compared": 116,
+              "falseSolid": 0,
+              "missingSupport": 0,
+              "maxEarly": 1.9403462409973145,
+              "maxLate": 0.10062766075134277,
+              "worst": {
+                "start": [
+                  -5,
+                  3,
+                  0
+                ],
+                "direction": [
+                  1,
+                  0,
+                  0
+                ],
+                "expected": 5.115817070007324,
+                "actual": 3.1754708290100098,
+                "gap": 1.9403462409973145
+              },
+              "characterController": {
+                "proxyTravel": 3.151874303817749,
+                "visibleTravel": 5.087331295013428
+              },
+              "steppedCharacterController": {
+                "proxy": {
+                  "ticks": 100,
+                  "travel": 3.152143120765686,
+                  "end": {
+                    "x": -1.847856879234314,
+                    "y": 3,
+                    "z": 0
+                  }
+                },
+                "visible": {
+                  "ticks": 100,
+                  "travel": 5.087346941232681,
+                  "end": {
+                    "x": 0.08734694123268127,
+                    "y": 3,
+                    "z": 0
+                  }
+                }
+              }
+            }
+          ]
+        }
+      ],
+      "comparisons": [
+        {
+          "cap": 16,
+          "actualHulls": 45,
+          "withinBudget": false,
+          "passes": false,
+          "status": "HOLD",
+          "reason": "Cannot reach cap through a gate-passing adjacent merge"
+        },
+        {
+          "cap": 24,
+          "actualHulls": 45,
+          "withinBudget": false,
+          "passes": false,
+          "status": "HOLD",
+          "reason": "Cannot reach cap through a gate-passing adjacent merge"
+        },
+        {
+          "cap": 32,
+          "actualHulls": 45,
+          "withinBudget": false,
+          "passes": false,
+          "status": "HOLD",
+          "reason": "Cannot reach cap through a gate-passing adjacent merge"
+        }
+      ]
+    },
+    {
+      "fixture": "central-cut-6",
+      "fragmentCount": 47,
+      "plannedMs": 448.2565000000013,
+      "totalMs": 1022.3280000000013,
+      "inputBytes": 19680,
+      "initial": {
+        "legacy": {
+          "compared": 40,
+          "maxGap": 2.340810393737823,
+          "worst": {
+            "start": [
+              -0.5,
+              4.25,
+              5
+            ],
+            "direction": [
+              0,
+              0,
+              -1
+            ],
+            "visible": 5.840810393737823,
+            "proxy": 3.5
+          },
+          "passes": false
+        },
+        "audit": {
+          "rays": 1472,
+          "compared": 830,
+          "falseSolidRays": 50,
+          "missingSupportRays": 4,
+          "maxEarly": 3.0278720032706827,
+          "maxLate": 2.390135111259622,
+          "worst": {
+            "start": [
+              -0.25,
+              4,
+              2.874843120574951
+            ],
+            "direction": [
+              0,
+              0,
+              -1
+            ],
+            "visible": 4.1146693598762125,
+            "proxy": 1.0867973566055298,
+            "gap": 3.0278720032706827
+          }
+        },
+        "playerProfiles": [
+          {
+            "profile": "phase0-lab",
+            "halfHeight": 0.5,
+            "radius": 0.3,
+            "casts": 120,
+            "compared": 118,
+            "falseSolid": 2,
+            "missingSupport": 0,
+            "maxEarly": 1.749129295349121,
+            "maxLate": 0.08656930923461914,
+            "worst": {
+              "start": [
+                -1,
+                2.5,
+                -5
+              ],
+              "direction": [
+                0,
+                0,
+                1
+              ],
+              "expected": 5.95862340927124,
+              "actual": 4.209494113922119,
+              "gap": 1.749129295349121
+            },
+            "characterController": {
+              "proxyTravel": 4.1107611656188965,
+              "visibleTravel": 5.898623943328857
+            },
+            "steppedCharacterController": {
+              "proxy": {
+                "ticks": 100,
+                "travel": 4.111118316650391,
+                "end": {
+                  "x": -1,
+                  "y": 2.5,
+                  "z": -0.8888816833496094
+                }
+              },
+              "visible": {
+                "ticks": 100,
+                "travel": 5.898971855640411,
+                "end": {
+                  "x": -1,
+                  "y": 2.5,
+                  "z": 0.8989718556404114
+                }
+              }
+            }
+          },
+          {
+            "profile": "shipping-player",
+            "halfHeight": 0.2,
+            "radius": 0.32,
+            "casts": 120,
+            "compared": 116,
+            "falseSolid": 0,
+            "missingSupport": 0,
+            "maxEarly": 1.9403462409973145,
+            "maxLate": 0.10062766075134277,
+            "worst": {
+              "start": [
+                -5,
+                3,
+                0
+              ],
+              "direction": [
+                1,
+                0,
+                0
+              ],
+              "expected": 5.115817070007324,
+              "actual": 3.1754708290100098,
+              "gap": 1.9403462409973145
+            },
+            "characterController": {
+              "proxyTravel": 3.151874303817749,
+              "visibleTravel": 5.087331295013428
+            },
+            "steppedCharacterController": {
+              "proxy": {
+                "ticks": 100,
+                "travel": 3.152143120765686,
+                "end": {
+                  "x": -1.847856879234314,
+                  "y": 3,
+                  "z": 0
+                }
+              },
+              "visible": {
+                "ticks": 100,
+                "travel": 5.087346941232681,
+                "end": {
+                  "x": 0.08734694123268127,
+                  "y": 3,
+                  "z": 0
+                }
+              }
+            }
+          }
+        ],
+        "namedRecessRay": {
+          "start": [
+            0,
+            3.5,
+            -5
+          ],
+          "direction": [
+            0,
+            0,
+            1
+          ],
+          "visible": 6.068769013196725,
+          "proxy": 5.796799659729004,
+          "gap": 0.2719693534677212
+        },
+        "passes": false
+      },
+      "mergeAttempts": [
+        {
+          "from": 47,
+          "to": 46,
+          "ids": [
+            "rock:9212026:v1:0,2,1,0/connected-23",
+            "rock:9212026:v1:-1,2,0,0/connected-24"
+          ],
+          "passes": false,
+          "legacy": {
+            "compared": 40,
+            "maxGap": 2.340810393737823,
+            "worst": {
+              "start": [
+                -0.5,
+                4.25,
+                5
+              ],
+              "direction": [
+                0,
+                0,
+                -1
+              ],
+              "visible": 5.840810393737823,
+              "proxy": 3.5
+            },
+            "passes": false
+          },
+          "audit": {
+            "rays": 1472,
+            "compared": 830,
+            "falseSolidRays": 50,
+            "missingSupportRays": 4,
+            "maxEarly": 3.0278720032706827,
+            "maxLate": 2.390135111259622,
+            "worst": {
+              "start": [
+                -0.25,
+                4,
+                2.874843120574951
+              ],
+              "direction": [
+                0,
+                0,
+                -1
+              ],
+              "visible": 4.1146693598762125,
+              "proxy": 1.0867973566055298,
+              "gap": 3.0278720032706827
+            }
+          },
+          "playerProfiles": [
+            {
+              "profile": "phase0-lab",
+              "halfHeight": 0.5,
+              "radius": 0.3,
+              "casts": 120,
+              "compared": 118,
+              "falseSolid": 2,
+              "missingSupport": 0,
+              "maxEarly": 1.749129295349121,
+              "maxLate": 0.08656930923461914,
+              "worst": {
+                "start": [
+                  -1,
+                  2.5,
+                  -5
+                ],
+                "direction": [
+                  0,
+                  0,
+                  1
+                ],
+                "expected": 5.95862340927124,
+                "actual": 4.209494113922119,
+                "gap": 1.749129295349121
+              },
+              "characterController": {
+                "proxyTravel": 4.1107611656188965,
+                "visibleTravel": 5.898623943328857
+              },
+              "steppedCharacterController": {
+                "proxy": {
+                  "ticks": 100,
+                  "travel": 4.111118316650391,
+                  "end": {
+                    "x": -1,
+                    "y": 2.5,
+                    "z": -0.8888816833496094
+                  }
+                },
+                "visible": {
+                  "ticks": 100,
+                  "travel": 5.898971855640411,
+                  "end": {
+                    "x": -1,
+                    "y": 2.5,
+                    "z": 0.8989718556404114
+                  }
+                }
+              }
+            },
+            {
+              "profile": "shipping-player",
+              "halfHeight": 0.2,
+              "radius": 0.32,
+              "casts": 120,
+              "compared": 116,
+              "falseSolid": 0,
+              "missingSupport": 0,
+              "maxEarly": 1.9403462409973145,
+              "maxLate": 0.10062766075134277,
+              "worst": {
+                "start": [
+                  -5,
+                  3,
+                  0
+                ],
+                "direction": [
+                  1,
+                  0,
+                  0
+                ],
+                "expected": 5.115817070007324,
+                "actual": 3.1754708290100098,
+                "gap": 1.9403462409973145
+              },
+              "characterController": {
+                "proxyTravel": 3.151874303817749,
+                "visibleTravel": 5.087331295013428
+              },
+              "steppedCharacterController": {
+                "proxy": {
+                  "ticks": 100,
+                  "travel": 3.152143120765686,
+                  "end": {
+                    "x": -1.847856879234314,
+                    "y": 3,
+                    "z": 0
+                  }
+                },
+                "visible": {
+                  "ticks": 100,
+                  "travel": 5.087346941232681,
+                  "end": {
+                    "x": 0.08734694123268127,
+                    "y": 3,
+                    "z": 0
+                  }
+                }
+              }
+            }
+          ]
+        }
+      ],
+      "comparisons": [
+        {
+          "cap": 16,
+          "actualHulls": 47,
+          "withinBudget": false,
+          "passes": false,
+          "status": "HOLD",
+          "reason": "Cannot reach cap through a gate-passing adjacent merge"
+        },
+        {
+          "cap": 24,
+          "actualHulls": 47,
+          "withinBudget": false,
+          "passes": false,
+          "status": "HOLD",
+          "reason": "Cannot reach cap through a gate-passing adjacent merge"
+        },
+        {
+          "cap": 32,
+          "actualHulls": 47,
+          "withinBudget": false,
+          "passes": false,
+          "status": "HOLD",
+          "reason": "Cannot reach cap through a gate-passing adjacent merge"
+        }
+      ]
+    },
+    {
+      "fixture": "central-cut-7",
+      "fragmentCount": 47,
+      "plannedMs": 398.96450000000004,
+      "totalMs": 970.071899999999,
+      "inputBytes": 19680,
+      "initial": {
+        "legacy": {
+          "compared": 40,
+          "maxGap": 2.340810393737823,
+          "worst": {
+            "start": [
+              -0.5,
+              4.25,
+              5
+            ],
+            "direction": [
+              0,
+              0,
+              -1
+            ],
+            "visible": 5.840810393737823,
+            "proxy": 3.5
+          },
+          "passes": false
+        },
+        "audit": {
+          "rays": 1472,
+          "compared": 830,
+          "falseSolidRays": 50,
+          "missingSupportRays": 4,
+          "maxEarly": 3.0278720032706827,
+          "maxLate": 2.390135111259622,
+          "worst": {
+            "start": [
+              -0.25,
+              4,
+              2.874843120574951
+            ],
+            "direction": [
+              0,
+              0,
+              -1
+            ],
+            "visible": 4.1146693598762125,
+            "proxy": 1.0867973566055298,
+            "gap": 3.0278720032706827
+          }
+        },
+        "playerProfiles": [
+          {
+            "profile": "phase0-lab",
+            "halfHeight": 0.5,
+            "radius": 0.3,
+            "casts": 120,
+            "compared": 118,
+            "falseSolid": 2,
+            "missingSupport": 0,
+            "maxEarly": 1.749129295349121,
+            "maxLate": 0.08656930923461914,
+            "worst": {
+              "start": [
+                -1,
+                2.5,
+                -5
+              ],
+              "direction": [
+                0,
+                0,
+                1
+              ],
+              "expected": 5.95862340927124,
+              "actual": 4.209494113922119,
+              "gap": 1.749129295349121
+            },
+            "characterController": {
+              "proxyTravel": 4.1107611656188965,
+              "visibleTravel": 5.898623943328857
+            },
+            "steppedCharacterController": {
+              "proxy": {
+                "ticks": 100,
+                "travel": 4.111118316650391,
+                "end": {
+                  "x": -1,
+                  "y": 2.5,
+                  "z": -0.8888816833496094
+                }
+              },
+              "visible": {
+                "ticks": 100,
+                "travel": 5.898971855640411,
+                "end": {
+                  "x": -1,
+                  "y": 2.5,
+                  "z": 0.8989718556404114
+                }
+              }
+            }
+          },
+          {
+            "profile": "shipping-player",
+            "halfHeight": 0.2,
+            "radius": 0.32,
+            "casts": 120,
+            "compared": 116,
+            "falseSolid": 0,
+            "missingSupport": 0,
+            "maxEarly": 1.9403462409973145,
+            "maxLate": 0.10062766075134277,
+            "worst": {
+              "start": [
+                -5,
+                3,
+                0
+              ],
+              "direction": [
+                1,
+                0,
+                0
+              ],
+              "expected": 5.115817070007324,
+              "actual": 3.1754708290100098,
+              "gap": 1.9403462409973145
+            },
+            "characterController": {
+              "proxyTravel": 3.151874303817749,
+              "visibleTravel": 5.087331295013428
+            },
+            "steppedCharacterController": {
+              "proxy": {
+                "ticks": 100,
+                "travel": 3.152143120765686,
+                "end": {
+                  "x": -1.847856879234314,
+                  "y": 3,
+                  "z": 0
+                }
+              },
+              "visible": {
+                "ticks": 100,
+                "travel": 5.087346941232681,
+                "end": {
+                  "x": 0.08734694123268127,
+                  "y": 3,
+                  "z": 0
+                }
+              }
+            }
+          }
+        ],
+        "namedRecessRay": {
+          "start": [
+            0,
+            3.5,
+            -5
+          ],
+          "direction": [
+            0,
+            0,
+            1
+          ],
+          "visible": 6.068769013196725,
+          "proxy": 5.796799659729004,
+          "gap": 0.2719693534677212
+        },
+        "passes": false
+      },
+      "mergeAttempts": [
+        {
+          "from": 47,
+          "to": 46,
+          "ids": [
+            "rock:9212026:v1:0,2,1,0/connected-23",
+            "rock:9212026:v1:-1,2,0,0/connected-24"
+          ],
+          "passes": false,
+          "legacy": {
+            "compared": 40,
+            "maxGap": 2.340810393737823,
+            "worst": {
+              "start": [
+                -0.5,
+                4.25,
+                5
+              ],
+              "direction": [
+                0,
+                0,
+                -1
+              ],
+              "visible": 5.840810393737823,
+              "proxy": 3.5
+            },
+            "passes": false
+          },
+          "audit": {
+            "rays": 1472,
+            "compared": 830,
+            "falseSolidRays": 50,
+            "missingSupportRays": 4,
+            "maxEarly": 3.0278720032706827,
+            "maxLate": 2.390135111259622,
+            "worst": {
+              "start": [
+                -0.25,
+                4,
+                2.874843120574951
+              ],
+              "direction": [
+                0,
+                0,
+                -1
+              ],
+              "visible": 4.1146693598762125,
+              "proxy": 1.0867973566055298,
+              "gap": 3.0278720032706827
+            }
+          },
+          "playerProfiles": [
+            {
+              "profile": "phase0-lab",
+              "halfHeight": 0.5,
+              "radius": 0.3,
+              "casts": 120,
+              "compared": 118,
+              "falseSolid": 2,
+              "missingSupport": 0,
+              "maxEarly": 1.749129295349121,
+              "maxLate": 0.08656930923461914,
+              "worst": {
+                "start": [
+                  -1,
+                  2.5,
+                  -5
+                ],
+                "direction": [
+                  0,
+                  0,
+                  1
+                ],
+                "expected": 5.95862340927124,
+                "actual": 4.209494113922119,
+                "gap": 1.749129295349121
+              },
+              "characterController": {
+                "proxyTravel": 4.1107611656188965,
+                "visibleTravel": 5.898623943328857
+              },
+              "steppedCharacterController": {
+                "proxy": {
+                  "ticks": 100,
+                  "travel": 4.111118316650391,
+                  "end": {
+                    "x": -1,
+                    "y": 2.5,
+                    "z": -0.8888816833496094
+                  }
+                },
+                "visible": {
+                  "ticks": 100,
+                  "travel": 5.898971855640411,
+                  "end": {
+                    "x": -1,
+                    "y": 2.5,
+                    "z": 0.8989718556404114
+                  }
+                }
+              }
+            },
+            {
+              "profile": "shipping-player",
+              "halfHeight": 0.2,
+              "radius": 0.32,
+              "casts": 120,
+              "compared": 116,
+              "falseSolid": 0,
+              "missingSupport": 0,
+              "maxEarly": 1.9403462409973145,
+              "maxLate": 0.10062766075134277,
+              "worst": {
+                "start": [
+                  -5,
+                  3,
+                  0
+                ],
+                "direction": [
+                  1,
+                  0,
+                  0
+                ],
+                "expected": 5.115817070007324,
+                "actual": 3.1754708290100098,
+                "gap": 1.9403462409973145
+              },
+              "characterController": {
+                "proxyTravel": 3.151874303817749,
+                "visibleTravel": 5.087331295013428
+              },
+              "steppedCharacterController": {
+                "proxy": {
+                  "ticks": 100,
+                  "travel": 3.152143120765686,
+                  "end": {
+                    "x": -1.847856879234314,
+                    "y": 3,
+                    "z": 0
+                  }
+                },
+                "visible": {
+                  "ticks": 100,
+                  "travel": 5.087346941232681,
+                  "end": {
+                    "x": 0.08734694123268127,
+                    "y": 3,
+                    "z": 0
+                  }
+                }
+              }
+            }
+          ]
+        }
+      ],
+      "comparisons": [
+        {
+          "cap": 16,
+          "actualHulls": 47,
+          "withinBudget": false,
+          "passes": false,
+          "status": "HOLD",
+          "reason": "Cannot reach cap through a gate-passing adjacent merge"
+        },
+        {
+          "cap": 24,
+          "actualHulls": 47,
+          "withinBudget": false,
+          "passes": false,
+          "status": "HOLD",
+          "reason": "Cannot reach cap through a gate-passing adjacent merge"
+        },
+        {
+          "cap": 32,
+          "actualHulls": 47,
+          "withinBudget": false,
+          "passes": false,
+          "status": "HOLD",
+          "reason": "Cannot reach cap through a gate-passing adjacent merge"
+        }
+      ]
+    },
+    {
+      "fixture": "conditioned-child-0",
+      "fragmentCount": 23,
+      "plannedMs": 98.40240000000085,
+      "totalMs": 348.5519999999997,
+      "inputBytes": 9912,
+      "initial": {
+        "legacy": {
+          "compared": 22,
+          "maxGap": 2.340810632156402,
+          "worst": {
+            "start": [
+              -0.5,
+              4.25,
+              5
+            ],
+            "direction": [
+              0,
+              0,
+              -1
+            ],
+            "visible": 5.840810393737823,
+            "proxy": 3.499999761581421
+          },
+          "passes": false
+        },
+        "audit": {
+          "rays": 954,
+          "compared": 400,
+          "falseSolidRays": 36,
+          "missingSupportRays": 6,
+          "maxEarly": 2.3408106321564013,
+          "maxLate": 1.3200442870322684,
+          "worst": {
+            "start": [
+              -0.5,
+              4.25,
+              2.6475110054016113
+            ],
+            "direction": [
+              0,
+              0,
+              -1
+            ],
+            "visible": 3.4883213991394335,
+            "proxy": 1.1475107669830322,
+            "gap": 2.3408106321564013
+          }
+        },
+        "playerProfiles": [
+          {
+            "profile": "phase0-lab",
+            "halfHeight": 0.5,
+            "radius": 0.3,
+            "casts": 120,
+            "compared": 84,
+            "falseSolid": 6,
+            "missingSupport": 0,
+            "maxEarly": 0.3731989860534668,
+            "maxLate": 0.033553361892700195,
+            "worst": {
+              "start": [
+                5,
+                4,
+                0
+              ],
+              "direction": [
+                -1,
+                0,
+                0
+              ],
+              "expected": 5.737441539764404,
+              "actual": 5.3642425537109375,
+              "gap": 0.3731989860534668
+            },
+            "characterController": {
+              "proxyTravel": 5.340301513671875,
+              "visibleTravel": 5.686769485473633
+            },
+            "steppedCharacterController": {
+              "proxy": {
+                "ticks": 100,
+                "travel": 5.340309023857117,
+                "end": {
+                  "x": -0.3403090238571167,
+                  "y": 4,
+                  "z": 0
+                }
+              },
+              "visible": {
+                "ticks": 100,
+                "travel": 5.686844170093536,
+                "end": {
+                  "x": -0.6868441700935364,
+                  "y": 4,
+                  "z": 0
+                }
+              }
+            }
+          },
+          {
+            "profile": "shipping-player",
+            "halfHeight": 0.2,
+            "radius": 0.32,
+            "casts": 120,
+            "compared": 80,
+            "falseSolid": 2,
+            "missingSupport": 0,
+            "maxEarly": 0.35849618911743164,
+            "maxLate": 0.10882925987243652,
+            "worst": {
+              "start": [
+                5,
+                4,
+                0
+              ],
+              "direction": [
+                -1,
+                0,
+                0
+              ],
+              "expected": 5.869958400726318,
+              "actual": 5.511462211608887,
+              "gap": 0.35849618911743164
+            },
+            "characterController": {
+              "proxyTravel": 5.487290859222412,
+              "visibleTravel": 5.828054428100586
+            },
+            "steppedCharacterController": {
+              "proxy": {
+                "ticks": 100,
+                "travel": 5.48734387755394,
+                "end": {
+                  "x": -0.4873438775539398,
+                  "y": 4,
+                  "z": 0
+                }
+              },
+              "visible": {
+                "ticks": 100,
+                "travel": 5.828172385692596,
+                "end": {
+                  "x": -0.8281723856925964,
+                  "y": 4,
+                  "z": 0
+                }
+              }
+            }
+          }
+        ],
+        "namedRecessRay": {
+          "start": [
+            0,
+            3.5,
+            -5
+          ],
+          "direction": [
+            0,
+            0,
+            1
+          ],
+          "visible": "Infinity",
+          "proxy": "Infinity",
+          "gap": null
+        },
+        "passes": false
+      },
+      "mergeAttempts": [
+        {
+          "from": 23,
+          "to": 22,
+          "ids": [
+            "rock:9212026:v1:0,2,1,0/connected-17",
+            "rock:9212026:v1:-1,2,0,0/connected-18"
+          ],
+          "passes": false,
+          "legacy": {
+            "compared": 22,
+            "maxGap": 2.340810632156402,
+            "worst": {
+              "start": [
+                -0.5,
+                4.25,
+                5
+              ],
+              "direction": [
+                0,
+                0,
+                -1
+              ],
+              "visible": 5.840810393737823,
+              "proxy": 3.499999761581421
+            },
+            "passes": false
+          },
+          "audit": {
+            "rays": 954,
+            "compared": 400,
+            "falseSolidRays": 36,
+            "missingSupportRays": 6,
+            "maxEarly": 2.3408106321564013,
+            "maxLate": 1.3200442870322684,
+            "worst": {
+              "start": [
+                -0.5,
+                4.25,
+                2.6475110054016113
+              ],
+              "direction": [
+                0,
+                0,
+                -1
+              ],
+              "visible": 3.4883213991394335,
+              "proxy": 1.1475107669830322,
+              "gap": 2.3408106321564013
+            }
+          },
+          "playerProfiles": [
+            {
+              "profile": "phase0-lab",
+              "halfHeight": 0.5,
+              "radius": 0.3,
+              "casts": 120,
+              "compared": 84,
+              "falseSolid": 6,
+              "missingSupport": 0,
+              "maxEarly": 0.3731989860534668,
+              "maxLate": 0.033553361892700195,
+              "worst": {
+                "start": [
+                  5,
+                  4,
+                  0
+                ],
+                "direction": [
+                  -1,
+                  0,
+                  0
+                ],
+                "expected": 5.737441539764404,
+                "actual": 5.3642425537109375,
+                "gap": 0.3731989860534668
+              },
+              "characterController": {
+                "proxyTravel": 5.340301513671875,
+                "visibleTravel": 5.686769485473633
+              },
+              "steppedCharacterController": {
+                "proxy": {
+                  "ticks": 100,
+                  "travel": 5.340309023857117,
+                  "end": {
+                    "x": -0.3403090238571167,
+                    "y": 4,
+                    "z": 0
+                  }
+                },
+                "visible": {
+                  "ticks": 100,
+                  "travel": 5.686844170093536,
+                  "end": {
+                    "x": -0.6868441700935364,
+                    "y": 4,
+                    "z": 0
+                  }
+                }
+              }
+            },
+            {
+              "profile": "shipping-player",
+              "halfHeight": 0.2,
+              "radius": 0.32,
+              "casts": 120,
+              "compared": 80,
+              "falseSolid": 2,
+              "missingSupport": 0,
+              "maxEarly": 0.35849618911743164,
+              "maxLate": 0.10882925987243652,
+              "worst": {
+                "start": [
+                  5,
+                  4,
+                  0
+                ],
+                "direction": [
+                  -1,
+                  0,
+                  0
+                ],
+                "expected": 5.869958400726318,
+                "actual": 5.511462211608887,
+                "gap": 0.35849618911743164
+              },
+              "characterController": {
+                "proxyTravel": 5.487290859222412,
+                "visibleTravel": 5.828054428100586
+              },
+              "steppedCharacterController": {
+                "proxy": {
+                  "ticks": 100,
+                  "travel": 5.48734387755394,
+                  "end": {
+                    "x": -0.4873438775539398,
+                    "y": 4,
+                    "z": 0
+                  }
+                },
+                "visible": {
+                  "ticks": 100,
+                  "travel": 5.828172385692596,
+                  "end": {
+                    "x": -0.8281723856925964,
+                    "y": 4,
+                    "z": 0
+                  }
+                }
+              }
+            }
+          ]
+        }
+      ],
+      "comparisons": [
+        {
+          "cap": 16,
+          "actualHulls": 23,
+          "withinBudget": false,
+          "passes": false,
+          "status": "HOLD",
+          "reason": "Cannot reach cap through a gate-passing adjacent merge"
+        },
+        {
+          "cap": 24,
+          "actualHulls": 23,
+          "withinBudget": true,
+          "passes": false,
+          "status": "HOLD",
+          "reason": "Fragment hull compound fails gameplay collision gates"
+        },
+        {
+          "cap": 32,
+          "actualHulls": 23,
+          "withinBudget": true,
+          "passes": false,
+          "status": "HOLD",
+          "reason": "Fragment hull compound fails gameplay collision gates"
+        }
+      ]
+    },
+    {
+      "fixture": "conditioned-child-1",
+      "fragmentCount": 19,
+      "plannedMs": 72.2523999999994,
+      "totalMs": 227.93229999999858,
+      "inputBytes": 6672,
+      "initial": {
+        "legacy": {
+          "compared": 14,
+          "maxGap": 0.26071854703978303,
+          "worst": {
+            "start": [
+              -5,
+              5,
+              -0.5
+            ],
+            "direction": [
+              1,
+              0,
+              0
+            ],
+            "visible": 6.260718547039783,
+            "proxy": 6
+          },
+          "passes": true
+        },
+        "audit": {
+          "rays": 558,
+          "compared": 294,
+          "falseSolidRays": 36,
+          "missingSupportRays": 2,
+          "maxEarly": 0.7840704136360799,
+          "maxLate": 0.33321223841528247,
+          "worst": {
+            "start": [
+              0.5,
+              2.791841506958008,
+              1
+            ],
+            "direction": [
+              0,
+              1,
+              0
+            ],
+            "visible": 2.469424884842745,
+            "proxy": 1.685354471206665,
+            "gap": 0.7840704136360799
+          }
+        },
+        "playerProfiles": [
+          {
+            "profile": "phase0-lab",
+            "halfHeight": 0.5,
+            "radius": 0.3,
+            "casts": 120,
+            "compared": 52,
+            "falseSolid": 14,
+            "missingSupport": 0,
+            "maxEarly": 1.113560438156128,
+            "maxLate": 0.031487464904785156,
+            "worst": {
+              "start": [
+                0,
+                4.5,
+                5
+              ],
+              "direction": [
+                0,
+                0,
+                -1
+              ],
+              "expected": 4.18921422958374,
+              "actual": 3.0756537914276123,
+              "gap": 1.113560438156128
+            },
+            "characterController": {
+              "proxyTravel": 3.0473597049713135,
+              "visibleTravel": 3.185678720474243
+            },
+            "steppedCharacterController": {
+              "proxy": {
+                "ticks": 100,
+                "travel": 3.047544240951538,
+                "end": {
+                  "x": 0,
+                  "y": 4.5,
+                  "z": 1.952455759048462
+                }
+              },
+              "visible": {
+                "ticks": 100,
+                "travel": 3.1858978271484375,
+                "end": {
+                  "x": 0,
+                  "y": 4.5,
+                  "z": 1.8141021728515625
+                }
+              }
+            }
+          },
+          {
+            "profile": "shipping-player",
+            "halfHeight": 0.2,
+            "radius": 0.32,
+            "casts": 120,
+            "compared": 52,
+            "falseSolid": 0,
+            "missingSupport": 0,
+            "maxEarly": 0.6243000030517578,
+            "maxLate": 0.07007884979248047,
+            "worst": {
+              "start": [
+                -5,
+                3.5,
+                1
+              ],
+              "direction": [
+                1,
+                0,
+                0
+              ],
+              "expected": 5.879000663757324,
+              "actual": 5.254700660705566,
+              "gap": 0.6243000030517578
+            },
+            "characterController": {
+              "proxyTravel": 5.23188591003418,
+              "visibleTravel": 5.652673721313477
+            },
+            "steppedCharacterController": {
+              "proxy": {
+                "ticks": 100,
+                "travel": 5.2319448590278625,
+                "end": {
+                  "x": 0.23194485902786255,
+                  "y": 3.5,
+                  "z": 1
+                }
+              },
+              "visible": {
+                "ticks": 100,
+                "travel": 5.65281617641449,
+                "end": {
+                  "x": 0.6528161764144897,
+                  "y": 3.5,
+                  "z": 1
+                }
+              }
+            }
+          }
+        ],
+        "namedRecessRay": {
+          "start": [
+            0,
+            3.5,
+            -5
+          ],
+          "direction": [
+            0,
+            0,
+            1
+          ],
+          "visible": "Infinity",
+          "proxy": "Infinity",
+          "gap": null
+        },
+        "passes": false
+      },
+      "mergeAttempts": [
+        {
+          "from": 19,
+          "to": 18,
+          "ids": [
+            "rock:9212026:v1:-1,3,0,0/connected-11",
+            "rock:9212026:v1:-2,3,1,0/connected-12"
+          ],
+          "passes": false,
+          "legacy": {
+            "compared": 14,
+            "maxGap": 0.3655717002685428,
+            "worst": {
+              "start": [
+                -5,
+                5,
+                -0.5
+              ],
+              "direction": [
+                1,
+                0,
+                0
+              ],
+              "visible": 6.260718547039783,
+              "proxy": 5.89514684677124
+            },
+            "passes": true
+          },
+          "audit": {
+            "rays": 558,
+            "compared": 294,
+            "falseSolidRays": 36,
+            "missingSupportRays": 2,
+            "maxEarly": 0.7840704136360799,
+            "maxLate": 0.33321223841528247,
+            "worst": {
+              "start": [
+                0.5,
+                2.791841506958008,
+                1
+              ],
+              "direction": [
+                0,
+                1,
+                0
+              ],
+              "visible": 2.469424884842745,
+              "proxy": 1.685354471206665,
+              "gap": 0.7840704136360799
+            }
+          },
+          "playerProfiles": [
+            {
+              "profile": "phase0-lab",
+              "halfHeight": 0.5,
+              "radius": 0.3,
+              "casts": 120,
+              "compared": 52,
+              "falseSolid": 14,
+              "missingSupport": 0,
+              "maxEarly": 1.113560438156128,
+              "maxLate": 0.031487464904785156,
+              "worst": {
+                "start": [
+                  0,
+                  4.5,
+                  5
+                ],
+                "direction": [
+                  0,
+                  0,
+                  -1
+                ],
+                "expected": 4.18921422958374,
+                "actual": 3.0756537914276123,
+                "gap": 1.113560438156128
+              },
+              "characterController": {
+                "proxyTravel": 3.0473597049713135,
+                "visibleTravel": 3.185678720474243
+              },
+              "steppedCharacterController": {
+                "proxy": {
+                  "ticks": 100,
+                  "travel": 3.047544240951538,
+                  "end": {
+                    "x": 0,
+                    "y": 4.5,
+                    "z": 1.952455759048462
+                  }
+                },
+                "visible": {
+                  "ticks": 100,
+                  "travel": 3.1858978271484375,
+                  "end": {
+                    "x": 0,
+                    "y": 4.5,
+                    "z": 1.8141021728515625
+                  }
+                }
+              }
+            },
+            {
+              "profile": "shipping-player",
+              "halfHeight": 0.2,
+              "radius": 0.32,
+              "casts": 120,
+              "compared": 52,
+              "falseSolid": 0,
+              "missingSupport": 0,
+              "maxEarly": 0.6243000030517578,
+              "maxLate": 0.07007884979248047,
+              "worst": {
+                "start": [
+                  -5,
+                  3.5,
+                  1
+                ],
+                "direction": [
+                  1,
+                  0,
+                  0
+                ],
+                "expected": 5.879000663757324,
+                "actual": 5.254700660705566,
+                "gap": 0.6243000030517578
+              },
+              "characterController": {
+                "proxyTravel": 5.23188591003418,
+                "visibleTravel": 5.652673721313477
+              },
+              "steppedCharacterController": {
+                "proxy": {
+                  "ticks": 100,
+                  "travel": 5.2319448590278625,
+                  "end": {
+                    "x": 0.23194485902786255,
+                    "y": 3.5,
+                    "z": 1
+                  }
+                },
+                "visible": {
+                  "ticks": 100,
+                  "travel": 5.65281617641449,
+                  "end": {
+                    "x": 0.6528161764144897,
+                    "y": 3.5,
+                    "z": 1
+                  }
+                }
+              }
+            }
+          ]
+        }
+      ],
+      "comparisons": [
+        {
+          "cap": 16,
+          "actualHulls": 19,
+          "withinBudget": false,
+          "passes": false,
+          "status": "HOLD",
+          "reason": "Cannot reach cap through a gate-passing adjacent merge"
+        },
+        {
+          "cap": 24,
+          "actualHulls": 19,
+          "withinBudget": true,
+          "passes": false,
+          "status": "HOLD",
+          "reason": "Fragment hull compound fails gameplay collision gates"
+        },
+        {
+          "cap": 32,
+          "actualHulls": 19,
+          "withinBudget": true,
+          "passes": false,
+          "status": "HOLD",
+          "reason": "Fragment hull compound fails gameplay collision gates"
+        }
+      ]
+    }
+  ]
+}

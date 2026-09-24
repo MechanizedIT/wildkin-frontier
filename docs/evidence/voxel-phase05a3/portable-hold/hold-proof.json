@@ -1,0 +1,402 @@
+{
+  "timestamp": "2026-09-24T05:58:39.074Z",
+  "base": "http://localhost:8104/lab/voxel/cellular-rock.html",
+  "browser": "Edge headless/SwiftShader",
+  "stages": [
+    {
+      "name": "irregular bite",
+      "report": {
+        "namespace": "wildkin-voxel-lab-cellular-0.5a-v1-rock-a1-hold-1790229519074",
+        "revision": 1,
+        "audit": {
+          "world": 2115,
+          "consumed": 49,
+          "total": 2164,
+          "initial": 2164,
+          "balanced": true
+        },
+        "actors": [],
+        "retired": [],
+        "workerTimes": [
+          55.39999997615814,
+          20.800000071525574
+        ],
+        "colliderTimes": [
+          1.600000023841858,
+          23.5
+        ],
+        "saveTimes": [
+          22
+        ],
+        "editTimes": [
+          268.5
+        ],
+        "frameP95": 50,
+        "errors": [],
+        "bodyCount": 0,
+        "transientShardBodies": 1,
+        "pooledVisualDebris": 1,
+        "worldColliderRevision": 1,
+        "colliderCounts": [],
+        "triangles": [
+          708
+        ]
+      }
+    },
+    {
+      "name": "detached and rotated",
+      "report": {
+        "namespace": "wildkin-voxel-lab-cellular-0.5a-v1-rock-a1-hold-1790229519074",
+        "revision": 3,
+        "audit": {
+          "world": 92,
+          "consumed": 162,
+          "rock-3": 1910,
+          "total": 2164,
+          "initial": 2164,
+          "balanced": true
+        },
+        "actors": [
+          {
+            "id": "rock-3",
+            "parentId": null,
+            "contentRevision": 1,
+            "pose": {
+              "position": [
+                0.13858699798583984,
+                4.1812591552734375,
+                -2.3558855056762695
+              ],
+              "rotation": {
+                "x": -0.5212987661361694,
+                "y": 0.24947014451026917,
+                "z": 0.7103752493858337,
+                "w": 0.40172043442726135
+              },
+              "linearVelocity": [
+                -1.1649712324142456,
+                -0.27877476811408997,
+                -0.31537577509880066
+              ],
+              "angularVelocity": [
+                -0.15885914862155914,
+                0.0007000015466473997,
+                0.5862169861793518
+              ],
+              "sleepState": "ACTIVE"
+            }
+          }
+        ],
+        "retired": [],
+        "workerTimes": [
+          55.39999997615814,
+          20.800000071525574,
+          36.5,
+          33.799999952316284,
+          19.299999952316284,
+          9.5
+        ],
+        "colliderTimes": [
+          1.600000023841858,
+          23.5,
+          1.399999976158142,
+          0.3999999761581421,
+          91.5,
+          0.6000000238418579
+        ],
+        "saveTimes": [
+          22,
+          11.899999976158142,
+          33.699999928474426
+        ],
+        "editTimes": [
+          268.5,
+          168.79999995231628,
+          380.6999999284744
+        ],
+        "frameP95": 50,
+        "errors": [],
+        "bodyCount": 1,
+        "transientShardBodies": 1,
+        "pooledVisualDebris": 0,
+        "worldColliderRevision": 3,
+        "colliderCounts": [
+          4
+        ],
+        "triangles": [
+          104,
+          576
+        ]
+      }
+    },
+    {
+      "name": "rotated actor mined",
+      "report": {
+        "namespace": "wildkin-voxel-lab-cellular-0.5a-v1-rock-a1-hold-1790229519074",
+        "revision": 4,
+        "audit": {
+          "world": 92,
+          "consumed": 201,
+          "rock-3": 1871,
+          "total": 2164,
+          "initial": 2164,
+          "balanced": true
+        },
+        "actors": [
+          {
+            "id": "rock-3",
+            "parentId": null,
+            "contentRevision": 2,
+            "pose": {
+              "position": [
+                -1.8514065742492676,
+                5.261716365814209,
+                -3.2394278049468994
+              ],
+              "rotation": {
+                "x": -0.5953015089035034,
+                "y": 0.20033542811870575,
+                "z": 0.7530552744865417,
+                "w": 0.19593264162540436
+              },
+              "linearVelocity": [
+                -1.2851818799972534,
+                0.03770377114415169,
+                -0.3039936423301697
+              ],
+              "angularVelocity": [
+                -0.16105328500270844,
+                0.000027326612325850874,
+                0.6808832883834839
+              ],
+              "sleepState": "ACTIVE"
+            }
+          }
+        ],
+        "retired": [],
+        "workerTimes": [
+          55.39999997615814,
+          20.800000071525574,
+          36.5,
+          33.799999952316284,
+          19.299999952316284,
+          9.5,
+          11.899999976158142
+        ],
+        "colliderTimes": [
+          1.600000023841858,
+          23.5,
+          1.399999976158142,
+          0.3999999761581421,
+          91.5,
+          0.6000000238418579,
+          74.19999992847443
+        ],
+        "saveTimes": [
+          22,
+          11.899999976158142,
+          33.699999928474426,
+          40.60000002384186
+        ],
+        "editTimes": [
+          268.5,
+          168.79999995231628,
+          380.6999999284744,
+          286.10000002384186
+        ],
+        "frameP95": 50,
+        "errors": [],
+        "bodyCount": 1,
+        "transientShardBodies": 0,
+        "pooledVisualDebris": 2,
+        "worldColliderRevision": 3,
+        "colliderCounts": [
+          4
+        ],
+        "triangles": [
+          104,
+          576
+        ]
+      }
+    },
+    {
+      "name": "unsafe split safely held and reloaded",
+      "held": {
+        "index": 1,
+        "hit": [
+          0,
+          4,
+          -0.5
+        ],
+        "reason": "Rock collider visible-surface gate {\"compared\":48,\"maxGap\":2.855507265925886,\"worst\":{\"start\":[0,3.5,-5],\"direction\":[0,0,1],\"visible\":6.03478230178404,\"proxy\":3.1792750358581543},\"passes\":false}",
+        "unchanged": true,
+        "previousRevision": 5,
+        "after": {
+          "namespace": "wildkin-voxel-lab-cellular-0.5a-v1-rock-a1-hold-1790229519074",
+          "revision": 5,
+          "audit": {
+            "world": 92,
+            "consumed": 281,
+            "rock-3": 1791,
+            "total": 2164,
+            "initial": 2164,
+            "balanced": true
+          },
+          "actors": [
+            {
+              "id": "rock-3",
+              "parentId": null,
+              "contentRevision": 3,
+              "pose": {
+                "position": [
+                  -3.673203945159912,
+                  5.531341552734375,
+                  -0.849125862121582
+                ],
+                "rotation": {
+                  "x": -0.5798541307449341,
+                  "y": -0.0644645020365715,
+                  "z": 0.7881007790565491,
+                  "w": 0.1962415724992752
+                },
+                "linearVelocity": [
+                  -0.7919842600822449,
+                  -0.024923007935285568,
+                  0.05710582435131073
+                ],
+                "angularVelocity": [
+                  0.03111639805138111,
+                  -4.6290264066328746e-8,
+                  0.43154430389404297
+                ],
+                "sleepState": "ACTIVE"
+              }
+            }
+          ],
+          "retired": [],
+          "workerTimes": [
+            55.39999997615814,
+            20.800000071525574,
+            36.5,
+            33.799999952316284,
+            19.299999952316284,
+            9.5,
+            11.899999976158142,
+            12.900000095367432,
+            28.899999976158142
+          ],
+          "colliderTimes": [
+            1.600000023841858,
+            23.5,
+            1.399999976158142,
+            0.3999999761581421,
+            91.5,
+            0.6000000238418579,
+            74.19999992847443,
+            34.199999928474426
+          ],
+          "saveTimes": [
+            22,
+            11.899999976158142,
+            33.699999928474426,
+            40.60000002384186,
+            25.700000047683716
+          ],
+          "editTimes": [
+            268.5,
+            168.79999995231628,
+            380.6999999284744,
+            286.10000002384186,
+            223.69999992847443
+          ],
+          "frameP95": 50,
+          "errors": [
+            "Rock collider visible-surface gate {\"compared\":48,\"maxGap\":2.855507265925886,\"worst\":{\"start\":[0,3.5,-5],\"direction\":[0,0,1],\"visible\":6.03478230178404,\"proxy\":3.1792750358581543},\"passes\":false}"
+          ],
+          "bodyCount": 1,
+          "transientShardBodies": 0,
+          "pooledVisualDebris": 8,
+          "worldColliderRevision": 3,
+          "colliderCounts": [
+            4
+          ],
+          "triangles": [
+            104,
+            716
+          ]
+        },
+        "message": "HOLD: this cut cannot get safe physical collision. The rock and rewards remain as before."
+      },
+      "reloaded": {
+        "namespace": "wildkin-voxel-lab-cellular-0.5a-v1-rock-a1-hold-1790229519074",
+        "revision": 6,
+        "audit": {
+          "world": 92,
+          "consumed": 281,
+          "rock-3": 1791,
+          "total": 2164,
+          "initial": 2164,
+          "balanced": true
+        },
+        "actors": [
+          {
+            "id": "rock-3",
+            "parentId": null,
+            "contentRevision": 3,
+            "pose": {
+              "position": [
+                -4.587499141693115,
+                5.544600963592529,
+                -0.5234653949737549
+              ],
+              "rotation": {
+                "x": -0.5677897334098816,
+                "y": -0.13499179482460022,
+                "z": 0.798491895198822,
+                "w": 0.14765778183937073
+              },
+              "linearVelocity": [
+                -0.21830809116363525,
+                -0.1435425877571106,
+                0.7066734433174133
+              ],
+              "angularVelocity": [
+                0.3882373869419098,
+                -0.0000032394145819125697,
+                0.11990011483430862
+              ],
+              "sleepState": "ACTIVE"
+            }
+          }
+        ],
+        "retired": [],
+        "workerTimes": [],
+        "colliderTimes": [],
+        "saveTimes": [],
+        "editTimes": [],
+        "frameP95": 50,
+        "errors": [],
+        "bodyCount": 1,
+        "transientShardBodies": 0,
+        "pooledVisualDebris": 0,
+        "worldColliderRevision": 6,
+        "colliderCounts": [
+          4
+        ],
+        "triangles": [
+          104,
+          716
+        ]
+      }
+    },
+    {
+      "name": "native Mine edits world and fallen actor",
+      "worldRevision": 1,
+      "actorBefore": 3,
+      "actorAfter": 4
+    }
+  ],
+  "errors": [],
+  "external": [],
+  "pass": true
+}

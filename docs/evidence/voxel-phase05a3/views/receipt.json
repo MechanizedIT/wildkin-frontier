@@ -1,0 +1,898 @@
+{
+  "timestamp": "2026-09-24T06:04:33.448Z",
+  "base": "http://localhost:8103/lab/voxel/rock-collision-study.html",
+  "browser": "Edge headless / SwiftShader",
+  "views": [
+    {
+      "ready": true,
+      "fixture": "initial-detached",
+      "method": "native-voxel-0.25",
+      "audit": {
+        "compared": 48,
+        "maxGap": 0.30249433605271125,
+        "worst": {
+          "start": [
+            -0.5,
+            2.75,
+            5
+          ],
+          "direction": [
+            0,
+            0,
+            -1
+          ],
+          "visible": 3.5524943360527113,
+          "proxy": 3.25
+        },
+        "passes": true
+      },
+      "file": "initial-detached-native-voxel-0.25.png"
+    },
+    {
+      "ready": true,
+      "fixture": "initial-detached",
+      "method": "native-voxel-0.5",
+      "audit": {
+        "compared": 48,
+        "maxGap": 0.6790367365965047,
+        "worst": {
+          "start": [
+            -0.5,
+            2.75,
+            -5
+          ],
+          "direction": [
+            0,
+            0,
+            1
+          ],
+          "visible": 3.6790367365965047,
+          "proxy": 3
+        },
+        "passes": false
+      },
+      "file": "initial-detached-native-voxel-0.5.png"
+    },
+    {
+      "ready": true,
+      "fixture": "central-cut-2",
+      "method": "native-voxel-0.25",
+      "audit": {
+        "compared": 48,
+        "maxGap": 2.341409459841965,
+        "worst": {
+          "start": [
+            5,
+            4.25,
+            -0.5
+          ],
+          "direction": [
+            -1,
+            0,
+            0
+          ],
+          "visible": 5.841409459841965,
+          "proxy": 3.5
+        },
+        "passes": false
+      },
+      "file": "central-cut-2-native-voxel-0.25.png"
+    },
+    {
+      "ready": true,
+      "fixture": "central-cut-2",
+      "method": "native-voxel-0.5",
+      "audit": {
+        "compared": 48,
+        "maxGap": 2.841409459841965,
+        "worst": {
+          "start": [
+            5,
+            4.25,
+            -0.5
+          ],
+          "direction": [
+            -1,
+            0,
+            0
+          ],
+          "visible": 5.841409459841965,
+          "proxy": 3
+        },
+        "passes": false
+      },
+      "file": "central-cut-2-native-voxel-0.5.png"
+    },
+    {
+      "ready": true,
+      "fixture": "central-cut-2",
+      "method": "fracture-fragments",
+      "audit": {
+        "compared": 48,
+        "maxGap": 1.9469399602539523,
+        "worst": {
+          "start": [
+            5,
+            4.25,
+            -0.5
+          ],
+          "direction": [
+            -1,
+            0,
+            0
+          ],
+          "visible": 5.841409459841965,
+          "proxy": 3.8944694995880127
+        },
+        "passes": false
+      },
+      "file": "central-cut-2-fracture-fragments.png"
+    },
+    {
+      "ready": true,
+      "fixture": "conditioned-child-0",
+      "method": "native-voxel-0.25",
+      "audit": {
+        "compared": 22,
+        "maxGap": "Infinity",
+        "worst": {
+          "start": [
+            -5,
+            4.25,
+            0.5
+          ],
+          "direction": [
+            1,
+            0,
+            0
+          ],
+          "visible": 3.323493313392408,
+          "proxy": "Infinity"
+        },
+        "passes": false
+      },
+      "file": "conditioned-child-0-native-voxel-0.25.png"
+    },
+    {
+      "ready": true,
+      "fixture": "conditioned-child-0",
+      "method": "fracture-fragments",
+      "audit": {
+        "compared": 22,
+        "maxGap": 2.340810632156402,
+        "worst": {
+          "start": [
+            -0.5,
+            4.25,
+            5
+          ],
+          "direction": [
+            0,
+            0,
+            -1
+          ],
+          "visible": 5.840810393737823,
+          "proxy": 3.499999761581421
+        },
+        "passes": false
+      },
+      "file": "conditioned-child-0-fracture-fragments.png"
+    }
+  ],
+  "allFixtureInspector": [
+    {
+      "ready": true,
+      "fixture": "initial-detached",
+      "method": "native-voxel-0.25",
+      "audit": {
+        "compared": 48,
+        "maxGap": 0.30249433605271125,
+        "worst": {
+          "start": [
+            -0.5,
+            2.75,
+            5
+          ],
+          "direction": [
+            0,
+            0,
+            -1
+          ],
+          "visible": 3.5524943360527113,
+          "proxy": 3.25
+        },
+        "passes": true
+      }
+    },
+    {
+      "ready": true,
+      "fixture": "initial-detached",
+      "method": "native-voxel-0.5",
+      "audit": {
+        "compared": 48,
+        "maxGap": 0.6790367365965047,
+        "worst": {
+          "start": [
+            -0.5,
+            2.75,
+            -5
+          ],
+          "direction": [
+            0,
+            0,
+            1
+          ],
+          "visible": 3.6790367365965047,
+          "proxy": 3
+        },
+        "passes": false
+      }
+    },
+    {
+      "ready": true,
+      "fixture": "bitten-detached",
+      "method": "native-voxel-0.25",
+      "audit": {
+        "compared": 48,
+        "maxGap": 0.30249433605271125,
+        "worst": {
+          "start": [
+            -0.5,
+            2.75,
+            5
+          ],
+          "direction": [
+            0,
+            0,
+            -1
+          ],
+          "visible": 3.5524943360527113,
+          "proxy": 3.25
+        },
+        "passes": true
+      }
+    },
+    {
+      "ready": true,
+      "fixture": "bitten-detached",
+      "method": "native-voxel-0.5",
+      "audit": {
+        "compared": 48,
+        "maxGap": 0.6790367365965047,
+        "worst": {
+          "start": [
+            -0.5,
+            2.75,
+            -5
+          ],
+          "direction": [
+            0,
+            0,
+            1
+          ],
+          "visible": 3.6790367365965047,
+          "proxy": 3
+        },
+        "passes": false
+      }
+    },
+    {
+      "ready": true,
+      "fixture": "secondary-notch",
+      "method": "native-voxel-0.25",
+      "audit": {
+        "compared": 48,
+        "maxGap": 0.30249433605271125,
+        "worst": {
+          "start": [
+            -0.5,
+            2.75,
+            5
+          ],
+          "direction": [
+            0,
+            0,
+            -1
+          ],
+          "visible": 3.5524943360527113,
+          "proxy": 3.25
+        },
+        "passes": true
+      }
+    },
+    {
+      "ready": true,
+      "fixture": "secondary-notch",
+      "method": "native-voxel-0.5",
+      "audit": {
+        "compared": 48,
+        "maxGap": 0.6790367365965047,
+        "worst": {
+          "start": [
+            -0.5,
+            2.75,
+            -5
+          ],
+          "direction": [
+            0,
+            0,
+            1
+          ],
+          "visible": 3.6790367365965047,
+          "proxy": 3
+        },
+        "passes": false
+      }
+    },
+    {
+      "ready": true,
+      "fixture": "central-cut-1",
+      "method": "native-voxel-0.25",
+      "audit": {
+        "compared": 48,
+        "maxGap": 0.5429123918233585,
+        "worst": {
+          "start": [
+            -5,
+            5,
+            0.5
+          ],
+          "direction": [
+            1,
+            0,
+            0
+          ],
+          "visible": 3.4570876081766415,
+          "proxy": 4
+        },
+        "passes": false
+      }
+    },
+    {
+      "ready": true,
+      "fixture": "central-cut-1",
+      "method": "native-voxel-0.5",
+      "audit": {
+        "compared": 48,
+        "maxGap": 0.6790367365965047,
+        "worst": {
+          "start": [
+            -0.5,
+            2.75,
+            -5
+          ],
+          "direction": [
+            0,
+            0,
+            1
+          ],
+          "visible": 3.6790367365965047,
+          "proxy": 3
+        },
+        "passes": false
+      }
+    },
+    {
+      "ready": true,
+      "fixture": "central-cut-2",
+      "method": "native-voxel-0.25",
+      "audit": {
+        "compared": 48,
+        "maxGap": 2.341409459841965,
+        "worst": {
+          "start": [
+            5,
+            4.25,
+            -0.5
+          ],
+          "direction": [
+            -1,
+            0,
+            0
+          ],
+          "visible": 5.841409459841965,
+          "proxy": 3.5
+        },
+        "passes": false
+      }
+    },
+    {
+      "ready": true,
+      "fixture": "central-cut-2",
+      "method": "native-voxel-0.5",
+      "audit": {
+        "compared": 48,
+        "maxGap": 2.841409459841965,
+        "worst": {
+          "start": [
+            5,
+            4.25,
+            -0.5
+          ],
+          "direction": [
+            -1,
+            0,
+            0
+          ],
+          "visible": 5.841409459841965,
+          "proxy": 3
+        },
+        "passes": false
+      }
+    },
+    {
+      "ready": true,
+      "fixture": "central-cut-3",
+      "method": "native-voxel-0.25",
+      "audit": {
+        "compared": 44,
+        "maxGap": 2.341409459841965,
+        "worst": {
+          "start": [
+            5,
+            4.25,
+            -0.5
+          ],
+          "direction": [
+            -1,
+            0,
+            0
+          ],
+          "visible": 5.841409459841965,
+          "proxy": 3.5
+        },
+        "passes": false
+      }
+    },
+    {
+      "ready": true,
+      "fixture": "central-cut-3",
+      "method": "native-voxel-0.5",
+      "audit": {
+        "compared": 44,
+        "maxGap": 2.841409459841965,
+        "worst": {
+          "start": [
+            5,
+            4.25,
+            -0.5
+          ],
+          "direction": [
+            -1,
+            0,
+            0
+          ],
+          "visible": 5.841409459841965,
+          "proxy": 3
+        },
+        "passes": false
+      }
+    },
+    {
+      "ready": true,
+      "fixture": "central-cut-4",
+      "method": "native-voxel-0.25",
+      "audit": {
+        "compared": 44,
+        "maxGap": 2.341409459841965,
+        "worst": {
+          "start": [
+            5,
+            4.25,
+            -0.5
+          ],
+          "direction": [
+            -1,
+            0,
+            0
+          ],
+          "visible": 5.841409459841965,
+          "proxy": 3.5
+        },
+        "passes": false
+      }
+    },
+    {
+      "ready": true,
+      "fixture": "central-cut-4",
+      "method": "native-voxel-0.5",
+      "audit": {
+        "compared": 44,
+        "maxGap": 2.841409459841965,
+        "worst": {
+          "start": [
+            5,
+            4.25,
+            -0.5
+          ],
+          "direction": [
+            -1,
+            0,
+            0
+          ],
+          "visible": 5.841409459841965,
+          "proxy": 3
+        },
+        "passes": false
+      }
+    },
+    {
+      "ready": true,
+      "fixture": "central-cut-5",
+      "method": "native-voxel-0.25",
+      "audit": {
+        "compared": 40,
+        "maxGap": 2.341409459841965,
+        "worst": {
+          "start": [
+            5,
+            4.25,
+            -0.5
+          ],
+          "direction": [
+            -1,
+            0,
+            0
+          ],
+          "visible": 5.841409459841965,
+          "proxy": 3.5
+        },
+        "passes": false
+      }
+    },
+    {
+      "ready": true,
+      "fixture": "central-cut-5",
+      "method": "native-voxel-0.5",
+      "audit": {
+        "compared": 40,
+        "maxGap": 2.841409459841965,
+        "worst": {
+          "start": [
+            5,
+            4.25,
+            -0.5
+          ],
+          "direction": [
+            -1,
+            0,
+            0
+          ],
+          "visible": 5.841409459841965,
+          "proxy": 3
+        },
+        "passes": false
+      }
+    },
+    {
+      "ready": true,
+      "fixture": "central-cut-6",
+      "method": "native-voxel-0.25",
+      "audit": {
+        "compared": 40,
+        "maxGap": 2.341409459841965,
+        "worst": {
+          "start": [
+            5,
+            4.25,
+            -0.5
+          ],
+          "direction": [
+            -1,
+            0,
+            0
+          ],
+          "visible": 5.841409459841965,
+          "proxy": 3.5
+        },
+        "passes": false
+      }
+    },
+    {
+      "ready": true,
+      "fixture": "central-cut-6",
+      "method": "native-voxel-0.5",
+      "audit": {
+        "compared": 40,
+        "maxGap": 2.841409459841965,
+        "worst": {
+          "start": [
+            5,
+            4.25,
+            -0.5
+          ],
+          "direction": [
+            -1,
+            0,
+            0
+          ],
+          "visible": 5.841409459841965,
+          "proxy": 3
+        },
+        "passes": false
+      }
+    },
+    {
+      "ready": true,
+      "fixture": "central-cut-7",
+      "method": "native-voxel-0.25",
+      "audit": {
+        "compared": 40,
+        "maxGap": 2.341409459841965,
+        "worst": {
+          "start": [
+            5,
+            4.25,
+            -0.5
+          ],
+          "direction": [
+            -1,
+            0,
+            0
+          ],
+          "visible": 5.841409459841965,
+          "proxy": 3.5
+        },
+        "passes": false
+      }
+    },
+    {
+      "ready": true,
+      "fixture": "central-cut-7",
+      "method": "native-voxel-0.5",
+      "audit": {
+        "compared": 40,
+        "maxGap": 2.841409459841965,
+        "worst": {
+          "start": [
+            5,
+            4.25,
+            -0.5
+          ],
+          "direction": [
+            -1,
+            0,
+            0
+          ],
+          "visible": 5.841409459841965,
+          "proxy": 3
+        },
+        "passes": false
+      }
+    },
+    {
+      "ready": true,
+      "fixture": "conditioned-child-0",
+      "method": "native-voxel-0.25",
+      "audit": {
+        "compared": 22,
+        "maxGap": "Infinity",
+        "worst": {
+          "start": [
+            -5,
+            4.25,
+            0.5
+          ],
+          "direction": [
+            1,
+            0,
+            0
+          ],
+          "visible": 3.323493313392408,
+          "proxy": "Infinity"
+        },
+        "passes": false
+      }
+    },
+    {
+      "ready": true,
+      "fixture": "conditioned-child-0",
+      "method": "native-voxel-0.5",
+      "audit": {
+        "compared": 22,
+        "maxGap": "Infinity",
+        "worst": {
+          "start": [
+            -5,
+            5,
+            0.5
+          ],
+          "direction": [
+            1,
+            0,
+            0
+          ],
+          "visible": 3.4665963551983476,
+          "proxy": "Infinity"
+        },
+        "passes": false
+      }
+    },
+    {
+      "ready": true,
+      "fixture": "conditioned-child-1",
+      "method": "native-voxel-0.25",
+      "audit": {
+        "compared": 14,
+        "maxGap": 1.7244843523682931,
+        "worst": {
+          "start": [
+            0.5,
+            4.25,
+            -5
+          ],
+          "direction": [
+            0,
+            0,
+            1
+          ],
+          "visible": 6.224484352368293,
+          "proxy": 4.5
+        },
+        "passes": false
+      }
+    },
+    {
+      "ready": true,
+      "fixture": "conditioned-child-1",
+      "method": "native-voxel-0.5",
+      "audit": {
+        "compared": 14,
+        "maxGap": 2.224484352368293,
+        "worst": {
+          "start": [
+            0.5,
+            4.25,
+            -5
+          ],
+          "direction": [
+            0,
+            0,
+            1
+          ],
+          "visible": 6.224484352368293,
+          "proxy": 4
+        },
+        "passes": false
+      }
+    }
+  ],
+  "viewport": {
+    "width": 844,
+    "scrollWidth": 844
+  },
+  "dynamics": {
+    "version": "0.20.0",
+    "rows": [
+      {
+        "spacing": 0.25,
+        "type": "terrain",
+        "lowestVisible": -89.00245070457458,
+        "contacts": 0,
+        "pose": {
+          "position": [
+            4,
+            -91.17473602294922,
+            3.999999761581421
+          ],
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0,
+            "w": 1
+          }
+        },
+        "sleeping": false,
+        "speed": 34.54140853881836
+      },
+      {
+        "spacing": 0.25,
+        "type": "cuboid",
+        "lowestVisible": -0.0777689364275913,
+        "contacts": 12,
+        "pose": {
+          "position": [
+            3.9681224822998047,
+            -2.2500710487365723,
+            3.982494354248047
+          ],
+          "rotation": {
+            "x": -0.000012232010703883134,
+            "y": 0.000128738975035958,
+            "z": -0.0000031040060548548354,
+            "w": 1
+          }
+        },
+        "sleeping": true,
+        "speed": 0
+      },
+      {
+        "spacing": 0.25,
+        "type": "convex-terrain-control",
+        "lowestVisible": 0.46658553677505576,
+        "contacts": 147,
+        "pose": {
+          "position": [
+            3.8179545402526855,
+            -1.7418639659881592,
+            4.430319786071777
+          ],
+          "rotation": {
+            "x": -0.08033940196037292,
+            "y": 0.053816042840480804,
+            "z": -0.028634408488869667,
+            "w": 0.9949018359184265
+          }
+        },
+        "sleeping": true,
+        "speed": 0
+      },
+      {
+        "spacing": 0.5,
+        "type": "terrain",
+        "lowestVisible": -89.00247359275818,
+        "contacts": 0,
+        "pose": {
+          "position": [
+            4,
+            -91.17475891113281,
+            3.999999761581421
+          ],
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0,
+            "w": 1
+          }
+        },
+        "sleeping": false,
+        "speed": 34.54140853881836
+      },
+      {
+        "spacing": 0.5,
+        "type": "cuboid",
+        "lowestVisible": 0.17222868788996148,
+        "contacts": 8,
+        "pose": {
+          "position": [
+            3.9885127544403076,
+            -2.0000710487365723,
+            3.998795986175537
+          ],
+          "rotation": {
+            "x": -0.000009521067113382742,
+            "y": 0.00005769315976067446,
+            "z": 2.745925655744941e-7,
+            "w": 1
+          }
+        },
+        "sleeping": true,
+        "speed": 0
+      },
+      {
+        "spacing": 0.5,
+        "type": "convex-terrain-control",
+        "lowestVisible": 0.46658553677505576,
+        "contacts": 147,
+        "pose": {
+          "position": [
+            3.8179545402526855,
+            -1.7418639659881592,
+            4.430319786071777
+          ],
+          "rotation": {
+            "x": -0.08033940196037292,
+            "y": 0.053816042840480804,
+            "z": -0.028634408488869667,
+            "w": 0.9949018359184265
+          }
+        },
+        "sleeping": true,
+        "speed": 0
+      }
+    ]
+  },
+  "errors": [],
+  "external": [],
+  "pass": true
+}

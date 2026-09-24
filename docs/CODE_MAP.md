@@ -205,3 +205,10 @@ September12 stopped candidate: `tools/compose-emberfall-ravine.mjs` is deliberat
 - src/world/frontierScenery.js / frontierSceneryVisual.js / frontierChunkRuntime.js: admitted dressing, bounded cache identity and both Caldera foliage paths.
 - src/progression/frontierPurpose.js / src/game/createBetaGame.js / src/main.js: current-position field plan and first-substep-only attack edge wiring.
 - art/reviews/caldera/receipt.md: actual native proof and final visual HOLD 3.8.
+
+## Isolated Phase 0.5A.3 collision study (HOLD)
+
+- `lab/voxel/rock-voxel-collider.js`: pure occupied-subparcel collision plan, exact native descriptor adapter and inspector-only exposed-face mesh. No runtime admission.
+- `lab/voxel/rock-collision-audit.js`: shared opt-in legacy/expanded surface, capsule, actual stepped controller and named-recess witnesses.
+- `lab/voxel/rock-fragment-collider.js`: one actual connected-fragment fallback and deterministic adjacent merge proposals, never a gameplay fracture owner.
+- `tools/probe-rock-voxel.mjs`, `tools/probe-rock-voxel-dynamics.mjs`, `tools/probe-rock-fragments.mjs`, `tools/capture-rock-voxel.mjs`: repeatable native/fragment, dynamic terrain, lifecycle and source/package evidence. Existing matter, physics, save and publication owners remain unchanged.

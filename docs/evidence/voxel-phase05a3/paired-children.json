@@ -1,0 +1,90 @@
+[
+  {
+    "method": "native-voxel-0.25",
+    "sharedCollisionVoxels": 0,
+    "directContactQuery": {
+      "observedPairs": 0,
+      "maxObservedPenetration": 0,
+      "limitation": "Native composite contactCollider may return null even on floor contact; use dynamics contact manifolds for simulation evidence"
+    },
+    "peakBodies": 2,
+    "children": [
+      {
+        "fixture": "conditioned-child-0",
+        "position": {
+          "x": -0.0034027695655822754,
+          "y": -3.250084400177002,
+          "z": -0.005260556936264038
+        },
+        "rotation": {
+          "x": 0.00001672688449616544,
+          "y": 0.00020352758292574435,
+          "z": 0.00002821940324793104,
+          "w": 1
+        },
+        "speed": 0,
+        "hulls": 1
+      },
+      {
+        "fixture": "conditioned-child-1",
+        "position": {
+          "x": -0.004255235195159912,
+          "y": -3.429506301879883,
+          "z": -0.45690035820007324
+        },
+        "rotation": {
+          "x": 0.07089106738567352,
+          "y": 0.0006079928716644645,
+          "z": -0.00005967016113572754,
+          "w": 0.9974839091300964
+        },
+        "speed": 0,
+        "hulls": 1
+      }
+    ]
+  },
+  {
+    "method": "native-voxel-0.5",
+    "sharedCollisionVoxels": 0,
+    "directContactQuery": {
+      "observedPairs": 0,
+      "maxObservedPenetration": 0,
+      "limitation": "Native composite contactCollider may return null even on floor contact; use dynamics contact manifolds for simulation evidence"
+    },
+    "peakBodies": 2,
+    "children": [
+      {
+        "fixture": "conditioned-child-0",
+        "position": {
+          "x": -0.05029952526092529,
+          "y": -2.9944238662719727,
+          "z": 0.0016261935234069824
+        },
+        "rotation": {
+          "x": -0.00005052205597166903,
+          "y": -0.011094646528363228,
+          "z": 0.0019232936901971698,
+          "w": 0.999936580657959
+        },
+        "speed": 0,
+        "hulls": 1
+      },
+      {
+        "fixture": "conditioned-child-1",
+        "position": {
+          "x": -0.09798091650009155,
+          "y": -3.466052770614624,
+          "z": 0.1443536877632141
+        },
+        "rotation": {
+          "x": 0.0031230729073286057,
+          "y": 0.03277931734919548,
+          "z": -0.0068837921135127544,
+          "w": 0.9994340538978577
+        },
+        "speed": 0,
+        "hulls": 1
+      }
+    ]
+  }
+]

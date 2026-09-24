@@ -1,0 +1,40 @@
+{
+  "timestamp": "2026-09-24T01:31:15.932Z",
+  "startCommit": "ef900a9d15e61bac90ea5743ebd73b5cb1b07296",
+  "version": "0.20.0",
+  "vendorSHA256": "09a000bee2ad827608780cf8821258cadc243aaeb8881ab3e769de73f945eee0",
+  "descriptor": "voxels(A,I){const g=new Ug(A,I);return new eg(g)}",
+  "shape": "class Ug extends Cg{constructor(A,I){super(),this.type=oI.Voxels,this.data=A,this.voxelSize=I}intoRaw(){let A,I=_A.intoRaw(this.voxelSize);return A=this.data instanceof Int32Array?t.voxels(I,this.data):t.voxelsFromPoints(I,this.data),I.free(),A}}",
+  "colliderVoxelMethods": [
+    "setVoxel",
+    "propagateVoxelChange",
+    "combineVoxelStates"
+  ],
+  "witness": [
+    {
+      "index": -2,
+      "fromNegativeX": 1.5,
+      "fromPositiveX": 2.25
+    },
+    {
+      "index": -1,
+      "fromNegativeX": 1.75,
+      "fromPositiveX": 2
+    },
+    {
+      "index": 0,
+      "fromNegativeX": 2,
+      "fromPositiveX": 1.75
+    },
+    {
+      "index": 1,
+      "fromNegativeX": 2.25,
+      "fromPositiveX": 1.5
+    },
+    {
+      "index": 2,
+      "fromNegativeX": 2.5,
+      "fromPositiveX": 1.25
+    }
+  ]
+}

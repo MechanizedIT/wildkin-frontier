@@ -59,3 +59,7 @@ SHA256: `83cdfcdc9f65e02b4a8ea6fc157283119379b316b28b0021e9cc0f4d15de01bb`.
 It is local, worker-safe and lab-only; no runtime download or global npm install.
 The lab also reuses the repository's existing Three.js 0.160 and Rapier 0.20
 vendor files and their existing licenses/notices.
+
+## Phase 0.5A.3 collision experiment
+
+`rock-collision-study.html` now compares native 0.25/0.5 m physics voxels and the sole connected-fracture-fragment fallback beside the unchanged smooth rock. All remain HOLD; native dynamic voxels pass through the lab static terrain/trimesh in vendored Rapier 0.20.0. See `docs/VOXEL_PHASE05A3_REPORT.md` for exact gates, 1/2/4-body costs, browser proof and limitations. No candidate is used by `cellular-rock.html`; no stress/fracture gameplay is added.

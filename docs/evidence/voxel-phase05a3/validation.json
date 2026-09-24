@@ -1,0 +1,29 @@
+{
+  "timestamp": "2026-09-24T06:05:37.614Z",
+  "baseline": "ef900a9",
+  "focused": {
+    "tests": 4,
+    "pass": 4
+  },
+  "npmTest": {
+    "tests": 1527,
+    "pass": 1527,
+    "durationMs": 174268.2885
+  },
+  "verify": {
+    "tests": 1527,
+    "pass": 1527,
+    "testDurationMs": 143097.0291,
+    "world": "PASS",
+    "campaign": "PASS",
+    "build": "PASS",
+    "submissionValidation": "PASS"
+  },
+  "zip": {
+    "shippingBytes": 25990325,
+    "labBytes": 1655006,
+    "labUnpackedBytes": 4961833
+  },
+  "review": "Independent source/evidence closure review supports HOLD; no substantive corrections outstanding",
+  "decision": "HOLD; STOP for owner review; local commit only"
+}
