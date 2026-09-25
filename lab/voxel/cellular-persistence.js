@@ -1,11 +1,13 @@
 import { checksum } from './persistence.js';
-import { CELLULAR_VERSION, DIRT_CELLULAR_VERSION, MIXED_CELLULAR_VERSION, createInitialRockState, createInitialDirtState, createInitialMixedState, quantityAudit } from './matter-actor.js';
+import { CELLULAR_VERSION, DIRT_CELLULAR_VERSION, MIXED_CELLULAR_VERSION, BURIED_MIXED_CELLULAR_VERSION, createInitialRockState, createInitialDirtState, createInitialMixedState, createInitialBuriedMixedState, quantityAudit, actorMatterSamples } from './matter-actor.js';
+import { analyzeMatterConnectivity } from './matter-connectivity.js';
 import { rockBondId } from './matter-structure.js';
 import { rockBondSites } from './fracture-field.js';
 
 export const CELLULAR_NAMESPACE='wildkin-voxel-lab-cellular-0.5a4-v1';
 export const DIRT_CELLULAR_NAMESPACE='wildkin-voxel-lab-cellular-0.5b-dirt-v1';
 export const MIXED_CELLULAR_NAMESPACE='wildkin-voxel-lab-cellular-0.5c-mixed-v1';
+export const BURIED_CELLULAR_NAMESPACE='wildkin-voxel-lab-cellular-0.5c1-buried-v1';
 const finite3=a=>Array.isArray(a)&&a.length===3&&a.every(Number.isFinite);
 export function migrateLegacyHardRockState(state){
   if(!state||state.version!==CELLULAR_VERSION||state.materialId!==undefined)return state;
@@ -23,10 +25,12 @@ function validStructure(value){
   return new Set(value.broken).size===value.broken.length&&value.broken.every(id=>known.has(id));
 }
 export function validateCellularState(state){
-  const mixed=state?.materialId===3||state?.version===MIXED_CELLULAR_VERSION,rock=!mixed&&(state?.materialId===1||state?.version===CELLULAR_VERSION),dirt=!mixed&&(state?.materialId===2||state?.version===DIRT_CELLULAR_VERSION),
-    materialId=mixed?3:dirt?2:rock?1:0,fixture=mixed?'mixed-dirt-supported-rock':dirt?'dirt-bank':'rock-boulder',version=mixed?MIXED_CELLULAR_VERSION:dirt?DIRT_CELLULAR_VERSION:CELLULAR_VERSION;
+  const buried=state?.version===BURIED_MIXED_CELLULAR_VERSION,mixed=buried||state?.materialId===3||state?.version===MIXED_CELLULAR_VERSION,
+    rock=!mixed&&(state?.materialId===1||state?.version===CELLULAR_VERSION),dirt=!mixed&&(state?.materialId===2||state?.version===DIRT_CELLULAR_VERSION),
+    materialId=mixed?3:dirt?2:rock?1:0,fixture=buried?'buried-mixed-dirt-rock':mixed?'mixed-dirt-supported-rock':dirt?'dirt-bank':'rock-boulder',
+    version=buried?BURIED_MIXED_CELLULAR_VERSION:mixed?MIXED_CELLULAR_VERSION:dirt?DIRT_CELLULAR_VERSION:CELLULAR_VERSION;
   if(!state||!materialId||state.version!==version||state.materialId!==materialId||state.fixture!==fixture||state.seed!==9212026||state.spacing!==.5||!Number.isSafeInteger(state.revision)||state.revision<0)throw new Error('Incompatible cellular save');
-  const base=mixed?createInitialMixedState():dirt?createInitialDirtState():createInitialRockState(),length=13**3;
+  const base=buried?createInitialBuriedMixedState():mixed?createInitialMixedState():dirt?createInitialDirtState():createInitialRockState(),length=13**3;
   const validField=(f,expected=materialId)=>f&&Array.isArray(f.densities)&&f.densities.length===length&&f.densities.every(Number.isFinite)&&
     Array.isArray(f.materials)&&f.materials.length===length&&f.materials.every(v=>v===0||v===expected);
   const validMixedSnapshot=f=>f===null&&state.revision===0||f&&Array.isArray(f.densities)&&f.densities.length===length&&f.densities.every(Number.isFinite)&&
@@ -44,9 +48,9 @@ export function validateCellularState(state){
     throw new Error('Corrupt cellular world deltas');
   if(!Array.isArray(state.actors)||state.actors.length>4||!Array.isArray(state.retired)||new Set(state.retired).size!==state.retired.length)throw new Error('Corrupt cellular actor limit/retirement');
   const debrisIds=new Set();if(!Array.isArray(state.fractureDebris)||state.fractureDebris.length>64)throw new Error('Corrupt fracture debris records');
-  for(const item of state.fractureDebris){if(!rock||!item.id||debrisIds.has(item.id)||!['temporary-physics-shard','tiny-debris'].includes(item.kind)||
+  for(const item of state.fractureDebris){if(!(rock||mixed&&item.material===1)||!item.id||debrisIds.has(item.id)||!['temporary-physics-shard','tiny-debris'].includes(item.kind)||
       !Number.isSafeInteger(item.quantity)||item.quantity<1||!Array.isArray(item.densities)||item.densities.length!==length||!item.densities.every(Number.isFinite)||
-      !Array.isArray(item.materials)||item.materials.length!==length||!item.materials.every(v=>v===0||v===materialId)||!finite3(item.position)||!finite3(item.linearVelocity)||
+      !Array.isArray(item.materials)||item.materials.length!==length||!item.materials.every(v=>v===0||v===(mixed?1:materialId))||!finite3(item.position)||!finite3(item.linearVelocity)||
       !finite3(item.angularVelocity)||!finite3(item.localHit)||!['x','y','z','w'].every(k=>Number.isFinite(item.rotation?.[k])))throw new Error('Corrupt fracture debris record');
     debrisIds.add(item.id);}
   const ids=new Set();for(const actor of state.actors){
@@ -56,6 +60,8 @@ export function validateCellularState(state){
       actor.domain?.id!=='rock:9212026'||actor.spacing!==.5||actor.sampleFrame?.spacing!==.5||!finite3(actor.sampleFrame.offset)||
       ((rock||mixed&&actor.material===1)&&!validStructure(actor.structure))||((dirt||mixed&&actor.material===2)&&actor.structure!==null))throw new Error('Corrupt cellular actor');
     if(actor.densities.some((v,i)=>(v<0)!==(actor.materials[i]===actor.material)))throw new Error('Corrupt cellular material samples');
+    const connected=analyzeMatterConnectivity(actorMatterSamples(actor));if(connected.status!=='OK'||connected.components.length!==1)
+      throw new Error('Corrupt disconnected matter actor');
     ids.add(actor.id);
   }
   if(!state.ownership||typeof state.ownership!=='object'||state.initialQuantity!==base.initialQuantity||

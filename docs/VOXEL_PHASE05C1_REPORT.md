@@ -1,6 +1,6 @@
 # Phase 0.5C.1 — Material composition and crisp visual seams
 
-**Result: HOLD — stop for owner review.** The bounded compositor and seam comparison work in the isolated lab. The phase reaches an evidence-based provisional **HYBRID** recommendation, but does not pass its complete end-to-end gate: the buried-rock sequence is a deterministic browser preview over the actual mesher, not a persisted interactive matter-world state, the logical chunk-edge material probe is deferred to D, and the current focused C physics test is failing its rotation threshold in this environment.
+**Original result: HOLD — superseded by [Phase 0.5C.1R](VOXEL_PHASE05C1R_REPORT.md).** The bounded compositor and initial seam comparison work in the isolated lab. The findings and limits below describe the state before owner-playtest remediation: the buried-rock preview was mesher-only, majority seams produced the reported triangular pattern, and the C rotation assertion used a threshold contradicted by repeated runtime measurements. C.1R closes the listed bounded remediation; the logical chunk-edge probe remains deferred to D.
 
 ## VERIFIED
 

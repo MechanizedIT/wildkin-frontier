@@ -36,7 +36,7 @@ test('buried rock is revealed progressively by dirt-only edits on one meshed sur
   assert.ok(first.densities.every((d,i)=>(d<0)===(first.materials[i]!==0)),'resolved samples have one material owner');
 });
 
-test('crisp seam keeps the shared Surface Nets triangles and positions unchanged',()=>{
+test('rejected triangle-majority seam keeps shared geometry but is retained as sawtooth comparison evidence',()=>{
   const samples=makeMixedMatterSamples(),base=meshMatterSamples(samples),crisp=crispMatterSeams(base),repeat=crispMatterSeams(meshMatterSamples(makeMixedMatterSamples()));
   assert.equal(crisp.indices.length,base.indices.length);assert.equal(crisp.triangleCount,base.indices.length/3);
   assert.deepEqual(crisp.positions,repeat.positions);assert.deepEqual(crisp.indices,repeat.indices);assert.deepEqual(crisp.colors,repeat.colors);
@@ -45,4 +45,15 @@ test('crisp seam keeps the shared Surface Nets triangles and positions unchanged
   assert.deepEqual(triangleKey(crisp,crisp.indices),triangleKey(base,base.indices),'all triangles occupy the exact original surface');
   for(let i=0;i<crisp.indices.length;i+=3){const ids=[0,1,2].map(j=>crisp.materialIds[crisp.indices[i+j]]);assert.equal(new Set(ids).size,1,'each triangle is one material color');}
   assert.ok(crisp.renderVertexCount>=crisp.sourceVertexCount);
+});
+
+test('thresholded material weights are deterministic and cross triangle interiors on shared geometry',()=>{
+  const first=meshMatterSamples(makeMixedMatterSamples()),repeat=meshMatterSamples(makeMixedMatterSamples());
+  assert.deepEqual(first.positions,repeat.positions);assert.deepEqual(first.indices,repeat.indices);assert.deepEqual(first.rockWeights,repeat.rockWeights);
+  assert.equal(first.rockWeights.length,first.positions.length/3);assert.ok(first.rockWeights.every(weight=>weight>=0&&weight<=1));
+  let interiorCrossings=0;for(let i=0;i<first.indices.length;i+=3){const weights=[0,1,2].map(j=>first.rockWeights[first.indices[i+j]]);
+    if(Math.min(...weights)<.5&&Math.max(...weights)>.5)interiorCrossings++;}
+  assert.ok(interiorCrossings>0,'the 0.5 threshold traverses triangles instead of snapping to whole faces');
+  const crisp=crispMatterSeams(first);assert.equal(crisp.triangleCount,first.indices.length/3);
+  assert.deepEqual(crisp.positions,crispMatterSeams(repeat).positions,'negative comparison remains deterministic');
 });

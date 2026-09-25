@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Phase 0.5C.1R evidence</title>
+<style>
+  :root{color-scheme:dark;font:16px/1.5 system-ui,sans-serif;background:#10191d;color:#e6e3db}
+  body{max-width:1120px;margin:2rem auto;padding:0 1rem}h1,h2{color:#f0c98d}
+  section{margin:2rem 0}figure{margin:1.5rem 0}img{display:block;width:100%;height:auto;border:1px solid #52646a;border-radius:8px}
+  figcaption{color:#b8c6c9;margin-top:.5rem}a{color:#a8d7dc}
+</style>
+<main>
+  <h1>Phase 0.5C.1R — owner playtest remediation</h1>
+  <p><a href="../../VOXEL_PHASE05C1R_REPORT.md">Read the report</a> · <a href="source/seam-comparison.json">Browser receipt</a></p>
+  <section><h2>Seam comparison</h2>
+    <figure><img src="source/seam-current-interpolation.png" alt="Mixed dirt and rock using interpolated vertex material"><figcaption>Current vertex interpolation control, 908 triangles.</figcaption></figure>
+    <figure><img src="source/seam-triangle-majority-negative.png" alt="Rejected triangle-majority seam comparison"><figcaption>Rejected triangle-majority mode retained as negative evidence.</figcaption></figure>
+    <figure><img src="source/seam-thresholded-material-weight.png" alt="Shared geometry with thresholded continuous material weight"><figcaption>Thresholded continuous material weight on the same 908-triangle geometry.</figcaption></figure>
+  </section>
+  <section><h2>Buried fixture through normal controls</h2>
+    <figure><img src="source/buried-interactive-01-initial.png" alt="Buried rock fixture before mining"><figcaption>Initial fixture: 336 rock units are fully covered by soil.</figcaption></figure>
+    <figure><img src="source/buried-interactive-02-first-freehand-scoop.png" alt="First ordinary crosshair scoop"><figcaption>Ordinary crosshair canvas click removes dirt while preserving the rock ledger.</figcaption></figure>
+    <figure><img src="source/buried-interactive-03-progressive-reveal.png" alt="Buried rock revealed after orbiting and mining"><figcaption>After real mouse orbit and repeated canvas mining: the same world surface progressively exposes rock. Deterministic transaction and Rapier tests cover detachment, settling, moved-actor mining and persistence.</figcaption></figure>
+  </section>
+</main>
+</html>

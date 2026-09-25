@@ -1,0 +1,788 @@
+{
+  "pass": true,
+  "timestamp": "2026-09-24T23:57:49.456Z",
+  "browser": "Microsoft Edge headless / SwiftShader",
+  "viewport": {
+    "width": 1280,
+    "height": 720
+  },
+  "before": {
+    "namespace": "wildkin-voxel-lab-cellular-0.5c-mixed-v1-mixed-phase05c1-1790294254593",
+    "material": "mixed",
+    "materialId": 3,
+    "revision": 0,
+    "audit": {
+      "world": 2596,
+      "consumed": 0,
+      "total": 2596,
+      "initial": 2596,
+      "materials": {
+        "dirt": {
+          "initial": 2280,
+          "world": 2280,
+          "actors": 0,
+          "consumed": 0
+        },
+        "rock": {
+          "initial": 316,
+          "world": 316,
+          "actors": 0,
+          "consumed": 0
+        }
+      },
+      "balanced": true,
+      "ownershipMaterialValid": true
+    },
+    "events": {
+      "dugUnits": {
+        "rock": 0,
+        "dirt": 0
+      },
+      "crumbledUnits": {
+        "rock": 0,
+        "dirt": 0
+      }
+    },
+    "supportSummary": {
+      "components": 1,
+      "workUnits": 1522,
+      "anchoredRock": true,
+      "anchoredDirt": true
+    },
+    "actors": [],
+    "retired": [],
+    "workerTimes": [],
+    "colliderTimes": [],
+    "saveTimes": [],
+    "editTimes": [],
+    "matterWorkMetrics": [],
+    "rockWorkMetrics": [],
+    "frameP95": 50,
+    "errors": [],
+    "bodyCount": 0,
+    "transientShardBodies": 0,
+    "pooledVisualDebris": 0,
+    "worldColliderRevision": 0,
+    "colliderCounts": [],
+    "seamMode": "interpolated",
+    "actorProductIds": [],
+    "actorProductRevisions": [],
+    "worldMaterialVertices": {
+      "rock": 116,
+      "dirt": 340
+    },
+    "renderVertices": [
+      456
+    ],
+    "triangles": [
+      908
+    ]
+  },
+  "triangleMajority": {
+    "namespace": "wildkin-voxel-lab-cellular-0.5c-mixed-v1-mixed-phase05c1-1790294254593",
+    "material": "mixed",
+    "materialId": 3,
+    "revision": 0,
+    "audit": {
+      "world": 2596,
+      "consumed": 0,
+      "total": 2596,
+      "initial": 2596,
+      "materials": {
+        "dirt": {
+          "initial": 2280,
+          "world": 2280,
+          "actors": 0,
+          "consumed": 0
+        },
+        "rock": {
+          "initial": 316,
+          "world": 316,
+          "actors": 0,
+          "consumed": 0
+        }
+      },
+      "balanced": true,
+      "ownershipMaterialValid": true
+    },
+    "events": {
+      "dugUnits": {
+        "rock": 0,
+        "dirt": 0
+      },
+      "crumbledUnits": {
+        "rock": 0,
+        "dirt": 0
+      }
+    },
+    "supportSummary": {
+      "components": 1,
+      "workUnits": 1522,
+      "anchoredRock": true,
+      "anchoredDirt": true
+    },
+    "actors": [],
+    "retired": [],
+    "workerTimes": [],
+    "colliderTimes": [],
+    "saveTimes": [],
+    "editTimes": [],
+    "matterWorkMetrics": [],
+    "rockWorkMetrics": [],
+    "frameP95": 50,
+    "errors": [],
+    "bodyCount": 0,
+    "transientShardBodies": 0,
+    "pooledVisualDebris": 0,
+    "worldColliderRevision": 0,
+    "colliderCounts": [],
+    "seamMode": "triangle-majority",
+    "actorProductIds": [],
+    "actorProductRevisions": [],
+    "worldMaterialVertices": {
+      "rock": 127,
+      "dirt": 351
+    },
+    "renderVertices": [
+      478
+    ],
+    "triangles": [
+      908
+    ]
+  },
+  "threshold": {
+    "namespace": "wildkin-voxel-lab-cellular-0.5c-mixed-v1-mixed-phase05c1-1790294254593",
+    "material": "mixed",
+    "materialId": 3,
+    "revision": 0,
+    "audit": {
+      "world": 2596,
+      "consumed": 0,
+      "total": 2596,
+      "initial": 2596,
+      "materials": {
+        "dirt": {
+          "initial": 2280,
+          "world": 2280,
+          "actors": 0,
+          "consumed": 0
+        },
+        "rock": {
+          "initial": 316,
+          "world": 316,
+          "actors": 0,
+          "consumed": 0
+        }
+      },
+      "balanced": true,
+      "ownershipMaterialValid": true
+    },
+    "events": {
+      "dugUnits": {
+        "rock": 0,
+        "dirt": 0
+      },
+      "crumbledUnits": {
+        "rock": 0,
+        "dirt": 0
+      }
+    },
+    "supportSummary": {
+      "components": 1,
+      "workUnits": 1522,
+      "anchoredRock": true,
+      "anchoredDirt": true
+    },
+    "actors": [],
+    "retired": [],
+    "workerTimes": [],
+    "colliderTimes": [],
+    "saveTimes": [],
+    "editTimes": [],
+    "matterWorkMetrics": [],
+    "rockWorkMetrics": [],
+    "frameP95": 50,
+    "errors": [],
+    "bodyCount": 0,
+    "transientShardBodies": 0,
+    "pooledVisualDebris": 0,
+    "worldColliderRevision": 0,
+    "colliderCounts": [],
+    "seamMode": "threshold",
+    "actorProductIds": [],
+    "actorProductRevisions": [],
+    "worldMaterialVertices": {
+      "rock": 116,
+      "dirt": 340
+    },
+    "renderVertices": [
+      456
+    ],
+    "triangles": [
+      908
+    ]
+  },
+  "buriedInitial": {
+    "namespace": "wildkin-voxel-lab-cellular-0.5c1-buried-v1-mixed-phase05c1-1790294254593",
+    "material": "mixed",
+    "materialId": 3,
+    "revision": 0,
+    "audit": {
+      "world": 4764,
+      "consumed": 0,
+      "total": 4764,
+      "initial": 4764,
+      "materials": {
+        "dirt": {
+          "initial": 4428,
+          "world": 4428,
+          "actors": 0,
+          "consumed": 0
+        },
+        "rock": {
+          "initial": 336,
+          "world": 336,
+          "actors": 0,
+          "consumed": 0
+        }
+      },
+      "balanced": true,
+      "ownershipMaterialValid": true
+    },
+    "events": {
+      "dugUnits": {
+        "rock": 0,
+        "dirt": 0
+      },
+      "crumbledUnits": {
+        "rock": 0,
+        "dirt": 0
+      }
+    },
+    "supportSummary": {
+      "components": 1,
+      "workUnits": 2576,
+      "anchoredRock": true,
+      "anchoredDirt": true
+    },
+    "actors": [],
+    "retired": [],
+    "workerTimes": [],
+    "colliderTimes": [],
+    "saveTimes": [],
+    "editTimes": [],
+    "matterWorkMetrics": [],
+    "rockWorkMetrics": [],
+    "frameP95": 50,
+    "errors": [],
+    "bodyCount": 0,
+    "transientShardBodies": 0,
+    "pooledVisualDebris": 0,
+    "worldColliderRevision": 0,
+    "colliderCounts": [],
+    "seamMode": "interpolated",
+    "actorProductIds": [],
+    "actorProductRevisions": [],
+    "worldMaterialVertices": {
+      "rock": 0,
+      "dirt": 488
+    },
+    "renderVertices": [
+      488
+    ],
+    "triangles": [
+      972
+    ]
+  },
+  "buriedAfterFreehand": {
+    "namespace": "wildkin-voxel-lab-cellular-0.5c1-buried-v1-mixed-phase05c1-1790294254593",
+    "material": "mixed",
+    "materialId": 3,
+    "revision": 17,
+    "audit": {
+      "world": 3844,
+      "consumed": 920,
+      "total": 4764,
+      "initial": 4764,
+      "materials": {
+        "dirt": {
+          "initial": 4428,
+          "world": 3511,
+          "actors": 0,
+          "consumed": 917
+        },
+        "rock": {
+          "initial": 336,
+          "world": 333,
+          "actors": 0,
+          "consumed": 3
+        }
+      },
+      "balanced": true,
+      "ownershipMaterialValid": true
+    },
+    "events": {
+      "dugUnits": {
+        "rock": 3,
+        "dirt": 917
+      },
+      "crumbledUnits": {
+        "rock": 0,
+        "dirt": 0
+      }
+    },
+    "supportSummary": {
+      "components": 1,
+      "workUnits": 6913,
+      "anchoredRock": true,
+      "anchoredDirt": true,
+      "before": {
+        "components": 1,
+        "workUnits": 6913,
+        "anchoredRock": true,
+        "anchoredDirt": true
+      }
+    },
+    "actors": [],
+    "retired": [],
+    "workerTimes": [
+      40.200000047683716,
+      41.89999997615814,
+      27.799999952316284,
+      23.799999952316284,
+      11.399999976158142,
+      9.5,
+      9,
+      14.200000047683716,
+      25.09999990463257,
+      23.799999952316284,
+      15.899999976158142,
+      8.299999952316284,
+      13.5,
+      20.700000047683716,
+      10.599999904632568,
+      6.800000071525574,
+      9.799999952316284
+    ],
+    "colliderTimes": [
+      1.2000000476837158,
+      1.5,
+      1.6999999284744263,
+      1.7000000476837158,
+      1.5,
+      1.6999999284744263,
+      2.600000023841858,
+      1.600000023841858,
+      1.5999999046325684,
+      1.5,
+      1.600000023841858,
+      1.5999999046325684,
+      1.7000000476837158,
+      1.5,
+      1.100000023841858,
+      1.600000023841858,
+      1.100000023841858
+    ],
+    "saveTimes": [
+      59.60000002384186,
+      78.29999995231628,
+      77.60000002384186,
+      80.60000002384186,
+      61.40000009536743,
+      67.30000007152557,
+      56.200000047683716,
+      63.10000002384186,
+      76.10000002384186,
+      66.89999997615814,
+      67.59999990463257,
+      58.200000047683716,
+      53.199999928474426,
+      54,
+      70.69999992847443,
+      51.60000002384186,
+      50.89999997615814
+    ],
+    "editTimes": [
+      229.10000002384186,
+      258.5,
+      208.59999990463257,
+      208.5,
+      173.29999995231628,
+      185.19999992847443,
+      181.39999997615814,
+      184.80000007152557,
+      195.29999995231628,
+      191.10000002384186,
+      154.19999992847443,
+      165,
+      163.29999995231628,
+      170.70000004768372,
+      142.10000002384186,
+      152.39999997615814,
+      123.40000009536743
+    ],
+    "matterWorkMetrics": [
+      {
+        "revision": 1,
+        "elapsedMs": 38.60000002384186,
+        "chipMs": 0.5,
+        "graphMs": 0,
+        "stressMs": 0,
+        "connectivityMs": 21.399999976158142,
+        "crumbleMs": 17.200000047683716,
+        "supportWorkUnits": 6919
+      },
+      {
+        "revision": 2,
+        "elapsedMs": 42,
+        "chipMs": 0.30000007152557373,
+        "graphMs": 0,
+        "stressMs": 0,
+        "connectivityMs": 19.699999928474426,
+        "crumbleMs": 22.300000071525574,
+        "supportWorkUnits": 6913
+      },
+      {
+        "revision": 3,
+        "elapsedMs": 43.5,
+        "chipMs": 0.2999999523162842,
+        "graphMs": 0,
+        "stressMs": 0,
+        "connectivityMs": 18.100000023841858,
+        "crumbleMs": 25.399999976158142,
+        "supportWorkUnits": 6919
+      },
+      {
+        "revision": 4,
+        "elapsedMs": 33.09999990463257,
+        "chipMs": 0.20000004768371582,
+        "graphMs": 0,
+        "stressMs": 0,
+        "connectivityMs": 9.799999952316284,
+        "crumbleMs": 23.299999952316284,
+        "supportWorkUnits": 3456
+      },
+      {
+        "revision": 5,
+        "elapsedMs": 38.89999997615814,
+        "chipMs": 0.2999999523162842,
+        "graphMs": 0,
+        "stressMs": 0,
+        "connectivityMs": 14.600000023841858,
+        "crumbleMs": 24.299999952316284,
+        "supportWorkUnits": 6919
+      },
+      {
+        "revision": 6,
+        "elapsedMs": 41.39999997615814,
+        "chipMs": 0.10000002384185791,
+        "graphMs": 0,
+        "stressMs": 0,
+        "connectivityMs": 13.799999952316284,
+        "crumbleMs": 27.600000023841858,
+        "supportWorkUnits": 6914
+      },
+      {
+        "revision": 7,
+        "elapsedMs": 46.10000002384186,
+        "chipMs": 0.20000004768371582,
+        "graphMs": 0,
+        "stressMs": 0,
+        "connectivityMs": 14.699999928474426,
+        "crumbleMs": 31.40000009536743,
+        "supportWorkUnits": 6917
+      },
+      {
+        "revision": 8,
+        "elapsedMs": 44.300000071525574,
+        "chipMs": 0.10000002384185791,
+        "graphMs": 0,
+        "stressMs": 0,
+        "connectivityMs": 18.00000011920929,
+        "crumbleMs": 26.299999952316284,
+        "supportWorkUnits": 6917
+      },
+      {
+        "revision": 9,
+        "elapsedMs": 27.200000047683716,
+        "chipMs": 0.20000004768371582,
+        "graphMs": 0,
+        "stressMs": 0,
+        "connectivityMs": 6.700000047683716,
+        "crumbleMs": 20.5,
+        "supportWorkUnits": 3456
+      },
+      {
+        "revision": 10,
+        "elapsedMs": 33.10000002384186,
+        "chipMs": 0.20000004768371582,
+        "graphMs": 0,
+        "stressMs": 0,
+        "connectivityMs": 9.600000023841858,
+        "crumbleMs": 23.5,
+        "supportWorkUnits": 3456
+      },
+      {
+        "revision": 11,
+        "elapsedMs": null,
+        "chipMs": 0.30000007152557373,
+        "stressMs": 0.2999999523162842,
+        "connectivityMs": 5.899999976158142,
+        "supportWorkUnits": 118
+      },
+      {
+        "revision": 12,
+        "elapsedMs": 34.200000047683716,
+        "chipMs": 0,
+        "graphMs": 0,
+        "stressMs": 0,
+        "connectivityMs": 13.200000047683716,
+        "crumbleMs": 21,
+        "supportWorkUnits": 3456
+      },
+      {
+        "revision": 13,
+        "elapsedMs": 34.299999952316284,
+        "chipMs": 0.19999992847442627,
+        "graphMs": 0,
+        "stressMs": 0,
+        "connectivityMs": 7,
+        "crumbleMs": 27.299999952316284,
+        "supportWorkUnits": 3456
+      },
+      {
+        "revision": 14,
+        "elapsedMs": 38.60000002384186,
+        "chipMs": 0.10000002384185791,
+        "graphMs": 0,
+        "stressMs": 0,
+        "connectivityMs": 17.700000047683716,
+        "crumbleMs": 20.899999976158142,
+        "supportWorkUnits": 6913
+      },
+      {
+        "revision": 15,
+        "elapsedMs": null,
+        "chipMs": 0.10000002384185791,
+        "stressMs": 0.10000002384185791,
+        "connectivityMs": 3.6999999284744263,
+        "supportWorkUnits": 118
+      },
+      {
+        "revision": 16,
+        "elapsedMs": 38.59999990463257,
+        "chipMs": 0.10000002384185791,
+        "graphMs": 0,
+        "stressMs": 0,
+        "connectivityMs": 18.09999990463257,
+        "crumbleMs": 20.5,
+        "supportWorkUnits": 6913
+      },
+      {
+        "revision": 17,
+        "elapsedMs": null,
+        "chipMs": 0.10000002384185791,
+        "stressMs": 0.10000002384185791,
+        "connectivityMs": 3.5,
+        "supportWorkUnits": 113
+      }
+    ],
+    "rockWorkMetrics": [
+      {
+        "revision": 1,
+        "elapsedMs": 38.60000002384186,
+        "chipMs": 0.5,
+        "graphMs": 0,
+        "stressMs": 0,
+        "connectivityMs": 21.399999976158142,
+        "crumbleMs": 17.200000047683716,
+        "supportWorkUnits": 6919
+      },
+      {
+        "revision": 2,
+        "elapsedMs": 42,
+        "chipMs": 0.30000007152557373,
+        "graphMs": 0,
+        "stressMs": 0,
+        "connectivityMs": 19.699999928474426,
+        "crumbleMs": 22.300000071525574,
+        "supportWorkUnits": 6913
+      },
+      {
+        "revision": 3,
+        "elapsedMs": 43.5,
+        "chipMs": 0.2999999523162842,
+        "graphMs": 0,
+        "stressMs": 0,
+        "connectivityMs": 18.100000023841858,
+        "crumbleMs": 25.399999976158142,
+        "supportWorkUnits": 6919
+      },
+      {
+        "revision": 4,
+        "elapsedMs": 33.09999990463257,
+        "chipMs": 0.20000004768371582,
+        "graphMs": 0,
+        "stressMs": 0,
+        "connectivityMs": 9.799999952316284,
+        "crumbleMs": 23.299999952316284,
+        "supportWorkUnits": 3456
+      },
+      {
+        "revision": 5,
+        "elapsedMs": 38.89999997615814,
+        "chipMs": 0.2999999523162842,
+        "graphMs": 0,
+        "stressMs": 0,
+        "connectivityMs": 14.600000023841858,
+        "crumbleMs": 24.299999952316284,
+        "supportWorkUnits": 6919
+      },
+      {
+        "revision": 6,
+        "elapsedMs": 41.39999997615814,
+        "chipMs": 0.10000002384185791,
+        "graphMs": 0,
+        "stressMs": 0,
+        "connectivityMs": 13.799999952316284,
+        "crumbleMs": 27.600000023841858,
+        "supportWorkUnits": 6914
+      },
+      {
+        "revision": 7,
+        "elapsedMs": 46.10000002384186,
+        "chipMs": 0.20000004768371582,
+        "graphMs": 0,
+        "stressMs": 0,
+        "connectivityMs": 14.699999928474426,
+        "crumbleMs": 31.40000009536743,
+        "supportWorkUnits": 6917
+      },
+      {
+        "revision": 8,
+        "elapsedMs": 44.300000071525574,
+        "chipMs": 0.10000002384185791,
+        "graphMs": 0,
+        "stressMs": 0,
+        "connectivityMs": 18.00000011920929,
+        "crumbleMs": 26.299999952316284,
+        "supportWorkUnits": 6917
+      },
+      {
+        "revision": 9,
+        "elapsedMs": 27.200000047683716,
+        "chipMs": 0.20000004768371582,
+        "graphMs": 0,
+        "stressMs": 0,
+        "connectivityMs": 6.700000047683716,
+        "crumbleMs": 20.5,
+        "supportWorkUnits": 3456
+      },
+      {
+        "revision": 10,
+        "elapsedMs": 33.10000002384186,
+        "chipMs": 0.20000004768371582,
+        "graphMs": 0,
+        "stressMs": 0,
+        "connectivityMs": 9.600000023841858,
+        "crumbleMs": 23.5,
+        "supportWorkUnits": 3456
+      },
+      {
+        "revision": 11,
+        "elapsedMs": null,
+        "chipMs": 0.30000007152557373,
+        "stressMs": 0.2999999523162842,
+        "connectivityMs": 5.899999976158142,
+        "supportWorkUnits": 118
+      },
+      {
+        "revision": 12,
+        "elapsedMs": 34.200000047683716,
+        "chipMs": 0,
+        "graphMs": 0,
+        "stressMs": 0,
+        "connectivityMs": 13.200000047683716,
+        "crumbleMs": 21,
+        "supportWorkUnits": 3456
+      },
+      {
+        "revision": 13,
+        "elapsedMs": 34.299999952316284,
+        "chipMs": 0.19999992847442627,
+        "graphMs": 0,
+        "stressMs": 0,
+        "connectivityMs": 7,
+        "crumbleMs": 27.299999952316284,
+        "supportWorkUnits": 3456
+      },
+      {
+        "revision": 14,
+        "elapsedMs": 38.60000002384186,
+        "chipMs": 0.10000002384185791,
+        "graphMs": 0,
+        "stressMs": 0,
+        "connectivityMs": 17.700000047683716,
+        "crumbleMs": 20.899999976158142,
+        "supportWorkUnits": 6913
+      },
+      {
+        "revision": 15,
+        "elapsedMs": null,
+        "chipMs": 0.10000002384185791,
+        "stressMs": 0.10000002384185791,
+        "connectivityMs": 3.6999999284744263,
+        "supportWorkUnits": 118
+      },
+      {
+        "revision": 16,
+        "elapsedMs": 38.59999990463257,
+        "chipMs": 0.10000002384185791,
+        "graphMs": 0,
+        "stressMs": 0,
+        "connectivityMs": 18.09999990463257,
+        "crumbleMs": 20.5,
+        "supportWorkUnits": 6913
+      },
+      {
+        "revision": 17,
+        "elapsedMs": null,
+        "chipMs": 0.10000002384185791,
+        "stressMs": 0.10000002384185791,
+        "connectivityMs": 3.5,
+        "supportWorkUnits": 113
+      }
+    ],
+    "frameP95": 50,
+    "errors": [],
+    "bodyCount": 0,
+    "transientShardBodies": 0,
+    "pooledVisualDebris": 0,
+    "worldColliderRevision": 17,
+    "colliderCounts": [],
+    "seamMode": "interpolated",
+    "actorProductIds": [],
+    "actorProductRevisions": [],
+    "worldMaterialVertices": {
+      "rock": 2,
+      "dirt": 517
+    },
+    "renderVertices": [
+      519
+    ],
+    "triangles": [
+      1036
+    ]
+  },
+  "detachment": "covered by the deterministic mixed-matter and Rapier end-to-end tests; this browser receipt covers real orbit and mining input through progressive reveal.",
+  "captures": [
+    "seam-interpolated.png",
+    "seam-triangle-majority-negative.png",
+    "seam-thresholded-material-weight.png",
+    "buried-interactive-01-initial.png",
+    "buried-interactive-02-first-freehand-scoop.png",
+    "buried-interactive-03-progressive-reveal.png"
+  ],
+  "errors": [],
+  "external": []
+}

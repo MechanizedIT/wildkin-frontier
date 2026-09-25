@@ -4,13 +4,13 @@
 *{box-sizing:border-box}body{margin:0;background:#101b21;color:#eee9d9;font:15px system-ui;overflow:hidden}#scene{width:100vw;height:100vh;display:block}
 #hud{position:absolute;top:14px;left:14px;max-width:400px;background:#12242cd9;border:1px solid #57707a;border-radius:10px;padding:14px;box-shadow:0 12px 36px #0008}
 h1{font-size:20px;line-height:1.2;margin:0 0 8px}p{margin:6px 0}button,a#switch{background:#b3d3bd;color:#10211a;border:0;border-radius:6px;font:bold 14px system-ui;padding:8px 12px;margin:6px 6px 0 0;cursor:pointer}button:disabled{opacity:.45;cursor:wait}
-a#switch{display:inline-block;background:#273f49;color:#e8ddc5;border:1px solid #71888d;text-decoration:none}#message{min-height:40px;color:#f5d49a}#stats{font:12px ui-monospace,monospace;color:#b9cbd0;white-space:pre-wrap}
+a#switch,a#buried{display:inline-block;background:#273f49;color:#e8ddc5;border:1px solid #71888d;text-decoration:none}#message{min-height:40px;color:#f5d49a}#stats{font:12px ui-monospace,monospace;color:#b9cbd0;white-space:pre-wrap}
 #crosshair{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);pointer-events:none;font:bold 24px system-ui;text-shadow:0 0 5px #000}#hint{position:absolute;bottom:14px;left:14px;background:#12242cd9;padding:9px 12px;border-radius:7px;max-width:720px}
 @media(max-width:700px){#hud{max-width:min(350px,82vw);font-size:13px;padding:10px}h1{font-size:16px}#hint{max-width:90vw;font-size:12px}}
 </style>
 <canvas id="scene"></canvas><div id="crosshair">+</div>
 <aside id="hud"><h1 id="title">Mixed dirt + supported stone · Phase 0.5C.1</h1><p id="stage">Loading the mixed fixture…</p><p id="message"></p>
-<button id="mine">Dig / strike at crosshair</button><button id="focus">Follow actor (F)</button><button id="debug">Weakness view: cracks only (B)</button><a id="switch" href="./cellular-rock.html?material=rock">Compare hard rock</a><button id="save">Save &amp; reload</button>
+<button id="mine">Dig / strike at crosshair</button><button id="focus">Follow actor (F)</button><button id="debug">Weakness view: cracks only (B)</button><a id="switch" href="./cellular-rock.html?material=rock">Compare hard rock</a><a id="buried" href="./cellular-mixed.html?fixture=buried">Buried-rock playtest</a><button id="save">Save &amp; reload</button>
 <button id="seam" hidden>Material seam: interpolated</button>
 <p id="stats"></p></aside>
 <div id="hint">Aim at soil and click or press E to scoop; aim at stone to chip it. Dig the bank below the supported boulder until support is lost, then follow the moved rock and strike its visible face. Drag to orbit · Wheel to zoom · WASD to move the view · F follows the actor · Save &amp; reload checks persistence.</div>

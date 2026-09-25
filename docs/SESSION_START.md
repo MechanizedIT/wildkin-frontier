@@ -1,12 +1,16 @@
 # Resume Wildkin Frontier
 
+## September 24 Phase 0.5C.1R — remediation complete; stop for owner review
+
+Read [the C.1R report](VOXEL_PHASE05C1R_REPORT.md), [current slice](CURRENT_SLICE.md), and [matter roadmap](DESTRUCTIBLE_MATTER_ROADMAP.md). **PASS for this bounded isolated lab slice; do not start Phase 0.5D without fresh owner direction.** The buried fixture uses the persisted mixed-world edit and actor path; actor connectivity, dirt support refresh, unchanged actor-product reuse, thresholded shared-geometry seams, and the reproducible Rapier motion/settling regression are covered. Browser source evidence and the full validation/reviewer record are in the C.1R report. No production, chunk-edge, mobile-readiness or terrain-scale claim is made.
+
 ## September 24 Phase 0.5C.1 — owner review and control follow-up
 
-Read [the C.1 report](VOXEL_PHASE05C1_REPORT.md), [current slice](CURRENT_SLICE.md), and [roadmap](DESTRUCTIBLE_MATTER_ROADMAP.md). C.1 remains **HOLD**. Owner browser review reports physically connected rock pieces, floating dirt after boulder detachment, rock jiggle during later dirt mining, an unnatural crisp triangular seam, and limited interaction in the Buried-rock preview. The follow-up makes WASD camera-relative and removes the fixed eight-unit mining-ray limit; focused tests cover both. Those fixes do not close the other perceptual findings. The buried fixture is still not on the persisted interactive edit/detachment path, the logical chunk seam is deferred to D, and the existing C Rapier rotation test misses its >0.25 rad threshold (0.153 rad observed). Do not start D without fresh owner instruction.
+Historical pre-remediation checkpoint. See [C.1R](VOXEL_PHASE05C1R_REPORT.md) for the current status. The owner observations and camera-control follow-up are retained in [the original C.1 report](VOXEL_PHASE05C1_REPORT.md).
 
 ## September 24 Phase 0.5C.1 — material composition/seam experiment
 
-Read [the C.1 report](VOXEL_PHASE05C1_REPORT.md), [current slice](CURRENT_SLICE.md), and [roadmap](DESTRUCTIBLE_MATTER_ROADMAP.md). **HOLD; stop for owner review.** The bounded source compositor, buried-rock Surface Nets preview, crisp triangle seam mode, and no-regenerated-dirt regression are implemented. The HYBRID representation recommendation is provisional. The buried fixture is not yet on the persisted interactive edit/detachment path, the logical chunk seam is deferred to D, and the existing C Rapier rotation test currently misses its >0.25 rad threshold (0.153 rad observed). Do not start D without fresh owner instruction.
+Historical initial C.1 implementation checkpoint; superseded by [C.1R](VOXEL_PHASE05C1R_REPORT.md).
 
 ## September 24 Phase 0.5B — dirt / soil second-material proof
 

@@ -1,6 +1,9 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { createInitialRockState, mineWorldRock, mineActorRock, actorRockSamples, quantityAudit } from '../lab/voxel/matter-actor.js';
+import { createInitialRockState, createInitialMixedState, mineWorldMatter, mineWorldRock, mineActorRock, actorRockSamples, quantityAudit } from '../lab/voxel/matter-actor.js';
+import { MATTER_MATERIAL } from '../lab/voxel/matter-material-policy.js';
+import { analyzeMatterConnectivity } from '../lab/voxel/matter-connectivity.js';
+import { validateCellularState } from '../lab/voxel/cellular-persistence.js';
 import { actorToWorldPoint } from '../lab/voxel/matter-target.js';
 
 const splitHits=[[0,4,0],[0,4,-.5],[0,3,0],[0,5,0],[0,4.5,-.5],[0,5.5,0],
@@ -35,4 +38,25 @@ test('rock survives world damage, detaches once, takes a secondary hit, splits a
   assert.notDeepEqual(childResult.state.actors.find(a=>a.id===child.id)?.densities,child.densities);
   assert.equal(quantityAudit(childResult.state).balanced,true);
   assert.equal(quantityAudit(childResult.state).initial,original);
+});
+
+test('ordinary actor edit separates disconnected scalar components even without a structural fracture',()=>{
+  let state=createInitialMixedState();state=mineWorldMatter(state,[1.6,2.3,0]).state;
+  state=mineWorldMatter(state,[0,3.6,0],{material:MATTER_MATERIAL.DIRT}).state;
+  const parent=state.actors[0];
+  // Reproduce the owner's observed state: two visible scalar islands were
+  // still serialized under the same MatterActor. The isolated patch is an
+  // opt-in fixture corruption, not a production topology edit.
+  for(let z=10;z<=12;z++)for(let y=10;y<=12;y++)for(let x=10;x<=12;x++){
+    const i=x+13*(y+13*z);parent.densities[i]=-1;parent.materials[i]=MATTER_MATERIAL.ROCK;
+  }
+  assert.throws(()=>validateCellularState(state),/disconnected matter actor/);
+  const result=mineActorRock(state,parent.id,parent.contentRevision,[2.5,5.5,2.5]);
+  assert.equal(result.status,'OK',result.reason);assert.equal(result.fracture,false);assert.equal(result.split,true);
+  assert.equal(result.state.actors.length,2);assert.ok(result.state.retired.includes(parent.id));
+  assert.equal(quantityAudit(result.state).balanced,true);
+  for(const actor of result.state.actors){
+    const connectivity=analyzeMatterConnectivity(actorRockSamples(actor));assert.equal(connectivity.status,'OK');assert.equal(connectivity.components.length,1);
+  }
+  assert.equal(validateCellularState(result.state).actors.length,2,'persistence rejects no retained multi-component actor');
 });

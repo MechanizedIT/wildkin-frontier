@@ -9,10 +9,10 @@ self.onmessage = async ({ data: job }) => {
     if(job.kind==='cellular-rock-mesh'||job.kind==='cellular-matter-mesh'){
       const started=performance.now();
       const sample={min:[-3,0,-3],size:[13,13,13],densities:new Float32Array(job.densities),materials:new Uint8Array(job.materials)};
-      const {positions,normals,colors,materialIds,shades,indices}=meshRockSamples(sample);
-      const meshHash=[positions,normals,colors,materialIds,shades,indices].map(a=>hashBytes(new Uint8Array(a.buffer,a.byteOffset,a.byteLength))).join(':');
+      const {positions,normals,colors,materialIds,rockWeights,shades,indices}=meshRockSamples(sample);
+      const meshHash=[positions,normals,colors,materialIds,rockWeights,shades,indices].map(a=>hashBytes(new Uint8Array(a.buffer,a.byteOffset,a.byteLength))).join(':');
       self.postMessage({id:job.id,kind:job.kind,actorId:job.actorId,revision:job.revision,meshMs:performance.now()-started,meshHash,
-        positions,normals,colors,materialIds,shades,indices},[positions.buffer,normals.buffer,colors.buffer,materialIds.buffer,shades.buffer,indices.buffer]);
+        positions,normals,colors,materialIds,rockWeights,shades,indices},[positions.buffer,normals.buffer,colors.buffer,materialIds.buffer,rockWeights.buffer,shades.buffer,indices.buffer]);
       return;
     }
     let mesher;

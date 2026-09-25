@@ -1,5 +1,15 @@
 # Build Log
 
+## 2026-09-24 — Phase 0.5C.1R owner playtest remediation — Codex GPT-6
+
+- **Goal:** Complete the owner-authorized C.1 remediation in the isolated voxel lab; stop before Phase 0.5D.
+- **Decisions:** Split disconnected occupied actor matter after every accepted actor edit; reuse unchanged actor products by ID/content revision; recompute and account every bounded shared-support pass after dirt cleanup and rock transfer; reject a transaction above 12,288 total support work units. Keep the HYBRID composition direction provisional, preserve triangle-majority only as negative seam evidence, and use a continuous weight threshold shader on the existing shared surface. Correct the Rapier test to repeated observed motion/settling rather than tuning physics to a contradictory old angle cutoff.
+- **Files changed:** `lab/voxel/matter-actor.js`, `lab/voxel/matter-product-reuse.js`, `lab/voxel/matter-fixtures.js`, `lab/voxel/surface-nets.js`, `lab/voxel/worker.js`, `lab/voxel/cellular-main.js`, `lab/voxel/cellular-mixed.html`, `lab/voxel/cellular-persistence.js`; focused voxel tests and `tools/capture-voxel-phase05c1.mjs`; C.1R report, evidence board, current slice, session start, code map, roadmap and this log. Existing untracked `authoring/` and `docs/evidence/voxel-phase05/portable/` content was preserved.
+- **Evidence:** Edge/SwiftShader receipt passes with 908 triangles and 456 render vertices in both compared seam modes; no browser errors or external requests. Normal orbit/mining input reveals the buried rock progressively. The controls browser check confirms camera-relative WASD at 0°/90° and a mined target 19.48 units away. Logical detachment/moved-actor/save behavior is covered in transaction and Rapier tests. Aggregate support work is 5,950 for the detached C fixture and 6,917 for the unrelated dirt edit, both under the 12,288 fail-closed transaction cap. Independent read-only reviewer: PASS.
+- **Tests / validation:** Focused remediation suite 18/18. Final `npm test` passes 1,567/1,567 across 175 suites. Final `npm run verify` passes the same tests plus world/campaign checks, submission build and submission validation (63.12 MB). `git diff --check` reports no whitespace errors.
+- **Remaining issues:** Bounded 13³ fixture only; approximate convex physics; no logical chunk-edge validation, streaming proof, mobile-landscape or production-readiness claim. The HYBRID representation recommendation remains provisional. Phase 0.5D was not started.
+- **Git closure:** Commit directly on `main` and push to `origin/main`, as requested by the owner.
+
 ## 2026-09-24 — Phase 0.5C.1 material composition and seam proof — Codex GPT-6
 
 - **Goal:** Execute the owner-provided bounded Phase 0.5C.1 brief on `main`; compare resolved-only generation with deterministic source composition and current versus crisp material seams.
