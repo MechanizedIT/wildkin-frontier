@@ -1,7 +1,7 @@
 # Destructible Matter R&D Roadmap
 
-**Status:** Phase 0.5E PASS for the bounded lab; stop for owner review. Localized support search discovers and transfers a continuously generated cross-chunk mixed slab through the D.1 MatterActor/ownership/runtime path. Read [Phase 0.5E report](VOXEL_PHASE05E_REPORT.md) and its browser receipt. Do not start Phase 0.5F. Phase D.1 remains the historical known-good baseline in [its report](VOXEL_PHASE05D_REPORT.md).
-**Scope:** isolated destructible-matter research until a later explicit production-migration gate.
+**Status:** Phase 0.5E PASS for the bounded browser R&D lab. Project direction has pivoted to a PC-first native production target. The next authorized planning gate is Phase 0.5F: a matched Unity 6.3 LTS vs Unreal Engine 5.8 engine/matter-technology bakeoff with Codex/agent workflow as a first-class criterion. The browser implementation remains the behavioral reference; do not begin a full production migration until the bakeoff is reviewed. See [PC engine bakeoff plan](PC_ENGINE_BAKEOFF_PLAN.md).
+**Scope:** the existing Three.js/Rapier matter lab remains an isolated executable specification. New implementation work after Phase E should target the native PC engine bakeoff rather than optimizing the browser/mobile stack for production.
 
 ## Vision
 
@@ -104,33 +104,59 @@ Add bounded dirty-region support/connectivity invalidation around edits. Demonst
 
 **Disposition (2026-09-25): PASS for bounded isolated lab; stop for owner review.** Changed global samples derive local support seeds; deterministic bounded windows expand only at unknown boundaries and fail closed while accepting safe direct digging. A generated dirt/rock ledge spans four source chunks, remains anchored through early edits, and becomes one complete unsupported component after ordinary excavation. The 25×6×14-cell mixed slab transfers as one 28×9×17-sample actor with 1,373 ROCK and 3,126 DIRT parcels. The actor falls 1.234 m, contacts three terrain chunks, settles, accepts dirt and hard-rock edits at its moved pose, and survives literal revision-8 reload with exact material ledgers. Collapse-trigger search uses 110,233 work units across 64,474 sampled cells, reads six chunks, and writes six; an ordinary edit uses 5,079 work units, zero expansions, reads four and writes one. The headless full collapse transaction measured 2,184 ms; this is observation, not a mobile budget. The report records the one scalar-label drift correction, material tier limits, no-reward detachment, rollback coverage, collision ray result, persistence and limitations. Independent read-only review: PASS. See `docs/evidence/voxel-phase05e/source/`; do not start Phase 0.5F.
 
-### Phase 0.5F — Scale and performance
+### Phase 0.5F — PC engine + matter technology bakeoff
 
-**Question:** Can the proven behavior fit a practical mobile-first budget?
+**Question:** Which native PC engine and surface technology best support Wildkin's combination of high-detail stylized destructible matter and Codex-heavy agent development?
 
-Profile representative terrain edits and collapse scenarios. Investigate caching/persistent structural graphs, localized invalidation, asynchronous jobs, collider/mesh rebuild batching and actor/debris budgets only where measurements identify costs. Include real-device evidence before claiming a mobile budget.
+Build matched bounded prototypes in **Unity 6.3 LTS + HDRP** and **Unreal Engine 5.8**. Treat official Codex/MCP/editor automation as part of the architecture, not an optional convenience. Compare the same deterministic matter fixtures, procedural rock stamp, runtime edit/static→dynamic proof, projected dirt/rock materials, automated tests/evidence and performance specimen.
 
-**PASS gate:** define measured production-oriented budgets for edit latency, frame impact, memory, active actors/debris and dirty-region work, or HOLD with the dominant bottleneck identified.
+The bakeoff must also compare **Surface Nets vs Dual Contouring** and **uniform 0.50 m vs 0.25 m vs local brick refinement** sufficiently to select the likely production matter/surface direction. Do not port the browser implementation line-for-line; preserve its proven behavioral contracts.
 
-### Phase 0.5G — Directional material proof (wood)
+**PASS gate:** both engine prototypes have enough matched evidence to make a production-engine decision, or one engine is eliminated by a documented blocker. The result must include agent autonomy evidence, matched visuals, runtime mesh/collision behavior, procedural-stamp results, build/test automation, performance measurements and a recommended engine + matter representation. See [PC Engine & Matter Technology Bakeoff](PC_ENGINE_BAKEOFF_PLAN.md).
 
-**Question:** Can the shared material architecture support anisotropic failure rather than only scalar cohesion changes?
+### Phase 0.5G — Native production matter kernel
 
-Add a bounded wood fixture/profile with grain-biased damage, along-grain splitting/splintering and cross-grain resistance. Preserve shared ownership, targeting, persistence and actor machinery.
+**Question:** Can the selected engine host a clean production-oriented version of the proven matter architecture?
 
-**PASS gate:** wood's directional failure is clearly different from both rock and dirt without replacing the core engine.
+Rebuild a deliberately small Phase D/E-style scenario in the selected engine using the winning mesher and resolution representation. Establish production module boundaries for sparse matter bricks, material data, edits, meshing, support/connectivity, MatterActors, physics products, persistence and agent-facing diagnostics. The browser code remains reference evidence rather than a codebase to mechanically port.
 
-### Phase 0.5H — Production integration decision
+**PASS gate:** one native-engine slice reproduces terrain editing, local support, static→dynamic transfer, recursive actor editing and reload with automated tests/evidence and no dependency on the browser runtime.
 
-**Question:** Is the R&D architecture mature enough to become Wildkin's actual terrain/matter system?
+### Phase 0.5H — Procedural stamps and living-world authoring
 
-Review all evidence, simplify experimental code, define production data ownership/chunk streaming/save schema/tool APIs and migration path. Only after this review should isolated-lab concepts enter shipping systems.
+**Question:** Can large world forms be highly varied without relying on a small repeated model library?
 
-**PASS gate:** explicit production architecture, budgets, migration plan and regression strategy. Implementation migration should be separately authorized.
+Build seed-driven procedural/SDF stamp families for rocks/cliffs and at least one tree/large-flora family. Large forms should resolve into destructible matter while small leaves, twigs, grass and similar detail may use cheaper representation-specific destruction. Develop custom Wildkin agent tools so Codex can generate, inspect, render and compare procedural variants automatically.
+
+**PASS gate:** many seeds produce visibly distinct but art-direction-consistent forms; selected large forms become normal destructible matter after placement; authored/procedural workflows are agent-operable and reviewable.
+
+### Phase 0.5I — PC scale, streaming and performance
+
+**Question:** Can the native matter architecture support a practical mid/upper-range PC world budget?
+
+Profile and optimize only after the production representation is selected. Investigate sparse hierarchical bricks, local refinement/LOD transitions, async sampling/meshing, structural caches, collision batching, persistence compression, streaming/residency radii and actor/debris budgets. Use real Windows builds and target-PC profiling rather than browser/mobile budgets.
+
+**PASS gate:** measured budgets exist for ordinary edits, large collapse, meshing, collision updates, memory/residency, active actors/debris and streaming; dominant bottlenecks have a plausible production path.
+
+### Phase 0.5J — Material depth and directional destruction
+
+**Question:** Can the shared native matter system support materially distinct failure beyond rock and dirt?
+
+Add wood/grain as the first anisotropic proof, followed selectively by crystal/ice, layered geological stone, ore/alien matter and other materials justified by gameplay. Couple simulation behavior with the new stylized surface-material system rather than treating visuals and destruction as separate material taxonomies.
+
+**PASS gate:** wood directional cutting/splitting is clearly distinct from rock and dirt while preserving the same ownership, targeting, actor, persistence and agent-test infrastructure.
+
+### Phase 1.0 — Production architecture gate
+
+**Question:** Is the native PC matter/world stack ready to become Wildkin's actual production foundation?
+
+Review the engine bakeoff and native proofs; freeze engine version, module/data ownership, streaming model, save schema, matter/material APIs, procedural-stamp interfaces, agent/MCP toolset, test strategy and migration boundaries. Only after this review should the broader game be rebuilt around the new native world authority.
+
+**PASS gate:** explicit production architecture, measured budgets, migration plan, regression/evidence strategy and owner approval.
 
 ## Optional later material work
 
-After the general architecture is proven, crystal, ice, sand/gravel, metal/alien matter and layered/geological stone can be introduced as targeted material-profile experiments. They should not delay the core dirt -> mixed material -> composition/seam -> terrain -> collapse -> performance path unless a phase exposes a fundamental abstraction problem.
+After the native production representation is selected, crystal, ice, sand/gravel, metal/alien matter and layered/geological stone can be introduced as targeted material-profile experiments. They should not delay the engine/mesher decision, native kernel, procedural-stamp workflow or PC scale proof unless an earlier phase exposes a fundamental material abstraction problem.
 
 ## Workflow for each phase
 
@@ -140,7 +166,7 @@ For every phase:
 3. Implement one uncertainty-reducing experiment.
 4. Add focused deterministic tests and failure injection.
 5. Produce human-visible browser evidence.
-6. Run `npm test` and `npm run verify`; defer shipping ZIP creation and package checks until deployment readiness.
+6. Run the phase-appropriate automated test/build/evidence commands. For the historical browser lab this remains `npm test` / `npm run verify`; native-engine phases must record equivalent Unity/Unreal test and build commands.
 7. Record VERIFIED / PROVISIONAL / FAILED / FUTURE findings.
 8. Commit/push only when authorized.
 9. Stop for owner review.
