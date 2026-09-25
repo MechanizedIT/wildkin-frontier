@@ -1,0 +1,32 @@
+{
+  "url": "http://localhost:8099/lab/voxel/cellular-terrain.html",
+  "pageErrors": [],
+  "consoleErrors": [],
+  "externalRequests": [],
+  "stages": [
+    {
+      "name": "interior",
+      "stats": "world revision: 1\npatch: 3 × 3 logical chunks · 9 total\ncells/chunk: 16³ · spacing: 0.5 m\nhalo: read-only 1 sample · sparse edits: 19\nlast hit: 2.50, 4.63, 5.34\nmaterial: dirt\nRapier ray: 6.40 m\nrevision: 1\nchanged samples: 19\ndirty/render/collider: 1/1/1\ndirty IDs: 0,0,0\nunchanged products reused: 8\nmesh ms: 26.7\ncollider ms: 1.2\nsave/transaction ms: 0.2 / 29.3"
+    },
+    {
+      "name": "boundary",
+      "stats": "world revision: 2\npatch: 3 × 3 logical chunks · 9 total\ncells/chunk: 16³ · spacing: 0.5 m\nhalo: read-only 1 sample · sparse edits: 30\nlast hit: 8.74, 4.54, 5.00\nmaterial: dirt\nRapier ray: 6.75 m\nrevision: 2\nchanged samples: 11\ndirty/render/collider: 2/2/2\ndirty IDs: 0,0,0 · 1,0,0\nunchanged products reused: 7\nmesh ms: 20.2, 20.7\ncollider ms: 1.4, 2.1\nsave/transaction ms: 0.1 / 44.8"
+    },
+    {
+      "name": "corner",
+      "stats": "world revision: 3\npatch: 3 × 3 logical chunks · 9 total\ncells/chunk: 16³ · spacing: 0.5 m\nhalo: read-only 1 sample · sparse edits: 72\nlast hit: 8.74, 3.65, 4.25\nmaterial: rock\nRapier ray: 10.36 m\nrevision: 3\nchanged samples: 42\ndirty/render/collider: 2/2/2\ndirty IDs: 0,0,0 · 1,0,0\nunchanged products reused: 7\nmesh ms: 16.0, 16.1\ncollider ms: 1.3, 3.6\nsave/transaction ms: 0.3 / 37.8"
+    }
+  ],
+  "reloadStats": "world revision: 3\npatch: 3 × 3 logical chunks · 9 total\ncells/chunk: 16³ · spacing: 0.5 m\nhalo: read-only 1 sample · sparse edits: 72\nlast hit: —\nmaterial: —\nRapier ray: —\nNo terrain edit yet.",
+  "chunks": 9,
+  "chunkDimensions": [
+    16,
+    16,
+    16
+  ],
+  "spacing": 0.5,
+  "limitations": [
+    "No MatterActor extraction test is represented by this receipt.",
+    "The dynamic collision marker is a generic Rapier ball; cross-boundary actor support/ownership is out of scope for this candidate."
+  ]
+}

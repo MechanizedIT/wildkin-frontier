@@ -1,5 +1,15 @@
 # Build Log
 
+## 2026-09-24 — Phase 0.5D multi-chunk terrain experiment — Codex GPT-6
+
+- **Goal:** Test a bounded 3×3 chunk terrain field, shared global sampling, Surface Nets seams, local sparse excavation, static collision publication and reload on `main`.
+- **Decisions:** Use global safe-integer sample coordinates, 16³ logical cells at 0.5 m, half-open sample ownership and copied one-sample read-only halos. Keep procedural edits in one sparse global map. Derive dirty chunks from adjacent lower-endpoint cells and publish all prepared dirty mesh/collider products in a synchronous install section after candidate persistence. Scope is a 3×3 horizontal patch, not a world streamer.
+- **Files changed:** Added `terrain-chunks.js`, `cellular-terrain.html/js`, focused terrain-chunk tests and a Playwright browser evidence harness. Added Phase 0.5D report/evidence board and updated current slice, session start, code map, roadmap and this log. Preserved pre-existing untracked `authoring/` and `docs/evidence/voxel-phase05/portable/`.
+- **Evidence:** The unit dirty sets are 1 interior, 2 X seam and 4 XZ corner chunks. Browser measured 1 rebuilt chunk for the interior edit and 2 for both boundary edits, retaining 8/7 unrelated products. The real X-boundary dirt edit measured 44.8 ms total in headless SwiftShader; rock boundary continuation measured 37.8 ms. Browser errors/external requests: zero. Literal sparse reload is tested and browser restored revision 3 / 72 edits. Evidence: `docs/evidence/voxel-phase05d/`.
+- **Tests / validation:** Phase D focused suite 16/16; baseline before work `npm test` 1,567/1,567. Final `npm test` and `npm run verify` pass 1,583/1,583 across 175 suites. Verify also passes world/campaign checks, submission build and validation (63.12 MB). `git diff --check` is clean. Independent read-only review found the required C.1R MatterActor/support/ownership/persistence integration missing, so disposition is **HOLD**.
+- **Remaining issues:** No real cross-boundary embedded-rock actor extraction, exact matter ledger, actor persistence/reuse, four-chunk browser corner, cross-seam tunnel, or complete collision-gap/dynamic actor evidence. Do not start Phase 0.5E until D is complete and reviewed.
+- **Git closure:** Owner requested commit and push to `origin/main` after completion; this HOLD checkpoint will be committed and pushed for owner review.
+
 ## 2026-09-24 — Phase 0.5C.1R owner playtest remediation — Codex GPT-6
 
 - **Goal:** Complete the owner-authorized C.1 remediation in the isolated voxel lab; stop before Phase 0.5D.

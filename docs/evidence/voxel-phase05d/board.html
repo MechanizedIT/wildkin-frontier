@@ -1,0 +1,18 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>Phase 0.5D — terrain chunk evidence (HOLD)</title>
+<style>
+body{font:16px/1.45 system-ui,sans-serif;max-width:1180px;margin:2rem auto;padding:0 1rem;background:#141820;color:#edf1f7}h1{font-size:1.7rem}p{max-width:80ch}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(330px,1fr));gap:1rem}.card{background:#222a35;padding:.7rem;border-radius:8px}.card img{width:100%;height:auto;display:block}.card h2{font-size:1rem;margin:.2rem 0 .5rem}a{color:#9bd0ff}
+</style>
+<h1>Phase 0.5D — multi-chunk terrain experiment</h1>
+<p><strong>HOLD.</strong> The captures demonstrate an interior edit and a real two-chunk X-boundary edit. The later rock edit stays at that boundary; it is not a four-chunk corner edit. MatterActor extraction, cross-seam tunnel, collision-gap and actor reload scenarios remain unproved. See the <a href="../../VOXEL_PHASE05D_REPORT.md">report</a> and raw <a href="source/receipt.json">receipt</a>.</p>
+<div class="grid">
+<section class="card"><h2>01 — pristine, chunk debug off</h2><img src="source/01-pristine.png"></section>
+<section class="card"><h2>02 — pristine, chunk grid on</h2><img src="source/02-grid.png"></section>
+<section class="card"><h2>04 — interior excavation</h2><img src="source/04-interior-edit.png"></section>
+<section class="card"><h2>04a — interior dirty chunk view</h2><img src="source/04a-interior-dirty.png"></section>
+<section class="card"><h2>05 — real X-boundary excavation</h2><img src="source/05-boundary-edit.png"></section>
+<section class="card"><h2>05a — X-boundary dirty chunks</h2><img src="source/05a-boundary-dirty.png"></section>
+<section class="card"><h2>06 — rock boundary continuation, not corner proof</h2><img src="source/06-corner-edit.png"></section>
+<section class="card"><h2>14 — reloaded edited terrain</h2><img src="source/14-reload.png"></section>
+</div>

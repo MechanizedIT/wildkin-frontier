@@ -1,5 +1,9 @@
 # Resume Wildkin Frontier
 
+## September 24 Phase 0.5D — HOLD; stop for owner review
+
+Read [the Phase 0.5D report](VOXEL_PHASE05D_REPORT.md), [current slice](CURRENT_SLICE.md), and [matter roadmap](DESTRUCTIBLE_MATTER_ROADMAP.md). A fixed 3×3 horizontal chunk terrain lab demonstrates deterministic integer global samples, shared one-sample halos, Surface Nets patch seams, sparse edits, derived local dirty sets, synchronous candidate render/static-collider installation attempts, and sparse edit reload. `npm test` and `npm run verify` both pass 1,583 tests; the report records world/campaign checks and submission validation. Independent review confirms the primary blocker: terrain edits are not integrated with C.1R MatterActor support/extraction/ownership and actor persistence. The generic Rapier marker is not a detached matter actor. Browser corner excavation, a tunnel through multiple seams, material ledgers and actor collision/persistence proof also remain incomplete. **Do not start Phase 0.5E. Complete and review the Phase 0.5D blockers first.**
+
 ## September 24 Phase 0.5C.1R — remediation complete; stop for owner review
 
 Read [the C.1R report](VOXEL_PHASE05C1R_REPORT.md), [current slice](CURRENT_SLICE.md), and [matter roadmap](DESTRUCTIBLE_MATTER_ROADMAP.md). **PASS for this bounded isolated lab slice; do not start Phase 0.5D without fresh owner direction.** The buried fixture uses the persisted mixed-world edit and actor path; actor connectivity, dirt support refresh, unchanged actor-product reuse, thresholded shared-geometry seams, and the reproducible Rapier motion/settling regression are covered. Browser source evidence and the full validation/reviewer record are in the C.1R report. No production, chunk-edge, mobile-readiness or terrain-scale claim is made.
