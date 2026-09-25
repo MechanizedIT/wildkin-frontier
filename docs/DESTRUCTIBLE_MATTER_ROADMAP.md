@@ -1,6 +1,6 @@
 # Destructible Matter R&D Roadmap
 
-**Status:** Phase 0.5D HOLD; stop for owner review. Chunk addressing, local sparse terrain edits, seams, and candidate publication are demonstrated, but MatterActor extraction/support/ownership/persistence integration and required scenario evidence remain incomplete. Phase 0.5E is not authorized. See [Phase 0.5D report](VOXEL_PHASE05D_REPORT.md).
+**Status:** Phase 0.5D HOLD; stop for owner review. The D.1 attempt added bounded global sample/parcel adapters and a compact experimental ledger, but did not integrate them with chunk publication or the C.1R transaction. MatterActor extraction/support/physics/persistence and required browser evidence remain incomplete. Phase 0.5E is not authorized. See [Phase 0.5D report](VOXEL_PHASE05D_REPORT.md).
 **Scope:** isolated destructible-matter research until a later explicit production-migration gate.
 
 ## Vision

@@ -57,3 +57,37 @@
 - Focused Phase D tests: 16 passing.
 - Baseline before implementation: `npm test` 1,567 passing across 175 suites.
 - `npm test`: 1,583/1,583 across 175 suites. `npm run verify`: same tests pass, world/campaign checks pass, submission build completes, submission validation passes at 63.12 MB. This verifies the repository; it does not close the Phase D actor/collision/evidence HOLD gates.
+
+## Phase 0.5D.1 integration attempt — September 24, 2026
+
+**Disposition: HOLD — Phase D remains incomplete.** This section preserves the original D HOLD record above. The owner requested integration of C.1R's matter contracts into the multi-chunk world without redesigning the existing chunk primitives or starting collapse. This pass added only the first bounded adapters and exact global parcel-accounting experiment; it did not publish them through the terrain runtime.
+
+### VERIFIED
+
+- `TerrainMatterWindow` reads the authoritative global `TerrainChunkWorld.read()` field, copies a requested inclusive sample range, retains global bounds and provides checked global/local conversion. Snapshot readers bind to their copied arrays. It allows the positive outer sample as a read-only cell corner while the parcel inventory excludes it; attempts to publish changes to patch halos reject. `analyzeTerrainMatterConnectivity` records query bounds/work and returns HOLD when occupied evidence touches the local window edge.
+- Global C.1R-style probe identity is `gx,gy,gz:probe` for eight subcell probes per global lower-endpoint cell. Identity does not use chunk IDs, and no halo enters the patch ownership table.
+- `TerrainMatterLedger` uses typed owner/material arrays for the fixed 48×16×48 owned cell patch × eight probes. The measured arrays occupy **589,824 bytes** total. Initial resolved ownership is **139,655 ROCK** and **9,215 DIRT** probes, all WORLD. Tests transfer one rock parcel to an actor owner, consume it once, and keep per-material balances exact.
+- Focused D baseline: 16/16. Focused C.1R actor/connectivity/ownership/reuse/physics/persistence/mixed/publication baseline: 33/33. New adapter tests: 4/4. Final `npm test` and `npm run verify`: **1,587/1,587 across 175 suites**; verify also passes world/campaign checks, submission build, and submission validation at 63.12 MB.
+
+### PROVISIONAL
+
+- The global probe format and typed tables are a bounded experiment, not the production ownership schema. The ledger's standalone transfer methods and export/restore demonstrate arithmetic/persistence, but are not called by chunk edits and therefore are not yet the authoritative runtime owner.
+- The adapter's sample copying has not yet been connected to the C.1R dirt/mixed support and extraction proposal. Support query bounds, visited cells/bonds and before/after component state are therefore **not measured** for this terrain.
+- The current seed/profile resolves 139,655 rock probes over much of the patch. The existing seam-side rock overlay is continuous across the X seam but overlaps the broad bedrock field; it does not yet qualify as the required independently extractable, dirt-supported boulder.
+
+### FAILED / NOT COMPLETED
+
+- The new ledger is not integrated into `TerrainChunkWorld.prepareEdit/publishEdit`; sparse edits, ownership, actors, rewards and save data can still disagree because the new types do not join a shared proposal. No transfer/extraction or post-transfer dirt support pass was implemented.
+- No real `MatterActor` is created in the terrain browser. Terrain and actor products are not staged/committed together, actor bodies do not share the terrain lab's Rapier world, actor products are not reused there, and no actor is mined at a moved pose.
+- Save/reload remains terrain sparse edits only. No terrain ownership ledger, actor structure/pose, retirement or reward state is serialized by the chunk lab.
+- The required human-visible sequence was not captured for this attempt. In particular: actual four-chunk corner browser edit, two-seam ordinary-input trench, static Rapier seam/cavity tests, dirt↔rock real chunk-boundary close-up, rock support/removal/transfer, dynamic actor contact/body reuse/mining/reload, and final evidence receipt assertions remain absent.
+- Partial Rapier installation recovery for a combined terrain+actor transaction remains unproved. An independent read-only reviewer checked only the new adapter after implementation and confirmed its focused fixes; the reviewer did not assess the larger Phase D integration. No independent completion review is available, so this attempt makes no Phase D review/pass claim.
+
+### FUTURE
+
+1. Refactor the minimal C.1R state/frame/actor construction seams so a global-window snapshot can be processed without converting physical parcel identities into chunk ownership or maintaining two ownership authorities.
+2. Compose dirt excavation, bounded mixed support, connected rock extraction, exact global parcel transfer, post-transfer dirt support, actor products, dirty chunk products and durable save into one prepare/validate/persist/publish transaction.
+3. Put prepared terrain colliders and C.1R MatterActor bodies in one Rapier world; prove both product reuse and explicit fail-closed recovery after partial installation.
+4. Repair the seam-side fixture so its resolved rock is actually supported by removable dirt rather than continuous bedrock. Prove component state from the resolved field, not an edit-count trigger.
+5. Complete required browser sequence, persistence and cross-seam collision evidence; add focused transaction tests and obtain independent read-only review.
+6. Run full validation after those changes. Do not begin Phase 0.5E until D passes and is reviewed.

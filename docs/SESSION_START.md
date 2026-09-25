@@ -1,6 +1,10 @@
 # Resume Wildkin Frontier
 
-## September 24 Phase 0.5D — HOLD; stop for owner review
+## September 24 Phase 0.5D.1 — integration attempt HOLD; stop for owner review
+
+Read [the D report](VOXEL_PHASE05D_REPORT.md) and the D.1 attempt record there. Global matter windows, stable global probe IDs, compact physical owner/material tables and focused tests are now present, but they remain adapter groundwork and do not participate in the terrain edit transaction. An independent adapter-only review confirmed the focused fixes; it did not review or pass Phase D integration. Phase D still lacks C.1R support/extraction, real MatterActor physics and reuse, persistence, and the requested browser sequence/review. `npm test` and `npm run verify` pass 1,587 tests; world/campaign checks and submission validation pass. **Do not start Phase 0.5E. Resume only with an explicit implementation instruction.**
+
+## September 24 Phase 0.5D — original HOLD checkpoint
 
 Read [the Phase 0.5D report](VOXEL_PHASE05D_REPORT.md), [current slice](CURRENT_SLICE.md), and [matter roadmap](DESTRUCTIBLE_MATTER_ROADMAP.md). A fixed 3×3 horizontal chunk terrain lab demonstrates deterministic integer global samples, shared one-sample halos, Surface Nets patch seams, sparse edits, derived local dirty sets, synchronous candidate render/static-collider installation attempts, and sparse edit reload. `npm test` and `npm run verify` both pass 1,583 tests; the report records world/campaign checks and submission validation. Independent review confirms the primary blocker: terrain edits are not integrated with C.1R MatterActor support/extraction/ownership and actor persistence. The generic Rapier marker is not a detached matter actor. Browser corner excavation, a tunnel through multiple seams, material ledgers and actor collision/persistence proof also remain incomplete. **Do not start Phase 0.5E. Complete and review the Phase 0.5D blockers first.**
 
