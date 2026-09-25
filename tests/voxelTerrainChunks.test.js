@@ -10,6 +10,7 @@ import { pickActorSurface, readMatterScalar } from '../lab/voxel/matter-target.j
 import { CellularRockPhysics } from '../lab/voxel/matter-physics.js';
 import { meshMatterSamples } from '../lab/voxel/matter-mesh.js';
 import { parseTerrainParcelId } from '../lab/voxel/terrain-matter-window.js';
+import { MATTER_MATERIAL } from '../lab/voxel/matter-material-policy.js';
 
 function seamBoulderComponent(world,{crossMaterials=true}={}) {
   const window=new TerrainMatterWindow(world,{min:[8,0,-4],max:[24,16,12]}),samples=window.snapshot();
@@ -54,8 +55,12 @@ test('resolved seam boulder is isolated from bedrock and dirt-supported until it
   assert.equal(releaseProposal.status,'PREPARED_INPUT');assert.equal(releaseProposal.supportEvidence.rockSupported,false);
   const completeRockParcelCount=releaseProposal.supportEvidence.transferredRockParcels;
   assert.ok(completeRockParcelCount>133,'transfer includes the additional rock parcels outside the first ROCK fragment');
-  assert.equal(releaseProposal.actors[0].transferredParcelCount,completeRockParcelCount,'the actor receives every rock parcel, including parcels in dirt-labeled cells');
+  const transferred=releaseProposal.actors[0],actorMaterialCounts=Object.values(transferred.parcelMaterials).reduce((counts,id)=>(counts[id]=(counts[id]??0)+1,counts),{});
+  assert.equal(actorMaterialCounts[MATTER_MATERIAL.ROCK],completeRockParcelCount,'the actor receives every rock parcel in the resolved component');
+  assert.equal(actorMaterialCounts[MATTER_MATERIAL.DIRT],releaseProposal.supportEvidence.transferredDirtParcels,'mixed support dirt remains separately identified');
+  assert.equal(transferred.transferredParcelCount,completeRockParcelCount+releaseProposal.supportEvidence.transferredDirtParcels);
   assert.equal(releaseProposal.nextLedger.audit().rock.actors,completeRockParcelCount);
+  assert.equal(releaseProposal.nextLedger.audit().dirt.actors,releaseProposal.supportEvidence.transferredDirtParcels);
   const release=await world.publishEdit(releaseProposal);assert.equal(release.status,'COMMITTED');
   assert.equal(world.actors.length,1);assert.ok(release.event.supportEvidence.postTransferWorkUnits>0);
   assert.ok(globalRockCells.every(([x,y,z])=>world.read([x,y,z]).material!==1),'transferred world volume is AIR');
@@ -66,7 +71,8 @@ test('resolved seam boulder is isolated from bedrock and dirt-supported until it
 test('extracted MatterActor mines its scalar surface without rebuilding terrain and preserves exact ownership',async()=>{
   const world=new TerrainChunkWorld();await world.editSamples(excavateSphere(world,[7.5,4.5,1.1],.35,2));
   await world.editSamples(excavateSphere(world,[8.05,4.5,1.1],.88,2));let actor=world.actors[0];const product=world.actorProducts.get(actor.id);
-  assert.ok(actor.materials.every(value=>value===0||value===1),'extracted actor contains no hidden dirt');
+  assert.equal(actor.material,MATTER_MATERIAL.MIXED,'detached terrain retains its actual mixed material policy');
+  assert.ok(actor.materials.includes(MATTER_MATERIAL.ROCK)&&actor.materials.includes(MATTER_MATERIAL.DIRT),'actor-local resolved samples retain both materials');
   const resolvedActor=actorMatterSamples(actor),actorComponents=analyzeMatterConnectivity(resolvedActor,{identityForCell:p=>{
     for(let dz=0;dz<=1;dz++)for(let dy=0;dy<=1;dy++)for(let dx=0;dx<=1;dx++){const i=(p[0]+dx)+resolvedActor.size[0]*((p[1]+dy)+resolvedActor.size[1]*(p[2]+dz));if(resolvedActor.densities[i]<0)return 'ROCK';}return 'AIR';},canConnect:()=>true});
   assert.equal(actorComponents.status,'OK');assert.equal(actorComponents.components.length,1,'actor-local resolved rock remains one connected component');
@@ -75,8 +81,10 @@ test('extracted MatterActor mines its scalar surface without rebuilding terrain 
   actor=world.actors.find(value=>value.id===actor.id);
   const sample=actorMatterSamples(actor);
   actor.position=[9,1,2];actor.poseRevision=4;
+  const hitPoint=[actor.position[0]+(actor.bounds.min[0]+actor.bounds.max[0])/2,
+    actor.position[1]+actor.bounds.max[1]+2,actor.position[2]+(actor.bounds.min[2]+actor.bounds.max[2])/2];
   const hit=pickActorSurface([{...actor,pose:{position:actor.position,rotation:actor.rotation},bounds:actor.bounds,readDensity:p=>readMatterScalar(sample,p)}],
-    {originRelative:[9,11,2],direction:[0,-1,0],maxDistance:20});
+    {originRelative:hitPoint,direction:[0,-1,0],maxDistance:20});
   assert.ok(hit);assert.equal(hit.actorId,actor.id);assert.equal(hit.poseRevision,4);
   const oldProduct=world.actorProducts.get(actor.id),proposal=world.prepareActorMining(actor.id,hit.contentRevision,hit.localPoint);
   assert.equal(proposal.status,'PREPARED_INPUT');assert.deepEqual(proposal.dirtyChunkIds,[]);assert.deepEqual(proposal.actorDirtyIds,[actor.id]);

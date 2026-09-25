@@ -1,10 +1,16 @@
 # Wildkin Frontier code map
 
-## Phase 0.5D.1 multi-chunk matter integration (PASS for bounded lab; owner review)
+## Phase 0.5E localized terrain collapse (PASS for bounded lab; owner review)
+
+`lab/voxel/terrain-collapse.js` owns deterministic edit-seeded support windows, bounded expansion, fail-closed uncertainty, component classification, and provisional search/actor budgets. `lab/voxel/terrain-chunks.js` composes those queries into the existing global sample/parcel transaction, generic component extraction, sparse world tombstones, post-transfer stabilization, dirty/write-set products, persistence and rollback. `terrain-matter-window.js` and `matter-connectivity.js` supply the bounded resolved occupancy graph; `matter-ownership.js` supplies immutable global parcel materials. `matter-actor.js` preserves one connected component and per-parcel materials; `matter-target.js` dispatch and `matter-material-policy.js` choose dirt or hard-rock response from the targeted actor-local parcel. Static chunks and actors share the lab's Rapier world through `cellular-terrain.js`.
+
+Phase E focused tests are in `tests/voxelTerrainCollapse.test.js`, `tests/voxelTerrainChunks.test.js` and `tests/voxelTerrainMatterWindow.test.js`. `tools/playtest-voxel-terrain-e.mjs` drives normal tool-selection/crosshair input and writes the collapse/reload receipt and captures under `docs/evidence/voxel-phase05e/source/`; `tools/playtest-voxel-terrain-touch.mjs` records mobile-landscape tap/orbit evidence. See [Phase 0.5E report](VOXEL_PHASE05E_REPORT.md). This is a fixed 3×3 lab proof, not streaming, mobile performance validation or production integration.
+
+## Phase 0.5D.1 multi-chunk matter integration (PASS for bounded lab; preceding baseline)
 
 `lab/voxel/terrain-chunks.js` owns global sparse terrain edits, transaction-scoped material consumption/transfer, the compact physical parcel ledger, actor records, support/extraction, post-transfer dirt cleanup, dirty chunk derivation, unified terrain/actor product preparation, persistence and publication recovery. Parcel identity is `gx,gy,gz:probe`; chunks remain render/collision partitions. `lab/voxel/terrain-matter-window.js` copies a bounded authoritative field and applies the C.1R connectivity logic with fail-closed unknown edges. `lab/voxel/matter-actor.js`, `matter-target.js`, `matter-physics.js`, `matter-ownership.js`, `matter-material-policy.js` and `matter-hard-rock.js` provide actor creation, ownership, targeting, mining, stress and approximate convex products; `cellular-terrain.js` composes real actor and static chunk products in one Rapier world. Product reuse follows actor content revisions.
 
-Focused coverage is in `tests/voxelTerrainChunks.test.js`, `tests/voxelTerrainMatterWindow.test.js` and related C.1R regression files. `tools/playtest-voxel-terrain-d.mjs` drives the regular browser crosshair path; receipt and screenshots are in `docs/evidence/voxel-phase05d/source/`. The dated completion report preserves the original HOLD checkpoint and records verified scope/limits. No production terrain, streaming or Phase 0.5E collapse is implemented.
+Focused coverage is in `tests/voxelTerrainChunks.test.js`, `tests/voxelTerrainMatterWindow.test.js` and related C.1R regression files. `tools/playtest-voxel-terrain-d.mjs` drives the regular browser crosshair path; receipt and screenshots are in `docs/evidence/voxel-phase05d/source/`. The dated completion report preserves the original HOLD checkpoint and records verified scope/limits. Phase E adds the separately scoped collapse proof; neither phase migrates into production terrain or implements streaming.
 
 ## Phase 0.5C.1R owner-playtest remediation (PASS; isolated lab)
 

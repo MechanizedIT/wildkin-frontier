@@ -4,19 +4,20 @@ import { MATERIALS } from './config.js';
 export const ROCK_MESH_START=[-4,-1,-4];
 export const ROCK_CHUNK_SIZE=16;
 export function paddedRockSnapshot(samples){
-  const size=ROCK_CHUNK_SIZE,n=size+2,densities=new Float32Array(n**3),materials=new Uint8Array(n**3);
+  if(!Array.isArray(samples.size)||samples.size.length!==3||!Array.isArray(samples.min)||samples.min.length!==3||!(samples.spacing>0))
+    throw new Error('Matter mesh needs a bounded local sample frame');
+  const size=Math.max(...samples.size)+3,n=size+2,densities=new Float32Array(n**3),materials=new Uint8Array(n**3),start=samples.min.map(v=>v-2*samples.spacing);
   for(let z=-1;z<=size;z++)for(let y=-1;y<=size;y++)for(let x=-1;x<=size;x++){
-    const meter=[x,y,z].map((v,i)=>ROCK_MESH_START[i]+v*.5),
-      q=meter.map((v,i)=>Math.round((v-samples.min[i])/.5)),j=(x+1)+n*((y+1)+n*(z+1));
+    const q=[x,y,z].map(v=>v-2),j=(x+1)+n*((y+1)+n*(z+1));
     if(q.some((v,i)=>v<0||v>=samples.size[i])){densities[j]=2;continue;}
     const i=q[0]+samples.size[0]*(q[1]+samples.size[1]*q[2]);
     densities[j]=samples.densities[i];materials[j]=densities[j]<0?samples.materials[i]:0;
   }
-  return {size,spacing:.5,densities,materials};
+  return {size,spacing:samples.spacing,densities,materials,start};
 }
 export function meshRockSamples(samples){
-  const mesh=meshSurfaceNets(paddedRockSnapshot(samples));
-  for(let i=0;i<mesh.positions.length;i++)mesh.positions[i]+=ROCK_MESH_START[i%3];
+  const snapshot=paddedRockSnapshot(samples),mesh=meshSurfaceNets(snapshot);
+  for(let i=0;i<mesh.positions.length;i++)mesh.positions[i]+=snapshot.start[i%3];
   if(mesh.indices.length/3>8192)throw new Error('Rock render triangle budget exceeded');
   return mesh;
 }

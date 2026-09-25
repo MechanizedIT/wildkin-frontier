@@ -1,6 +1,6 @@
 # Destructible Matter R&D Roadmap
 
-**Status:** Phase 0.5D HOLD; stop for owner review. The D.1 attempt added bounded global sample/parcel adapters and a compact experimental ledger, but did not integrate them with chunk publication or the C.1R transaction. MatterActor extraction/support/physics/persistence and required browser evidence remain incomplete. Phase 0.5E is not authorized. See [Phase 0.5D report](VOXEL_PHASE05D_REPORT.md).
+**Status:** Phase 0.5E PASS for the bounded lab; stop for owner review. Localized support search discovers and transfers a continuously generated cross-chunk mixed slab through the D.1 MatterActor/ownership/runtime path. Read [Phase 0.5E report](VOXEL_PHASE05E_REPORT.md) and its browser receipt. Do not start Phase 0.5F. Phase D.1 remains the historical known-good baseline in [its report](VOXEL_PHASE05D_REPORT.md).
 **Scope:** isolated destructible-matter research until a later explicit production-migration gate.
 
 ## Vision
@@ -101,6 +101,8 @@ Use a bounded terrain patch with surface, wall/slope, shallow cave/overhang and 
 Add bounded dirty-region support/connectivity invalidation around edits. Demonstrate an undermined ledge/slab becoming unsupported, extracting atomically, falling, and remaining destructible. Small unsupported matter should crumble/debris rather than proliferate permanent actors.
 
 **PASS gate:** convincing local collapse with explicitly bounded search/work and no whole-world structural scan.
+
+**Disposition (2026-09-25): PASS for bounded isolated lab; stop for owner review.** Changed global samples derive local support seeds; deterministic bounded windows expand only at unknown boundaries and fail closed while accepting safe direct digging. A generated dirt/rock ledge spans four source chunks, remains anchored through early edits, and becomes one complete unsupported component after ordinary excavation. The 25×6×14-cell mixed slab transfers as one 28×9×17-sample actor with 1,373 ROCK and 3,126 DIRT parcels. The actor falls 1.234 m, contacts three terrain chunks, settles, accepts dirt and hard-rock edits at its moved pose, and survives literal revision-8 reload with exact material ledgers. Collapse-trigger search uses 110,233 work units across 64,474 sampled cells, reads six chunks, and writes six; an ordinary edit uses 5,079 work units, zero expansions, reads four and writes one. The headless full collapse transaction measured 2,184 ms; this is observation, not a mobile budget. The report records the one scalar-label drift correction, material tier limits, no-reward detachment, rollback coverage, collision ray result, persistence and limitations. Independent read-only review: PASS. See `docs/evidence/voxel-phase05e/source/`; do not start Phase 0.5F.
 
 ### Phase 0.5F — Scale and performance
 

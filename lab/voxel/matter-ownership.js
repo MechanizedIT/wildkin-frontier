@@ -4,7 +4,7 @@ import { meshMatterSamples } from './matter-mesh.js';
 const offsets=[.25,.75];
 const cellKey=p=>p.join(',');
 export function cloneRockSamples(source){
-  const densities=new Float32Array(source.densities),materials=new Uint8Array(source.materials),size=[...source.size];
+  const densities=new Float64Array(source.densities),materials=new Uint8Array(source.materials),size=[...source.size];
   return {...source,size,densities,materials,
     readDensity([x,y,z]){if(x<0||y<0||z<0||x>=size[0]||y>=size[1]||z>=size[2])return 1;
       return densities[x+size[0]*(y+size[1]*z)];}};

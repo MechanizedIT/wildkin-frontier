@@ -1,6 +1,10 @@
 # Resume Wildkin Frontier
 
-## September 25 Phase 0.5D.1 — runtime integration complete; stop for owner review
+## September 25 Phase 0.5E — localized collapse complete; stop for owner review
+
+Read [the Phase 0.5E report](VOXEL_PHASE05E_REPORT.md), [current slice](CURRENT_SLICE.md), [matter roadmap](DESTRUCTIBLE_MATTER_ROADMAP.md), and the latest [build log](BUILD_LOG.md). **PASS for this bounded isolated lab; stop for owner review. Do not start Phase 0.5F.** The generated mixed ledge progressively undermines, defers when support remains unknown, then transfers one connected mixed slab across four source chunks. Receipt/captures: `docs/evidence/voxel-phase05e/source/`; mobile emulated tap/orbit receipt: `touch-receipt.json` beside it. The report records locality, budgets, read/write chunk distinction, exact material ledgers, collision, persistence, failure injection, and measured headless timings. A touch double-activation bug is corrected and tested: one terrain tap now commits one edit; orbit swipes do not dig. Physical-phone validation is not claimed. D.1's prior PASS and evidence remain historical baseline in its report.
+
+## September 25 Phase 0.5D.1 — runtime integration complete; preceding baseline
 
 Read [the D completion report](VOXEL_PHASE05D_REPORT.md), [current slice](CURRENT_SLICE.md), and [matter roadmap](DESTRUCTIBLE_MATTER_ROADMAP.md). **PASS for the bounded lab; stop for owner review.** Terrain edits use global probe ownership, bounded cross-material support, complete seam-boulder transfer into one C.1R MatterActor, post-transfer dirt cleanup, shared Rapier chunk/actor physics, unchanged actor-body reuse, moved mining, and literal terrain/actor/ledger reload. The browser receipt and captures are in `docs/evidence/voxel-phase05d/source/`. Focused tests pass 28/28; `npm test` and `npm run verify` pass 1,595/1,595; world/campaign checks and submission validation pass; independent read-only review passes. The build log records recovery policy and measured limits. **Do not start Phase 0.5E.**
 

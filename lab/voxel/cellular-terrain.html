@@ -1,12 +1,13 @@
 <!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Wildkin Frontier · Phase 0.5D terrain chunks</title>
+<title>Wildkin Frontier · Phase 0.5E localized terrain collapse</title>
 <style>
-*{box-sizing:border-box}body{margin:0;background:#101b21;color:#eee9d9;font:15px system-ui;overflow:hidden}#scene{width:100vw;height:100vh;display:block}
+*{box-sizing:border-box}body{margin:0;background:#101b21;color:#eee9d9;font:15px system-ui;overflow:hidden}#scene{width:100vw;height:100vh;display:block;touch-action:none}
 #hud{position:absolute;top:14px;left:14px;max-width:390px;background:#12242cdd;border:1px solid #57707a;border-radius:10px;padding:13px;box-shadow:0 12px 36px #0008}h1{font-size:18px;margin:0 0 7px}p{margin:6px 0}button{background:#b3d3bd;color:#10211a;border:0;border-radius:6px;padding:7px 10px;margin:5px 4px 0 0;font-weight:650;cursor:pointer}button.selected{outline:2px solid #f2cc79}#stats{font:11px ui-monospace,monospace;color:#bed0d2;white-space:pre-wrap;max-height:40vh;overflow:auto}#message{min-height:20px;color:#f5d49a}#crosshair{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);font-size:25px;text-shadow:0 0 5px #000;pointer-events:none}#hint{position:absolute;bottom:14px;left:14px;background:#12242cdd;border-radius:7px;padding:8px 11px;max-width:780px;font-size:13px}#fatal{color:#ff9d8f}
 @media(max-width:700px){#hud{max-width:82vw;max-height:62vh;overflow:auto;padding:9px;font-size:12px}h1{font-size:15px}#hint{max-width:90vw;font-size:11px}}
+@media(max-width:900px) and (orientation:landscape){#hud{max-width:43vw;max-height:78vh;overflow:auto;padding:8px;font-size:11px}h1{font-size:14px}#stats{max-height:26vh}#hint{max-width:80vw;font-size:11px}}
 </style>
 <canvas id="scene"></canvas><div id="crosshair">+</div>
-<aside id="hud"><h1>Terrain excavation · Phase 0.5D</h1><p>3×3 logical chunks · 16³ cells each · 0.5 m samples</p><p id="message">Loading deterministic terrain…</p>
-<button id="dirt" class="selected">Dirt scoop</button><button id="rock">Rock pick</button><button id="mine">Excavate at crosshair</button><button id="grid">Chunk grid: off</button><button id="dirty">Dirty view: off</button><button id="seam">Material seam: threshold</button><button id="save">Save &amp; reload</button><p id="stats"></p><p id="fatal"></p></aside>
-<div id="hint">Drag to orbit · Wheel to zoom · WASD to move · Aim with the center crosshair · Click or press E to excavate. Expose the gray rock below the rust soil. Debug chunk borders are hidden by default.</div>
-<script type="module" src="./cellular-terrain.js"></script></html>
+<aside id="hud"><h1>Localized terrain collapse · Phase 0.5E</h1><p>Mixed ledge · 3×3 logical chunks · 0.5 m samples</p><p id="message">Loading deterministic terrain…</p>
+<button id="dirt" class="selected">Dirt scoop</button><button id="rock">Rock pick</button><button id="mine">Excavate at crosshair</button><button id="grid">Chunk grid: off</button><button id="dirty">Dirty view: off</button><button id="support">Support window: off</button><button id="seam">Material seam: threshold</button><button id="save">Save &amp; reload</button><p id="stats"></p><p id="fatal"></p></aside>
+<div id="hint">Touch: drag to orbit, tap to aim and excavate · Desktop: drag to orbit, wheel to zoom, WASD to move, click or press E to excavate. Undercut the natural ledge to test localized collapse. Debug chunk borders are hidden by default.</div>
+<script type="module" src="./cellular-terrain.js?v=touch-single-activation-20260925"></script></html>

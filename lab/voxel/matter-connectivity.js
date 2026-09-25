@@ -13,7 +13,7 @@ function occupied(c){let n=0;for(const x of PROBES)for(const y of PROBES)for(con
 function faceContact(c,axis){let n=0;for(const a of PROBES)for(const b of PROBES){const p=axis===0?[1,a,b]:axis===1?[a,1,b]:[a,b,1];n+=trilinear(c,...p)<0;}return n;}
 const directions=[[1,0,0],[0,1,0],[0,0,1]];
 export function analyzeMatterConnectivity(samples,{known=()=>true,anchor=([,y])=>y===0,
-  identityForCell=()=> 'matter',canConnect=()=>true,brokenBonds=[]}={}){
+  identityForCell=()=> 'matter',canConnect=()=>true,brokenBonds=[],maxBonds=12288}={}){
   const cells=new Map(), limits=samples.size.map(v=>v-1),broken=new Set(brokenBonds);
   if(limits.some(v=>v>32))return {status:'HOLD',reason:'support window exceeds 32 lattice intervals'};
   for(let z=0;z<limits[2];z++)for(let y=0;y<limits[1];y++)for(let x=0;x<limits[0];x++){
@@ -32,7 +32,7 @@ export function analyzeMatterConnectivity(samples,{known=()=>true,anchor=([,y])=
     if(contact===0)continue;
     if(!canConnect(cell.id,neighbor.id,broken))continue;
     cell.neighbors.push(neighbor);neighbor.neighbors.push(cell);bonds++;
-    if(bonds>12288)return {status:'HOLD',reason:'bond budget'};
+    if(bonds>maxBonds)return {status:'HOLD',reason:'bond budget',cellCount:cells.size,bonds};
   }
   const remaining=new Set(cells.values()),components=[];
   while(remaining.size){

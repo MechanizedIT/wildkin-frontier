@@ -13,8 +13,9 @@ export class TerrainMatterWindow {
       throw new Error('TerrainMatterWindow needs a terrain reader and global bounds');
     if(!min.every(Number.isSafeInteger)||!max.every(Number.isSafeInteger)||min.some((v,i)=>max[i]<=v))
       throw new Error('Invalid terrain matter bounds');
-    const size=max.map((v,i)=>v-min[i]+1);
-    if(size.some(v=>v-1>maxIntervals))throw new Error('Terrain matter window exceeds bounded support intervals');
+    const size=max.map((v,i)=>v-min[i]+1),intervalLimits=Array.isArray(maxIntervals)?maxIntervals:[maxIntervals,maxIntervals,maxIntervals];
+    if(intervalLimits.length!==3||intervalLimits.some(v=>!Number.isSafeInteger(v)||v<1)||size.some((v,i)=>v-1>intervalLimits[i]))
+      throw new Error('Terrain matter window exceeds bounded support intervals');
     const residentMin=[-16,0,-16],residentMax=[32,16,32];
     // The positive outer sample is the existing chunk snapshot's read-only
     // halo. It supplies cell corners but never enters physical ownership.
@@ -56,8 +57,13 @@ export function analyzeTerrainMatterConnectivity(window,options={}){
   // window. An unsupported candidate touching an unknown edge is incomplete
   // evidence and must fail closed.
   const edgeComponent=result.components.find(component=>(!allowAnchoredEdgeComponents||!component.anchored)&&component.cells.some(point=>point.some((v,i)=>v<=0||v>=window.size[i]-2)));
-  if(edgeComponent)return {status:'HOLD',reason:`nonresident occupied evidence at ${edgeComponent.cells.find(point=>point.some((v,i)=>v<=0||v>=window.size[i]-2)).join(',')}`,query:window.query};
-  const workUnits=result.cellCount+result.bonds;if(workUnits>(options.maxWorkUnits??12288))return {status:'HOLD',reason:'terrain local support work cap',workUnits,query:window.query};
+  if(edgeComponent){
+    const cell=edgeComponent.cells.find(point=>point.some((v,i)=>v<=0||v>=window.size[i]-2)),axes=cell.map((v,i)=>v<=0?-1:v>=window.size[i]-2?1:0);
+    return {status:'HOLD',reason:`nonresident occupied evidence at ${cell.join(',')}`,unknownBoundary:{cell:[...cell],axes},
+      cellCount:result.cellCount,bonds:result.bonds,workUnits:result.cellCount+result.bonds,query:window.query};
+  }
+  const workUnits=result.cellCount+result.bonds;if(workUnits>(options.maxWorkUnits??12288))return {status:'HOLD',reason:'terrain local support work cap',cellCount:result.cellCount,
+    bonds:result.bonds,workUnits,query:window.query};
   return {...result,workUnits,query:window.query};
 }
 
@@ -92,6 +98,25 @@ export class TerrainMatterLedger {
     }
   }
   owner(globalCell,probe){return this.ownerNames.get(this.ownerIds[cellIndex(globalCell)*probeCount+probe])??null;}
+  materialAt(globalCell,probe){return this.materials[cellIndex(globalCell)*probeCount+probe]||null;}
+  assertActorParcelMaps(actors){
+    const actorById=new Map(actors.map(actor=>[actor.id,actor])),mappedByActor=new Map(),seen=new Set(),ownedByActor=new Map();
+    for(let cell=0;cell<product(patchCellSize);cell++)for(let probe=0;probe<probeCount;probe++){
+      const index=cell*probeCount+probe,ownerId=this.ownerIds[index];if(ownerId<=2)continue;
+      const owner=this.ownerNames.get(ownerId);if(!actorById.has(owner))throw new Error(`Ledger parcel has no live MatterActor owner ${owner}`);
+      ownedByActor.set(owner,(ownedByActor.get(owner)??0)+1);
+    }
+    for(const actor of actors){const parcelIds=actor.parcelIds??{},parcelMaterials=actor.parcelMaterials??{};let mapped=0;
+      for(const [localKey,globalId] of Object.entries(parcelIds)){
+        const address=parseTerrainParcelId(globalId);if(seen.has(globalId))throw new Error(`MatterActor parcel is mapped more than once ${globalId}`);seen.add(globalId);
+        if(this.owner(address.cell,address.probe)!==actor.id)throw new Error(`MatterActor parcel owner differs from ledger ${globalId}`);
+        if(this.materialAt(address.cell,address.probe)!==parcelMaterials[localKey])throw new Error(`MatterActor parcel material differs from ledger ${globalId}`);
+        mapped++;
+      }
+      if(mapped!==(ownedByActor.get(actor.id)??0))throw new Error(`MatterActor parcel map is incomplete for ${actor.id}`);
+    }
+    return true;
+  }
   transfer(ids,actorId){if(!actorId||actorId==='WORLD'||actorId==='CONSUMED'||!Array.isArray(ids)||!ids.length)throw new Error('Invalid parcel transfer');
     const addresses=ids.map(parseTerrainParcelId);if(new Set(ids).size!==ids.length)throw new Error('Duplicate parcel in transfer');
     const ownerId=this.actorOwnerIds.get(actorId)??this.nextOwnerId;if(ownerId>255)throw new Error('Actor owner table exhausted');

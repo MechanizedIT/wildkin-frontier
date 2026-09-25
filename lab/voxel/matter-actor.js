@@ -10,7 +10,7 @@ import { ROCK_PROFILE } from './matter-rock-profile.js';
 import { describeRockShatter, removedRockField } from './matter-shatter.js';
 import { excavateDirt, resolveDirtSupport, classifyDirtFragment } from './matter-dirt.js';
 import { DIRT_PROFILE } from './matter-dirt-profile.js';
-import { MATTER_MATERIAL, matterPolicyFor, ROCK_MATTER_POLICY, DIRT_MATTER_POLICY } from './matter-material-policy.js';
+import { MATTER_MATERIAL, matterPolicyFor, ROCK_MATTER_POLICY, DIRT_MATTER_POLICY, MIXED_MATTER_POLICY } from './matter-material-policy.js';
 
 export const CELLULAR_VERSION='cellular-rock-0.5a4-v1';
 export const DIRT_CELLULAR_VERSION='cellular-dirt-0.5b-v1';
@@ -62,7 +62,7 @@ export function quantityAudit(state){
   const materials={},parcelMaterials=state.parcelMaterials??{};
   for(const [key,owner] of Object.entries(state.ownership)){
     const id=parcelMaterials[key]??state.materialId??MATTER_MATERIAL.ROCK,name=materialName(id),record=materials[name]??(materials[name]={initial:0,world:0,actors:0,consumed:0});
-    if(actorMaterials.has(owner)&&actorMaterials.get(owner)!==id)ownershipMaterialValid=false;
+    if(actorMaterials.has(owner)&&actorMaterials.get(owner)!==MATTER_MATERIAL.MIXED&&actorMaterials.get(owner)!==id)ownershipMaterialValid=false;
     if(owner!=='world'&&owner!=='consumed'&&!actorMaterials.has(owner)&&!(state.fractureDebris??[]).some(item=>item.id===owner))ownershipMaterialValid=false;
     record.initial++;if(owner==='world')record.world++;else if(owner==='consumed')record.consumed++;else record.actors++;
   }
@@ -94,10 +94,12 @@ function assertBudget(state){const policy=matterPolicyFor(state.materialId),acto
   if(!quantityAudit(state).balanced)throw new Error('Cellular quantity invariant failed');}
 function newActor(id,sample,parent=null,component=null,structure=emptyRockStructure(),policy=ROCK_MATTER_POLICY){
   const inherited=parent??{position:[0,0,0],rotation:{x:0,y:0,z:0,w:1},linearVelocity:[0,0,0],angularVelocity:[0,0,0],poseRevision:0};
+  const size=[...(sample.size??[13,13,13])],min=[...(sample.min??[-3,0,-3])],spacing=sample.spacing??.5;
   const record={id,lineageRootId:parent?.lineageRootId??id,parentId:parent?.id??null,createdByTransaction:0,
-    contentRevision:parent?1:1,poseRevision:inherited.poseRevision,spacing:.5,sampleFrame:{offset:[-3,0,-3],spacing:.5},
+    contentRevision:1,poseRevision:inherited.poseRevision,spacing,min,size,sampleFrame:{offset:[...min],spacing},
     material:policy.material,domain:{id:domain.id,seed:domain.seed,version:domain.version},structure:structure?structuredClone(structure):null,...serialize(sample),
     position:[...inherited.position],rotation:{...inherited.rotation},linearVelocity:[...inherited.linearVelocity],angularVelocity:[...inherited.angularVelocity],sleepState:'ACTIVE'};
+  record.bounds={min:[...min],max:min.map((value,axis)=>value+(size[axis]-1)*spacing)};
   if(parent&&component){
     const oldCom=parent.localCOM??[0,4,0],newCom=componentCOM(component,sample),
       worldOld=actorToWorldPoint({position:record.position,rotation:record.rotation},oldCom),
@@ -119,7 +121,7 @@ export function createMatterActorFromResolvedSamples({id,sample,position=[0,0,0]
   if(typeof id!=='string'||!id||!sample?.densities||!sample?.materials||!sample?.size||sample.densities.length!==sample.materials.length||
     !Array.isArray(position)||position.length!==3||!position.every(Number.isFinite))throw new Error('Invalid resolved MatterActor input');
   const policy=matterPolicyFor(material);if(!policy)throw new Error('MatterActor material has no C.1R policy');
-  const actor=newActor(id,{...sample,densities:new Float32Array(sample.densities),materials:new Uint8Array(sample.materials)},null,component,structure,policy);
+  const actor=newActor(id,{...sample,densities:new Float64Array(sample.densities),materials:new Uint8Array(sample.materials)},null,component,structure,policy);
   actor.position=[...position];actor.rotation={...rotation};actor.linearVelocity=[...linearVelocity];actor.angularVelocity=[...angularVelocity];return actor;
 }
 function componentCOM(component,sample){let sum=[0,0,0],weight=0;for(const p of component.cells){const meter=p.map((v,i)=>sample.min[i]+(v+.5)*sample.spacing),w=parcelBits(sample,p).filter(Boolean).length;sum=sum.map((v,i)=>v+meter[i]*w);weight+=w;}return sum.map(v=>v/Math.max(weight,1));}
@@ -399,12 +401,22 @@ export function mineWorldMatter(state,hit,options={}){
 export function mineActorMatter(state,actorId,expectedRevision,localHit,options={}){
   const actor=state?.actors?.find(item=>item.id===actorId),policy=matterPolicyFor(actor?.material);
   if(!policy)return {status:'HOLD',reason:`Unknown actor material ${actor?.material}`,state};
+  if(actor.material===MATTER_MATERIAL.MIXED)return mineActorMixed(state,actorId,expectedRevision,localHit,options);
   if(policy===ROCK_MATTER_POLICY)return mineActorRock(state,actorId,expectedRevision,localHit,options);
   if(policy===DIRT_MATTER_POLICY)return mineActorDirt(state,actorId,expectedRevision,localHit,options);
   return {status:'HOLD',reason:`No actor edit strategy for ${policy.id}`,state};
 }
 export function worldMatterSamples(state){return deserialize(state.world,state.materialId??MATTER_MATERIAL.ROCK,state.fixture??'rock-boulder');}
-export function actorMatterSamples(actor){return deserialize(actor,actor.material??MATTER_MATERIAL.ROCK);}
+export function actorMatterSamples(actor){
+  if(Array.isArray(actor?.size)&&actor?.densities?.length===actor?.materials?.length){
+    const size=[...actor.size],min=[...(actor.min??[-3,0,-3])],spacing=actor.spacing??.5,densities=Float64Array.from(actor.densities),materials=Uint8Array.from(actor.materials);
+    if(size.length!==3||size.some(value=>!Number.isSafeInteger(value)||value<2)||size[0]*size[1]*size[2]!==densities.length)
+      throw new Error('Invalid persisted MatterActor sample dimensions');
+    return {size,min,spacing,densities,materials,readDensity([x,y,z]){if(x<0||y<0||z<0||x>=size[0]||y>=size[1]||z>=size[2])return 1;
+      return densities[x+size[0]*(y+size[1]*z)];},position(i){return [i%size[0],Math.floor(i/size[0])%size[1],Math.floor(i/(size[0]*size[1]))].map((v,axis)=>min[axis]+v*spacing);}};
+  }
+  return deserialize(actor,actor?.material??MATTER_MATERIAL.ROCK);
+}
 export const actorRockSamples=actorMatterSamples;
 
 function mixedCellMaterial(samples,p){
@@ -414,7 +426,17 @@ function mixedCellMaterial(samples,p){
   }
   return [...counts].sort((a,b)=>b[1]-a[1]||a[0]-b[0])[0]?.[0]??0;
 }
-export function matterMaterialAt(samples,point){
+export function matterMaterialAt(samples,point,parcelMaterials=null,parcelIds=null){
+  if(parcelMaterials&&parcelIds){
+    const q=point.map((value,axis)=>(value-samples.min[axis])/samples.spacing),base=q.map(Math.floor);let nearest=null,nearestDistance=Infinity;
+    for(let z=base[2]-1;z<=base[2];z++)for(let y=base[1]-1;y<=base[1];y++)for(let x=base[0]-1;x<=base[0];x++)for(let probe=0;probe<8;probe++){
+      const localKey=`${x},${y},${z}:${probe}`,material=parcelMaterials[localKey];if(!parcelIds[localKey]||(material!==MATTER_MATERIAL.ROCK&&material!==MATTER_MATERIAL.DIRT))continue;
+      const local=[x+((probe&1)?0.75:0.25),y+((probe&2)?0.75:0.25),z+((probe&4)?0.75:0.25)];
+      const distance=local.reduce((sum,value,axis)=>sum+(value-q[axis])**2,0);
+      if(distance<nearestDistance){nearestDistance=distance;nearest=material;}
+    }
+    if(nearest!==null)return nearest;
+  }
   const q=point.map((v,i)=>(v-samples.min[i])/samples.spacing),base=q.map(Math.floor),fraction=q.map((v,i)=>v-base[i]),weights=new Map();
   for(let dz=0;dz<=1;dz++)for(let dy=0;dy<=1;dy++)for(let dx=0;dx<=1;dx++){
     const p=[base[0]+dx,base[1]+dy,base[2]+dz];if(p.some((v,i)=>v<0||v>=samples.size[i]))continue;
@@ -472,6 +494,105 @@ function foreignSampleMask(state,samples,editedMaterial){
   }
   return protectedSamples;
 }
+
+function componentMaterialProbes(samples,component,parcelMaterials=null){
+  const counts={rock:0,dirt:0};
+  for(const cell of component.cells){const bits=parcelBits(samples,cell);for(let probe=0;probe<bits.length;probe++)if(bits[probe]){
+    const material=parcelMaterials?.[`${key(cell)}:${probe}`]??parcelMaterial(samples,cell,probe);
+    if(material===MATTER_MATERIAL.ROCK)counts.rock++;else if(material===MATTER_MATERIAL.DIRT)counts.dirt++;
+  }}
+  return counts;
+}
+
+function mineActorMixed(state,actorId,expectedRevision,localHit,{material:requestedMaterial=null,fractureDomain=domain,dirtProfile=DIRT_PROFILE,rockProfile=ROCK_PROFILE}={}){
+  const next=structuredClone(state),parent=next.actors.find(actor=>actor.id===actorId);
+  if(!parent||parent.contentRevision!==expectedRevision)return {status:'STALE',state};
+  const before=actorMatterSamples(parent),targetMaterial=requestedMaterial??matterMaterialAt(before,localHit);
+  if(targetMaterial!==MATTER_MATERIAL.ROCK&&targetMaterial!==MATTER_MATERIAL.DIRT)return {status:'NO_HIT',state};
+  const supportState={...state,ownership:Object.fromEntries(Object.entries(state.ownership).map(([key,owner])=>[key,owner===actorId?'world':owner]))};
+  let direct=cloneMatterSamples(before),after=null,cut=null,nextStructure=parent.structure??emptyRockStructure(),stress=null,crumble=null;
+  if(targetMaterial===MATTER_MATERIAL.DIRT){
+    cut=excavateDirt(direct,fractureDomain,localHit,state.revision+1,dirtProfile);
+    if(!cut.changed)return {status:'NO_HIT',state};
+    preserveForeignParcels(supportState,before,direct,MATTER_MATERIAL.DIRT);
+    const actorDirtProfile={...dirtProfile,supportWindowIntervals:Math.min(MIXED_MATTER_POLICY.profile.maxSupportIntervals,Math.max(...before.size.map(v=>v-1))),
+      maxLocalCrumbleWork:MIXED_MATTER_POLICY.profile.maxSupportWork},
+      cohesion=resolveDirtSupport(direct,localHit,actorDirtProfile,{anchor:()=>false,previous:before,material:MATTER_MATERIAL.DIRT,
+      identityForCell:cell=>mixedCellMaterial(direct,cell)||'air',canConnect:()=>true,
+      protectedSamples:foreignSampleMask(supportState,before,MATTER_MATERIAL.DIRT)});
+    if(cohesion.status!=='OK')return {...cohesion,state};
+    after=cloneMatterSamples(cohesion.sample);crumble={units:cohesion.crumbledProbeUnits,components:cohesion.crumbleComponents};
+  }else{
+    const rock=cloneForMaterial(before,MATTER_MATERIAL.ROCK);
+    cut=chipHardRock(rock,fractureDomain,localHit,(nextStructure.hitSequence??0)+1,rockProfile);
+    if(!cut.changed)return {status:'NO_HIT',state};
+    const graph=buildRockBondGraph(rock,fractureDomain,rockProfile,nextStructure),impact=impactRockStructure(graph,nextStructure,localHit,fractureDomain,rockProfile);
+    if(impact.status==='HOLD')return {...impact,state};
+    nextStructure=impact.state;stress={hitSite:impact.hitSite,visitedNodes:impact.visitedNodes,propagatedBonds:impact.propagatedBonds,
+      cracked:impact.cracked?.length??0,newlyBroken:impact.newlyBroken??[]};
+    after=cloneMatterSamples(before);
+    for(let i=0;i<after.densities.length;i++)if(before.materials[i]===MATTER_MATERIAL.ROCK){after.densities[i]=rock.densities[i];after.materials[i]=rock.materials[i];}
+    preserveForeignParcels(supportState,before,after,MATTER_MATERIAL.ROCK);
+  }
+  const support=analyzeMatterConnectivity(after,{anchor:()=>false,identityForCell:cell=>mixedCellMaterial(after,cell)||'air',canConnect:()=>true});
+  if(support.status!=='OK')return {...support,state};
+  if(!support.components.length){
+    for(const [ownershipKey,owner] of Object.entries(next.ownership))if(owner===actorId)accountConsumed(next,ownershipKey,
+      parcelBits(before,ownershipKey.split(':')[0].split(',').map(Number))[Number(ownershipKey.split(':')[1])]?'dig':'crumble');
+    next.actors=next.actors.filter(actor=>actor.id!==actorId);if(!next.retired.includes(actorId))next.retired.push(actorId);next.revision++;assertBudget(next);
+    return {status:'OK',state:next,material:targetMaterial,cut,stress,split:false,retired:true,children:[],
+      fractureMetrics:{elapsedMs:cut.elapsedMs,chipMs:cut.elapsedMs,graphMs:0,stressMs:0,connectivityMs:0,supportWorkUnits:support.cellCount+support.bonds}};
+  }
+  const nextRevision=state.revision+1,componentByCell=new Map(),componentOwners=[],children=[],crumbleComponents=new Set();
+  support.components.forEach((component,index)=>component.cells.forEach(cell=>componentByCell.set(key(cell),index)));
+  let masks=null;
+  if(support.components.length>1){masks=componentMasks(after,support.components,{fractureBoundary:true});if(masks.status!=='OK')return {...masks,state};}
+  for(let index=0;index<support.components.length;index++){
+    const component=support.components[index],counts=componentMaterialProbes(after,component,next.parcelMaterials),total=counts.rock+counts.dirt;
+    if(!total){componentOwners[index]=null;continue;}
+    if(!counts.rock&&counts.dirt<dirtProfile.persistentClodMinProbes){componentOwners[index]=null;crumbleComponents.add(index);continue;}
+    const childId=support.components.length===1?parent.id:`${parent.id}/mixed-${nextRevision}-${index}`,
+      actorMaterial=counts.rock&&counts.dirt?MATTER_MATERIAL.MIXED:counts.rock?MATTER_MATERIAL.ROCK:MATTER_MATERIAL.DIRT,
+      policy=matterPolicyFor(actorMaterial),sample=masks?.outputs[index]??after,
+      structure=actorMaterial===MATTER_MATERIAL.DIRT?null:nextStructure,
+      record=support.components.length===1?parent:newActor(childId,sample,parent,component,structure,policy);
+    if(support.components.length===1){
+      const oldCOM=parent.localCOM??[0,4,0],newCOM=componentCOM(component,after),worldOld=actorToWorldPoint(parent,oldCOM),worldNew=actorToWorldPoint(parent,newCOM),r=worldNew.map((v,i)=>v-worldOld[i]),w=parent.angularVelocity;
+      parent.linearVelocity=[parent.linearVelocity[0]+w[1]*r[2]-w[2]*r[1],parent.linearVelocity[1]+w[2]*r[0]-w[0]*r[2],parent.linearVelocity[2]+w[0]*r[1]-w[1]*r[0]];
+      parent.localCOM=newCOM;parent.structure=structure;parent.material=actorMaterial;Object.assign(parent,serialize(after));parent.contentRevision++;
+      parent.size=[...after.size];parent.min=[...after.min];parent.spacing=after.spacing;parent.sampleFrame={offset:[...after.min],spacing:after.spacing};
+      parent.bounds={min:[...after.min],max:after.min.map((v,axis)=>v+(after.size[axis]-1)*after.spacing)};parent.sleepState='ACTIVE';
+    }else{record.createdByTransaction=nextRevision;record.material=actorMaterial;record.structure=structure;children.push(record);}
+    componentOwners[index]=childId;
+  }
+  if(support.components.length===1&&crumbleComponents.has(0)){
+    for(const [ownershipKey,owner] of Object.entries(next.ownership))if(owner===actorId)accountConsumed(next,ownershipKey,'crumble');
+    next.actors=next.actors.filter(actor=>actor.id!==actorId);if(!next.retired.includes(actorId))next.retired.push(actorId);
+  }
+  const liveActors=children.length?support.components.filter((_,index)=>componentOwners[index]&&!crumbleComponents.has(index)).length:0;
+  if(next.actors.length-1+liveActors>4)return {status:'HOLD',reason:'mixed actor child budget',state};
+  for(const [ownershipKey,owner] of Object.entries(next.ownership))if(owner===actorId){
+    const [cellText,partText]=ownershipKey.split(':'),cell=cellText.split(',').map(Number),probe=Number(partText),material=next.parcelMaterials[ownershipKey],wasLive=parcelBits(before,cell)[probe],isLive=parcelBits(after,cell)[probe];
+    if(wasLive&&!isLive){accountConsumed(next,ownershipKey,material===targetMaterial?'dig':'crumble');continue;}
+    const componentIndex=componentByCell.get(cellText);
+    if(componentIndex!==undefined&&crumbleComponents.has(componentIndex)){accountConsumed(next,ownershipKey,'crumble');continue;}
+    if(!isLive){const nearest=nearestComponentOwner(cell,support.components,componentOwners);
+      if(nearest){next.ownership[ownershipKey]=nearest;continue;}if(wasLive)return {status:'HOLD',reason:`live mixed parcel has no component owner: ${ownershipKey}`,state};
+      accountConsumed(next,ownershipKey,'crumble');continue;
+    }
+    const destination=componentIndex===undefined?nearestComponentOwner(cell,support.components,componentOwners):componentOwners[componentIndex];
+    if(!destination)return {status:'HOLD',reason:`mixed parcel has no persistent owner: ${ownershipKey}`,state};
+    next.ownership[ownershipKey]=destination;
+  }
+  if(support.components.length>1){
+    next.actors=next.actors.filter(actor=>actor.id!==actorId).concat(children);if(!next.retired.includes(actorId))next.retired.push(actorId);
+  }
+  next.revision++;assertBudget(next);
+  return {status:'OK',state:next,material:targetMaterial,cut,stress,split:support.components.length>1,children:children.map(actor=>actor.id),
+    crumbledComponents:[...crumbleComponents],structuralComponents:support.components.length,
+    fractureMetrics:{elapsedMs:cut.elapsedMs,chipMs:cut.elapsedMs,graphMs:0,stressMs:0,connectivityMs:0,supportWorkUnits:support.cellCount+support.bonds}};
+}
+
 function mineMixedDirt(state,hit){
   const next=structuredClone(state),before=deserialize(state.world,3,state.fixture),direct=cloneMatterSamples(before),cut=excavateDirt(direct,domain,hit,state.revision+1,DIRT_PROFILE);
   if(!cut.changed)return {status:'NO_HIT',state};

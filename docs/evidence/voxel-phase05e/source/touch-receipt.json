@@ -1,0 +1,54 @@
+{
+  "viewport": {
+    "width": 844,
+    "height": 390,
+    "orientation": "landscape",
+    "touch": true
+  },
+  "touchHint": "Touch: drag to orbit, tap to aim and excavate · Desktop: drag to orbit, wheel to zoom, WASD to move, click or press E to excavate. Undercut the natural ledge to test localized collapse. Debug chunk borders are hidden by default.",
+  "targetHit": {
+    "point": [
+      5.403352504544356,
+      4.120068634775761,
+      9
+    ],
+    "material": 2,
+    "distance": 7.199352602475746
+  },
+  "initialRevision": 0,
+  "editedRevision": 1,
+  "transactionsForTap": 1,
+  "exactlyOneTransaction": true,
+  "changedSampleCount": 16,
+  "directDirtyChunkIds": [
+    "0,0,1"
+  ],
+  "orbit": {
+    "cameraBefore": {
+      "yaw": -1.5707963267948966,
+      "pitch": -0.1,
+      "distance": 8,
+      "target": [
+        6.2,
+        4.2,
+        9
+      ]
+    },
+    "cameraAfter": {
+      "yaw": -1.9307963267948969,
+      "pitch": 0.009999999999999964,
+      "distance": 8,
+      "target": [
+        6.2,
+        4.2,
+        9
+      ]
+    },
+    "revisionStable": true
+  },
+  "errors": [],
+  "screenshots": [
+    "docs/evidence/voxel-phase05e/source/touch-01-mobile-landscape-before.png",
+    "docs/evidence/voxel-phase05e/source/touch-02-mobile-landscape-tap-edit.png"
+  ]
+}

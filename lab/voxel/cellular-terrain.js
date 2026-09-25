@@ -3,7 +3,8 @@ import RAPIER from '../../vendor/rapier.js';
 import { MATERIALS } from './config.js';
 import { TerrainChunkWorld, excavateSphere, terrainChunkId, TERRAIN_CHUNK_CELLS, TERRAIN_CHUNK_SPACING } from './terrain-chunks.js';
 import { CellularRockPhysics } from './matter-physics.js';
-import { actorMatterSamples } from './matter-actor.js';
+import { actorMatterSamples, matterMaterialAt } from './matter-actor.js';
+import { matterPolicyFor } from './matter-material-policy.js';
 import { crispMatterSeams, meshMatterSamples } from './matter-mesh.js';
 import { actorToWorldPoint, pickActorSurface, readMatterScalar } from './matter-target.js';
 
@@ -23,9 +24,9 @@ thresholdMaterial.onBeforeCompile=shader=>{
 };
 thresholdMaterial.customProgramCacheKey=()=>`phase05d-threshold-${MATERIALS[1].color.join(',')}-${MATERIALS[2].color.join(',')}`;
 const dirtyMaterial=new THREE.MeshStandardMaterial({color:0xe6a54f,emissive:0x57300a,roughness:.9,side:THREE.DoubleSide});
-const chunkMeshes=new Map(),gridGroup=new THREE.Group();scene.add(gridGroup);
+const chunkMeshes=new Map(),gridGroup=new THREE.Group(),supportDebugGroup=new THREE.Group();scene.add(gridGroup,supportDebugGroup);
 const raycaster=new THREE.Raycaster(),mouse=new THREE.Vector2(0,0);let seam='threshold',tool=2,showGrid=false,showDirty=false,lastEvent=null,yaw=0,pitch=.25,distance=15,target=new THREE.Vector3(2.5,2.5,-3),drag=null;
-const dirtyIds=new Set(),storeKey='wildkin-frontier-voxel-05d-v2';
+const dirtyIds=new Set(),storeKey='wildkin-frontier-voxel-05d-v2';let showSupportWindow=false;
 const rapierWorld=()=>new RAPIER.World({x:0,y:-9.81,z:0});let physics=null,matterPhysics=null,restoredRuntimeState=null;
 const actorMeshes=new Map();
 function makeCollider(mesh,revision,id){
@@ -48,7 +49,7 @@ function rollbackProducts(products,previous,actorProducts=new Map(),oldActorProd
     if(old){matterPhysics.actors.set(id,old.physics);scene.add(old.visual);actorMeshes.set(id,old.visual);}else matterPhysics.actors.delete(id);}
 }
 function prepareActorProduct(actor){
-  const samples=actorMatterSamples(actor),mesh=crispMatterSeams(meshMatterSamples(samples)),physicsProduct=matterPhysics.prepareActor(actor,mesh),visual=new THREE.Mesh(makeGeometry(mesh),
+  const samples=actorMatterSamples(actor),mesh=crispMatterSeams(meshMatterSamples(samples)),physicsProduct=matterPhysics.prepareActor(actor,mesh,matterPolicyFor(actor.material)?.profile),visual=new THREE.Mesh(makeGeometry(mesh),
     new THREE.MeshStandardMaterial({color:0xffffff,vertexColors:true,roughness:.88,side:THREE.DoubleSide}));
   visual.name=`matter-actor-${actor.id}`;visual.position.set(...actor.position);visual.quaternion.set(actor.rotation.x,actor.rotation.y,actor.rotation.z,actor.rotation.w);
   return {id:actor.id,record:actor,samples,mesh,physics:physicsProduct,visual};
@@ -78,6 +79,20 @@ function buildGrid(){gridGroup.clear();for(const id of world.chunks.keys()){
   const c=id.split(',').map(Number),size=TERRAIN_CHUNK_CELLS*TERRAIN_CHUNK_SPACING,start=c.map(v=>v*size),box=new THREE.Box3(new THREE.Vector3(...start),new THREE.Vector3(start[0]+size,start[1]+size,start[2]+size));
   const helper=new THREE.Box3Helper(box,new THREE.Color(0x172d39));gridGroup.add(helper);
 }gridGroup.visible=showGrid;}
+function updateSupportDebug(){
+  for(const child of supportDebugGroup.children){child.geometry?.dispose();if(Array.isArray(child.material))child.material.forEach(value=>value.dispose());else child.material?.dispose();}
+  supportDebugGroup.clear();supportDebugGroup.visible=showSupportWindow;if(!showSupportWindow)return;
+  const bounds=lastEvent?.supportEvidence?.finalBounds;if(!bounds)return;
+  const min=bounds.min.map(value=>value*TERRAIN_CHUNK_SPACING),max=bounds.max.map(value=>value*TERRAIN_CHUNK_SPACING),
+    helper=new THREE.Box3Helper(new THREE.Box3(new THREE.Vector3(...min),new THREE.Vector3(...max)),0x43e5df);
+  helper.name='support-read-window';supportDebugGroup.add(helper);
+  for(const component of lastEvent?.collapseEvidence?.components??[]){const region=component.componentBounds;
+    if(!region?.globalMin||!region?.globalMax)continue;
+    const lo=region.globalMin.map(value=>value*TERRAIN_CHUNK_SPACING),hi=region.globalMax.map(value=>(value+1)*TERRAIN_CHUNK_SPACING),box=new THREE.Box3Helper(
+      new THREE.Box3(new THREE.Vector3(...lo),new THREE.Vector3(...hi)),0xffbf55);
+    box.name=`collapse-component-${component.actorId??component.kind}`;supportDebugGroup.add(box);
+  }
+}
 function updateCamera(){const cp=Math.cos(pitch),offset=new THREE.Vector3(Math.sin(yaw)*cp,Math.sin(pitch),Math.cos(yaw)*cp).multiplyScalar(distance);
   camera.position.copy(target).add(offset);camera.lookAt(target);}
 function selectedMaterial(hit){const attr=hit.object.geometry.getAttribute('rockWeight');if(!attr||!hit.face)return 2;
@@ -98,33 +113,48 @@ function actorTerrainContacts(id){const product=matterPhysics?.actors.get(id);if
     try{physics.contactPair(actorCollider,terrain,manifold=>{if(manifold.numContacts?.()>0)touching.add(chunkId);});}catch{/* backend contact query unavailable */}}
   return [...touching].sort();}
 async function excavate(){const {hit:terrainHit,collision}=doRay(),actorHit=actorRayHit();const hit=actorHit&&(!terrainHit||actorHit.distance<terrainHit.distance)?null:terrainHit;
-  if(actorHit&&!hit){if(tool!==1){message.textContent='The moved actor is rock; choose the rock tool.';return;}captureActorPoses();
-    const proposal=world.prepareActorMining(actorHit.actorId,actorHit.contentRevision,actorHit.localPoint),result=await world.publishEdit(proposal);
+  if(actorHit&&!hit){const actor=world.actors.find(value=>value.id===actorHit.actorId),targetMaterial=actor?matterMaterialAt(actorMatterSamples(actor),actorHit.localPoint,actor.parcelMaterials,actor.parcelIds):0;
+    if(targetMaterial!==1&&targetMaterial!==2){message.textContent='The crosshair did not resolve to actor material.';return;}
+    if(tool!==targetMaterial){message.textContent=`The moved actor surface is ${targetMaterial===1?'rock':'dirt'}; choose its matching tool.`;return;}captureActorPoses();
+    const proposal=world.prepareActorMining(actorHit.actorId,actorHit.contentRevision,actorHit.localPoint,{material:targetMaterial}),result=await world.publishEdit(proposal);
     if(result.status!=='COMMITTED'){message.textContent=`Actor mining rejected: ${result.error??result.status}`;return;}
-    lastEvent=result.event;message.textContent=`Moved MatterActor mined · stress ${lastEvent.actorMining?.stress?.visitedNodes??0} sites · actor products ${lastEvent.preparedActorIds.length} prepared.`;updateStats(null,collision);return;}
+    lastEvent=result.event;message.textContent=`Moved ${targetMaterial===1?'rock':'dirt'} surface mined · stress ${lastEvent.actorMining?.stress?.visitedNodes??0} sites · actor products ${lastEvent.preparedActorIds.length} prepared.`;updateSupportDebug();updateStats(null,collision);return;}
   if(!hit){message.textContent='No visible terrain or MatterActor at the crosshair.';return;}
   const material=selectedMaterial(hit);if(material!==tool){message.textContent=`Target is ${material===1?'rock':'dirt'}; choose its matching tool.`;return;}
   captureActorPoses();const changes=excavateSphere(world,hit.point.toArray(),.88,tool);
   if(!changes.length){message.textContent='The selected material did not change at this point.';return;}
   message.textContent=`Preparing ${changes.length} global samples across the local dirty set…`;
   const result=await world.editSamples(changes);if(result.status!=='COMMITTED'){message.textContent=`Edit rejected: ${result.error??result.status}`;return;}
-  lastEvent=result.event;dirtyIds.clear();for(const id of lastEvent.dirtyChunkIds)dirtyIds.add(id);syncProducts(lastEvent.remeshedChunkIds);
+  lastEvent=result.event;dirtyIds.clear();for(const id of lastEvent.dirtyChunkIds)dirtyIds.add(id);syncProducts(lastEvent.remeshedChunkIds);updateSupportDebug();
   message.textContent=`Revision ${world.revision} accepted · ${lastEvent.remeshedChunkIds.length} chunks rebuilt · static collision replaced.`;
   updateStats(hit,collision);
 }
-function updateStats(hit=null,collision=null){const products=world.products,audit=world.ledger.audit();
-  stats.textContent=`world revision: ${world.revision}\npatch: 3 × 3 logical chunks · ${products.length} total\ncells/chunk: 16³ · spacing: 0.5 m\nhalo: read-only 1 sample · sparse edits: ${world.edits.size}\nMatterActors/bodies: ${world.actors.length}/${matterPhysics?.actors.size??0}\nledger typed-array bytes: ${world.ledger.byteLength}\nledger ROCK world/actors/consumed: ${audit.rock.world}/${audit.rock.actors}/${audit.rock.consumed}\nledger DIRT world/actors/consumed: ${audit.dirt.world}/${audit.dirt.actors}/${audit.dirt.consumed}\nlast hit: ${hit?hit.point.toArray().map(v=>v.toFixed(2)).join(', '):'—'}\nmaterial: ${hit?(selectedMaterial(hit)===1?'rock':'dirt'):'—'}\nRapier ray: ${collision?collision.distance.toFixed(2)+' m':'—'}\n${lastEvent?`revision: ${lastEvent.worldRevision}\nchanged samples: ${lastEvent.changedSampleCount}\ndirty/render/collider: ${lastEvent.dirtyChunkIds.length}/${lastEvent.remeshedChunkIds.length}/${lastEvent.rebuiltColliderChunkIds.length}\ndirty IDs: ${lastEvent.dirtyChunkIds.join(' · ')}\nactor products prepared/reused/retired: ${lastEvent.preparedActorIds.length}/${lastEvent.reusedActorIds.length}/${lastEvent.retiredActorIds.length}\nsupport bounds/work: ${lastEvent.supportEvidence?.bounds?.globalMin.join(',')}..${lastEvent.supportEvidence?.bounds?.globalMax.join(',')} / ${lastEvent.supportEvidence?.workUnits??0}\npost-transfer dirt consumed: ${lastEvent.supportEvidence?.postTransferDirtConsumed??0}\nmesh ms: ${Object.values(lastEvent.meshMs).map(v=>v.toFixed(1)).join(', ')}\ncollider ms: ${Object.values(lastEvent.colliderMs).map(v=>v.toFixed(1)).join(', ')}\nsave/transaction ms: ${lastEvent.persistenceMs.toFixed(1)} / ${lastEvent.transactionMs.toFixed(1)}`:'No terrain edit yet.'}`;
+function updateStats(hit=null,collision=null){
+  const products=world.products,audit=world.ledger.audit(),event=lastEvent,support=event?.supportEvidence,collapse=event?.collapseEvidence,
+    fmtBounds=bounds=>bounds?`${bounds.min.join(',')}..${bounds.max.join(',')}`:'—',fmtMs=value=>Number.isFinite(value)?`${value.toFixed(1)} ms`:'—',
+    componentText=collapse?.components?.map(value=>`${value.kind} ${value.materials.join('+')} ${value.materialProbes.rock}R/${value.materialProbes.dirt}D`).join(' · ')??'—';
+  stats.textContent=`world revision: ${world.revision}\npatch: 3 × 3 logical chunks · ${products.length} total\ncells/chunk: 16³ · spacing: 0.5 m\nhalo: read-only 1 sample · sparse edits: ${world.edits.size}\nMatterActors/bodies: ${world.actors.length}/${matterPhysics?.actors.size??0}\nledger typed-array bytes: ${world.ledger.byteLength}\nledger ROCK world/actors/consumed: ${audit.rock.world}/${audit.rock.actors}/${audit.rock.consumed}\nledger DIRT world/actors/consumed: ${audit.dirt.world}/${audit.dirt.actors}/${audit.dirt.consumed}\nlast hit: ${hit?hit.point.toArray().map(v=>v.toFixed(2)).join(', '):'—'}\nmaterial: ${hit?(selectedMaterial(hit)===1?'rock':'dirt'):'—'}\nRapier ray: ${collision?collision.distance.toFixed(2)+' m':'—'}\n${event?`revision: ${event.worldRevision} · changed samples: ${event.changedSampleCount}\nsupport ${support?.status??'actor edit'} · seeds/expansions: ${support?.seedCells?.length??0}/${support?.expansions??0}\nwindow initial/final: ${fmtBounds(support?.initialBounds)} / ${fmtBounds(support?.finalBounds)}\nread samples/cells/bonds/work: ${support?.sampleCount??0}/${support?.cellCount??0}/${support?.bondCount??0}/${support?.workUnits??0}\nread chunks: ${support?.readChunkIds?.join(' · ')??'—'}\ncollapse ${collapse?.status??'—'} · candidates/persistent/transient/crumble/deferred: ${collapse?.candidateCount??0}/${collapse?.persistentCount??0}/${collapse?.transientCount??0}/${collapse?.crumbleCount??0}/${collapse?.deferredCount??0}\ncomponents: ${componentText}\ndirty direct/collapse/final: ${event.directDirtyChunkIds?.join(' · ')||'—'} / ${event.collapseDirtyChunkIds?.join(' · ')||'—'} / ${event.finalDirtyChunkIds?.join(' · ')??event.dirtyChunkIds.join(' · ')}\nrender/collider rebuilt: ${event.remeshedChunkIds.length}/${event.rebuiltColliderChunkIds.length} · reused chunks: ${event.unchangedChunkIds?.length??0}\nactor prepared/reused/retired: ${event.preparedActorIds.join(' · ')||'—'} / ${event.reusedActorIds.join(' · ')||'—'} / ${event.retiredActorIds.join(' · ')||'—'}\ntiming edit/support/classify/extract: ${fmtMs(event.timings?.directEditMs)}/${fmtMs(event.timings?.supportMs)}/${fmtMs(event.timings?.classificationMs)}/${fmtMs(event.timings?.extractionMs)}\ntiming mesh/collider/actor/save/transaction: ${Object.values(event.meshMs).map(fmtMs).join(',')||'—'} / ${Object.values(event.colliderMs).map(fmtMs).join(',')||'—'} / ${Object.values(event.actorPrepMs??{}).map(fmtMs).join(',')||'—'} / ${fmtMs(event.persistenceMs)} / ${fmtMs(event.transactionMs)}`:'No terrain edit yet.'}`;
 }
 function resize(){renderer.setSize(innerWidth,innerHeight);camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();}addEventListener('resize',resize);
 document.querySelector('#mine').onclick=()=>excavate();document.querySelector('#dirt').onclick=()=>{tool=2;document.querySelector('#dirt').classList.add('selected');document.querySelector('#rock').classList.remove('selected');};
 document.querySelector('#rock').onclick=()=>{tool=1;document.querySelector('#rock').classList.add('selected');document.querySelector('#dirt').classList.remove('selected');};
 document.querySelector('#grid').onclick=e=>{showGrid=!showGrid;e.currentTarget.textContent=`Chunk grid: ${showGrid?'on':'off'}`;buildGrid();};
 document.querySelector('#dirty').onclick=e=>{showDirty=!showDirty;e.currentTarget.textContent=`Dirty view: ${showDirty?'on':'off'}`;syncProducts();};
+document.querySelector('#support').onclick=e=>{showSupportWindow=!showSupportWindow;e.currentTarget.textContent=`Support window: ${showSupportWindow?'on':'off'}`;updateSupportDebug();};
 document.querySelector('#seam').onclick=e=>{seam=seam==='threshold'?'vertex':'threshold';e.currentTarget.textContent=`Material seam: ${seam}`;syncProducts();};
-document.querySelector('#save').onclick=()=>{captureActorPoses();localStorage.setItem(storeKey,JSON.stringify(world.exportSave()));message.textContent=`Saved revision ${world.revision}. Reloading the literal page…`;setTimeout(()=>location.reload(),120);};
-canvas.addEventListener('pointerdown',e=>{if(e.button===2||e.shiftKey){drag={x:e.clientX,y:e.clientY};canvas.setPointerCapture(e.pointerId);}});
-canvas.addEventListener('pointermove',e=>{if(!drag)return;yaw-=(e.clientX-drag.x)*.006;pitch=Math.max(-.15,Math.min(.85,pitch+(e.clientY-drag.y)*.005));drag={x:e.clientX,y:e.clientY};updateCamera();});
-canvas.addEventListener('pointerup',()=>drag=null);canvas.addEventListener('contextmenu',e=>e.preventDefault());canvas.addEventListener('click',e=>{if(!e.shiftKey)excavate();});
+document.querySelector('#save').onclick=()=>{captureActorPoses();const snapshot=world.exportSave();window.__voxelTerrainLab.lastSavedState=structuredClone(snapshot);
+  localStorage.setItem(storeKey,JSON.stringify(snapshot));message.textContent=`Saved revision ${world.revision}. Reloading the literal page…`;setTimeout(()=>location.reload(),120);};
+const crosshair=document.querySelector('#crosshair');
+function aimFromPointer(e){const rect=canvas.getBoundingClientRect();if(!rect.width||!rect.height)return;
+  mouse.set(((e.clientX-rect.left)/rect.width)*2-1,-((e.clientY-rect.top)/rect.height)*2+1);
+  crosshair.style.left=`${e.clientX}px`;crosshair.style.top=`${e.clientY}px`;}
+canvas.addEventListener('pointerdown',e=>{aimFromPointer(e);if(e.pointerType==='touch'||e.button===2||e.shiftKey){drag={x:e.clientX,y:e.clientY,startX:e.clientX,startY:e.clientY,pointerId:e.pointerId,touch:e.pointerType==='touch',moved:false};canvas.setPointerCapture(e.pointerId);}});
+canvas.addEventListener('pointermove',e=>{aimFromPointer(e);if(!drag)return;const dx=e.clientX-drag.x,dy=e.clientY-drag.y;
+  if(drag.touch&&Math.hypot(e.clientX-drag.startX,e.clientY-drag.startY)>8)drag.moved=true;
+  yaw-=dx*.006;pitch=Math.max(-.15,Math.min(.85,pitch+dy*.005));drag={...drag,x:e.clientX,y:e.clientY};updateCamera();});
+canvas.addEventListener('pointerup',()=>{drag=null;});
+canvas.addEventListener('pointercancel',()=>{drag=null;});canvas.addEventListener('contextmenu',e=>e.preventDefault());
+canvas.addEventListener('click',e=>{aimFromPointer(e);if(!e.shiftKey)excavate();});
 canvas.addEventListener('wheel',e=>{distance=Math.max(6,Math.min(48,distance+e.deltaY*.015));updateCamera();},{passive:true});
 const keys=new Set();addEventListener('keydown',e=>{keys.add(e.key.toLowerCase());if(e.key.toLowerCase()==='e')excavate();});addEventListener('keyup',e=>keys.delete(e.key.toLowerCase()));
 function frame(){requestAnimationFrame(frame);const forward=new THREE.Vector3(-Math.sin(yaw),0,-Math.cos(yaw)),right=new THREE.Vector3(Math.cos(yaw),0,-Math.sin(yaw));
@@ -133,13 +163,21 @@ function frame(){requestAnimationFrame(frame);const forward=new THREE.Vector3(-M
   renderer.render(scene,camera);}
 // Read-only receipt helpers plus camera framing for deterministic browser
 // evidence. Terrain edits still require the normal canvas click/crosshair path.
-window.__voxelTerrainLab={focus(point,nextDistance=9,view={}){target.set(...point);distance=nextDistance;if(Number.isFinite(view.yaw))yaw=view.yaw;if(Number.isFinite(view.pitch))pitch=Math.max(-.15,Math.min(.85,view.pitch));updateCamera();},
-  inspect(){const {hit,collision}=doRay(),actor=actorRayHit(),audit=world.ledger.audit();return {revision:world.revision,restoredRuntimeState,hit:hit?{point:hit.point.toArray(),material:selectedMaterial(hit),distance:hit.distance}:null,
-    actorHit:actor,collision:collision?{distance:collision.distance,collider:collision.collider}:null,dirtyChunkIds:lastEvent?.dirtyChunkIds??[],
+window.__voxelTerrainLab={lastSavedState:null,focus(point,nextDistance=9,view={}){target.set(...point);distance=nextDistance;if(Number.isFinite(view.yaw))yaw=view.yaw;if(Number.isFinite(view.pitch))pitch=Math.max(-.15,Math.min(.85,view.pitch));updateCamera();},cameraState(){return {yaw,pitch,distance,target:target.toArray()};},
+  inspect(){const {hit,collision}=doRay(),rawActorHit=actorRayHit(),actorRecord=rawActorHit&&world.actors.find(value=>value.id===rawActorHit.actorId),
+    actorHit=actorRecord?{...rawActorHit,material:matterMaterialAt(actorMatterSamples(actorRecord),rawActorHit.localPoint,actorRecord.parcelMaterials,actorRecord.parcelIds)}:rawActorHit,
+    actorParcelMaterialAudit={valid:world.ledger.assertActorParcelMaps(world.actors),materialLabelDriftProbes:world.actors.reduce((sum,actor)=>sum+(actor.materialLabelDriftProbes??0),0)},
+    audit=world.ledger.audit();return {revision:world.revision,restoredRuntimeState,actorParcelMaterialAudit,hit:hit?{point:hit.point.toArray(),material:selectedMaterial(hit),distance:hit.distance}:null,
+    actorHit,collision:collision?{distance:collision.distance,collider:collision.collider}:null,dirtyChunkIds:lastEvent?.dirtyChunkIds??[],
     ledger:audit,ledgerBytes:world.ledger.byteLength,actorCount:world.actors.length,bodyCount:matterPhysics?.actors.size??0,actors:world.actors.map(value=>({id:value.id,contentRevision:value.contentRevision,poseRevision:value.poseRevision,
       pose:matterPhysics?.pose(value.id),localCOM:value.localCOM,worldCOM:matterPhysics?actorToWorldPoint(matterPhysics.pose(value.id),value.localCOM):null,
-      bodyHandle:matterPhysics?.actors.get(value.id)?.body.handle,contactingTerrainChunkIds:actorTerrainContacts(value.id),material:value.material,
-      transferredParcelCount:value.transferredParcelCount})),sameRapierWorld:!!physics&&physics===matterPhysics?.world,staticColliderCount:[...world.chunks.values()].filter(value=>!!value.collider?.collider).length,lastEvent};},
+      bodyHandle:matterPhysics?.actors.get(value.id)?.body.handle,colliderHandles:matterPhysics?.actors.get(value.id)?.colliders.map(collider=>collider.handle)??[],
+      contactingTerrainChunkIds:actorTerrainContacts(value.id),material:value.material,
+      materialParcelCounts:Object.entries(value.parcelMaterials??{}).reduce((counts,[,material])=>{counts[material===1?'rock':'dirt']++;return counts;},{rock:0,dirt:0}),
+      sampleSize:value.size,terrainComponentBounds:value.terrainComponentBounds,transferredParcelCount:value.transferredParcelCount,
+      materialLabelDriftProbes:value.materialLabelDriftProbes??0})),sameRapierWorld:!!physics&&physics===matterPhysics?.world,
+    staticColliderCount:[...world.chunks.values()].filter(value=>!!value.collider?.collider).length,
+    staticChunkColliderHandles:Object.fromEntries([...world.chunks].filter(([,value])=>!!value.collider?.collider).map(([id,value])=>[id,value.collider.collider.handle])),lastEvent};},
   read(points){return points.map(point=>({point:[...point],...world.read(point)}));},save(){captureActorPoses();return world.exportSave();}};
 try{
   await RAPIER.init();physics=rapierWorld();matterPhysics=new CellularRockPhysics(RAPIER,{world:physics,createFloor:false});const saved=localStorage.getItem(storeKey);if(saved){try{await world.reload(JSON.parse(saved));}catch(error){localStorage.removeItem(storeKey);throw error;}}
