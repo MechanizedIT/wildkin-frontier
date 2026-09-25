@@ -1,5 +1,18 @@
 # Wildkin Frontier
 
+## Current direction — PC-first native transition
+
+Phase 0.5E of the isolated Three.js/Rapier destructible-matter R&D has passed. The project is now preparing a **Unity-first native PC qualification** rather than continuing browser/mobile optimization. Unity 6.3 LTS + HDRP is the first production candidate; Unreal 5.8 remains a deferred challenger if Unity exposes a meaningful blocker.
+
+Start with:
+
+- [Current slice](docs/CURRENT_SLICE.md)
+- [Unity-first transition plan](docs/UNITY_FIRST_TRANSITION_PLAN.md)
+- [Unity local start checklist](docs/UNITY_LOCAL_START_CHECKLIST.md)
+- [PC engine and matter technology criteria](docs/PC_ENGINE_BAKEOFF_PLAN.md)
+
+The existing browser build and voxel labs remain in the repository as historical gameplay work and an executable behavioral reference. They are not assumed to be the shipping stack.
+
 An exploration-first alien frontier: discover useful Wildkin, gather for the next journey and grow a Camp that supports it.
 
 **September13 restart checkpoint:** safe character flight and full-continent maps are ready. Work is stopped for Chris's PC restart and workflow review. **1,411 tests and package checks pass**; ten finished habitats and alpha release quality remain incomplete.
