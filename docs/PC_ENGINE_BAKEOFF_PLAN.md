@@ -1,8 +1,8 @@
 # Wildkin Frontier — PC Engine & Matter Technology Bakeoff
 
-**Status:** planned after Phase 0.5E PASS. No production engine has been selected yet.
+**Status:** Phase 0.5E passed. **Unity-first qualification is now the active execution order.** No production engine has been selected yet. Unreal remains a documented challenger, but a matched Unreal implementation is deferred unless Unity exposes a material blocker or the owner later requests it. See `UNITY_FIRST_TRANSITION_PLAN.md`.
 
-**Purpose:** choose the native PC production stack for Wildkin Frontier by building the same small, agent-driven vertical slice in **Unity 6.3 LTS** and **Unreal Engine 5.8**, then comparing the engines on the actual requirements that make Wildkin unusual: high-detail destructible matter, runtime meshing, procedural uniqueness, stylized materials, physics, persistence, and Codex/agent autonomy.
+**Purpose:** choose the native PC production stack for Wildkin Frontier while conserving Codex budget. Start by building the agent-driven technology specimen in **Unity 6.3 LTS**. Use the criteria in this document to judge Unity honestly. Only build the **Unreal Engine 5.8** challenger if Unity fails a meaningful gate or a direct comparison is still valuable after the Unity qualification.
 
 The current Three.js/Rapier implementation remains the behavioral reference and executable R&D specification. It is not assumed to be the shipping stack.
 
@@ -12,13 +12,15 @@ Select the engine and core surface technology that best support this target:
 
 > A mid/upper-range PC game with a stylized 3D world that largely looks like authored game art, while terrain, rocks, trees, ruins, large flora and other substantial forms can be destructible matter underneath.
 
-The bakeoff must answer five questions together:
+The qualification must answer five questions:
 
-1. **Engine:** Unity or Unreal?
-2. **Agent workflow:** which one lets Codex inspect, modify, test, run and visually validate the project with the least manual editor intervention?
+1. **Unity viability:** does Unity meet Wildkin's requirements well enough to become the provisional production engine without spending equal time on Unreal?
+2. **Agent workflow:** can Codex inspect, modify, test, run and visually validate the project with little manual editor intervention?
 3. **Runtime matter rendering:** can a custom dynamically remeshed world look good enough for Wildkin?
 4. **Mesher/resolution:** keep Surface Nets, adopt Dual Contouring, or use a hybrid; and does locally refined brick resolution materially improve the target look?
 5. **Procedural stamps:** can one generator create many visibly unique rocks/large forms that become ordinary destructible matter after placement?
+
+If Unity fails one of these materially, use the same evidence contract to scope an Unreal challenger around the blocker.
 
 ## Locked comparison versions
 
@@ -85,9 +87,11 @@ Initial custom commands/tools should expose equivalents of:
 - run matter tests
 - export benchmark receipt
 
-## Fairness rules
+## Comparison fairness rules
 
-The two prototypes must solve the same bounded problem.
+These rules apply **if/when Unreal is activated**. Unity is intentionally implemented first to conserve development time and Codex usage.
+
+If both prototypes exist, they must solve the same bounded problem.
 
 Do not allow one engine to use a Marketplace/Fab voxel product while the other uses the custom kernel. Engine-native general rendering, physics, materials, testing and editor tooling are allowed.
 
@@ -110,7 +114,9 @@ Record any unavoidable engine-specific difference.
 
 ## Shared vertical-slice target
 
-Each engine must produce one small scene containing:
+Unity must produce this scene first. Unreal must reproduce the same target only if the challenger is activated.
+
+The specimen contains:
 
 - a stylized dirt/rock terrain patch;
 - one generated layered rock formation resembling an authored game asset rather than a blob;
