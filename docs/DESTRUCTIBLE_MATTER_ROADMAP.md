@@ -1,6 +1,6 @@
 # Destructible Matter R&D Roadmap
 
-**Status:** Phase 0.5E PASS for the bounded browser R&D lab. Project direction has pivoted to a PC-first native production target. The next authorized planning gate is Phase 0.5F: a matched Unity 6.3 LTS vs Unreal Engine 5.8 engine/matter-technology bakeoff with Codex/agent workflow as a first-class criterion. The browser implementation remains the behavioral reference; do not begin a full production migration until the bakeoff is reviewed. See [PC engine bakeoff plan](PC_ENGINE_BAKEOFF_PLAN.md).
+**Status:** Phase 0.5E PASS for the bounded browser R&D lab. Project direction has pivoted to a PC-first native production target. The next gate is **Unity-first Phase 0.5F qualification** using Unity 6.3 LTS + HDRP with Codex/agent workflow as a first-class criterion. Unreal Engine 5.8 remains a challenger only if Unity exposes a meaningful blocker or the owner later requests the comparison. The browser implementation remains the behavioral reference; do not begin a full production migration until Unity qualification is reviewed. See [Unity-first transition plan](UNITY_FIRST_TRANSITION_PLAN.md) and [PC engine bakeoff criteria](PC_ENGINE_BAKEOFF_PLAN.md).
 **Scope:** the existing Three.js/Rapier matter lab remains an isolated executable specification. New implementation work after Phase E should target the native PC engine bakeoff rather than optimizing the browser/mobile stack for production.
 
 ## Vision
@@ -108,11 +108,11 @@ Add bounded dirty-region support/connectivity invalidation around edits. Demonst
 
 **Question:** Which native PC engine and surface technology best support Wildkin's combination of high-detail stylized destructible matter and Codex-heavy agent development?
 
-Build matched bounded prototypes in **Unity 6.3 LTS + HDRP** and **Unreal Engine 5.8**. Treat official Codex/MCP/editor automation as part of the architecture, not an optional convenience. Compare the same deterministic matter fixtures, procedural rock stamp, runtime edit/static→dynamic proof, projected dirt/rock materials, automated tests/evidence and performance specimen.
+Start with a bounded **Unity 6.3 LTS + HDRP** qualification prototype. Treat official Codex/Unity plugin/CLI/MCP/editor automation as part of the architecture, not an optional convenience. Exercise deterministic matter fixtures, a procedural rock stamp, runtime edit/static→dynamic proof, projected dirt/rock materials, automated tests/evidence and a performance specimen.
 
-The bakeoff must also compare **Surface Nets vs Dual Contouring** and **uniform 0.50 m vs 0.25 m vs local brick refinement** sufficiently to select the likely production matter/surface direction. Do not port the browser implementation line-for-line; preserve its proven behavioral contracts.
+The Unity qualification must compare **Surface Nets vs Dual Contouring** and **uniform 0.50 m vs 0.25 m vs local brick refinement** sufficiently to select the likely production matter/surface direction. Do not port the browser implementation line-for-line; preserve its proven behavioral contracts. Activate an Unreal 5.8 challenger only if Unity fails a material gate or the owner requests it.
 
-**PASS gate:** both engine prototypes have enough matched evidence to make a production-engine decision, or one engine is eliminated by a documented blocker. The result must include agent autonomy evidence, matched visuals, runtime mesh/collision behavior, procedural-stamp results, build/test automation, performance measurements and a recommended engine + matter representation. See [PC Engine & Matter Technology Bakeoff](PC_ENGINE_BAKEOFF_PLAN.md).
+**PASS gate:** Unity has enough evidence to be accepted provisionally as the production engine **or** a concrete blocker is documented that justifies an Unreal challenger. The result must include agent autonomy evidence, visual/mesher/resolution comparisons, runtime mesh/collision behavior, procedural-stamp results, build/test automation, performance measurements and a recommended matter representation. See [Unity-first transition plan](UNITY_FIRST_TRANSITION_PLAN.md).
 
 ### Phase 0.5G — Native production matter kernel
 
