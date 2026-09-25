@@ -1,8 +1,9 @@
 // Read-only bounded view of the authoritative global terrain lattice.
 // It is an adapter for the C.1R scalar/support algorithms, never an owner.
-import { TERRAIN_CHUNK_CELLS, TERRAIN_CHUNK_SPACING } from './terrain-chunks.js';
 import { parcelBits, parcelMaterial } from './matter-ownership.js';
 import { analyzeMatterConnectivity } from './matter-connectivity.js';
+
+export const TERRAIN_CHUNK_CELLS=16,TERRAIN_CHUNK_SPACING=.5;
 
 const product = values => values.reduce((a,b)=>a*b,1);
 
@@ -49,8 +50,13 @@ export class TerrainMatterWindow {
 }
 
 export function analyzeTerrainMatterConnectivity(window,options={}){
-  const result=analyzeMatterConnectivity(window,{...options,known:point=>window.knownCell(point)});
+  const {allowAnchoredEdgeComponents=false,...analysisOptions}=options,result=analyzeMatterConnectivity(window,analysisOptions);
   if(result.status!=='OK')return {...result,query:window.query};
+  // Components already known to be anchored may continue beyond the local
+  // window. An unsupported candidate touching an unknown edge is incomplete
+  // evidence and must fail closed.
+  const edgeComponent=result.components.find(component=>(!allowAnchoredEdgeComponents||!component.anchored)&&component.cells.some(point=>point.some((v,i)=>v<=0||v>=window.size[i]-2)));
+  if(edgeComponent)return {status:'HOLD',reason:`nonresident occupied evidence at ${edgeComponent.cells.find(point=>point.some((v,i)=>v<=0||v>=window.size[i]-2)).join(',')}`,query:window.query};
   const workUnits=result.cellCount+result.bonds;if(workUnits>(options.maxWorkUnits??12288))return {status:'HOLD',reason:'terrain local support work cap',workUnits,query:window.query};
   return {...result,workUnits,query:window.query};
 }
@@ -90,6 +96,15 @@ export class TerrainMatterLedger {
     const addresses=ids.map(parseTerrainParcelId);if(new Set(ids).size!==ids.length)throw new Error('Duplicate parcel in transfer');
     const ownerId=this.actorOwnerIds.get(actorId)??this.nextOwnerId;if(ownerId>255)throw new Error('Actor owner table exhausted');
     if(addresses.some(({cell,probe})=>this.owner(cell,probe)!=='WORLD'))throw new Error('Parcel transfer requires WORLD ownership');
+    this.actorOwnerIds.set(actorId,ownerId);this.ownerNames.set(ownerId,actorId);this.nextOwnerId=ownerId===this.nextOwnerId?ownerId+1:this.nextOwnerId;
+    for(const {cell,probe} of addresses)this.ownerIds[cellIndex(cell)*probeCount+probe]=ownerId;
+    this.assertBalanced();return addresses.length;
+  }
+  transferFrom(ids,expectedOwner,actorId){if(!expectedOwner||!actorId||expectedOwner===actorId||actorId==='WORLD'||actorId==='CONSUMED'||!Array.isArray(ids)||!ids.length)
+      throw new Error('Invalid owned parcel transfer');
+    const addresses=ids.map(parseTerrainParcelId);if(new Set(ids).size!==ids.length)throw new Error('Duplicate parcel in transfer');
+    if(addresses.some(({cell,probe})=>this.owner(cell,probe)!==expectedOwner))throw new Error('Parcel transfer owner mismatch');
+    const ownerId=this.actorOwnerIds.get(actorId)??this.nextOwnerId;if(ownerId>255)throw new Error('Actor owner table exhausted');
     this.actorOwnerIds.set(actorId,ownerId);this.ownerNames.set(ownerId,actorId);this.nextOwnerId=ownerId===this.nextOwnerId?ownerId+1:this.nextOwnerId;
     for(const {cell,probe} of addresses)this.ownerIds[cellIndex(cell)*probeCount+probe]=ownerId;
     this.assertBalanced();return addresses.length;

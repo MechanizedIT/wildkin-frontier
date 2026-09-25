@@ -1,6 +1,6 @@
 # Phase 0.5D — Multi-chunk terrain excavation
 
-**Disposition: HOLD — stop for owner review.** This bounded experiment demonstrates several chunk-local terrain primitives, but it does not complete the required C.1R MatterActor extraction chain or all required scenario evidence. Phase 0.5E has not started and should not start until these D blockers are resolved.
+**Original checkpoint disposition (September 24, 2026): HOLD — stop for owner review.** This bounded experiment demonstrated chunk-local terrain primitives but did not complete the C.1R MatterActor extraction chain or required scenario evidence. This historical checkpoint is preserved below; the September 25 completion continuation appended at the end supersedes its status. Phase 0.5E has not started.
 
 ## VERIFIED
 
@@ -91,3 +91,36 @@
 4. Repair the seam-side fixture so its resolved rock is actually supported by removable dirt rather than continuous bedrock. Prove component state from the resolved field, not an edit-count trigger.
 5. Complete required browser sequence, persistence and cross-seam collision evidence; add focused transaction tests and obtain independent read-only review.
 6. Run full validation after those changes. Do not begin Phase 0.5E until D passes and is reviewed.
+
+## Phase 0.5D.1 runtime integration completion — September 25, 2026
+
+**Continuation disposition: PASS for the bounded 3×3 lab; stop for owner review.** The September 24 HOLD checkpoint above is preserved as the original baseline. This dated completion pass supersedes its implementation-status claims. It does not begin Phase 0.5E or claim production terrain readiness.
+
+### VERIFIED
+
+- The seam boulder is a resolved, dirt-footed ROCK inclusion isolated from the continuous bedrock. Deterministic tests prove it crosses the X chunk seam, is initially supported, remains supported after a partial ordinary dirt dig, and becomes unsupported after sufficient dirt removal. Support comes from resolved mixed connectivity, not a hit counter.
+- `TerrainMatterWindow` copies bounded global samples from the authoritative `TerrainChunkWorld.read()` field. Its support window for the fixture is `[8,0,-4]..[24,16,12]` (4,913 samples / 4,096 cells). Occupied unsupported components that touch an unknown edge fail closed. No support query scans all nine chunks by default.
+- `TerrainChunkWorld` owns the compact physical ledger alongside its sparse terrain edit map and actors. A global parcel ID is `gx,gy,gz:probe`, with eight C.1R-style probes per cell. The typed owner/material arrays use 589,824 bytes in this patch. Halos contribute no matter, and chunks are render/collision partitions only. Sparse tombstones resolve the static field; the ledger records WORLD/actor/CONSUMED ownership; actor-local resolved arrays become the scalar authority after transfer.
+- Initial patch ledger: 139,749 ROCK and 9,451 DIRT probes. Browser transfer removes the complete unsupported mixed component (228 ROCK probes in this final fixture run) into one ROCK MatterActor. Extraction clears every corresponding resolved static rock sample; the old location stays AIR after actor mining and literal reload. Detachment awards no resources. The accepted browser sequence ends at ROCK 139,519 WORLD + 223 actors + 7 consumed, and DIRT 9,141 WORLD + 0 actors + 310 consumed. Both per-material balances equal their initial quantity exactly.
+- The transaction performs bounded support before extraction and again on the final world field. It consumes three newly unsupported dirt probes after transfer. The final support query plus initial query measured 18,264 work units; the tool excavations and component mapping remain bounded to the local fixture window.
+- Meshes and static colliders are prepared for all dirty chunks; actor mesh/proxy is prepared for changed actors. New Rapier products start disabled. A synchronous publication section enables candidates while retaining old products; injected failure after terrain and MatterActor product installation disables candidates, restores previous active Rapier products and durable revision, and returns a rejected transaction. A real Rapier failure-injection regression confirms nine old terrain colliders remain active, the staged actor body is removed, and literal reload reconstructs the same durable revision and ledger. If rollback itself fails, the world rejects further edits with `recoveryRequired`; a second regression proves literal reload reconstructs the durably saved complete candidate revision and cavity before resuming.
+- Static terrain chunks and the extracted actor use one Rapier world. The actor crosses and contacts chunks `0,0,0` and `1,0,0`, falls about 1.03 m, settles with zero measured velocity in the browser run, survives an unrelated edit with its body reused, and remains targetable/minable at its moved pose through C.1R hard-rock stress. Mining rebuilds the actor product only.
+- Literal reload restores revision 26, sparse edits/tombstones, full ledger/rewards, actor material and structure, and the exact durable moved pose before the first physics tick. The three original cavity probes resolve to AIR. No halos, generated meshes/colliders, or support caches are saved.
+- Browser receipt: `docs/evidence/voxel-phase05d/source/receipt.json`; screenshots 01–22 in the same directory. It captures the real four-chunk corner set (`0,0,0`, `1,0,0`, `0,0,1`, `1,0,1`), player-created trench changes across two Z chunk seams, unedited material-seam and edited-cavity visible/Rapier ray agreement, supported/partial/unsupported boulder stages, full transfer, post-transfer dirt, actor fall/contact/settle/reuse/mining, empty original location and reload. Material seam captures show the same dirt/rock boundary with logical grid off and on. Headless run had zero page/console errors and external requests.
+- Browser locality and timings are measurements, not targets: interior edit rebuilds 1 chunk, X boundary 2, XZ corner 4; no edit rebuilds all 9. Across 25 browser edit transactions, per-chunk mesh preparation was 10.4–34.7 ms, collider preparation 0.9–4.1 ms, persistence 82.8–121.1 ms, and complete terrain transactions 114.1–197.4 ms. Support query bounds/work and each transaction's dirty IDs/timings are retained in the receipt.
+- Focused Phase D/window tests pass 28/28. Final `npm test` and `npm run verify` each pass 1,595/1,595 across 175 suites. Verify also passes world/campaign checks, submission build and submission validation (63.12 MB). `git diff --check` is clean. Independent read-only completion review: PASS. The detailed dated build log records the full file/evidence list and gate results.
+
+### PROVISIONAL
+
+- Parcel tables and procedural profile are deliberately fixed-patch laboratory implementations, not planet-scale storage. Surface Nets, one vertical chunk, 0.5 m samples and the four-sector convex actor proxy remain prototype choices. SwiftShader timings do not establish desktop or mobile performance.
+- The actor is independent of chunk IDs and has a local resolved scalar volume; its approximate proxy is only for gameplay contact. Mining remains scalar-surface authoritative.
+
+### FAILED / CORRECTED
+
+- The first independent completion review found extraction transferred only the first ROCK fragment. Its read-only component audit found 225 ROCK probes in the unsupported mixed component while that fragment held 133. Extraction now enumerates every ROCK probe across all component cells, asserts transfer/component parity in the transaction, records the transfer count, and the browser harness checks parity. The regenerated receipt reports the final fixture's complete 228-probe transfer; the focused regression proves transfer exceeds the first-fragment count and no transferred parcel cell retains static ROCK samples.
+- An earlier browser reload capture compared a pose after a physics tick with the saved pose and reported a small delta. The capture now compares the durable actor record with the restored Rapier pose before the first tick. The old `receipt.failed.json` is retained as failed/corrected history and is not passing evidence.
+- The first full-suite run after shared Rapier injection caught an accidental change to C.1R's default gravity; the original `-20 m/s²` default was restored. The C.1R mixed-matter physics regression then passed.
+
+### FUTURE
+
+- Phase 0.5E — Localized Terrain Collapse is the next recommended experiment after owner review. It has not started. Streaming, production ownership storage, mobile optimization, LOD and exact voxel collision remain outside this pass.

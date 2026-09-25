@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { TerrainChunkWorld, terrainChunkSnapshot, terrainChunkId } from '../lab/voxel/terrain-chunks.js';
+import { excavateSphere, TerrainChunkWorld, terrainChunkSnapshot, terrainChunkId } from '../lab/voxel/terrain-chunks.js';
 import { TerrainMatterWindow, TerrainMatterLedger, analyzeTerrainMatterConnectivity, parseTerrainParcelId, terrainParcelId } from '../lab/voxel/terrain-matter-window.js';
 
 test('global parcel identity is independent of chunk request and copied halo',()=>{
@@ -67,4 +67,15 @@ test('compact patch ledger counts resolved probes once and balances transfer and
   assert.throws(()=>TerrainMatterLedger.fromSave(world,{...save,ownerIds:[...ledger.ownerIds,999]}),/Invalid terrain matter ledger save/);
   assert.throws(()=>TerrainMatterLedger.fromSave(world,{...save,ownerNames:{...save.ownerNames,1:'bad-world'}}),/Corrupt terrain matter ledger owners/);
   assert.throws(()=>TerrainMatterLedger.fromSave(world,{...save,nextOwnerId:ledger.actorOwnerIds.get('actor-seam')}),/next owner ID/);
+});
+
+test('ordinary seam excavation consumes only removed WORLD parcels and persists the balanced ledger',async()=>{
+  const world=new TerrainChunkWorld(),initial=world.ledger.audit(),changes=excavateSphere(world,[8,4.8,5],.5,2);
+  assert.ok(changes.some(({point})=>point[0]<16));assert.ok(changes.some(({point})=>point[0]>=16));
+  const committed=await world.editSamples(changes);assert.equal(committed.status,'COMMITTED');
+  const audit=world.ledger.assertBalanced();assert.ok(audit.dirt.consumed>0);assert.equal(audit.rock.consumed,0);
+  assert.equal(world.rewards.dirt,audit.dirt.consumed);assert.equal(world.rewards.rock,audit.rock.consumed);
+  assert.equal(audit.dirt.initial,initial.dirt.initial);assert.equal(audit.rock.initial,initial.rock.initial);
+  assert.equal(committed.event.consumedParcelIds.length,audit.dirt.consumed);
+  const restored=await new TerrainChunkWorld().reload(world.exportSave());assert.deepEqual(restored.ledger.audit(),audit);assert.deepEqual(restored.rewards,world.rewards);
 });

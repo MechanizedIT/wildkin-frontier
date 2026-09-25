@@ -1,5 +1,5 @@
 {
-  "url": "http://localhost:8099/lab/voxel/cellular-terrain.html",
+  "error": "Reload consistency failed: {\"material\":[1,1],\"structureMatches\":true,\"positionDelta\":[-0.09929084777832031,-0.1377732753753662,-0.02675330638885498],\"oldCavityAir\":true,\"reloadedOldVolume\":[{\"point\":[15,11,2],\"density\":0.6380602293903948,\"material\":0},{\"point\":[16,11,2],\"density\":0.7500938983418831,\"material\":0},{\"point\":[17,11,2],\"density\":0.6774664983080151,\"material\":0}]}",
   "pageErrors": [],
   "consoleErrors": [],
   "externalRequests": [],
@@ -17,10 +17,6 @@
         "distance": 6.395507290898936
       },
       "actorHit": null,
-      "collision": {
-        "distance": 6.3955078125,
-        "collider": 2e-323
-      },
       "dirtyChunkIds": [],
       "supportEvidence": null,
       "actorCount": 0,
@@ -53,10 +49,6 @@
         "distance": 6.395507290898936
       },
       "actorHit": null,
-      "collision": {
-        "distance": 6.3955078125,
-        "collider": 2e-323
-      },
       "dirtyChunkIds": [],
       "supportEvidence": null,
       "actorCount": 0,
@@ -89,10 +81,6 @@
         "distance": 6.065660028788834
       },
       "actorHit": null,
-      "collision": {
-        "distance": 6.065659999847412,
-        "collider": 2.5e-323
-      },
       "dirtyChunkIds": [],
       "supportEvidence": null,
       "actorCount": 0,
@@ -125,10 +113,6 @@
         "distance": 6.065660028788834
       },
       "actorHit": null,
-      "collision": {
-        "distance": 6.065659999847412,
-        "collider": 2.5e-323
-      },
       "dirtyChunkIds": [],
       "supportEvidence": null,
       "actorCount": 0,
@@ -250,15 +234,7 @@
           "actors": 0,
           "consumed": 11
         }
-      },
-      "meshMs": {
-        "0,0,0": 34.700000047683716
-      },
-      "colliderMs": {
-        "0,0,0": 1.7000000476837158
-      },
-      "persistenceMs": 93.80000007152557,
-      "transactionMs": 136.5
+      }
     },
     {
       "name": "05-x-boundary-edit",
@@ -366,8 +342,7 @@
         "workUnits": 9269,
         "componentCount": 1,
         "rockSupported": true,
-        "extractedComponents": 0,
-        "transferredRockParcels": 0
+        "extractedComponents": 0
       },
       "ledger": {
         "rock": {
@@ -382,17 +357,7 @@
           "actors": 0,
           "consumed": 16
         }
-      },
-      "meshMs": {
-        "0,0,0": 33.90000009536743,
-        "1,0,0": 20.399999976158142
-      },
-      "colliderMs": {
-        "0,0,0": 1.6999999284744263,
-        "1,0,0": 3.200000047683716
-      },
-      "persistenceMs": 96.39999997615814,
-      "transactionMs": 156.10000002384186
+      }
     },
     {
       "name": "06-real-xz-corner-edit",
@@ -485,21 +450,7 @@
           "actors": 0,
           "consumed": 24
         }
-      },
-      "meshMs": {
-        "0,0,0": 17,
-        "0,0,1": 18.200000047683716,
-        "1,0,0": 21.300000071525574,
-        "1,0,1": 14
-      },
-      "colliderMs": {
-        "0,0,0": 1.399999976158142,
-        "0,0,1": 2.799999952316284,
-        "1,0,0": 2.1999999284744263,
-        "1,0,1": 1.5
-      },
-      "persistenceMs": 98.79999995231628,
-      "transactionMs": 177.70000004768372
+      }
     },
     {
       "name": "trench-z--4",
@@ -596,17 +547,7 @@
           "actors": 0,
           "consumed": 42
         }
-      },
-      "meshMs": {
-        "-1,0,-1": 26.199999928474426,
-        "0,0,-1": 14.800000071525574
-      },
-      "colliderMs": {
-        "-1,0,-1": 1.399999976158142,
-        "0,0,-1": 2
-      },
-      "persistenceMs": 104.59999990463257,
-      "transactionMs": 151.29999995231628
+      }
     },
     {
       "name": "trench-z--3",
@@ -723,17 +664,7 @@
           "actors": 0,
           "consumed": 53
         }
-      },
-      "meshMs": {
-        "-1,0,-1": 22.799999952316284,
-        "0,0,-1": 16.700000047683716
-      },
-      "colliderMs": {
-        "-1,0,-1": 2,
-        "0,0,-1": 3.0999999046325684
-      },
-      "persistenceMs": 107.39999997615814,
-      "transactionMs": 152.19999992847443
+      }
     },
     {
       "name": "trench-z--2",
@@ -841,21 +772,7 @@
           "actors": 0,
           "consumed": 55
         }
-      },
-      "meshMs": {
-        "-1,0,-1": 20.899999976158142,
-        "-1,0,0": 19.899999976158142,
-        "0,0,-1": 13.399999976158142,
-        "0,0,0": 25.100000023841858
-      },
-      "colliderMs": {
-        "-1,0,-1": 3.399999976158142,
-        "-1,0,0": 1.4000000953674316,
-        "0,0,-1": 1.7999999523162842,
-        "0,0,0": 3.299999952316284
-      },
-      "persistenceMs": 93.60000002384186,
-      "transactionMs": 183
+      }
     },
     {
       "name": "trench-z--1",
@@ -958,21 +875,7 @@
           "actors": 0,
           "consumed": 55
         }
-      },
-      "meshMs": {
-        "-1,0,-1": 14.899999976158142,
-        "-1,0,0": 16.699999928474426,
-        "0,0,-1": 12.800000071525574,
-        "0,0,0": 10.5
-      },
-      "colliderMs": {
-        "-1,0,-1": 3.3000000715255737,
-        "-1,0,0": 1.5,
-        "0,0,-1": 1.5,
-        "0,0,0": 2.0999999046325684
-      },
-      "persistenceMs": 93.70000004768372,
-      "transactionMs": 157.39999997615814
+      }
     },
     {
       "name": "trench-z-0",
@@ -1065,21 +968,7 @@
           "actors": 0,
           "consumed": 55
         }
-      },
-      "meshMs": {
-        "-1,0,-1": 16.600000023841858,
-        "-1,0,0": 20.399999976158142,
-        "0,0,-1": 11.200000047683716,
-        "0,0,0": 19.399999976158142
-      },
-      "colliderMs": {
-        "-1,0,-1": 1.899999976158142,
-        "-1,0,0": 1.5,
-        "0,0,-1": 2.100000023841858,
-        "0,0,0": 1.399999976158142
-      },
-      "persistenceMs": 103,
-      "transactionMs": 178
+      }
     },
     {
       "name": "trench-z-1",
@@ -1171,17 +1060,7 @@
           "actors": 0,
           "consumed": 55
         }
-      },
-      "meshMs": {
-        "-1,0,0": 11.699999928474426,
-        "0,0,0": 23.399999976158142
-      },
-      "colliderMs": {
-        "-1,0,0": 1.399999976158142,
-        "0,0,0": 1.5
-      },
-      "persistenceMs": 103.80000007152557,
-      "transactionMs": 142.09999990463257
+      }
     },
     {
       "name": "trench-z-2",
@@ -1263,17 +1142,7 @@
           "actors": 0,
           "consumed": 55
         }
-      },
-      "meshMs": {
-        "-1,0,0": 11.899999976158142,
-        "0,0,0": 16.200000047683716
-      },
-      "colliderMs": {
-        "-1,0,0": 1.4000000953674316,
-        "0,0,0": 1.399999976158142
-      },
-      "persistenceMs": 86.29999995231628,
-      "transactionMs": 117.60000002384186
+      }
     },
     {
       "name": "trench-z-3",
@@ -1450,17 +1319,7 @@
           "actors": 0,
           "consumed": 55
         }
-      },
-      "meshMs": {
-        "-1,0,0": 15.200000047683716,
-        "0,0,0": 15.900000095367432
-      },
-      "colliderMs": {
-        "-1,0,0": 1.2999999523162842,
-        "0,0,0": 1.5
-      },
-      "persistenceMs": 89.60000002384186,
-      "transactionMs": 123.70000004768372
+      }
     },
     {
       "name": "trench-z-4",
@@ -1562,17 +1421,7 @@
           "actors": 0,
           "consumed": 56
         }
-      },
-      "meshMs": {
-        "-1,0,0": 15.099999904632568,
-        "0,0,0": 16.399999976158142
-      },
-      "colliderMs": {
-        "-1,0,0": 1.3000000715255737,
-        "0,0,0": 1.1999999284744263
-      },
-      "persistenceMs": 96.40000009536743,
-      "transactionMs": 130.69999992847443
+      }
     },
     {
       "name": "trench-z-5",
@@ -1704,17 +1553,7 @@
           "actors": 0,
           "consumed": 69
         }
-      },
-      "meshMs": {
-        "-1,0,0": 13.600000023841858,
-        "0,0,0": 18.799999952316284
-      },
-      "colliderMs": {
-        "-1,0,0": 1.2000000476837158,
-        "0,0,0": 4.100000023841858
-      },
-      "persistenceMs": 97.10000002384186,
-      "transactionMs": 135
+      }
     },
     {
       "name": "trench-z-6",
@@ -1861,17 +1700,7 @@
           "actors": 0,
           "consumed": 92
         }
-      },
-      "meshMs": {
-        "-1,0,0": 14.299999952316284,
-        "0,0,0": 17.600000023841858
-      },
-      "colliderMs": {
-        "-1,0,0": 1.399999976158142,
-        "0,0,0": 1.7000000476837158
-      },
-      "persistenceMs": 83,
-      "transactionMs": 118.39999997615814
+      }
     },
     {
       "name": "trench-z-7",
@@ -1993,17 +1822,7 @@
           "actors": 0,
           "consumed": 98
         }
-      },
-      "meshMs": {
-        "-1,0,0": 26.299999952316284,
-        "0,0,0": 13.800000071525574
-      },
-      "colliderMs": {
-        "-1,0,0": 1.899999976158142,
-        "0,0,0": 1.100000023841858
-      },
-      "persistenceMs": 94.59999990463257,
-      "transactionMs": 137.79999995231628
+      }
     },
     {
       "name": "trench-z-8",
@@ -2115,17 +1934,7 @@
           "actors": 0,
           "consumed": 103
         }
-      },
-      "meshMs": {
-        "-1,0,0": 19.200000047683716,
-        "0,0,0": 18.600000023841858
-      },
-      "colliderMs": {
-        "-1,0,0": 1.899999976158142,
-        "0,0,0": 1
-      },
-      "persistenceMs": 97.5,
-      "transactionMs": 138.39999997615814
+      }
     },
     {
       "name": "trench-z-9",
@@ -2267,17 +2076,7 @@
           "actors": 0,
           "consumed": 112
         }
-      },
-      "meshMs": {
-        "-1,0,0": 13.199999928474426,
-        "0,0,0": 14.800000071525574
-      },
-      "colliderMs": {
-        "-1,0,0": 1.399999976158142,
-        "0,0,0": 1.7999999523162842
-      },
-      "persistenceMs": 82.80000007152557,
-      "transactionMs": 114.09999990463257
+      }
     },
     {
       "name": "trench-z-10",
@@ -2450,21 +2249,7 @@
           "actors": 0,
           "consumed": 170
         }
-      },
-      "meshMs": {
-        "-1,0,0": 13.900000095367432,
-        "-1,0,1": 11.5,
-        "0,0,0": 14.599999904632568,
-        "0,0,1": 17.300000071525574
-      },
-      "colliderMs": {
-        "-1,0,0": 0.8999999761581421,
-        "-1,0,1": 1,
-        "0,0,0": 1.5,
-        "0,0,1": 1.399999976158142
-      },
-      "persistenceMs": 84.10000002384186,
-      "transactionMs": 146.30000007152557
+      }
     },
     {
       "name": "trench-z-11",
@@ -2587,21 +2372,7 @@
           "actors": 0,
           "consumed": 174
         }
-      },
-      "meshMs": {
-        "-1,0,0": 16.40000009536743,
-        "-1,0,1": 15.100000023841858,
-        "0,0,0": 16.299999952316284,
-        "0,0,1": 17.800000071525574
-      },
-      "colliderMs": {
-        "-1,0,0": 1.399999976158142,
-        "-1,0,1": 1.2999999523162842,
-        "0,0,0": 1.600000023841858,
-        "0,0,1": 1.6999999284744263
-      },
-      "persistenceMs": 89.80000007152557,
-      "transactionMs": 161.60000002384186
+      }
     },
     {
       "name": "trench-z-12",
@@ -2783,17 +2554,7 @@
           "actors": 0,
           "consumed": 174
         }
-      },
-      "meshMs": {
-        "-1,0,0": 19.199999928474426,
-        "0,0,0": 18.600000023841858
-      },
-      "colliderMs": {
-        "-1,0,0": 3.600000023841858,
-        "0,0,0": 1.5
-      },
-      "persistenceMs": 98.20000004768372,
-      "transactionMs": 141.19999992847443
+      }
     },
     {
       "name": "trench-z-13",
@@ -2941,21 +2702,7 @@
           "actors": 0,
           "consumed": 187
         }
-      },
-      "meshMs": {
-        "-1,0,0": 14.100000023841858,
-        "-1,0,1": 18.600000023841858,
-        "0,0,0": 14.600000023841858,
-        "0,0,1": 10.399999976158142
-      },
-      "colliderMs": {
-        "-1,0,0": 1.399999976158142,
-        "-1,0,1": 1,
-        "0,0,0": 1.399999976158142,
-        "0,0,1": 0.8999999761581421
-      },
-      "persistenceMs": 88,
-      "transactionMs": 150.60000002384186
+      }
     },
     {
       "name": "trench-z-14",
@@ -3092,17 +2839,7 @@
           "actors": 0,
           "consumed": 211
         }
-      },
-      "meshMs": {
-        "-1,0,1": 16.90000009536743,
-        "0,0,1": 10.599999904632568
-      },
-      "colliderMs": {
-        "-1,0,1": 3.899999976158142,
-        "0,0,1": 1.100000023841858
-      },
-      "persistenceMs": 102.89999997615814,
-      "transactionMs": 135.80000007152557
+      }
     },
     {
       "name": "11-seam-boulder-supported",
@@ -3117,10 +2854,6 @@
         "distance": 7.377157205718391
       },
       "actorHit": null,
-      "collision": {
-        "distance": 7.377157688140869,
-        "collider": 6.3659873783e-314
-      },
       "dirtyChunkIds": [
         "-1,0,1",
         "0,0,1"
@@ -3254,8 +2987,7 @@
         "workUnits": 9269,
         "componentCount": 1,
         "rockSupported": true,
-        "extractedComponents": 0,
-        "transferredRockParcels": 0
+        "extractedComponents": 0
       },
       "ledger": {
         "rock": {
@@ -3270,17 +3002,7 @@
           "actors": 0,
           "consumed": 211
         }
-      },
-      "meshMs": {
-        "0,0,0": 12.400000095367432,
-        "1,0,0": 19.899999976158142
-      },
-      "colliderMs": {
-        "0,0,0": 1,
-        "1,0,0": 2.899999976158142
-      },
-      "persistenceMs": 103,
-      "transactionMs": 139.40000009536743
+      }
     },
     {
       "name": "13-support-removal",
@@ -3346,49 +3068,49 @@
           3
         ],
         [
+          17,
+          12,
+          3
+        ],
+        [
+          16,
+          12,
+          3
+        ],
+        [
+          15,
+          12,
+          3
+        ],
+        [
+          14,
+          12,
+          3
+        ],
+        [
           14,
           12,
           2
         ],
         [
-          14,
-          12,
-          3
-        ],
-        [
-          15,
-          11,
-          1
-        ],
-        [
-          15,
-          11,
-          2
-        ],
-        [
-          15,
-          11,
-          3
-        ],
-        [
-          15,
-          12,
-          1
-        ],
-        [
           15,
           12,
           2
         ],
         [
           15,
-          12,
+          11,
           3
         ],
         [
           16,
           11,
-          1
+          3
+        ],
+        [
+          15,
+          11,
+          2
         ],
         [
           16,
@@ -3397,28 +3119,8 @@
         ],
         [
           16,
-          11,
-          3
-        ],
-        [
-          16,
-          12,
-          1
-        ],
-        [
-          16,
           12,
           2
-        ],
-        [
-          16,
-          12,
-          3
-        ],
-        [
-          17,
-          11,
-          1
         ],
         [
           17,
@@ -3427,8 +3129,28 @@
         ],
         [
           17,
+          12,
+          2
+        ],
+        [
+          17,
           11,
           3
+        ],
+        [
+          16,
+          11,
+          1
+        ],
+        [
+          17,
+          11,
+          1
+        ],
+        [
+          16,
+          12,
+          1
         ],
         [
           17,
@@ -3436,14 +3158,14 @@
           1
         ],
         [
-          17,
+          15,
           12,
-          2
+          1
         ],
         [
-          17,
-          12,
-          3
+          15,
+          11,
+          1
         ],
         [
           15,
@@ -3489,7 +3211,6 @@
         "componentCount": 1,
         "rockSupported": false,
         "extractedComponents": 1,
-        "transferredRockParcels": 228,
         "postTransferWorkUnits": 9036,
         "totalWorkUnits": 18264,
         "postTransferDirtConsumed": 3
@@ -3497,8 +3218,8 @@
       "ledger": {
         "rock": {
           "initial": 139749,
-          "world": 139519,
-          "actors": 228,
+          "world": 139614,
+          "actors": 133,
           "consumed": 2
         },
         "dirt": {
@@ -3507,17 +3228,7 @@
           "actors": 0,
           "consumed": 265
         }
-      },
-      "meshMs": {
-        "0,0,0": 14.5,
-        "1,0,0": 23.300000071525574
-      },
-      "colliderMs": {
-        "0,0,0": 1.5,
-        "1,0,0": 2
-      },
-      "persistenceMs": 120.29999995231628,
-      "transactionMs": 197.40000009536743
+      }
     },
     {
       "name": "18-unrelated-terrain-edit",
@@ -3646,8 +3357,8 @@
       "ledger": {
         "rock": {
           "initial": 139749,
-          "world": 139519,
-          "actors": 228,
+          "world": 139614,
+          "actors": 133,
           "consumed": 2
         },
         "dirt": {
@@ -3656,43 +3367,35 @@
           "actors": 0,
           "consumed": 310
         }
-      },
-      "meshMs": {
-        "0,0,-1": 30.200000047683716
-      },
-      "colliderMs": {
-        "0,0,-1": 1.6999999284744263
-      },
-      "persistenceMs": 121.10000002384186,
-      "transactionMs": 153.30000007152557
+      }
     },
     {
       "name": "19-moved-actor-mined",
       "revision": 26,
       "hit": {
         "point": [
-          6.4295378254762685,
-          4.6461024200826,
-          0.9859649171778873
+          7.73626471137974,
+          4.826804309756433,
+          -0.23714248130794235
         ],
         "material": 1,
-        "distance": 7.3377203896116265
+        "distance": 7.297214548785864
       },
       "actorHit": {
         "actorId": "terrain-rock-24-0",
         "contentRevision": 2,
-        "poseRevision": 66,
+        "poseRevision": 71,
         "pose": {
           "position": [
-            12.504011154174805,
-            1.4417016506195068,
-            1.2170089483261108
+            12.612051010131836,
+            1.6345136165618896,
+            1.292097806930542
           ],
           "rotation": {
-            "x": -0.014601502567529678,
-            "y": -0.02222428470849991,
-            "z": 0.46461573243141174,
-            "w": 0.8851130604743958
+            "x": -0.018602408468723297,
+            "y": -0.02899671159684658,
+            "z": 0.4798505902290344,
+            "w": 0.8766735792160034
           },
           "linearVelocity": [
             0,
@@ -3706,21 +3409,17 @@
           ],
           "sleepState": "SLEEPING"
         },
-        "distance": 5.532164155375533,
+        "distance": 5.57049108227401,
         "localPoint": [
-          0.35329888655361774,
-          5.448333235677711,
-          0.014646030918897102
+          0.21848844472179174,
+          5.898410692062812,
+          0.5394570748347052
         ],
         "worldPoint": [
-          8.226073113147736,
-          4.826357359492888,
-          0.9873955474835289
+          7.736264655832877,
+          4.9991890515269795,
+          1.4809545603280425
         ]
-      },
-      "collision": {
-        "distance": 5.45883321762085,
-        "collider": 1.315637390478e-312
       },
       "dirtyChunkIds": [],
       "supportEvidence": null,
@@ -3729,9 +3428,9 @@
       "ledger": {
         "rock": {
           "initial": 139749,
-          "world": 139519,
-          "actors": 223,
-          "consumed": 7
+          "world": 139614,
+          "actors": 125,
+          "consumed": 10
         },
         "dirt": {
           "initial": 9451,
@@ -3750,20 +3449,20 @@
           "newlyBroken": []
         },
         "cut": {
-          "changed": 1,
-          "removedSamples": 1,
+          "changed": 2,
+          "removedSamples": 2,
           "sequence": 1,
           "radius": 0.44,
-          "elapsedMs": 0.5
+          "elapsedMs": 0.40000009536743164
         },
         "fractureMetrics": {
-          "elapsedMs": 2.5,
+          "elapsedMs": 3.299999952316284,
           "seamSamples": 0,
           "bondId": null,
-          "chipMs": 0.5,
-          "graphMs": 9.900000095367432,
-          "stressMs": 0,
-          "connectivityMs": 6
+          "chipMs": 0.40000009536743164,
+          "graphMs": 16.799999952316284,
+          "stressMs": 0.20000004768371582,
+          "connectivityMs": 5.5
         }
       }
     },
@@ -3772,28 +3471,28 @@
       "revision": 26,
       "hit": {
         "point": [
-          6.412736478280847,
-          4.835725649344663,
-          1.0986962029117566
+          8.05,
+          4.864193284106474,
+          -0.25353724760129737
         ],
-        "material": 1,
-        "distance": 9.645484609992536
+        "material": 2,
+        "distance": 9.360333247673482
       },
       "actorHit": {
         "actorId": "terrain-rock-24-0",
         "contentRevision": 2,
-        "poseRevision": 66,
+        "poseRevision": 71,
         "pose": {
           "position": [
-            12.504011154174805,
-            1.4417016506195068,
-            1.2170089483261108
+            12.612051010131836,
+            1.6345136165618896,
+            1.292097806930542
           ],
           "rotation": {
-            "x": -0.014601502567529678,
-            "y": -0.02222428470849991,
-            "z": 0.46461573243141174,
-            "w": 0.8851130604743958
+            "x": -0.018602408468723297,
+            "y": -0.02899671159684658,
+            "z": 0.4798505902290344,
+            "w": 0.8766735792160034
           },
           "linearVelocity": [
             0,
@@ -3807,21 +3506,17 @@
           ],
           "sleepState": "SLEEPING"
         },
-        "distance": 7.751527834154875,
+        "distance": 7.4999167290245135,
         "localPoint": [
-          0.5599199672144426,
-          5.49729557080145,
-          0.12455410305656084
+          0.4338055875218556,
+          5.655076252958051,
+          0.6345017947520137
         ],
         "worldPoint": [
-          8.29723064718846,
-          5.02480592237746,
-          1.1001968775721054
+          8.049999948076891,
+          5.0499250607021615,
+          1.59758493795951
         ]
-      },
-      "collision": {
-        "distance": 7.641419887542725,
-        "collider": 1.315637390478e-312
       },
       "dirtyChunkIds": [],
       "supportEvidence": null,
@@ -3830,9 +3525,9 @@
       "ledger": {
         "rock": {
           "initial": 139749,
-          "world": 139519,
-          "actors": 223,
-          "consumed": 7
+          "world": 139614,
+          "actors": 125,
+          "consumed": 10
         },
         "dirt": {
           "initial": 9451,
@@ -3870,252 +3565,32 @@
           "material": 0
         }
       ]
-    },
-    {
-      "name": "21-reloaded-terrain-and-moved-actor",
-      "revision": 26,
-      "hit": {
-        "point": [
-          2.5,
-          4.595055593627565,
-          5.2049026012222654
-        ],
-        "material": 2,
-        "distance": 6.531842902027971
-      },
-      "actorHit": null,
-      "collision": {
-        "distance": 6.531843185424805,
-        "collider": 2e-323
-      },
-      "dirtyChunkIds": [],
-      "supportEvidence": null,
-      "actorCount": 1,
-      "bodyCount": 1,
-      "ledger": {
-        "rock": {
-          "initial": 139749,
-          "world": 139519,
-          "actors": 223,
-          "consumed": 7
-        },
-        "dirt": {
-          "initial": 9451,
-          "world": 9141,
-          "actors": 0,
-          "consumed": 310
-        }
-      },
-      "savedRevision": 26,
-      "reloadedActorPose": {
-        "position": [
-          12.40919303894043,
-          1.324326992034912,
-          1.200339674949646
-        ],
-        "rotation": {
-          "x": -0.013668163679540157,
-          "y": -0.020635515451431274,
-          "z": 0.4550756514072418,
-          "w": 0.8901087641716003
-        },
-        "linearVelocity": [
-          -0.00047461839858442545,
-          0.0001112296522478573,
-          0.0005181501037441194
-        ],
-        "angularVelocity": [
-          0.0024601398035883904,
-          0.0018599487375468016,
-          0.00046127522364258766
-        ],
-        "sleepState": "ACTIVE"
-      }
-    },
-    {
-      "name": "22-final-grid-proof",
-      "revision": 26,
-      "hit": {
-        "point": [
-          2.5,
-          4.595055593627565,
-          5.2049026012222654
-        ],
-        "material": 2,
-        "distance": 6.531842902027971
-      },
-      "actorHit": null,
-      "collision": {
-        "distance": 6.531843185424805,
-        "collider": 2e-323
-      },
-      "dirtyChunkIds": [],
-      "supportEvidence": null,
-      "actorCount": 1,
-      "bodyCount": 1,
-      "ledger": {
-        "rock": {
-          "initial": 139749,
-          "world": 139519,
-          "actors": 223,
-          "consumed": 7
-        },
-        "dirt": {
-          "initial": 9451,
-          "world": 9141,
-          "actors": 0,
-          "consumed": 310
-        }
-      }
     }
   ],
-  "chunkDimensions": [
-    16,
-    16,
-    16
-  ],
-  "spacing": 0.5,
-  "dirtyProof": {
-    "interior": [
-      "0,0,0"
-    ],
-    "xSeam": [
-      "0,0,0",
-      "1,0,0"
-    ],
-    "xzCorner": [
-      "0,0,0",
-      "0,0,1",
-      "1,0,0",
-      "1,0,1"
-    ],
-    "trenchChangedSampleChunkZ": [
-      -1,
-      0,
-      1
-    ],
-    "trenchDirtyChunkIds": [
-      "-1,0,-1",
-      "-1,0,0",
-      "-1,0,1",
-      "0,0,-1",
-      "0,0,0",
-      "0,0,1"
-    ],
-    "twoSeamsCrossed": true,
-    "uneditedMaterialSeamCollision": {
-      "renderDistance": 6.065660028788834,
-      "rapierDistance": 6.065659999847412,
-      "delta": 2.8941421703621018e-8
-    },
-    "cavityCollision": {
-      "renderDistance": 8.942163224186904,
-      "rapierDistance": 8.942163467407227,
-      "delta": 2.4322032210477573e-7
-    }
-  },
-  "boulder": {
-    "partialSupported": true,
-    "unsupported": true,
-    "supportBounds": {
-      "globalMin": [
-        8,
-        0,
-        -4
+  "body": "+\nTerrain excavation · Phase 0.5D\n\n3×3 logical chunks · 16³ cells each · 0.5 m samples\n\nReady · 9 independent chunk products · world revision 26.\n\nDirt scoopRock pickExcavate at crosshairChunk grid: offDirty view: offMaterial seam: thresholdSave & reload\n\nworld revision: 26\npatch: 3 × 3 logical chunks · 9 total\ncells/chunk: 16³ · spacing: 0.5 m\nhalo: read-only 1 sample · sparse edits: 283\nMatterActors/bodies: 1/1\nledger typed-array bytes: 589824\nledger ROCK world/actors/consumed: 139614/125/10\nledger DIRT world/actors/consumed: 9141/0/310\nlast hit: —\nmaterial: —\nRapier ray: —\nNo terrain edit yet.\n\nDrag to orbit · Wheel to zoom · WASD to move · Aim with the center crosshair · Click or press E to excavate. Expose the gray rock below the rust soil. Debug chunk borders are hidden by default.",
+  "inspect": {
+    "revision": 26,
+    "hit": {
+      "point": [
+        2.5,
+        4.595055593627565,
+        5.2049026012222654
       ],
-      "globalMax": [
-        24,
-        16,
-        12
-      ],
-      "sampleCount": 4913,
-      "cellWork": 4096
+      "material": 2,
+      "distance": 6.531842902027971
     },
-    "supportWorkUnits": 18264,
-    "transferredRockProbes": 228,
-    "actorCount": 1,
-    "postTransferDirtConsumed": 3,
-    "oldVolumeAfterTransfer": [
-      {
-        "point": [
-          17,
-          11,
-          2
-        ],
-        "density": 0.6774664983080151,
-        "material": 0
-      },
-      {
-        "point": [
-          18,
-          11,
-          2
-        ],
-        "density": 0.3099691215745919,
-        "material": 0
-      },
-      {
-        "point": [
-          19,
-          11,
-          2
-        ],
-        "density": 0.18,
-        "material": 0
-      }
-    ],
-    "oldVolumeAfterMined": [
-      {
-        "point": [
-          15,
-          11,
-          2
-        ],
-        "density": 0.6380602293903948,
-        "material": 0
-      },
-      {
-        "point": [
-          16,
-          11,
-          2
-        ],
-        "density": 0.7500938983418831,
-        "material": 0
-      },
-      {
-        "point": [
-          17,
-          11,
-          2
-        ],
-        "density": 0.6774664983080151,
-        "material": 0
-      }
-    ]
-  },
-  "physics": {
-    "sameRapierWorld": true,
-    "staticColliderCount": 9,
-    "contactingTerrainChunkIds": [
-      "0,0,0",
-      "1,0,0"
-    ],
-    "comTravelWhileFalling": 1.0336195613461756,
-    "settledLinearAngularSpeed": 0,
-    "unrelatedEditReusedBody": true,
-    "movedActorMining": true
-  },
-  "persistence": {
-    "savedRevision": 26,
-    "reloadedRevision": 26,
-    "actorCount": 1,
+    "actorHit": null,
+    "collision": {
+      "distance": 6.531843185424805,
+      "collider": 2e-323
+    },
+    "dirtyChunkIds": [],
     "ledger": {
       "rock": {
         "initial": 139749,
-        "world": 139519,
-        "actors": 223,
-        "consumed": 7
+        "world": 139614,
+        "actors": 125,
+        "consumed": 10
       },
       "dirt": {
         "initial": 9451,
@@ -4124,618 +3599,59 @@
         "consumed": 310
       }
     },
-    "rewards": {
-      "rock": 7,
-      "dirt": 310
-    },
-    "actorMaterial": 1,
-    "actorStructure": {
-      "hitSequence": 1,
-      "stress": {
-        "bond:rock:9212026:v1:-1,3,0,0|rock:9212026:v1:-2,3,0,0": 0.2,
-        "bond:rock:9212026:v1:-2,3,-1,0|rock:9212026:v1:-2,3,0,0": 0.2,
-        "bond:rock:9212026:v1:-1,3,0,0|rock:9212026:v1:-2,3,-1,0": 0.124,
-        "bond:rock:9212026:v1:-1,3,-1,0|rock:9212026:v1:-2,3,-1,0": 0.124
-      },
-      "broken": []
-    },
-    "pose": {
-      "position": [
-        12.40919303894043,
-        1.324326992034912,
-        1.200339674949646
-      ],
-      "rotation": {
-        "x": -0.013668163679540157,
-        "y": -0.020635515451431274,
-        "z": 0.4550756514072418,
-        "w": 0.8901087641716003
-      },
-      "linearVelocity": [
-        -0.00047461839858442545,
-        0.0001112296522478573,
-        0.0005181501037441194
-      ],
-      "angularVelocity": [
-        0.0024601398035883904,
-        0.0018599487375468016,
-        0.00046127522364258766
-      ],
-      "sleepState": "ACTIVE"
-    },
-    "oldVolumeAfterReload": [
+    "ledgerBytes": 589824,
+    "actorCount": 1,
+    "bodyCount": 1,
+    "actors": [
       {
-        "point": [
-          15,
-          11,
-          2
-        ],
-        "density": 0.6380602293903948,
-        "material": 0
-      },
-      {
-        "point": [
-          16,
-          11,
-          2
-        ],
-        "density": 0.7500938983418831,
-        "material": 0
-      },
-      {
-        "point": [
-          17,
-          11,
-          2
-        ],
-        "density": 0.6774664983080151,
-        "material": 0
-      }
-    ]
-  },
-  "performance": {
-    "ledgerTypedArrayBytes": 589824,
-    "localSupportQueries": [
-      {
-        "bounds": {
-          "globalMin": [
-            8,
+        "id": "terrain-rock-24-0",
+        "contentRevision": 2,
+        "poseRevision": 104,
+        "pose": {
+          "position": [
+            12.512825012207031,
+            1.496870517730713,
+            1.2649856805801392
+          ],
+          "rotation": {
+            "x": -0.01723572425544262,
+            "y": -0.02671441063284874,
+            "z": 0.46894538402557373,
+            "w": 0.8826547861099243
+          },
+          "linearVelocity": [
             0,
-            -4
-          ],
-          "globalMax": [
-            24,
-            16,
-            12
-          ],
-          "sampleCount": 4913,
-          "cellWork": 4096
-        },
-        "cellWork": 2495,
-        "bonds": 6774,
-        "workUnits": 9269,
-        "componentCount": 1,
-        "rockSupported": true,
-        "extractedComponents": 0,
-        "transferredRockParcels": 0
-      },
-      {
-        "bounds": {
-          "globalMin": [
-            8,
             0,
-            -4
+            0
           ],
-          "globalMax": [
-            24,
-            16,
-            12
-          ],
-          "sampleCount": 4913,
-          "cellWork": 4096
-        },
-        "cellWork": 2495,
-        "bonds": 6774,
-        "workUnits": 9269,
-        "componentCount": 1,
-        "rockSupported": true,
-        "extractedComponents": 0,
-        "transferredRockParcels": 0
-      },
-      {
-        "bounds": {
-          "globalMin": [
-            8,
+          "angularVelocity": [
             0,
-            -4
+            0,
+            0
           ],
-          "globalMax": [
-            24,
-            16,
-            12
-          ],
-          "sampleCount": 4913,
-          "cellWork": 4096
+          "sleepState": "SLEEPING"
         },
-        "cellWork": 2483,
-        "bonds": 6745,
-        "workUnits": 9228,
-        "componentCount": 1,
-        "rockSupported": false,
-        "extractedComponents": 1,
-        "transferredRockParcels": 228,
-        "postTransferWorkUnits": 9036,
-        "totalWorkUnits": 18264,
-        "postTransferDirtConsumed": 3
+        "localCOM": [
+          0.04310344827586207,
+          5.652298850574713,
+          0.0028735632183908046
+        ],
+        "worldCOM": [
+          7.862768449856742,
+          4.695557210808564,
+          0.9555908655880778
+        ],
+        "bodyHandle": 4.4e-323,
+        "contactingTerrainChunkIds": [
+          "0,0,0",
+          "1,0,0"
+        ],
+        "material": 1,
+        "transferredParcelCount": 133
       }
     ],
-    "terrainTransactions": [
-      {
-        "name": "04-interior-edit",
-        "dirtyChunkIds": [
-          "0,0,0"
-        ],
-        "meshMs": {
-          "0,0,0": 34.700000047683716
-        },
-        "colliderMs": {
-          "0,0,0": 1.7000000476837158
-        },
-        "persistenceMs": 93.80000007152557,
-        "transactionMs": 136.5
-      },
-      {
-        "name": "05-x-boundary-edit",
-        "dirtyChunkIds": [
-          "0,0,0",
-          "1,0,0"
-        ],
-        "meshMs": {
-          "0,0,0": 33.90000009536743,
-          "1,0,0": 20.399999976158142
-        },
-        "colliderMs": {
-          "0,0,0": 1.6999999284744263,
-          "1,0,0": 3.200000047683716
-        },
-        "persistenceMs": 96.39999997615814,
-        "transactionMs": 156.10000002384186
-      },
-      {
-        "name": "06-real-xz-corner-edit",
-        "dirtyChunkIds": [
-          "0,0,0",
-          "0,0,1",
-          "1,0,0",
-          "1,0,1"
-        ],
-        "meshMs": {
-          "0,0,0": 17,
-          "0,0,1": 18.200000047683716,
-          "1,0,0": 21.300000071525574,
-          "1,0,1": 14
-        },
-        "colliderMs": {
-          "0,0,0": 1.399999976158142,
-          "0,0,1": 2.799999952316284,
-          "1,0,0": 2.1999999284744263,
-          "1,0,1": 1.5
-        },
-        "persistenceMs": 98.79999995231628,
-        "transactionMs": 177.70000004768372
-      },
-      {
-        "name": "trench-z--4",
-        "dirtyChunkIds": [
-          "-1,0,-1",
-          "0,0,-1"
-        ],
-        "meshMs": {
-          "-1,0,-1": 26.199999928474426,
-          "0,0,-1": 14.800000071525574
-        },
-        "colliderMs": {
-          "-1,0,-1": 1.399999976158142,
-          "0,0,-1": 2
-        },
-        "persistenceMs": 104.59999990463257,
-        "transactionMs": 151.29999995231628
-      },
-      {
-        "name": "trench-z--3",
-        "dirtyChunkIds": [
-          "-1,0,-1",
-          "0,0,-1"
-        ],
-        "meshMs": {
-          "-1,0,-1": 22.799999952316284,
-          "0,0,-1": 16.700000047683716
-        },
-        "colliderMs": {
-          "-1,0,-1": 2,
-          "0,0,-1": 3.0999999046325684
-        },
-        "persistenceMs": 107.39999997615814,
-        "transactionMs": 152.19999992847443
-      },
-      {
-        "name": "trench-z--2",
-        "dirtyChunkIds": [
-          "-1,0,-1",
-          "-1,0,0",
-          "0,0,-1",
-          "0,0,0"
-        ],
-        "meshMs": {
-          "-1,0,-1": 20.899999976158142,
-          "-1,0,0": 19.899999976158142,
-          "0,0,-1": 13.399999976158142,
-          "0,0,0": 25.100000023841858
-        },
-        "colliderMs": {
-          "-1,0,-1": 3.399999976158142,
-          "-1,0,0": 1.4000000953674316,
-          "0,0,-1": 1.7999999523162842,
-          "0,0,0": 3.299999952316284
-        },
-        "persistenceMs": 93.60000002384186,
-        "transactionMs": 183
-      },
-      {
-        "name": "trench-z--1",
-        "dirtyChunkIds": [
-          "-1,0,-1",
-          "-1,0,0",
-          "0,0,-1",
-          "0,0,0"
-        ],
-        "meshMs": {
-          "-1,0,-1": 14.899999976158142,
-          "-1,0,0": 16.699999928474426,
-          "0,0,-1": 12.800000071525574,
-          "0,0,0": 10.5
-        },
-        "colliderMs": {
-          "-1,0,-1": 3.3000000715255737,
-          "-1,0,0": 1.5,
-          "0,0,-1": 1.5,
-          "0,0,0": 2.0999999046325684
-        },
-        "persistenceMs": 93.70000004768372,
-        "transactionMs": 157.39999997615814
-      },
-      {
-        "name": "trench-z-0",
-        "dirtyChunkIds": [
-          "-1,0,-1",
-          "-1,0,0",
-          "0,0,-1",
-          "0,0,0"
-        ],
-        "meshMs": {
-          "-1,0,-1": 16.600000023841858,
-          "-1,0,0": 20.399999976158142,
-          "0,0,-1": 11.200000047683716,
-          "0,0,0": 19.399999976158142
-        },
-        "colliderMs": {
-          "-1,0,-1": 1.899999976158142,
-          "-1,0,0": 1.5,
-          "0,0,-1": 2.100000023841858,
-          "0,0,0": 1.399999976158142
-        },
-        "persistenceMs": 103,
-        "transactionMs": 178
-      },
-      {
-        "name": "trench-z-1",
-        "dirtyChunkIds": [
-          "-1,0,0",
-          "0,0,0"
-        ],
-        "meshMs": {
-          "-1,0,0": 11.699999928474426,
-          "0,0,0": 23.399999976158142
-        },
-        "colliderMs": {
-          "-1,0,0": 1.399999976158142,
-          "0,0,0": 1.5
-        },
-        "persistenceMs": 103.80000007152557,
-        "transactionMs": 142.09999990463257
-      },
-      {
-        "name": "trench-z-2",
-        "dirtyChunkIds": [
-          "-1,0,0",
-          "0,0,0"
-        ],
-        "meshMs": {
-          "-1,0,0": 11.899999976158142,
-          "0,0,0": 16.200000047683716
-        },
-        "colliderMs": {
-          "-1,0,0": 1.4000000953674316,
-          "0,0,0": 1.399999976158142
-        },
-        "persistenceMs": 86.29999995231628,
-        "transactionMs": 117.60000002384186
-      },
-      {
-        "name": "trench-z-3",
-        "dirtyChunkIds": [
-          "-1,0,0",
-          "0,0,0"
-        ],
-        "meshMs": {
-          "-1,0,0": 15.200000047683716,
-          "0,0,0": 15.900000095367432
-        },
-        "colliderMs": {
-          "-1,0,0": 1.2999999523162842,
-          "0,0,0": 1.5
-        },
-        "persistenceMs": 89.60000002384186,
-        "transactionMs": 123.70000004768372
-      },
-      {
-        "name": "trench-z-4",
-        "dirtyChunkIds": [
-          "-1,0,0",
-          "0,0,0"
-        ],
-        "meshMs": {
-          "-1,0,0": 15.099999904632568,
-          "0,0,0": 16.399999976158142
-        },
-        "colliderMs": {
-          "-1,0,0": 1.3000000715255737,
-          "0,0,0": 1.1999999284744263
-        },
-        "persistenceMs": 96.40000009536743,
-        "transactionMs": 130.69999992847443
-      },
-      {
-        "name": "trench-z-5",
-        "dirtyChunkIds": [
-          "-1,0,0",
-          "0,0,0"
-        ],
-        "meshMs": {
-          "-1,0,0": 13.600000023841858,
-          "0,0,0": 18.799999952316284
-        },
-        "colliderMs": {
-          "-1,0,0": 1.2000000476837158,
-          "0,0,0": 4.100000023841858
-        },
-        "persistenceMs": 97.10000002384186,
-        "transactionMs": 135
-      },
-      {
-        "name": "trench-z-6",
-        "dirtyChunkIds": [
-          "-1,0,0",
-          "0,0,0"
-        ],
-        "meshMs": {
-          "-1,0,0": 14.299999952316284,
-          "0,0,0": 17.600000023841858
-        },
-        "colliderMs": {
-          "-1,0,0": 1.399999976158142,
-          "0,0,0": 1.7000000476837158
-        },
-        "persistenceMs": 83,
-        "transactionMs": 118.39999997615814
-      },
-      {
-        "name": "trench-z-7",
-        "dirtyChunkIds": [
-          "-1,0,0",
-          "0,0,0"
-        ],
-        "meshMs": {
-          "-1,0,0": 26.299999952316284,
-          "0,0,0": 13.800000071525574
-        },
-        "colliderMs": {
-          "-1,0,0": 1.899999976158142,
-          "0,0,0": 1.100000023841858
-        },
-        "persistenceMs": 94.59999990463257,
-        "transactionMs": 137.79999995231628
-      },
-      {
-        "name": "trench-z-8",
-        "dirtyChunkIds": [
-          "-1,0,0",
-          "0,0,0"
-        ],
-        "meshMs": {
-          "-1,0,0": 19.200000047683716,
-          "0,0,0": 18.600000023841858
-        },
-        "colliderMs": {
-          "-1,0,0": 1.899999976158142,
-          "0,0,0": 1
-        },
-        "persistenceMs": 97.5,
-        "transactionMs": 138.39999997615814
-      },
-      {
-        "name": "trench-z-9",
-        "dirtyChunkIds": [
-          "-1,0,0",
-          "0,0,0"
-        ],
-        "meshMs": {
-          "-1,0,0": 13.199999928474426,
-          "0,0,0": 14.800000071525574
-        },
-        "colliderMs": {
-          "-1,0,0": 1.399999976158142,
-          "0,0,0": 1.7999999523162842
-        },
-        "persistenceMs": 82.80000007152557,
-        "transactionMs": 114.09999990463257
-      },
-      {
-        "name": "trench-z-10",
-        "dirtyChunkIds": [
-          "-1,0,0",
-          "-1,0,1",
-          "0,0,0",
-          "0,0,1"
-        ],
-        "meshMs": {
-          "-1,0,0": 13.900000095367432,
-          "-1,0,1": 11.5,
-          "0,0,0": 14.599999904632568,
-          "0,0,1": 17.300000071525574
-        },
-        "colliderMs": {
-          "-1,0,0": 0.8999999761581421,
-          "-1,0,1": 1,
-          "0,0,0": 1.5,
-          "0,0,1": 1.399999976158142
-        },
-        "persistenceMs": 84.10000002384186,
-        "transactionMs": 146.30000007152557
-      },
-      {
-        "name": "trench-z-11",
-        "dirtyChunkIds": [
-          "-1,0,0",
-          "-1,0,1",
-          "0,0,0",
-          "0,0,1"
-        ],
-        "meshMs": {
-          "-1,0,0": 16.40000009536743,
-          "-1,0,1": 15.100000023841858,
-          "0,0,0": 16.299999952316284,
-          "0,0,1": 17.800000071525574
-        },
-        "colliderMs": {
-          "-1,0,0": 1.399999976158142,
-          "-1,0,1": 1.2999999523162842,
-          "0,0,0": 1.600000023841858,
-          "0,0,1": 1.6999999284744263
-        },
-        "persistenceMs": 89.80000007152557,
-        "transactionMs": 161.60000002384186
-      },
-      {
-        "name": "trench-z-12",
-        "dirtyChunkIds": [
-          "-1,0,0",
-          "0,0,0"
-        ],
-        "meshMs": {
-          "-1,0,0": 19.199999928474426,
-          "0,0,0": 18.600000023841858
-        },
-        "colliderMs": {
-          "-1,0,0": 3.600000023841858,
-          "0,0,0": 1.5
-        },
-        "persistenceMs": 98.20000004768372,
-        "transactionMs": 141.19999992847443
-      },
-      {
-        "name": "trench-z-13",
-        "dirtyChunkIds": [
-          "-1,0,0",
-          "-1,0,1",
-          "0,0,0",
-          "0,0,1"
-        ],
-        "meshMs": {
-          "-1,0,0": 14.100000023841858,
-          "-1,0,1": 18.600000023841858,
-          "0,0,0": 14.600000023841858,
-          "0,0,1": 10.399999976158142
-        },
-        "colliderMs": {
-          "-1,0,0": 1.399999976158142,
-          "-1,0,1": 1,
-          "0,0,0": 1.399999976158142,
-          "0,0,1": 0.8999999761581421
-        },
-        "persistenceMs": 88,
-        "transactionMs": 150.60000002384186
-      },
-      {
-        "name": "trench-z-14",
-        "dirtyChunkIds": [
-          "-1,0,1",
-          "0,0,1"
-        ],
-        "meshMs": {
-          "-1,0,1": 16.90000009536743,
-          "0,0,1": 10.599999904632568
-        },
-        "colliderMs": {
-          "-1,0,1": 3.899999976158142,
-          "0,0,1": 1.100000023841858
-        },
-        "persistenceMs": 102.89999997615814,
-        "transactionMs": 135.80000007152557
-      },
-      {
-        "name": "12-partial-dirt-excavation",
-        "dirtyChunkIds": [
-          "0,0,0",
-          "1,0,0"
-        ],
-        "meshMs": {
-          "0,0,0": 12.400000095367432,
-          "1,0,0": 19.899999976158142
-        },
-        "colliderMs": {
-          "0,0,0": 1,
-          "1,0,0": 2.899999976158142
-        },
-        "persistenceMs": 103,
-        "transactionMs": 139.40000009536743
-      },
-      {
-        "name": "13-support-removal",
-        "dirtyChunkIds": [
-          "0,0,0",
-          "1,0,0"
-        ],
-        "meshMs": {
-          "0,0,0": 14.5,
-          "1,0,0": 23.300000071525574
-        },
-        "colliderMs": {
-          "0,0,0": 1.5,
-          "1,0,0": 2
-        },
-        "persistenceMs": 120.29999995231628,
-        "transactionMs": 197.40000009536743
-      },
-      {
-        "name": "18-unrelated-terrain-edit",
-        "dirtyChunkIds": [
-          "0,0,-1"
-        ],
-        "meshMs": {
-          "0,0,-1": 30.200000047683716
-        },
-        "colliderMs": {
-          "0,0,-1": 1.6999999284744263
-        },
-        "persistenceMs": 121.10000002384186,
-        "transactionMs": 153.30000007152557
-      }
-    ]
-  },
-  "limitations": [
-    "Fixed 3x3 patch, one vertical chunk, and 0.5 m samples; no streaming or mobile-readiness claim.",
-    "Actor collision uses the existing approximate four-sector convex proxy, not exact voxel collision.",
-    "Browser timing comes from headless SwiftShader and is observational rather than a performance target."
-  ]
+    "sameRapierWorld": true,
+    "staticColliderCount": 9,
+    "lastEvent": null
+  }
 }

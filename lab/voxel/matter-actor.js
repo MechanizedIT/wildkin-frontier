@@ -112,6 +112,16 @@ function newActor(id,sample,parent=null,component=null,structure=emptyRockStruct
   }
   return record;
 }
+// Terrain extraction and C.1R mining share the same persisted MatterActor
+// contract. Callers supply one already-resolved, actor-local scalar volume.
+export function createMatterActorFromResolvedSamples({id,sample,position=[0,0,0],rotation={x:0,y:0,z:0,w:1},
+  linearVelocity=[0,0,0],angularVelocity=[0,0,0],structure=emptyRockStructure(),component=null,material=MATTER_MATERIAL.ROCK}){
+  if(typeof id!=='string'||!id||!sample?.densities||!sample?.materials||!sample?.size||sample.densities.length!==sample.materials.length||
+    !Array.isArray(position)||position.length!==3||!position.every(Number.isFinite))throw new Error('Invalid resolved MatterActor input');
+  const policy=matterPolicyFor(material);if(!policy)throw new Error('MatterActor material has no C.1R policy');
+  const actor=newActor(id,{...sample,densities:new Float32Array(sample.densities),materials:new Uint8Array(sample.materials)},null,component,structure,policy);
+  actor.position=[...position];actor.rotation={...rotation};actor.linearVelocity=[...linearVelocity];actor.angularVelocity=[...angularVelocity];return actor;
+}
 function componentCOM(component,sample){let sum=[0,0,0],weight=0;for(const p of component.cells){const meter=p.map((v,i)=>sample.min[i]+(v+.5)*sample.spacing),w=parcelBits(sample,p).filter(Boolean).length;sum=sum.map((v,i)=>v+meter[i]*w);weight+=w;}return sum.map(v=>v/Math.max(weight,1));}
 function nearestComponentOwner(cell,components,owners){
   const point=cell.map(v=>v+.5);let selected=null,best=Infinity;

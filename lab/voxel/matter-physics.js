@@ -23,10 +23,10 @@ export function auditPreparedRockCollision(R,mesh,record,colliders,origin=[0,0,0
   return {compared,maxGap,worst,passes:compared>=6&&maxGap<=.5};
 }
 export class CellularRockPhysics {
-  constructor(R){
-    this.R=R;this.world=new R.World({x:0,y:-20,z:0});this.world.timestep=1/60;
-    this.floor=this.world.createCollider(R.ColliderDesc.cuboid(64,.5,64).setTranslation(0,-.5,0).setFriction(.9));
-    this.worldProduct=null;this.actors=new Map();this.shards=new Map();this.origin=[0,0,0];
+  constructor(R,{world=null,createFloor=true,origin=[0,0,0]}={}){
+    this.R=R;this.ownsWorld=!world;this.world=world??new R.World({x:0,y:-20,z:0});this.world.timestep=1/60;this.origin=[...origin];
+    this.floor=createFloor?this.world.createCollider(R.ColliderDesc.cuboid(64,.5,64).setTranslation(this.origin[0],this.origin[1]-.5,this.origin[2]).setFriction(.9)):null;
+    this.worldProduct=null;this.actors=new Map();this.shards=new Map();
   }
   prepareWorld(mesh,revision){
     const collider=mesh.indices.length?this.world.createCollider(this.R.ColliderDesc.trimesh(mesh.positions,mesh.indices).setTranslation(...this.origin.map(v=>-v)).setEnabled(false)):null;
@@ -85,6 +85,6 @@ export class CellularRockPhysics {
     const p=body.translation();body.setTranslation({x:p.x-delta[0],y:p.y-delta[1],z:p.z-delta[2]},false);
   });for(const collider of [this.floor,this.worldProduct?.collider])if(collider){const p=collider.translation();collider.setTranslation({x:p.x-delta[0],y:p.y-delta[1],z:p.z-delta[2]});}
     this.origin=[...next];this.world.propagateModifiedBodyPositionsToColliders();}
-  dispose(){this.world.free();}
+  dispose(){if(this.ownsWorld)this.world.free();}
 }
 export const CellularMatterPhysics=CellularRockPhysics;

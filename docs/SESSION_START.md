@@ -1,8 +1,12 @@
 # Resume Wildkin Frontier
 
-## September 24 Phase 0.5D.1 — integration attempt HOLD; stop for owner review
+## September 25 Phase 0.5D.1 — runtime integration complete; stop for owner review
 
-Read [the D report](VOXEL_PHASE05D_REPORT.md) and the D.1 attempt record there. Global matter windows, stable global probe IDs, compact physical owner/material tables and focused tests are now present, but they remain adapter groundwork and do not participate in the terrain edit transaction. An independent adapter-only review confirmed the focused fixes; it did not review or pass Phase D integration. Phase D still lacks C.1R support/extraction, real MatterActor physics and reuse, persistence, and the requested browser sequence/review. `npm test` and `npm run verify` pass 1,587 tests; world/campaign checks and submission validation pass. **Do not start Phase 0.5E. Resume only with an explicit implementation instruction.**
+Read [the D completion report](VOXEL_PHASE05D_REPORT.md), [current slice](CURRENT_SLICE.md), and [matter roadmap](DESTRUCTIBLE_MATTER_ROADMAP.md). **PASS for the bounded lab; stop for owner review.** Terrain edits use global probe ownership, bounded cross-material support, complete seam-boulder transfer into one C.1R MatterActor, post-transfer dirt cleanup, shared Rapier chunk/actor physics, unchanged actor-body reuse, moved mining, and literal terrain/actor/ledger reload. The browser receipt and captures are in `docs/evidence/voxel-phase05d/source/`. Focused tests pass 28/28; `npm test` and `npm run verify` pass 1,595/1,595; world/campaign checks and submission validation pass; independent read-only review passes. The build log records recovery policy and measured limits. **Do not start Phase 0.5E.**
+
+## September 24 Phase 0.5D.1 — adapter groundwork HOLD (historical)
+
+This was an incomplete adapter/ledger checkpoint, superseded by the September 25 continuation. Preserve its baseline and review in the dated report; do not use it as current implementation status.
 
 ## September 24 Phase 0.5D — original HOLD checkpoint
 
