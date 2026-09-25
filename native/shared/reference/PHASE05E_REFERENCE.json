@@ -1,0 +1,65 @@
+{
+  "schemaVersion": 1,
+  "source": {
+    "repository": "MechanizedIT/wildkin-frontier",
+    "phase": "0.5E",
+    "commit": "207f0f3b0738db3864c7d424bceb971609a59bff",
+    "report": "docs/VOXEL_PHASE05E_REPORT.md",
+    "receipt": "docs/evidence/voxel-phase05e/source/receipt.json"
+  },
+  "purpose": "Behavioral reference for native-engine prototypes; not a requirement to reproduce browser implementation details.",
+  "matterInvariants": [
+    "authoritative matter, render surface, and rigid-body physics proxy are separate concerns",
+    "precision edits target authoritative matter rather than the coarse rigid-body proxy",
+    "chunks or bricks are spatial/render partitions, not physical owners",
+    "detachment and ownership transfer do not create resource rewards",
+    "static-to-dynamic transfer is atomic: no duplicated or lost physical matter",
+    "detached MatterActors own resolved local matter and remain recursively destructible",
+    "material behavior dispatches from authoritative hit material",
+    "unknown structural support fails closed rather than causing speculative collapse",
+    "procedural source matter does not regenerate after accepted runtime removal or extraction"
+  ],
+  "phaseEFixture": {
+    "description": "continuously generated mixed dirt/rock ledge undermined by ordinary excavation",
+    "sourceChunkCount": 4,
+    "detachedCellDimensions": [25, 6, 14],
+    "actorSampleDimensions": [28, 9, 17],
+    "actorInitialParcels": {
+      "rock": 1373,
+      "dirt": 3126
+    },
+    "fallDistanceMeters": 1.2344,
+    "rotationRadians": 0.15064,
+    "contactChunkCount": 3,
+    "settled": true
+  },
+  "finalLedger": {
+    "rock": {
+      "initial": 140018,
+      "world": 138645,
+      "actors": 1373,
+      "consumed": 0
+    },
+    "dirt": {
+      "initial": 11528,
+      "world": 7996,
+      "actors": 2972,
+      "consumed": 560
+    }
+  },
+  "localityEvidence": {
+    "ordinaryEditWorkUnits": 5079,
+    "collapseTriggerWorkUnits": 110233,
+    "collapseSearchExpansions": 9,
+    "collapseReadChunks": 6,
+    "collapseWriteChunks": 6,
+    "residentChunkCount": 9
+  },
+  "knownRepresentationLimitation": "One diagnostic scalar-derived material label drifted from immutable parcel material in Phase E. Parcel identity/material remained authoritative for transfer, ledger and targeting. The native representation should try to remove this ambiguity rather than depend on it.",
+  "nativePortGuidance": [
+    "use these values as reference evidence, not performance targets",
+    "do not reproduce the fixed 3x3 browser storage model merely to match the fixture",
+    "do not reproduce DOM/mobile/browser input or packaging systems",
+    "native prototypes may use different physics and meshing implementations while preserving the behavioral invariants"
+  ]
+}
