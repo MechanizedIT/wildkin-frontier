@@ -14,3 +14,30 @@ art/source/lantern-log-v1/cleanup-r6/candidate/held-candidate.blend
 *.blend
 *.blend1
 *.blend2
+
+# Native engine generated state
+# Unity projects live under native/unity/. Track Assets/, Packages/, ProjectSettings/
+# and .meta files, but never commit generated import/build/cache state.
+native/unity/**/[Ll]ibrary/
+native/unity/**/[Tt]emp/
+native/unity/**/[Oo]bj/
+native/unity/**/[Ll]ogs/
+native/unity/**/[Uu]ser[Ss]ettings/
+native/unity/**/[Mm]emoryCaptures/
+native/unity/**/[Rr]ecordings/
+native/unity/**/[Bb]uild/
+native/unity/**/[Bb]uilds/
+native/unity/**/.vs/
+native/unity/**/*.csproj
+native/unity/**/*.sln
+native/unity/**/*.suo
+native/unity/**/*.user
+native/unity/**/*.pidb
+native/unity/**/*.booproj
+
+# Unreal challenger is deferred, but ignore generated state if/when activated.
+native/unreal/**/Binaries/
+native/unreal/**/DerivedDataCache/
+native/unreal/**/Intermediate/
+native/unreal/**/Saved/
+native/unreal/**/.vs/
