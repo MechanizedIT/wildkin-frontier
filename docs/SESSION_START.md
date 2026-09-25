@@ -1,5 +1,21 @@
 # Resume Wildkin Frontier
 
+## September 25 native PC transition — active next work
+
+Phase 0.5E is the final completed browser-first matter milestone. The active next step is **Unity-first native qualification**, not browser/mobile optimization and not an automatic Unreal duplicate.
+
+Before native work, read:
+
+1. [CURRENT_SLICE](CURRENT_SLICE.md)
+2. [Unity-first transition plan](UNITY_FIRST_TRANSITION_PLAN.md)
+3. [PC engine / matter technology criteria](PC_ENGINE_BAKEOFF_PLAN.md)
+4. [Destructible matter roadmap](DESTRUCTIBLE_MATTER_ROADMAP.md)
+5. [Phase 0.5E report](VOXEL_PHASE05E_REPORT.md)
+
+First local implementation session: use `docs/prompts/UNITY_00_BOOTSTRAP_AGENT_SMOKE.md`.
+
+The planned Unity project location is `native/unity/WildkinUnity/`. Do not hand-author a fake Unity project in GitHub; create it through Unity 6.3 LTS / Unity CLI locally so Unity owns the generated metadata. The browser lab remains the executable behavior reference. Unreal 5.8 is deferred unless Unity fails a meaningful gate or the owner requests the challenger.
+
 ## September 25 Phase 0.5E — localized collapse complete; stop for owner review
 
 Read [the Phase 0.5E report](VOXEL_PHASE05E_REPORT.md), [current slice](CURRENT_SLICE.md), [matter roadmap](DESTRUCTIBLE_MATTER_ROADMAP.md), and the latest [build log](BUILD_LOG.md). **PASS for this bounded isolated lab; stop for owner review. Do not start Phase 0.5F.** The generated mixed ledge progressively undermines, defers when support remains unknown, then transfers one connected mixed slab across four source chunks. Receipt/captures: `docs/evidence/voxel-phase05e/source/`; mobile emulated tap/orbit receipt: `touch-receipt.json` beside it. The report records locality, budgets, read/write chunk distinction, exact material ledgers, collision, persistence, failure injection, and measured headless timings. A touch double-activation bug is corrected and tested: one terrain tap now commits one edit; orbit swipes do not dig. Physical-phone validation is not claimed. D.1's prior PASS and evidence remain historical baseline in its report.
