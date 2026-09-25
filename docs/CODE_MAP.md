@@ -1,5 +1,23 @@
 # Wildkin Frontier code map
 
+## Native PC transition — Unity-first qualification
+
+The browser voxel/matter implementation remains the behavioral reference through Phase 0.5E. New production-direction work lives under `native/` and follows [UNITY_FIRST_TRANSITION_PLAN](UNITY_FIRST_TRANSITION_PLAN.md).
+
+Prepared owners before the Unity project is created:
+
+- `native/shared/reference/PHASE05E_REFERENCE.json` — engine-neutral behavioral facts/invariants from Phase E.
+- `native/shared/acceptance/README.md` — common evidence contract for native checkpoints.
+- `native/unity/README.md` — Unity 6.3 LTS candidate/project location.
+- `native/unreal/README.md` — deferred Unreal challenger.
+- `docs/prompts/UNITY_00_BOOTSTRAP_AGENT_SMOKE.md` — first local Codex session.
+- `docs/prompts/UNITY_01_NATIVE_MATTER_REFERENCE_KERNEL.md` — native C# matter/data checkpoint after tooling PASS.
+- `docs/prompts/UNITY_02_MESHER_RESOLUTION_BAKEOFF.md` — Surface Nets vs Dual Contouring / resolution checkpoint.
+- `docs/prompts/UNITY_03_STYLIZED_MATERIAL_ROCK_STAMP.md` — projected materials + seeded rock-family checkpoint.
+- `docs/prompts/UNITY_04_MINIMAL_DESTRUCTION_SLICE.md` — final Unity qualification destruction slice.
+
+Do not add native owners to this section until the Unity Editor has actually created the project and the files exist. Do not treat browser `lab/voxel/` modules as production owners after native qualification begins.
+
 ## Phase 0.5E localized terrain collapse (PASS for bounded lab; owner review)
 
 `lab/voxel/terrain-collapse.js` owns deterministic edit-seeded support windows, bounded expansion, fail-closed uncertainty, component classification, and provisional search/actor budgets. `lab/voxel/terrain-chunks.js` composes those queries into the existing global sample/parcel transaction, generic component extraction, sparse world tombstones, post-transfer stabilization, dirty/write-set products, persistence and rollback. `terrain-matter-window.js` and `matter-connectivity.js` supply the bounded resolved occupancy graph; `matter-ownership.js` supplies immutable global parcel materials. `matter-actor.js` preserves one connected component and per-parcel materials; `matter-target.js` dispatch and `matter-material-policy.js` choose dirt or hard-rock response from the targeted actor-local parcel. Static chunks and actors share the lab's Rapier world through `cellular-terrain.js`.
