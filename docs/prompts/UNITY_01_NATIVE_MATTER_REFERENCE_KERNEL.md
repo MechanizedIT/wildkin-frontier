@@ -1,6 +1,6 @@
 # Copy-ready prompt — Unity U2 native matter reference kernel
 
-Use only after the Unity bootstrap/agent-smoke checkpoint is reviewed and PASS.
+**U0/U1 owner-review disposition: accepted to proceed.** Use this in a **fresh Luna High Codex session** after pulling current `main`.
 
 ---
 
@@ -40,7 +40,32 @@ Inspect browser source only to understand proven contracts.
 
 Do not copy browser implementation patterns automatically.
 
-Verify U0 Unity tests/build start green.
+Verify the U0 Unity tests start green.
+
+Known-good environment from U0/U1:
+
+- Unity 6000.3.25f1
+- HDRP 17.3.0
+- Unity CLI 1.0.0-beta.11
+- Unity Pipeline 0.8.0-exp.1
+- official Codex Unity plugin 0.1.6-beta
+- Windows x64 build support
+- NVIDIA RTX 3070 Laptop GPU / D3D12
+
+Do not upgrade Unity/HDRP/tooling during this phase unless the current
+installation is broken.
+
+The prior Codex session configured project-local MCP after that session
+had already started, so a dedicated Unity MCP tool was not exposed there.
+In this **fresh** session, first check whether the Unity MCP is now
+available. If it is, use it where useful. If it is not, do NOT HOLD
+solely for that reason: the verified Unity CLI/Pipeline command bridge is
+an accepted agent-control path. Record which path was used.
+
+`unity status` previously returned STATUS_NO_INSTANCES while
+`unity editors running` and real Editor commands worked. Treat live
+command success/editor discovery as the authority unless the status
+discrepancy actually prevents work.
 
 ============================================================
 1. DESIGN GOAL
@@ -106,6 +131,14 @@ AIR
 ROCK
 DIRT
 
+Prefer a compact numeric backing type.
+
+Unlike the Phase E browser diagnostic limitation, do not introduce a
+second competing material identity for the same resolved sample.
+For U2, one resolved density/material result is authoritative for the
+static field; later ownership can refer to that material without a
+separate drifting scalar-vs-parcel label.
+
 Do not encode behavior as scattered material-name branches.
 
 Create a small material registry/profile seam for later policy work.
@@ -116,8 +149,21 @@ Create a small material registry/profile seam for later policy work.
 
 Start with one fixed-size brick type.
 
-Use a size consistent with future cache-friendly jobs, e.g. 16^3 logical
-cells plus whichever sample halo the mesher will eventually require.
+Use **16^3 logical cell intervals** as the qualification default unless
+implementation evidence justifies a different internal convention.
+Keep the distinction explicit between:
+
+- globally identified authoritative samples/edits;
+- brick/local addressing;
+- read-only neighbor/halo samples required by a future mesher.
+
+Do not let a cached halo become duplicate physical authority.
+
+A brick/window may materialize 17^3 corner samples when a 16^3 cell
+meshing region needs them, but global sample identity and sparse edits
+must remain unique.
+
+This phase does NOT select final production brick size.
 
 Do NOT implement multi-resolution yet.
 
@@ -159,6 +205,9 @@ Do not retain overlapping physical ownership after composition.
 ============================================================
 
 Implement sparse overrides/tombstones over procedural base.
+
+Sparse edit identity must use **global integer sample coordinates**, not
+brick-local indices or floating-point positions.
 
 Requirements:
 
@@ -339,7 +388,7 @@ PERFORMANCE SANITY
 
 Write:
 
-native/evidence/unity/u1-matter-kernel/
+native/evidence/unity/u2-matter-kernel/
 
 Include:
 
@@ -373,6 +422,12 @@ Receipt:
 - relevant PlayMode smoke remains green
 - inspect_matter_region works through agent tooling
 - Windows development build still succeeds
+
+The U0 cold HDRP build exceeded 600 seconds but a warmed build passed in
+186 seconds. Do not intentionally clear shader/import caches. Use an
+appropriately long timeout (for example 1200 seconds) for the final
+build, and do not repeat full Windows builds after every small code
+change.
 - no browser code changed
 - no generated-cache pollution
 
