@@ -1,6 +1,6 @@
 # Copy-ready prompt — Unity U2 native matter reference kernel
 
-**U0/U1 owner-review disposition: accepted to proceed.** Use this in a **fresh Luna High Codex session** after pulling current `main`.
+**U0/U1 technical review disposition: proceed to U2 when the owner starts this prompt.** Use this in a **fresh Luna High Codex session** after pulling current `main`.
 
 ---
 
