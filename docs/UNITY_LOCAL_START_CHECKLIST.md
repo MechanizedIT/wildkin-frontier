@@ -2,6 +2,10 @@
 
 Use this when you are back at the development PC.
 
+## First session completed — September 26, 2026
+
+The U0/U1 setup and autonomy smoke passed and is waiting for owner review. See [the evidence](../native/evidence/unity/u0-agent-smoke/README.md). This checklist records the completed bootstrap; do not rerun the first-session prompt or begin U2 until the owner reviews the gate.
+
 This is deliberately short. The detailed agent task is in:
 
 `docs/prompts/UNITY_00_BOOTSTRAP_AGENT_SMOKE.md`

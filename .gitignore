@@ -28,8 +28,10 @@ native/unity/**/[Rr]ecordings/
 native/unity/**/[Bb]uild/
 native/unity/**/[Bb]uilds/
 native/unity/**/.vs/
+native/unity/**/.idea/
 native/unity/**/*.csproj
 native/unity/**/*.sln
+native/unity/**/*.slnx
 native/unity/**/*.suo
 native/unity/**/*.user
 native/unity/**/*.pidb

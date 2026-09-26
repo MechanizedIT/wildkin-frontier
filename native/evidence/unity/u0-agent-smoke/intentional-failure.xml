@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<test-run id="2" testcasecount="3" result="Failed(Child)" total="3" passed="2" failed="1" inconclusive="0" skipped="0" asserts="0" engine-version="3.5.0.0" clr-version="4.0.30319.42000" start-time="2026-09-26 21:40:00Z" end-time="2026-09-26 21:40:00Z" duration="0.0706054">
+  <test-suite type="TestSuite" id="1000" name="Wildkin Frontier Native Lab" fullname="Wildkin Frontier Native Lab" runstate="Runnable" testcasecount="3" result="Failed" site="Child" start-time="2026-09-26 21:40:00Z" end-time="2026-09-26 21:40:00Z" duration="0.070605" total="3" passed="2" failed="1" inconclusive="0" skipped="0" asserts="0">
+    <properties>
+      <property name="platform" value="EditMode" />
+    </properties>
+    <failure>
+      <message><![CDATA[One or more child tests had errors]]></message>
+    </failure>
+    <test-suite type="Assembly" id="1017" name="Wildkin.Tests.EditMode.dll" fullname="C:/Users/cwood/Documents/mobile-rpg/native/unity/WildkinUnity/Library/ScriptAssemblies/Wildkin.Tests.EditMode.dll" runstate="Runnable" testcasecount="3" result="Failed" site="Child" start-time="2026-09-26 21:40:00Z" end-time="2026-09-26 21:40:00Z" duration="0.059172" total="3" passed="2" failed="1" inconclusive="0" skipped="0" asserts="0">
+      <properties>
+        <property name="_PID" value="17728" />
+        <property name="_APPDOMAIN" value="Unity Child Domain" />
+        <property name="platform" value="EditMode" />
+        <property name="EditorOnly" value="True" />
+      </properties>
+      <failure>
+        <message><![CDATA[One or more child tests had errors]]></message>
+      </failure>
+      <test-suite type="TestSuite" id="1018" name="Wildkin" fullname="Wildkin" runstate="Runnable" testcasecount="3" result="Failed" site="Child" start-time="2026-09-26 21:40:00Z" end-time="2026-09-26 21:40:00Z" duration="0.058338" total="3" passed="2" failed="1" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <failure>
+          <message><![CDATA[One or more child tests had errors]]></message>
+        </failure>
+        <test-suite type="TestSuite" id="1019" name="Tests" fullname="Wildkin.Tests" runstate="Runnable" testcasecount="3" result="Failed" site="Child" start-time="2026-09-26 21:40:00Z" end-time="2026-09-26 21:40:00Z" duration="0.057870" total="3" passed="2" failed="1" inconclusive="0" skipped="0" asserts="0">
+          <properties />
+          <failure>
+            <message><![CDATA[One or more child tests had errors]]></message>
+          </failure>
+          <test-suite type="TestSuite" id="1020" name="EditMode" fullname="Wildkin.Tests.EditMode" runstate="Runnable" testcasecount="3" result="Failed" site="Child" start-time="2026-09-26 21:40:00Z" end-time="2026-09-26 21:40:00Z" duration="0.057386" total="3" passed="2" failed="1" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <failure>
+              <message><![CDATA[One or more child tests had errors]]></message>
+            </failure>
+            <test-suite type="TestFixture" id="1012" name="AgentSmokeMarkerTests" fullname="Wildkin.Tests.EditMode.AgentSmokeMarkerTests" classname="Wildkin.Tests.EditMode.AgentSmokeMarkerTests" runstate="Runnable" testcasecount="3" result="Failed" site="Child" start-time="2026-09-26 21:40:00Z" end-time="2026-09-26 21:40:00Z" duration="0.056104" total="3" passed="2" failed="1" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <failure>
+                <message><![CDATA[One or more child tests had errors]]></message>
+              </failure>
+              <test-suite type="ParameterizedMethod" id="1016" name="AngleAfter_IsDeterministicAndWraps" fullname="Wildkin.Tests.EditMode.AgentSmokeMarkerTests.AngleAfter_IsDeterministicAndWraps" classname="Wildkin.Tests.EditMode.AgentSmokeMarkerTests" runstate="Runnable" testcasecount="3" result="Failed" site="Child" start-time="2026-09-26 21:40:00Z" end-time="2026-09-26 21:40:00Z" duration="0.050063" total="3" passed="2" failed="1" inconclusive="0" skipped="0" asserts="0">
+                <properties />
+                <failure>
+                  <message><![CDATA[One or more child tests had errors]]></message>
+                </failure>
+                <test-case id="1013" name="AngleAfter_IsDeterministicAndWraps(2.0f,45.0f,90.0f)" fullname="Wildkin.Tests.EditMode.AgentSmokeMarkerTests.AngleAfter_IsDeterministicAndWraps(2.0f,45.0f,90.0f)" methodname="AngleAfter_IsDeterministicAndWraps" classname="Wildkin.Tests.EditMode.AgentSmokeMarkerTests" runstate="Runnable" seed="976226223" result="Passed" start-time="2026-09-26 21:40:00Z" end-time="2026-09-26 21:40:00Z" duration="0.022457" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1014" name="AngleAfter_IsDeterministicAndWraps(10.0f,36.0f,0.0f)" fullname="Wildkin.Tests.EditMode.AgentSmokeMarkerTests.AngleAfter_IsDeterministicAndWraps(10.0f,36.0f,0.0f)" methodname="AngleAfter_IsDeterministicAndWraps" classname="Wildkin.Tests.EditMode.AgentSmokeMarkerTests" runstate="Runnable" seed="255479900" result="Passed" start-time="2026-09-26 21:40:00Z" end-time="2026-09-26 21:40:00Z" duration="0.000178" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1015" name="AngleAfter_IsDeterministicAndWraps(5.0f,36.0f,181.0f)" fullname="Wildkin.Tests.EditMode.AgentSmokeMarkerTests.AngleAfter_IsDeterministicAndWraps(5.0f,36.0f,181.0f)" methodname="AngleAfter_IsDeterministicAndWraps" classname="Wildkin.Tests.EditMode.AgentSmokeMarkerTests" runstate="Runnable" seed="1586778249" result="Failed" start-time="2026-09-26 21:40:00Z" end-time="2026-09-26 21:40:00Z" duration="0.009692" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                  <failure>
+                    <message><![CDATA[  Expected: 181.0f +/- 9.99999975E-05f
+  But was:  180.0f
+]]></message>
+                    <stack-trace><![CDATA[at Wildkin.Tests.EditMode.AgentSmokeMarkerTests.AngleAfter_IsDeterministicAndWraps (System.Single elapsedSeconds, System.Single speed, System.Single expected) [0x0000f] in C:\Users\cwood\Documents\mobile-rpg\native\unity\WildkinUnity\Assets\Wildkin\Tests\EditMode\AgentSmokeMarkerTests.cs:16
+]]></stack-trace>
+                  </failure>
+                  <output><![CDATA[Saving results to: C:/Users/cwood/AppData/LocalLow/MechanizedIT/Wildkin Frontier Native Lab\TestResults.xml
+]]></output>
+                </test-case>
+              </test-suite>
+            </test-suite>
+          </test-suite>
+        </test-suite>
+      </test-suite>
+    </test-suite>
+  </test-suite>
+</test-run>

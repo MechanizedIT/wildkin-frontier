@@ -1,6 +1,10 @@
 # Resume Wildkin Frontier
 
-## September 25 native PC transition — active next work
+## September 26 Unity U0/U1 qualification — PASS; stop for owner review
+
+The first native Unity bootstrap and agent autonomy smoke is complete. Read [the U0/U1 evidence](../native/evidence/unity/u0-agent-smoke/README.md), [receipt](../native/evidence/unity/u0-agent-smoke/receipt.json), [current slice](CURRENT_SLICE.md), and [the latest build log](BUILD_LOG.md). **Do not start U2 until the owner reviews this gate.** The project is at `native/unity/WildkinUnity/`; U0/U1 proof includes the active HDRP scene, a custom Wildkin inspection command, green EditMode/PlayMode tests, an intentional test failure and recovery, editor/player captures, and a Windows x64 Development Build. No matter kernel, meshing, destruction, or Unreal work began.
+
+## September 25 native PC transition — plan context; initial session complete
 
 Phase 0.5E is the final completed browser-first matter milestone. The active next step is **Unity-first native qualification**, not browser/mobile optimization and not an automatic Unreal duplicate.
 
@@ -12,7 +16,7 @@ Before native work, read:
 4. [Destructible matter roadmap](DESTRUCTIBLE_MATTER_ROADMAP.md)
 5. [Phase 0.5E report](VOXEL_PHASE05E_REPORT.md)
 
-First local implementation session: use `docs/prompts/UNITY_00_BOOTSTRAP_AGENT_SMOKE.md`.
+The initial local implementation session used `docs/prompts/UNITY_00_BOOTSTRAP_AGENT_SMOKE.md`; it is complete. Use the Unity-first plan for future work only after the owner reviews U0/U1.
 
 The planned Unity project location is `native/unity/WildkinUnity/`. Do not hand-author a fake Unity project in GitHub; create it through Unity 6.3 LTS / Unity CLI locally so Unity owns the generated metadata. The browser lab remains the executable behavior reference. Unreal 5.8 is deferred unless Unity fails a meaningful gate or the owner requests the challenger.
 

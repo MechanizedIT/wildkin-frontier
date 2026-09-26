@@ -1,0 +1,21 @@
+{
+  "name": "Wildkin.Tests.EditMode",
+  "rootNamespace": "Wildkin.Tests.EditMode",
+  "references": [
+    "Wildkin.Core"
+  ],
+  "includePlatforms": [
+    "Editor"
+  ],
+  "excludePlatforms": [],
+  "allowUnsafeCode": false,
+  "overrideReferences": false,
+  "precompiledReferences": [],
+  "autoReferenced": false,
+  "defineConstraints": [],
+  "versionDefines": [],
+  "optionalUnityReferences": [
+    "TestAssemblies"
+  ],
+  "noEngineReferences": false
+}

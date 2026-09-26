@@ -18,6 +18,8 @@ See:
 
 ## Important
 
+**U0/U1 qualification status (September 26, 2026): PASS; stop for owner review.** The Unity `6000.3.25f1` (Unity 6.3 LTS) + HDRP 17.3.0 bootstrap, Codex/Unity tooling, smoke tests, captures, and Windows x64 Development Build are documented in [the receipt](evidence/unity/u0-agent-smoke/README.md). Do not begin U2 until the owner reviews the gate.
+
 Do not manually fabricate engine project metadata here.
 
 The Unity project should be created locally by Unity/Unity CLI at:

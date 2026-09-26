@@ -1,0 +1,19 @@
+{
+  "name": "Wildkin.Tests.PlayMode",
+  "rootNamespace": "Wildkin.Tests.PlayMode",
+  "references": [
+    "Wildkin.Core"
+  ],
+  "includePlatforms": [],
+  "excludePlatforms": [],
+  "allowUnsafeCode": false,
+  "overrideReferences": false,
+  "precompiledReferences": [],
+  "autoReferenced": false,
+  "defineConstraints": [],
+  "versionDefines": [],
+  "optionalUnityReferences": [
+    "TestAssemblies"
+  ],
+  "noEngineReferences": false
+}

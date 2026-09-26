@@ -2,6 +2,10 @@
 
 **Owner direction — September 25, 2026:** start with Unity. Spend the next Codex budget proving that Unity can support the target game and the desired agent-driven workflow before duplicating work in Unreal. Unreal remains a credible fallback/challenger, not an automatic parallel task.
 
+## Qualification status — September 26, 2026
+
+**U0/U1 PASS; stop for owner review. U2 has not started.** The Unity-created `6000.3.25f1` (Unity 6.3 LTS)/HDRP 17.3.0 project passes the bootstrap and autonomy smoke: official Codex plugin, CLI/Pipeline Editor control, project-local MCP configuration, machine-readable inspection, EditMode and PlayMode tests, autonomous repair of an intentional assertion failure, Scene/Game captures, and a Windows x64 Development Build. The cold build timed out once during HDRP shader compilation and passed on a cache-warmed retry. See [the evidence README](../native/evidence/unity/u0-agent-smoke/README.md) and [receipt](../native/evidence/unity/u0-agent-smoke/receipt.json). Review this gate before authorizing U2 Native Matter Skeleton.
+
 ## Target
 
 Wildkin Frontier is now aimed at a **mid/upper-range Windows PC game** with:

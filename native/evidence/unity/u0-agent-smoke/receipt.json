@@ -1,0 +1,140 @@
+{
+  "schemaVersion": 1,
+  "result": "PASS U0/U1",
+  "startingCommit": "30b6c829f1a21039c874a9e5d9ed4d1c9e7f7154",
+  "unityVersion": "6000.3.25f1 (e1dba0a9aba4)",
+  "unityCliVersion": "1.0.0-beta.11",
+  "hdrpVersion": "17.3.0",
+  "codexPluginInstalled": true,
+  "codexPlugin": {
+    "id": "unity@unity-agent-plugin",
+    "version": "0.1.6-beta",
+    "result": "Installed and enabled"
+  },
+  "mcpConfigured": true,
+  "mcp": {
+    "configuration": "Unity CLI project-local Codex MCP configuration",
+    "configurationPortability": "CLI-generated command and checkout paths are absolute to this workstation; rerun the official configuration command for another clone or workstation",
+    "pipelinePackageVersion": "0.8.0-exp.1",
+    "directToolAvailableInCallingCodexSession": false,
+    "editorCommandBridge": "Unity CLI/Pipeline bridge was callable; wildkin_agent_smoke_inspect succeeded",
+    "statusCaveat": "unity editors running detected the Editor and commands worked, but unity status returned STATUS_NO_INSTANCES"
+  },
+  "editorDetected": true,
+  "editorRestarts": 1,
+  "environment": {
+    "os": "Windows 11 Home 10.0.26200, 64-bit",
+    "gpu": "NVIDIA GeForce RTX 3070 Laptop GPU",
+    "graphicsApi": "Direct3D 12, feature level 12.2",
+    "gpuMemoryMb": 8018,
+    "driverVersion": "32.0.16.1088",
+    "buildModule": "windows-il2cpp"
+  },
+  "project": {
+    "path": "native/unity/WildkinUnity/",
+    "renderPipelineActive": "UnityEngine.Rendering.HighDefinition.HDRenderPipelineAsset",
+    "colorSpace": "Linear",
+    "assetSerialization": "Force Text",
+    "metaFiles": "Visible",
+    "company": "MechanizedIT",
+    "product": "Wildkin Frontier Native Lab",
+    "cloudServicesEnabled": false
+  },
+  "tests": {
+    "editMode": {
+      "command": "unity test native/unity/WildkinUnity --mode EditMode --output native/evidence/unity/u0-agent-smoke/editmode-final.xml",
+      "passed": 3,
+      "failed": 0,
+      "result": "PASS",
+      "report": "editmode-final.xml"
+    },
+    "playMode": {
+      "command": "unity test native/unity/WildkinUnity --mode PlayMode --output native/evidence/unity/u0-agent-smoke/playmode-final.xml",
+      "passed": 1,
+      "failed": 0,
+      "result": "PASS",
+      "report": "playmode-final.xml"
+    },
+    "intentionalFailureRecovery": {
+      "failure": "Temporarily inverted one expected deterministic angle from 180 to 181 degrees",
+      "failureReport": "intentional-failure.xml",
+      "diagnosis": "NUnit XML showed expected 181 degrees and actual 180 degrees; the CLI wrapper returned process code 2 rather than its documented failure code",
+      "recoveryReport": "recovered.xml",
+      "recoveredPassed": 3,
+      "recoveredFailed": 0,
+      "recoveredResult": "PASS"
+    }
+  },
+  "build": {
+    "target": "StandaloneWindows64",
+    "configuration": "Development Build",
+    "command": "unity build native/unity/WildkinUnity --target StandaloneWindows64 --execute-method Wildkin.AgentTools.WildkinWindowsDevelopmentBuild.Build --output-path Builds/U0AgentSmoke/WildkinUnity.exe --timeout 1200 --no-tail",
+    "result": "PASS",
+    "elapsedSeconds": 186.144,
+    "outputPath": "native/unity/WildkinUnity/Builds/U0AgentSmoke/WildkinUnity.exe",
+    "outputBytes": 667136,
+    "provenance": "windows-dev-build-provenance.json",
+    "launch": "unity build run succeeded; player exited normally after capture",
+    "playerLog": "Expected LocalLow product log was present; no error-like entries; graceful exit",
+    "firstAttempt": "Cold HDRP shader build timed out after 600 seconds; warm-cache retry succeeded",
+    "warnings": [
+      "Unity CLI reported a nonfatal LicensingClient signature validation warning and unavailable access token; Unity Personal entitlement was active and the build succeeded"
+    ]
+  },
+  "evidence": {
+    "sceneView": "agent-smoke-scene.png",
+    "gameView": "agent-smoke-game.png",
+    "standalonePlayer": "agent-smoke-build-player.png",
+    "agentEditorCommand": "wildkin_agent_smoke_inspect returned JSON for AgentSmoke, marker position (0, 1, 0), component state, Unity version, and active HDRP asset",
+    "generatedCache": "Unity Library, Temp, Obj, Logs, UserSettings, IDE caches, and build output are ignored; no generated Unity cache is staged"
+  },
+  "failedToolCalls": [
+    "unity status returned STATUS_NO_INSTANCES during startup and despite later live Editor discovery; command bridge still worked",
+    "Initial unity mcp configure option order was rejected; consulted CLI help and corrected it",
+    "A PowerShell helper used the automatic $args variable, causing an initial scene transform command to miss its target; helper was corrected and the scene recreated/saved",
+    "Unity batch tests were initially blocked while the GUI Editor held the project; Editor was closed gracefully and batch tests then ran",
+    "unity pipeline list rejected an unsupported project-path option; running Editor discovery and unity command were used instead",
+    "Three initial Unity eval probes had C# statement terminator errors; corrected probes returned the GPU/API details",
+    "Intentional test failure produced correct NUnit XML but the CLI wrapper process exit code differed from its documented failure code",
+    "An early five-frame PlayMode timing assertion failed at 0.916 degrees; it was replaced with a real-time wait and the final PlayMode test passed",
+    "The first Windows build timed out after 600 seconds during cold HDRP shader compilation; the warm-cache retry succeeded",
+    "The first player screenshot was interrupted by a Windows security prompt; after the user asked to continue, the prompt was gone and the player screenshot was captured without changing firewall settings"
+  ],
+  "ownerInterventions": {
+    "count": 3,
+    "editorGuiActions": 1,
+    "windowsSecurityDialogActions": 1,
+    "unityHubSetupGuiActionCount": "not measured",
+    "timesAgentNeededOwnerToLocateSomething": 0,
+    "items": [
+      {
+        "classification": "B — editor/tool limitation",
+        "action": "Owner installed Unity 6000.3.25f1 and Windows build support through Unity Hub; setup GUI click count not measured"
+      },
+      {
+        "classification": "A — account/license/security action",
+        "action": "Owner accepted the Editor Software Terms in the Unity Editor"
+      },
+      {
+        "classification": "A — account/license/security action",
+        "action": "Owner handled a Windows Security firewall prompt for adb.exe (publisher Unknown); exact choice was not observed by the agent"
+      }
+    ]
+  },
+  "independentReview": {
+    "status": "PASS",
+    "reviewer": "Independent read-only review completed after closure fixes",
+    "findings": [
+      "Unity-generated WildkinUnity.slnx was unignored; added native/unity/**/*.slnx to .gitignore",
+      "Evidence README wording now distinguishes CLI/Pipeline scene modification from read-only custom command inspection"
+    ],
+    "portabilityNote": "The CLI-generated absolute workstation paths in .codex/config.toml are documented; rerun the official configure command for another clone or workstation"
+  },
+  "notes": [
+    "The Unity project opened in the exact Unity 6.3 LTS patch and HDRP was active.",
+    "The active Codex session did not expose a direct Unity MCP tool; the supported Unity CLI/Pipeline Editor bridge and project-local MCP configuration were verified.",
+    "Browser npm tests were not run because shared/browser files were unchanged.",
+    "No Unreal, browser code port, Surface Nets, Dual Contouring, voxel meshing, or destruction work started.",
+    "Stop for owner review before U2 — Native Matter Reference Kernel."
+  ]
+}

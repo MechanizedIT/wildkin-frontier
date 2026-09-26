@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<test-run id="2" testcasecount="1" result="Failed(Child)" total="1" passed="0" failed="1" inconclusive="0" skipped="0" asserts="0" engine-version="3.5.0.0" clr-version="4.0.30319.42000" start-time="2026-09-26 21:42:38Z" end-time="2026-09-26 21:42:38Z" duration="0.0783839">
+  <test-suite type="TestSuite" id="1010" name="Wildkin Frontier Native Lab" fullname="Wildkin Frontier Native Lab" runstate="Runnable" testcasecount="1" result="Failed" site="Child" start-time="2026-09-26 21:42:38Z" end-time="2026-09-26 21:42:38Z" duration="0.078384" total="1" passed="0" failed="1" inconclusive="0" skipped="0" asserts="0">
+    <properties>
+      <property name="platform" value="PlayMode" />
+    </properties>
+    <failure>
+      <message><![CDATA[One or more child tests had errors]]></message>
+    </failure>
+    <test-suite type="Assembly" id="1006" name="Wildkin.Tests.PlayMode.dll" fullname="C:/Users/cwood/Documents/mobile-rpg/native/unity/WildkinUnity/Library/ScriptAssemblies/Wildkin.Tests.PlayMode.dll" runstate="Runnable" testcasecount="1" result="Failed" site="Child" start-time="2026-09-26 21:42:38Z" end-time="2026-09-26 21:42:38Z" duration="0.064265" total="1" passed="0" failed="1" inconclusive="0" skipped="0" asserts="0">
+      <properties>
+        <property name="_PID" value="19820" />
+        <property name="_APPDOMAIN" value="Unity Child Domain" />
+        <property name="platform" value="PlayMode" />
+        <property name="EditorOnly" value="False" />
+      </properties>
+      <failure>
+        <message><![CDATA[One or more child tests had errors]]></message>
+      </failure>
+      <test-suite type="TestSuite" id="1007" name="Wildkin" fullname="Wildkin" runstate="Runnable" testcasecount="1" result="Failed" site="Child" start-time="2026-09-26 21:42:38Z" end-time="2026-09-26 21:42:38Z" duration="0.063147" total="1" passed="0" failed="1" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <failure>
+          <message><![CDATA[One or more child tests had errors]]></message>
+        </failure>
+        <test-suite type="TestSuite" id="1008" name="Tests" fullname="Wildkin.Tests" runstate="Runnable" testcasecount="1" result="Failed" site="Child" start-time="2026-09-26 21:42:38Z" end-time="2026-09-26 21:42:38Z" duration="0.062360" total="1" passed="0" failed="1" inconclusive="0" skipped="0" asserts="0">
+          <properties />
+          <failure>
+            <message><![CDATA[One or more child tests had errors]]></message>
+          </failure>
+          <test-suite type="TestSuite" id="1009" name="PlayMode" fullname="Wildkin.Tests.PlayMode" runstate="Runnable" testcasecount="1" result="Failed" site="Child" start-time="2026-09-26 21:42:38Z" end-time="2026-09-26 21:42:38Z" duration="0.061840" total="1" passed="0" failed="1" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <failure>
+              <message><![CDATA[One or more child tests had errors]]></message>
+            </failure>
+            <test-suite type="TestFixture" id="1004" name="AgentSmokeMarkerPlayModeTests" fullname="Wildkin.Tests.PlayMode.AgentSmokeMarkerPlayModeTests" classname="Wildkin.Tests.PlayMode.AgentSmokeMarkerPlayModeTests" runstate="Runnable" testcasecount="1" result="Failed" site="Child" start-time="2026-09-26 21:42:38Z" end-time="2026-09-26 21:42:38Z" duration="0.059964" total="1" passed="0" failed="1" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <failure>
+                <message><![CDATA[One or more child tests had errors]]></message>
+              </failure>
+              <test-case id="1005" name="Marker_ChangesRotationDuringPlay" fullname="Wildkin.Tests.PlayMode.AgentSmokeMarkerPlayModeTests.Marker_ChangesRotationDuringPlay" methodname="Marker_ChangesRotationDuringPlay" classname="Wildkin.Tests.PlayMode.AgentSmokeMarkerPlayModeTests" runstate="Runnable" seed="624813452" result="Failed" start-time="2026-09-26 21:42:38Z" end-time="2026-09-26 21:42:38Z" duration="0.037894" asserts="0">
+                <properties>
+                  <property name="_JOINTYPE" value="UnityCombinatorial" />
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <failure>
+                  <message><![CDATA[  Expected: greater than 1.0f
+  But was:  0.915991008f
+]]></message>
+                  <stack-trace><![CDATA[at Wildkin.Tests.PlayMode.AgentSmokeMarkerPlayModeTests+<Marker_ChangesRotationDuringPlay>d__0.MoveNext () [0x000a2] in C:\Users\cwood\Documents\mobile-rpg\native\unity\WildkinUnity\Assets\Wildkin\Tests\PlayMode\AgentSmokeMarkerPlayModeTests.cs:24
+at UnityEngine.TestTools.TestEnumerator+<Execute>d__7.MoveNext () [0x0003a] in .\Library\PackageCache\com.unity.test-framework@bd7f943e9647\UnityEngine.TestRunner\NUnitExtensions\Attributes\TestEnumerator.cs:44
+]]></stack-trace>
+                </failure>
+                <output><![CDATA[Saving results to: C:/Users/cwood/AppData/LocalLow/MechanizedIT/Wildkin Frontier Native Lab\TestResults.xml
+]]></output>
+              </test-case>
+            </test-suite>
+          </test-suite>
+        </test-suite>
+      </test-suite>
+    </test-suite>
+  </test-suite>
+</test-run>
