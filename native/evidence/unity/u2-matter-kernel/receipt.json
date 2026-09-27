@@ -5,7 +5,8 @@
   "unityPipelineVersion": "0.8.0-exp.1",
   "unityMcpExposed": false,
   "controlPath": "Unity CLI / Pipeline bridge",
-  "commit": "721094c4681eeaf35344d52f479b5873746fca1a",
+  "commit": "969b655b39787818175bb757f6718bffee9b0c59",
+  "originalImplementationCommit": "721094c4681eeaf35344d52f479b5873746fca1a",
   "startingCommit": "bc859faab6a98a7471c5553c7aeb7ac067410e46",
   "brickCellSize": 16,
   "brickStorage": "16^3 unique half-open global samples; neighbor samples remain globally owned",
@@ -16,14 +17,14 @@
   "testCounts": {
     "baselineEditMode": { "passed": 3, "failed": 0 },
     "baselinePlayMode": { "passed": 1, "failed": 0 },
-    "finalEditMode": { "passed": 42, "failed": 0, "report": "editmode.xml" },
+    "finalEditMode": { "passed": 43, "failed": 0, "report": "editmode.xml" },
     "finalPlayMode": { "passed": 1, "failed": 0, "report": "playmode.xml" }
   },
   "sampleBenchmark": {
     "samplesPerPass": 4096,
     "repetitions": 32,
-    "directSourceMilliseconds": 63.1757,
-    "resolvedReadMilliseconds": 51.6767,
+    "directSourceMilliseconds": 46.76,
+    "resolvedReadMilliseconds": 37.5308,
     "directChecksum": "3091936243887374693",
     "resolvedChecksum": "3091936243887374693",
     "resultsMatch": true,
@@ -52,13 +53,40 @@
     "provenance": "build-provenance.json"
   },
   "ownerInterventions": 0,
-  "independentReview": "PASS",
+  "independentReview": "Original U2 checkpoint PASS; revalidation awaits root review",
+  "revalidation": {
+    "date": "2026-09-27",
+    "startingCommit": "41aa97c",
+    "codeCommit": "969b655b39787818175bb757f6718bffee9b0c59",
+    "finding": "The debug cube -Y face corner order self-crossed and the +Z face winding opposed its assigned outward normal. Both face orders are corrected and covered by an EditMode regression.",
+    "testCounts": {
+      "editMode": { "passed": 43, "failed": 0, "report": "editmode.xml" },
+      "playMode": { "passed": 1, "failed": 0, "report": "playmode.xml" }
+    },
+    "liveInspector": {
+      "result": "PASS",
+      "sampleCount": 2601,
+      "solidCount": 1297,
+      "rockCount": 17,
+      "dirtCount": 1280,
+      "editCount": 0,
+      "revision": 0,
+      "directChecksum": "3091936243887374693",
+      "resolvedChecksum": "3091936243887374693",
+      "resultsMatch": true
+    },
+    "debugScreenshotSha256": "7ED116000C5550F20FA3DE73D0C8EFC08F31F87D6703C8FEEA4BE5E6AC5BD701",
+    "windowsBuildRepeated": false,
+    "windowsBuildNote": "The original U2 Windows Development Build remains recorded in build-provenance.json. This follow-up only changed debug-marker triangle order.",
+    "independentReview": "PENDING ROOT REVIEW"
+  },
   "notes": [
     "No dedicated Unity MCP tool was exposed in this fresh session; use the proven CLI/Pipeline bridge. No toolchain upgrade was made.",
     "Browser files and browser evidence were not changed.",
     "No Surface Nets, Dual Contouring, destruction, procedural rocks, or Unreal work was started.",
     "The Tech debug scene is not in the enabled build-scene list.",
     "Benchmark times are one editor-host measurement and are not a performance pass threshold.",
-    "Independent review passed; a future 16-cell meshing window must read the neighboring +1 sample plane without duplicating authority."
+    "The original independent review passed before the follow-up correction; root review is pending.",
+    "A future 16-cell meshing window must read the neighboring +1 sample plane without duplicating authority."
   ]
 }

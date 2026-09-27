@@ -1,8 +1,8 @@
 # Resume Wildkin Frontier
 
-## September 27 Unity U2 native matter reference kernel — PASS; stop for owner review
+## September 27 Unity U2 native matter reference kernel — original PASS; revalidation awaiting root review
 
-The bounded native kernel and requested validation are complete; independent read-only review passed. Read [U2 evidence](../native/evidence/unity/u2-matter-kernel/README.md), its [receipt](../native/evidence/unity/u2-matter-kernel/receipt.json), [current slice](CURRENT_SLICE.md), [Unity-first plan](UNITY_FIRST_TRANSITION_PLAN.md), and [latest build log](BUILD_LOG.md). The Unity CLI/Pipeline bridge was used because no dedicated Unity MCP tool was exposed. U2 validates the deterministic C# sample authority, sparse edit/save semantics, region snapshots, inspector command and Tech debug view. Final tests: EditMode 42/42 and PlayMode 1/1; Windows x64 Development Build passed. **Stop for owner review; do not start U3, meshing, destruction, procedural rocks or Unreal.**
+The bounded native kernel's original checkpoint and validation passed; a later U2 revalidation corrected two debug-cube face orders and added a triangle-winding regression. Fresh EditMode 43/43, PlayMode 1/1, and live `inspect_matter_region` pass. The original Windows x64 Development Build remains the recorded gate build; it was not repeated for this debug-view-only correction. The original independent read-only review passed, and root review of the correction is pending. Read [U2 evidence](../native/evidence/unity/u2-matter-kernel/README.md), its [receipt](../native/evidence/unity/u2-matter-kernel/receipt.json), [current slice](CURRENT_SLICE.md), [Unity-first plan](UNITY_FIRST_TRANSITION_PLAN.md), and [latest build log](BUILD_LOG.md). The Unity CLI/Pipeline bridge was used because no dedicated Unity MCP tool was exposed. **Stop for owner review; do not start U3, meshing, destruction, procedural rocks or Unreal.**
 
 ## September 26 Unity U0/U1 qualification — completed foundation
 

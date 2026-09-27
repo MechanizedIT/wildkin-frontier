@@ -22,8 +22,8 @@
   "sampleBenchmark": {
     "samplesPerPass": 4096,
     "repetitions": 32,
-    "directSourceMilliseconds": 63.1757,
-    "resolvedReadMilliseconds": 51.6767,
+    "directSourceMilliseconds": 46.76,
+    "resolvedReadMilliseconds": 37.5308,
     "directChecksum": 3091936243887374693,
     "resolvedChecksum": 3091936243887374693,
     "resultsMatch": true

@@ -1,6 +1,6 @@
 # U2 Native Matter Reference Kernel
 
-**PASS for this bounded reference kernel; stop for owner review. U3 is not started.** Independent read-only review passed. This checkpoint defines the native sample/edit authority and proves its basic data and persistence contracts. It does not select a production mesher, streaming layout, or renderer.
+**The bounded U2 matter kernel remains PASS; a U2 revalidation correction is complete and awaiting root review. U3 is not started.** The original checkpoint received an independent read-only PASS. Revalidation corrected two face-order errors in the debug sample mesh and added a regression test; it does not change the matter authority, persistence contract, or production-mesher decision.
 
 ## Environment and control path
 
@@ -21,12 +21,12 @@
 ## Validation
 
 - Baseline before U2: EditMode 3/3 and PlayMode 1/1 passed.
-- Final U2: EditMode 42/42 and PlayMode 1/1 passed. NUnit XML is included as `editmode.xml` and `playmode.xml`.
+- Revalidated U2: EditMode 43/43 and PlayMode 1/1 passed. The new EditMode check verifies all twelve sample-cube triangles agree with their outward normals. NUnit XML is included as `editmode.xml` and `playmode.xml`.
 - `inspect_matter_region` ran in the live Editor over `minInclusive=(-8,-4,-8)`, `maxExclusive=(9,5,9)`, seed `20260926`: 2,601 samples, 1,297 solid (17 rock, 1,280 dirt), 0 edits, revision 0. The full machine-readable result is `inspector-result.json`.
-- Its fixed sample benchmark covered 4,096 reads/pass × 32 repetitions. Direct source evaluation was 63.1757 ms; resolved reads were 51.6767 ms. Checksums matched (`3091936243887374693`). These are one workstation/editor observation, not a performance threshold or player-build result.
-- A Windows x64 Development Build succeeded once with the existing warmed Unity environment. Build provenance is `build-provenance.json`; the generated local player output is at workspace-root `Builds/U2MatterKernel/` and is excluded from the source commit.
-- The captured visual is `debug-screenshot.png`. The initial HDRP capture was overexposed; the final capture uses explicit HDRP color clearing and fixed exposure with unlit material colors, and was visually inspected.
-- Independent read-only review: PASS. The only U3 handoff note is to read a neighboring +1 sample plane for each 16-cell meshing window while keeping global sample ownership unique.
+- Its fixed sample benchmark covered 4,096 reads/pass × 32 repetitions. The revalidation run measured 46.76 ms direct and 37.5308 ms resolved, with matching checksum `3091936243887374693`. These are one workstation/editor observation, not a performance threshold or player-build result.
+- The original U2 Windows x64 Development Build succeeded with the warmed Unity environment. It was not repeated for the debug-mesh winding correction; that change was covered by fresh EditMode and PlayMode runs. Build provenance is `build-provenance.json`; the generated local player output is at workspace-root `Builds/U2MatterKernel/` and is excluded from the source commit.
+- The captured visual is `debug-screenshot.png`, refreshed through the live Pipeline after rebuilding the scene mesh. The initial HDRP capture was overexposed; the final capture uses explicit HDRP color clearing and fixed exposure with unlit material colors.
+- The original independent read-only review passed before this correction. Root review of the revalidation is pending. The only U3 handoff note is to read a neighboring +1 sample plane for each 16-cell meshing window while keeping global sample ownership unique.
 
 ## Limits and next gate
 
