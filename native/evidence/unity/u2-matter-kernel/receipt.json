@@ -5,7 +5,7 @@
   "unityPipelineVersion": "0.8.0-exp.1",
   "unityMcpExposed": false,
   "controlPath": "Unity CLI / Pipeline bridge",
-  "commit": "pending",
+  "commit": "721094c4681eeaf35344d52f479b5873746fca1a",
   "startingCommit": "bc859faab6a98a7471c5553c7aeb7ac067410e46",
   "brickCellSize": 16,
   "brickStorage": "16^3 unique half-open global samples; neighbor samples remain globally owned",
