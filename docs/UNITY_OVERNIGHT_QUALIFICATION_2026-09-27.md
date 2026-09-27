@@ -2,6 +2,13 @@
 
 Owner-authorized unattended progression is bounded to U2 through U5. Each later phase is admitted only after the orchestrator reviews committed code, tests, runtime evidence, visuals, benchmarks and repository state. U5 is the final boundary; no Unreal or production migration starts in this run.
 
+## Overnight result
+
+- Completed through: U4 review and one bounded U4 remediation; U5 not started.
+- Last implementation commit: `fe9ec534c023e8cd8c14c488687eb1ba111d89c8`.
+- Unity qualification: **HOLD**. U2 and U3 pass; U4's technical contracts pass, but its remediated visuals remain below the authored stylized-asset gate.
+- Engine decision: **UNITY HOLD — UNREAL CHALLENGER WARRANTED.** If authorized, the challenger should repeat only U4's frozen 20-seed/contact-sheet, material-seam, stable-projection and runtime-generated-matter presentation test first. It should not begin destruction, streaming or migration.
+
 ## U2 — native matter reference kernel
 
 - Start commit: `41aa97ccf44221b515d368a06f2effeada478f4c`
@@ -33,7 +40,9 @@ Owner-authorized unattended progression is bounded to U2 through U5. Each later 
 
 ## U4 — stylized materials and procedural rock stamp
 
-- Initial implementation disposition (before remediation pass 1): **HOLD pending independent root visual review**. Current U4 status remains `HOLD_PENDING_INDEPENDENT_ROOT_VISUAL_REVIEW`; do not begin U5 until root reviews the remediated gallery and key images.
+- Implementation agents: fresh GPT-6 Luna agents at maximum reasoning for the initial phase and focused remediation; root independently reviewed both result sets.
+- Phase commits: initial implementation `0692782f330b67d228effe7038df2bd96ab721f3`, material-folder metadata `f0487aa9d1d757cd12f411e28245bb1a299faa3b`, root remediation gate `6e73543ca24920a275e39cb77c61aeac6f49b2fe`, remediation implementation/evidence `fe9ec534c023e8cd8c14c488687eb1ba111d89c8`.
+- Initial implementation disposition (before remediation pass 1): **HOLD / REMEDIATE** after independent root visual review. The bounded remediation completed and was reviewed; final U4 disposition is **HOLD**. U5 was not admitted.
 - Starting gate: reviewed U3 commit `53cbf5534cb9edf405717e79b14e7f17f491782a`. Locked defaults remain `SURFACE_NETS` and 0.50 m; 0.25 m is used for one bounded hero only. Mixed-resolution stitching is not implied.
 - Material architecture: `Wildkin/MatterRockDirt` is a first-party HDRP ForwardOnly shader, with locally generated 128×128 rock/dirt albedo, tangent-normal and mask inputs. One shared mesh surface uses the U3 per-vertex material weights; UV0 is projected from per-triangle dominant-normal axes and stored rest/source positions. Rock and dirt differ in tint, normal scale, mask/smoothness and procedural macro response. Before/after captures plus an automated test demonstrate unchanged reference coordinates when one runtime matter object translates/rotates while world coordinates change.
 - Initial generator/baseline metrics (pre-remediation): `WildkinClast-v1` built Leaning Ridge, Split Shoulders, Bent Buttress and Crown Stack from 6–7 rounded-box/slab/wedge placements, controlled rotation/scaling, 0.18m smooth union, 0.055m warp and an occasional recess. Its 20-seed gallery had one connected component per seed and no rejects. Those baseline images and metrics remain in the evidence folder as historical context; the final pass-1 family is Crown Shelf. Recipes remain generation input only; resolved ordinary MatterWorld samples remain authority.
@@ -44,4 +53,16 @@ Owner-authorized unattended progression is bounded to U2 through U5. Each later 
 - Remediation pass 1 starts from synchronized `origin/main` commit `6e73543ca24920a275e39cb77c61aeac6f49b2fe`. The generator now uses tighter joins (0.075 m smooth union), reduced broad warp (0.012 m), asymmetrical offsets/overhangs/capstones and a lower embedded foot; dirt is a lower material-classification band on the same occupied formation, not skirt geometry. Lower-frequency normals/albedo and a cooler rock / warmer dirt treatment expose broad faces. U2 authority, U3 Surface Nets / 0.50 m, rest/source projection, one shared material-weighted surface, deterministic seed domain, and ordinary runtime matter remain unchanged.
 - Remediated gallery: 20/20 seeds generated, zero rejects, one connected resolved component per seed. Layout distribution is Leaning Ridge 6, Split Shoulders 5, Bent Buttress 5, Crown Shelf 4. Bounds span 18.25–30.625 m³ occupied-sample estimate, width/height 0.761–1.477, depth/height 0.632–1.387. Seed 19 remains explicitly captured as a weak example; the four closeups span all families. These numbers do not establish visual acceptance.
 - Focused EditMode checks pass 8/8; full EditMode passes 75/75 and PlayMode 1/1. Windows x64 Development Build succeeds in 35.84 s (230,107,437 bytes; 0 errors / 4 warnings); the visible player exits 0 and captures the labeled gallery. Its single startup frame is not performance evidence. A PlayMode MCP response once returned HTTP 400, but the asynchronous result and saved XML both report 1/1 passed.
-- Updated contact sheet, hero/weak examples, seam, wireframe, motion-before/after, isolated 0.25 m hero, test XML, build provenance and player capture are in `native/evidence/unity/u4-material-rock-stamp/`. The 0.25 m sample remains isolated; mixed-resolution stitching is not claimed. Status remains **`HOLD_PENDING_INDEPENDENT_ROOT_VISUAL_REVIEW`**; the implementer does not self-award image quality PASS. No U5 work began.
+- Updated contact sheet, hero/weak examples, seam, wireframe, motion-before/after, isolated 0.25 m hero, test XML, build provenance and player capture are in `native/evidence/unity/u4-material-rock-stamp/`. The 0.25 m sample remains isolated; mixed-resolution stitching is not claimed.
+- Final independent root review: **HOLD**. The remediation clearly improves aspect-ratio diversity, introduces readable shelves/recesses, removes the geometry dirt apron, and calms the surface enough to expose planar faces. However, the gallery and heroes still read predominantly as qualification graybox/SDF clasts instead of deliberately authored Wildkin assets; the rock treatment is visually flat, macro material variation is weak, and several seeds share a fused-clast language. This is the second substantiated occurrence of the same perceptual gap, so the bounded-loop rule stops U4. No U5 or Unreal work began.
+
+## U5 — minimal destructible matter vertical slice
+
+- Status: **NOT STARTED**. U4 did not pass its admission gate, so no destruction/support extraction, physics transfer, recursive actor editing, persistence/accounting, or U5 performance evidence was produced.
+
+## Agent development and autonomy
+
+- Root's tool surface did not expose dedicated Unity MCP commands, so U2/U3 and the initial U4 path used the verified Unity CLI/Pipeline bridge. The fresh U4 remediation agent did receive direct Unity MCP access and used it successfully for live gallery commands, tests, captures and the final build; CLI remained a fallback.
+- Unity's known instance/status inconsistency did not block real commands. One PlayMode request returned HTTP 400 while the asynchronous run completed 1/1, and transient Editor/domain-reload availability failures recovered without owner action.
+- No account authentication, license acceptance, OS approval, administrator elevation, paid package, credential, toolchain upgrade or owner intervention was required. Two LayeredLit attempts, early white captures, one dirty preview-scene build, and the repeated U4 visual shortfall are recorded rather than hidden.
+- Codex remained meaningfully autonomous through synchronization, U2/U3 PASS gates, U4 implementation, focused remediation, serialized Unity/GPU work, Windows builds, evidence capture, repository cleanup and final review. It stopped automatically at the authorized HOLD condition.

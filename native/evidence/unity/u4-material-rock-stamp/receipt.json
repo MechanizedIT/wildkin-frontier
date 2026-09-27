@@ -1,7 +1,7 @@
 {
   "phase": "U4",
   "title": "Stylized materials and deterministic procedural rock stamp",
-  "status": "HOLD_PENDING_INDEPENDENT_ROOT_VISUAL_REVIEW",
+  "status": "HOLD_AFTER_INDEPENDENT_ROOT_VISUAL_REVIEW",
   "startingGateCommit": "6e73543ca24920a275e39cb77c61aeac6f49b2fe",
   "unityVersion": "6000.3.25f1",
   "renderPipeline": "HDRP 17.3.0",
@@ -57,8 +57,8 @@
     "sourceAuthority": "Recipe primitives are generation input only; resolved samples are ordinary rock/dirt MatterWorld authority."
   },
   "projectionProof": {
-    "before": "dynamic-projection-before-seed-3.png",
-    "after": "dynamic-projection-after-seed-3.png",
+    "before": "dynamic-projection-remediation-seed-3-before.png",
+    "after": "dynamic-projection-remediation-seed-3-after.png",
     "automatedTest": "RestProjection_IsInvariantUnderObjectTranslationAndRotationWhileWorldPointChanges",
     "result": "PASS"
   },
@@ -97,6 +97,12 @@
     "gpuFrameTiming": "Unavailable",
     "reportedHardware": "NVIDIA GeForce RTX 3070 Laptop GPU, D3D12"
   },
+  "independentRootReview": {
+    "result": "HOLD",
+    "visualFinding": "The remediation improves silhouette diversity, hierarchy, recesses, face readability, and removes the broad dirt skirt, but the gallery still reads predominantly as qualification graybox/SDF clasts rather than deliberately authored stylized game assets. Rock material character and macro variation remain too weak in the hero images, and several seeds retain the same fused-clast language.",
+    "technicalFinding": "Authority, deterministic generation, embedded material classification, one-surface seam, rest-space projection, tests, and Windows build proof pass their bounded technical checks.",
+    "phaseDecision": "Do not admit U5. Stop the overnight run at U4 under the repeated visual-gap rule. No Unreal work was started."
+  },
   "evidence": {
     "readme": "README.md",
     "galleryContactSheet": "u4-rock-gallery-contact-sheet-remediation-final.png",
@@ -119,7 +125,7 @@
   "limits": [
     "Do not infer mixed-resolution stitching; U3 local refinement remains unsolved.",
     "No production performance budget, GPU timing, physics, destruction, actor transfer, streaming, migration, or Unreal qualification is claimed.",
-    "Image quality and family distinctness remain HOLD until independent root visual review.",
+    "Independent root visual review is HOLD: the remediated family remains below the authored stylized-game-asset bar.",
     "Final player capture records only one startup frame and is not a performance benchmark.",
     "U3 mixed-resolution stitching remains unresolved; 0.25m evidence is a bounded isolated hero only."
   ]

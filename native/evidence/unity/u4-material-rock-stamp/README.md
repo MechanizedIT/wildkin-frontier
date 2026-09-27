@@ -1,6 +1,8 @@
 # U4 — Stylized Materials and Procedural Rock Stamp
 
-**Disposition: `HOLD_PENDING_INDEPENDENT_ROOT_VISUAL_REVIEW`.** The bounded same-phase remediation and final evidence are assembled; this is not a self-awarded perceptual PASS. Root must judge whether the formations now read as distinct interlocking masses. U5 is not started.
+**Disposition: `HOLD_AFTER_INDEPENDENT_ROOT_VISUAL_REVIEW`.** The bounded same-phase remediation improved the result but did not clear the visual gate. U5 was not started.
+
+Independent root review confirms the technical path: deterministic ordinary-matter resolution, one connected component per seed, embedded dirt classification, one shared seam surface, rest-space projection, tests, and Windows build proof are credible. The perceptual requirement still fails. The final gallery has more varied proportions, clearer recesses and calmer faces than the baseline, but it still reads predominantly as qualification graybox/SDF clasts rather than a deliberately authored stylized asset family. Rock material character and macro variation are too weak in the hero images, and several seeds retain the same fused-clast language. This is the second substantiated instance of the same U4 visual gap, so the bounded-loop rule stops the phase instead of authorizing another cosmetic pass.
 
 ## Result at a glance
 
@@ -14,7 +16,7 @@
 
 The first independent review held the family: many seeds looked like fused, noisy monoliths with a broad dirt pedestal, and seeds 19/20 were weak. One bounded construction repair tightened joins (smooth union 0.18→0.075 m), reduced broad warp (0.055→0.012 m), and reworked the layouts around offset shoulders, overhangs, capstones and a lower embedded foot. A shallow shelf/recess is present in representative seeds. Dirt is now a lower material-classification band on the existing rock formation (`y < 0.28 m`), not skirt geometry; the focused test verifies that material classification does not change solid occupancy. Surface textures and material values were regenerated to reduce high-frequency relief and separate cooler slate-gray rock from warmer brown dirt while keeping large faces readable. No authority, mesher, resolution default, projection rule, shared-surface/seam contract, or runtime path changed.
 
-The final contact-sheet sidecar records 20/20 seeds, zero rejects, one resolved component per seed and deterministic field/mesh hashes. The bounded hierarchy contract and runtime field/material behavior are covered by focused EditMode tests; full U4 EditMode/PlayMode results are listed above. The contact sheet, hero captures and sidecars remain evidence for root's visual decision, not an automated aesthetic score.
+The final contact-sheet sidecar records 20/20 seeds, zero rejects, one resolved component per seed and deterministic field/mesh hashes. The bounded hierarchy contract and runtime field/material behavior are covered by focused EditMode tests; full U4 EditMode/PlayMode results are listed above. Those facts substantiate the technical proof but do not override the independent visual HOLD.
 
 ## Material and projection path
 
@@ -33,14 +35,14 @@ The same-profile 20-seed results (bounds, volume estimate, aspect ratios, primit
 ## Review images
 
 - Main labeled 20-seed contact sheet: [`u4-rock-gallery-contact-sheet-remediation-final.png`](u4-rock-gallery-contact-sheet-remediation-final.png) and its metrics sidecar.
-- Four close-ups spanning all layout families: [`hero-remediation-bent-buttress-seed-3.png`](hero-remediation-bent-buttress-seed-3.png), [`hero-remediation-crown-shelf-seed-12.png`](hero-remediation-crown-shelf-seed-12.png), [`hero-remediation-split-shoulders-seed-14.png`](hero-remediation-split-shoulders-seed-14.png), and [`hero-remediation-leaning-ridge-seed-20.png`](hero-remediation-leaning-ridge-seed-20.png). These are candidate examples only; root decides whether the result clears the bar.
+- Four reviewed close-ups spanning all layout families: [`hero-remediation-bent-buttress-seed-3.png`](hero-remediation-bent-buttress-seed-3.png), [`hero-remediation-crown-shelf-seed-12.png`](hero-remediation-crown-shelf-seed-12.png), [`hero-remediation-split-shoulders-seed-14.png`](hero-remediation-split-shoulders-seed-14.png), and [`hero-remediation-leaning-ridge-seed-20.png`](hero-remediation-leaning-ridge-seed-20.png). Together they substantiate the final visual HOLD.
 - Weak example retained: [`weak-example-remediation-seed-19-split-shoulders.png`](weak-example-remediation-seed-19-split-shoulders.png). Seed 19 remains a quality risk; it is not hidden by the hero selection.
 - Bounded 0.25 m hero: [`hero-remediation-bent-buttress-seed-3-025m.png`](hero-remediation-bent-buttress-seed-3-025m.png) and its isolated metrics; this is not transition stitching.
 - Material boundary and topology: [`rock-dirt-seam-remediation-seed-14.png`](rock-dirt-seam-remediation-seed-14.png) and [`wireframe-remediation-seed-14.png`](wireframe-remediation-seed-14.png), with sidecars.
 - Runtime transform proof: [`dynamic-projection-remediation-seed-3-before.png`](dynamic-projection-remediation-seed-3-before.png) and [`dynamic-projection-remediation-seed-3-after.png`](dynamic-projection-remediation-seed-3-after.png).
 - Visible Windows Player: [`windows-player-observation-remediation.png`](windows-player-observation-remediation.png) with [`windows-player-metrics-remediation.json`](windows-player-metrics-remediation.json).
 
-The earlier baseline's seeds 19/20 and their initial captures remain in the folder as historical evidence. After remediation, seed 19 remains the clearest weak example; seed 20 is included among the family-spanning close-ups but still awaits root's judgment. This is a quality risk, not an acceptance decision.
+The earlier baseline's seeds 19/20 and their initial captures remain in the folder as historical evidence. After remediation, seed 19 remains the clearest weak example; seed 20 is included among the family-spanning close-ups. Independent review considered both in the final HOLD.
 
 ## Tooling, interventions, and failures
 
