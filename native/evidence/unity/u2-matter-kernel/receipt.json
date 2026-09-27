@@ -1,0 +1,64 @@
+{
+  "unityVersion": "6000.3.25f1",
+  "hdrpVersion": "17.3.0",
+  "unityCliVersion": "1.0.0-beta.11",
+  "unityPipelineVersion": "0.8.0-exp.1",
+  "unityMcpExposed": false,
+  "controlPath": "Unity CLI / Pipeline bridge",
+  "commit": "pending",
+  "startingCommit": "bc859faab6a98a7471c5553c7aeb7ac067410e46",
+  "brickCellSize": 16,
+  "brickStorage": "16^3 unique half-open global samples; neighbor samples remain globally owned",
+  "sampleSpacing": 0.5,
+  "bytesPerBrick": 20480,
+  "bytesPerBrickScope": "raw payload only: 4096 float32 densities + 4096 byte material IDs; excludes array/object/dictionary overhead",
+  "sourceSeed": 20260926,
+  "testCounts": {
+    "baselineEditMode": { "passed": 3, "failed": 0 },
+    "baselinePlayMode": { "passed": 1, "failed": 0 },
+    "finalEditMode": { "passed": 42, "failed": 0, "report": "editmode.xml" },
+    "finalPlayMode": { "passed": 1, "failed": 0, "report": "playmode.xml" }
+  },
+  "sampleBenchmark": {
+    "samplesPerPass": 4096,
+    "repetitions": 32,
+    "directSourceMilliseconds": 63.1757,
+    "resolvedReadMilliseconds": 51.6767,
+    "directChecksum": "3091936243887374693",
+    "resolvedChecksum": "3091936243887374693",
+    "resultsMatch": true,
+    "threshold": null
+  },
+  "agentToolResult": {
+    "command": "inspect_matter_region",
+    "result": "inspector-result.json",
+    "bounds": {
+      "minInclusive": [-8, -4, -8],
+      "maxExclusive": [9, 5, 9]
+    },
+    "sampleCount": 2601,
+    "solidCount": 1297,
+    "rockCount": 17,
+    "dirtCount": 1280,
+    "editCount": 0,
+    "revision": 0,
+    "bytesPerBrick": 20480
+  },
+  "windowsDevelopmentBuild": {
+    "target": "StandaloneWindows64",
+    "result": "success",
+    "outputPath": "Builds/U2MatterKernel/WildkinUnity.exe",
+    "playerBuildBytes": 229695291,
+    "provenance": "build-provenance.json"
+  },
+  "ownerInterventions": 0,
+  "independentReview": "PASS",
+  "notes": [
+    "No dedicated Unity MCP tool was exposed in this fresh session; use the proven CLI/Pipeline bridge. No toolchain upgrade was made.",
+    "Browser files and browser evidence were not changed.",
+    "No Surface Nets, Dual Contouring, destruction, procedural rocks, or Unreal work was started.",
+    "The Tech debug scene is not in the enabled build-scene list.",
+    "Benchmark times are one editor-host measurement and are not a performance pass threshold.",
+    "Independent review passed; a future 16-cell meshing window must read the neighboring +1 sample plane without duplicating authority."
+  ]
+}

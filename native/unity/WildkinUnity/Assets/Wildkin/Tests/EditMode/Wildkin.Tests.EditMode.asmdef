@@ -2,7 +2,9 @@
   "name": "Wildkin.Tests.EditMode",
   "rootNamespace": "Wildkin.Tests.EditMode",
   "references": [
-    "Wildkin.Core"
+    "Wildkin.Core",
+    "Wildkin.Matter.Core",
+    "Wildkin.Matter.Unity"
   ],
   "includePlatforms": [
     "Editor"

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<test-run id="2" testcasecount="1" result="Passed" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0" engine-version="3.5.0.0" clr-version="4.0.30319.42000" start-time="2026-09-27 04:29:16Z" end-time="2026-09-27 04:29:16Z" duration="0.1678701">
+  <test-suite type="TestSuite" id="1010" name="Wildkin Frontier Native Lab" fullname="Wildkin Frontier Native Lab" runstate="Runnable" testcasecount="1" result="Passed" start-time="2026-09-27 04:29:16Z" end-time="2026-09-27 04:29:16Z" duration="0.167870" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0">
+    <properties>
+      <property name="platform" value="PlayMode" />
+    </properties>
+    <test-suite type="Assembly" id="1006" name="Wildkin.Tests.PlayMode.dll" fullname="C:/Users/cwood/Documents/mobile-rpg/native/unity/WildkinUnity/Library/ScriptAssemblies/Wildkin.Tests.PlayMode.dll" runstate="Runnable" testcasecount="1" result="Passed" start-time="2026-09-27 04:29:16Z" end-time="2026-09-27 04:29:16Z" duration="0.154082" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0">
+      <properties>
+        <property name="_PID" value="10764" />
+        <property name="_APPDOMAIN" value="Unity Child Domain" />
+        <property name="platform" value="PlayMode" />
+        <property name="EditorOnly" value="False" />
+      </properties>
+      <test-suite type="TestSuite" id="1007" name="Wildkin" fullname="Wildkin" runstate="Runnable" testcasecount="1" result="Passed" start-time="2026-09-27 04:29:16Z" end-time="2026-09-27 04:29:16Z" duration="0.153042" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <test-suite type="TestSuite" id="1008" name="Tests" fullname="Wildkin.Tests" runstate="Runnable" testcasecount="1" result="Passed" start-time="2026-09-27 04:29:16Z" end-time="2026-09-27 04:29:16Z" duration="0.152318" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0">
+          <properties />
+          <test-suite type="TestSuite" id="1009" name="PlayMode" fullname="Wildkin.Tests.PlayMode" runstate="Runnable" testcasecount="1" result="Passed" start-time="2026-09-27 04:29:16Z" end-time="2026-09-27 04:29:16Z" duration="0.151877" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-suite type="TestFixture" id="1004" name="AgentSmokeMarkerPlayModeTests" fullname="Wildkin.Tests.PlayMode.AgentSmokeMarkerPlayModeTests" classname="Wildkin.Tests.PlayMode.AgentSmokeMarkerPlayModeTests" runstate="Runnable" testcasecount="1" result="Passed" start-time="2026-09-27 04:29:16Z" end-time="2026-09-27 04:29:16Z" duration="0.150229" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1005" name="Marker_ChangesRotationDuringPlay" fullname="Wildkin.Tests.PlayMode.AgentSmokeMarkerPlayModeTests.Marker_ChangesRotationDuringPlay" methodname="Marker_ChangesRotationDuringPlay" classname="Wildkin.Tests.PlayMode.AgentSmokeMarkerPlayModeTests" runstate="Runnable" seed="436434413" result="Passed" start-time="2026-09-27 04:29:16Z" end-time="2026-09-27 04:29:16Z" duration="0.129169" asserts="0">
+                <properties>
+                  <property name="_JOINTYPE" value="UnityCombinatorial" />
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Saving results to: C:/Users/cwood/AppData/LocalLow/MechanizedIT/Wildkin Frontier Native Lab\TestResults.xml
+]]></output>
+              </test-case>
+            </test-suite>
+          </test-suite>
+        </test-suite>
+      </test-suite>
+    </test-suite>
+  </test-suite>
+</test-run>

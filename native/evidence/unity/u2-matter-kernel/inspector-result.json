@@ -1,0 +1,31 @@
+{
+  "bounds": {
+    "minInclusive": {
+      "x": -8,
+      "y": -4,
+      "z": -8
+    },
+    "maxExclusive": {
+      "x": 9,
+      "y": 5,
+      "z": 9
+    }
+  },
+  "sourceSeed": 20260926,
+  "sampleCount": 2601,
+  "solidCount": 1297,
+  "rockCount": 17,
+  "dirtCount": 1280,
+  "editCount": 0,
+  "revision": 0,
+  "bytesPerBrick": 20480,
+  "sampleBenchmark": {
+    "samplesPerPass": 4096,
+    "repetitions": 32,
+    "directSourceMilliseconds": 63.1757,
+    "resolvedReadMilliseconds": 51.6767,
+    "directChecksum": 3091936243887374693,
+    "resolvedChecksum": 3091936243887374693,
+    "resultsMatch": true
+  }
+}

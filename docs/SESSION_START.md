@@ -1,8 +1,12 @@
 # Resume Wildkin Frontier
 
-## September 26 Unity U0/U1 qualification — PASS; stop for owner review
+## September 27 Unity U2 native matter reference kernel — PASS; stop for owner review
 
-The first native Unity bootstrap and agent autonomy smoke is complete. Read [the U0/U1 evidence](../native/evidence/unity/u0-agent-smoke/README.md), [receipt](../native/evidence/unity/u0-agent-smoke/receipt.json), [current slice](CURRENT_SLICE.md), and [the latest build log](BUILD_LOG.md). **Do not start U2 until the owner reviews this gate.** The project is at `native/unity/WildkinUnity/`; U0/U1 proof includes the active HDRP scene, a custom Wildkin inspection command, green EditMode/PlayMode tests, an intentional test failure and recovery, editor/player captures, and a Windows x64 Development Build. No matter kernel, meshing, destruction, or Unreal work began.
+The bounded native kernel and requested validation are complete; independent read-only review passed. Read [U2 evidence](../native/evidence/unity/u2-matter-kernel/README.md), its [receipt](../native/evidence/unity/u2-matter-kernel/receipt.json), [current slice](CURRENT_SLICE.md), [Unity-first plan](UNITY_FIRST_TRANSITION_PLAN.md), and [latest build log](BUILD_LOG.md). The Unity CLI/Pipeline bridge was used because no dedicated Unity MCP tool was exposed. U2 validates the deterministic C# sample authority, sparse edit/save semantics, region snapshots, inspector command and Tech debug view. Final tests: EditMode 42/42 and PlayMode 1/1; Windows x64 Development Build passed. **Stop for owner review; do not start U3, meshing, destruction, procedural rocks or Unreal.**
+
+## September 26 Unity U0/U1 qualification — completed foundation
+
+The first native Unity bootstrap and agent autonomy smoke is complete. Read [the U0/U1 evidence](../native/evidence/unity/u0-agent-smoke/README.md) and [receipt](../native/evidence/unity/u0-agent-smoke/receipt.json) for that baseline. The project is at `native/unity/WildkinUnity/`; U0/U1 proof includes the active HDRP scene, a custom Wildkin inspection command, green EditMode/PlayMode tests, an intentional test failure and recovery, editor/player captures, and a Windows x64 Development Build. U2 is the current completed bounded kernel; U3 is still stopped for owner review.
 
 ## September 25 native PC transition — plan context; initial session complete
 
@@ -16,7 +20,7 @@ Before native work, read:
 4. [Destructible matter roadmap](DESTRUCTIBLE_MATTER_ROADMAP.md)
 5. [Phase 0.5E report](VOXEL_PHASE05E_REPORT.md)
 
-The initial local implementation session used `docs/prompts/UNITY_00_BOOTSTRAP_AGENT_SMOKE.md`; it is complete. Use the Unity-first plan for future work only after the owner reviews U0/U1.
+The initial local implementation session used `docs/prompts/UNITY_00_BOOTSTRAP_AGENT_SMOKE.md`; it is complete. The current session completed `docs/prompts/UNITY_01_NATIVE_MATTER_REFERENCE_KERNEL.md`. Follow the stop at the end of the U2 prompt.
 
 The planned Unity project location is `native/unity/WildkinUnity/`. Do not hand-author a fake Unity project in GitHub; create it through Unity 6.3 LTS / Unity CLI locally so Unity owns the generated metadata. The browser lab remains the executable behavior reference. Unreal 5.8 is deferred unless Unity fails a meaningful gate or the owner requests the challenger.
 

@@ -1,0 +1,16 @@
+{
+  "name": "Wildkin.Matter.Unity",
+  "rootNamespace": "Wildkin.Matter.Unity",
+  "references": [
+    "Wildkin.Matter.Core"
+  ],
+  "includePlatforms": [],
+  "excludePlatforms": [],
+  "allowUnsafeCode": false,
+  "overrideReferences": false,
+  "precompiledReferences": [],
+  "autoReferenced": true,
+  "defineConstraints": [],
+  "versionDefines": [],
+  "noEngineReferences": false
+}

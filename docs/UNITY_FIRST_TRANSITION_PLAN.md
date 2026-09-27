@@ -2,9 +2,9 @@
 
 **Owner direction — September 25, 2026:** start with Unity. Spend the next Codex budget proving that Unity can support the target game and the desired agent-driven workflow before duplicating work in Unreal. Unreal remains a credible fallback/challenger, not an automatic parallel task.
 
-## Qualification status — September 26, 2026
+## Qualification status — September 27, 2026
 
-**U0/U1 PASS; stop for owner review. U2 has not started.** The Unity-created `6000.3.25f1` (Unity 6.3 LTS)/HDRP 17.3.0 project passes the bootstrap and autonomy smoke: official Codex plugin, CLI/Pipeline Editor control, project-local MCP configuration, machine-readable inspection, EditMode and PlayMode tests, autonomous repair of an intentional assertion failure, Scene/Game captures, and a Windows x64 Development Build. The cold build timed out once during HDRP shader compilation and passed on a cache-warmed retry. See [the evidence README](../native/evidence/unity/u0-agent-smoke/README.md) and [receipt](../native/evidence/unity/u0-agent-smoke/receipt.json). Review this gate before authorizing U2 Native Matter Skeleton.
+**U0/U1 and U2 PASS; stop for owner review. U3 has not started.** U0/U1 qualified the Unity-created `6000.3.25f1` (Unity 6.3 LTS)/HDRP 17.3.0 tooling path. U2 adds the deterministic integer-addressed matter core, sparse edit/save layer, bounded snapshots, shared-authority inspection command and Tech debug view. EditMode 42/42 and PlayMode 1/1 pass; the Windows x64 Development Build succeeds. No dedicated Unity MCP tool was exposed in the fresh session; the established CLI/Pipeline bridge worked. Independent read-only review passed. See [U0/U1 evidence](../native/evidence/unity/u0-agent-smoke/README.md) and [U2 evidence](../native/evidence/unity/u2-matter-kernel/README.md). Review U2 before starting the U3 mesher/resolution bakeoff.
 
 ## Target
 
@@ -154,6 +154,8 @@ Measure:
 **U1 HOLD:** Codex needs frequent manual editor rescue or cannot reliably validate its own work.
 
 ## Phase U2 — native matter skeleton
+
+**Status: PASS for the bounded reference kernel, September 27, 2026; stop for owner review. U3 remains unstarted.** Independent read-only review passed. The exact layout, evidence, and unresolved limits are in [the U2 evidence README](../native/evidence/unity/u2-matter-kernel/README.md) and [receipt JSON](../native/evidence/unity/u2-matter-kernel/receipt.json).
 
 **Goal:** represent deterministic editable matter natively without yet porting collapse.
 

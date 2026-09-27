@@ -18,7 +18,7 @@ See:
 
 ## Important
 
-**U0/U1 qualification status (September 26, 2026): PASS; stop for owner review.** The Unity `6000.3.25f1` (Unity 6.3 LTS) + HDRP 17.3.0 bootstrap, Codex/Unity tooling, smoke tests, captures, and Windows x64 Development Build are documented in [the receipt](evidence/unity/u0-agent-smoke/README.md). Do not begin U2 until the owner reviews the gate.
+**U0/U1 and U2 PASS; stop for owner review.** Unity `6000.3.25f1` (Unity 6.3 LTS) + HDRP 17.3.0, the native matter reference kernel, tests, inspector result, screenshot and Windows x64 Development Build are documented in [U0/U1 evidence](evidence/unity/u0-agent-smoke/README.md) and [U2 evidence](evidence/unity/u2-matter-kernel/README.md). Do not begin U3 until the owner reviews U2.
 
 Do not manually fabricate engine project metadata here.
 

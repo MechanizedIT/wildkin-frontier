@@ -2,9 +2,9 @@
 
 Use this when you are back at the development PC.
 
-## First session completed — September 26, 2026
+## Native Unity qualification — September 27, 2026
 
-The U0/U1 setup and autonomy smoke passed and is waiting for owner review. See [the evidence](../native/evidence/unity/u0-agent-smoke/README.md). This checklist records the completed bootstrap; do not rerun the first-session prompt or begin U2 until the owner reviews the gate.
+U0/U1 tooling qualification and U2 matter-kernel implementation, validation and independent review are complete. See [U0/U1 evidence](../native/evidence/unity/u0-agent-smoke/README.md) and [U2 evidence](../native/evidence/unity/u2-matter-kernel/README.md). This checklist records the completed bootstrap; do not rerun the first-session prompt or begin U3 until the owner reviews U2.
 
 This is deliberately short. The detailed agent task is in:
 

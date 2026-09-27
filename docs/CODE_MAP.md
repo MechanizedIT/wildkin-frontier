@@ -4,7 +4,7 @@
 
 The browser voxel/matter implementation remains the behavioral reference through Phase 0.5E. New production-direction work lives under `native/` and follows [UNITY_FIRST_TRANSITION_PLAN](UNITY_FIRST_TRANSITION_PLAN.md).
 
-Prepared owners before the Unity project is created:
+Prepared and active native owners:
 
 - `native/shared/reference/PHASE05E_REFERENCE.json` — engine-neutral behavioral facts/invariants from Phase E.
 - `native/shared/acceptance/README.md` — common evidence contract for native checkpoints.
@@ -16,7 +16,13 @@ Prepared owners before the Unity project is created:
 - `docs/prompts/UNITY_03_STYLIZED_MATERIAL_ROCK_STAMP.md` — projected materials + seeded rock-family checkpoint.
 - `docs/prompts/UNITY_04_MINIMAL_DESTRUCTION_SLICE.md` — final Unity qualification destruction slice.
 
-Do not add native owners to this section until the Unity Editor has actually created the project and the files exist. Do not treat browser `lab/voxel/` modules as production owners after native qualification begins.
+`native/unity/WildkinUnity/` is now a Unity-created Unity 6.3/HDRP project. The U0/U1 smoke owners remain under `Assets/Wildkin/AgentTools/Editor/`, `Assets/Wildkin/Tests/`, and `Assets/Wildkin/Scenes/Tech/AgentSmoke.unity`. Do not treat browser `lab/voxel/` modules as production owners after native qualification begins.
+
+## Unity U2 native matter reference kernel (PASS; stop for owner review)
+
+The engine-light assembly is `native/unity/WildkinUnity/Assets/Wildkin/Matter/Core/`. `MatterCoordinates.cs` owns integer global sample, brick and local addresses, floor-division ownership, and half-open bounds. `MatterSample.cs` owns the single density/material value and compact material IDs/profile registry. `MatterSources.cs` owns deterministic dirt, rock and air-cut composition with explicit precedence. `MatterBrick.cs` owns 16³ unique half-open sample storage in contiguous density/material arrays. `MatterWorld.cs` owns lazy bricks, procedural reads, global sparse overrides/tombstones and accepted-change revision. `MatterRegionSnapshot.cs` owns contiguous bounded reads and local/global mapping. `MatterSamplingBenchmark.cs` compares deterministic source and resolved reads. `MatterSupportContract.cs` contains only the future fail-closed support-state contract; it does not implement collapse.
+
+Unity integration lives under `Assets/Wildkin/Matter/Unity/`: `MatterWorldSaveCodec.cs` owns the provisional JSON save/restore envelope, while `MatterRegionDebugView.cs` visualizes samples from the same world. `Assets/Wildkin/AgentTools/Editor/MatterAgentCommands.cs` registers `inspect_matter_region`; `MatterDebugSceneCommands.cs` creates the bounded Tech scene and HDRP-readable materials/camera. Focused EditMode coverage is in `Assets/Wildkin/Tests/EditMode/Matter*Tests.cs`; the reviewable receipt, test XML, inspector output, build provenance and screenshot are in [U2 evidence](../native/evidence/unity/u2-matter-kernel/).
 
 ## Phase 0.5E localized terrain collapse (PASS for bounded lab; owner review)
 
