@@ -4,7 +4,7 @@
 
 ## Qualification status — September 27, 2026
 
-**U0/U1 and U2 PASS; U3 is the active overnight qualification phase.** U0/U1 qualified the Unity-created `6000.3.25f1` (Unity 6.3 LTS)/HDRP 17.3.0 tooling path. U2 adds the deterministic integer-addressed matter core, sparse edit/save layer, bounded snapshots, shared-authority inspection command and Tech debug view. Overnight revalidation corrected debug-cube face winding and added a regression; EditMode 43/43 and PlayMode 1/1 pass. The original Windows x64 Development Build succeeded and was not repeated for this debug-view-only correction. No dedicated Unity MCP tool was exposed; the established CLI/Pipeline bridge worked. Root review of the actual correction and evidence passed U2 under the owner's overnight authorization. See [U0/U1 evidence](../native/evidence/unity/u0-agent-smoke/README.md), [U2 evidence](../native/evidence/unity/u2-matter-kernel/README.md), and the [overnight qualification log](UNITY_OVERNIGHT_QUALIFICATION_2026-09-27.md).
+**U0/U1 and U2 PASS; U3 implementation/evidence is complete and pending independent root review.** U0/U1 qualified the Unity-created `6000.3.25f1` (Unity 6.3 LTS)/HDRP 17.3.0 tooling path. U2 adds the deterministic integer-addressed matter core, sparse edit/save layer, bounded snapshots, shared-authority inspection command and Tech debug view. Overnight revalidation corrected debug-cube face winding and added a regression; EditMode 43/43 and PlayMode 1/1 pass. The original Windows x64 Development Build succeeded and was not repeated for this debug-view-only correction. U3 compares true Surface Nets and bounded Dual Contouring over six frozen fields at matched 0.50m/0.25m resolutions, with a bounded local-refinement sample, writable MeshData publication, deterministic tests, evidence captures and benchmark. U3 final EditMode 67/67 and PlayMode 1/1 pass; its Windows x64 Development Build succeeded. Provisional recommendations are `SURFACE_NETS` and `LOCAL_REFINEMENT_DIRECTION`; no U4 work is authorized until the independent review records a disposition. No dedicated Unity MCP tool was exposed; the established CLI/Pipeline bridge worked. See [U0/U1 evidence](../native/evidence/unity/u0-agent-smoke/README.md), [U2 evidence](../native/evidence/unity/u2-matter-kernel/README.md), [U3 evidence](../native/evidence/unity/u3-mesher-resolution/README.md), and the [overnight qualification log](UNITY_OVERNIGHT_QUALIFICATION_2026-09-27.md).
 
 ## Target
 
@@ -155,7 +155,7 @@ Measure:
 
 ## Phase U2 — native matter skeleton
 
-**Status: PASS for the bounded reference kernel, September 27, 2026; stop for owner review. U3 remains unstarted.** Independent read-only review passed. The exact layout, evidence, and unresolved limits are in [the U2 evidence README](../native/evidence/unity/u2-matter-kernel/README.md) and [receipt JSON](../native/evidence/unity/u2-matter-kernel/receipt.json).
+**Status: PASS for the bounded reference kernel, September 27, 2026.** Independent read-only review passed. The exact layout, evidence, and unresolved limits are in [the U2 evidence README](../native/evidence/unity/u2-matter-kernel/README.md) and [receipt JSON](../native/evidence/unity/u2-matter-kernel/receipt.json).
 
 **Goal:** represent deterministic editable matter natively without yet porting collapse.
 
@@ -177,6 +177,8 @@ Do not build infinite streaming.
 **U2 PASS:** Unity loads a deterministic fixture, edits it, reconstructs it, and automated tests agree with the reference contract.
 
 ## Phase U3 — visual/mesher technology bakeoff
+
+**Implementation checkpoint, September 27, 2026: HOLD pending independent root review. Do not start U4 yet.** The six-fixture matched bakeoff, deterministic Surface Nets and bounded Dual Contouring, same-resolution seam tests, 0.50m/0.25m matrix, bounded local-detail sample, agent reproduction commands, evidence captures and Windows Development Player observation are recorded in [U3 evidence](../native/evidence/unity/u3-mesher-resolution/README.md) and [receipt](../native/evidence/unity/u3-mesher-resolution/receipt.json). Final Editor tests pass 67/67 and PlayMode 1/1; the Development Build succeeds. Current provisional recommendations are `SURFACE_NETS` and `LOCAL_REFINEMENT_DIRECTION`. The local finer region is not stitched into the coarse base, and managed-allocation bytes are unavailable rather than zero. Root must inspect images and implementation before PASS or admission.
 
 Run the same fields through:
 

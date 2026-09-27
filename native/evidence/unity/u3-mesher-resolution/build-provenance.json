@@ -1,0 +1,14 @@
+{
+    "unityVersion": "6000.3.25f1",
+    "activeBuildTarget": "StandaloneWindows64",
+    "requestedBuildTarget": "StandaloneWindows64",
+    "result": "Succeeded",
+    "outputPath": "C:\\Users\\cwood\\AppData\\Local\\Temp\\wildkin-u3-mesher-resolution\\Wildkin-U3.exe",
+    "totalSizeBytes": 229724177,
+    "totalErrors": 0,
+    "totalWarnings": 2,
+    "elapsedSeconds": 54.5101223,
+    "scenePath": "Assets/Wildkin/Scenes/Tech/U3MesherResolution.unity",
+    "options": "Development, AllowDebugging",
+    "evidencePath": "C:\\Users\\cwood\\Documents\\mobile-rpg\\native\\evidence\\unity\\u3-mesher-resolution\\build-provenance.json"
+}

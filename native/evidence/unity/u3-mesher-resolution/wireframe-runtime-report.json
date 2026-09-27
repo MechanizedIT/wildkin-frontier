@@ -1,0 +1,32 @@
+{
+    "seed": 20260927,
+    "cases": [
+        {
+            "label": "Layered Rock / Triangle Wireframe",
+            "fixture": "LayeredRock",
+            "mesher": "DualContouring",
+            "seed": 20260927,
+            "spacingMeters": 0.5,
+            "regionCount": 8,
+            "scalarSampleCount": 46656,
+            "scalarMemoryBytes": 233280,
+            "sourceBrickCount": 64,
+            "vertices": 401,
+            "triangles": 584,
+            "qefFallbackCount": 103,
+            "qefClampedVertexCount": 82,
+            "meshHashes": "D9EC2F9A4C53D775;F5900FF5C17E91B3;85C22BA6362BF758;C53D349A390B9CDA;59D89403B7B1D885;D124E41572E1E1CC;0A805F927C13DF60;8FB954C8CE8193BD",
+            "sourceRevision": 0,
+            "managedAllocatedBytes": -1,
+            "managedAllocationBytesAvailable": false,
+            "managedAllocationMethod": "Unavailable: GC.GetAllocatedBytesForCurrentThread returned no increase for a 1 KiB allocation probe; -1 is used as the unavailable sentinel. GC collection counts remain reported.",
+            "gen0Collections": 0,
+            "snapshotMilliseconds": 182.73260000000003,
+            "pureMesherMilliseconds": 92.5974,
+            "meshDataFillMilliseconds": 0.5073,
+            "applyMilliseconds": 0.0672,
+            "uploadMilliseconds": 0.12269999999999999,
+            "totalRebuildMilliseconds": 276.02720000000007
+        }
+    ]
+}

@@ -20,7 +20,7 @@ namespace Wildkin.Matter
     /// </summary>
     public sealed class MatterWorld
     {
-        private readonly MatterSourceComposer _source;
+        private readonly IMatterSampleSource _source;
         private readonly Dictionary<MatterBrickAddress, MatterBrick> _bricks =
             new Dictionary<MatterBrickAddress, MatterBrick>();
         private readonly Dictionary<MatterSampleAddress, MatterSample> _edits =
@@ -34,7 +34,7 @@ namespace Wildkin.Matter
         public int MaterializedBrickCount => _bricks.Count;
         public int BytesPerBrick => MatterBrickLayout.RawBytesPerBrick;
 
-        public MatterWorld(int sourceSeed, float sampleSpacingMeters, MatterSourceComposer source)
+        public MatterWorld(int sourceSeed, float sampleSpacingMeters, IMatterSampleSource source)
         {
             if (float.IsNaN(sampleSpacingMeters) || float.IsInfinity(sampleSpacingMeters) ||
                 sampleSpacingMeters <= 0f)

@@ -1,0 +1,22 @@
+{
+  "unityVersion": "6000.3.25f1",
+  "fixture": "LayeredRock",
+  "fixtureSourceVersion": 1,
+  "seed": 20260927,
+  "spacingMeters": 0.25,
+  "matchedDomainMeters": 16.0,
+  "regions": 64,
+  "cellClassificationCountPerRun": 314432,
+  "scalarSamplesCopiedBeforeTiming": 373248,
+  "activeCells": 1342,
+  "burstEnabled": true,
+  "warmupRuns": 2,
+  "measuredRuns": 7,
+  "batchSize": 128,
+  "scalarMedianMilliseconds": 12.2373,
+  "scalarP95Milliseconds": 12.3722,
+  "jobScheduleAndCompleteMedianMilliseconds": 0.8813,
+  "jobScheduleAndCompleteP95Milliseconds": 1.038,
+  "speedupScalarOverJob": 13.885510041983434,
+  "measurementScope": "Active-cell sign classification only. Input region snapshots and NativeArray copy/allocation are pre-timed; scheduling plus completion is timed. This is a readiness probe, not a replacement production mesher or end-to-end speedup claim."
+}

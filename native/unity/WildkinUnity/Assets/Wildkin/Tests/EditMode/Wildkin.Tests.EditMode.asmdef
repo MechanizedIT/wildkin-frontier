@@ -4,7 +4,9 @@
   "references": [
     "Wildkin.Core",
     "Wildkin.Matter.Core",
-    "Wildkin.Matter.Unity"
+    "Wildkin.Matter.Unity",
+    "Unity.Burst",
+    "Unity.Collections"
   ],
   "includePlatforms": [
     "Editor"

@@ -6,6 +6,13 @@ namespace Wildkin.Matter
     public enum MatterSourceOperation : byte { AddSolid = 0, Subtract = 1 }
     public enum MatterSourceShape : byte { HorizontalPlane = 0, Ellipsoid = 1 }
 
+    /// <summary>Engine-light source contract used by MatterWorld to resolve globally owned samples.</summary>
+    public interface IMatterSampleSource
+    {
+        int SourceVersion { get; }
+        MatterSample Sample(MatterSampleAddress address, int worldSeed, float sampleSpacingMeters);
+    }
+
     [StructLayout(LayoutKind.Sequential)]
     public readonly struct MatterSourceLayer
     {
@@ -110,7 +117,7 @@ namespace Wildkin.Matter
         }
     }
 
-    public sealed class MatterSourceComposer
+    public sealed class MatterSourceComposer : IMatterSampleSource
     {
         private readonly MatterSourceLayer[] _layers;
         public int SourceVersion { get; }

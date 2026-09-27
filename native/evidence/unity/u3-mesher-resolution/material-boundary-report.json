@@ -1,0 +1,32 @@
+{
+    "seed": 20260927,
+    "cases": [
+        {
+            "label": "Rock / Dirt Material Boundary  0.25m",
+            "fixture": "MaterialBoundary",
+            "mesher": "DualContouring",
+            "seed": 20260927,
+            "spacingMeters": 0.25,
+            "regionCount": 8,
+            "scalarSampleCount": 46656,
+            "scalarMemoryBytes": 233280,
+            "sourceBrickCount": 64,
+            "vertices": 1860,
+            "triangles": 3264,
+            "qefFallbackCount": 1211,
+            "qefClampedVertexCount": 223,
+            "meshHashes": "07AD51DC34C6EC0F;7436278A16F875F2;AC35B45C0A1C4632;B88C325A9BED467B;2CD73571E0E2F7D3;7665CC49F56BBADF;1DA8978743C3691B;E29EA55091A87917",
+            "sourceRevision": 0,
+            "managedAllocatedBytes": -1,
+            "managedAllocationBytesAvailable": false,
+            "managedAllocationMethod": "Unavailable: GC.GetAllocatedBytesForCurrentThread returned no increase for a 1 KiB allocation probe; -1 is used as the unavailable sentinel. GC collection counts remain reported.",
+            "gen0Collections": 0,
+            "snapshotMilliseconds": 126.1899,
+            "pureMesherMilliseconds": 97.17060000000001,
+            "meshDataFillMilliseconds": 1.558,
+            "applyMilliseconds": 0.0782,
+            "uploadMilliseconds": 0.13470000000000002,
+            "totalRebuildMilliseconds": 225.1314
+        }
+    ]
+}

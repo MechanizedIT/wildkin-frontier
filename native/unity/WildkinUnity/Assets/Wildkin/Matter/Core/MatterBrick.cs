@@ -17,7 +17,7 @@ namespace Wildkin.Matter
         public int RawPayloadBytes => MatterBrickLayout.RawBytesPerBrick;
 
         internal MatterBrick(
-            MatterBrickAddress address, MatterSourceComposer source, int worldSeed, float sampleSpacingMeters)
+            MatterBrickAddress address, IMatterSampleSource source, int worldSeed, float sampleSpacingMeters)
         {
             Address = address;
             _densities = new float[MatterBrickLayout.SamplesPerBrick];

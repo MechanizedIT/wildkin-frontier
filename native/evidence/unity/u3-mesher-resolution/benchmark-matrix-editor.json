@@ -1,0 +1,1383 @@
+{
+    "unityVersion": "6000.3.25f1",
+    "platform": "WindowsEditor",
+    "seed": 20260927,
+    "warmupRunsPerRow": 1,
+    "measuredRunsPerRow": 5,
+    "matchedPhysicalDomainMeters": 16.0,
+    "physicalDomainRationale": "Each dataset is sampled over the same aligned 16m cube centered around sample origin; .50m uses 2^3 meshing regions and .25m uses 4^3 regions.",
+    "sampleWindow": "18^3 scalar values per 16^3 half-open cell region; includes 17^3 core corners and a one-sample negative edge-owner halo",
+    "statistics": "median and nearest-rank p95; with five runs p95 equals the maximum measured run",
+    "managedAllocationMeasurement": "Unavailable: GC.GetAllocatedBytesForCurrentThread returned no increase for a 1 KiB allocation probe; -1 is used as the unavailable sentinel. GC collection counts remain reported.",
+    "evidencePath": "C:\\Users\\cwood\\Documents\\mobile-rpg\\native\\evidence\\unity\\u3-mesher-resolution\\benchmark-matrix-editor.json",
+    "rows": [
+        {
+            "fixture": "SmoothOrganic",
+            "mesher": "SurfaceNets",
+            "resolutionMeters": 0.5,
+            "matchedDomainExtentMeters": 16.0,
+            "bricksPerAxis": 2,
+            "meshingRegionCount": 8,
+            "sourceAuthorityBrickCount": 64,
+            "measuredRuns": 5,
+            "scalarSampleCountAcrossDomain": 46656,
+            "scalarSnapshotBytesAcrossDomain": 233280,
+            "verticesAcrossDomain": 495,
+            "trianglesAcrossDomain": 716,
+            "qefFallbackVertices": 0,
+            "qefClampedVertices": 0,
+            "snapshotMilliseconds": {
+                "median": 117.7089,
+                "p95NearestRank": 122.96199999999999
+            },
+            "pureMesherMilliseconds": {
+                "median": 107.80769999999998,
+                "p95NearestRank": 111.4795
+            },
+            "meshDataFillMilliseconds": {
+                "median": 0.7038,
+                "p95NearestRank": 0.747
+            },
+            "applyMilliseconds": {
+                "median": 0.09350000000000002,
+                "p95NearestRank": 0.1096
+            },
+            "uploadMilliseconds": {
+                "median": 0.1907,
+                "p95NearestRank": 0.2429
+            },
+            "totalRebuildMilliseconds": {
+                "median": 219.9784,
+                "p95NearestRank": 236.3467
+            },
+            "managedAllocatedBytes": {
+                "median": -1,
+                "p95NearestRank": -1
+            },
+            "managedAllocationBytesAvailable": false,
+            "gen0Collections": {
+                "median": 0,
+                "p95NearestRank": 0
+            },
+            "gen1Collections": {
+                "median": 0,
+                "p95NearestRank": 0
+            },
+            "gen2Collections": {
+                "median": 0,
+                "p95NearestRank": 0
+            }
+        },
+        {
+            "fixture": "SmoothOrganic",
+            "mesher": "SurfaceNets",
+            "resolutionMeters": 0.25,
+            "matchedDomainExtentMeters": 16.0,
+            "bricksPerAxis": 4,
+            "meshingRegionCount": 64,
+            "sourceAuthorityBrickCount": 216,
+            "measuredRuns": 5,
+            "scalarSampleCountAcrossDomain": 373248,
+            "scalarSnapshotBytesAcrossDomain": 1866240,
+            "verticesAcrossDomain": 1651,
+            "trianglesAcrossDomain": 2832,
+            "qefFallbackVertices": 0,
+            "qefClampedVertices": 0,
+            "snapshotMilliseconds": {
+                "median": 430.8476999999999,
+                "p95NearestRank": 445.9941000000001
+            },
+            "pureMesherMilliseconds": {
+                "median": 777.1825,
+                "p95NearestRank": 805.3838999999994
+            },
+            "meshDataFillMilliseconds": {
+                "median": 1.4746000000000002,
+                "p95NearestRank": 1.7027999999999999
+            },
+            "applyMilliseconds": {
+                "median": 0.0743,
+                "p95NearestRank": 0.093
+            },
+            "uploadMilliseconds": {
+                "median": 0.1526,
+                "p95NearestRank": 0.1679
+            },
+            "totalRebuildMilliseconds": {
+                "median": 1215.2451,
+                "p95NearestRank": 1249.2262
+            },
+            "managedAllocatedBytes": {
+                "median": -1,
+                "p95NearestRank": -1
+            },
+            "managedAllocationBytesAvailable": false,
+            "gen0Collections": {
+                "median": 0,
+                "p95NearestRank": 0
+            },
+            "gen1Collections": {
+                "median": 0,
+                "p95NearestRank": 0
+            },
+            "gen2Collections": {
+                "median": 0,
+                "p95NearestRank": 0
+            }
+        },
+        {
+            "fixture": "SmoothOrganic",
+            "mesher": "DualContouring",
+            "resolutionMeters": 0.5,
+            "matchedDomainExtentMeters": 16.0,
+            "bricksPerAxis": 2,
+            "meshingRegionCount": 8,
+            "sourceAuthorityBrickCount": 64,
+            "measuredRuns": 5,
+            "scalarSampleCountAcrossDomain": 46656,
+            "scalarSnapshotBytesAcrossDomain": 233280,
+            "verticesAcrossDomain": 495,
+            "trianglesAcrossDomain": 715,
+            "qefFallbackVertices": 168,
+            "qefClampedVertices": 137,
+            "snapshotMilliseconds": {
+                "median": 99.13579999999999,
+                "p95NearestRank": 106.3142
+            },
+            "pureMesherMilliseconds": {
+                "median": 95.1137,
+                "p95NearestRank": 104.01680000000002
+            },
+            "meshDataFillMilliseconds": {
+                "median": 0.5815,
+                "p95NearestRank": 0.6624
+            },
+            "applyMilliseconds": {
+                "median": 0.0635,
+                "p95NearestRank": 0.0716
+            },
+            "uploadMilliseconds": {
+                "median": 0.14780000000000002,
+                "p95NearestRank": 0.173
+            },
+            "totalRebuildMilliseconds": {
+                "median": 200.0263,
+                "p95NearestRank": 204.909
+            },
+            "managedAllocatedBytes": {
+                "median": -1,
+                "p95NearestRank": -1
+            },
+            "managedAllocationBytesAvailable": false,
+            "gen0Collections": {
+                "median": 0,
+                "p95NearestRank": 0
+            },
+            "gen1Collections": {
+                "median": 0,
+                "p95NearestRank": 0
+            },
+            "gen2Collections": {
+                "median": 0,
+                "p95NearestRank": 0
+            }
+        },
+        {
+            "fixture": "SmoothOrganic",
+            "mesher": "DualContouring",
+            "resolutionMeters": 0.25,
+            "matchedDomainExtentMeters": 16.0,
+            "bricksPerAxis": 4,
+            "meshingRegionCount": 64,
+            "sourceAuthorityBrickCount": 216,
+            "measuredRuns": 5,
+            "scalarSampleCountAcrossDomain": 373248,
+            "scalarSnapshotBytesAcrossDomain": 1866240,
+            "verticesAcrossDomain": 1651,
+            "trianglesAcrossDomain": 2832,
+            "qefFallbackVertices": 934,
+            "qefClampedVertices": 262,
+            "snapshotMilliseconds": {
+                "median": 427.06279999999989,
+                "p95NearestRank": 435.7973
+            },
+            "pureMesherMilliseconds": {
+                "median": 763.7239999999999,
+                "p95NearestRank": 796.3867999999998
+            },
+            "meshDataFillMilliseconds": {
+                "median": 1.4651999999999999,
+                "p95NearestRank": 1.5986
+            },
+            "applyMilliseconds": {
+                "median": 0.0659,
+                "p95NearestRank": 0.07429999999999999
+            },
+            "uploadMilliseconds": {
+                "median": 0.1478,
+                "p95NearestRank": 0.1634
+            },
+            "totalRebuildMilliseconds": {
+                "median": 1193.3711,
+                "p95NearestRank": 1229.4981
+            },
+            "managedAllocatedBytes": {
+                "median": -1,
+                "p95NearestRank": -1
+            },
+            "managedAllocationBytesAvailable": false,
+            "gen0Collections": {
+                "median": 0,
+                "p95NearestRank": 0
+            },
+            "gen1Collections": {
+                "median": 0,
+                "p95NearestRank": 0
+            },
+            "gen2Collections": {
+                "median": 0,
+                "p95NearestRank": 0
+            }
+        },
+        {
+            "fixture": "LayeredRock",
+            "mesher": "SurfaceNets",
+            "resolutionMeters": 0.5,
+            "matchedDomainExtentMeters": 16.0,
+            "bricksPerAxis": 2,
+            "meshingRegionCount": 8,
+            "sourceAuthorityBrickCount": 64,
+            "measuredRuns": 5,
+            "scalarSampleCountAcrossDomain": 46656,
+            "scalarSnapshotBytesAcrossDomain": 233280,
+            "verticesAcrossDomain": 401,
+            "trianglesAcrossDomain": 584,
+            "qefFallbackVertices": 0,
+            "qefClampedVertices": 0,
+            "snapshotMilliseconds": {
+                "median": 185.33390000000004,
+                "p95NearestRank": 200.8196
+            },
+            "pureMesherMilliseconds": {
+                "median": 94.5968,
+                "p95NearestRank": 95.63389999999998
+            },
+            "meshDataFillMilliseconds": {
+                "median": 0.5404,
+                "p95NearestRank": 0.558
+            },
+            "applyMilliseconds": {
+                "median": 0.0649,
+                "p95NearestRank": 0.06829999999999999
+            },
+            "uploadMilliseconds": {
+                "median": 0.1371,
+                "p95NearestRank": 0.1547
+            },
+            "totalRebuildMilliseconds": {
+                "median": 279.797,
+                "p95NearestRank": 297.8808
+            },
+            "managedAllocatedBytes": {
+                "median": -1,
+                "p95NearestRank": -1
+            },
+            "managedAllocationBytesAvailable": false,
+            "gen0Collections": {
+                "median": 0,
+                "p95NearestRank": 0
+            },
+            "gen1Collections": {
+                "median": 0,
+                "p95NearestRank": 0
+            },
+            "gen2Collections": {
+                "median": 0,
+                "p95NearestRank": 0
+            }
+        },
+        {
+            "fixture": "LayeredRock",
+            "mesher": "SurfaceNets",
+            "resolutionMeters": 0.25,
+            "matchedDomainExtentMeters": 16.0,
+            "bricksPerAxis": 4,
+            "meshingRegionCount": 64,
+            "sourceAuthorityBrickCount": 216,
+            "measuredRuns": 5,
+            "scalarSampleCountAcrossDomain": 373248,
+            "scalarSnapshotBytesAcrossDomain": 1866240,
+            "verticesAcrossDomain": 1342,
+            "trianglesAcrossDomain": 2272,
+            "qefFallbackVertices": 0,
+            "qefClampedVertices": 0,
+            "snapshotMilliseconds": {
+                "median": 711.4961,
+                "p95NearestRank": 739.8726
+            },
+            "pureMesherMilliseconds": {
+                "median": 770.9857000000001,
+                "p95NearestRank": 831.7979999999998
+            },
+            "meshDataFillMilliseconds": {
+                "median": 1.3178,
+                "p95NearestRank": 1.7902999999999998
+            },
+            "applyMilliseconds": {
+                "median": 0.0772,
+                "p95NearestRank": 0.0999
+            },
+            "uploadMilliseconds": {
+                "median": 0.14529999999999999,
+                "p95NearestRank": 0.18529999999999997
+            },
+            "totalRebuildMilliseconds": {
+                "median": 1476.9169,
+                "p95NearestRank": 1574.438
+            },
+            "managedAllocatedBytes": {
+                "median": -1,
+                "p95NearestRank": -1
+            },
+            "managedAllocationBytesAvailable": false,
+            "gen0Collections": {
+                "median": 0,
+                "p95NearestRank": 0
+            },
+            "gen1Collections": {
+                "median": 0,
+                "p95NearestRank": 0
+            },
+            "gen2Collections": {
+                "median": 0,
+                "p95NearestRank": 0
+            }
+        },
+        {
+            "fixture": "LayeredRock",
+            "mesher": "DualContouring",
+            "resolutionMeters": 0.5,
+            "matchedDomainExtentMeters": 16.0,
+            "bricksPerAxis": 2,
+            "meshingRegionCount": 8,
+            "sourceAuthorityBrickCount": 64,
+            "measuredRuns": 5,
+            "scalarSampleCountAcrossDomain": 46656,
+            "scalarSnapshotBytesAcrossDomain": 233280,
+            "verticesAcrossDomain": 401,
+            "trianglesAcrossDomain": 584,
+            "qefFallbackVertices": 103,
+            "qefClampedVertices": 82,
+            "snapshotMilliseconds": {
+                "median": 190.2269,
+                "p95NearestRank": 195.8161
+            },
+            "pureMesherMilliseconds": {
+                "median": 99.892,
+                "p95NearestRank": 104.2672
+            },
+            "meshDataFillMilliseconds": {
+                "median": 0.5285,
+                "p95NearestRank": 0.6578999999999999
+            },
+            "applyMilliseconds": {
+                "median": 0.0688,
+                "p95NearestRank": 0.0874
+            },
+            "uploadMilliseconds": {
+                "median": 0.1465,
+                "p95NearestRank": 0.2015
+            },
+            "totalRebuildMilliseconds": {
+                "median": 288.4084,
+                "p95NearestRank": 301.8723
+            },
+            "managedAllocatedBytes": {
+                "median": -1,
+                "p95NearestRank": -1
+            },
+            "managedAllocationBytesAvailable": false,
+            "gen0Collections": {
+                "median": 0,
+                "p95NearestRank": 0
+            },
+            "gen1Collections": {
+                "median": 0,
+                "p95NearestRank": 0
+            },
+            "gen2Collections": {
+                "median": 0,
+                "p95NearestRank": 0
+            }
+        },
+        {
+            "fixture": "LayeredRock",
+            "mesher": "DualContouring",
+            "resolutionMeters": 0.25,
+            "matchedDomainExtentMeters": 16.0,
+            "bricksPerAxis": 4,
+            "meshingRegionCount": 64,
+            "sourceAuthorityBrickCount": 216,
+            "measuredRuns": 5,
+            "scalarSampleCountAcrossDomain": 373248,
+            "scalarSnapshotBytesAcrossDomain": 1866240,
+            "verticesAcrossDomain": 1342,
+            "trianglesAcrossDomain": 2272,
+            "qefFallbackVertices": 614,
+            "qefClampedVertices": 264,
+            "snapshotMilliseconds": {
+                "median": 704.0772999999999,
+                "p95NearestRank": 722.5829000000003
+            },
+            "pureMesherMilliseconds": {
+                "median": 762.7501999999997,
+                "p95NearestRank": 763.2177999999999
+            },
+            "meshDataFillMilliseconds": {
+                "median": 1.2937,
+                "p95NearestRank": 1.4568
+            },
+            "applyMilliseconds": {
+                "median": 0.06939999999999999,
+                "p95NearestRank": 0.0784
+            },
+            "uploadMilliseconds": {
+                "median": 0.154,
+                "p95NearestRank": 0.1744
+            },
+            "totalRebuildMilliseconds": {
+                "median": 1470.0361,
+                "p95NearestRank": 1484.4927
+            },
+            "managedAllocatedBytes": {
+                "median": -1,
+                "p95NearestRank": -1
+            },
+            "managedAllocationBytesAvailable": false,
+            "gen0Collections": {
+                "median": 0,
+                "p95NearestRank": 0
+            },
+            "gen1Collections": {
+                "median": 0,
+                "p95NearestRank": 0
+            },
+            "gen2Collections": {
+                "median": 0,
+                "p95NearestRank": 0
+            }
+        },
+        {
+            "fixture": "CliffCave",
+            "mesher": "SurfaceNets",
+            "resolutionMeters": 0.5,
+            "matchedDomainExtentMeters": 16.0,
+            "bricksPerAxis": 2,
+            "meshingRegionCount": 8,
+            "sourceAuthorityBrickCount": 64,
+            "measuredRuns": 5,
+            "scalarSampleCountAcrossDomain": 46656,
+            "scalarSnapshotBytesAcrossDomain": 233280,
+            "verticesAcrossDomain": 857,
+            "trianglesAcrossDomain": 1324,
+            "qefFallbackVertices": 0,
+            "qefClampedVertices": 0,
+            "snapshotMilliseconds": {
+                "median": 152.8898,
+                "p95NearestRank": 176.94940000000003
+            },
+            "pureMesherMilliseconds": {
+                "median": 97.30409999999999,
+                "p95NearestRank": 101.80969999999999
+            },
+            "meshDataFillMilliseconds": {
+                "median": 0.8629,
+                "p95NearestRank": 0.8794
+            },
+            "applyMilliseconds": {
+                "median": 0.0647,
+                "p95NearestRank": 0.0702
+            },
+            "uploadMilliseconds": {
+                "median": 0.1315,
+                "p95NearestRank": 0.1456
+            },
+            "totalRebuildMilliseconds": {
+                "median": 252.2375,
+                "p95NearestRank": 276.0796
+            },
+            "managedAllocatedBytes": {
+                "median": -1,
+                "p95NearestRank": -1
+            },
+            "managedAllocationBytesAvailable": false,
+            "gen0Collections": {
+                "median": 0,
+                "p95NearestRank": 0
+            },
+            "gen1Collections": {
+                "median": 0,
+                "p95NearestRank": 0
+            },
+            "gen2Collections": {
+                "median": 0,
+                "p95NearestRank": 0
+            }
+        },
+        {
+            "fixture": "CliffCave",
+            "mesher": "SurfaceNets",
+            "resolutionMeters": 0.25,
+            "matchedDomainExtentMeters": 16.0,
+            "bricksPerAxis": 4,
+            "meshingRegionCount": 64,
+            "sourceAuthorityBrickCount": 216,
+            "measuredRuns": 5,
+            "scalarSampleCountAcrossDomain": 373248,
+            "scalarSnapshotBytesAcrossDomain": 1866240,
+            "verticesAcrossDomain": 3092,
+            "trianglesAcrossDomain": 5480,
+            "qefFallbackVertices": 0,
+            "qefClampedVertices": 0,
+            "snapshotMilliseconds": {
+                "median": 586.5544,
+                "p95NearestRank": 595.5366000000001
+            },
+            "pureMesherMilliseconds": {
+                "median": 777.3468000000001,
+                "p95NearestRank": 796.2357999999998
+            },
+            "meshDataFillMilliseconds": {
+                "median": 2.6521,
+                "p95NearestRank": 3.6767
+            },
+            "applyMilliseconds": {
+                "median": 0.0804,
+                "p95NearestRank": 0.1102
+            },
+            "uploadMilliseconds": {
+                "median": 0.16429999999999998,
+                "p95NearestRank": 0.20259999999999998
+            },
+            "totalRebuildMilliseconds": {
+                "median": 1377.0845,
+                "p95NearestRank": 1387.5929
+            },
+            "managedAllocatedBytes": {
+                "median": -1,
+                "p95NearestRank": -1
+            },
+            "managedAllocationBytesAvailable": false,
+            "gen0Collections": {
+                "median": 0,
+                "p95NearestRank": 0
+            },
+            "gen1Collections": {
+                "median": 0,
+                "p95NearestRank": 0
+            },
+            "gen2Collections": {
+                "median": 0,
+                "p95NearestRank": 0
+            }
+        },
+        {
+            "fixture": "CliffCave",
+            "mesher": "DualContouring",
+            "resolutionMeters": 0.5,
+            "matchedDomainExtentMeters": 16.0,
+            "bricksPerAxis": 2,
+            "meshingRegionCount": 8,
+            "sourceAuthorityBrickCount": 64,
+            "measuredRuns": 5,
+            "scalarSampleCountAcrossDomain": 46656,
+            "scalarSnapshotBytesAcrossDomain": 233280,
+            "verticesAcrossDomain": 857,
+            "trianglesAcrossDomain": 1324,
+            "qefFallbackVertices": 462,
+            "qefClampedVertices": 162,
+            "snapshotMilliseconds": {
+                "median": 146.47220000000002,
+                "p95NearestRank": 147.8766
+            },
+            "pureMesherMilliseconds": {
+                "median": 101.00419999999999,
+                "p95NearestRank": 106.89770000000002
+            },
+            "meshDataFillMilliseconds": {
+                "median": 0.8626,
+                "p95NearestRank": 0.9882
+            },
+            "applyMilliseconds": {
+                "median": 0.060700000000000007,
+                "p95NearestRank": 0.0706
+            },
+            "uploadMilliseconds": {
+                "median": 0.13999999999999999,
+                "p95NearestRank": 0.1482
+            },
+            "totalRebuildMilliseconds": {
+                "median": 250.5492,
+                "p95NearestRank": 255.1503
+            },
+            "managedAllocatedBytes": {
+                "median": -1,
+                "p95NearestRank": -1
+            },
+            "managedAllocationBytesAvailable": false,
+            "gen0Collections": {
+                "median": 0,
+                "p95NearestRank": 0
+            },
+            "gen1Collections": {
+                "median": 0,
+                "p95NearestRank": 0
+            },
+            "gen2Collections": {
+                "median": 0,
+                "p95NearestRank": 0
+            }
+        },
+        {
+            "fixture": "CliffCave",
+            "mesher": "DualContouring",
+            "resolutionMeters": 0.25,
+            "matchedDomainExtentMeters": 16.0,
+            "bricksPerAxis": 4,
+            "meshingRegionCount": 64,
+            "sourceAuthorityBrickCount": 216,
+            "measuredRuns": 5,
+            "scalarSampleCountAcrossDomain": 373248,
+            "scalarSnapshotBytesAcrossDomain": 1866240,
+            "verticesAcrossDomain": 3092,
+            "trianglesAcrossDomain": 5480,
+            "qefFallbackVertices": 2305,
+            "qefClampedVertices": 346,
+            "snapshotMilliseconds": {
+                "median": 580.5858999999997,
+                "p95NearestRank": 610.0415999999998
+            },
+            "pureMesherMilliseconds": {
+                "median": 771.4425999999997,
+                "p95NearestRank": 776.9983000000002
+            },
+            "meshDataFillMilliseconds": {
+                "median": 2.7053999999999998,
+                "p95NearestRank": 3.3379000000000005
+            },
+            "applyMilliseconds": {
+                "median": 0.08490000000000002,
+                "p95NearestRank": 0.08979999999999999
+            },
+            "uploadMilliseconds": {
+                "median": 0.1542,
+                "p95NearestRank": 0.17159999999999998
+            },
+            "totalRebuildMilliseconds": {
+                "median": 1356.8461,
+                "p95NearestRank": 1386.7076
+            },
+            "managedAllocatedBytes": {
+                "median": -1,
+                "p95NearestRank": -1
+            },
+            "managedAllocationBytesAvailable": false,
+            "gen0Collections": {
+                "median": 0,
+                "p95NearestRank": 0
+            },
+            "gen1Collections": {
+                "median": 0,
+                "p95NearestRank": 0
+            },
+            "gen2Collections": {
+                "median": 0,
+                "p95NearestRank": 0
+            }
+        },
+        {
+            "fixture": "MaterialBoundary",
+            "mesher": "SurfaceNets",
+            "resolutionMeters": 0.5,
+            "matchedDomainExtentMeters": 16.0,
+            "bricksPerAxis": 2,
+            "meshingRegionCount": 8,
+            "sourceAuthorityBrickCount": 64,
+            "measuredRuns": 5,
+            "scalarSampleCountAcrossDomain": 46656,
+            "scalarSnapshotBytesAcrossDomain": 233280,
+            "verticesAcrossDomain": 498,
+            "trianglesAcrossDomain": 768,
+            "qefFallbackVertices": 0,
+            "qefClampedVertices": 0,
+            "snapshotMilliseconds": {
+                "median": 137.56259999999998,
+                "p95NearestRank": 177.72739999999997
+            },
+            "pureMesherMilliseconds": {
+                "median": 102.66440000000002,
+                "p95NearestRank": 112.78730000000002
+            },
+            "meshDataFillMilliseconds": {
+                "median": 0.596,
+                "p95NearestRank": 0.7388
+            },
+            "applyMilliseconds": {
+                "median": 0.05960000000000001,
+                "p95NearestRank": 0.0818
+            },
+            "uploadMilliseconds": {
+                "median": 0.14350000000000003,
+                "p95NearestRank": 0.22010000000000003
+            },
+            "totalRebuildMilliseconds": {
+                "median": 242.952,
+                "p95NearestRank": 290.7168
+            },
+            "managedAllocatedBytes": {
+                "median": -1,
+                "p95NearestRank": -1
+            },
+            "managedAllocationBytesAvailable": false,
+            "gen0Collections": {
+                "median": 0,
+                "p95NearestRank": 0
+            },
+            "gen1Collections": {
+                "median": 0,
+                "p95NearestRank": 0
+            },
+            "gen2Collections": {
+                "median": 0,
+                "p95NearestRank": 0
+            }
+        },
+        {
+            "fixture": "MaterialBoundary",
+            "mesher": "SurfaceNets",
+            "resolutionMeters": 0.25,
+            "matchedDomainExtentMeters": 16.0,
+            "bricksPerAxis": 4,
+            "meshingRegionCount": 64,
+            "sourceAuthorityBrickCount": 216,
+            "measuredRuns": 5,
+            "scalarSampleCountAcrossDomain": 373248,
+            "scalarSnapshotBytesAcrossDomain": 1866240,
+            "verticesAcrossDomain": 1860,
+            "trianglesAcrossDomain": 3264,
+            "qefFallbackVertices": 0,
+            "qefClampedVertices": 0,
+            "snapshotMilliseconds": {
+                "median": 526.9915,
+                "p95NearestRank": 553.641
+            },
+            "pureMesherMilliseconds": {
+                "median": 772.9377000000002,
+                "p95NearestRank": 784.869
+            },
+            "meshDataFillMilliseconds": {
+                "median": 1.6322999999999999,
+                "p95NearestRank": 1.9934999999999999
+            },
+            "applyMilliseconds": {
+                "median": 0.0718,
+                "p95NearestRank": 0.076
+            },
+            "uploadMilliseconds": {
+                "median": 0.1573,
+                "p95NearestRank": 0.17510000000000004
+            },
+            "totalRebuildMilliseconds": {
+                "median": 1302.7743,
+                "p95NearestRank": 1332.7109
+            },
+            "managedAllocatedBytes": {
+                "median": -1,
+                "p95NearestRank": -1
+            },
+            "managedAllocationBytesAvailable": false,
+            "gen0Collections": {
+                "median": 0,
+                "p95NearestRank": 0
+            },
+            "gen1Collections": {
+                "median": 0,
+                "p95NearestRank": 0
+            },
+            "gen2Collections": {
+                "median": 0,
+                "p95NearestRank": 0
+            }
+        },
+        {
+            "fixture": "MaterialBoundary",
+            "mesher": "DualContouring",
+            "resolutionMeters": 0.5,
+            "matchedDomainExtentMeters": 16.0,
+            "bricksPerAxis": 2,
+            "meshingRegionCount": 8,
+            "sourceAuthorityBrickCount": 64,
+            "measuredRuns": 5,
+            "scalarSampleCountAcrossDomain": 46656,
+            "scalarSnapshotBytesAcrossDomain": 233280,
+            "verticesAcrossDomain": 498,
+            "trianglesAcrossDomain": 768,
+            "qefFallbackVertices": 261,
+            "qefClampedVertices": 134,
+            "snapshotMilliseconds": {
+                "median": 131.93089999999999,
+                "p95NearestRank": 168.63889999999999
+            },
+            "pureMesherMilliseconds": {
+                "median": 96.12859999999999,
+                "p95NearestRank": 102.3094
+            },
+            "meshDataFillMilliseconds": {
+                "median": 0.6012,
+                "p95NearestRank": 0.6963
+            },
+            "applyMilliseconds": {
+                "median": 0.0657,
+                "p95NearestRank": 0.0778
+            },
+            "uploadMilliseconds": {
+                "median": 0.1312,
+                "p95NearestRank": 0.17720000000000003
+            },
+            "totalRebuildMilliseconds": {
+                "median": 228.9739,
+                "p95NearestRank": 272.7314
+            },
+            "managedAllocatedBytes": {
+                "median": -1,
+                "p95NearestRank": -1
+            },
+            "managedAllocationBytesAvailable": false,
+            "gen0Collections": {
+                "median": 0,
+                "p95NearestRank": 0
+            },
+            "gen1Collections": {
+                "median": 0,
+                "p95NearestRank": 0
+            },
+            "gen2Collections": {
+                "median": 0,
+                "p95NearestRank": 0
+            }
+        },
+        {
+            "fixture": "MaterialBoundary",
+            "mesher": "DualContouring",
+            "resolutionMeters": 0.25,
+            "matchedDomainExtentMeters": 16.0,
+            "bricksPerAxis": 4,
+            "meshingRegionCount": 64,
+            "sourceAuthorityBrickCount": 216,
+            "measuredRuns": 5,
+            "scalarSampleCountAcrossDomain": 373248,
+            "scalarSnapshotBytesAcrossDomain": 1866240,
+            "verticesAcrossDomain": 1860,
+            "trianglesAcrossDomain": 3264,
+            "qefFallbackVertices": 1211,
+            "qefClampedVertices": 223,
+            "snapshotMilliseconds": {
+                "median": 521.2017000000001,
+                "p95NearestRank": 564.3745
+            },
+            "pureMesherMilliseconds": {
+                "median": 761.3085000000003,
+                "p95NearestRank": 780.8627000000002
+            },
+            "meshDataFillMilliseconds": {
+                "median": 1.8955000000000002,
+                "p95NearestRank": 2.1073000000000006
+            },
+            "applyMilliseconds": {
+                "median": 0.0824,
+                "p95NearestRank": 0.19419999999999999
+            },
+            "uploadMilliseconds": {
+                "median": 0.1644,
+                "p95NearestRank": 0.1784
+            },
+            "totalRebuildMilliseconds": {
+                "median": 1283.9077,
+                "p95NearestRank": 1346.0423
+            },
+            "managedAllocatedBytes": {
+                "median": -1,
+                "p95NearestRank": -1
+            },
+            "managedAllocationBytesAvailable": false,
+            "gen0Collections": {
+                "median": 0,
+                "p95NearestRank": 0
+            },
+            "gen1Collections": {
+                "median": 0,
+                "p95NearestRank": 0
+            },
+            "gen2Collections": {
+                "median": 0,
+                "p95NearestRank": 0
+            }
+        },
+        {
+            "fixture": "MinedCavity",
+            "mesher": "SurfaceNets",
+            "resolutionMeters": 0.5,
+            "matchedDomainExtentMeters": 16.0,
+            "bricksPerAxis": 2,
+            "meshingRegionCount": 8,
+            "sourceAuthorityBrickCount": 64,
+            "measuredRuns": 5,
+            "scalarSampleCountAcrossDomain": 46656,
+            "scalarSnapshotBytesAcrossDomain": 233280,
+            "verticesAcrossDomain": 577,
+            "trianglesAcrossDomain": 852,
+            "qefFallbackVertices": 0,
+            "qefClampedVertices": 0,
+            "snapshotMilliseconds": {
+                "median": 99.19599999999999,
+                "p95NearestRank": 106.0643
+            },
+            "pureMesherMilliseconds": {
+                "median": 93.07359999999999,
+                "p95NearestRank": 101.07440000000001
+            },
+            "meshDataFillMilliseconds": {
+                "median": 0.6464,
+                "p95NearestRank": 0.7066
+            },
+            "applyMilliseconds": {
+                "median": 0.05739999999999999,
+                "p95NearestRank": 0.0697
+            },
+            "uploadMilliseconds": {
+                "median": 0.13590000000000003,
+                "p95NearestRank": 0.14579999999999999
+            },
+            "totalRebuildMilliseconds": {
+                "median": 195.8123,
+                "p95NearestRank": 208.7636
+            },
+            "managedAllocatedBytes": {
+                "median": -1,
+                "p95NearestRank": -1
+            },
+            "managedAllocationBytesAvailable": false,
+            "gen0Collections": {
+                "median": 0,
+                "p95NearestRank": 0
+            },
+            "gen1Collections": {
+                "median": 0,
+                "p95NearestRank": 0
+            },
+            "gen2Collections": {
+                "median": 0,
+                "p95NearestRank": 0
+            }
+        },
+        {
+            "fixture": "MinedCavity",
+            "mesher": "SurfaceNets",
+            "resolutionMeters": 0.25,
+            "matchedDomainExtentMeters": 16.0,
+            "bricksPerAxis": 4,
+            "meshingRegionCount": 64,
+            "sourceAuthorityBrickCount": 216,
+            "measuredRuns": 5,
+            "scalarSampleCountAcrossDomain": 373248,
+            "scalarSnapshotBytesAcrossDomain": 1866240,
+            "verticesAcrossDomain": 1999,
+            "trianglesAcrossDomain": 3428,
+            "qefFallbackVertices": 0,
+            "qefClampedVertices": 0,
+            "snapshotMilliseconds": {
+                "median": 424.1813000000001,
+                "p95NearestRank": 434.59869999999997
+            },
+            "pureMesherMilliseconds": {
+                "median": 779.2567999999999,
+                "p95NearestRank": 792.9844999999998
+            },
+            "meshDataFillMilliseconds": {
+                "median": 1.8614999999999998,
+                "p95NearestRank": 2.2723
+            },
+            "applyMilliseconds": {
+                "median": 0.07529999999999999,
+                "p95NearestRank": 0.0831
+            },
+            "uploadMilliseconds": {
+                "median": 0.14659999999999999,
+                "p95NearestRank": 0.1854
+            },
+            "totalRebuildMilliseconds": {
+                "median": 1202.721,
+                "p95NearestRank": 1231.0418
+            },
+            "managedAllocatedBytes": {
+                "median": -1,
+                "p95NearestRank": -1
+            },
+            "managedAllocationBytesAvailable": false,
+            "gen0Collections": {
+                "median": 0,
+                "p95NearestRank": 0
+            },
+            "gen1Collections": {
+                "median": 0,
+                "p95NearestRank": 0
+            },
+            "gen2Collections": {
+                "median": 0,
+                "p95NearestRank": 0
+            }
+        },
+        {
+            "fixture": "MinedCavity",
+            "mesher": "DualContouring",
+            "resolutionMeters": 0.5,
+            "matchedDomainExtentMeters": 16.0,
+            "bricksPerAxis": 2,
+            "meshingRegionCount": 8,
+            "sourceAuthorityBrickCount": 64,
+            "measuredRuns": 5,
+            "scalarSampleCountAcrossDomain": 46656,
+            "scalarSnapshotBytesAcrossDomain": 233280,
+            "verticesAcrossDomain": 577,
+            "trianglesAcrossDomain": 850,
+            "qefFallbackVertices": 140,
+            "qefClampedVertices": 94,
+            "snapshotMilliseconds": {
+                "median": 101.24510000000001,
+                "p95NearestRank": 125.2565
+            },
+            "pureMesherMilliseconds": {
+                "median": 94.5959,
+                "p95NearestRank": 102.9491
+            },
+            "meshDataFillMilliseconds": {
+                "median": 0.666,
+                "p95NearestRank": 0.712
+            },
+            "applyMilliseconds": {
+                "median": 0.057999999999999999,
+                "p95NearestRank": 0.08020000000000001
+            },
+            "uploadMilliseconds": {
+                "median": 0.1248,
+                "p95NearestRank": 0.15589999999999999
+            },
+            "totalRebuildMilliseconds": {
+                "median": 199.2919,
+                "p95NearestRank": 229.9336
+            },
+            "managedAllocatedBytes": {
+                "median": -1,
+                "p95NearestRank": -1
+            },
+            "managedAllocationBytesAvailable": false,
+            "gen0Collections": {
+                "median": 0,
+                "p95NearestRank": 0
+            },
+            "gen1Collections": {
+                "median": 0,
+                "p95NearestRank": 0
+            },
+            "gen2Collections": {
+                "median": 0,
+                "p95NearestRank": 0
+            }
+        },
+        {
+            "fixture": "MinedCavity",
+            "mesher": "DualContouring",
+            "resolutionMeters": 0.25,
+            "matchedDomainExtentMeters": 16.0,
+            "bricksPerAxis": 4,
+            "meshingRegionCount": 64,
+            "sourceAuthorityBrickCount": 216,
+            "measuredRuns": 5,
+            "scalarSampleCountAcrossDomain": 373248,
+            "scalarSnapshotBytesAcrossDomain": 1866240,
+            "verticesAcrossDomain": 1999,
+            "trianglesAcrossDomain": 3422,
+            "qefFallbackVertices": 913,
+            "qefClampedVertices": 191,
+            "snapshotMilliseconds": {
+                "median": 430.7658999999999,
+                "p95NearestRank": 447.7150000000001
+            },
+            "pureMesherMilliseconds": {
+                "median": 775.9669,
+                "p95NearestRank": 782.1962999999998
+            },
+            "meshDataFillMilliseconds": {
+                "median": 1.7437999999999999,
+                "p95NearestRank": 2.1149
+            },
+            "applyMilliseconds": {
+                "median": 0.0811,
+                "p95NearestRank": 0.08880000000000002
+            },
+            "uploadMilliseconds": {
+                "median": 0.136,
+                "p95NearestRank": 0.1796
+            },
+            "totalRebuildMilliseconds": {
+                "median": 1209.6331,
+                "p95NearestRank": 1233.529
+            },
+            "managedAllocatedBytes": {
+                "median": -1,
+                "p95NearestRank": -1
+            },
+            "managedAllocationBytesAvailable": false,
+            "gen0Collections": {
+                "median": 0,
+                "p95NearestRank": 0
+            },
+            "gen1Collections": {
+                "median": 0,
+                "p95NearestRank": 0
+            },
+            "gen2Collections": {
+                "median": 0,
+                "p95NearestRank": 0
+            }
+        },
+        {
+            "fixture": "DetachedIrregular",
+            "mesher": "SurfaceNets",
+            "resolutionMeters": 0.5,
+            "matchedDomainExtentMeters": 16.0,
+            "bricksPerAxis": 2,
+            "meshingRegionCount": 8,
+            "sourceAuthorityBrickCount": 64,
+            "measuredRuns": 5,
+            "scalarSampleCountAcrossDomain": 46656,
+            "scalarSnapshotBytesAcrossDomain": 233280,
+            "verticesAcrossDomain": 321,
+            "trianglesAcrossDomain": 424,
+            "qefFallbackVertices": 0,
+            "qefClampedVertices": 0,
+            "snapshotMilliseconds": {
+                "median": 129.6654,
+                "p95NearestRank": 139.1974
+            },
+            "pureMesherMilliseconds": {
+                "median": 92.7095,
+                "p95NearestRank": 104.2755
+            },
+            "meshDataFillMilliseconds": {
+                "median": 0.4691000000000001,
+                "p95NearestRank": 0.4801
+            },
+            "applyMilliseconds": {
+                "median": 0.059199999999999999,
+                "p95NearestRank": 0.07270000000000002
+            },
+            "uploadMilliseconds": {
+                "median": 0.1439,
+                "p95NearestRank": 0.1495
+            },
+            "totalRebuildMilliseconds": {
+                "median": 224.4773,
+                "p95NearestRank": 235.1746
+            },
+            "managedAllocatedBytes": {
+                "median": -1,
+                "p95NearestRank": -1
+            },
+            "managedAllocationBytesAvailable": false,
+            "gen0Collections": {
+                "median": 0,
+                "p95NearestRank": 0
+            },
+            "gen1Collections": {
+                "median": 0,
+                "p95NearestRank": 0
+            },
+            "gen2Collections": {
+                "median": 0,
+                "p95NearestRank": 0
+            }
+        },
+        {
+            "fixture": "DetachedIrregular",
+            "mesher": "SurfaceNets",
+            "resolutionMeters": 0.25,
+            "matchedDomainExtentMeters": 16.0,
+            "bricksPerAxis": 4,
+            "meshingRegionCount": 64,
+            "sourceAuthorityBrickCount": 216,
+            "measuredRuns": 5,
+            "scalarSampleCountAcrossDomain": 373248,
+            "scalarSnapshotBytesAcrossDomain": 1866240,
+            "verticesAcrossDomain": 1047,
+            "trianglesAcrossDomain": 1688,
+            "qefFallbackVertices": 0,
+            "qefClampedVertices": 0,
+            "snapshotMilliseconds": {
+                "median": 549.1419000000001,
+                "p95NearestRank": 576.3208999999999
+            },
+            "pureMesherMilliseconds": {
+                "median": 782.9012999999999,
+                "p95NearestRank": 801.7458
+            },
+            "meshDataFillMilliseconds": {
+                "median": 1.0024,
+                "p95NearestRank": 1.2517
+            },
+            "applyMilliseconds": {
+                "median": 0.065,
+                "p95NearestRank": 0.0814
+            },
+            "uploadMilliseconds": {
+                "median": 0.1436,
+                "p95NearestRank": 0.16929999999999999
+            },
+            "totalRebuildMilliseconds": {
+                "median": 1342.9863,
+                "p95NearestRank": 1365.318
+            },
+            "managedAllocatedBytes": {
+                "median": -1,
+                "p95NearestRank": -1
+            },
+            "managedAllocationBytesAvailable": false,
+            "gen0Collections": {
+                "median": 0,
+                "p95NearestRank": 0
+            },
+            "gen1Collections": {
+                "median": 0,
+                "p95NearestRank": 0
+            },
+            "gen2Collections": {
+                "median": 0,
+                "p95NearestRank": 0
+            }
+        },
+        {
+            "fixture": "DetachedIrregular",
+            "mesher": "DualContouring",
+            "resolutionMeters": 0.5,
+            "matchedDomainExtentMeters": 16.0,
+            "bricksPerAxis": 2,
+            "meshingRegionCount": 8,
+            "sourceAuthorityBrickCount": 64,
+            "measuredRuns": 5,
+            "scalarSampleCountAcrossDomain": 46656,
+            "scalarSnapshotBytesAcrossDomain": 233280,
+            "verticesAcrossDomain": 321,
+            "trianglesAcrossDomain": 424,
+            "qefFallbackVertices": 49,
+            "qefClampedVertices": 72,
+            "snapshotMilliseconds": {
+                "median": 136.3866,
+                "p95NearestRank": 155.5054
+            },
+            "pureMesherMilliseconds": {
+                "median": 98.515,
+                "p95NearestRank": 108.88819999999999
+            },
+            "meshDataFillMilliseconds": {
+                "median": 0.4753,
+                "p95NearestRank": 0.5307999999999999
+            },
+            "applyMilliseconds": {
+                "median": 0.0652,
+                "p95NearestRank": 0.0714
+            },
+            "uploadMilliseconds": {
+                "median": 0.14429999999999999,
+                "p95NearestRank": 0.1627
+            },
+            "totalRebuildMilliseconds": {
+                "median": 233.0862,
+                "p95NearestRank": 262.373
+            },
+            "managedAllocatedBytes": {
+                "median": -1,
+                "p95NearestRank": -1
+            },
+            "managedAllocationBytesAvailable": false,
+            "gen0Collections": {
+                "median": 0,
+                "p95NearestRank": 0
+            },
+            "gen1Collections": {
+                "median": 0,
+                "p95NearestRank": 0
+            },
+            "gen2Collections": {
+                "median": 0,
+                "p95NearestRank": 0
+            }
+        },
+        {
+            "fixture": "DetachedIrregular",
+            "mesher": "DualContouring",
+            "resolutionMeters": 0.25,
+            "matchedDomainExtentMeters": 16.0,
+            "bricksPerAxis": 4,
+            "meshingRegionCount": 64,
+            "sourceAuthorityBrickCount": 216,
+            "measuredRuns": 5,
+            "scalarSampleCountAcrossDomain": 373248,
+            "scalarSnapshotBytesAcrossDomain": 1866240,
+            "verticesAcrossDomain": 1047,
+            "trianglesAcrossDomain": 1688,
+            "qefFallbackVertices": 392,
+            "qefClampedVertices": 168,
+            "snapshotMilliseconds": {
+                "median": 527.3798000000002,
+                "p95NearestRank": 555.1648999999999
+            },
+            "pureMesherMilliseconds": {
+                "median": 781.24,
+                "p95NearestRank": 786.4340000000001
+            },
+            "meshDataFillMilliseconds": {
+                "median": 1.0095,
+                "p95NearestRank": 1.2399
+            },
+            "applyMilliseconds": {
+                "median": 0.0684,
+                "p95NearestRank": 0.0882
+            },
+            "uploadMilliseconds": {
+                "median": 0.15050000000000003,
+                "p95NearestRank": 0.1766
+            },
+            "totalRebuildMilliseconds": {
+                "median": 1311.4017,
+                "p95NearestRank": 1343.6216
+            },
+            "managedAllocatedBytes": {
+                "median": -1,
+                "p95NearestRank": -1
+            },
+            "managedAllocationBytesAvailable": false,
+            "gen0Collections": {
+                "median": 0,
+                "p95NearestRank": 0
+            },
+            "gen1Collections": {
+                "median": 0,
+                "p95NearestRank": 0
+            },
+            "gen2Collections": {
+                "median": 0,
+                "p95NearestRank": 0
+            }
+        }
+    ]
+}

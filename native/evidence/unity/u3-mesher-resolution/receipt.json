@@ -1,0 +1,149 @@
+{
+  "phase": "U3_MESHER_RESOLUTION_BAKEOFF",
+  "status": "HOLD_FOR_INDEPENDENT_ROOT_REVIEW",
+  "startingCommit": "861a42b823c7c6d640dcf2be70fb5002e508c236",
+  "unityVersion": "6000.3.25f1",
+  "hdrpVersion": "17.3.0",
+  "unityCliVersion": "1.0.0-beta.11",
+  "unityPipelineVersion": "0.8.0-exp.1",
+  "unityMcpExposed": false,
+  "controlPath": "Unity CLI / Pipeline bridge",
+  "platform": "Windows x64 Editor and Development Player",
+  "scene": "native/unity/WildkinUnity/Assets/Wildkin/Scenes/Tech/U3MesherResolution.unity",
+  "seed": 20260927,
+  "fixtureSourceVersion": 1,
+  "fixtureDefinitions": [
+    {
+      "id": "SmoothOrganic",
+      "seed": 20260927,
+      "density": "Ellipsoid center (0,0.15,0), radii (2.65,1.75,2.15), plus value-noise frequency (0.47,0.53,0.49), amplitude 0.15, seed offset +17."
+    },
+    {
+      "id": "LayeredRock",
+      "seed": 20260927,
+      "density": "shift=Signed(seed,1,0,71)*0.10; base rounded box center (0,0.18,0.08), half-extents (1.88,1.08,1.58), bevel 0.30, yaw 0.12; lower center (-1.08+shift,-0.47,0.11), half-extents (1.25,0.72,1.47), bevel 0.20, yaw -0.23; upper center (0.82-shift,1.03,-0.16), half-extents (1.15,0.68,1.13), bevel 0.18, yaw 0.25; shelf center (0.08,-0.15,1.18), half-extents (1.24,0.34,0.52), bevel 0.13, yaw -0.08; smooth-max radii 0.30, 0.25, 0.16; plus noise frequency (0.54,0.47,0.56), amplitude 0.035, seed offset +83."
+    },
+    {
+      "id": "CliffCave",
+      "seed": 20260927,
+      "density": "Cliff rounded box center (0,0.38,0.38), half-extents (2.85,2.10,1.95), bevel 0.30, yaw 0.02; lower ledge center (0.08,-1.03,-0.38), half-extents (2.70,0.72,2.20), bevel 0.22, yaw -0.04; smooth-max radius 0.22; subtract cave ellipsoid center (0.06,-0.18,-1.34), radii (1.48,1.03,2.42), and shallow cut center (-0.10,0.86,-0.88), radii (0.82,0.38,1.35); plus noise frequency (0.36,0.32,0.38), amplitude 0.04, seed offset +97."
+    },
+    {
+      "id": "MaterialBoundary",
+      "seed": 20260927,
+      "density": "Dirt surface=0.42+noise(x*0.28,0,z*0.31,seed+31)*0.10-y; dirt rounded box center (0,-0.52,0), half-extents (2.55,1.35,2.20), bevel 0.22, yaw -0.16; rock rounded box center (-0.05,-0.42,0.10), half-extents (1.85,1.20,1.60), bevel 0.24, yaw -0.16; density=max(dirt,rock), material=rock when rock>dirt else dirt."
+    },
+    {
+      "id": "MinedCavity",
+      "seed": 20260927,
+      "density": "Ellipsoid center (0,0.05,0), radii (2.75,1.80,2.30), plus noise frequency (0.39,0.43,0.41), amplitude 0.08, seed offset +53; subtract bite ellipsoid center (0.50,0.05,-1.72), radii (1.05,0.98,1.32)."
+    },
+    {
+      "id": "DetachedIrregular",
+      "seed": 20260927,
+      "density": "shift=Signed(seed,7,0,113)*0.18; shard A ellipsoid center (-0.78+shift,-0.08,0.18), radii (1.38,0.92,1.60); shard B rounded box center (0.55,0.22,-0.16), half-extents (1.15,0.78,1.18), bevel 0.17, yaw 0.37; shard C ellipsoid center (0.25,-0.68,0.66), radii (0.83,0.58,0.96); smooth-max radii 0.12 and 0.10; plus noise frequency (0.61,0.58,0.64), amplitude 0.045, seed offset +127."
+    }
+  ],
+  "samplingAndAuthority": {
+    "uniqueSampleAuthority": "Global integer samples owned once by half-open 16^3 sample bricks; no duplicated physical authority or brick-owned edits.",
+    "meshingCellRegion": "16^3 half-open cells per region.",
+    "meshingSampleWindow": "18^3 values: 17^3 core corners including neighboring +1 planes, plus one-sample negative edge-owner halo for dual-quad ownership.",
+    "uniformMatrixPhysicalExtentMeters": 16.0,
+    "baseSpacingMeters": 0.5,
+    "fineSpacingMeters": 0.25
+  },
+  "implementations": {
+    "surfaceNets": "One active-cell vertex at Hermite edge-intersection centroid; dual faces emitted by globally edge-owned sample anchors.",
+    "dualContouring": "Separate bounded DC path with Hermite intersections, finite-difference gradients, regularized least-squares QEF, per-cell clamp, and deterministic centroid fallback for numerical/rank failure.",
+    "outputs": "Deterministic positions, source/rest positions, normals, rock/dirt weights, indices and mesh hash; no object-per-cell or per-cell managed allocation.",
+    "publication": "Writable MeshData, with pure mesher and MeshData fill/apply/upload measured separately."
+  },
+  "benchmark": {
+    "artifact": "benchmark-matrix-editor.json",
+    "datasetCount": 6,
+    "mesherCount": 2,
+    "uniformSpacingMeters": [0.5, 0.25],
+    "rows": 24,
+    "warmupRunsPerRow": 1,
+    "measuredRunsPerRow": 5,
+    "statistics": "Median and nearest-rank p95; with five runs p95 equals the maximum measured run.",
+    "allocationBytes": "Unavailable. GC.GetAllocatedBytesForCurrentThread returned no increase for a known 1 KiB probe; reports use -1 sentinel and preserve GC collection counts.",
+    "summary": {
+      "SurfaceNets0_50": { "regions": 8, "sourceAuthorityBricks": 64, "samples": 46656, "rawSnapshotBytes": 233280, "verticesAcrossSixFixtures": 3149, "trianglesAcrossSixFixtures": 4668, "avgSnapshotMedianMs": 137.1, "avgPureMedianMs": 98.0, "avgTotalMedianMs": 235.9, "maxFixtureTotalP95Ms": 297.9 },
+      "DualContouring0_50": { "regions": 8, "sourceAuthorityBricks": 64, "samples": 46656, "rawSnapshotBytes": 233280, "verticesAcrossSixFixtures": 3149, "trianglesAcrossSixFixtures": 4665, "avgSnapshotMedianMs": 134.2, "avgPureMedianMs": 97.5, "avgTotalMedianMs": 233.4, "maxFixtureTotalP95Ms": 301.9 },
+      "SurfaceNets0_25": { "regions": 64, "sourceAuthorityBricks": 216, "samples": 373248, "rawSnapshotBytes": 1866240, "verticesAcrossSixFixtures": 10991, "trianglesAcrossSixFixtures": 18964, "avgSnapshotMedianMs": 538.2, "avgPureMedianMs": 776.8, "avgTotalMedianMs": 1319.6, "maxFixtureTotalP95Ms": 1574.4 },
+      "DualContouring0_25": { "regions": 64, "sourceAuthorityBricks": 216, "samples": 373248, "rawSnapshotBytes": 1866240, "verticesAcrossSixFixtures": 10991, "trianglesAcrossSixFixtures": 18958, "avgSnapshotMedianMs": 531.8, "avgPureMedianMs": 769.4, "avgTotalMedianMs": 1304.2, "maxFixtureTotalP95Ms": 1484.5 }
+    }
+  },
+  "burstReadiness": {
+    "artifact": "burst-readiness-editor.json",
+    "experiment": "Test-only Burst IJobParallelFor sign-classification loop over 314432 active-cell candidates for LayeredRock, seed 20260927, 0.25m spacing, matched 16m domain.",
+    "burstEnabled": true,
+    "resultMatchesScalar": true,
+    "warmupRuns": 2,
+    "measuredRuns": 7,
+    "scalarMedianMs": 14.6362,
+    "scalarP95Ms": 25.5625,
+    "jobScheduleAndCompleteMedianMs": 0.9415,
+    "jobScheduleAndCompleteP95Ms": 1.0635,
+    "speedupForClassificationOnly": 15.5456,
+    "limitations": "Snapshot generation, NativeArray allocation/copy and full mesher work are outside the timed interval. This is not an end-to-end speedup claim or a production runtime-path replacement; runtime core stays engine-light. Burst/Collections references are test-only and manifest dependencies were not changed."
+  },
+  "localRefinementExperiment": {
+    "artifact": "local-refinement-report.json",
+    "fixture": "CliffCave",
+    "mesher": "DualContouring",
+    "base": "0.50m full 16m^3 domain, 8 regions, 857 vertices, 1324 triangles.",
+    "refinedSample": "0.25m isolated 8m^3 central bounded region, 8 regions, 3092 vertices, 5480 triangles.",
+    "transition": "Not stitched or claimed crack-free; the pair shows base and bounded detail sample separately to expose the cost/detail direction."
+  },
+  "tests": {
+    "focusedMesherEditMode": { "passed": 23, "failed": 0, "artifact": "focused-editmode.xml" },
+    "finalEditMode": { "passed": 67, "failed": 0, "artifact": "all-editmode.xml" },
+    "finalPlayMode": { "passed": 1, "failed": 0, "artifact": "all-playmode.xml" },
+    "burstReadiness": { "passed": 1, "failed": 0, "includedInFinalEditMode": true }
+  },
+  "windowsDevelopmentBuild": {
+    "target": "StandaloneWindows64",
+    "result": "Succeeded",
+    "playerBuildBytes": 229724177,
+    "errors": 0,
+    "warnings": 2,
+    "elapsedSeconds": 54.51,
+    "outputPath": "C:/Users/cwood/AppData/Local/Temp/wildkin-u3-mesher-resolution/Wildkin-U3.exe",
+    "provenance": "build-provenance.json",
+    "playerObservation": "player-observation.png and player-observation.json; visible player launch succeeded."
+  },
+  "recommendations": {
+    "mesher": "SURFACE_NETS",
+    "resolution": "LOCAL_REFINEMENT_DIRECTION",
+    "status": "Provisional, pending root inspection of matched captures and implementation."
+  },
+  "evidenceImages": [
+    "comparison-board.png",
+    "hero-layeredrock-pair-025.png",
+    "hero-layeredrock-pair-050.png",
+    "hero-cliffcave-pair-025.png",
+    "hero-cliffcave-pair-050.png",
+    "seam-overlay-off-on.png",
+    "material-boundary-closeup.png",
+    "wireframe-triangles.png",
+    "local-refinement-pair.png",
+    "player-observation.png"
+  ],
+  "toolInterventionsAndFailures": [
+    "No direct Unity MCP tool was exposed; the installed CLI/Pipeline bridge drove the work. No toolchain upgrade or new package install occurred.",
+    "An early HDRP/Lit capture was washed out; the final internally authored HDRP-compatible vertex-color shader uses a fixed normal-key/ambient ramp and subtle height/material tint for all matched cases.",
+    "The first custom shader revision failed because of an incorrect HDRP include assumption; after correction, vertex-layout ordering initially mapped the wrong channels and produced rainbow colors. Both were repaired before final captures; discarded renders are not presented as evidence.",
+    "A hidden Development Player capture attempt failed to produce a screenshot. The same player was rerun visibly and produced the submitted capture and metrics.",
+    "Pipeline briefly disconnected during an Editor assembly/domain reload and initially printed 0/0; test_status subsequently returned the actual completed run and current NUnit XML was copied after each final test run.",
+    "Build succeeded with two warning categories: Object.FindObjectOfType<T> obsolete warnings and MatterBakeoffPreviewView.DestroyObject hiding a Unity member. No errors."
+  ],
+  "limitations": [
+    "Root inspection is pending; implementer does not self-admit perceptual PASS.",
+    "The local 0.25m region is an isolated sample, not a stitched mixed-resolution mesh; crack-free transitions remain a named risk.",
+    "One Windows Development Player observation exists; the benchmark matrix is Editor-only and is not a broad player performance profile.",
+    "Managed allocation bytes were unavailable and are reported as such, not zero.",
+    "No U4 materials/destruction/support/actors, infinite streaming, production migration or Unreal work was started."
+  ]
+}

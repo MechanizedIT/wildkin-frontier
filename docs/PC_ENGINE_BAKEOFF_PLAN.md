@@ -1,10 +1,14 @@
 # Wildkin Frontier — PC Engine & Matter Technology Bakeoff
 
-**Status:** Phase 0.5E passed. **Unity-first qualification is now the active execution order.** No production engine has been selected yet. Unreal remains a documented challenger, but a matched Unreal implementation is deferred unless Unity exposes a material blocker or the owner later requests it. See `UNITY_FIRST_TRANSITION_PLAN.md`.
+**Status:** Phase 0.5E and U2 passed; the U3 implementation/evidence checkpoint is ready for independent root review. **Unity-first qualification remains the active execution order.** No production engine has been selected yet. Unreal remains a documented challenger, but a matched Unreal implementation is deferred unless Unity exposes a material blocker or the owner later requests it. See `UNITY_FIRST_TRANSITION_PLAN.md`.
 
 **Purpose:** choose the native PC production stack for Wildkin Frontier while conserving Codex budget. Start by building the agent-driven technology specimen in **Unity 6.3 LTS**. Use the criteria in this document to judge Unity honestly. Only build the **Unreal Engine 5.8** challenger if Unity fails a meaningful gate or a direct comparison is still valuable after the Unity qualification.
 
 The current Three.js/Rapier implementation remains the behavioral reference and executable R&D specification. It is not assumed to be the shipping stack.
+
+## September 27, 2026 — U3 implementation checkpoint (review pending)
+
+The Unity U3 evidence compares the same six frozen fields with Surface Nets and bounded Dual Contouring at uniform 0.50m and 0.25m over a matched 16m³ domain. Final tests pass 67/67 EditMode and 1/1 PlayMode; one Windows x64 Development Build succeeds. The provisional mesher recommendation is `SURFACE_NETS`; the provisional resolution recommendation is `LOCAL_REFINEMENT_DIRECTION`. The 0.25m uniform matrix costs about 8× the scalar samples and 5.6× the total-rebuild median for modest silhouette/detail improvement. The isolated 0.25m bounded sample is not a stitched mixed-resolution field; transitions remain a risk, and root image/code review is required before U3 can be marked PASS or U4 admitted. See [U3 evidence and receipt](../native/evidence/unity/u3-mesher-resolution/README.md).
 
 ## Decision we are making
 
