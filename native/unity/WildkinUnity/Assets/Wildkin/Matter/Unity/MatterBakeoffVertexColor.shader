@@ -15,31 +15,32 @@ Shader "Hidden/Wildkin/U3VertexColor"
             #pragma target 4.5
             #pragma vertex Vert
             #pragma fragment Frag
-            #include "UnityCG.cginc"
+            #include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Common.hlsl"
+            #include "Packages/com.unity.render-pipelines.high-definition/Runtime/ShaderLibrary/ShaderVariables.hlsl"
 
             struct Attributes
             {
                 float3 positionOS : POSITION;
-                float4 color : COLOR;
+                float4 debugColor : TEXCOORD3;
             };
 
             struct Varyings
             {
                 float4 positionCS : SV_POSITION;
-                float4 color : COLOR;
+                float4 debugColor : TEXCOORD3;
             };
 
             Varyings Vert(Attributes input)
             {
                 Varyings output;
-                output.positionCS = UnityObjectToClipPos(float4(input.positionOS, 1.0));
-                output.color = input.color;
+                output.positionCS = TransformObjectToHClip(input.positionOS);
+                output.debugColor = input.debugColor;
                 return output;
             }
 
             float4 Frag(Varyings input) : SV_Target
             {
-                return input.color;
+                return input.debugColor;
             }
             ENDHLSL
         }

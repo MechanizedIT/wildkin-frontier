@@ -1,5 +1,9 @@
 # Resume Wildkin Frontier
 
+## September 27 Unity U4 stylized materials / rock stamp — HOLD for independent visual review
+
+U4 implementation, tests, clean scene, gallery tooling reproduction, Windows x64 Development Player, and evidence are assembled. Do not start U5 until root inspects the actual 20-seed contact sheet and hero/seam/projection captures. Current qualification evidence is in [the U4 folder](../native/evidence/unity/u4-material-rock-stamp/README.md). EditMode 73/73 and PlayMode 1/1 pass. The clean Player renders; its 0.534 ms mean includes a 3,581 ms synchronous startup-generation maximum, with no GPU timing and no production budget claim. The family remains visually unreviewed; this agent does not self-award PASS. U3's `SURFACE_NETS`/0.50m default stays locked, and the isolated 0.25m hero does not prove stitching.
+
 ## September 27 Unity U3 mesher/resolution bakeoff — PASS; U4 active
 
 U3 passed independent root review. Its selected directions are `SURFACE_NETS` and `LOCAL_REFINEMENT_DIRECTION`. Final tests: EditMode 67/67 and PlayMode 1/1; the Windows x64 Development Build succeeded with 0 errors and 2 warning categories. Root inspection found DC genuinely distinct but not materially more authored-looking, while uniform 0.25m cost 8× the samples and about 5.6× the rebuild median for modest visual gain. Read the [U3 evidence folder](../native/evidence/unity/u3-mesher-resolution/) for the matched captures and benchmark. The 0.25m local sample is not stitched; transition rules remain unresolved. Allocation bytes are unavailable, not zero. U4 is the active bounded phase; do not start U5 until its visual/technical review passes.

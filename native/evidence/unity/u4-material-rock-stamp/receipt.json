@@ -1,0 +1,116 @@
+{
+  "phase": "U4",
+  "title": "Stylized materials and deterministic procedural rock stamp",
+  "status": "HOLD_PENDING_INDEPENDENT_ROOT_VISUAL_REVIEW",
+  "startingGateCommit": "53cbf5534cb9edf405717e79b14e7f17f491782a",
+  "unityVersion": "6000.3.25f1",
+  "renderPipeline": "HDRP 17.3.0",
+  "platform": "Windows x64",
+  "lockedMesher": "SURFACE_NETS",
+  "baseResolutionMeters": 0.5,
+  "boundedResolutionComparisonMeters": 0.25,
+  "material": {
+    "shader": "Wildkin/MatterRockDirt",
+    "pass": "ForwardOnly",
+    "geometryAuthority": "Resolved MatterWorld samples meshed with U3 Surface Nets",
+    "materialWeights": "Authoritative per-vertex rock/dirt weight; Color.r stores dirt weight",
+    "surfaceCount": 1,
+    "projection": "UV0 baked from each triangle's dominant-normal axis and MatterMeshVertex.SourcePositionMeters",
+    "transformStability": "Projected rest-space coordinates are invariant under object translation and rotation",
+    "textureProvenance": "First-party deterministic 128x128 textures generated from fixed local seeds; no external or paid inputs",
+    "inputs": [
+      "U4_RockAlbedo.asset",
+      "U4_DirtAlbedo.asset",
+      "U4_RockNormal.asset",
+      "U4_DirtNormal.asset",
+      "U4_RockMask.asset",
+      "U4_DirtMask.asset",
+      "U4_LayerMask.asset"
+    ]
+  },
+  "generator": {
+    "profile": "WildkinClast-v1",
+    "seedStart": 1,
+    "seedCount": 20,
+    "rejectedSeeds": 0,
+    "connectedResolvedComponentsPerSeed": 1,
+    "layoutCounts": {
+      "Leaning Ridge": 6,
+      "Split Shoulders": 5,
+      "Bent Buttress": 5,
+      "Crown Stack": 4
+    },
+    "primitiveCountRange": [6, 7],
+    "occupiedVolumeEstimateRangeCubicMeters": [12.875, 25.5],
+    "widthHeightRatioRange": [1.129585, 2.216455],
+    "depthHeightRatioRange": [0.993325, 1.762593],
+    "strongestCandidateSeeds": [3, 8, 11, 15],
+    "weakestCandidateSeeds": [19, 20],
+    "sourceAuthority": "Recipe primitives are generation input only; resolved samples are ordinary rock/dirt MatterWorld authority."
+  },
+  "projectionProof": {
+    "before": "dynamic-projection-before-seed-3.png",
+    "after": "dynamic-projection-after-seed-3.png",
+    "automatedTest": "RestProjection_IsInvariantUnderObjectTranslationAndRotationWhileWorldPointChanges",
+    "result": "PASS"
+  },
+  "tests": {
+    "editMode": {
+      "total": 73,
+      "passed": 73,
+      "failed": 0,
+      "xml": "all-editmode.xml"
+    },
+    "playMode": {
+      "total": 1,
+      "passed": 1,
+      "failed": 0,
+      "xml": "all-playmode.xml"
+    }
+  },
+  "windowsDevelopmentBuild": {
+    "buildId": "build_30bdc3362038",
+    "result": "Succeeded",
+    "buildTimeMilliseconds": 31052,
+    "totalSizeBytes": 230108081,
+    "errors": 0,
+    "warnings": 4,
+    "output": "Builds/U4-MaterialRock-Clean/Wildkin-U4.exe",
+    "provenance": "build-provenance.json"
+  },
+  "playerObservation": {
+    "executableExitCode": 0,
+    "capture": "windows-player-observation-clean.png",
+    "metrics": "windows-player-metrics-clean.json",
+    "observedFrameCount": 17766,
+    "allSampleAverageMilliseconds": 0.533854,
+    "maximumMilliseconds": 3581.024,
+    "derivedAverageWithoutMaximumMilliseconds": 0.332307,
+    "maximumInterpretation": "Startup-dominated synchronous 20-seed generation; all-sample average includes the hitch",
+    "gpuFrameTiming": "Unavailable",
+    "reportedHardware": "NVIDIA GeForce RTX 3070 Laptop GPU, D3D12"
+  },
+  "evidence": {
+    "readme": "README.md",
+    "galleryContactSheet": "u4-rock-gallery-contact-sheet-final.png",
+    "galleryMetrics": "u4-rock-gallery-contact-sheet-final-metrics.json",
+    "heroCloseups": [
+      "hero-seed-3-bent-buttress.png",
+      "hero-seed-8-crown-stack.png",
+      "hero-seed-11-tall-buttress.png",
+      "hero-seed-15-broken-ledge.png"
+    ],
+    "weakestSeedExamples": [
+      "hero-seed-19-split-shoulders.png",
+      "hero-seed-20-leaning-ridge.png"
+    ],
+    "wireframe": "wireframe-seed-3.png",
+    "rockDirtSeam": "rock-dirt-seam-seed-3.png",
+    "bounded025mHero": "hero-seed-3-bent-buttress-025m.png"
+  },
+  "limits": [
+    "Do not infer mixed-resolution stitching; U3 local refinement remains unsolved.",
+    "No production performance budget, GPU timing, physics, destruction, actor transfer, streaming, migration, or Unreal qualification is claimed.",
+    "Image quality and family distinctness remain HOLD until independent root visual review."
+  ]
+}

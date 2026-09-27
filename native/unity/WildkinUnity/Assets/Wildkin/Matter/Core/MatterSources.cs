@@ -13,6 +13,19 @@ namespace Wildkin.Matter
         MatterSample Sample(MatterSampleAddress address, int worldSeed, float sampleSpacingMeters);
     }
 
+    /// <summary>Empty deterministic baseline for resolved formations and saved sparse worlds.</summary>
+    public sealed class MatterAirSource : IMatterSampleSource
+    {
+        public int SourceVersion { get; }
+        public MatterAirSource(int sourceVersion = 2)
+        {
+            if (sourceVersion <= 0) throw new ArgumentOutOfRangeException(nameof(sourceVersion));
+            SourceVersion = sourceVersion;
+        }
+        public MatterSample Sample(MatterSampleAddress address, int worldSeed, float sampleSpacingMeters)
+            => MatterSample.Air(-sampleSpacingMeters);
+    }
+
     [StructLayout(LayoutKind.Sequential)]
     public readonly struct MatterSourceLayer
     {

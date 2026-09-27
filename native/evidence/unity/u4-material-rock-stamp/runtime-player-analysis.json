@@ -1,0 +1,43 @@
+{
+  "sourceMetrics": "windows-player-metrics-clean.json",
+  "hardware": {
+    "gpu": "NVIDIA GeForce RTX 3070 Laptop GPU",
+    "graphicsApi": "Direct3D 12"
+  },
+  "gallery": {
+    "seedCount": 20,
+    "rejectedSeeds": 0,
+    "vertices": 6487,
+    "triangles": 8284,
+    "rawMatterAndMeshPayloadBytes": 1904377,
+    "gpuFrameTiming": "Unavailable"
+  },
+  "frameObservation": {
+    "sampleCount": 17766,
+    "meanMillisecondsIncludingStartup": 0.5338542452,
+    "maximumMilliseconds": 3581.0239315,
+    "meanWithSingleMaximumRemovedMilliseconds": 0.3323068162,
+    "largestFrameInterpretation": "The configured gallery is synchronously generated in Start before steady rendering; the largest delta coincides with that startup work and is not a steady-state frame.",
+    "limitations": "Only count, mean and maximum are stored, not the sample series or p95. The mean excluding the maximum is derived and is a proxy, not a sustained performance benchmark or production threshold."
+  },
+  "summedPerSeedCpuStageMilliseconds": {
+    "parameterGeneration": 6.51,
+    "scalarWorldResolution": 477.03,
+    "snapshot": 1008.93,
+    "surfaceNetsMeshing": 1830.09,
+    "meshDataFill": 38.75,
+    "meshDataApply": 1.68,
+    "meshUpload": 1.69
+  },
+  "singleHeroMemoryEstimate": {
+    "seed": 3,
+    "resolutionMeters": 0.5,
+    "rawMatterAndMeshPayloadBytes": 111828,
+    "excludes": [
+      "Managed dictionary/object overhead",
+      "Native Unity Mesh allocation overhead",
+      "Texture/material/renderer/GPU memory",
+      "Allocator capacity and fragmentation"
+    ]
+  }
+}

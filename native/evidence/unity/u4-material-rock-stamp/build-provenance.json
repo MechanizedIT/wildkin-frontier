@@ -1,0 +1,39 @@
+{
+  "unityVersion": "6000.3.25f1",
+  "activeBuildTarget": "StandaloneWindows64",
+  "requestedBuildTarget": "StandaloneWindows64",
+  "result": "Succeeded",
+  "buildId": "build_30bdc3362038",
+  "outputPath": "Builds/U4-MaterialRock-Clean/Wildkin-U4.exe",
+  "binaryTracked": false,
+  "totalSizeBytes": 230108081,
+  "buildTimeMilliseconds": 31052,
+  "totalErrors": 0,
+  "totalWarnings": 4,
+  "scenePath": "Assets/Wildkin/Scenes/Tech/U4RockGallery.unity",
+  "serializedSceneInspection": {
+    "rootCount": 5,
+    "matterSeedPreviewObjects": 0,
+    "seedLabelPreviewObjects": 0,
+    "missingScriptReferences": 0
+  },
+  "options": [
+    "Development",
+    "AllowDebugging"
+  ],
+  "warnings": [
+    "Pipeline: No RuntimePipelineConfig asset found (Project Settings > Pipeline > Runtime). Pipeline will be disabled in Player builds.",
+    "warning CS0108: MatterBakeoffPreviewView.DestroyObject(Object) hides inherited Object.DestroyObject(Object); Assets/Wildkin/Matter/Unity/MatterBakeoffPreviewView.cs",
+    "warning CS0108: RockStampGalleryView.DestroyObject(Object) hides inherited Object.DestroyObject(Object); Assets/Wildkin/Matter/Unity/RockStampGalleryView.cs",
+    "Shader warning in Wildkin/MatterRockDirt: Unrecognized renderer for #pragma only_renderers d3d12 at line 35"
+  ],
+  "playerRun": {
+    "capture": "windows-player-observation-clean.png",
+    "metrics": "windows-player-metrics-clean.json",
+    "exitCode": 0,
+    "backend": "Direct3D 12",
+    "gpu": "NVIDIA GeForce RTX 3070 Laptop GPU",
+    "playerLog": "Player.log; orderly shutdown; one D3D12 info-queue interface query warning, no crash or rendering exception"
+  },
+  "interpretation": "Qualification-only prototype build. Startup synchronously resolves and publishes the configured 20-seed gallery. No production budget is inferred."
+}

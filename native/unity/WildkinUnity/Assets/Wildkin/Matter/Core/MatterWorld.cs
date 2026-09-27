@@ -134,6 +134,7 @@ namespace Wildkin.Matter
     public static class MatterWorldFactory
     {
         public const int QualificationSourceVersion = 1;
+        public const int ResolvedMatterSourceVersion = 2;
         public const int DefaultSourceSeed = 20260926;
         public const float DefaultSampleSpacingMeters = 0.5f;
 
@@ -152,10 +153,20 @@ namespace Wildkin.Matter
             return new MatterWorld(sourceSeed, sampleSpacingMeters, sources);
         }
 
+        public static MatterWorld CreateResolvedMatterWorld(
+            int sourceSeed = DefaultSourceSeed, float sampleSpacingMeters = DefaultSampleSpacingMeters)
+            => new MatterWorld(sourceSeed, sampleSpacingMeters, new MatterAirSource(ResolvedMatterSourceVersion));
+
         public static MatterWorld RestoreQualificationWorld(
             int sourceSeed, int sourceVersion, float sampleSpacingMeters,
             long revision, IReadOnlyList<MatterSparseEdit> edits)
         {
+            if (sourceVersion == ResolvedMatterSourceVersion)
+            {
+                MatterWorld resolved = CreateResolvedMatterWorld(sourceSeed, sampleSpacingMeters);
+                resolved.RestoreSparseState(edits, revision);
+                return resolved;
+            }
             if (sourceVersion != QualificationSourceVersion)
                 throw new ArgumentOutOfRangeException(nameof(sourceVersion), "Unsupported procedural source version.");
             MatterWorld world = CreateQualificationWorld(sourceSeed, sampleSpacingMeters);

@@ -1,0 +1,40 @@
+{
+    "profile": "WildkinClast-v1",
+    "sampleSpacingMeters": 0.25,
+    "seedStart": 3,
+    "seedCount": 1,
+    "rejectedSeeds": 0,
+    "observedFrameCount": 0,
+    "observedAverageFrameMilliseconds": 0.0,
+    "observedMaximumFrameMilliseconds": 0.0,
+    "gpuFrameObservation": "Unavailable: no GPU timing result is inferred from editor camera.Render or PlayerLoop deltaTime.",
+    "memoryEstimateMethod": "Raw density/material bytes for sparse resolved MatterWorld edits plus 72-byte published vertex and 32-bit index payload; excludes managed dictionary, mesh-driver, texture and renderer overhead.",
+    "seeds": [
+        {
+            "seed": 3,
+            "profile": "WildkinClast-v1",
+            "layoutName": "Bent Buttress",
+            "boundsMeters": "[6.00,-0.25,6.00]..[10.50,3.00,10.50]",
+            "occupiedSamples": 1604,
+            "occupiedVolumeEstimateCubicMeters": 25.0625,
+            "widthHeightRatio": 1.3615587949752808,
+            "depthHeightRatio": 1.369991421699524,
+            "primitiveDistribution": "roundedBox:2,slab:1,ellipsoid:0,wedge:3",
+            "primitiveCount": 6,
+            "connectedResolvedComponents": 1,
+            "vertices": 1445,
+            "triangles": 2324,
+            "fieldHash": "7FF695284FE01966",
+            "meshHash": "0022C434EDA62103",
+            "parameterGenerationMilliseconds": 0.0444,
+            "scalarWorldResolutionMilliseconds": 88.2017,
+            "snapshotMilliseconds": 34.7138,
+            "surfaceNetsMilliseconds": 102.60610000000001,
+            "meshDataFillMilliseconds": 5.9235,
+            "applyMilliseconds": 0.0899,
+            "uploadMilliseconds": 0.1445,
+            "rawMatterAndMeshPayloadBytes": 537892,
+            "rejectionReason": ""
+        }
+    ]
+}

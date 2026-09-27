@@ -50,18 +50,24 @@ namespace Wildkin.Matter.Unity
         {
             public Vector3 Position;
             public Vector3 Normal;
-            public Color32 DisplayColor;
-            public Vector3 SourcePosition;
+            public Vector4 Tangent;
+            public Color32 VertexColor;
+            public Vector2 StableUv;
             public Color32 MaterialWeights;
+            public Vector3 SourcePosition;
+            public Color32 DisplayColor;
         }
 
         private static readonly VertexAttributeDescriptor[] VertexLayout =
         {
             new VertexAttributeDescriptor(VertexAttribute.Position, VertexAttributeFormat.Float32, 3, 0),
             new VertexAttributeDescriptor(VertexAttribute.Normal, VertexAttributeFormat.Float32, 3, 0),
+            new VertexAttributeDescriptor(VertexAttribute.Tangent, VertexAttributeFormat.Float32, 4, 0),
             new VertexAttributeDescriptor(VertexAttribute.Color, VertexAttributeFormat.UNorm8, 4, 0),
-            new VertexAttributeDescriptor(VertexAttribute.TexCoord0, VertexAttributeFormat.Float32, 3, 0),
-            new VertexAttributeDescriptor(VertexAttribute.TexCoord1, VertexAttributeFormat.UNorm8, 4, 0)
+            new VertexAttributeDescriptor(VertexAttribute.TexCoord0, VertexAttributeFormat.Float32, 2, 0),
+            new VertexAttributeDescriptor(VertexAttribute.TexCoord1, VertexAttributeFormat.UNorm8, 4, 0),
+            new VertexAttributeDescriptor(VertexAttribute.TexCoord2, VertexAttributeFormat.Float32, 3, 0),
+            new VertexAttributeDescriptor(VertexAttribute.TexCoord3, VertexAttributeFormat.UNorm8, 4, 0)
         };
 
         public static MatterMeshPublicationTimings Publish(MatterMeshData source, string meshName, out Mesh mesh)
@@ -73,54 +79,46 @@ namespace Wildkin.Matter.Unity
                 return default;
             }
 
-            int rockIndices = 0;
-            for (int i = 0; i < source.Indices.Length; i += 3)
-                if (IsRockTriangle(source, i)) rockIndices += 3;
-            int dirtIndices = source.Indices.Length - rockIndices;
-
             Bounds bounds = CalculateBounds(source.Vertices);
             long fillStart = Stopwatch.GetTimestamp();
             Mesh.MeshDataArray meshDataArray = Mesh.AllocateWritableMeshData(1);
             Mesh.MeshData meshData = meshDataArray[0];
-            meshData.SetVertexBufferParams(source.Vertices.Length, VertexLayout);
+            int publishedVertexCount = source.Indices.Length;
+            meshData.SetVertexBufferParams(publishedVertexCount, VertexLayout);
             meshData.SetIndexBufferParams(source.Indices.Length, IndexFormat.UInt32);
             NativeArray<PublishedVertex> vertices = meshData.GetVertexData<PublishedVertex>(0);
-            for (int i = 0; i < source.Vertices.Length; i++)
-            {
-                MatterMeshVertex value = source.Vertices[i];
-                vertices[i] = new PublishedVertex
-                {
-                    Position = new Vector3(value.PositionMeters.X, value.PositionMeters.Y, value.PositionMeters.Z),
-                    Normal = new Vector3(value.Normal.X, value.Normal.Y, value.Normal.Z),
-                    SourcePosition = new Vector3(value.SourcePositionMeters.X, value.SourcePositionMeters.Y, value.SourcePositionMeters.Z),
-                    MaterialWeights = new Color32(value.RockWeight, value.DirtWeight, 0, 255),
-                    DisplayColor = CalculateDisplayColor(value, bounds)
-                };
-            }
-
             NativeArray<uint> indices = meshData.GetIndexData<uint>();
-            int rockOffset = 0, dirtOffset = rockIndices;
-            for (int i = 0; i < source.Indices.Length; i += 3)
+            for (int triangle = 0; triangle < source.Indices.Length; triangle += 3)
             {
-                bool rockTriangle = IsRockTriangle(source, i);
-                int destination = rockTriangle ? rockOffset : dirtOffset;
-                if (rockTriangle) rockOffset += 3;
-                else dirtOffset += 3;
-                indices[destination] = (uint)source.Indices[i];
-                indices[destination + 1] = (uint)source.Indices[i + 1];
-                indices[destination + 2] = (uint)source.Indices[i + 2];
+                MatterMeshVertex a = source.Vertices[source.Indices[triangle]];
+                MatterMeshVertex b = source.Vertices[source.Indices[triangle + 1]];
+                MatterMeshVertex c = source.Vertices[source.Indices[triangle + 2]];
+                MatterProjectionFrame projection = MatterRestSpaceProjection.Frame(a, b, c);
+                for (int corner = 0; corner < 3; corner++)
+                {
+                    MatterMeshVertex value = corner == 0 ? a : corner == 1 ? b : c;
+                    int output = triangle + corner;
+                    MatterFloat3 rest = value.SourcePositionMeters;
+                    Vector2 uv = MatterRestSpaceProjection.Project(rest, projection.Axis);
+                    vertices[output] = new PublishedVertex
+                    {
+                        Position = new Vector3(value.PositionMeters.X, value.PositionMeters.Y, value.PositionMeters.Z),
+                        Normal = new Vector3(value.Normal.X, value.Normal.Y, value.Normal.Z),
+                        Tangent = projection.Tangent,
+                        VertexColor = new Color32(value.DirtWeight, 0, 0, 255),
+                        StableUv = uv,
+                        MaterialWeights = new Color32(value.RockWeight, value.DirtWeight, 0, 255),
+                        SourcePosition = new Vector3(rest.X, rest.Y, rest.Z),
+                        DisplayColor = CalculateDisplayColor(value, bounds)
+                    };
+                    indices[output] = (uint)output;
+                }
             }
-
-            meshData.subMeshCount = 2;
-            meshData.SetSubMesh(0, new SubMeshDescriptor(0, rockIndices, MeshTopology.Triangles)
+            meshData.subMeshCount = 1;
+            meshData.SetSubMesh(0, new SubMeshDescriptor(0, source.Indices.Length, MeshTopology.Triangles)
             {
                 bounds = bounds,
-                vertexCount = source.Vertices.Length
-            }, MeshUpdateFlags.DontRecalculateBounds);
-            meshData.SetSubMesh(1, new SubMeshDescriptor(rockIndices, dirtIndices, MeshTopology.Triangles)
-            {
-                bounds = bounds,
-                vertexCount = source.Vertices.Length
+                vertexCount = publishedVertexCount
             }, MeshUpdateFlags.DontRecalculateBounds);
             double fillMilliseconds = ToMilliseconds(Stopwatch.GetTimestamp() - fillStart);
 
@@ -159,8 +157,11 @@ namespace Wildkin.Matter.Unity
                         value.PositionMeters.Y + value.Normal.Y * 0.004f,
                         value.PositionMeters.Z + value.Normal.Z * 0.004f),
                     Normal = new Vector3(value.Normal.X, value.Normal.Y, value.Normal.Z),
-                    SourcePosition = new Vector3(value.SourcePositionMeters.X, value.SourcePositionMeters.Y, value.SourcePositionMeters.Z),
+                    Tangent = new Vector4(1f, 0f, 0f, 1f),
+                    VertexColor = new Color32(0, 0, 0, 255),
+                    StableUv = Vector2.zero,
                     MaterialWeights = new Color32(255, 255, 255, 255),
+                    SourcePosition = new Vector3(value.SourcePositionMeters.X, value.SourcePositionMeters.Y, value.SourcePositionMeters.Z),
                     DisplayColor = new Color32(255, 255, 255, 255)
                 };
             }
@@ -237,14 +238,6 @@ namespace Wildkin.Matter.Unity
             float g = (rock.DebugColor.G * rockWeight + dirt.DebugColor.G * dirtWeight) * lighting * heightTint;
             float b = (rock.DebugColor.B * rockWeight + dirt.DebugColor.B * dirtWeight) * lighting * heightTint;
             return new Color(r, g, b, 1f);
-        }
-
-        private static bool IsRockTriangle(MatterMeshData source, int triangleStart)
-        {
-            int a = source.Indices[triangleStart], b = source.Indices[triangleStart + 1], c = source.Indices[triangleStart + 2];
-            int rock = source.Vertices[a].RockWeight + source.Vertices[b].RockWeight + source.Vertices[c].RockWeight;
-            int dirt = source.Vertices[a].DirtWeight + source.Vertices[b].DirtWeight + source.Vertices[c].DirtWeight;
-            return rock >= dirt;
         }
 
         private static Bounds CalculateBounds(MatterMeshVertex[] vertices)

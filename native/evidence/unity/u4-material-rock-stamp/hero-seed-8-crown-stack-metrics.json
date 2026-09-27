@@ -1,0 +1,40 @@
+{
+    "profile": "WildkinClast-v1",
+    "sampleSpacingMeters": 0.5,
+    "seedStart": 8,
+    "seedCount": 1,
+    "rejectedSeeds": 0,
+    "observedFrameCount": 0,
+    "observedAverageFrameMilliseconds": 0.0,
+    "observedMaximumFrameMilliseconds": 0.0,
+    "gpuFrameObservation": "Unavailable: no GPU timing result is inferred from editor camera.Render or PlayerLoop deltaTime.",
+    "memoryEstimateMethod": "Raw density/material bytes for sparse resolved MatterWorld edits plus 72-byte published vertex and 32-bit index payload; excludes managed dictionary, mesh-driver, texture and renderer overhead.",
+    "seeds": [
+        {
+            "seed": 8,
+            "profile": "WildkinClast-v1",
+            "layoutName": "Crown Stack",
+            "boundsMeters": "[6.50,0.00,6.00]..[10.00,3.00,10.50]",
+            "occupiedSamples": 184,
+            "occupiedVolumeEstimateCubicMeters": 23.0,
+            "widthHeightRatio": 1.1437103748321534,
+            "depthHeightRatio": 1.4151060581207276,
+            "primitiveDistribution": "roundedBox:3,slab:1,ellipsoid:0,wedge:2",
+            "primitiveCount": 6,
+            "connectedResolvedComponents": 1,
+            "vertices": 324,
+            "triangles": 442,
+            "fieldHash": "67D849EFB7878402",
+            "meshHash": "0298D976240E4D34",
+            "parameterGenerationMilliseconds": 0.0701,
+            "scalarWorldResolutionMilliseconds": 19.1005,
+            "snapshotMilliseconds": 21.6074,
+            "surfaceNetsMilliseconds": 50.123400000000007,
+            "meshDataFillMilliseconds": 1.1897,
+            "applyMilliseconds": 0.0371,
+            "uploadMilliseconds": 0.093,
+            "rawMatterAndMeshPayloadBytes": 101696,
+            "rejectionReason": ""
+        }
+    ]
+}

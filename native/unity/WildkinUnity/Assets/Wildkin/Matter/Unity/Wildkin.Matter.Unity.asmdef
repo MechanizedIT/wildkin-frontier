@@ -2,7 +2,8 @@
   "name": "Wildkin.Matter.Unity",
   "rootNamespace": "Wildkin.Matter.Unity",
   "references": [
-    "Wildkin.Matter.Core"
+    "Wildkin.Matter.Core",
+    "Unity.RenderPipelines.HighDefinition.Runtime"
   ],
   "includePlatforms": [],
   "excludePlatforms": [],

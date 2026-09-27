@@ -1,0 +1,28 @@
+{
+  "command": "inspect_rock_stamp",
+  "arguments": {
+    "seed": 3,
+    "profile": "WildkinClast-v1",
+    "resolutionMeters": 0.5
+  },
+  "stamp": {
+    "layoutName": "Bent Buttress",
+    "primitiveCount": 6,
+    "primitiveDistribution": "roundedBox:2,slab:1,ellipsoid:0,wedge:3",
+    "boundsMeters": "[6.00,0.00,6.00]..[10.50,3.00,10.50]",
+    "occupiedSamples": 204,
+    "connectedResolvedComponents": 1,
+    "fieldHash": "89A24E27A485433D",
+    "meshHash": "C0F868CA81B4602B",
+    "vertices": 370,
+    "triangles": 486
+  },
+  "matterAuthority": {
+    "sourceVersion": 2,
+    "authoritativeSparseMatterSamples": 204,
+    "nonAirSourceReadsInOccupiedRegion": 204,
+    "brickCount": 4,
+    "crossingBrickCount": 4,
+    "note": "Stamp primitives are not retained; resolved MatterWorld v2 has an all-air procedural baseline and stores occupied rock/dirt samples as ordinary sparse matter."
+  }
+}
