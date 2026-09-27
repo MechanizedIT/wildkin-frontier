@@ -1,5 +1,14 @@
 # Wildkin Frontier code map
 
+## U4C source-geometry / local-domain planning owners
+
+- `docs/SOURCE_GEOMETRY_MATTER_FIDELITY_PLAN.md` — active representation experiment and U4C→U4D decision route.
+- `docs/LOCAL_MATTER_DOMAINS.md` — provisional independent-resolution matter-domain architecture for detailed objects on coarse terrain.
+- `docs/prompts/UNITY_05_SOURCE_GEOMETRY_MATTER_FIDELITY.md` — copy-ready U4C Luna Max implementation brief.
+- `native/evidence/unity/u4c-source-matter-fidelity/` — reserved U4C evidence destination once implementation begins.
+
+U4C should add source-rock geometry/SDF/local-volume owners under the Unity project only after implementation chooses exact file boundaries. Do not list invented code owners before they exist.
+
 ## Native PC transition — Unity-first qualification
 
 The browser voxel/matter implementation remains the behavioral reference through Phase 0.5E. New production-direction work lives under `native/` and follows [UNITY_FIRST_TRANSITION_PLAN](UNITY_FIRST_TRANSITION_PLAN.md).
