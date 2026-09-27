@@ -114,6 +114,22 @@ Small forms:
 
 This lets trees, rocks and flora be individually varied without requiring every leaf or blade to consume volumetric matter memory.
 
+
+## Multi-resolution local matter domains
+
+U4/U4B suggest that one global voxel spacing is likely the wrong abstraction for all large destructible objects. The active hypothesis is that **terrain and detailed objects may use separate matter domains with different sample spacing**.
+
+Example:
+
+- terrain domain: ~0.50 m;
+- detailed rock domain: candidate 0.125 m or 0.0625 m, pending U4C;
+- trunk/root domain: similar local spacing if later evidence supports it;
+- detached MatterActor: retains the originating local domain spacing.
+
+This can avoid forcing a high-detail rock to share a crack-free adaptive topology with coarse terrain. It does not eliminate the later need for explicit contact/support/ownership rules between domains. See [LOCAL_MATTER_DOMAINS.md](LOCAL_MATTER_DOMAINS.md).
+
+The production decision is intentionally deferred until U4C establishes how much resolution and signed-distance fidelity a good source asset actually needs.
+
 ## Shared destruction contract
 
 Different representation tiers should still expose compatible high-level concepts where practical:
