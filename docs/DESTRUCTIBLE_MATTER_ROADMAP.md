@@ -114,6 +114,9 @@ The Unity qualification must compare **Surface Nets vs Dual Contouring** and **u
 
 **PASS gate:** Unity has enough evidence to be accepted provisionally as the production engine **or** a concrete blocker is documented that justifies an Unreal challenger. The result must include agent autonomy evidence, visual/mesher/resolution comparisons, runtime mesh/collision behavior, procedural-stamp results, build/test automation, performance measurements and a recommended matter representation. See [Unity-first transition plan](UNITY_FIRST_TRANSITION_PLAN.md).
 
+
+**Unity qualification refinement after U4/U4B HOLD:** do not treat the failed procedural rock galleries as an engine-level visual failure. The active next uncertainty is **U4C source geometry → matter fidelity**: create good procedural source meshes first, then sample them as true signed-distance local volumes at 0.50 / 0.25 / 0.125 / 0.0625 m and remesh through Surface Nets. Compare one occupancy/clipped scalar control to isolate scalar quality. If a practical fine resolution succeeds, test **local matter domains** before adaptive terrain stitching. See `SOURCE_GEOMETRY_MATTER_FIDELITY_PLAN.md` and `LOCAL_MATTER_DOMAINS.md`. U5 remains closed until that representation gate is reviewed.
+
 ### Phase 0.5G — Native production matter kernel
 
 **Question:** Can the selected engine host a clean production-oriented version of the proven matter architecture?
