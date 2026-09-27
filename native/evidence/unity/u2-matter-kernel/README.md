@@ -1,6 +1,6 @@
 # U2 Native Matter Reference Kernel
 
-**The bounded U2 matter kernel remains PASS; a U2 revalidation correction is complete and awaiting root review. U3 is not started.** The original checkpoint received an independent read-only PASS. Revalidation corrected two face-order errors in the debug sample mesh and added a regression test; it does not change the matter authority, persistence contract, or production-mesher decision.
+**PASS after overnight revalidation.** The original checkpoint received an independent read-only PASS. Revalidation corrected two face-order errors in the debug sample mesh and added a regression test; it does not change the matter authority, persistence contract, or production-mesher decision. Root review inspected the correction, test, evidence, screenshot and repository state and admitted U3.
 
 ## Environment and control path
 
@@ -26,7 +26,7 @@
 - Its fixed sample benchmark covered 4,096 reads/pass × 32 repetitions. The revalidation run measured 46.76 ms direct and 37.5308 ms resolved, with matching checksum `3091936243887374693`. These are one workstation/editor observation, not a performance threshold or player-build result.
 - The original U2 Windows x64 Development Build succeeded with the warmed Unity environment. It was not repeated for the debug-mesh winding correction; that change was covered by fresh EditMode and PlayMode runs. Build provenance is `build-provenance.json`; the generated local player output is at workspace-root `Builds/U2MatterKernel/` and is excluded from the source commit.
 - The captured visual is `debug-screenshot.png`, refreshed through the live Pipeline after rebuilding the scene mesh. The initial HDRP capture was overexposed; the final capture uses explicit HDRP color clearing and fixed exposure with unlit material colors.
-- The original independent read-only review passed before this correction. Root review of the revalidation is pending. The only U3 handoff note is to read a neighboring +1 sample plane for each 16-cell meshing window while keeping global sample ownership unique.
+- The original independent read-only review passed before this correction. Overnight root review of the actual correction and evidence also passed. The U3 handoff note is to read a neighboring +1 sample plane for each 16-cell meshing window while keeping global sample ownership unique.
 
 ## Limits and next gate
 

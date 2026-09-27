@@ -53,7 +53,7 @@
     "provenance": "build-provenance.json"
   },
   "ownerInterventions": 0,
-  "independentReview": "Original U2 checkpoint PASS; revalidation awaits root review",
+  "independentReview": "PASS — original checkpoint review plus overnight root review of revalidation",
   "revalidation": {
     "date": "2026-09-27",
     "startingCommit": "41aa97c",
@@ -78,7 +78,7 @@
     "debugScreenshotSha256": "7ED116000C5550F20FA3DE73D0C8EFC08F31F87D6703C8FEEA4BE5E6AC5BD701",
     "windowsBuildRepeated": false,
     "windowsBuildNote": "The original U2 Windows Development Build remains recorded in build-provenance.json. This follow-up only changed debug-marker triangle order.",
-    "independentReview": "PENDING ROOT REVIEW"
+    "independentReview": "PASS"
   },
   "notes": [
     "No dedicated Unity MCP tool was exposed in this fresh session; use the proven CLI/Pipeline bridge. No toolchain upgrade was made.",
@@ -86,7 +86,7 @@
     "No Surface Nets, Dual Contouring, destruction, procedural rocks, or Unreal work was started.",
     "The Tech debug scene is not in the enabled build-scene list.",
     "Benchmark times are one editor-host measurement and are not a performance pass threshold.",
-    "The original independent review passed before the follow-up correction; root review is pending.",
+    "The original independent review and overnight root review of the follow-up correction both passed.",
     "A future 16-cell meshing window must read the neighboring +1 sample plane without duplicating authority."
   ]
 }
