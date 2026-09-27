@@ -1,0 +1,50 @@
+{
+  "formation": {
+    "seed": 6,
+    "profile": "WildkinClast-v1",
+    "layoutName": "Broken Ridge",
+    "constructionMode": "SelectiveFormation",
+    "archetype": "Broken Ridge",
+    "boundsMeters": "[4.75,0.00,7.00]..[11.50,2.50,9.25]",
+    "occupiedSamples": 1292,
+    "occupiedVolumeEstimateCubicMeters": 20.1875,
+    "widthHeightRatio": 0.0,
+    "depthHeightRatio": 0.0,
+    "primitiveDistribution": "foundation:1,main:2,side:1,cap:1,shoulder:1,filler:0,brace:0,accent:1",
+    "primitiveCount": 0,
+    "stoneCount": 7,
+    "stoneRoleSummary": "foundation:1,main:2,side:1,cap:1,shoulder:1,filler:0,brace:0,accent:1",
+    "generationAttempts": 1,
+    "rejectedAttempts": 0,
+    "connectedResolvedComponents": 1,
+    "componentSampleCounts": [
+      1292
+    ],
+    "smallestSubstantialComponentSamples": 1292,
+    "largestComponentFraction": 1.0,
+    "minimumMajorComponentBoundsGapMeters": 0.0,
+    "vertices": 1163,
+    "triangles": 1872,
+    "fieldHash": "EC0C309A360932E3",
+    "meshHash": "CCD8756C903A663F",
+    "parameterGenerationMilliseconds": 3.2023,
+    "scalarWorldResolutionMilliseconds": 116.3906,
+    "snapshotMilliseconds": 23.247200000000003,
+    "surfaceNetsMilliseconds": 55.2407,
+    "meshDataFillMilliseconds": 0.0,
+    "applyMilliseconds": 0.0,
+    "uploadMilliseconds": 0.0,
+    "rawMatterAndMeshPayloadBytes": 0,
+    "rejectionReason": ""
+  },
+  "sourceVersion": 2,
+  "authoritativeSparseMatterSamples": 1292,
+  "nonAirSourceReadsInOccupiedRegion": 1292,
+  "resolvedComponentCount": 1,
+  "componentSampleCounts": [
+    1292
+  ],
+  "largestComponentFraction": 1.0,
+  "minimumMajorComponentBoundsGapMeters": 0.0,
+  "authorityNote": "Stone recipes are generation metadata only. Resolution stores ordinary matter samples in an all-air-backed MatterWorld; no source stone is retained by runtime matter authority."
+}

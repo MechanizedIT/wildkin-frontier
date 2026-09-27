@@ -28,7 +28,7 @@ namespace Wildkin.Tests.EditMode
         }
 
         [Test]
-        public void GallerySeeds_AreMeasurablyDifferentFiniteConnectedStylizedFormations()
+        public void U4ControlGallerySeeds_RemainMeasurablyDifferentFiniteConnectedControlFormations()
         {
             var hashes = new HashSet<ulong>();
             var layouts = new HashSet<string>(StringComparer.Ordinal);

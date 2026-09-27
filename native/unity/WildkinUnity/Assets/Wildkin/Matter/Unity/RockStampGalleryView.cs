@@ -15,6 +15,8 @@ namespace Wildkin.Matter.Unity
         public int seed;
         public string profile;
         public string layoutName;
+        public string constructionMode;
+        public string archetype;
         public string boundsMeters;
         public int occupiedSamples;
         public double occupiedVolumeEstimateCubicMeters;
@@ -22,7 +24,15 @@ namespace Wildkin.Matter.Unity
         public float depthHeightRatio;
         public string primitiveDistribution;
         public int primitiveCount;
+        public int stoneCount;
+        public string stoneRoleSummary;
+        public int generationAttempts;
+        public int rejectedAttempts;
         public int connectedResolvedComponents;
+        public int[] componentSampleCounts;
+        public int smallestSubstantialComponentSamples;
+        public float largestComponentFraction;
+        public float minimumMajorComponentBoundsGapMeters;
         public int vertices;
         public int triangles;
         public string fieldHash;
@@ -45,6 +55,9 @@ namespace Wildkin.Matter.Unity
         public float sampleSpacingMeters;
         public int seedStart;
         public int seedCount;
+        public bool matchedConstructionComparison;
+        public string selectedConstructionMode;
+        public string selectedArchetype;
         public int rejectedSeeds;
         public int observedFrameCount;
         public double observedAverageFrameMilliseconds;
@@ -63,6 +76,12 @@ namespace Wildkin.Matter.Unity
         [SerializeField] private float _sampleSpacingMeters = 0.5f;
         [SerializeField] private bool _galleryLayout = true;
         [SerializeField] private bool _wireframe;
+        [SerializeField] private bool _componentDebug;
+        [SerializeField] private bool _matchedComparison;
+        [SerializeField] private string _matchedSeedsCsv;
+        [SerializeField] private string _constructionModeName = "U4Control";
+        [SerializeField] private string _archetypeName = "Auto";
+        [SerializeField] private float _featureNormalBlend;
         [SerializeField] private Material _surfaceMaterialAsset;
         [SerializeField] private string _playerCaptureOutputPath;
         [SerializeField] private string _playerMetricsOutputPath;
@@ -82,6 +101,10 @@ namespace Wildkin.Matter.Unity
         public IReadOnlyList<RockStampSeedReport> SeedReports => _seedReports;
         public Material SurfaceMaterial => _surfaceMaterialAsset;
         public bool HasRuntimeMatter => _matterObjects.Count > 0;
+        public bool WireframeEnabled => _wireframe;
+        public bool ComponentDebugEnabled => _componentDebug;
+        public string ConstructionModeName => _constructionModeName;
+        public string ArchetypeName => _archetypeName;
 
         public void Configure(int seedStart, int count, string profile = "WildkinClast-v1",
             float sampleSpacingMeters = 0.5f, bool galleryLayout = true, bool wireframe = false,
@@ -100,12 +123,39 @@ namespace Wildkin.Matter.Unity
             Regenerate();
         }
 
+        public void ConfigureU4B(int seedStart, int count, string profile, float sampleSpacingMeters,
+            bool galleryLayout, bool wireframe, Material materialAsset, string constructionMode,
+            string archetype, bool matchedComparison = false, string matchedSeedsCsv = null,
+            bool componentDebug = false, float featureNormalBlend = 0.28f)
+        {
+            if (count <= 0 || count > 64) throw new ArgumentOutOfRangeException(nameof(count));
+            if (float.IsNaN(sampleSpacingMeters) || float.IsInfinity(sampleSpacingMeters) || sampleSpacingMeters <= 0f)
+                throw new ArgumentOutOfRangeException(nameof(sampleSpacingMeters));
+            RockConstructionMode parsedMode = RockFormationNames.ParseMode(constructionMode);
+            RockFormationArchetype parsedArchetype = RockFormationNames.ParseArchetype(archetype);
+            if (featureNormalBlend < 0f || featureNormalBlend > 1f) throw new ArgumentOutOfRangeException(nameof(featureNormalBlend));
+            _seedStart = seedStart;
+            _seedCount = count;
+            _profile = string.IsNullOrWhiteSpace(profile) ? "WildkinClast-v1" : profile;
+            _sampleSpacingMeters = sampleSpacingMeters;
+            _galleryLayout = galleryLayout;
+            _wireframe = wireframe;
+            _componentDebug = componentDebug;
+            _matchedComparison = matchedComparison;
+            _matchedSeedsCsv = matchedSeedsCsv ?? string.Empty;
+            _constructionModeName = parsedMode.ToString();
+            _archetypeName = RockFormationNames.Display(parsedArchetype);
+            _featureNormalBlend = featureNormalBlend;
+            if (materialAsset != null) _surfaceMaterialAsset = materialAsset;
+            Regenerate();
+        }
+
         public void Regenerate()
         {
             DestroyGenerated();
             _seedReports.Clear();
             _frameMilliseconds.Clear();
-            for (int i = 0; i < _seedCount; i++) BuildSeed(checked(_seedStart + i), i);
+            for (int i = 0; i < _seedCount; i++) BuildSeed(i);
             if (_surfaceMaterialAsset == null)
                 throw new InvalidOperationException("U4 requires the first-party Wildkin/MatterRockDirt HDRP material asset.");
             _normalMaterial = _surfaceMaterialAsset;
@@ -129,6 +179,9 @@ namespace Wildkin.Matter.Unity
                 sampleSpacingMeters = _sampleSpacingMeters,
                 seedStart = _seedStart,
                 seedCount = _seedCount,
+                matchedConstructionComparison = _matchedComparison,
+                selectedConstructionMode = _constructionModeName,
+                selectedArchetype = _archetypeName,
                 rejectedSeeds = rejected,
                 observedFrameCount = _frameMilliseconds.Count,
                 observedAverageFrameMilliseconds = _frameMilliseconds.Count == 0 ? 0d : total / _frameMilliseconds.Count,
@@ -161,6 +214,25 @@ namespace Wildkin.Matter.Unity
             Material debug = MatterRockMaterialFactory.CreateDebugMaterial(mode);
             _ownedDebugMaterials.Add(debug);
             for (int i = 0; i < _matterObjects.Count; i++) _matterObjects[i].SetSurfaceMaterial(debug);
+        }
+
+        public void SetConstructionMode(string mode)
+        {
+            _constructionModeName = RockFormationNames.ParseMode(mode).ToString();
+            _matchedComparison = false;
+            Regenerate();
+        }
+
+        public void SetWireframe(bool enabled)
+        {
+            _wireframe = enabled;
+            Regenerate();
+        }
+
+        public void SetComponentDebug(bool enabled)
+        {
+            _componentDebug = enabled;
+            Regenerate();
         }
 
         public void CaptureMotionProof(string beforePath, string afterPath, int width = 1920, int height = 1080)
@@ -245,32 +317,63 @@ namespace Wildkin.Matter.Unity
             if (_quitAfterPlayerCapture) Application.Quit(0);
         }
 
-        private void BuildSeed(int seed, int index)
+        private void BuildSeed(int displayIndex)
         {
-            var item = new RockStampSeedReport { seed = seed, profile = _profile };
-            long generationStart = Stopwatch.GetTimestamp();
-            RockFormationStamp stamp = RockFormationStampGenerator.Generate(seed, _profile);
+            RockConstructionMode mode = RockFormationNames.ParseMode(_constructionModeName);
+            RockFormationArchetype archetype = RockFormationNames.ParseArchetype(_archetypeName);
+            int seed = checked(_seedStart + displayIndex);
+            if (_matchedComparison)
+            {
+                string[] seedTokens = _matchedSeedsCsv.Split(',');
+                int comparisonIndex = displayIndex / 3;
+                if (seedTokens.Length != _seedCount / 3 || comparisonIndex >= seedTokens.Length || !int.TryParse(seedTokens[comparisonIndex], out seed))
+                    throw new InvalidOperationException("Matched comparison requires one valid seed for each three construction-mode entries.");
+                mode = (RockConstructionMode)(displayIndex % 3);
+                archetype = RockFormationArchetype.Auto;
+            }
+            if (!string.Equals(_profile, "WildkinClast-v1", StringComparison.Ordinal))
+                throw new ArgumentException("Only the locked WildkinClast-v1 profile is available.", nameof(_profile));
+            RockFormationGenerationResult generation = RockFormationStampGenerator.GenerateForMode(seed, archetype,
+                mode, RockFormationProfile.WildkinClast, _sampleSpacingMeters);
+            RockFormationStamp stamp = generation.Stamp;
+            RockStampResolution resolved = generation.Resolution;
+            var item = new RockStampSeedReport
+            {
+                seed = seed,
+                profile = _profile,
+                constructionMode = mode.ToString(),
+                archetype = stamp.ArchetypeName,
+                generationAttempts = generation.GenerationAttempts,
+                rejectedAttempts = generation.RejectedAttempts,
+                rejectionReason = generation.ValidationIssue
+            };
             item.layoutName = stamp.LayoutName;
-            item.parameterGenerationMilliseconds = ToMilliseconds(Stopwatch.GetTimestamp() - generationStart);
-            long resolveStart = Stopwatch.GetTimestamp();
-            RockStampResolution resolved = stamp.Resolve(_sampleSpacingMeters);
-            item.scalarWorldResolutionMilliseconds = ToMilliseconds(Stopwatch.GetTimestamp() - resolveStart);
+            item.parameterGenerationMilliseconds = generation.GenerationMilliseconds;
+            item.scalarWorldResolutionMilliseconds = generation.ResolutionMilliseconds;
             item.occupiedSamples = resolved.OccupiedSamples;
             item.occupiedVolumeEstimateCubicMeters = resolved.OccupiedSamples * _sampleSpacingMeters * _sampleSpacingMeters * _sampleSpacingMeters;
             item.connectedResolvedComponents = resolved.ConnectedComponents;
+            item.componentSampleCounts = resolved.ComponentSampleCounts;
+            item.smallestSubstantialComponentSamples = resolved.SmallestSubstantialComponentSamples;
+            item.largestComponentFraction = resolved.LargestComponentFraction;
+            item.minimumMajorComponentBoundsGapMeters = resolved.MinimumMajorComponentBoundsGapMeters;
             item.fieldHash = resolved.FieldHash.ToString("X16");
             item.primitiveDistribution = stamp.PrimitiveDistribution;
             item.primitiveCount = stamp.PrimitiveCount;
+            item.stoneCount = stamp.RecipeElementCount;
+            item.stoneRoleSummary = stamp.ConstructionMode == RockConstructionMode.U4Control
+                ? "legacy U4 rounded-box/slab/ellipsoid/wedge placements" : stamp.PrimitiveDistribution;
             MatterBounds sampleBounds = resolved.Bounds;
             item.boundsMeters = $"[{sampleBounds.MinInclusive.X * _sampleSpacingMeters:0.00},{sampleBounds.MinInclusive.Y * _sampleSpacingMeters:0.00},{sampleBounds.MinInclusive.Z * _sampleSpacingMeters:0.00}]..[{sampleBounds.MaxExclusive.X * _sampleSpacingMeters:0.00},{sampleBounds.MaxExclusive.Y * _sampleSpacingMeters:0.00},{sampleBounds.MaxExclusive.Z * _sampleSpacingMeters:0.00}]";
-            if (resolved.ConnectedComponents != 1) item.rejectionReason = "resolved occupancy component count was " + resolved.ConnectedComponents;
+            if (mode == RockConstructionMode.U4Control && resolved.ConnectedComponents != 1)
+                item.rejectionReason = "U4 control resolved to " + resolved.ConnectedComponents + " components";
 
-            GameObject root = new GameObject("Matter Seed " + seed);
+            GameObject root = new GameObject("Matter Seed " + seed + " " + mode);
             root.transform.SetParent(transform, false);
-            Vector3 gridPosition = GetGridPosition(index);
+            Vector3 gridPosition = GetGridPosition(displayIndex);
             root.transform.localPosition = gridPosition + new Vector3(-RockFormationStamp.AnchorX, 0.35f, -RockFormationStamp.AnchorZ);
             _ownedRoots.Add(root);
-            if (_galleryLayout) CreateLabel(seed, gridPosition, index);
+            if (_galleryLayout) CreateLabel(seed, gridPosition, displayIndex, mode, stamp.ArchetypeName);
 
             IMatterMesher mesher = new MatterSurfaceNetsMesher();
             ulong meshHash = 14695981039346656037UL;
@@ -307,7 +410,8 @@ namespace Wildkin.Matter.Unity
                 }
                 if (data.Indices.Length == 0) continue;
                 MatterMeshPublicationTimings publication = MatterMeshPublisher.Publish(data,
-                    "U4 Seed " + seed + " Brick " + x + "," + y + "," + z, out Mesh mesh);
+                    "U4 Seed " + seed + " Brick " + x + "," + y + "," + z, out Mesh mesh,
+                    mode == RockConstructionMode.U4Control ? 0f : _featureNormalBlend);
                 _ownedMeshes.Add(mesh);
                 fillMs += publication.MeshDataFillMilliseconds;
                 applyMs += publication.ApplyMilliseconds;
@@ -340,6 +444,7 @@ namespace Wildkin.Matter.Unity
             var matterObject = root.AddComponent<RockMatterRuntimeObject>();
             matterObject.Initialize(resolved.World, _surfaceMaterialAsset);
             _matterObjects.Add(matterObject);
+            if (_componentDebug) CreateComponentBounds(root, resolved);
             item.snapshotMilliseconds = snapshotMs;
             item.surfaceNetsMilliseconds = meshMs;
             item.meshDataFillMilliseconds = fillMs;
@@ -352,16 +457,17 @@ namespace Wildkin.Matter.Unity
                 item.widthHeightRatio = height > 1e-6f ? width / height : 0f;
                 item.depthHeightRatio = height > 1e-6f ? depth / height : 0f;
             }
-            if (item.vertices == 0 || item.triangles == 0) item.rejectionReason = "Surface Nets produced no resolved surface triangles.";
+            if ((item.vertices == 0 || item.triangles == 0) && string.IsNullOrEmpty(item.rejectionReason))
+                item.rejectionReason = "Surface Nets produced no resolved surface triangles.";
             _seedReports.Add(item);
         }
 
         private Vector3 GetGridPosition(int index)
         {
             if (!_galleryLayout) return Vector3.zero;
-            const int columns = 4;
-            const float xSpacing = 9.1f;
-            const float zSpacing = 7.8f;
+            int columns = _matchedComparison ? 3 : 4;
+            float xSpacing = _matchedComparison ? 10.0f : 9.1f;
+            float zSpacing = _matchedComparison ? 5.4f : 7.8f;
             int rows = Mathf.CeilToInt(_seedCount / (float)columns);
             int column = index % columns;
             int row = index / columns;
@@ -369,7 +475,7 @@ namespace Wildkin.Matter.Unity
                 (row - (rows - 1) * 0.5f) * zSpacing);
         }
 
-        private void CreateLabel(int seed, Vector3 gridPosition, int index)
+        private void CreateLabel(int seed, Vector3 gridPosition, int index, RockConstructionMode mode, string archetype)
         {
             Font font = Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
             if (font == null || Camera.main == null) return;
@@ -378,16 +484,17 @@ namespace Wildkin.Matter.Unity
             // Each caption belongs in the narrow gap between this row and the row behind it.
             // The farthest row needs no adjustment; screen-up/down is camera-relative because
             // the gallery camera is pitched above the scene.
-            int rows = Mathf.CeilToInt(_seedCount / 4f);
-            int row = index / 4;
+            int columns = _matchedComparison ? 3 : 4;
+            int rows = Mathf.CeilToInt(_seedCount / (float)columns);
+            int row = index / columns;
             float rowDrop = row < rows - 1 ? -2.5f : 0f;
-            label.transform.localPosition = gridPosition + new Vector3(0f, 7.2f, -2f) + Camera.main.transform.up * rowDrop;
+            label.transform.localPosition = gridPosition + new Vector3(0f, _matchedComparison ? 3.5f : 7.2f, -1.7f) + Camera.main.transform.up * rowDrop;
             if (Camera.main != null) label.transform.rotation = Camera.main.transform.rotation;
             TextMesh text = label.AddComponent<TextMesh>();
-            text.text = "SEED " + seed;
+            text.text = _matchedComparison ? "SEED " + seed + "\n" + mode : "SEED " + seed + "\n" + archetype;
             text.font = font;
             text.fontSize = 72;
-            text.characterSize = _galleryLayout ? 0.08f : 0.055f;
+            text.characterSize = _matchedComparison ? 0.05f : _galleryLayout ? 0.08f : 0.055f;
             text.anchor = TextAnchor.MiddleCenter;
             text.alignment = TextAlignment.Center;
             text.color = new Color(0.97f, 0.93f, 0.82f, 1f);
@@ -400,6 +507,37 @@ namespace Wildkin.Matter.Unity
                 _wireMaterial = MatterMeshPublisher.CreateDebugMaterial(new Color(0.08f, 0.82f, 0.88f, 1f),
                     "U4 Triangle Wire", true);
             return _wireMaterial;
+        }
+
+        private void CreateComponentBounds(GameObject root, RockStampResolution resolved)
+        {
+            Color[] palette = { new Color(0.1f, 0.88f, 1f), new Color(1f, 0.66f, 0.13f),
+                new Color(0.72f, 1f, 0.23f), new Color(1f, 0.28f, 0.58f), new Color(0.70f, 0.47f, 1f) };
+            for (int index = 0; index < resolved.ComponentBounds.Length; index++)
+            {
+                RockComponentBounds bounds = resolved.ComponentBounds[index];
+                float spacing = resolved.SampleSpacingMeters;
+                Vector3 min = new Vector3(bounds.MinInclusive.X * spacing, bounds.MinInclusive.Y * spacing, bounds.MinInclusive.Z * spacing);
+                Vector3 max = new Vector3((bounds.MaxInclusive.X + 1) * spacing, (bounds.MaxInclusive.Y + 1) * spacing, (bounds.MaxInclusive.Z + 1) * spacing);
+                Vector3[] corners =
+                {
+                    new Vector3(min.x,min.y,min.z), new Vector3(max.x,min.y,min.z), new Vector3(max.x,min.y,max.z), new Vector3(min.x,min.y,max.z), new Vector3(min.x,min.y,min.z),
+                    new Vector3(min.x,max.y,min.z), new Vector3(max.x,max.y,min.z), new Vector3(max.x,max.y,max.z), new Vector3(min.x,max.y,max.z), new Vector3(min.x,max.y,min.z),
+                    new Vector3(max.x,max.y,min.z), new Vector3(max.x,min.y,min.z), new Vector3(max.x,min.y,max.z), new Vector3(max.x,max.y,max.z), new Vector3(min.x,max.y,max.z), new Vector3(min.x,min.y,max.z)
+                };
+                var lineObject = new GameObject("Component Bounds " + index + " (" + resolved.ComponentSampleCounts[index] + " samples)");
+                lineObject.transform.SetParent(root.transform, false);
+                var line = lineObject.AddComponent<LineRenderer>();
+                line.useWorldSpace = false;
+                line.loop = false;
+                line.positionCount = corners.Length;
+                line.startWidth = 0.025f;
+                line.endWidth = 0.025f;
+                line.startColor = line.endColor = palette[index % palette.Length];
+                line.sharedMaterial = MatterMeshPublisher.CreateDebugMaterial(palette[index % palette.Length], "U4B Component Bounds " + index, true);
+                _ownedDebugMaterials.Add(line.sharedMaterial);
+                line.SetPositions(corners);
+            }
         }
 
         private void DestroyGenerated()

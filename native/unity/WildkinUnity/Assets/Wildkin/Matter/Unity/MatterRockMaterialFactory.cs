@@ -30,6 +30,7 @@ namespace Wildkin.Matter.Unity
     {
         public const int TextureSize = 128;
         public const int TextureGeneratorVersion = 2;
+        public const int U4BTextureGeneratorVersion = 1;
 
         public static MatterRockTextureSet GenerateTextures()
             => new MatterRockTextureSet(
@@ -39,6 +40,16 @@ namespace Wildkin.Matter.Unity
                 GenerateNormal("U4 Dirt Normal", 0xF7C04A69u, 0.045f),
                 GenerateMask("U4 Rock Mask", 0x23ABBD19u, 0.25f),
                 GenerateMask("U4 Dirt Mask", 0xD1047713u, 0.17f),
+                GenerateLayerMask());
+
+        public static MatterRockTextureSet GenerateU4BTextures()
+            => new MatterRockTextureSet(
+                GenerateAlbedo("U4B Rock Albedo", 0x61A2B903u, new Color(0.28f, 0.36f, 0.43f, 1f), false, 0.34f),
+                GenerateAlbedo("U4B Dirt Albedo", 0xB4D89137u, new Color(0.39f, 0.25f, 0.15f, 1f), true, 0.29f),
+                GenerateNormal("U4B Rock Normal", 0xD07A183Fu, 0.045f),
+                GenerateNormal("U4B Dirt Normal", 0xA0B36E27u, 0.04f),
+                GenerateMask("U4B Rock Mask", 0x39DE2501u, 0.18f),
+                GenerateMask("U4B Dirt Mask", 0x79A7D133u, 0.14f),
                 GenerateLayerMask());
 
         public static Material CreateMaterial(MatterRockTextureSet textures, string name = "U4 Stylized Rock Dirt")
@@ -65,6 +76,30 @@ namespace Wildkin.Matter.Unity
             return material;
         }
 
+        public static Material CreateU4BMaterial(MatterRockTextureSet textures, string name = "U4B Stylized Rock Dirt")
+        {
+            if (textures == null) throw new ArgumentNullException(nameof(textures));
+            Shader shader = Shader.Find("Wildkin/MatterRockDirt");
+            if (shader == null) throw new InvalidOperationException("Wildkin/MatterRockDirt was not found; compile the first-party HDRP shader first.");
+            var material = new Material(shader) { name = name, enableInstancing = true };
+            material.SetTexture("_RockAlbedo", textures.RockAlbedo);
+            material.SetTexture("_DirtAlbedo", textures.DirtAlbedo);
+            material.SetTexture("_RockNormal", textures.RockNormal);
+            material.SetTexture("_DirtNormal", textures.DirtNormal);
+            material.SetTexture("_RockMask", textures.RockMask);
+            material.SetTexture("_DirtMask", textures.DirtMask);
+            material.SetColor("_RockTint", new Color(0.98f, 1.02f, 1.06f, 1f));
+            material.SetColor("_DirtTint", new Color(1.04f, 0.98f, 0.88f, 1f));
+            material.SetFloat("_TextureScale", 0.82f);
+            material.SetFloat("_NormalStrength", 0.18f);
+            material.SetFloat("_RockSmoothness", 0.62f);
+            material.SetFloat("_DirtSmoothness", 0.38f);
+            material.SetVector("_KeyDirection", new Vector4(0.43f, 0.56f, -0.71f, 0f));
+            material.SetColor("_KeyColor", new Color(0.83f, 0.88f, 0.96f, 1f));
+            material.SetColor("_AmbientColor", new Color(0.19f, 0.23f, 0.28f, 1f));
+            return material;
+        }
+
         public static Material CreateDebugMaterial(string mode)
         {
             if (string.Equals(mode, "weights", StringComparison.OrdinalIgnoreCase))
@@ -76,7 +111,7 @@ namespace Wildkin.Matter.Unity
             return MatterMeshPublisher.CreateDebugMaterial(color, "U4 " + mode + " Debug", true);
         }
 
-        private static Texture2D GenerateAlbedo(string name, uint seed, Color baseColor, bool dirt)
+        private static Texture2D GenerateAlbedo(string name, uint seed, Color baseColor, bool dirt, float macroAmplitude = 0.20f)
         {
             var texture = CreateTexture(name);
             var pixels = new Color[TextureSize * TextureSize];
@@ -88,7 +123,8 @@ namespace Wildkin.Matter.Unity
                               (ValueNoise(seed + 31, u, v, 5) - 0.5f) * 0.30f +
                               (ValueNoise(seed + 73, u, v, 11) - 0.5f) * 0.14f;
                 float fine = ValueNoise(seed + 109, u, v, 19) - 0.5f;
-                float value = Mathf.Clamp(1f + macro * 0.20f + fine * (dirt ? 0.025f : 0.015f), 0.88f, 1.12f);
+                float value = Mathf.Clamp(1f + macro * macroAmplitude + fine * (dirt ? 0.025f : 0.015f),
+                    macroAmplitude > 0.20f ? 0.78f : 0.88f, macroAmplitude > 0.20f ? 1.22f : 1.12f);
                 float warm = ValueNoise(seed + 307, u, v, 4) - 0.5f;
                 float r = baseColor.r * value + warm * (dirt ? 0.030f : 0.009f);
                 float g = baseColor.g * value + warm * (dirt ? -0.012f : 0.003f);

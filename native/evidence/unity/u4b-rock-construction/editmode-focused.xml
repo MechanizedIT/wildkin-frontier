@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<test-run id="2" testcasecount="7" result="Passed" total="7" passed="7" failed="0" inconclusive="0" skipped="0" asserts="0" engine-version="3.5.0.0" clr-version="4.0.30319.42000" start-time="2026-09-27 18:34:58Z" end-time="2026-09-27 18:35:01Z" duration="3.0689354">
+  <test-suite type="TestSuite" id="1000" name="Wildkin Frontier Native Lab" fullname="Wildkin Frontier Native Lab" runstate="Runnable" testcasecount="82" result="Passed" start-time="2026-09-27 18:34:58Z" end-time="2026-09-27 18:35:01Z" duration="3.068935" total="7" passed="7" failed="0" inconclusive="0" skipped="0" asserts="0">
+    <properties>
+      <property name="platform" value="EditMode" />
+    </properties>
+    <test-suite type="Assembly" id="1113" name="Wildkin.Tests.EditMode.dll" fullname="C:/Users/cwood/Documents/mobile-rpg/native/unity/WildkinUnity/Library/ScriptAssemblies/Wildkin.Tests.EditMode.dll" runstate="Runnable" testcasecount="82" result="Passed" start-time="2026-09-27 18:34:58Z" end-time="2026-09-27 18:35:01Z" duration="3.054980" total="7" passed="7" failed="0" inconclusive="0" skipped="0" asserts="0">
+      <properties>
+        <property name="_PID" value="43212" />
+        <property name="_APPDOMAIN" value="Unity Child Domain" />
+        <property name="platform" value="EditMode" />
+        <property name="EditorOnly" value="True" />
+      </properties>
+      <test-suite type="TestSuite" id="1114" name="Wildkin" fullname="Wildkin" runstate="Runnable" testcasecount="82" result="Passed" start-time="2026-09-27 18:34:58Z" end-time="2026-09-27 18:35:01Z" duration="3.052139" total="7" passed="7" failed="0" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <test-suite type="TestSuite" id="1115" name="Tests" fullname="Wildkin.Tests" runstate="Runnable" testcasecount="82" result="Passed" start-time="2026-09-27 18:34:58Z" end-time="2026-09-27 18:35:01Z" duration="3.040758" total="7" passed="7" failed="0" inconclusive="0" skipped="0" asserts="0">
+          <properties />
+          <test-suite type="TestSuite" id="1116" name="EditMode" fullname="Wildkin.Tests.EditMode" runstate="Runnable" testcasecount="82" result="Passed" start-time="2026-09-27 18:34:58Z" end-time="2026-09-27 18:35:01Z" duration="3.038235" total="7" passed="7" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-suite type="TestFixture" id="1096" name="RockFormationConstructionTests" fullname="Wildkin.Tests.EditMode.RockFormationConstructionTests" classname="Wildkin.Tests.EditMode.RockFormationConstructionTests" runstate="Runnable" testcasecount="7" result="Passed" start-time="2026-09-27 18:34:58Z" end-time="2026-09-27 18:35:01Z" duration="3.034309" total="7" passed="7" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1101" name="AtLeastOneSeedResolvesAsMultipleSubstantialOrdinaryMatterComponents" fullname="Wildkin.Tests.EditMode.RockFormationConstructionTests.AtLeastOneSeedResolvesAsMultipleSubstantialOrdinaryMatterComponents" methodname="AtLeastOneSeedResolvesAsMultipleSubstantialOrdinaryMatterComponents" classname="Wildkin.Tests.EditMode.RockFormationConstructionTests" runstate="Runnable" seed="1473474945" result="Passed" start-time="2026-09-27 18:34:58Z" end-time="2026-09-27 18:34:59Z" duration="0.871025" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1098" name="FormationModes_AreDeterministicAcrossRecipeRetryResolutionAndMesh" fullname="Wildkin.Tests.EditMode.RockFormationConstructionTests.FormationModes_AreDeterministicAcrossRecipeRetryResolutionAndMesh" methodname="FormationModes_AreDeterministicAcrossRecipeRetryResolutionAndMesh" classname="Wildkin.Tests.EditMode.RockFormationConstructionTests" runstate="Runnable" seed="956351705" result="Passed" start-time="2026-09-27 18:34:59Z" end-time="2026-09-27 18:35:01Z" duration="1.697464" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1097" name="ProceduralStoneRecipes_AreBoundedFacetedAndFinite" fullname="Wildkin.Tests.EditMode.RockFormationConstructionTests.ProceduralStoneRecipes_AreBoundedFacetedAndFinite" methodname="ProceduralStoneRecipes_AreBoundedFacetedAndFinite" classname="Wildkin.Tests.EditMode.RockFormationConstructionTests" runstate="Runnable" seed="1641390674" result="Passed" start-time="2026-09-27 18:35:01Z" end-time="2026-09-27 18:35:01Z" duration="0.002970" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1099" name="QuarterMeterResolution_UsesTheSamePhysicalBoundsAsHalfMeterResolution" fullname="Wildkin.Tests.EditMode.RockFormationConstructionTests.QuarterMeterResolution_UsesTheSamePhysicalBoundsAsHalfMeterResolution" methodname="QuarterMeterResolution_UsesTheSamePhysicalBoundsAsHalfMeterResolution" classname="Wildkin.Tests.EditMode.RockFormationConstructionTests" runstate="Runnable" seed="1134906988" result="Passed" start-time="2026-09-27 18:35:01Z" end-time="2026-09-27 18:35:01Z" duration="0.119640" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1102" name="ResolvedFormation_DoesNotRetainStoneRecipeAsMatterAuthority" fullname="Wildkin.Tests.EditMode.RockFormationConstructionTests.ResolvedFormation_DoesNotRetainStoneRecipeAsMatterAuthority" methodname="ResolvedFormation_DoesNotRetainStoneRecipeAsMatterAuthority" classname="Wildkin.Tests.EditMode.RockFormationConstructionTests" runstate="Runnable" seed="1131930306" result="Passed" start-time="2026-09-27 18:35:01Z" end-time="2026-09-27 18:35:01Z" duration="0.029915" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1100" name="SelectiveUnion_ChangesOnlyTheCoreBlendAndLeavesAccentGroupsHard" fullname="Wildkin.Tests.EditMode.RockFormationConstructionTests.SelectiveUnion_ChangesOnlyTheCoreBlendAndLeavesAccentGroupsHard" methodname="SelectiveUnion_ChangesOnlyTheCoreBlendAndLeavesAccentGroupsHard" classname="Wildkin.Tests.EditMode.RockFormationConstructionTests" runstate="Runnable" seed="149796322" result="Passed" start-time="2026-09-27 18:35:01Z" end-time="2026-09-27 18:35:01Z" duration="0.001049" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1103" name="U4BMaterialTextures_AreDeterministicWithCoolerRockAndWarmDirt" fullname="Wildkin.Tests.EditMode.RockFormationConstructionTests.U4BMaterialTextures_AreDeterministicWithCoolerRockAndWarmDirt" methodname="U4BMaterialTextures_AreDeterministicWithCoolerRockAndWarmDirt" classname="Wildkin.Tests.EditMode.RockFormationConstructionTests" runstate="Runnable" seed="1058113304" result="Passed" start-time="2026-09-27 18:35:01Z" end-time="2026-09-27 18:35:01Z" duration="0.287273" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Saving results to: C:/Users/cwood/AppData/LocalLow/MechanizedIT/Wildkin Frontier Native Lab\TestResults.xml
+]]></output>
+              </test-case>
+            </test-suite>
+          </test-suite>
+        </test-suite>
+      </test-suite>
+    </test-suite>
+  </test-suite>
+</test-run>

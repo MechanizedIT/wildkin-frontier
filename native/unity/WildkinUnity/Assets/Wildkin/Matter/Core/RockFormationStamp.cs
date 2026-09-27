@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace Wildkin.Matter
 {
@@ -65,10 +66,16 @@ namespace Wildkin.Matter
         public int Seed { get; }
         public RockFormationProfile Profile { get; }
         public string LayoutName { get; }
+        public RockConstructionMode ConstructionMode { get; }
+        public string ArchetypeName { get; }
         public IReadOnlyList<RockStampPrimitive> Primitives => _primitives;
         public int PrimitiveCount => _primitives.Length;
+        public int RecipeElementCount => _constructionRecipe == null ? _primitives.Length : _constructionRecipe.StoneCount;
+        public IReadOnlyList<RockStoneRecipe> Stones => _constructionRecipe == null
+            ? Array.Empty<RockStoneRecipe>() : _constructionRecipe.Stones;
         public string PrimitiveDistribution { get; }
         private readonly RockStampPrimitive[] _primitives;
+        private readonly RockFormationRecipe _constructionRecipe;
         private readonly bool _hasPocket;
         private readonly MatterFloat3 _pocketCenter;
         private readonly MatterFloat3 _pocketRadii;
@@ -81,6 +88,8 @@ namespace Wildkin.Matter
             Seed = seed;
             Profile = profile ?? throw new ArgumentNullException(nameof(profile));
             LayoutName = layoutName ?? throw new ArgumentNullException(nameof(layoutName));
+            ArchetypeName = layoutName;
+            ConstructionMode = RockConstructionMode.U4Control;
             _primitives = primitives ?? throw new ArgumentNullException(nameof(primitives));
             _hasPocket = hasPocket;
             _pocketCenter = pocketCenter;
@@ -102,8 +111,30 @@ namespace Wildkin.Matter
             PrimitiveDistribution = $"roundedBox:{boxes},slab:{slabs},ellipsoid:{ellipsoids},wedge:{wedges}";
         }
 
+        internal RockFormationStamp(int seed, RockFormationProfile profile, RockFormationRecipe recipe,
+            RockConstructionMode constructionMode, int generationAttempt)
+        {
+            Seed = seed;
+            Profile = profile ?? throw new ArgumentNullException(nameof(profile));
+            _constructionRecipe = recipe ?? throw new ArgumentNullException(nameof(recipe));
+            if (constructionMode == RockConstructionMode.U4Control)
+                throw new ArgumentException("The U4 control must use the preserved WildkinClast-v1 recipe.", nameof(constructionMode));
+            ConstructionMode = constructionMode;
+            LayoutName = RockFormationNames.Display(recipe.Archetype);
+            ArchetypeName = LayoutName;
+            _primitives = Array.Empty<RockStampPrimitive>();
+            _hasPocket = false;
+            _pocketCenter = default;
+            _pocketRadii = default;
+            _phaseX = _phaseY = _phaseZ = 0f;
+            PrimitiveDistribution = recipe.RoleSummary;
+        }
+
         public float Evaluate(float xMeters, float yMeters, float zMeters)
         {
+            if (_constructionRecipe != null)
+                return _constructionRecipe.Evaluate(xMeters - AnchorX, yMeters, zMeters - AnchorZ, ConstructionMode);
+
             float value = float.NegativeInfinity;
             for (int i = 0; i < _primitives.Length; i++)
                 value = SmoothMaximum(value, EvaluatePrimitive(_primitives[i], xMeters - AnchorX,
@@ -124,7 +155,7 @@ namespace Wildkin.Matter
 
         public RockStampResolution Resolve(float sampleSpacingMeters = MatterWorldFactory.DefaultSampleSpacingMeters)
         {
-            if (!Finite(sampleSpacingMeters) || sampleSpacingMeters <= 0f)
+            if (!RockFormationRecipe.Finite(sampleSpacingMeters) || sampleSpacingMeters <= 0f)
                 throw new ArgumentOutOfRangeException(nameof(sampleSpacingMeters));
             const float halfBound = 4.15f;
             const float bottom = -0.55f;
@@ -164,39 +195,88 @@ namespace Wildkin.Matter
                 occupiedMaxX = Math.Max(occupiedMaxX, x); occupiedMaxY = Math.Max(occupiedMaxY, y); occupiedMaxZ = Math.Max(occupiedMaxZ, z);
             }
 
-            int components = CountComponents(occupied);
-            return new RockStampResolution(world, occupied.Count, components, hash,
+            ComponentScan components = ScanComponents(occupied, sampleSpacingMeters);
+            return new RockStampResolution(world, occupied.Count, components.Count, hash,
                 occupied.Count == 0 ? minX : occupiedMinX,
                 occupied.Count == 0 ? minY : occupiedMinY,
                 occupied.Count == 0 ? minZ : occupiedMinZ,
                 occupied.Count == 0 ? maxX + 1 : occupiedMaxX + 1,
                 occupied.Count == 0 ? maxY + 1 : occupiedMaxY + 1,
-                occupied.Count == 0 ? maxZ + 1 : occupiedMaxZ + 1,
-                sampleSpacingMeters);
+                occupied.Count == 0 ? maxZ + 1 : occupiedMaxZ + 1, sampleSpacingMeters,
+                components.Sizes, components.Bounds, components.MinimumBoundsGapMeters);
         }
 
-        private static int CountComponents(HashSet<MatterSampleAddress> occupied)
+        private sealed class ComponentRecord
         {
-            if (occupied.Count == 0) return 0;
+            public int Size;
+            public int MinX = int.MaxValue, MinY = int.MaxValue, MinZ = int.MaxValue;
+            public int MaxX = int.MinValue, MaxY = int.MinValue, MaxZ = int.MinValue;
+        }
+
+        private sealed class ComponentScan
+        {
+            public int Count;
+            public int[] Sizes = Array.Empty<int>();
+            public RockComponentBounds[] Bounds = Array.Empty<RockComponentBounds>();
+            public float MinimumBoundsGapMeters;
+        }
+
+        private static ComponentScan ScanComponents(HashSet<MatterSampleAddress> occupied, float spacing)
+        {
+            if (occupied.Count == 0) return new ComponentScan();
             var remaining = new HashSet<MatterSampleAddress>(occupied);
             var queue = new Queue<MatterSampleAddress>();
-            int count = 0;
+            var components = new List<ComponentRecord>();
             while (remaining.Count > 0)
             {
                 MatterSampleAddress start = default;
                 foreach (MatterSampleAddress item in remaining) { start = item; break; }
                 remaining.Remove(start);
                 queue.Enqueue(start);
-                count++;
+                var component = new ComponentRecord();
                 while (queue.Count > 0)
                 {
                     MatterSampleAddress current = queue.Dequeue();
+                    component.Size++;
+                    component.MinX = Math.Min(component.MinX, current.X); component.MinY = Math.Min(component.MinY, current.Y); component.MinZ = Math.Min(component.MinZ, current.Z);
+                    component.MaxX = Math.Max(component.MaxX, current.X); component.MaxY = Math.Max(component.MaxY, current.Y); component.MaxZ = Math.Max(component.MaxZ, current.Z);
                     Visit(current.X + 1, current.Y, current.Z); Visit(current.X - 1, current.Y, current.Z);
                     Visit(current.X, current.Y + 1, current.Z); Visit(current.X, current.Y - 1, current.Z);
                     Visit(current.X, current.Y, current.Z + 1); Visit(current.X, current.Y, current.Z - 1);
                 }
+                components.Add(component);
             }
-            return count;
+            components.Sort((left, right) => right.Size.CompareTo(left.Size));
+            var result = new ComponentScan { Count = components.Count };
+            result.Sizes = new int[components.Count];
+            result.Bounds = new RockComponentBounds[components.Count];
+            for (int index = 0; index < components.Count; index++)
+            {
+                ComponentRecord component = components[index];
+                result.Sizes[index] = component.Size;
+                result.Bounds[index] = new RockComponentBounds(new MatterInt3(component.MinX, component.MinY, component.MinZ),
+                    new MatterInt3(component.MaxX, component.MaxY, component.MaxZ));
+            }
+            float minimumGapSquared = float.PositiveInfinity;
+            for (int left = 0; left < components.Count; left++)
+            for (int right = left + 1; right < components.Count; right++)
+            {
+                ComponentRecord a = components[left], b = components[right];
+                int dx = AxisGap(a.MinX, a.MaxX, b.MinX, b.MaxX);
+                int dy = AxisGap(a.MinY, a.MaxY, b.MinY, b.MaxY);
+                int dz = AxisGap(a.MinZ, a.MaxZ, b.MinZ, b.MaxZ);
+                float gapX = dx * spacing, gapY = dy * spacing, gapZ = dz * spacing;
+                minimumGapSquared = Math.Min(minimumGapSquared, gapX * gapX + gapY * gapY + gapZ * gapZ);
+            }
+            result.MinimumBoundsGapMeters = float.IsPositiveInfinity(minimumGapSquared) ? 0f : (float)Math.Sqrt(minimumGapSquared);
+            return result;
+
+            static int AxisGap(int aMin, int aMax, int bMin, int bMax)
+            {
+                if (aMax < bMin) return Math.Max(0, bMin - aMax - 1);
+                if (bMax < aMin) return Math.Max(0, aMin - bMax - 1);
+                return 0;
+            }
 
             void Visit(int x, int y, int z)
             {
@@ -278,9 +358,15 @@ namespace Wildkin.Matter
         public readonly ulong FieldHash;
         public readonly MatterBounds Bounds;
         public readonly float SampleSpacingMeters;
+        public readonly int[] ComponentSampleCounts;
+        public readonly RockComponentBounds[] ComponentBounds;
+        public readonly int SmallestSubstantialComponentSamples;
+        public readonly float LargestComponentFraction;
+        public readonly float MinimumMajorComponentBoundsGapMeters;
 
         internal RockStampResolution(MatterWorld world, int occupiedSamples, int connectedComponents,
-            ulong fieldHash, int minX, int minY, int minZ, int maxX, int maxY, int maxZ, float spacing)
+            ulong fieldHash, int minX, int minY, int minZ, int maxX, int maxY, int maxZ, float spacing,
+            int[] componentSampleCounts, RockComponentBounds[] componentBounds, float minimumBoundsGapMeters)
         {
             World = world;
             OccupiedSamples = occupiedSamples;
@@ -288,6 +374,19 @@ namespace Wildkin.Matter
             FieldHash = fieldHash;
             Bounds = new MatterBounds(new MatterInt3(minX, minY, minZ), new MatterInt3(maxX, maxY, maxZ));
             SampleSpacingMeters = spacing;
+            ComponentSampleCounts = componentSampleCounts ?? Array.Empty<int>();
+            ComponentBounds = componentBounds ?? Array.Empty<RockComponentBounds>();
+            SmallestSubstantialComponentSamples = int.MaxValue;
+            int largest = 0;
+            for (int index = 0; index < ComponentSampleCounts.Length; index++)
+            {
+                largest = Math.Max(largest, ComponentSampleCounts[index]);
+                if (ComponentSampleCounts[index] >= 8)
+                    SmallestSubstantialComponentSamples = Math.Min(SmallestSubstantialComponentSamples, ComponentSampleCounts[index]);
+            }
+            if (SmallestSubstantialComponentSamples == int.MaxValue) SmallestSubstantialComponentSamples = 0;
+            LargestComponentFraction = occupiedSamples <= 0 ? 0f : largest / (float)occupiedSamples;
+            MinimumMajorComponentBoundsGapMeters = minimumBoundsGapMeters;
         }
     }
 
@@ -430,6 +529,73 @@ namespace Wildkin.Matter
             return new RockFormationStamp(seed, profile, layoutName, pieces.ToArray(), pocket, pocketCenter,
                 pocketRadii, rng.Next01() * 6.28318f, rng.Next01() * 6.28318f, rng.Next01() * 6.28318f);
         }
+
+        public static RockFormationGenerationResult GenerateForMode(int seed, RockFormationArchetype archetype,
+            RockConstructionMode mode, RockFormationProfile profile = null,
+            float sampleSpacingMeters = MatterWorldFactory.DefaultSampleSpacingMeters)
+        {
+            if (mode == RockConstructionMode.U4Control)
+            {
+                long generationStart = Stopwatch.GetTimestamp();
+                RockFormationStamp control = Generate(seed, profile ?? RockFormationProfile.WildkinClast);
+                double generationMs = ToMilliseconds(Stopwatch.GetTimestamp() - generationStart);
+                long resolveStart = Stopwatch.GetTimestamp();
+                RockStampResolution controlResolved = control.Resolve(sampleSpacingMeters);
+                double resolutionMs = ToMilliseconds(Stopwatch.GetTimestamp() - resolveStart);
+                return new RockFormationGenerationResult(control, controlResolved, 1, 0, generationMs, resolutionMs, null);
+            }
+            if (profile != null && !string.Equals(profile.Name, RockFormationProfile.WildkinClast.Name, StringComparison.Ordinal))
+                throw new ArgumentException("U4B construction modes currently use the locked WildkinClast bounds.", nameof(profile));
+            if (!RockFormationRecipe.Finite(sampleSpacingMeters) || sampleSpacingMeters <= 0f) throw new ArgumentOutOfRangeException(nameof(sampleSpacingMeters));
+
+            double totalGenerationMs = 0d, totalResolutionMs = 0d;
+            RockFormationStamp lastStamp = null;
+            RockStampResolution lastResolution = default;
+            string issue = null;
+            int rejectedAttempts = 0;
+            const int maxAttempts = 4;
+            for (int attempt = 0; attempt < maxAttempts; attempt++)
+            {
+                long generationStart = Stopwatch.GetTimestamp();
+                RockFormationRecipe recipe = RockFormationRecipeGenerator.Generate(seed, archetype, attempt);
+                var stamp = new RockFormationStamp(seed, profile ?? RockFormationProfile.WildkinClast, recipe, mode, attempt + 1);
+                totalGenerationMs += ToMilliseconds(Stopwatch.GetTimestamp() - generationStart);
+                long resolveStart = Stopwatch.GetTimestamp();
+                RockStampResolution resolved = stamp.Resolve(sampleSpacingMeters);
+                totalResolutionMs += ToMilliseconds(Stopwatch.GetTimestamp() - resolveStart);
+                issue = ValidateResolvedFormation(recipe, resolved);
+                lastStamp = stamp;
+                lastResolution = resolved;
+                if (issue == null)
+                    return new RockFormationGenerationResult(stamp, resolved, attempt + 1, rejectedAttempts,
+                        totalGenerationMs, totalResolutionMs, null);
+                rejectedAttempts++;
+            }
+            return new RockFormationGenerationResult(lastStamp, lastResolution, maxAttempts, rejectedAttempts,
+                totalGenerationMs, totalResolutionMs, issue);
+        }
+
+        private static string ValidateResolvedFormation(RockFormationRecipe recipe, RockStampResolution resolved)
+        {
+            if (!recipe.HasValidStructure()) return "recipe has invalid stone count or non-finite/out-of-range parameters";
+            if (resolved.OccupiedSamples < 100) return "resolved occupied volume is below 100 samples";
+            if (resolved.ConnectedComponents > recipe.StoneCount) return "resolved component count exceeds the stone recipe count";
+            for (int index = 0; index < resolved.ComponentSampleCounts.Length; index++)
+                if (resolved.ComponentSampleCounts[index] < 8) return "component contains fewer than 8 occupied samples";
+            if (resolved.ConnectedComponents > 1 && resolved.LargestComponentFraction > 0.92f)
+                return "one component exceeds 92% of matter while disconnected satellites remain";
+            if (resolved.ConnectedComponents > 1 && resolved.MinimumMajorComponentBoundsGapMeters > 2f)
+                return "separate major components are too far apart to read as one formation";
+            MatterInt3 min = resolved.Bounds.MinInclusive, max = resolved.Bounds.MaxExclusive;
+            float widthMeters = (max.X - min.X) * resolved.SampleSpacingMeters;
+            float heightMeters = (max.Y - min.Y) * resolved.SampleSpacingMeters;
+            float depthMeters = (max.Z - min.Z) * resolved.SampleSpacingMeters;
+            if (widthMeters > 9.5f || heightMeters > 5.5f || depthMeters > 9.5f)
+                return "resolved formation exceeds its bounded target dimensions";
+            return null;
+        }
+
+        private static double ToMilliseconds(long ticks) => ticks * 1000d / Stopwatch.Frequency;
 
         private static RockStampPrimitive Make(RockStampPrimitiveKind kind, float x, float y, float z,
             float hx, float hy, float hz, float rx, float ry, float rz, float roundness, float slope)

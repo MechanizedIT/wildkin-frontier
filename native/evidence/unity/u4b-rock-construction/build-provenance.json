@@ -1,0 +1,14 @@
+{
+    "unityVersion": "6000.3.25f1",
+    "activeBuildTarget": "StandaloneWindows64",
+    "requestedBuildTarget": "StandaloneWindows64",
+    "result": "Succeeded",
+    "outputPath": "C:\\Users\\cwood\\AppData\\Local\\Temp\\wildkin-u4b-rock-construction\\Wildkin-U4B.exe",
+    "evidencePath": "C:\\Users\\cwood\\Documents\\mobile-rpg\\native/evidence/unity/u4b-rock-construction\\build-provenance.json",
+    "totalSizeBytes": 230137170,
+    "totalErrors": 0,
+    "totalWarnings": 2,
+    "elapsedSeconds": 12.2295649,
+    "scenePath": "Assets/Wildkin/Scenes/Tech/U4BRockConstruction.unity",
+    "options": "Development, AllowDebugging; player observation exit=0"
+}

@@ -70,9 +70,12 @@ namespace Wildkin.Matter.Unity
             new VertexAttributeDescriptor(VertexAttribute.TexCoord3, VertexAttributeFormat.UNorm8, 4, 0)
         };
 
-        public static MatterMeshPublicationTimings Publish(MatterMeshData source, string meshName, out Mesh mesh)
+        public static MatterMeshPublicationTimings Publish(MatterMeshData source, string meshName, out Mesh mesh,
+            float featureNormalBlend = 0f)
         {
             if (source == null) throw new ArgumentNullException(nameof(source));
+            if (float.IsNaN(featureNormalBlend) || float.IsInfinity(featureNormalBlend) || featureNormalBlend < 0f || featureNormalBlend > 1f)
+                throw new ArgumentOutOfRangeException(nameof(featureNormalBlend));
             if (source.Vertices.Length == 0 || source.Indices.Length == 0)
             {
                 mesh = null;
@@ -94,16 +97,27 @@ namespace Wildkin.Matter.Unity
                 MatterMeshVertex b = source.Vertices[source.Indices[triangle + 1]];
                 MatterMeshVertex c = source.Vertices[source.Indices[triangle + 2]];
                 MatterProjectionFrame projection = MatterRestSpaceProjection.Frame(a, b, c);
+                Vector3 positionA = new Vector3(a.PositionMeters.X, a.PositionMeters.Y, a.PositionMeters.Z);
+                Vector3 positionB = new Vector3(b.PositionMeters.X, b.PositionMeters.Y, b.PositionMeters.Z);
+                Vector3 positionC = new Vector3(c.PositionMeters.X, c.PositionMeters.Y, c.PositionMeters.Z);
+                Vector3 faceNormal = Vector3.Cross(positionB - positionA, positionC - positionA).normalized;
+                Vector3 averageNormal = new Vector3(a.Normal.X + b.Normal.X + c.Normal.X,
+                    a.Normal.Y + b.Normal.Y + c.Normal.Y, a.Normal.Z + b.Normal.Z + c.Normal.Z).normalized;
+                if (Vector3.Dot(faceNormal, averageNormal) < 0f) faceNormal = -faceNormal;
                 for (int corner = 0; corner < 3; corner++)
                 {
                     MatterMeshVertex value = corner == 0 ? a : corner == 1 ? b : c;
                     int output = triangle + corner;
                     MatterFloat3 rest = value.SourcePositionMeters;
                     Vector2 uv = MatterRestSpaceProjection.Project(rest, projection.Axis);
+                    Vector3 gradientNormal = new Vector3(value.Normal.X, value.Normal.Y, value.Normal.Z).normalized;
+                    float angleWeight = Mathf.InverseLerp(0.92f, 0.68f, Vector3.Dot(gradientNormal, faceNormal));
+                    angleWeight = angleWeight * angleWeight * (3f - 2f * angleWeight);
+                    Vector3 publishedNormal = Vector3.Slerp(gradientNormal, faceNormal, featureNormalBlend * angleWeight).normalized;
                     vertices[output] = new PublishedVertex
                     {
-                        Position = new Vector3(value.PositionMeters.X, value.PositionMeters.Y, value.PositionMeters.Z),
-                        Normal = new Vector3(value.Normal.X, value.Normal.Y, value.Normal.Z),
+                        Position = corner == 0 ? positionA : corner == 1 ? positionB : positionC,
+                        Normal = publishedNormal,
                         Tangent = projection.Tangent,
                         VertexColor = new Color32(value.DirtWeight, 0, 0, 255),
                         StableUv = uv,

@@ -1,0 +1,50 @@
+{
+  "formation": {
+    "seed": 4,
+    "profile": "WildkinClast-v1",
+    "layoutName": "Crown Shelf",
+    "constructionMode": "U4Control",
+    "archetype": "Crown Shelf",
+    "boundsMeters": "[5.50,0.00,6.50]..[11.00,4.00,10.00]",
+    "occupiedSamples": 212,
+    "occupiedVolumeEstimateCubicMeters": 26.5,
+    "widthHeightRatio": 0.0,
+    "depthHeightRatio": 0.0,
+    "primitiveDistribution": "roundedBox:3,slab:1,ellipsoid:0,wedge:2",
+    "primitiveCount": 6,
+    "stoneCount": 6,
+    "stoneRoleSummary": "legacy U4 rounded-box/slab/ellipsoid/wedge placements",
+    "generationAttempts": 1,
+    "rejectedAttempts": 0,
+    "connectedResolvedComponents": 1,
+    "componentSampleCounts": [
+      212
+    ],
+    "smallestSubstantialComponentSamples": 212,
+    "largestComponentFraction": 1.0,
+    "minimumMajorComponentBoundsGapMeters": 0.0,
+    "vertices": 424,
+    "triangles": 623,
+    "fieldHash": "33908B3CCEE9C69C",
+    "meshHash": "162F310F026FF371",
+    "parameterGenerationMilliseconds": 4.7131,
+    "scalarWorldResolutionMilliseconds": 16.1769,
+    "snapshotMilliseconds": 21.529500000000002,
+    "surfaceNetsMilliseconds": 46.772499999999994,
+    "meshDataFillMilliseconds": 0.0,
+    "applyMilliseconds": 0.0,
+    "uploadMilliseconds": 0.0,
+    "rawMatterAndMeshPayloadBytes": 0,
+    "rejectionReason": ""
+  },
+  "sourceVersion": 2,
+  "authoritativeSparseMatterSamples": 212,
+  "nonAirSourceReadsInOccupiedRegion": 212,
+  "resolvedComponentCount": 1,
+  "componentSampleCounts": [
+    212
+  ],
+  "largestComponentFraction": 1.0,
+  "minimumMajorComponentBoundsGapMeters": 0.0,
+  "authorityNote": "Stone recipes are generation metadata only. Resolution stores ordinary matter samples in an all-air-backed MatterWorld; no source stone is retained by runtime matter authority."
+}

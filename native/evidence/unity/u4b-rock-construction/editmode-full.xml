@@ -1,0 +1,600 @@
+<?xml version="1.0" encoding="utf-8"?>
+<test-run id="2" testcasecount="82" result="Passed" total="82" passed="82" failed="0" inconclusive="0" skipped="0" asserts="0" engine-version="3.5.0.0" clr-version="4.0.30319.42000" start-time="2026-09-27 18:35:59Z" end-time="2026-09-27 18:36:09Z" duration="9.448584">
+  <test-suite type="TestSuite" id="1000" name="Wildkin Frontier Native Lab" fullname="Wildkin Frontier Native Lab" runstate="Runnable" testcasecount="82" result="Passed" start-time="2026-09-27 18:35:59Z" end-time="2026-09-27 18:36:09Z" duration="9.448584" total="82" passed="82" failed="0" inconclusive="0" skipped="0" asserts="0">
+    <properties>
+      <property name="platform" value="EditMode" />
+    </properties>
+    <test-suite type="Assembly" id="1113" name="Wildkin.Tests.EditMode.dll" fullname="C:/Users/cwood/Documents/mobile-rpg/native/unity/WildkinUnity/Library/ScriptAssemblies/Wildkin.Tests.EditMode.dll" runstate="Runnable" testcasecount="82" result="Passed" start-time="2026-09-27 18:35:59Z" end-time="2026-09-27 18:36:09Z" duration="9.435143" total="82" passed="82" failed="0" inconclusive="0" skipped="0" asserts="0">
+      <properties>
+        <property name="_PID" value="55068" />
+        <property name="_APPDOMAIN" value="Unity Child Domain" />
+        <property name="platform" value="EditMode" />
+        <property name="EditorOnly" value="True" />
+      </properties>
+      <test-suite type="TestSuite" id="1114" name="Wildkin" fullname="Wildkin" runstate="Runnable" testcasecount="82" result="Passed" start-time="2026-09-27 18:35:59Z" end-time="2026-09-27 18:36:09Z" duration="9.433007" total="82" passed="82" failed="0" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <test-suite type="TestSuite" id="1115" name="Tests" fullname="Wildkin.Tests" runstate="Runnable" testcasecount="82" result="Passed" start-time="2026-09-27 18:35:59Z" end-time="2026-09-27 18:36:09Z" duration="9.431177" total="82" passed="82" failed="0" inconclusive="0" skipped="0" asserts="0">
+          <properties />
+          <test-suite type="TestSuite" id="1116" name="EditMode" fullname="Wildkin.Tests.EditMode" runstate="Runnable" testcasecount="82" result="Passed" start-time="2026-09-27 18:35:59Z" end-time="2026-09-27 18:36:09Z" duration="9.428647" total="82" passed="82" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-suite type="TestFixture" id="1012" name="AgentSmokeMarkerTests" fullname="Wildkin.Tests.EditMode.AgentSmokeMarkerTests" classname="Wildkin.Tests.EditMode.AgentSmokeMarkerTests" runstate="Runnable" testcasecount="3" result="Passed" start-time="2026-09-27 18:35:59Z" end-time="2026-09-27 18:35:59Z" duration="0.057309" total="3" passed="3" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-suite type="ParameterizedMethod" id="1016" name="AngleAfter_IsDeterministicAndWraps" fullname="Wildkin.Tests.EditMode.AgentSmokeMarkerTests.AngleAfter_IsDeterministicAndWraps" classname="Wildkin.Tests.EditMode.AgentSmokeMarkerTests" runstate="Runnable" testcasecount="3" result="Passed" start-time="2026-09-27 18:35:59Z" end-time="2026-09-27 18:35:59Z" duration="0.047799" total="3" passed="3" failed="0" inconclusive="0" skipped="0" asserts="0">
+                <properties />
+                <test-case id="1013" name="AngleAfter_IsDeterministicAndWraps(2.0f,45.0f,90.0f)" fullname="Wildkin.Tests.EditMode.AgentSmokeMarkerTests.AngleAfter_IsDeterministicAndWraps(2.0f,45.0f,90.0f)" methodname="AngleAfter_IsDeterministicAndWraps" classname="Wildkin.Tests.EditMode.AgentSmokeMarkerTests" runstate="Runnable" seed="1381505868" result="Passed" start-time="2026-09-27 18:35:59Z" end-time="2026-09-27 18:35:59Z" duration="0.024702" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1014" name="AngleAfter_IsDeterministicAndWraps(10.0f,36.0f,0.0f)" fullname="Wildkin.Tests.EditMode.AgentSmokeMarkerTests.AngleAfter_IsDeterministicAndWraps(10.0f,36.0f,0.0f)" methodname="AngleAfter_IsDeterministicAndWraps" classname="Wildkin.Tests.EditMode.AgentSmokeMarkerTests" runstate="Runnable" seed="1201679855" result="Passed" start-time="2026-09-27 18:35:59Z" end-time="2026-09-27 18:35:59Z" duration="0.000215" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1015" name="AngleAfter_IsDeterministicAndWraps(5.0f,36.0f,180.0f)" fullname="Wildkin.Tests.EditMode.AgentSmokeMarkerTests.AngleAfter_IsDeterministicAndWraps(5.0f,36.0f,180.0f)" methodname="AngleAfter_IsDeterministicAndWraps" classname="Wildkin.Tests.EditMode.AgentSmokeMarkerTests" runstate="Runnable" seed="838057493" result="Passed" start-time="2026-09-27 18:35:59Z" end-time="2026-09-27 18:35:59Z" duration="0.000152" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+              </test-suite>
+            </test-suite>
+            <test-suite type="TestFixture" id="1017" name="MatterBurstReadinessTests" fullname="Wildkin.Tests.EditMode.MatterBurstReadinessTests" classname="Wildkin.Tests.EditMode.MatterBurstReadinessTests" runstate="Runnable" testcasecount="1" result="Passed" start-time="2026-09-27 18:35:59Z" end-time="2026-09-27 18:36:02Z" duration="2.821966" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1018" name="BurstActiveCellProbe_MatchesScalarAndWritesReadinessReport" fullname="Wildkin.Tests.EditMode.MatterBurstReadinessTests.BurstActiveCellProbe_MatchesScalarAndWritesReadinessReport" methodname="BurstActiveCellProbe_MatchesScalarAndWritesReadinessReport" classname="Wildkin.Tests.EditMode.MatterBurstReadinessTests" runstate="Runnable" seed="567125561" result="Passed" start-time="2026-09-27 18:35:59Z" end-time="2026-09-27 18:36:02Z" duration="2.810617" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[{
+  "unityVersion": "6000.3.25f1",
+  "fixture": "LayeredRock",
+  "fixtureSourceVersion": 1,
+  "seed": 20260927,
+  "spacingMeters": 0.25,
+  "matchedDomainMeters": 16.0,
+  "regions": 64,
+  "cellClassificationCountPerRun": 314432,
+  "scalarSamplesCopiedBeforeTiming": 373248,
+  "activeCells": 1342,
+  "burstEnabled": true,
+  "warmupRuns": 2,
+  "measuredRuns": 7,
+  "batchSize": 128,
+  "scalarMedianMilliseconds": 12.238,
+  "scalarP95Milliseconds": 12.3351,
+  "jobScheduleAndCompleteMedianMilliseconds": 0.8794,
+  "jobScheduleAndCompleteP95Milliseconds": 0.943,
+  "speedupScalarOverJob": 13.91630657266318,
+  "measurementScope": "Active-cell sign classification only. Input region snapshots and NativeArray copy/allocation are pre-timed; scheduling plus completion is timed. This is a readiness probe, not a replacement production mesher or end-to-end speedup claim."
+}
+
+]]></output>
+              </test-case>
+            </test-suite>
+            <test-suite type="TestFixture" id="1019" name="MatterCompositionTests" fullname="Wildkin.Tests.EditMode.MatterCompositionTests" classname="Wildkin.Tests.EditMode.MatterCompositionTests" runstate="Runnable" testcasecount="5" result="Passed" start-time="2026-09-27 18:36:02Z" end-time="2026-09-27 18:36:02Z" duration="0.025777" total="5" passed="5" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1023" name="AirCut_SubtractsFromComposedSolidAndResolvesOneAirMaterial" fullname="Wildkin.Tests.EditMode.MatterCompositionTests.AirCut_SubtractsFromComposedSolidAndResolvesOneAirMaterial" methodname="AirCut_SubtractsFromComposedSolidAndResolvesOneAirMaterial" classname="Wildkin.Tests.EditMode.MatterCompositionTests" runstate="Runnable" seed="109326932" result="Passed" start-time="2026-09-27 18:36:02Z" end-time="2026-09-27 18:36:02Z" duration="0.008549" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1021" name="Composition_IsIndependentOfSourceEvaluationOrder" fullname="Wildkin.Tests.EditMode.MatterCompositionTests.Composition_IsIndependentOfSourceEvaluationOrder" methodname="Composition_IsIndependentOfSourceEvaluationOrder" classname="Wildkin.Tests.EditMode.MatterCompositionTests" runstate="Runnable" seed="1593323597" result="Passed" start-time="2026-09-27 18:36:02Z" end-time="2026-09-27 18:36:02Z" duration="0.009440" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1022" name="EqualDensityRockAndDirt_UseRegistryCompositionPrecedence" fullname="Wildkin.Tests.EditMode.MatterCompositionTests.EqualDensityRockAndDirt_UseRegistryCompositionPrecedence" methodname="EqualDensityRockAndDirt_UseRegistryCompositionPrecedence" classname="Wildkin.Tests.EditMode.MatterCompositionTests" runstate="Runnable" seed="749116030" result="Passed" start-time="2026-09-27 18:36:02Z" end-time="2026-09-27 18:36:02Z" duration="0.000604" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1020" name="QualificationSource_IsDeterministicForSeedAndAddress" fullname="Wildkin.Tests.EditMode.MatterCompositionTests.QualificationSource_IsDeterministicForSeedAndAddress" methodname="QualificationSource_IsDeterministicForSeedAndAddress" classname="Wildkin.Tests.EditMode.MatterCompositionTests" runstate="Runnable" seed="57006113" result="Passed" start-time="2026-09-27 18:36:02Z" end-time="2026-09-27 18:36:02Z" duration="0.000806" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1024" name="ResolvedSample_RejectsCompetingDensityAndMaterialIdentity" fullname="Wildkin.Tests.EditMode.MatterCompositionTests.ResolvedSample_RejectsCompetingDensityAndMaterialIdentity" methodname="ResolvedSample_RejectsCompetingDensityAndMaterialIdentity" classname="Wildkin.Tests.EditMode.MatterCompositionTests" runstate="Runnable" seed="1997555904" result="Passed" start-time="2026-09-27 18:36:02Z" end-time="2026-09-27 18:36:02Z" duration="0.002592" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+            </test-suite>
+            <test-suite type="TestFixture" id="1025" name="MatterCoordinatesTests" fullname="Wildkin.Tests.EditMode.MatterCoordinatesTests" classname="Wildkin.Tests.EditMode.MatterCoordinatesTests" runstate="Runnable" testcasecount="18" result="Passed" start-time="2026-09-27 18:36:02Z" end-time="2026-09-27 18:36:02Z" duration="0.012770" total="18" passed="18" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1044" name="BrickBoundary_SampleHasOneOwnerAndNeighborCellCornerIsNotDuplicated" fullname="Wildkin.Tests.EditMode.MatterCoordinatesTests.BrickBoundary_SampleHasOneOwnerAndNeighborCellCornerIsNotDuplicated" methodname="BrickBoundary_SampleHasOneOwnerAndNeighborCellCornerIsNotDuplicated" classname="Wildkin.Tests.EditMode.MatterCoordinatesTests" runstate="Runnable" seed="487699187" result="Passed" start-time="2026-09-27 18:36:02Z" end-time="2026-09-27 18:36:02Z" duration="0.003687" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-suite type="ParameterizedMethod" id="1043" name="Mapping_RoundTripsPositiveAndNegativeBrickBoundaries" fullname="Wildkin.Tests.EditMode.MatterCoordinatesTests.Mapping_RoundTripsPositiveAndNegativeBrickBoundaries" classname="Wildkin.Tests.EditMode.MatterCoordinatesTests" runstate="Runnable" testcasecount="6" result="Passed" start-time="2026-09-27 18:36:02Z" end-time="2026-09-27 18:36:02Z" duration="0.003214" total="6" passed="6" failed="0" inconclusive="0" skipped="0" asserts="0">
+                <properties />
+                <test-case id="1037" name="Mapping_RoundTripsPositiveAndNegativeBrickBoundaries(-1,-1,15)" fullname="Wildkin.Tests.EditMode.MatterCoordinatesTests.Mapping_RoundTripsPositiveAndNegativeBrickBoundaries(-1,-1,15)" methodname="Mapping_RoundTripsPositiveAndNegativeBrickBoundaries" classname="Wildkin.Tests.EditMode.MatterCoordinatesTests" runstate="Runnable" seed="1467458714" result="Passed" start-time="2026-09-27 18:36:02Z" end-time="2026-09-27 18:36:02Z" duration="0.001014" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1038" name="Mapping_RoundTripsPositiveAndNegativeBrickBoundaries(0,0,0)" fullname="Wildkin.Tests.EditMode.MatterCoordinatesTests.Mapping_RoundTripsPositiveAndNegativeBrickBoundaries(0,0,0)" methodname="Mapping_RoundTripsPositiveAndNegativeBrickBoundaries" classname="Wildkin.Tests.EditMode.MatterCoordinatesTests" runstate="Runnable" seed="1349827064" result="Passed" start-time="2026-09-27 18:36:02Z" end-time="2026-09-27 18:36:02Z" duration="0.000175" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1039" name="Mapping_RoundTripsPositiveAndNegativeBrickBoundaries(15,0,15)" fullname="Wildkin.Tests.EditMode.MatterCoordinatesTests.Mapping_RoundTripsPositiveAndNegativeBrickBoundaries(15,0,15)" methodname="Mapping_RoundTripsPositiveAndNegativeBrickBoundaries" classname="Wildkin.Tests.EditMode.MatterCoordinatesTests" runstate="Runnable" seed="269911749" result="Passed" start-time="2026-09-27 18:36:02Z" end-time="2026-09-27 18:36:02Z" duration="0.000125" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1040" name="Mapping_RoundTripsPositiveAndNegativeBrickBoundaries(16,1,0)" fullname="Wildkin.Tests.EditMode.MatterCoordinatesTests.Mapping_RoundTripsPositiveAndNegativeBrickBoundaries(16,1,0)" methodname="Mapping_RoundTripsPositiveAndNegativeBrickBoundaries" classname="Wildkin.Tests.EditMode.MatterCoordinatesTests" runstate="Runnable" seed="539784930" result="Passed" start-time="2026-09-27 18:36:02Z" end-time="2026-09-27 18:36:02Z" duration="0.000093" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1041" name="Mapping_RoundTripsPositiveAndNegativeBrickBoundaries(31,1,15)" fullname="Wildkin.Tests.EditMode.MatterCoordinatesTests.Mapping_RoundTripsPositiveAndNegativeBrickBoundaries(31,1,15)" methodname="Mapping_RoundTripsPositiveAndNegativeBrickBoundaries" classname="Wildkin.Tests.EditMode.MatterCoordinatesTests" runstate="Runnable" seed="510547340" result="Passed" start-time="2026-09-27 18:36:02Z" end-time="2026-09-27 18:36:02Z" duration="0.000107" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1042" name="Mapping_RoundTripsPositiveAndNegativeBrickBoundaries(32,2,0)" fullname="Wildkin.Tests.EditMode.MatterCoordinatesTests.Mapping_RoundTripsPositiveAndNegativeBrickBoundaries(32,2,0)" methodname="Mapping_RoundTripsPositiveAndNegativeBrickBoundaries" classname="Wildkin.Tests.EditMode.MatterCoordinatesTests" runstate="Runnable" seed="440447424" result="Passed" start-time="2026-09-27 18:36:02Z" end-time="2026-09-27 18:36:02Z" duration="0.000105" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+              </test-suite>
+              <test-case id="1045" name="QualificationBrick_IsSixteenCellIntervalsWithContiguousUniqueSamples" fullname="Wildkin.Tests.EditMode.MatterCoordinatesTests.QualificationBrick_IsSixteenCellIntervalsWithContiguousUniqueSamples" methodname="QualificationBrick_IsSixteenCellIntervalsWithContiguousUniqueSamples" classname="Wildkin.Tests.EditMode.MatterCoordinatesTests" runstate="Runnable" seed="1509156559" result="Passed" start-time="2026-09-27 18:36:02Z" end-time="2026-09-27 18:36:02Z" duration="0.000289" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-suite type="ParameterizedMethod" id="1036" name="SampleMapping_UsesFloorDivisionAndHalfOpenOwnership" fullname="Wildkin.Tests.EditMode.MatterCoordinatesTests.SampleMapping_UsesFloorDivisionAndHalfOpenOwnership" classname="Wildkin.Tests.EditMode.MatterCoordinatesTests" runstate="Runnable" testcasecount="10" result="Passed" start-time="2026-09-27 18:36:02Z" end-time="2026-09-27 18:36:02Z" duration="0.003366" total="10" passed="10" failed="0" inconclusive="0" skipped="0" asserts="0">
+                <properties />
+                <test-case id="1026" name="SampleMapping_UsesFloorDivisionAndHalfOpenOwnership(0,0,0)" fullname="Wildkin.Tests.EditMode.MatterCoordinatesTests.SampleMapping_UsesFloorDivisionAndHalfOpenOwnership(0,0,0)" methodname="SampleMapping_UsesFloorDivisionAndHalfOpenOwnership" classname="Wildkin.Tests.EditMode.MatterCoordinatesTests" runstate="Runnable" seed="1341728032" result="Passed" start-time="2026-09-27 18:36:02Z" end-time="2026-09-27 18:36:02Z" duration="0.000436" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1027" name="SampleMapping_UsesFloorDivisionAndHalfOpenOwnership(1,0,1)" fullname="Wildkin.Tests.EditMode.MatterCoordinatesTests.SampleMapping_UsesFloorDivisionAndHalfOpenOwnership(1,0,1)" methodname="SampleMapping_UsesFloorDivisionAndHalfOpenOwnership" classname="Wildkin.Tests.EditMode.MatterCoordinatesTests" runstate="Runnable" seed="490416924" result="Passed" start-time="2026-09-27 18:36:02Z" end-time="2026-09-27 18:36:02Z" duration="0.000123" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1028" name="SampleMapping_UsesFloorDivisionAndHalfOpenOwnership(15,0,15)" fullname="Wildkin.Tests.EditMode.MatterCoordinatesTests.SampleMapping_UsesFloorDivisionAndHalfOpenOwnership(15,0,15)" methodname="SampleMapping_UsesFloorDivisionAndHalfOpenOwnership" classname="Wildkin.Tests.EditMode.MatterCoordinatesTests" runstate="Runnable" seed="938989166" result="Passed" start-time="2026-09-27 18:36:02Z" end-time="2026-09-27 18:36:02Z" duration="0.000120" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1029" name="SampleMapping_UsesFloorDivisionAndHalfOpenOwnership(16,1,0)" fullname="Wildkin.Tests.EditMode.MatterCoordinatesTests.SampleMapping_UsesFloorDivisionAndHalfOpenOwnership(16,1,0)" methodname="SampleMapping_UsesFloorDivisionAndHalfOpenOwnership" classname="Wildkin.Tests.EditMode.MatterCoordinatesTests" runstate="Runnable" seed="7366349" result="Passed" start-time="2026-09-27 18:36:02Z" end-time="2026-09-27 18:36:02Z" duration="0.000097" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1030" name="SampleMapping_UsesFloorDivisionAndHalfOpenOwnership(17,1,1)" fullname="Wildkin.Tests.EditMode.MatterCoordinatesTests.SampleMapping_UsesFloorDivisionAndHalfOpenOwnership(17,1,1)" methodname="SampleMapping_UsesFloorDivisionAndHalfOpenOwnership" classname="Wildkin.Tests.EditMode.MatterCoordinatesTests" runstate="Runnable" seed="454626386" result="Passed" start-time="2026-09-27 18:36:02Z" end-time="2026-09-27 18:36:02Z" duration="0.000092" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1031" name="SampleMapping_UsesFloorDivisionAndHalfOpenOwnership(-1,-1,15)" fullname="Wildkin.Tests.EditMode.MatterCoordinatesTests.SampleMapping_UsesFloorDivisionAndHalfOpenOwnership(-1,-1,15)" methodname="SampleMapping_UsesFloorDivisionAndHalfOpenOwnership" classname="Wildkin.Tests.EditMode.MatterCoordinatesTests" runstate="Runnable" seed="940754064" result="Passed" start-time="2026-09-27 18:36:02Z" end-time="2026-09-27 18:36:02Z" duration="0.000092" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1032" name="SampleMapping_UsesFloorDivisionAndHalfOpenOwnership(-15,-1,1)" fullname="Wildkin.Tests.EditMode.MatterCoordinatesTests.SampleMapping_UsesFloorDivisionAndHalfOpenOwnership(-15,-1,1)" methodname="SampleMapping_UsesFloorDivisionAndHalfOpenOwnership" classname="Wildkin.Tests.EditMode.MatterCoordinatesTests" runstate="Runnable" seed="2035372683" result="Passed" start-time="2026-09-27 18:36:02Z" end-time="2026-09-27 18:36:02Z" duration="0.000095" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1033" name="SampleMapping_UsesFloorDivisionAndHalfOpenOwnership(-16,-1,0)" fullname="Wildkin.Tests.EditMode.MatterCoordinatesTests.SampleMapping_UsesFloorDivisionAndHalfOpenOwnership(-16,-1,0)" methodname="SampleMapping_UsesFloorDivisionAndHalfOpenOwnership" classname="Wildkin.Tests.EditMode.MatterCoordinatesTests" runstate="Runnable" seed="1218596160" result="Passed" start-time="2026-09-27 18:36:02Z" end-time="2026-09-27 18:36:02Z" duration="0.000094" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1034" name="SampleMapping_UsesFloorDivisionAndHalfOpenOwnership(-17,-2,15)" fullname="Wildkin.Tests.EditMode.MatterCoordinatesTests.SampleMapping_UsesFloorDivisionAndHalfOpenOwnership(-17,-2,15)" methodname="SampleMapping_UsesFloorDivisionAndHalfOpenOwnership" classname="Wildkin.Tests.EditMode.MatterCoordinatesTests" runstate="Runnable" seed="1923838317" result="Passed" start-time="2026-09-27 18:36:02Z" end-time="2026-09-27 18:36:02Z" duration="0.000093" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1035" name="SampleMapping_UsesFloorDivisionAndHalfOpenOwnership(-32,-2,0)" fullname="Wildkin.Tests.EditMode.MatterCoordinatesTests.SampleMapping_UsesFloorDivisionAndHalfOpenOwnership(-32,-2,0)" methodname="SampleMapping_UsesFloorDivisionAndHalfOpenOwnership" classname="Wildkin.Tests.EditMode.MatterCoordinatesTests" runstate="Runnable" seed="1742625308" result="Passed" start-time="2026-09-27 18:36:02Z" end-time="2026-09-27 18:36:02Z" duration="0.000094" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+              </test-suite>
+            </test-suite>
+            <test-suite type="TestFixture" id="1046" name="MatterDebugViewMeshTests" fullname="Wildkin.Tests.EditMode.MatterDebugViewMeshTests" classname="Wildkin.Tests.EditMode.MatterDebugViewMeshTests" runstate="Runnable" testcasecount="1" result="Passed" start-time="2026-09-27 18:36:02Z" end-time="2026-09-27 18:36:02Z" duration="0.015495" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1047" name="SampleCubeMesh_AllTriangleWindingsMatchOutwardNormals" fullname="Wildkin.Tests.EditMode.MatterDebugViewMeshTests.SampleCubeMesh_AllTriangleWindingsMatchOutwardNormals" methodname="SampleCubeMesh_AllTriangleWindingsMatchOutwardNormals" classname="Wildkin.Tests.EditMode.MatterDebugViewMeshTests" runstate="Runnable" seed="1704039928" result="Passed" start-time="2026-09-27 18:36:02Z" end-time="2026-09-27 18:36:02Z" duration="0.014642" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+            </test-suite>
+            <test-suite type="TestFixture" id="1048" name="MatterEditsTests" fullname="Wildkin.Tests.EditMode.MatterEditsTests" classname="Wildkin.Tests.EditMode.MatterEditsTests" runstate="Runnable" testcasecount="3" result="Passed" start-time="2026-09-27 18:36:02Z" end-time="2026-09-27 18:36:02Z" duration="0.012768" total="3" passed="3" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1050" name="MaterialEdit_PreservesDensityAndNoOpDoesNotRevise" fullname="Wildkin.Tests.EditMode.MatterEditsTests.MaterialEdit_PreservesDensityAndNoOpDoesNotRevise" methodname="MaterialEdit_PreservesDensityAndNoOpDoesNotRevise" classname="Wildkin.Tests.EditMode.MatterEditsTests" runstate="Runnable" seed="247386805" result="Passed" start-time="2026-09-27 18:36:02Z" end-time="2026-09-27 18:36:02Z" duration="0.004392" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1049" name="RemovingGeneratedMatter_StoresGlobalAirTombstoneWithoutRegeneration" fullname="Wildkin.Tests.EditMode.MatterEditsTests.RemovingGeneratedMatter_StoresGlobalAirTombstoneWithoutRegeneration" methodname="RemovingGeneratedMatter_StoresGlobalAirTombstoneWithoutRegeneration" classname="Wildkin.Tests.EditMode.MatterEditsTests" runstate="Runnable" seed="1334770224" result="Passed" start-time="2026-09-27 18:36:02Z" end-time="2026-09-27 18:36:02Z" duration="0.004043" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1051" name="SettingCurrentSample_IsNoOpAndReturningToSourceRemovesOverride" fullname="Wildkin.Tests.EditMode.MatterEditsTests.SettingCurrentSample_IsNoOpAndReturningToSourceRemovesOverride" methodname="SettingCurrentSample_IsNoOpAndReturningToSourceRemovesOverride" classname="Wildkin.Tests.EditMode.MatterEditsTests" runstate="Runnable" seed="1896869409" result="Passed" start-time="2026-09-27 18:36:02Z" end-time="2026-09-27 18:36:02Z" duration="0.002508" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+            </test-suite>
+            <test-suite type="TestFixture" id="1052" name="MatterMesherTests" fullname="Wildkin.Tests.EditMode.MatterMesherTests" classname="Wildkin.Tests.EditMode.MatterMesherTests" runstate="Runnable" testcasecount="23" result="Passed" start-time="2026-09-27 18:36:02Z" end-time="2026-09-27 18:36:04Z" duration="2.180020" total="23" passed="23" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1075" name="AdjacentBrickMeshes_OwnEachCrossingEdgeOnceWithoutDuplicateOrMissingQuads" fullname="Wildkin.Tests.EditMode.MatterMesherTests.AdjacentBrickMeshes_OwnEachCrossingEdgeOnceWithoutDuplicateOrMissingQuads" methodname="AdjacentBrickMeshes_OwnEachCrossingEdgeOnceWithoutDuplicateOrMissingQuads" classname="Wildkin.Tests.EditMode.MatterMesherTests" runstate="Runnable" seed="324299253" result="Passed" start-time="2026-09-27 18:36:02Z" end-time="2026-09-27 18:36:02Z" duration="0.238571" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-suite type="ParameterizedMethod" id="1060" name="BothMeshers_ProduceDeterministicFiniteTopologyForEveryFrozenField" fullname="Wildkin.Tests.EditMode.MatterMesherTests.BothMeshers_ProduceDeterministicFiniteTopologyForEveryFrozenField" classname="Wildkin.Tests.EditMode.MatterMesherTests" runstate="Runnable" testcasecount="6" result="Passed" start-time="2026-09-27 18:36:02Z" end-time="2026-09-27 18:36:03Z" duration="0.604010" total="6" passed="6" failed="0" inconclusive="0" skipped="0" asserts="0">
+                <properties />
+                <test-case id="1054" name="BothMeshers_ProduceDeterministicFiniteTopologyForEveryFrozenField(SmoothOrganic)" fullname="Wildkin.Tests.EditMode.MatterMesherTests.BothMeshers_ProduceDeterministicFiniteTopologyForEveryFrozenField(SmoothOrganic)" methodname="BothMeshers_ProduceDeterministicFiniteTopologyForEveryFrozenField" classname="Wildkin.Tests.EditMode.MatterMesherTests" runstate="Runnable" seed="620068405" result="Passed" start-time="2026-09-27 18:36:02Z" end-time="2026-09-27 18:36:03Z" duration="0.087795" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1055" name="BothMeshers_ProduceDeterministicFiniteTopologyForEveryFrozenField(LayeredRock)" fullname="Wildkin.Tests.EditMode.MatterMesherTests.BothMeshers_ProduceDeterministicFiniteTopologyForEveryFrozenField(LayeredRock)" methodname="BothMeshers_ProduceDeterministicFiniteTopologyForEveryFrozenField" classname="Wildkin.Tests.EditMode.MatterMesherTests" runstate="Runnable" seed="1399010729" result="Passed" start-time="2026-09-27 18:36:03Z" end-time="2026-09-27 18:36:03Z" duration="0.119237" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1056" name="BothMeshers_ProduceDeterministicFiniteTopologyForEveryFrozenField(CliffCave)" fullname="Wildkin.Tests.EditMode.MatterMesherTests.BothMeshers_ProduceDeterministicFiniteTopologyForEveryFrozenField(CliffCave)" methodname="BothMeshers_ProduceDeterministicFiniteTopologyForEveryFrozenField" classname="Wildkin.Tests.EditMode.MatterMesherTests" runstate="Runnable" seed="1656646534" result="Passed" start-time="2026-09-27 18:36:03Z" end-time="2026-09-27 18:36:03Z" duration="0.108824" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1057" name="BothMeshers_ProduceDeterministicFiniteTopologyForEveryFrozenField(MaterialBoundary)" fullname="Wildkin.Tests.EditMode.MatterMesherTests.BothMeshers_ProduceDeterministicFiniteTopologyForEveryFrozenField(MaterialBoundary)" methodname="BothMeshers_ProduceDeterministicFiniteTopologyForEveryFrozenField" classname="Wildkin.Tests.EditMode.MatterMesherTests" runstate="Runnable" seed="278670404" result="Passed" start-time="2026-09-27 18:36:03Z" end-time="2026-09-27 18:36:03Z" duration="0.098411" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1058" name="BothMeshers_ProduceDeterministicFiniteTopologyForEveryFrozenField(MinedCavity)" fullname="Wildkin.Tests.EditMode.MatterMesherTests.BothMeshers_ProduceDeterministicFiniteTopologyForEveryFrozenField(MinedCavity)" methodname="BothMeshers_ProduceDeterministicFiniteTopologyForEveryFrozenField" classname="Wildkin.Tests.EditMode.MatterMesherTests" runstate="Runnable" seed="2018387820" result="Passed" start-time="2026-09-27 18:36:03Z" end-time="2026-09-27 18:36:03Z" duration="0.088252" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1059" name="BothMeshers_ProduceDeterministicFiniteTopologyForEveryFrozenField(DetachedIrregular)" fullname="Wildkin.Tests.EditMode.MatterMesherTests.BothMeshers_ProduceDeterministicFiniteTopologyForEveryFrozenField(DetachedIrregular)" methodname="BothMeshers_ProduceDeterministicFiniteTopologyForEveryFrozenField" classname="Wildkin.Tests.EditMode.MatterMesherTests" runstate="Runnable" seed="1706171602" result="Passed" start-time="2026-09-27 18:36:03Z" end-time="2026-09-27 18:36:03Z" duration="0.098726" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+              </test-suite>
+              <test-case id="1074" name="DualContouring_UsesARealPlanarQefAndDocumentsTheRankDeficientFallback" fullname="Wildkin.Tests.EditMode.MatterMesherTests.DualContouring_UsesARealPlanarQefAndDocumentsTheRankDeficientFallback" methodname="DualContouring_UsesARealPlanarQefAndDocumentsTheRankDeficientFallback" classname="Wildkin.Tests.EditMode.MatterMesherTests" runstate="Runnable" seed="940022158" result="Passed" start-time="2026-09-27 18:36:03Z" end-time="2026-09-27 18:36:03Z" duration="0.050786" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1077" name="EditAndRemesh_UsesNewRevisionWithoutMutatingPreviouslyPublishedMeshData" fullname="Wildkin.Tests.EditMode.MatterMesherTests.EditAndRemesh_UsesNewRevisionWithoutMutatingPreviouslyPublishedMeshData" methodname="EditAndRemesh_UsesNewRevisionWithoutMutatingPreviouslyPublishedMeshData" classname="Wildkin.Tests.EditMode.MatterMesherTests" runstate="Runnable" seed="2062392385" result="Passed" start-time="2026-09-27 18:36:03Z" end-time="2026-09-27 18:36:03Z" duration="0.062600" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-suite type="ParameterizedMethod" id="1073" name="EveryDatasetAndUniformResolution_ProducesMatchedValidMeshes" fullname="Wildkin.Tests.EditMode.MatterMesherTests.EveryDatasetAndUniformResolution_ProducesMatchedValidMeshes" classname="Wildkin.Tests.EditMode.MatterMesherTests" runstate="Runnable" testcasecount="12" result="Passed" start-time="2026-09-27 18:36:03Z" end-time="2026-09-27 18:36:04Z" duration="1.095075" total="12" passed="12" failed="0" inconclusive="0" skipped="0" asserts="0">
+                <properties />
+                <test-case id="1061" name="EveryDatasetAndUniformResolution_ProducesMatchedValidMeshes(SmoothOrganic,0.5f)" fullname="Wildkin.Tests.EditMode.MatterMesherTests.EveryDatasetAndUniformResolution_ProducesMatchedValidMeshes(SmoothOrganic,0.5f)" methodname="EveryDatasetAndUniformResolution_ProducesMatchedValidMeshes" classname="Wildkin.Tests.EditMode.MatterMesherTests" runstate="Runnable" seed="1333122988" result="Passed" start-time="2026-09-27 18:36:03Z" end-time="2026-09-27 18:36:03Z" duration="0.062919" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1062" name="EveryDatasetAndUniformResolution_ProducesMatchedValidMeshes(SmoothOrganic,0.25f)" fullname="Wildkin.Tests.EditMode.MatterMesherTests.EveryDatasetAndUniformResolution_ProducesMatchedValidMeshes(SmoothOrganic,0.25f)" methodname="EveryDatasetAndUniformResolution_ProducesMatchedValidMeshes" classname="Wildkin.Tests.EditMode.MatterMesherTests" runstate="Runnable" seed="1784767009" result="Passed" start-time="2026-09-27 18:36:03Z" end-time="2026-09-27 18:36:03Z" duration="0.072208" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1063" name="EveryDatasetAndUniformResolution_ProducesMatchedValidMeshes(LayeredRock,0.5f)" fullname="Wildkin.Tests.EditMode.MatterMesherTests.EveryDatasetAndUniformResolution_ProducesMatchedValidMeshes(LayeredRock,0.5f)" methodname="EveryDatasetAndUniformResolution_ProducesMatchedValidMeshes" classname="Wildkin.Tests.EditMode.MatterMesherTests" runstate="Runnable" seed="377996216" result="Passed" start-time="2026-09-27 18:36:03Z" end-time="2026-09-27 18:36:03Z" duration="0.097432" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1064" name="EveryDatasetAndUniformResolution_ProducesMatchedValidMeshes(LayeredRock,0.25f)" fullname="Wildkin.Tests.EditMode.MatterMesherTests.EveryDatasetAndUniformResolution_ProducesMatchedValidMeshes(LayeredRock,0.25f)" methodname="EveryDatasetAndUniformResolution_ProducesMatchedValidMeshes" classname="Wildkin.Tests.EditMode.MatterMesherTests" runstate="Runnable" seed="540855911" result="Passed" start-time="2026-09-27 18:36:03Z" end-time="2026-09-27 18:36:04Z" duration="0.105488" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1065" name="EveryDatasetAndUniformResolution_ProducesMatchedValidMeshes(CliffCave,0.5f)" fullname="Wildkin.Tests.EditMode.MatterMesherTests.EveryDatasetAndUniformResolution_ProducesMatchedValidMeshes(CliffCave,0.5f)" methodname="EveryDatasetAndUniformResolution_ProducesMatchedValidMeshes" classname="Wildkin.Tests.EditMode.MatterMesherTests" runstate="Runnable" seed="1358328902" result="Passed" start-time="2026-09-27 18:36:04Z" end-time="2026-09-27 18:36:04Z" duration="0.084894" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1066" name="EveryDatasetAndUniformResolution_ProducesMatchedValidMeshes(CliffCave,0.25f)" fullname="Wildkin.Tests.EditMode.MatterMesherTests.EveryDatasetAndUniformResolution_ProducesMatchedValidMeshes(CliffCave,0.25f)" methodname="EveryDatasetAndUniformResolution_ProducesMatchedValidMeshes" classname="Wildkin.Tests.EditMode.MatterMesherTests" runstate="Runnable" seed="669351031" result="Passed" start-time="2026-09-27 18:36:04Z" end-time="2026-09-27 18:36:04Z" duration="0.110385" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1067" name="EveryDatasetAndUniformResolution_ProducesMatchedValidMeshes(MaterialBoundary,0.5f)" fullname="Wildkin.Tests.EditMode.MatterMesherTests.EveryDatasetAndUniformResolution_ProducesMatchedValidMeshes(MaterialBoundary,0.5f)" methodname="EveryDatasetAndUniformResolution_ProducesMatchedValidMeshes" classname="Wildkin.Tests.EditMode.MatterMesherTests" runstate="Runnable" seed="851550018" result="Passed" start-time="2026-09-27 18:36:04Z" end-time="2026-09-27 18:36:04Z" duration="0.074278" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1068" name="EveryDatasetAndUniformResolution_ProducesMatchedValidMeshes(MaterialBoundary,0.25f)" fullname="Wildkin.Tests.EditMode.MatterMesherTests.EveryDatasetAndUniformResolution_ProducesMatchedValidMeshes(MaterialBoundary,0.25f)" methodname="EveryDatasetAndUniformResolution_ProducesMatchedValidMeshes" classname="Wildkin.Tests.EditMode.MatterMesherTests" runstate="Runnable" seed="796309682" result="Passed" start-time="2026-09-27 18:36:04Z" end-time="2026-09-27 18:36:04Z" duration="0.106350" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1069" name="EveryDatasetAndUniformResolution_ProducesMatchedValidMeshes(MinedCavity,0.5f)" fullname="Wildkin.Tests.EditMode.MatterMesherTests.EveryDatasetAndUniformResolution_ProducesMatchedValidMeshes(MinedCavity,0.5f)" methodname="EveryDatasetAndUniformResolution_ProducesMatchedValidMeshes" classname="Wildkin.Tests.EditMode.MatterMesherTests" runstate="Runnable" seed="1290702733" result="Passed" start-time="2026-09-27 18:36:04Z" end-time="2026-09-27 18:36:04Z" duration="0.069307" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1070" name="EveryDatasetAndUniformResolution_ProducesMatchedValidMeshes(MinedCavity,0.25f)" fullname="Wildkin.Tests.EditMode.MatterMesherTests.EveryDatasetAndUniformResolution_ProducesMatchedValidMeshes(MinedCavity,0.25f)" methodname="EveryDatasetAndUniformResolution_ProducesMatchedValidMeshes" classname="Wildkin.Tests.EditMode.MatterMesherTests" runstate="Runnable" seed="1394022150" result="Passed" start-time="2026-09-27 18:36:04Z" end-time="2026-09-27 18:36:04Z" duration="0.146781" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1071" name="EveryDatasetAndUniformResolution_ProducesMatchedValidMeshes(DetachedIrregular,0.5f)" fullname="Wildkin.Tests.EditMode.MatterMesherTests.EveryDatasetAndUniformResolution_ProducesMatchedValidMeshes(DetachedIrregular,0.5f)" methodname="EveryDatasetAndUniformResolution_ProducesMatchedValidMeshes" classname="Wildkin.Tests.EditMode.MatterMesherTests" runstate="Runnable" seed="1985020522" result="Passed" start-time="2026-09-27 18:36:04Z" end-time="2026-09-27 18:36:04Z" duration="0.079080" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1072" name="EveryDatasetAndUniformResolution_ProducesMatchedValidMeshes(DetachedIrregular,0.25f)" fullname="Wildkin.Tests.EditMode.MatterMesherTests.EveryDatasetAndUniformResolution_ProducesMatchedValidMeshes(DetachedIrregular,0.25f)" methodname="EveryDatasetAndUniformResolution_ProducesMatchedValidMeshes" classname="Wildkin.Tests.EditMode.MatterMesherTests" runstate="Runnable" seed="1967450630" result="Passed" start-time="2026-09-27 18:36:04Z" end-time="2026-09-27 18:36:04Z" duration="0.080823" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+              </test-suite>
+              <test-case id="1076" name="MaterialBoundary_ProducesDeterministicRockAndDirtWeights" fullname="Wildkin.Tests.EditMode.MatterMesherTests.MaterialBoundary_ProducesDeterministicRockAndDirtWeights" methodname="MaterialBoundary_ProducesDeterministicRockAndDirtWeights" classname="Wildkin.Tests.EditMode.MatterMesherTests" runstate="Runnable" seed="5986639" result="Passed" start-time="2026-09-27 18:36:04Z" end-time="2026-09-27 18:36:04Z" duration="0.072639" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1053" name="MeshingRegion_IncludesTheRequiredSharedCornerWindowAndOwnedEdgeHalo" fullname="Wildkin.Tests.EditMode.MatterMesherTests.MeshingRegion_IncludesTheRequiredSharedCornerWindowAndOwnedEdgeHalo" methodname="MeshingRegion_IncludesTheRequiredSharedCornerWindowAndOwnedEdgeHalo" classname="Wildkin.Tests.EditMode.MatterMesherTests" runstate="Runnable" seed="123033765" result="Passed" start-time="2026-09-27 18:36:04Z" end-time="2026-09-27 18:36:04Z" duration="0.052802" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+            </test-suite>
+            <test-suite type="TestFixture" id="1078" name="MatterReferenceContractTests" fullname="Wildkin.Tests.EditMode.MatterReferenceContractTests" classname="Wildkin.Tests.EditMode.MatterReferenceContractTests" runstate="Runnable" testcasecount="5" result="Passed" start-time="2026-09-27 18:36:04Z" end-time="2026-09-27 18:36:04Z" duration="0.011406" total="5" passed="5" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1080" name="MatterDomainAssembly_HasNoUnityEngineDependency" fullname="Wildkin.Tests.EditMode.MatterReferenceContractTests.MatterDomainAssembly_HasNoUnityEngineDependency" methodname="MatterDomainAssembly_HasNoUnityEngineDependency" classname="Wildkin.Tests.EditMode.MatterReferenceContractTests" runstate="Runnable" seed="2076083320" result="Passed" start-time="2026-09-27 18:36:04Z" end-time="2026-09-27 18:36:04Z" duration="0.002378" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1079" name="Phase05EReference_PreservesArchitectureAndMatterInvariants" fullname="Wildkin.Tests.EditMode.MatterReferenceContractTests.Phase05EReference_PreservesArchitectureAndMatterInvariants" methodname="Phase05EReference_PreservesArchitectureAndMatterInvariants" classname="Wildkin.Tests.EditMode.MatterReferenceContractTests" runstate="Runnable" seed="59730861" result="Passed" start-time="2026-09-27 18:36:04Z" end-time="2026-09-27 18:36:04Z" duration="0.004085" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-suite type="ParameterizedMethod" id="1084" name="UnknownSupport_IsFailClosedAndOnlyCompleteUnsupportedEvidenceAllowsDetach" fullname="Wildkin.Tests.EditMode.MatterReferenceContractTests.UnknownSupport_IsFailClosedAndOnlyCompleteUnsupportedEvidenceAllowsDetach" classname="Wildkin.Tests.EditMode.MatterReferenceContractTests" runstate="Runnable" testcasecount="3" result="Passed" start-time="2026-09-27 18:36:04Z" end-time="2026-09-27 18:36:04Z" duration="0.002959" total="3" passed="3" failed="0" inconclusive="0" skipped="0" asserts="0">
+                <properties />
+                <test-case id="1081" name="UnknownSupport_IsFailClosedAndOnlyCompleteUnsupportedEvidenceAllowsDetach(Unknown,False)" fullname="Wildkin.Tests.EditMode.MatterReferenceContractTests.UnknownSupport_IsFailClosedAndOnlyCompleteUnsupportedEvidenceAllowsDetach(Unknown,False)" methodname="UnknownSupport_IsFailClosedAndOnlyCompleteUnsupportedEvidenceAllowsDetach" classname="Wildkin.Tests.EditMode.MatterReferenceContractTests" runstate="Runnable" seed="2144924370" result="Passed" start-time="2026-09-27 18:36:04Z" end-time="2026-09-27 18:36:04Z" duration="0.000966" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1082" name="UnknownSupport_IsFailClosedAndOnlyCompleteUnsupportedEvidenceAllowsDetach(Supported,False)" fullname="Wildkin.Tests.EditMode.MatterReferenceContractTests.UnknownSupport_IsFailClosedAndOnlyCompleteUnsupportedEvidenceAllowsDetach(Supported,False)" methodname="UnknownSupport_IsFailClosedAndOnlyCompleteUnsupportedEvidenceAllowsDetach" classname="Wildkin.Tests.EditMode.MatterReferenceContractTests" runstate="Runnable" seed="1947110277" result="Passed" start-time="2026-09-27 18:36:04Z" end-time="2026-09-27 18:36:04Z" duration="0.000265" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1083" name="UnknownSupport_IsFailClosedAndOnlyCompleteUnsupportedEvidenceAllowsDetach(Unsupported,True)" fullname="Wildkin.Tests.EditMode.MatterReferenceContractTests.UnknownSupport_IsFailClosedAndOnlyCompleteUnsupportedEvidenceAllowsDetach(Unsupported,True)" methodname="UnknownSupport_IsFailClosedAndOnlyCompleteUnsupportedEvidenceAllowsDetach" classname="Wildkin.Tests.EditMode.MatterReferenceContractTests" runstate="Runnable" seed="1338205278" result="Passed" start-time="2026-09-27 18:36:04Z" end-time="2026-09-27 18:36:04Z" duration="0.000219" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+              </test-suite>
+            </test-suite>
+            <test-suite type="TestFixture" id="1085" name="MatterRegionSnapshotTests" fullname="Wildkin.Tests.EditMode.MatterRegionSnapshotTests" classname="Wildkin.Tests.EditMode.MatterRegionSnapshotTests" runstate="Runnable" testcasecount="4" result="Passed" start-time="2026-09-27 18:36:04Z" end-time="2026-09-27 18:36:04Z" duration="0.024588" total="4" passed="4" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1087" name="ActorLocalMatterCoordinates_AreIndependentOfWorldBrickIdentity" fullname="Wildkin.Tests.EditMode.MatterRegionSnapshotTests.ActorLocalMatterCoordinates_AreIndependentOfWorldBrickIdentity" methodname="ActorLocalMatterCoordinates_AreIndependentOfWorldBrickIdentity" classname="Wildkin.Tests.EditMode.MatterRegionSnapshotTests" runstate="Runnable" seed="158231184" result="Passed" start-time="2026-09-27 18:36:04Z" end-time="2026-09-27 18:36:04Z" duration="0.006105" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1086" name="Snapshot_CopiesResolvedSamplesAcrossPositiveAndNegativeBrickBoundaries" fullname="Wildkin.Tests.EditMode.MatterRegionSnapshotTests.Snapshot_CopiesResolvedSamplesAcrossPositiveAndNegativeBrickBoundaries" methodname="Snapshot_CopiesResolvedSamplesAcrossPositiveAndNegativeBrickBoundaries" classname="Wildkin.Tests.EditMode.MatterRegionSnapshotTests" runstate="Runnable" seed="827967296" result="Passed" start-time="2026-09-27 18:36:04Z" end-time="2026-09-27 18:36:04Z" duration="0.011736" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1088" name="Snapshot_RejectsOutOfBoundsLocalAndGlobalWriteback" fullname="Wildkin.Tests.EditMode.MatterRegionSnapshotTests.Snapshot_RejectsOutOfBoundsLocalAndGlobalWriteback" methodname="Snapshot_RejectsOutOfBoundsLocalAndGlobalWriteback" classname="Wildkin.Tests.EditMode.MatterRegionSnapshotTests" runstate="Runnable" seed="1376485785" result="Passed" start-time="2026-09-27 18:36:04Z" end-time="2026-09-27 18:36:04Z" duration="0.002361" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1089" name="SnapshotWriteback_AppliesOnlyChangedSamplesInsideItsBounds" fullname="Wildkin.Tests.EditMode.MatterRegionSnapshotTests.SnapshotWriteback_AppliesOnlyChangedSamplesInsideItsBounds" methodname="SnapshotWriteback_AppliesOnlyChangedSamplesInsideItsBounds" classname="Wildkin.Tests.EditMode.MatterRegionSnapshotTests" runstate="Runnable" seed="1752061163" result="Passed" start-time="2026-09-27 18:36:04Z" end-time="2026-09-27 18:36:04Z" duration="0.002284" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+            </test-suite>
+            <test-suite type="TestFixture" id="1090" name="MatterSamplingBenchmarkTests" fullname="Wildkin.Tests.EditMode.MatterSamplingBenchmarkTests" classname="Wildkin.Tests.EditMode.MatterSamplingBenchmarkTests" runstate="Runnable" testcasecount="1" result="Passed" start-time="2026-09-27 18:36:04Z" end-time="2026-09-27 18:36:04Z" duration="0.027735" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1091" name="FixedRegionBenchmark_ReportsMatchingDirectAndResolvedSamples" fullname="Wildkin.Tests.EditMode.MatterSamplingBenchmarkTests.FixedRegionBenchmark_ReportsMatchingDirectAndResolvedSamples" methodname="FixedRegionBenchmark_ReportsMatchingDirectAndResolvedSamples" classname="Wildkin.Tests.EditMode.MatterSamplingBenchmarkTests" runstate="Runnable" seed="125186266" result="Passed" start-time="2026-09-27 18:36:04Z" end-time="2026-09-27 18:36:04Z" duration="0.026728" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+            </test-suite>
+            <test-suite type="TestFixture" id="1092" name="MatterWorldSaveTests" fullname="Wildkin.Tests.EditMode.MatterWorldSaveTests" classname="Wildkin.Tests.EditMode.MatterWorldSaveTests" runstate="Runnable" testcasecount="3" result="Passed" start-time="2026-09-27 18:36:04Z" end-time="2026-09-27 18:36:05Z" duration="0.014837" total="3" passed="3" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1094" name="QualificationJson_EmptyEditSetPreservesSeedAndZeroRevision" fullname="Wildkin.Tests.EditMode.MatterWorldSaveTests.QualificationJson_EmptyEditSetPreservesSeedAndZeroRevision" methodname="QualificationJson_EmptyEditSetPreservesSeedAndZeroRevision" classname="Wildkin.Tests.EditMode.MatterWorldSaveTests" runstate="Runnable" seed="357511354" result="Passed" start-time="2026-09-27 18:36:04Z" end-time="2026-09-27 18:36:04Z" duration="0.005377" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1095" name="QualificationJson_RejectsUnsupportedSchemaAndSourceVersions" fullname="Wildkin.Tests.EditMode.MatterWorldSaveTests.QualificationJson_RejectsUnsupportedSchemaAndSourceVersions" methodname="QualificationJson_RejectsUnsupportedSchemaAndSourceVersions" classname="Wildkin.Tests.EditMode.MatterWorldSaveTests" runstate="Runnable" seed="1879144016" result="Passed" start-time="2026-09-27 18:36:04Z" end-time="2026-09-27 18:36:05Z" duration="0.001026" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1093" name="QualificationJson_RoundTripsSeedSpacingEditsRevisionAndRemovedMatter" fullname="Wildkin.Tests.EditMode.MatterWorldSaveTests.QualificationJson_RoundTripsSeedSpacingEditsRevisionAndRemovedMatter" methodname="QualificationJson_RoundTripsSeedSpacingEditsRevisionAndRemovedMatter" classname="Wildkin.Tests.EditMode.MatterWorldSaveTests" runstate="Runnable" seed="308946509" result="Passed" start-time="2026-09-27 18:36:05Z" end-time="2026-09-27 18:36:05Z" duration="0.006845" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+            </test-suite>
+            <test-suite type="TestFixture" id="1096" name="RockFormationConstructionTests" fullname="Wildkin.Tests.EditMode.RockFormationConstructionTests" classname="Wildkin.Tests.EditMode.RockFormationConstructionTests" runstate="Runnable" testcasecount="7" result="Passed" start-time="2026-09-27 18:36:05Z" end-time="2026-09-27 18:36:07Z" duration="2.945958" total="7" passed="7" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1101" name="AtLeastOneSeedResolvesAsMultipleSubstantialOrdinaryMatterComponents" fullname="Wildkin.Tests.EditMode.RockFormationConstructionTests.AtLeastOneSeedResolvesAsMultipleSubstantialOrdinaryMatterComponents" methodname="AtLeastOneSeedResolvesAsMultipleSubstantialOrdinaryMatterComponents" classname="Wildkin.Tests.EditMode.RockFormationConstructionTests" runstate="Runnable" seed="986368311" result="Passed" start-time="2026-09-27 18:36:05Z" end-time="2026-09-27 18:36:05Z" duration="0.841861" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1098" name="FormationModes_AreDeterministicAcrossRecipeRetryResolutionAndMesh" fullname="Wildkin.Tests.EditMode.RockFormationConstructionTests.FormationModes_AreDeterministicAcrossRecipeRetryResolutionAndMesh" methodname="FormationModes_AreDeterministicAcrossRecipeRetryResolutionAndMesh" classname="Wildkin.Tests.EditMode.RockFormationConstructionTests" runstate="Runnable" seed="1544388877" result="Passed" start-time="2026-09-27 18:36:05Z" end-time="2026-09-27 18:36:07Z" duration="1.668213" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1097" name="ProceduralStoneRecipes_AreBoundedFacetedAndFinite" fullname="Wildkin.Tests.EditMode.RockFormationConstructionTests.ProceduralStoneRecipes_AreBoundedFacetedAndFinite" methodname="ProceduralStoneRecipes_AreBoundedFacetedAndFinite" classname="Wildkin.Tests.EditMode.RockFormationConstructionTests" runstate="Runnable" seed="1773472475" result="Passed" start-time="2026-09-27 18:36:07Z" end-time="2026-09-27 18:36:07Z" duration="0.002945" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1099" name="QuarterMeterResolution_UsesTheSamePhysicalBoundsAsHalfMeterResolution" fullname="Wildkin.Tests.EditMode.RockFormationConstructionTests.QuarterMeterResolution_UsesTheSamePhysicalBoundsAsHalfMeterResolution" methodname="QuarterMeterResolution_UsesTheSamePhysicalBoundsAsHalfMeterResolution" classname="Wildkin.Tests.EditMode.RockFormationConstructionTests" runstate="Runnable" seed="1099170567" result="Passed" start-time="2026-09-27 18:36:07Z" end-time="2026-09-27 18:36:07Z" duration="0.119989" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1102" name="ResolvedFormation_DoesNotRetainStoneRecipeAsMatterAuthority" fullname="Wildkin.Tests.EditMode.RockFormationConstructionTests.ResolvedFormation_DoesNotRetainStoneRecipeAsMatterAuthority" methodname="ResolvedFormation_DoesNotRetainStoneRecipeAsMatterAuthority" classname="Wildkin.Tests.EditMode.RockFormationConstructionTests" runstate="Runnable" seed="503690113" result="Passed" start-time="2026-09-27 18:36:07Z" end-time="2026-09-27 18:36:07Z" duration="0.024266" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1100" name="SelectiveUnion_ChangesOnlyTheCoreBlendAndLeavesAccentGroupsHard" fullname="Wildkin.Tests.EditMode.RockFormationConstructionTests.SelectiveUnion_ChangesOnlyTheCoreBlendAndLeavesAccentGroupsHard" methodname="SelectiveUnion_ChangesOnlyTheCoreBlendAndLeavesAccentGroupsHard" classname="Wildkin.Tests.EditMode.RockFormationConstructionTests" runstate="Runnable" seed="563239900" result="Passed" start-time="2026-09-27 18:36:07Z" end-time="2026-09-27 18:36:07Z" duration="0.000922" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1103" name="U4BMaterialTextures_AreDeterministicWithCoolerRockAndWarmDirt" fullname="Wildkin.Tests.EditMode.RockFormationConstructionTests.U4BMaterialTextures_AreDeterministicWithCoolerRockAndWarmDirt" methodname="U4BMaterialTextures_AreDeterministicWithCoolerRockAndWarmDirt" classname="Wildkin.Tests.EditMode.RockFormationConstructionTests" runstate="Runnable" seed="1035588157" result="Passed" start-time="2026-09-27 18:36:07Z" end-time="2026-09-27 18:36:07Z" duration="0.284883" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+            </test-suite>
+            <test-suite type="TestFixture" id="1104" name="RockFormationStampTests" fullname="Wildkin.Tests.EditMode.RockFormationStampTests" classname="Wildkin.Tests.EditMode.RockFormationStampTests" runstate="Runnable" testcasecount="8" result="Passed" start-time="2026-09-27 18:36:07Z" end-time="2026-09-27 18:36:09Z" duration="1.272507" total="8" passed="8" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1107" name="DirtIsAnEmbeddedMaterialBandAndNeverAddsMatterOutsideTheStampField" fullname="Wildkin.Tests.EditMode.RockFormationStampTests.DirtIsAnEmbeddedMaterialBandAndNeverAddsMatterOutsideTheStampField" methodname="DirtIsAnEmbeddedMaterialBandAndNeverAddsMatterOutsideTheStampField" classname="Wildkin.Tests.EditMode.RockFormationStampTests" runstate="Runnable" seed="1910884733" result="Passed" start-time="2026-09-27 18:36:07Z" end-time="2026-09-27 18:36:08Z" duration="0.088948" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1108" name="GeneratedRockAndDirtTextures_AreDeterministicSeparatedAndLowNoise" fullname="Wildkin.Tests.EditMode.RockFormationStampTests.GeneratedRockAndDirtTextures_AreDeterministicSeparatedAndLowNoise" methodname="GeneratedRockAndDirtTextures_AreDeterministicSeparatedAndLowNoise" classname="Wildkin.Tests.EditMode.RockFormationStampTests" runstate="Runnable" seed="1548318261" result="Passed" start-time="2026-09-27 18:36:08Z" end-time="2026-09-27 18:36:08Z" duration="0.277300" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1111" name="PublishedSurface_UsesOneSubmeshAndStableRestProjectionWithRockDirtWeights" fullname="Wildkin.Tests.EditMode.RockFormationStampTests.PublishedSurface_UsesOneSubmeshAndStableRestProjectionWithRockDirtWeights" methodname="PublishedSurface_UsesOneSubmeshAndStableRestProjectionWithRockDirtWeights" classname="Wildkin.Tests.EditMode.RockFormationStampTests" runstate="Runnable" seed="408930032" result="Passed" start-time="2026-09-27 18:36:08Z" end-time="2026-09-27 18:36:08Z" duration="0.062698" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1109" name="ResolvedWorld_UsesOrdinaryRockAndDirtMatterAndRoundTripsWithoutStampSource" fullname="Wildkin.Tests.EditMode.RockFormationStampTests.ResolvedWorld_UsesOrdinaryRockAndDirtMatterAndRoundTripsWithoutStampSource" methodname="ResolvedWorld_UsesOrdinaryRockAndDirtMatterAndRoundTripsWithoutStampSource" classname="Wildkin.Tests.EditMode.RockFormationStampTests" runstate="Runnable" seed="3141523" result="Passed" start-time="2026-09-27 18:36:08Z" end-time="2026-09-27 18:36:08Z" duration="0.020459" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1112" name="RestProjection_IsInvariantUnderObjectTranslationAndRotationWhileWorldPointChanges" fullname="Wildkin.Tests.EditMode.RockFormationStampTests.RestProjection_IsInvariantUnderObjectTranslationAndRotationWhileWorldPointChanges" methodname="RestProjection_IsInvariantUnderObjectTranslationAndRotationWhileWorldPointChanges" classname="Wildkin.Tests.EditMode.RockFormationStampTests" runstate="Runnable" seed="319901813" result="Passed" start-time="2026-09-27 18:36:08Z" end-time="2026-09-27 18:36:08Z" duration="0.002210" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1105" name="SameSeed_RepeatsRecipeResolvedFieldAndSurfaceNetsMesh" fullname="Wildkin.Tests.EditMode.RockFormationStampTests.SameSeed_RepeatsRecipeResolvedFieldAndSurfaceNetsMesh" methodname="SameSeed_RepeatsRecipeResolvedFieldAndSurfaceNetsMesh" classname="Wildkin.Tests.EditMode.RockFormationStampTests" runstate="Runnable" seed="627416898" result="Passed" start-time="2026-09-27 18:36:08Z" end-time="2026-09-27 18:36:08Z" duration="0.296152" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1110" name="SurfaceNets_ProducesValidConnectedMeshAcrossTheStampBrickSeams" fullname="Wildkin.Tests.EditMode.RockFormationStampTests.SurfaceNets_ProducesValidConnectedMeshAcrossTheStampBrickSeams" methodname="SurfaceNets_ProducesValidConnectedMeshAcrossTheStampBrickSeams" classname="Wildkin.Tests.EditMode.RockFormationStampTests" runstate="Runnable" seed="755235356" result="Passed" start-time="2026-09-27 18:36:08Z" end-time="2026-09-27 18:36:08Z" duration="0.197721" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1106" name="U4ControlGallerySeeds_RemainMeasurablyDifferentFiniteConnectedControlFormations" fullname="Wildkin.Tests.EditMode.RockFormationStampTests.U4ControlGallerySeeds_RemainMeasurablyDifferentFiniteConnectedControlFormations" methodname="U4ControlGallerySeeds_RemainMeasurablyDifferentFiniteConnectedControlFormations" classname="Wildkin.Tests.EditMode.RockFormationStampTests" runstate="Runnable" seed="1267291321" result="Passed" start-time="2026-09-27 18:36:08Z" end-time="2026-09-27 18:36:09Z" duration="0.323202" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Saving results to: C:/Users/cwood/AppData/LocalLow/MechanizedIT/Wildkin Frontier Native Lab\TestResults.xml
+]]></output>
+              </test-case>
+            </test-suite>
+          </test-suite>
+        </test-suite>
+      </test-suite>
+    </test-suite>
+  </test-suite>
+</test-run>

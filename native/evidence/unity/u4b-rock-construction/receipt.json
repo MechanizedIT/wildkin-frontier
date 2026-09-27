@@ -1,0 +1,140 @@
+{
+  "phase": "U4B",
+  "title": "Procedural Rock Formation Construction / Art-Method Experiment",
+  "date": "2026-09-27",
+  "status": "HOLD_AFTER_INDEPENDENT_REVIEW",
+  "engine": {
+    "unity": "6000.3.25f1",
+    "hdrp": "17.3.0",
+    "pipeline": "0.8.0-exp.1"
+  },
+  "construction": {
+    "modes": ["U4Control", "DistinctCluster", "SelectiveFormation"],
+    "matchedSeedSet": [3, 8, 12, 14, 19, 20],
+    "matchedRows": 18,
+    "selectedMode": "SelectiveFormation",
+    "selectiveCoreBlendMeters": 0.4,
+    "selectionReason": "The core-only blend improves continuity over distinct stones while caps and accents stay hard-separated; its visual advantage over U4 is modest and does not pass art acceptance.",
+    "matchedMeanGeometry": {
+      "U4Control": { "occupiedSamples": 193.2, "vertices": 387.2, "triangles": 562.7 },
+      "DistinctCluster": { "occupiedSamples": 201.3, "vertices": 401.8, "triangles": 578.0 },
+      "SelectiveFormation": { "occupiedSamples": 211.0, "vertices": 413.2, "triangles": 599.7 }
+    }
+  },
+  "gallery": {
+    "sampleSpacingMeters": 0.5,
+    "seedStart": 1,
+    "seedCount": 20,
+    "selectedMode": "SelectiveFormation",
+    "archetypes": {
+      "Buttress": 5,
+      "Broken Ridge": 5,
+      "Split Cluster": 5,
+      "Stacked Ledge": 5
+    },
+    "rejectedFinalSeeds": 0,
+    "rejectedAttempts": 4,
+    "resolvedComponentCounts": { "one": 15, "two": 5 },
+    "weakestAcceptedSeed": 6
+  },
+  "matterAuthority": {
+    "sourceVersion": 2,
+    "recipesRetainedAsAuthority": false,
+    "airBackedSparseEdits": true,
+    "seed4AtHalfMeter": {
+      "occupiedSamples": 212,
+      "authoritativeSparseMatterSamples": 212,
+      "resolvedComponents": 2,
+      "componentSampleCounts": [192, 20],
+      "minimumMajorComponentBoundsGapMeters": 0.5
+    }
+  },
+  "resolutionDiagnostic": {
+    "seed": 6,
+    "archetype": "Broken Ridge",
+    "constructionMode": "SelectiveFormation",
+    "generationAttempts": { "0.50m": 1, "0.25m": 1 },
+    "rejectedAttempts": { "0.50m": 0, "0.25m": 0 },
+    "accepted": true,
+    "0.50m": {
+      "occupiedSamples": 168,
+      "vertices": 322,
+      "triangles": 458,
+      "generationMilliseconds": 0.0466,
+      "resolutionMilliseconds": 24.6395,
+      "surfaceNetsMilliseconds": 89.6403
+    },
+    "0.25m": {
+      "occupiedSamples": 1292,
+      "vertices": 1163,
+      "triangles": 1872,
+      "generationMilliseconds": 0.0308,
+      "resolutionMilliseconds": 118.4958,
+      "surfaceNetsMilliseconds": 53.8603
+    },
+    "finding": "0.25m shows sharper planes but does not resolve the fused-clast visual language; this is one bounded visual diagnostic, not a performance benchmark.",
+    "validationCorrection": "Formation physical extents now use sample spacing, preserving the same 9.5m x 5.5m x 9.5m limits at both resolutions."
+  },
+  "projectionAndMaterial": {
+    "oneSharedSubmesh": true,
+    "rockDirtWeights": true,
+    "dirtExpandsSilhouette": false,
+    "translationRotationTest": "Passed",
+    "seamCapture": "seam-seed14-shared-rock-dirt.png",
+    "projectionCaptures": ["projection-before.png", "projection-after.png"],
+    "reviewNote": "Code/test-backed; visual projection cue remains weak because material character is low."
+  },
+  "validation": {
+    "focusedEditMode": { "passed": 7, "failed": 0 },
+    "fullEditMode": { "passed": 82, "failed": 0 },
+    "playMode": { "passed": 1, "failed": 0 },
+    "newResolutionRegression": "QuarterMeterResolution_UsesTheSamePhysicalBoundsAsHalfMeterResolution"
+  },
+  "windowsBuild": {
+    "target": "StandaloneWindows64",
+    "result": "Succeeded",
+    "elapsedSeconds": 12.2295649,
+    "totalSizeBytes": 230137170,
+    "errors": 0,
+    "warnings": 2,
+    "playerExitCode": 0,
+    "playerCapture": "windows-player-observation.png",
+    "outputPath": "%LOCALAPPDATA%/Temp/wildkin-u4b-rock-construction/Wildkin-U4B.exe"
+  },
+  "independentReview": {
+    "disposition": "HOLD",
+    "accepted": ["ordinary MatterWorld authority", "multiple components", "corrected quarter-meter validation", "tests", "Windows build"],
+    "blockingVisualFindings": [
+      "Within-archetype silhouettes repeat with little meaningful variation.",
+      "The final gallery still reads as soft fused SDF clasts rather than authored stylized rock formations.",
+      "Material separation and macro character are weak."
+    ],
+    "historicalU4HoldPreserved": true,
+    "u5Started": false,
+    "unrealStarted": false
+  },
+  "performanceLimitations": {
+    "gpuFrameTiming": "Unavailable",
+    "playerFrameObservationIsPerformanceEvidence": false,
+    "memoryEstimateExcludes": ["managed dictionaries", "mesh driver", "textures", "renderer overhead"]
+  },
+  "evidenceFiles": [
+    "matched-construction-comparison.png",
+    "matched-construction-comparison-metrics.json",
+    "final-20-seed-gallery.png",
+    "final-20-seed-gallery-metrics.json",
+    "component-contact-debug.png",
+    "seam-seed14-shared-rock-dirt.png",
+    "projection-before.png",
+    "projection-after.png",
+    "weakest-seed06-broken-ridge-050m.png",
+    "weakest-seed06-broken-ridge-025m.png",
+    "matter-authority-seed06-025m.json",
+    "editmode-focused.xml",
+    "editmode-full.xml",
+    "playmode-full.xml",
+    "build-provenance.json",
+    "windows-player-observation.png",
+    "windows-player-metrics.json"
+  ]
+}
