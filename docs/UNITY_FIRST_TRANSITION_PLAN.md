@@ -4,7 +4,7 @@
 
 ## Qualification status — September 27, 2026
 
-**U0/U1, U2 and U3 PASS; U4 and U4B are HOLD; U5 was not started.** U0/U1 qualified the Unity-created `6000.3.25f1` (Unity 6.3 LTS)/HDRP 17.3.0 tooling path. U2 proves the deterministic integer-addressed matter core, sparse edit/save layer, bounded snapshots and shared-authority inspection. U3 selects `SURFACE_NETS` and `LOCAL_REFINEMENT_DIRECTION`; DC's differences did not justify its complexity, uniform 0.25m did not justify its whole-domain cost, and mixed-resolution stitching remains a risk. U4's authority, one-surface seam, stable rest-coordinate projection, deterministic 20-seed generation, tests and Windows build proof are technically credible, but the remediated gallery remained below the authored stylized-game-asset bar. U4B changes the construction method to plane-clipped role-based stones and preserves the same authority; the corrected 0.25m check, tests and Windows build pass, but independent review still finds repeated silhouettes, soft fused clasts and weak material separation. The U4B evidence is in [the U4B folder](../native/evidence/unity/u4b-rock-construction/README.md); U4 remains documented separately at [U4 evidence](../native/evidence/unity/u4-material-rock-stamp/README.md). No U5, Unreal challenger, or production migration began from this HOLD. Unreal remains an owner-review option from the earlier U4 result. See [U0/U1 evidence](../native/evidence/unity/u0-agent-smoke/README.md), [U2 evidence](../native/evidence/unity/u2-matter-kernel/README.md), [U3 evidence](../native/evidence/unity/u3-mesher-resolution/README.md), and the [overnight qualification log](UNITY_OVERNIGHT_QUALIFICATION_2026-09-27.md).
+**U0/U1, U2 and U3 PASS; U4 and U4B are visual-method HOLDs; U4C is the active next experiment; U5 has not started.** The current evidence does not establish a Unity engine failure. U4/U4B show that the existing rounded/SDF-clast and plane-clipped formation generators do not produce sufficiently authored-looking stones, while the isolated 0.25 m checks show that resolution alone does not repair a weak source shape. U4C changes the question: create good source geometry first, then test whether true signed-distance matter at 0.50 / 0.25 / 0.125 / 0.0625 m preserves it. U4C also tests whether prior occupancy/clipped scalar encoding loses important surface information. If a practical high-resolution local volume succeeds, U4D will test object-local matter domains on coarse terrain. Unreal remains deferred unless Unity later demonstrates an actual rendering/runtime blocker rather than a generator-quality problem. See [SOURCE_GEOMETRY_MATTER_FIDELITY_PLAN.md](SOURCE_GEOMETRY_MATTER_FIDELITY_PLAN.md), [LOCAL_MATTER_DOMAINS.md](LOCAL_MATTER_DOMAINS.md), U4/U4B evidence, and the [U4C prompt](prompts/UNITY_05_SOURCE_GEOMETRY_MATTER_FIDELITY.md).
 
 ## Target
 
@@ -257,6 +257,20 @@ One selected stamp must become ordinary matter after placement.
 **Status: HOLD after independent review, September 27, 2026.** U4B is a new method test, not another tuning pass on `WildkinClast-v1`. It compares preserved U4Control, hard distinct stones, and `SelectiveFormation`, which blends only the central group. Six matched seed/layouts informed the provisional selection. The final selected-mode gallery has 20 seeds across four archetypes, four rejected attempts that regenerated successfully, and zero rejected final seeds. Multiple resolved matter components are allowed and evidenced.
 
 The technical contracts pass: stone recipes resolve into ordinary U2 `MatterWorld` edits, Surface Nets and the 0.50m default remain unchanged, the one-surface seam and projection regression pass, the bounded 0.25m seed now validates in physical meters, and EditMode/PlayMode plus the Windows Development Build pass. Independent review still holds the visual target: silhouettes vary little within each family, the forms remain soft/fused clasts, and material separation is weak. U4 remains a valid failed experiment. **Do not start U5 or Unreal from this result; stop for owner review.** See the [U4B evidence and receipt](../native/evidence/unity/u4b-rock-construction/).
+
+## Phase U4C — source geometry → signed-distance matter fidelity
+
+**Goal:** determine whether the visual problem is the source generator, scalar-field encoding, sample spacing, or Surface Nets itself.
+
+Create three visually credible direct procedural source-rock meshes using a plane/half-space modeling method. Only after source quality passes, convert the same exact meshes into true signed-distance local matter at 0.50 / 0.25 / 0.125 / 0.0625 m and compare Surface Nets reconstruction with matched cameras/materials. Include one occupancy/clipped-scalar control at matched spacing. Record visual fidelity, signed-distance reconstruction error, field memory, SDF sampling time and mesh cost.
+
+**PASS gate:** a good source rock survives conversion at a practical local spacing strongly enough to identify a credible object-matter representation, or the experiment isolates a specific representation/mesher blocker. See `SOURCE_GEOMETRY_MATTER_FIDELITY_PLAN.md`.
+
+## Phase U4D — local matter domain coexistence proof
+
+**Conditional on U4C.** If U4C identifies a viable detailed-object spacing, prototype one high-resolution object-local matter domain on 0.50 m terrain. The detailed rock owns local coordinates, transform, density/material field and edits; terrain remains coarse. Do not require adaptive terrain topology stitching merely because the object has finer resolution.
+
+**PASS gate:** one detailed local rock can be placed, rendered, targeted, edited and persisted on coarse terrain without duplicate authority or global refinement. Cross-domain support/physics remains bounded future work unless required by the proof. See `LOCAL_MATTER_DOMAINS.md`.
 
 ## Phase U5 — minimal destruction slice
 
