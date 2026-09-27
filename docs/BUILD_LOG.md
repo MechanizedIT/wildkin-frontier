@@ -1,5 +1,13 @@
 # Build Log
 
+## 2026-09-27 — U4C source-geometry to matter fidelity planning — ChatGPT GPT-5.6 Sol
+
+- **Goal:** Respond to the U4B visual HOLD by separating shape design from destructible storage rather than repeating formation randomization or switching engines prematurely.
+- **Review basis:** Inspected pushed U4B commit `4d3946f05f8a88f7bb09fc65af3b5995376b1207`, evidence README/receipt, hero images, 0.50/0.25 matched weak-seed images, component debug view, U2/U3 architecture and current matter/mesher source. U4B's 0.25 m result is sharper but retains the same soft source-language; the current resolved-rock path also motivates explicitly testing true signed-distance preservation rather than occupancy-like positive samples over fixed negative air.
+- **Decision:** Next bounded phase is **U4C source geometry → matter fidelity**. Create three good direct procedural rocks first using plane/half-space polyhedron modeling, then sample the same shapes into true signed-distance local matter at 0.50/0.25/0.125/0.0625 m. Compare one occupancy/clipped control at matched spacing. Measure visual and signed-distance fidelity, memory and timing. Do not run U5/Unreal/adaptive terrain.
+- **Architecture hypothesis:** if ~0.125/0.0625 m local matter is required for asset-like rocks, use independent high-resolution local matter domains on coarse ~0.50 m terrain rather than shrinking the global world grid. Adaptive terrain refinement remains a separate later problem.
+- **Docs prepared:** `SOURCE_GEOMETRY_MATTER_FIDELITY_PLAN.md`, `LOCAL_MATTER_DOMAINS.md`, and copy-ready `prompts/UNITY_05_SOURCE_GEOMETRY_MATTER_FIDELITY.md`; updated current slice/session/Unity plan/roadmap/code map/representation strategy. No Unity runtime code changed in this planning pass.
+
 ## 2026-09-27 04:00 America/Chicago — Unity U3 mesher/resolution bakeoff — Codex GPT-5
 
 - **Goal:** Complete the bounded Unity U3 comparison admitted from U2: determine whether bounded Dual Contouring materially improves authored rock/cliff forms, whether uniform 0.25m detail is worth its cost vs 0.50m, and whether bounded local refinement warrants later transition work. Preserve the six deterministic fields, unique global sample authority, matched visual proof, reproducible agent tools, and independent root review gate.
