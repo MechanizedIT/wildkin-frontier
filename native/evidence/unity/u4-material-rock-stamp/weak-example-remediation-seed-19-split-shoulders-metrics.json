@@ -1,0 +1,40 @@
+{
+    "profile": "WildkinClast-v1",
+    "sampleSpacingMeters": 0.5,
+    "seedStart": 19,
+    "seedCount": 1,
+    "rejectedSeeds": 0,
+    "observedFrameCount": 0,
+    "observedAverageFrameMilliseconds": 0.0,
+    "observedMaximumFrameMilliseconds": 0.0,
+    "gpuFrameObservation": "Unavailable: no GPU timing result is inferred from editor camera.Render or PlayerLoop deltaTime.",
+    "memoryEstimateMethod": "Raw density/material bytes for sparse resolved MatterWorld edits plus 72-byte published vertex and 32-bit index payload; excludes managed dictionary, mesh-driver, texture and renderer overhead.",
+    "seeds": [
+        {
+            "seed": 19,
+            "profile": "WildkinClast-v1",
+            "layoutName": "Split Shoulders",
+            "boundsMeters": "[5.50,0.00,6.00]..[10.00,3.50,10.50]",
+            "occupiedSamples": 203,
+            "occupiedVolumeEstimateCubicMeters": 25.375,
+            "widthHeightRatio": 1.2898205518722535,
+            "depthHeightRatio": 1.2446701526641846,
+            "primitiveDistribution": "roundedBox:3,slab:1,ellipsoid:0,wedge:3",
+            "primitiveCount": 7,
+            "connectedResolvedComponents": 1,
+            "vertices": 432,
+            "triangles": 630,
+            "fieldHash": "7D76AA7B8C844A28",
+            "meshHash": "26A0ACA391AD8AC4",
+            "parameterGenerationMilliseconds": 0.0386,
+            "scalarWorldResolutionMilliseconds": 19.1465,
+            "snapshotMilliseconds": 21.6494,
+            "surfaceNetsMilliseconds": 47.85979999999999,
+            "meshDataFillMilliseconds": 1.6383999999999999,
+            "applyMilliseconds": 0.034,
+            "uploadMilliseconds": 0.0692,
+            "rawMatterAndMeshPayloadBytes": 144655,
+            "rejectionReason": ""
+        }
+    ]
+}

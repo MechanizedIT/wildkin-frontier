@@ -1,0 +1,40 @@
+{
+    "profile": "WildkinClast-v1",
+    "sampleSpacingMeters": 0.5,
+    "seedStart": 20,
+    "seedCount": 1,
+    "rejectedSeeds": 0,
+    "observedFrameCount": 0,
+    "observedAverageFrameMilliseconds": 0.0,
+    "observedMaximumFrameMilliseconds": 0.0,
+    "gpuFrameObservation": "Unavailable: no GPU timing result is inferred from editor camera.Render or PlayerLoop deltaTime.",
+    "memoryEstimateMethod": "Raw density/material bytes for sparse resolved MatterWorld edits plus 72-byte published vertex and 32-bit index payload; excludes managed dictionary, mesh-driver, texture and renderer overhead.",
+    "seeds": [
+        {
+            "seed": 20,
+            "profile": "WildkinClast-v1",
+            "layoutName": "Leaning Ridge",
+            "boundsMeters": "[6.00,0.00,6.00]..[10.50,3.50,10.00]",
+            "occupiedSamples": 199,
+            "occupiedVolumeEstimateCubicMeters": 24.875,
+            "widthHeightRatio": 1.2159638404846192,
+            "depthHeightRatio": 1.0942633152008057,
+            "primitiveDistribution": "roundedBox:2,slab:3,ellipsoid:0,wedge:1",
+            "primitiveCount": 6,
+            "connectedResolvedComponents": 1,
+            "vertices": 356,
+            "triangles": 504,
+            "fieldHash": "7EA688CD2B081BCF",
+            "meshHash": "F23CA7CA2950F222",
+            "parameterGenerationMilliseconds": 0.0989,
+            "scalarWorldResolutionMilliseconds": 16.2269,
+            "snapshotMilliseconds": 23.6679,
+            "surfaceNetsMilliseconds": 51.0779,
+            "meshDataFillMilliseconds": 1.5793,
+            "applyMilliseconds": 0.037200000000000007,
+            "uploadMilliseconds": 0.0747,
+            "rawMatterAndMeshPayloadBytes": 115907,
+            "rejectionReason": ""
+        }
+    ]
+}

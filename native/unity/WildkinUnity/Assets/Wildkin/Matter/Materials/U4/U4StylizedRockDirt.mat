@@ -49,16 +49,16 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _DirtSmoothness: 0.72
-    - _NormalStrength: 0.5
-    - _RockSmoothness: 1
+    - _DirtSmoothness: 0.43
+    - _NormalStrength: 0.22
+    - _RockSmoothness: 0.72
     - _TextureScale: 1
     m_Colors:
     - _AmbientColor: {r: 0.26, g: 0.28, b: 0.3, a: 1}
-    - _DirtTint: {r: 1, g: 0.96, b: 0.86, a: 1}
+    - _DirtTint: {r: 1, g: 0.94, b: 0.84, a: 1}
     - _KeyColor: {r: 0.92, g: 0.8, b: 0.64, a: 1}
     - _KeyDirection: {r: 0.43, g: 0.56, b: -0.71, a: 0}
-    - _RockTint: {r: 0.98, g: 0.98, b: 0.96, a: 1}
+    - _RockTint: {r: 0.96, g: 0.99, b: 1, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
 --- !u!114 &5739984028840911004

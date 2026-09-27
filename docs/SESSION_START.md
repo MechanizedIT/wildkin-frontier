@@ -2,7 +2,7 @@
 
 ## September 27 Unity U4 stylized materials / rock stamp — HOLD for independent visual review
 
-U4 implementation, tests, clean scene, gallery tooling reproduction, Windows x64 Development Player, and evidence are assembled. Do not start U5 until root inspects the actual 20-seed contact sheet and hero/seam/projection captures. Current qualification evidence is in [the U4 folder](../native/evidence/unity/u4-material-rock-stamp/README.md). EditMode 73/73 and PlayMode 1/1 pass. The clean Player renders; its 0.534 ms mean includes a 3,581 ms synchronous startup-generation maximum, with no GPU timing and no production budget claim. The family remains visually unreviewed; this agent does not self-award PASS. U3's `SURFACE_NETS`/0.50m default stays locked, and the isolated 0.25m hero does not prove stitching.
+U4's focused same-phase visual remediation, full tests, clean gallery scene, final 20-seed generation, and Windows x64 Development Player proof are assembled. Do not start U5 until root independently reviews the remediated contact sheet, four family-spanning hero captures, weak seed 19, seam, wireframe, and projection-motion proof. Evidence is in [the U4 folder](../native/evidence/unity/u4-material-rock-stamp/README.md). EditMode 75/75 and PlayMode 1/1 pass; the final Windows Development Build succeeds with 0 errors / 4 warnings. Its visible player capture is genuine, but the one-frame startup observation is not a performance measurement. Status remains `HOLD_PENDING_INDEPENDENT_ROOT_VISUAL_REVIEW`; no agent self-awarded aesthetic PASS. U3's `SURFACE_NETS`/0.50m default stays locked, and the isolated 0.25m hero does not prove stitching.
 
 ## September 27 Unity U3 mesher/resolution bakeoff — PASS; U4 active
 

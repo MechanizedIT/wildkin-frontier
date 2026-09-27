@@ -29,7 +29,7 @@ namespace Wildkin.Matter
         }
 
         public static RockFormationProfile WildkinClast => new RockFormationProfile("WildkinClast-v1",
-            maxWidthMeters: 8.2f, maxHeightMeters: 4.2f, smoothUnionMeters: 0.18f, warpMeters: 0.055f);
+            maxWidthMeters: 8.2f, maxHeightMeters: 4.2f, smoothUnionMeters: 0.075f, warpMeters: 0.012f);
         private static bool Finite(float value) => !float.IsNaN(value) && !float.IsInfinity(value);
     }
 
@@ -110,8 +110,8 @@ namespace Wildkin.Matter
                     yMeters, zMeters - AnchorZ), Profile.SmoothUnionMeters);
 
             float warp = Profile.WarpMeters *
-                (float)(Math.Sin(xMeters * 1.25 + _phaseX) * Math.Sin(yMeters * 1.1 + _phaseY) +
-                        0.45 * Math.Sin(zMeters * 1.65 + _phaseZ) * Math.Sin(xMeters * 0.8 - _phaseY));
+                (float)(Math.Sin(xMeters * 0.72 + _phaseX) * Math.Sin(yMeters * 0.64 + _phaseY) +
+                        0.35 * Math.Sin(zMeters * 0.82 + _phaseZ) * Math.Sin(xMeters * 0.55 - _phaseY));
             value -= warp;
             if (_hasPocket)
             {
@@ -155,8 +155,8 @@ namespace Wildkin.Matter
                 HashInt(ref hash, (int)Math.Round(density * 1000000.0, MidpointRounding.AwayFromZero), prime);
                 if (density <= 0f) continue;
 
-                // The lower skirt reads as a warmer, softer dirt seam; the overlying mass is rock.
-                MatterMaterialId material = py < 0.36f ? MatterMaterialId.Dirt : MatterMaterialId.Rock;
+                // Dirt is an embedded lower band of the same resolved mass, never a second skirt.
+                MatterMaterialId material = py < 0.28f ? MatterMaterialId.Dirt : MatterMaterialId.Rock;
                 float resolvedDensity = Math.Min(density, sampleSpacingMeters * 1.5f);
                 world.SetSample(address, new MatterSample(resolvedDensity, material));
                 occupied.Add(address);
@@ -305,109 +305,128 @@ namespace Wildkin.Matter
             if (profile == null) throw new ArgumentNullException(nameof(profile));
             var rng = new StampRandom(unchecked((uint)seed) ^ 0xA511E9B3u);
             int layout = (int)(rng.Next() % 4u);
-            string layoutName = layout == 0 ? "Crown Stack" : layout == 1 ? "Leaning Ridge" :
+            string layoutName = layout == 0 ? "Crown Shelf" : layout == 1 ? "Leaning Ridge" :
                 layout == 2 ? "Split Shoulders" : "Bent Buttress";
-            float wx = Lerp(0.88f, 1.12f, rng.Next01());
-            float wz = Lerp(0.88f, 1.12f, rng.Next01());
-            float yaw = Lerp(-0.85f, 0.85f, rng.Next01());
-            float tilt = Lerp(-0.14f, 0.14f, rng.Next01());
+            float wx = Lerp(0.92f, 1.08f, rng.Next01());
+            float wz = Lerp(0.92f, 1.08f, rng.Next01());
+            float yaw = Lerp(-0.82f, 0.82f, rng.Next01());
+            float tilt = Lerp(-0.12f, 0.12f, rng.Next01());
             float dirX = (float)Math.Cos(yaw), dirZ = (float)Math.Sin(yaw);
             float sideX = -dirZ, sideZ = dirX;
 
-            float baseHx = (layout == 1 ? Lerp(1.78f, 2.28f, rng.Next01()) : Lerp(1.45f, 2.02f, rng.Next01())) * wx;
-            float baseHy = layout == 3 ? Lerp(0.38f, 0.56f, rng.Next01()) : Lerp(0.28f, 0.47f, rng.Next01());
-            float baseHz = (layout == 1 ? Lerp(0.86f, 1.23f, rng.Next01()) : Lerp(1.25f, 1.87f, rng.Next01())) * wz;
-            float baseX = Lerp(-0.18f, 0.18f, rng.Next01());
-            float baseZ = Lerp(-0.18f, 0.18f, rng.Next01());
-            float baseY = baseHy - 0.27f;
-            RockStampPrimitiveKind baseKind = layout == 1 ? RockStampPrimitiveKind.Slab :
+            // A narrow buried foot gives the formation a ground contact without reading as a pedestal.
+            float footHx = (layout == 1 ? Lerp(0.88f, 1.16f, rng.Next01()) : Lerp(1.08f, 1.48f, rng.Next01())) * wx;
+            float footHy = Lerp(0.25f, 0.34f, rng.Next01());
+            float footHz = (layout == 1 ? Lerp(0.70f, 0.96f, rng.Next01()) : Lerp(0.82f, 1.20f, rng.Next01())) * wz;
+            float footX = Lerp(-0.16f, 0.16f, rng.Next01());
+            float footZ = Lerp(-0.16f, 0.16f, rng.Next01());
+            const float footY = 0.10f;
+            RockStampPrimitiveKind footKind = layout == 1 ? RockStampPrimitiveKind.Slab :
                 layout == 3 ? RockStampPrimitiveKind.Wedge : RockStampPrimitiveKind.RoundedBox;
-            var pieces = new List<RockStampPrimitive>(8)
+            var pieces = new List<RockStampPrimitive>(7)
             {
-                Make(baseKind, baseX, baseY, baseZ, baseHx, baseHy, baseHz,
-                    tilt * 0.45f, yaw, tilt * 0.35f, Lerp(0.08f, 0.22f, rng.Next01()), 0f)
+                Make(footKind, footX, footY, footZ, footHx, footHy, footHz,
+                    tilt * 0.3f, yaw, tilt * 0.25f, Lerp(0.07f, 0.13f, rng.Next01()), 0f)
             };
 
-            float bodyHx = (layout == 1 ? Lerp(1.55f, 2.08f, rng.Next01()) :
-                layout == 0 ? Lerp(1.05f, 1.55f, rng.Next01()) : Lerp(1.22f, 1.76f, rng.Next01())) * wx;
-            float bodyHy = layout == 1 ? Lerp(0.76f, 1.06f, rng.Next01()) :
-                layout == 3 ? Lerp(1.18f, 1.55f, rng.Next01()) :
-                layout == 0 ? Lerp(1.12f, 1.58f, rng.Next01()) : Lerp(0.90f, 1.25f, rng.Next01());
-            float bodyHz = (layout == 1 ? Lerp(0.62f, 0.96f, rng.Next01()) :
-                layout == 2 ? Lerp(1.16f, 1.55f, rng.Next01()) : Lerp(0.88f, 1.42f, rng.Next01())) * wz;
-            float bodyX = baseX + Lerp(-0.30f, 0.30f, rng.Next01());
-            float bodyZ = baseZ + Lerp(-0.30f, 0.30f, rng.Next01());
-            float baseTop = baseY + baseHy;
-            float bodyY = baseTop + bodyHy * 0.32f;
+            float bodyHx = layout == 1 ? Lerp(0.82f, 1.08f, rng.Next01()) :
+                layout == 0 ? Lerp(1.36f, 1.68f, rng.Next01()) :
+                layout == 2 ? Lerp(1.12f, 1.43f, rng.Next01()) : Lerp(1.00f, 1.34f, rng.Next01());
+            float bodyHy = layout == 1 ? Lerp(1.30f, 1.62f, rng.Next01()) :
+                layout == 0 ? Lerp(1.16f, 1.48f, rng.Next01()) :
+                layout == 2 ? Lerp(1.28f, 1.60f, rng.Next01()) : Lerp(1.42f, 1.80f, rng.Next01());
+            float bodyHz = layout == 1 ? Lerp(1.78f, 2.12f, rng.Next01()) :
+                layout == 0 ? Lerp(1.02f, 1.34f, rng.Next01()) :
+                layout == 2 ? Lerp(1.22f, 1.54f, rng.Next01()) : Lerp(0.90f, 1.22f, rng.Next01());
+            bodyHx *= wx; bodyHz *= wz;
+            float bodyX = footX + Lerp(-0.28f, 0.28f, rng.Next01());
+            float bodyZ = footZ + Lerp(-0.28f, 0.28f, rng.Next01());
+            float footTop = footY + footHy;
+            float bodyY = footTop + bodyHy - 0.46f;
             float bodyTop = bodyY + bodyHy;
             RockStampPrimitiveKind bodyKind = layout == 0 || layout == 3 ? RockStampPrimitiveKind.Wedge :
                 layout == 1 ? RockStampPrimitiveKind.Slab : RockStampPrimitiveKind.RoundedBox;
             pieces.Add(Make(bodyKind, bodyX, bodyY, bodyZ, bodyHx, bodyHy, bodyHz,
-                tilt, yaw, Lerp(-0.10f, 0.10f, rng.Next01()), Lerp(0.08f, 0.18f, rng.Next01()),
-                layout == 0 || layout == 3 ? Lerp(-0.42f, 0.42f, rng.Next01()) : 0f));
+                tilt, yaw, Lerp(-0.07f, 0.07f, rng.Next01()), Lerp(0.04f, 0.10f, rng.Next01()),
+                layout == 0 || layout == 3 ? Lerp(-0.32f, 0.32f, rng.Next01()) : 0f));
 
-            // Overlapping shoulders make distinct asymmetry while remaining visibly supported by the core.
-            float shoulderDistance = Math.Min(1.02f, bodyHx * 0.50f + Lerp(0.10f, 0.43f, rng.Next01()));
-            float shoulderHx = Lerp(0.62f, 0.94f, rng.Next01());
-            float shoulderHy = Lerp(0.54f, 0.88f, rng.Next01());
-            float shoulderHz = Lerp(0.60f, 1.02f, rng.Next01());
-            RockStampPrimitiveKind shoulderKind = layout == 1 ? RockStampPrimitiveKind.Wedge : RockStampPrimitiveKind.RoundedBox;
-            pieces.Add(Make(shoulderKind, bodyX + dirX * shoulderDistance,
-                baseTop + bodyHy * 0.34f, bodyZ + dirZ * shoulderDistance,
-                shoulderHx, shoulderHy, shoulderHz, tilt * 0.6f, yaw + Lerp(-0.42f, 0.42f, rng.Next01()),
-                0f, Lerp(0.06f, 0.17f, rng.Next01()), Lerp(-0.30f, 0.30f, rng.Next01())));
+            // Offset shoulders overlap the core by a controlled seam instead of melting into one swollen union.
+            float shoulderSide = rng.Next01() < 0.5f ? -1f : 1f;
+            float shoulderHx = Lerp(0.64f, 0.92f, rng.Next01());
+            float shoulderHy = Lerp(0.62f, 0.88f, rng.Next01());
+            float shoulderHz = Lerp(0.68f, 1.02f, rng.Next01());
+            float shoulderDistance = bodyHx + shoulderHx - Lerp(0.36f, 0.46f, rng.Next01());
+            float shoulderY = bodyY + bodyHy * Lerp(-0.06f, 0.12f, rng.Next01());
+            pieces.Add(Make(layout == 1 ? RockStampPrimitiveKind.Wedge : RockStampPrimitiveKind.RoundedBox,
+                bodyX + dirX * shoulderSide * shoulderDistance,
+                shoulderY,
+                bodyZ + dirZ * shoulderSide * shoulderDistance,
+                shoulderHx, shoulderHy, shoulderHz, tilt * 0.45f,
+                yaw + Lerp(-0.18f, 0.18f, rng.Next01()), Lerp(-0.06f, 0.06f, rng.Next01()),
+                Lerp(0.05f, 0.11f, rng.Next01()), Lerp(-0.20f, 0.20f, rng.Next01())));
 
-            float backDistance = Math.Min(0.96f, bodyHz * 0.44f + Lerp(0.08f, 0.36f, rng.Next01()));
-            float rearHx = Lerp(0.56f, 0.90f, rng.Next01());
-            float rearHy = Lerp(0.44f, 0.76f, rng.Next01());
-            float rearHz = Lerp(0.58f, 0.94f, rng.Next01());
+            float rearHx = Lerp(0.50f, 0.76f, rng.Next01());
+            float rearHy = Lerp(0.48f, 0.70f, rng.Next01());
+            float rearHz = Lerp(0.62f, 0.92f, rng.Next01());
+            float rearSide = -shoulderSide;
+            float rearDistance = bodyHx + rearHx - Lerp(0.36f, 0.46f, rng.Next01());
+            float rearY = bodyY + bodyHy * Lerp(0.38f, 0.60f, rng.Next01());
             pieces.Add(Make(layout == 2 ? RockStampPrimitiveKind.Wedge : RockStampPrimitiveKind.RoundedBox,
-                bodyX - dirX * backDistance, baseTop + bodyHy * 0.12f, bodyZ - dirZ * backDistance,
-                rearHx, rearHy, rearHz, 0f, yaw + Lerp(-0.50f, 0.50f, rng.Next01()), 0f,
-                Lerp(0.07f, 0.18f, rng.Next01()), layout == 2 ? Lerp(-0.35f, 0.35f, rng.Next01()) : 0f));
+                bodyX + dirX * rearSide * rearDistance + sideX * Lerp(-0.12f, 0.12f, rng.Next01()),
+                rearY,
+                bodyZ + dirZ * rearSide * rearDistance + sideZ * Lerp(-0.12f, 0.12f, rng.Next01()),
+                rearHx, rearHy, rearHz, tilt * 0.5f,
+                yaw + Lerp(-0.24f, 0.24f, rng.Next01()), 0f,
+                Lerp(0.05f, 0.11f, rng.Next01()), layout == 2 ? Lerp(-0.24f, 0.24f, rng.Next01()) : 0f));
 
-            // A narrow, off-axis ledge and an inset crown read as strata/capstone rather than a cube stack.
-            float ledgeSide = rng.Next01() < 0.5f ? -1f : 1f;
+            // A shallow shelf and nested capstone create readable large-to-medium-to-small steps.
+            float ledgeSide = -shoulderSide;
+            float ledgeHx = Lerp(0.58f, 0.82f, rng.Next01());
+            float ledgeHy = Lerp(0.18f, 0.27f, rng.Next01());
+            float ledgeHz = Lerp(0.66f, 0.92f, rng.Next01());
             pieces.Add(Make(RockStampPrimitiveKind.Slab,
-                bodyX + sideX * ledgeSide * Lerp(0.54f, 0.92f, rng.Next01()),
-                baseTop + bodyHy * Lerp(0.44f, 0.70f, rng.Next01()),
-                bodyZ + sideZ * ledgeSide * Lerp(0.54f, 0.92f, rng.Next01()),
-                Lerp(0.62f, 1.06f, rng.Next01()), Lerp(0.20f, 0.38f, rng.Next01()),
-                Lerp(0.72f, 1.18f, rng.Next01()), tilt * 0.5f,
-                yaw + Lerp(-0.55f, 0.55f, rng.Next01()), 0f, 0.10f, 0f));
+                bodyX + dirX * ledgeSide * (bodyHx + ledgeHx - 0.40f),
+                bodyY + bodyHy * Lerp(0.34f, 0.52f, rng.Next01()),
+                bodyZ + dirZ * ledgeSide * (bodyHx + ledgeHx - 0.40f),
+                ledgeHx, ledgeHy, ledgeHz, tilt * 0.30f,
+                yaw + Lerp(-0.26f, 0.26f, rng.Next01()), 0f, 0.07f, 0f));
 
-            float capHy = Lerp(0.36f, 0.65f, rng.Next01());
-            float capX = bodyX + Lerp(-0.58f, 0.58f, rng.Next01());
-            float capZ = bodyZ + Lerp(-0.58f, 0.58f, rng.Next01());
-            pieces.Add(Make(layout == 1 ? RockStampPrimitiveKind.RoundedBox :
-                    layout == 2 ? RockStampPrimitiveKind.Slab : RockStampPrimitiveKind.Wedge,
-                capX, bodyTop + capHy - Lerp(0.52f, 0.72f, rng.Next01()), capZ,
-                Lerp(0.44f, 0.76f, rng.Next01()), capHy, Lerp(0.44f, 0.78f, rng.Next01()),
-                Lerp(-0.14f, 0.14f, rng.Next01()), yaw + Lerp(-0.62f, 0.62f, rng.Next01()),
-                Lerp(-0.12f, 0.12f, rng.Next01()), 0.08f,
-                layout == 2 ? 0f : Lerp(-0.38f, 0.38f, rng.Next01())));
+            float capHy = Lerp(0.52f, 0.70f, rng.Next01());
+            float capHx = Lerp(0.68f, 0.92f, rng.Next01());
+            float capHz = Lerp(0.70f, 0.98f, rng.Next01());
+            float capOffset = shoulderSide * Lerp(0.28f, 0.68f, rng.Next01());
+            float capX = bodyX + dirX * capOffset;
+            float capZ = bodyZ + dirZ * capOffset;
+            pieces.Add(Make(layout == 1 ? RockStampPrimitiveKind.RoundedBox : RockStampPrimitiveKind.Wedge,
+                capX, bodyTop + capHy - Lerp(0.50f, 0.58f, rng.Next01()), capZ,
+                capHx, capHy, capHz, Lerp(-0.10f, 0.10f, rng.Next01()),
+                yaw + Lerp(-0.36f, 0.36f, rng.Next01()), Lerp(-0.08f, 0.08f, rng.Next01()),
+                0.06f, layout == 1 ? 0f : Lerp(-0.28f, 0.28f, rng.Next01())));
 
-            bool secondCap = rng.Next01() < 0.48f;
+            bool secondCap = rng.Next01() < 0.44f;
             if (secondCap)
             {
-                float smallHy = Lerp(0.30f, 0.48f, rng.Next01());
+                float smallHy = Lerp(0.38f, 0.54f, rng.Next01());
                 pieces.Add(Make(layout == 3 ? RockStampPrimitiveKind.RoundedBox : RockStampPrimitiveKind.Wedge,
-                    bodyX - sideX * ledgeSide * Lerp(0.35f, 0.70f, rng.Next01()),
-                    bodyTop - Lerp(0.52f, 0.72f, rng.Next01()) + smallHy,
-                    bodyZ - sideZ * ledgeSide * Lerp(0.35f, 0.70f, rng.Next01()),
-                    Lerp(0.38f, 0.60f, rng.Next01()), smallHy, Lerp(0.36f, 0.58f, rng.Next01()),
-                    tilt * 0.6f, yaw + Lerp(-0.75f, 0.75f, rng.Next01()), 0f, 0.08f,
-                    Lerp(-0.30f, 0.30f, rng.Next01())));
+                    bodyX - sideX * shoulderSide * Lerp(0.34f, 0.66f, rng.Next01()),
+                    bodyTop + smallHy - Lerp(0.38f, 0.48f, rng.Next01()),
+                    bodyZ - dirZ * shoulderSide * Lerp(0.34f, 0.66f, rng.Next01()),
+                    Lerp(0.38f, 0.58f, rng.Next01()), smallHy, Lerp(0.40f, 0.62f, rng.Next01()),
+                    tilt * 0.45f, yaw + Lerp(-0.48f, 0.48f, rng.Next01()), 0f, 0.055f,
+                    Lerp(-0.22f, 0.22f, rng.Next01())));
             }
 
-            bool pocket = rng.Next01() < 0.24f;
+            bool pocket = layout == 2 || rng.Next01() < 0.35f;
             float pocketSide = rng.Next01() < 0.5f ? -1f : 1f;
             MatterFloat3 pocketCenter = new MatterFloat3(
-                RockFormationStamp.AnchorX + bodyX + sideX * pocketSide * (bodyHz * 0.90f),
-                baseTop + bodyHy * Lerp(0.34f, 0.68f, rng.Next01()),
-                RockFormationStamp.AnchorZ + bodyZ + sideZ * pocketSide * (bodyHz * 0.90f));
-            MatterFloat3 pocketRadii = new MatterFloat3(Lerp(0.29f, 0.40f, rng.Next01()),
-                Lerp(0.34f, 0.48f, rng.Next01()), Lerp(0.29f, 0.40f, rng.Next01()));
+                RockFormationStamp.AnchorX + bodyX + dirX * pocketSide * (bodyHx * 0.82f),
+                bodyY + bodyHy * Lerp(0.02f, 0.30f, rng.Next01()),
+                RockFormationStamp.AnchorZ + bodyZ + dirZ * pocketSide * (bodyHx * 0.82f));
+            float pocketMin = layout == 2 ? 0.56f : 0.38f;
+            float pocketMax = layout == 2 ? 0.74f : 0.58f;
+            MatterFloat3 pocketRadii = new MatterFloat3(Lerp(pocketMin, pocketMax, rng.Next01()),
+                Lerp(layout == 2 ? 0.44f : 0.38f, layout == 2 ? 0.64f : 0.56f, rng.Next01()),
+                Lerp(pocketMin, pocketMax, rng.Next01()));
             return new RockFormationStamp(seed, profile, layoutName, pieces.ToArray(), pocket, pocketCenter,
                 pocketRadii, rng.Next01() * 6.28318f, rng.Next01() * 6.28318f, rng.Next01() * 6.28318f);
         }

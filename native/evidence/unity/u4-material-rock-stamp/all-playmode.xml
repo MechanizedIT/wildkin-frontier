@@ -1,25 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<test-run id="2" testcasecount="1" result="Passed" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0" engine-version="3.5.0.0" clr-version="4.0.30319.42000" start-time="2026-09-27 11:55:34Z" end-time="2026-09-27 11:55:35Z" duration="0.8532424">
-  <test-suite type="TestSuite" id="1010" name="Wildkin Frontier Native Lab" fullname="Wildkin Frontier Native Lab" runstate="Runnable" testcasecount="1" result="Passed" start-time="2026-09-27 11:55:34Z" end-time="2026-09-27 11:55:35Z" duration="0.853242" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0">
+<test-run id="2" testcasecount="1" result="Passed" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0" engine-version="3.5.0.0" clr-version="4.0.30319.42000" start-time="2026-09-27 12:51:09Z" end-time="2026-09-27 12:51:09Z" duration="0.8559204">
+  <test-suite type="TestSuite" id="1010" name="Wildkin Frontier Native Lab" fullname="Wildkin Frontier Native Lab" runstate="Runnable" testcasecount="1" result="Passed" start-time="2026-09-27 12:51:09Z" end-time="2026-09-27 12:51:09Z" duration="0.855920" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0">
     <properties>
       <property name="platform" value="PlayMode" />
     </properties>
-    <test-suite type="Assembly" id="1006" name="Wildkin.Tests.PlayMode.dll" fullname="C:/Users/cwood/Documents/mobile-rpg/native/unity/WildkinUnity/Library/ScriptAssemblies/Wildkin.Tests.PlayMode.dll" runstate="Runnable" testcasecount="1" result="Passed" start-time="2026-09-27 11:55:34Z" end-time="2026-09-27 11:55:35Z" duration="0.769125" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0">
+    <test-suite type="Assembly" id="1006" name="Wildkin.Tests.PlayMode.dll" fullname="C:/Users/cwood/Documents/mobile-rpg/native/unity/WildkinUnity/Library/ScriptAssemblies/Wildkin.Tests.PlayMode.dll" runstate="Runnable" testcasecount="1" result="Passed" start-time="2026-09-27 12:51:09Z" end-time="2026-09-27 12:51:09Z" duration="0.769905" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0">
       <properties>
         <property name="_PID" value="41292" />
         <property name="_APPDOMAIN" value="Unity Child Domain" />
         <property name="platform" value="PlayMode" />
         <property name="EditorOnly" value="False" />
       </properties>
-      <test-suite type="TestSuite" id="1007" name="Wildkin" fullname="Wildkin" runstate="Runnable" testcasecount="1" result="Passed" start-time="2026-09-27 11:55:34Z" end-time="2026-09-27 11:55:35Z" duration="0.683188" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0">
+      <test-suite type="TestSuite" id="1007" name="Wildkin" fullname="Wildkin" runstate="Runnable" testcasecount="1" result="Passed" start-time="2026-09-27 12:51:09Z" end-time="2026-09-27 12:51:09Z" duration="0.684224" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0">
         <properties />
-        <test-suite type="TestSuite" id="1008" name="Tests" fullname="Wildkin.Tests" runstate="Runnable" testcasecount="1" result="Passed" start-time="2026-09-27 11:55:34Z" end-time="2026-09-27 11:55:35Z" duration="0.616461" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0">
+        <test-suite type="TestSuite" id="1008" name="Tests" fullname="Wildkin.Tests" runstate="Runnable" testcasecount="1" result="Passed" start-time="2026-09-27 12:51:09Z" end-time="2026-09-27 12:51:09Z" duration="0.617779" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0">
           <properties />
-          <test-suite type="TestSuite" id="1009" name="PlayMode" fullname="Wildkin.Tests.PlayMode" runstate="Runnable" testcasecount="1" result="Passed" start-time="2026-09-27 11:55:34Z" end-time="2026-09-27 11:55:35Z" duration="0.515965" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0">
+          <test-suite type="TestSuite" id="1009" name="PlayMode" fullname="Wildkin.Tests.PlayMode" runstate="Runnable" testcasecount="1" result="Passed" start-time="2026-09-27 12:51:09Z" end-time="2026-09-27 12:51:09Z" duration="0.517560" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0">
             <properties />
-            <test-suite type="TestFixture" id="1004" name="AgentSmokeMarkerPlayModeTests" fullname="Wildkin.Tests.PlayMode.AgentSmokeMarkerPlayModeTests" classname="Wildkin.Tests.PlayMode.AgentSmokeMarkerPlayModeTests" runstate="Runnable" testcasecount="1" result="Passed" start-time="2026-09-27 11:55:34Z" end-time="2026-09-27 11:55:35Z" duration="0.447909" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <test-suite type="TestFixture" id="1004" name="AgentSmokeMarkerPlayModeTests" fullname="Wildkin.Tests.PlayMode.AgentSmokeMarkerPlayModeTests" classname="Wildkin.Tests.PlayMode.AgentSmokeMarkerPlayModeTests" runstate="Runnable" testcasecount="1" result="Passed" start-time="2026-09-27 12:51:09Z" end-time="2026-09-27 12:51:09Z" duration="0.449394" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0">
               <properties />
-              <test-case id="1005" name="Marker_ChangesRotationDuringPlay" fullname="Wildkin.Tests.PlayMode.AgentSmokeMarkerPlayModeTests.Marker_ChangesRotationDuringPlay" methodname="Marker_ChangesRotationDuringPlay" classname="Wildkin.Tests.PlayMode.AgentSmokeMarkerPlayModeTests" runstate="Runnable" seed="1858155849" result="Passed" start-time="2026-09-27 11:55:34Z" end-time="2026-09-27 11:55:35Z" duration="0.371122" asserts="0">
+              <test-case id="1005" name="Marker_ChangesRotationDuringPlay" fullname="Wildkin.Tests.PlayMode.AgentSmokeMarkerPlayModeTests.Marker_ChangesRotationDuringPlay" methodname="Marker_ChangesRotationDuringPlay" classname="Wildkin.Tests.PlayMode.AgentSmokeMarkerPlayModeTests" runstate="Runnable" seed="1927743234" result="Passed" start-time="2026-09-27 12:51:09Z" end-time="2026-09-27 12:51:09Z" duration="0.372126" asserts="0">
                 <properties>
                   <property name="_JOINTYPE" value="UnityCombinatorial" />
                   <property name="retryIteration" value="0" />

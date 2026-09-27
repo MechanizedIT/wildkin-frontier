@@ -29,16 +29,16 @@ namespace Wildkin.Matter.Unity
     public static class MatterRockMaterialFactory
     {
         public const int TextureSize = 128;
-        public const int TextureGeneratorVersion = 1;
+        public const int TextureGeneratorVersion = 2;
 
         public static MatterRockTextureSet GenerateTextures()
             => new MatterRockTextureSet(
-                GenerateAlbedo("U4 Rock Albedo", 0x19422091u, new Color(0.43f, 0.45f, 0.44f, 1f), false),
-                GenerateAlbedo("U4 Dirt Albedo", 0xA5C3E72Du, new Color(0.49f, 0.33f, 0.19f, 1f), true),
-                GenerateNormal("U4 Rock Normal", 0x702C9B31u, 0.18f),
-                GenerateNormal("U4 Dirt Normal", 0xF7C04A69u, 0.11f),
-                GenerateMask("U4 Rock Mask", 0x23ABBD19u, 0.33f),
-                GenerateMask("U4 Dirt Mask", 0xD1047713u, 0.22f),
+                GenerateAlbedo("U4 Rock Albedo", 0x19422091u, new Color(0.35f, 0.40f, 0.44f, 1f), false),
+                GenerateAlbedo("U4 Dirt Albedo", 0xA5C3E72Du, new Color(0.43f, 0.27f, 0.15f, 1f), true),
+                GenerateNormal("U4 Rock Normal", 0x702C9B31u, 0.055f),
+                GenerateNormal("U4 Dirt Normal", 0xF7C04A69u, 0.045f),
+                GenerateMask("U4 Rock Mask", 0x23ABBD19u, 0.25f),
+                GenerateMask("U4 Dirt Mask", 0xD1047713u, 0.17f),
                 GenerateLayerMask());
 
         public static Material CreateMaterial(MatterRockTextureSet textures, string name = "U4 Stylized Rock Dirt")
@@ -53,12 +53,12 @@ namespace Wildkin.Matter.Unity
             material.SetTexture("_DirtNormal", textures.DirtNormal);
             material.SetTexture("_RockMask", textures.RockMask);
             material.SetTexture("_DirtMask", textures.DirtMask);
-            material.SetColor("_RockTint", new Color(0.98f, 0.98f, 0.96f, 1f));
-            material.SetColor("_DirtTint", new Color(1f, 0.96f, 0.86f, 1f));
+            material.SetColor("_RockTint", new Color(0.96f, 0.99f, 1f, 1f));
+            material.SetColor("_DirtTint", new Color(1f, 0.94f, 0.84f, 1f));
             material.SetFloat("_TextureScale", 1f);
-            material.SetFloat("_NormalStrength", 0.50f);
-            material.SetFloat("_RockSmoothness", 1f);
-            material.SetFloat("_DirtSmoothness", 0.72f);
+            material.SetFloat("_NormalStrength", 0.22f);
+            material.SetFloat("_RockSmoothness", 0.72f);
+            material.SetFloat("_DirtSmoothness", 0.43f);
             material.SetVector("_KeyDirection", new Vector4(0.43f, 0.56f, -0.71f, 0f));
             material.SetColor("_KeyColor", new Color(0.92f, 0.80f, 0.64f, 1f));
             material.SetColor("_AmbientColor", new Color(0.26f, 0.28f, 0.30f, 1f));
@@ -84,14 +84,15 @@ namespace Wildkin.Matter.Unity
             for (int x = 0; x < TextureSize; x++)
             {
                 float u = x / (float)TextureSize, v = y / (float)TextureSize;
-                float macro = ValueNoise(seed, u, v, 3) * 0.48f + ValueNoise(seed + 31, u, v, 7) * 0.31f +
-                              ValueNoise(seed + 73, u, v, 15) * 0.15f + ValueNoise(seed + 109, u, v, 37) * 0.06f;
-                float fleck = ValueNoise(seed + 211, u, v, 63) - 0.5f;
-                float value = Mathf.Clamp(0.86f + macro * 0.42f + fleck * (dirt ? 0.06f : 0.045f), 0.68f, 1.14f);
-                float warm = ValueNoise(seed + 307, u, v, 5) - 0.5f;
-                float r = baseColor.r * value + warm * (dirt ? 0.025f : 0.012f);
-                float g = baseColor.g * value + warm * (dirt ? -0.006f : 0.003f);
-                float b = baseColor.b * value - warm * (dirt ? 0.018f : 0.005f);
+                float macro = (ValueNoise(seed, u, v, 2) - 0.5f) * 0.56f +
+                              (ValueNoise(seed + 31, u, v, 5) - 0.5f) * 0.30f +
+                              (ValueNoise(seed + 73, u, v, 11) - 0.5f) * 0.14f;
+                float fine = ValueNoise(seed + 109, u, v, 19) - 0.5f;
+                float value = Mathf.Clamp(1f + macro * 0.20f + fine * (dirt ? 0.025f : 0.015f), 0.88f, 1.12f);
+                float warm = ValueNoise(seed + 307, u, v, 4) - 0.5f;
+                float r = baseColor.r * value + warm * (dirt ? 0.030f : 0.009f);
+                float g = baseColor.g * value + warm * (dirt ? -0.012f : 0.003f);
+                float b = baseColor.b * value - warm * (dirt ? 0.022f : 0.006f);
                 pixels[y * TextureSize + x] = new Color(r, g, b, 1f);
             }
             texture.SetPixels(pixels);
@@ -156,7 +157,7 @@ namespace Wildkin.Matter.Unity
             };
 
         private static float Height(uint seed, float u, float v)
-            => ValueNoise(seed, u, v, 5) * 0.62f + ValueNoise(seed + 19, u, v, 17) * 0.27f + ValueNoise(seed + 41, u, v, 47) * 0.11f;
+            => ValueNoise(seed, u, v, 4) * 0.55f + ValueNoise(seed + 19, u, v, 9) * 0.30f + ValueNoise(seed + 41, u, v, 19) * 0.15f;
 
         private static float ValueNoise(uint seed, float u, float v, int cells)
         {

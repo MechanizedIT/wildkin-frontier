@@ -37,6 +37,14 @@ namespace Wildkin.Tests.EditMode
                 RockFormationStamp stamp = RockFormationStampGenerator.Generate(seed, "WildkinClast-v1");
                 RockStampResolution resolved = stamp.Resolve(0.5f);
                 Assert.That(stamp.PrimitiveCount, Is.InRange(6, 7), $"seed {seed}");
+                var primitiveVolumes = new List<float>();
+                foreach (RockStampPrimitive primitive in stamp.Primitives)
+                    primitiveVolumes.Add(primitive.HalfExtents.X * primitive.HalfExtents.Y * primitive.HalfExtents.Z);
+                primitiveVolumes.Sort();
+                Assert.That(primitiveVolumes[primitiveVolumes.Count - 1] / primitiveVolumes[primitiveVolumes.Count / 2],
+                    Is.GreaterThan(2.5f), $"seed {seed} should have a clearly dominant large mass");
+                Assert.That(primitiveVolumes[primitiveVolumes.Count / 2] / primitiveVolumes[0],
+                    Is.GreaterThan(1.7f), $"seed {seed} should retain a smaller capstone or shoulder scale");
                 layouts.Add(stamp.LayoutName);
                 Assert.That(resolved.OccupiedSamples, Is.GreaterThan(100), $"seed {seed}");
                 Assert.That(resolved.ConnectedComponents, Is.EqualTo(1), $"seed {seed} must be one intended formation.");
@@ -53,6 +61,76 @@ namespace Wildkin.Tests.EditMode
                 }
             }
             Assert.That(layouts.Count, Is.EqualTo(4), "The shared profile should automatically exercise every explainable layout family.");
+        }
+
+        [Test]
+        public void DirtIsAnEmbeddedMaterialBandAndNeverAddsMatterOutsideTheStampField()
+        {
+            const float spacing = 0.5f;
+            RockFormationStamp stamp = RockFormationStampGenerator.Generate(19);
+            RockStampResolution resolved = stamp.Resolve(spacing);
+            MatterWorld world = resolved.World;
+            int expectedSolid = 0;
+            int dirtSamples = 0;
+            int rockSamples = 0;
+
+            int minXZ = (int)Math.Floor((RockFormationStamp.AnchorX - 4.15f) / spacing);
+            int maxXZ = (int)Math.Ceiling((RockFormationStamp.AnchorX + 4.15f) / spacing);
+            int minY = (int)Math.Floor(-0.55f / spacing);
+            int maxY = (int)Math.Ceiling(stamp.Profile.MaxHeightMeters / spacing);
+            for (int y = minY; y <= maxY; y++)
+            for (int z = minXZ; z <= maxXZ; z++)
+            for (int x = minXZ; x <= maxXZ; x++)
+            {
+                var address = new MatterSampleAddress(x, y, z);
+                float py = y * spacing;
+                bool fieldSolid = stamp.Evaluate(x * spacing, py, z * spacing) > 0f;
+                MatterSample actual = world.ReadSample(address);
+                Assert.That(actual.IsSolid, Is.EqualTo(fieldSolid),
+                    $"Material assignment must not expand or remove stamp geometry at ({x},{y},{z}).");
+                if (!fieldSolid) continue;
+
+                expectedSolid++;
+                MatterMaterialId expectedMaterial = py < 0.28f ? MatterMaterialId.Dirt : MatterMaterialId.Rock;
+                Assert.That(actual.Material, Is.EqualTo(expectedMaterial),
+                    $"Only the embedded lower band is dirt at ({x},{y},{z}).");
+                if (actual.Material == MatterMaterialId.Dirt) dirtSamples++;
+                else rockSamples++;
+            }
+
+            Assert.That(expectedSolid, Is.EqualTo(resolved.OccupiedSamples));
+            Assert.That(dirtSamples, Is.GreaterThan(0));
+            Assert.That(rockSamples, Is.GreaterThan(0));
+            Assert.That(dirtSamples / (float)expectedSolid, Is.LessThan(0.28f),
+                "A narrow embedded seam should not become a broad skirt around the rock silhouette.");
+        }
+
+        [Test]
+        public void GeneratedRockAndDirtTextures_AreDeterministicSeparatedAndLowNoise()
+        {
+            MatterRockTextureSet first = MatterRockMaterialFactory.GenerateTextures();
+            MatterRockTextureSet repeated = MatterRockMaterialFactory.GenerateTextures();
+            try
+            {
+                Assert.That(MatterRockMaterialFactory.TextureGeneratorVersion, Is.EqualTo(2));
+                Assert.That(TextureHash(first.RockAlbedo), Is.EqualTo(TextureHash(repeated.RockAlbedo)));
+                Assert.That(TextureHash(first.DirtAlbedo), Is.EqualTo(TextureHash(repeated.DirtAlbedo)));
+                Assert.That(TextureHash(first.RockNormal), Is.EqualTo(TextureHash(repeated.RockNormal)));
+
+                Color rock = Mean(first.RockAlbedo.GetPixels());
+                Color dirt = Mean(first.DirtAlbedo.GetPixels());
+                Assert.That(rock.b, Is.GreaterThan(rock.r + 0.05f), "Rock should keep a readable cool stone palette.");
+                Assert.That(dirt.r, Is.GreaterThan(dirt.b + 0.15f), "Dirt should remain distinctly warmer than rock.");
+                Assert.That(MeanAlpha(first.RockMask), Is.GreaterThan(MeanAlpha(first.DirtMask) + 0.03f),
+                    "Rock and dirt should retain distinct roughness response.");
+                Assert.That(MeanNormalOffset(first.RockNormal), Is.LessThan(0.12f),
+                    "Normal detail must not obscure broad planar faces.");
+            }
+            finally
+            {
+                DestroyTextures(first);
+                DestroyTextures(repeated);
+            }
         }
 
         [Test]
@@ -188,6 +266,53 @@ namespace Wildkin.Tests.EditMode
                 unchecked { for (int shift = 0; shift < 64; shift += 8) { hash ^= (byte)(part >> shift); hash *= prime; } }
             }
             return hash;
+        }
+
+        private static ulong TextureHash(Texture2D texture)
+        {
+            ulong hash = 14695981039346656037UL;
+            const ulong prime = 1099511628211UL;
+            foreach (Color32 pixel in texture.GetPixels32())
+            {
+                unchecked
+                {
+                    hash ^= pixel.r; hash *= prime;
+                    hash ^= pixel.g; hash *= prime;
+                    hash ^= pixel.b; hash *= prime;
+                    hash ^= pixel.a; hash *= prime;
+                }
+            }
+            return hash;
+        }
+
+        private static Color Mean(Color[] pixels)
+        {
+            Color total = Color.clear;
+            foreach (Color pixel in pixels) total += pixel;
+            return total / pixels.Length;
+        }
+
+        private static float MeanAlpha(Texture2D texture)
+        {
+            Color[] pixels = texture.GetPixels();
+            float total = 0f;
+            foreach (Color pixel in pixels) total += pixel.a;
+            return total / pixels.Length;
+        }
+
+        private static float MeanNormalOffset(Texture2D texture)
+        {
+            Color[] pixels = texture.GetPixels();
+            float total = 0f;
+            foreach (Color pixel in pixels)
+                total += Mathf.Abs(pixel.r - 0.5f) + Mathf.Abs(pixel.g - 0.5f);
+            return total / pixels.Length;
+        }
+
+        private static void DestroyTextures(MatterRockTextureSet textures)
+        {
+            foreach (Texture2D texture in textures.All)
+                UnityEngine.Object.DestroyImmediate(texture);
         }
 
         private static int CountOwnedCrossingEdges(MatterMeshingRegion region)

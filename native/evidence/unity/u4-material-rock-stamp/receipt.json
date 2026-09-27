@@ -2,7 +2,7 @@
   "phase": "U4",
   "title": "Stylized materials and deterministic procedural rock stamp",
   "status": "HOLD_PENDING_INDEPENDENT_ROOT_VISUAL_REVIEW",
-  "startingGateCommit": "53cbf5534cb9edf405717e79b14e7f17f491782a",
+  "startingGateCommit": "6e73543ca24920a275e39cb77c61aeac6f49b2fe",
   "unityVersion": "6000.3.25f1",
   "renderPipeline": "HDRP 17.3.0",
   "platform": "Windows x64",
@@ -38,14 +38,22 @@
       "Leaning Ridge": 6,
       "Split Shoulders": 5,
       "Bent Buttress": 5,
-      "Crown Stack": 4
+      "Crown Shelf": 4
     },
     "primitiveCountRange": [6, 7],
-    "occupiedVolumeEstimateRangeCubicMeters": [12.875, 25.5],
-    "widthHeightRatioRange": [1.129585, 2.216455],
-    "depthHeightRatioRange": [0.993325, 1.762593],
-    "strongestCandidateSeeds": [3, 8, 11, 15],
-    "weakestCandidateSeeds": [19, 20],
+    "occupiedVolumeEstimateRangeCubicMeters": [18.25, 30.625],
+    "widthHeightRatioRange": [0.760545, 1.476575],
+    "depthHeightRatioRange": [0.631621, 1.386768],
+    "representativeHeroSeeds": [3, 12, 14, 20],
+    "weakestCandidateSeeds": [19],
+    "remediation": {
+      "smoothUnionMeters": 0.075,
+      "warpAmplitudeMeters": 0.012,
+      "dirtClassification": "Material-only band at y < 0.28m within existing solid samples; no outward skirt geometry",
+      "geometryOccupancyContract": "Resolved MatterWorld solid occupancy equals the generator field; material classification does not expand silhouette",
+      "materialContract": "Low-frequency surface treatment, cool slate-gray rock, warm brown dirt, reduced normal intensity",
+      "remainingVisualRisk": "Seed 19 remains a weak broad form; image quality awaits independent root review"
+    },
     "sourceAuthority": "Recipe primitives are generation input only; resolved samples are ordinary rock/dirt MatterWorld authority."
   },
   "projectionProof": {
@@ -56,8 +64,8 @@
   },
   "tests": {
     "editMode": {
-      "total": 73,
-      "passed": 73,
+      "total": 75,
+      "passed": 75,
       "failed": 0,
       "xml": "all-editmode.xml"
     },
@@ -69,48 +77,50 @@
     }
   },
   "windowsDevelopmentBuild": {
-    "buildId": "build_30bdc3362038",
+    "buildId": null,
     "result": "Succeeded",
-    "buildTimeMilliseconds": 31052,
-    "totalSizeBytes": 230108081,
+    "buildTimeMilliseconds": 35836,
+    "totalSizeBytes": 230107437,
     "errors": 0,
     "warnings": 4,
-    "output": "Builds/U4-MaterialRock-Clean/Wildkin-U4.exe",
+    "output": "native/unity/WildkinUnity/Temp/U4VisualRemediation/Wildkin-U4.exe",
     "provenance": "build-provenance.json"
   },
   "playerObservation": {
     "executableExitCode": 0,
-    "capture": "windows-player-observation-clean.png",
-    "metrics": "windows-player-metrics-clean.json",
-    "observedFrameCount": 17766,
-    "allSampleAverageMilliseconds": 0.533854,
-    "maximumMilliseconds": 3581.024,
-    "derivedAverageWithoutMaximumMilliseconds": 0.332307,
-    "maximumInterpretation": "Startup-dominated synchronous 20-seed generation; all-sample average includes the hitch",
+    "capture": "windows-player-observation-remediation.png",
+    "metrics": "windows-player-metrics-remediation.json",
+    "observedFrameCount": 1,
+    "allSampleAverageMilliseconds": 2959.258,
+    "maximumMilliseconds": 2959.258,
+    "maximumInterpretation": "Single startup capture; not a performance observation",
     "gpuFrameTiming": "Unavailable",
     "reportedHardware": "NVIDIA GeForce RTX 3070 Laptop GPU, D3D12"
   },
   "evidence": {
     "readme": "README.md",
-    "galleryContactSheet": "u4-rock-gallery-contact-sheet-final.png",
-    "galleryMetrics": "u4-rock-gallery-contact-sheet-final-metrics.json",
+    "galleryContactSheet": "u4-rock-gallery-contact-sheet-remediation-final.png",
+    "galleryMetrics": "u4-rock-gallery-contact-sheet-remediation-final-metrics.json",
     "heroCloseups": [
-      "hero-seed-3-bent-buttress.png",
-      "hero-seed-8-crown-stack.png",
-      "hero-seed-11-tall-buttress.png",
-      "hero-seed-15-broken-ledge.png"
+      "hero-remediation-bent-buttress-seed-3.png",
+      "hero-remediation-crown-shelf-seed-12.png",
+      "hero-remediation-split-shoulders-seed-14.png",
+      "hero-remediation-leaning-ridge-seed-20.png"
     ],
     "weakestSeedExamples": [
-      "hero-seed-19-split-shoulders.png",
-      "hero-seed-20-leaning-ridge.png"
+      "weak-example-remediation-seed-19-split-shoulders.png"
     ],
-    "wireframe": "wireframe-seed-3.png",
-    "rockDirtSeam": "rock-dirt-seam-seed-3.png",
-    "bounded025mHero": "hero-seed-3-bent-buttress-025m.png"
+    "wireframe": "wireframe-remediation-seed-14.png",
+    "rockDirtSeam": "rock-dirt-seam-remediation-seed-14.png",
+    "bounded025mHero": "hero-remediation-bent-buttress-seed-3-025m.png",
+    "dynamicProjectionBefore": "dynamic-projection-remediation-seed-3-before.png",
+    "dynamicProjectionAfter": "dynamic-projection-remediation-seed-3-after.png"
   },
   "limits": [
     "Do not infer mixed-resolution stitching; U3 local refinement remains unsolved.",
     "No production performance budget, GPU timing, physics, destruction, actor transfer, streaming, migration, or Unreal qualification is claimed.",
-    "Image quality and family distinctness remain HOLD until independent root visual review."
+    "Image quality and family distinctness remain HOLD until independent root visual review.",
+    "Final player capture records only one startup frame and is not a performance benchmark.",
+    "U3 mixed-resolution stitching remains unresolved; 0.25m evidence is a bounded isolated hero only."
   ]
 }
