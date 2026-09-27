@@ -1,6 +1,6 @@
 # U3 — Mesher and Resolution Bakeoff
 
-**Implementation evidence is assembled; status is HOLD pending the independent root review.** This does not admit U3 and does not authorize U4. The runtime comparison uses one frozen fixture source, the same global matter authority, the same camera/material framing, and actual mesh generation/publication paths. The provisional recommendations are exactly `SURFACE_NETS` and `LOCAL_REFINEMENT_DIRECTION`.
+**PASS after independent root review.** The runtime comparison uses one frozen fixture source, the same global matter authority, the same camera/material framing, and actual mesh generation/publication paths. Root inspection of the implementation and original matched captures selects exactly `SURFACE_NETS` and `LOCAL_REFINEMENT_DIRECTION` and admits U4.
 
 ## Scope and environment
 
@@ -55,9 +55,9 @@ Uniform 0.25m uses 8× the scalar samples/raw snapshot and about 3.5× the verti
 
 ## Resolution and recommendation
 
-The .25m hero samples show crisper small shelves/corners in places, but the difference between the honest DC QEF surface and Surface Nets centroid surface is modest for these authored forms. DC did not show a material runtime advantage in the matched matrix; its fallback/clamp counts are substantial on noisy and sharply featured fields. The provisional choice is therefore `SURFACE_NETS` as the simpler default, pending root image review.
+The .25m hero samples show crisper small shelves/corners in places, but the difference between the honest DC QEF surface and Surface Nets centroid surface is modest for these authored forms. DC did not show a material runtime advantage in the matched matrix; its fallback/clamp counts are substantial on noisy and sharply featured fields. Root review therefore selects `SURFACE_NETS` as the simpler default.
 
-Uniform 0.25m is not justified as a blanket world setting by this cost/detail trade. The local-refinement direction compares a 16m³ 0.50m base with an isolated 8m³ bounded 0.25m detail sample and shows denser geometry at the higher detail scale. It deliberately does **not** stitch the finer sample into the base, and its boundary is not claimed crack-free. The provisional resolution recommendation is `LOCAL_REFINEMENT_DIRECTION`, with crack-free transitions left as a named downstream risk.
+Uniform 0.25m is not justified as a blanket world setting by this cost/detail trade. The local-refinement direction compares a 16m³ 0.50m base with an isolated 8m³ bounded 0.25m detail sample and shows denser geometry at the higher detail scale. It deliberately does **not** stitch the finer sample into the base, and its boundary is not claimed crack-free. Root review selects `LOCAL_REFINEMENT_DIRECTION`, with crack-free transitions left as a named downstream risk.
 
 ## Validation and build
 
@@ -72,4 +72,4 @@ Uniform 0.25m is not justified as a blanket world setting by this cost/detail tr
 - CLI `run_tests` printed `0/0` while an Editor assembly reload was in progress; `test_status` then returned the actual run result. One status query briefly could not connect during domain reload. The final tests and XML are current and green.
 - An early custom vertex shader import had a compile error, then a first color layout mapped the wrong vertex attributes and produced rainbow colors. The shader/layout were corrected; all submitted captures use the final flat stylized normal-key/ambient ramp. The earlier failed images were discarded.
 - Editor HDRP/Lit captures washed the forms out, so the final comparison uses an internally authored HDRP-compatible vertex-color shader with fixed face lighting and subtle height/material tints. The matched camera, scale, light and material treatment is shared across all mesher/resolution cases.
-- Mixed-resolution transitions, streaming-scale memory/budgeting, colliders/physics, edits at refined seams, production art approval, player performance beyond this single observation, and renderer/material production integration remain out of scope. Root must inspect the images and implementation before U3 can be marked PASS. U4 has not started.
+- Mixed-resolution transitions, streaming-scale memory/budgeting, colliders/physics, edits at refined seams, production art approval, player performance beyond this single observation, and renderer/material production integration remain out of scope. Root inspected the images and implementation and marked U3 PASS; U4 is admitted.

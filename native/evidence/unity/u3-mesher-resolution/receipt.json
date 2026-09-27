@@ -1,6 +1,6 @@
 {
   "phase": "U3_MESHER_RESOLUTION_BAKEOFF",
-  "status": "HOLD_FOR_INDEPENDENT_ROOT_REVIEW",
+  "status": "PASS",
   "startingCommit": "861a42b823c7c6d640dcf2be70fb5002e508c236",
   "unityVersion": "6000.3.25f1",
   "hdrpVersion": "17.3.0",
@@ -117,7 +117,7 @@
   "recommendations": {
     "mesher": "SURFACE_NETS",
     "resolution": "LOCAL_REFINEMENT_DIRECTION",
-    "status": "Provisional, pending root inspection of matched captures and implementation."
+    "status": "Selected after independent root inspection of matched captures and implementation."
   },
   "evidenceImages": [
     "comparison-board.png",
@@ -140,7 +140,7 @@
     "Build succeeded with two warning categories: Object.FindObjectOfType<T> obsolete warnings and MatterBakeoffPreviewView.DestroyObject hiding a Unity member. No errors."
   ],
   "limitations": [
-    "Root inspection is pending; implementer does not self-admit perceptual PASS.",
+    "Independent root inspection passed the phase and admitted U4.",
     "The local 0.25m region is an isolated sample, not a stitched mixed-resolution mesh; crack-free transitions remain a named risk.",
     "One Windows Development Player observation exists; the benchmark matrix is Editor-only and is not a broad player performance profile.",
     "Managed allocation bytes were unavailable and are reported as such, not zero.",
