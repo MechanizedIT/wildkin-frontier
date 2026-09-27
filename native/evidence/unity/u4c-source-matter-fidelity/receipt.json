@@ -1,0 +1,113 @@
+{
+  "phase": "U4C_SOURCE_GEOMETRY_TO_MATTER_FIDELITY",
+  "status": "SOURCE_MODELER_HOLD",
+  "date": "2026-09-27",
+  "startingMainCommit": "cbb1c2d",
+  "gateA": {
+    "status": "HOLD",
+    "initialReview": "HOLD; one focused source-modeler remediation permitted",
+    "finalIndependentReview": "HOLD — SOURCE_MODELER_HOLD",
+    "remediationPassesUsed": 1,
+    "method": "BeveledCompositeHalfSpaceRock-v2",
+    "voxelized": false,
+    "reason": "The repaired sources show better faceted hierarchy than U4B but remain block/slab-like. The Chunky Boulder reads as an architectural block; the Buttress Wedge upper component reads as disconnected or floating. The set does not yet meet the compact, interlocking stylized rock target."
+  },
+  "sourceRocks": [
+    {
+      "label": "A",
+      "archetype": "Capstone Slab",
+      "seed": 4101,
+      "componentCount": 3,
+      "planeCount": 44,
+      "faceCount": 41,
+      "vertices": 70,
+      "triangles": 128,
+      "closedManifold": true,
+      "boundsMinMeters": [-1.75, 0.04, -1.35],
+      "boundsMaxMeters": [2.47, 1.39, 1.35],
+      "geometryHash": "7AE85680723BEA01",
+      "captures": {
+        "beauty": "source-rock-A-beauty.png",
+        "alternateAngle": "source-rock-A-angle2.png",
+        "wireframe": "source-rock-A-wireframe.png",
+        "metrics": "source-rock-A-metrics.json"
+      }
+    },
+    {
+      "label": "B",
+      "archetype": "Chunky Boulder",
+      "seed": 4102,
+      "componentCount": 3,
+      "planeCount": 44,
+      "faceCount": 39,
+      "vertices": 66,
+      "triangles": 120,
+      "closedManifold": true,
+      "boundsMinMeters": [-2.22, 0.03, -1.1],
+      "boundsMaxMeters": [1.13, 2.84, 1.1],
+      "geometryHash": "16134C9948FA5D86",
+      "captures": {
+        "beauty": "source-rock-B-beauty.png",
+        "alternateAngle": "source-rock-B-angle2.png",
+        "wireframe": "source-rock-B-wireframe.png",
+        "metrics": "source-rock-B-metrics.json"
+      }
+    },
+    {
+      "label": "C",
+      "archetype": "Buttress Wedge",
+      "seed": 4103,
+      "componentCount": 3,
+      "planeCount": 46,
+      "faceCount": 34,
+      "vertices": 56,
+      "triangles": 100,
+      "closedManifold": true,
+      "boundsMinMeters": [-0.88, 0.0, -0.76],
+      "boundsMaxMeters": [1.41, 3.53, 0.76],
+      "geometryHash": "0377081DE4DB2D7D",
+      "captures": {
+        "beauty": "source-rock-C-beauty.png",
+        "alternateAngle": "source-rock-C-angle2.png",
+        "wireframe": "source-rock-C-wireframe.png",
+        "metrics": "source-rock-C-metrics.json"
+      }
+    }
+  ],
+  "validation": {
+    "unityRecompile": {
+      "status": "completed",
+      "errors": 0
+    },
+    "focusedEditMode": {
+      "filter": "ProceduralSourceRockTests",
+      "passed": 3,
+      "failed": 0,
+      "skipped": 0
+    },
+    "currentUnityConsoleErrors": 0,
+    "currentUnityConsoleWarnings": 5,
+    "fullEditMode": "not run; Gate A hold stopped the phase before Gate B",
+    "playMode": "not run; Gate A hold stopped the phase before Gate B",
+    "windowsDevelopmentBuild": "not run; Gate A hold stopped the phase before Gate B"
+  },
+  "gateB": {
+    "status": "NOT STARTED",
+    "withheldWork": [
+      "mesh-to-SDF sampling",
+      "occupancy/clipped-scalar control",
+      "0.50 m, 0.25 m, 0.125 m, and 0.0625 m matter comparisons",
+      "Surface Nets reconstruction",
+      "source-to-matter fidelity, memory, sampling-time, and mesh-cost metrics"
+    ]
+  },
+  "scopeBoundary": {
+    "u4d": "not started",
+    "u5": "not started",
+    "unreal": "not started",
+    "adaptiveTerrainStitching": "not started",
+    "productionMigration": "not started",
+    "unityEngineFailure": false,
+    "ownerReviewRequired": true
+  }
+}

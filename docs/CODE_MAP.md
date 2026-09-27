@@ -1,13 +1,17 @@
 # Wildkin Frontier code map
 
-## U4C source-geometry / local-domain planning owners
+## U4C source-geometry / local-domain owners — SOURCE_MODELER_HOLD
 
 - `docs/SOURCE_GEOMETRY_MATTER_FIDELITY_PLAN.md` — active representation experiment and U4C→U4D decision route.
 - `docs/LOCAL_MATTER_DOMAINS.md` — provisional independent-resolution matter-domain architecture for detailed objects on coarse terrain.
 - `docs/prompts/UNITY_05_SOURCE_GEOMETRY_MATTER_FIDELITY.md` — copy-ready U4C Luna Max implementation brief.
-- `native/evidence/unity/u4c-source-matter-fidelity/` — reserved U4C evidence destination once implementation begins.
+- `native/unity/WildkinUnity/Assets/Wildkin/Matter/Core/ProceduralSourceRock.cs` — engine-light deterministic half-space recipes and direct faceted composite meshes for the three U4C source archetypes.
+- `native/unity/WildkinUnity/Assets/Wildkin/Matter/Unity/SourceRockGalleryView.cs` — transient direct-source mesh and wireframe preview plus topology metrics; no matter conversion.
+- `native/unity/WildkinUnity/Assets/Wildkin/AgentTools/Editor/SourceRockAgentCommands.cs` — generation, inspection, recipe reporting, and matched beauty/alternate-angle/wireframe captures.
+- `native/unity/WildkinUnity/Assets/Wildkin/Tests/EditMode/ProceduralSourceRockTests.cs` — fixed-seed geometry, manifold, winding and deterministic-hash coverage.
+- `native/evidence/unity/u4c-source-matter-fidelity/` — direct source captures, component plane recipes, review record, and SOURCE_MODELER_HOLD receipt.
 
-U4C should add source-rock geometry/SDF/local-volume owners under the Unity project only after implementation chooses exact file boundaries. Do not list invented code owners before they exist.
+Independent review found improved faceted hierarchy over U4B, but the shapes remain slab/block-like and one cap reads as floating. The single allowed source-modeler remediation is exhausted. No mesh-to-SDF, occupancy control, local volume, resolution comparison or mesher change exists in this checkpoint. Do not begin U4D, U5, Unreal, adaptive terrain stitching or production migration before owner review.
 
 ## Native PC transition — Unity-first qualification
 

@@ -1,5 +1,15 @@
 # Build Log
 
+## 2026-09-27 16:03 America/Chicago — Unity U4C direct source-geometry gate — Codex GPT-6
+
+- **Goal:** Pull current `main`, execute the authoritative U4C source-geometry → matter-fidelity brief, preserve unrelated work, independently review direct procedural sources, and stop for owner review without beginning later phases.
+- **Starting state:** `main` fast-forwarded from `origin/main` to `cbb1c2d`. Before edits, the working HDRP asset modification and unrelated untracked `Builds/`, `authoring/`, and `docs/evidence/voxel-phase05/portable/` were present and preserved.
+- **Method/decisions:** The first three direct single-polyhedron sources received independent HOLD because they read as cut blocks. Used the one allowed focused modeler remediation: deterministic beveled half-space composites with three closed source components per archetype. Final independent reviewer verdict is `SOURCE_MODELER_HOLD`: A remains slab-like, B reads as an architectural block, and C's separated cap reads as floating. The source mesh target is not met, and the remediation allowance is exhausted. Withheld all voxelization, SDF/occupancy comparisons, resolution/fidelity/cost experiments and Surface Nets reconstruction. This is not evidence of a Unity engine limitation. Do not start U4D, U5, Unreal, adaptive terrain stitching or production migration; stop for owner review.
+- **Evidence:** Direct beauty, alternate-angle and wireframe captures for all three archetypes; fixed component-plane recipes; manifold/count/hash sidecars; reviewer disposition and machine-readable receipt are under `native/evidence/unity/u4c-source-matter-fidelity/`.
+- **Files changed:** Added `ProceduralSourceRock.cs`, `SourceRockGalleryView.cs`, `SourceRockAgentCommands.cs`, the U4C tech scene, neutral exposure asset and focused tests under `native/unity/WildkinUnity/`; added U4C captures, metrics, recipes, README and receipt; updated `CURRENT_SLICE.md`, `SESSION_START.md`, `UNITY_FIRST_TRANSITION_PLAN.md`, `SOURCE_GEOMETRY_MATTER_FIDELITY_PLAN.md`, `DESTRUCTIBLE_MATTER_ROADMAP.md`, `CODE_MAP.md`, and this log. Preserved existing unrelated HDRP asset work, `Builds/`, `authoring/`, and `docs/evidence/voxel-phase05/portable/`.
+- **Validation:** Unity recompile completed with 0 errors; focused `ProceduralSourceRockTests` passed 3/3; all three direct meshes report closed manifold shells and deterministic hashes; current Unity console reports 0 errors and 5 existing warnings. Receipt JSON parses. Full EditMode, PlayMode and Windows Development Build were not run because Gate A stopped U4C before Gate B.
+- **Remaining:** Wait for owner review and fresh direction. No further modeler repair or matter conversion is authorized by the active brief.
+
 ## 2026-09-27 — U4C source-geometry to matter fidelity planning — ChatGPT GPT-5.6 Sol
 
 - **Goal:** Respond to the U4B visual HOLD by separating shape design from destructible storage rather than repeating formation randomization or switching engines prematurely.

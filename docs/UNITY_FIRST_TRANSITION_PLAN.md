@@ -4,7 +4,7 @@
 
 ## Qualification status — September 27, 2026
 
-**U0/U1, U2 and U3 PASS; U4 and U4B are visual-method HOLDs; U4C is the active next experiment; U5 has not started.** The current evidence does not establish a Unity engine failure. U4/U4B show that the existing rounded/SDF-clast and plane-clipped formation generators do not produce sufficiently authored-looking stones, while the isolated 0.25 m checks show that resolution alone does not repair a weak source shape. U4C changes the question: create good source geometry first, then test whether true signed-distance matter at 0.50 / 0.25 / 0.125 / 0.0625 m preserves it. U4C also tests whether prior occupancy/clipped scalar encoding loses important surface information. If a practical high-resolution local volume succeeds, U4D will test object-local matter domains on coarse terrain. Unreal remains deferred unless Unity later demonstrates an actual rendering/runtime blocker rather than a generator-quality problem. See [SOURCE_GEOMETRY_MATTER_FIDELITY_PLAN.md](SOURCE_GEOMETRY_MATTER_FIDELITY_PLAN.md), [LOCAL_MATTER_DOMAINS.md](LOCAL_MATTER_DOMAINS.md), U4/U4B evidence, and the [U4C prompt](prompts/UNITY_05_SOURCE_GEOMETRY_MATTER_FIDELITY.md).
+**U0/U1, U2 and U3 PASS; U4 and U4B are visual-method HOLDs; U4C is SOURCE_MODELER_HOLD after its one bounded repair; U5 has not started.** The U4C source meshes improved on U4B's soft fused clasts but remain block/slab-like and do not meet the stylized rock target. The independent review confirms that no source passed Gate A, so no voxelization or Gate B experiment was run. This is a source-modeling limitation in the current experiment, not an identified Unity engine failure. Stop for owner review. Do not begin U4D, U5, Unreal, adaptive terrain stitching, or production migration until U4C is reviewed and fresh direction is given. See [U4C evidence and receipt](../native/evidence/unity/u4c-source-matter-fidelity/), [SOURCE_GEOMETRY_MATTER_FIDELITY_PLAN.md](SOURCE_GEOMETRY_MATTER_FIDELITY_PLAN.md), [LOCAL_MATTER_DOMAINS.md](LOCAL_MATTER_DOMAINS.md), and the [U4C prompt](prompts/UNITY_05_SOURCE_GEOMETRY_MATTER_FIDELITY.md).
 
 ## Target
 
@@ -259,6 +259,8 @@ One selected stamp must become ordinary matter after placement.
 The technical contracts pass: stone recipes resolve into ordinary U2 `MatterWorld` edits, Surface Nets and the 0.50m default remain unchanged, the one-surface seam and projection regression pass, the bounded 0.25m seed now validates in physical meters, and EditMode/PlayMode plus the Windows Development Build pass. Independent review still holds the visual target: silhouettes vary little within each family, the forms remain soft/fused clasts, and material separation is weak. U4 remains a valid failed experiment. **Do not start U5 or Unreal from this result; stop for owner review.** See the [U4B evidence and receipt](../native/evidence/unity/u4b-rock-construction/).
 
 ## Phase U4C — source geometry → signed-distance matter fidelity
+
+**Current checkpoint: SOURCE_MODELER_HOLD after one bounded repair, September 27, 2026.** The direct source mesh gallery and independent review are in [U4C evidence](../native/evidence/unity/u4c-source-matter-fidelity/README.md). Gate A did not pass; true-SDF sampling, occupancy control, resolution comparisons, fidelity/cost measurements, and Surface Nets assessment were therefore not started. Stop for owner review.
 
 **Goal:** determine whether the visual problem is the source generator, scalar-field encoding, sample spacing, or Surface Nets itself.
 

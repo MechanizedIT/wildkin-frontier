@@ -1,0 +1,16 @@
+{
+    "archetype": "Chunky Boulder",
+    "seed": 4102,
+    "recipeVersion": "BeveledCompositeHalfSpaceRock-v2",
+    "componentCount": 3,
+    "planeCount": 44,
+    "faceCount": 39,
+    "uniqueVertices": 66,
+    "triangles": 120,
+    "closedManifold": true,
+    "manifoldIssue": "",
+    "boundsMinMeters": "(-2.2200, 0.0300, -1.1000)",
+    "boundsMaxMeters": "(1.1300, 2.8400, 1.1000)",
+    "geometryHash": "16134C9948FA5D86",
+    "sourceAuthorityNote": "This direct plane-set mesh is generation input only. U4C visual review must pass before this exact mesh is sampled into matter."
+}

@@ -1,0 +1,16 @@
+{
+    "archetype": "Buttress Wedge",
+    "seed": 4103,
+    "recipeVersion": "BeveledCompositeHalfSpaceRock-v2",
+    "componentCount": 3,
+    "planeCount": 46,
+    "faceCount": 34,
+    "uniqueVertices": 56,
+    "triangles": 100,
+    "closedManifold": true,
+    "manifoldIssue": "",
+    "boundsMinMeters": "(-0.8800, 0.0000, -0.7600)",
+    "boundsMaxMeters": "(1.4100, 3.5300, 0.7600)",
+    "geometryHash": "0377081DE4DB2D7D",
+    "sourceAuthorityNote": "This direct plane-set mesh is generation input only. U4C visual review must pass before this exact mesh is sampled into matter."
+}

@@ -1,6 +1,6 @@
 # Wildkin Frontier — source geometry to matter fidelity route
 
-**Status:** planned after U4B HOLD. This route is the active next visual/matter investigation. It does not authorize U5 destruction or Unreal.
+**Status:** `SOURCE_MODELER_HOLD` after one bounded source-modeler remediation and independent review, September 27, 2026. The three direct source meshes remain below the visual gate, so voxelization and all matter-fidelity experiments are withheld. Stop for owner review; this plan does not authorize U4D, U5 destruction, Unreal, adaptive terrain stitching, or production migration. See [the U4C evidence and receipt](../native/evidence/unity/u4c-source-matter-fidelity/).
 
 ## Why the direction is changing
 

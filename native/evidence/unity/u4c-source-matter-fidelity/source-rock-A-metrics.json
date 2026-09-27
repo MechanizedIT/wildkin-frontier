@@ -1,0 +1,16 @@
+{
+    "archetype": "Capstone Slab",
+    "seed": 4101,
+    "recipeVersion": "BeveledCompositeHalfSpaceRock-v2",
+    "componentCount": 3,
+    "planeCount": 44,
+    "faceCount": 41,
+    "uniqueVertices": 70,
+    "triangles": 128,
+    "closedManifold": true,
+    "manifoldIssue": "",
+    "boundsMinMeters": "(-1.7500, 0.0400, -1.3500)",
+    "boundsMaxMeters": "(2.4700, 1.3900, 1.3500)",
+    "geometryHash": "7AE85680723BEA01",
+    "sourceAuthorityNote": "This direct plane-set mesh is generation input only. U4C visual review must pass before this exact mesh is sampled into matter."
+}
