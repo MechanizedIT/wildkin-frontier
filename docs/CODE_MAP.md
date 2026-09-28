@@ -55,6 +55,15 @@ Independent review found improved faceted hierarchy over U4B, but the shapes rem
 
 ## Native PC transition — Unity-first qualification
 
+### U4D local domain runtime owners
+
+- `native/unity/WildkinUnity/Assets/Wildkin/Matter/Core/MatterDomain.cs` — local authoritative density/material arrays, stable ID, independent spacing, pose, edits, content/mesh revisions and matter hashing.
+- `native/unity/WildkinUnity/Assets/Wildkin/Matter/Core/MatterDomainMeshing.cs` — regional topology-aware Surface Nets cache, dirty-region derivation, reuse/combine and revision-gated publication.
+- `native/unity/WildkinUnity/Assets/Wildkin/Matter/Unity/MatterDomainSaveCodec.cs` — qualification-only dense JSON/Base64 source-free snapshot; not the intended production persistence format.
+- `native/unity/WildkinUnity/Assets/Wildkin/AgentTools/Editor/U4DLocalMatterDomainCommands.cs` — agent-driven U4D creation/edit/move/save/reload/capture evidence path.
+- `native/evidence/unity/u4d-local-matter-domain/` — U4D receipts, metrics, captures, tests and independent review.
+
+
 The browser voxel/matter implementation remains the behavioral reference through Phase 0.5E. New production-direction work lives under `native/` and follows [UNITY_FIRST_TRANSITION_PLAN](UNITY_FIRST_TRANSITION_PLAN.md).
 
 Prepared and active native owners:
@@ -68,6 +77,10 @@ Prepared and active native owners:
 - `docs/prompts/UNITY_02_MESHER_RESOLUTION_BAKEOFF.md` — Surface Nets vs Dual Contouring / resolution checkpoint.
 - `docs/prompts/UNITY_03_STYLIZED_MATERIAL_ROCK_STAMP.md` — projected materials + seeded rock-family checkpoint.
 - `docs/prompts/UNITY_04_MINIMAL_DESTRUCTION_SLICE.md` — final Unity qualification destruction slice.
+- `docs/UNITY_NATIVE_HANDOFF_AFTER_U4D.md` — current cross-session architecture/status handoff after the accepted U4D checkpoint.
+- `docs/NATIVE_WORLD_PERSISTENCE_AND_UPDATES.md` — preferred procedural-base + mutation-journal + checkpoint persistence and bounded dirty-update architecture.
+- `docs/UNITY_U4E_FORMATION_PLAN.md` — next planned procedural multi-domain formation experiment.
+- `docs/LOCAL_MATTER_DOMAINS.md` — qualified independent-spacing MatterDomain responsibilities and U4D evidence.
 
 `native/unity/WildkinUnity/` is now a Unity-created Unity 6.3/HDRP project. The U0/U1 smoke owners remain under `Assets/Wildkin/AgentTools/Editor/`, `Assets/Wildkin/Tests/`, and `Assets/Wildkin/Scenes/Tech/AgentSmoke.unity`. Do not treat browser `lab/voxel/` modules as production owners after native qualification begins.
 
