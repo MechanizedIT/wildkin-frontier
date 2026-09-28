@@ -141,27 +141,37 @@ matter authority != render mesh != physics proxy
 
 ## Persistence
 
-A later production save likely stores:
+The preferred production direction is now explicit:
 
-- domain generator/source identity where regeneration is safe;
-- accepted edits;
-- transformed/detached state;
-- local matter snapshot when procedural regeneration is no longer authoritative;
-- stable IDs.
+> **procedural base + accepted mutation journal + periodic compact checkpoint**
+
+For a pristine deterministic domain, save only its stable identity/source version/seed/placement when safe to regenerate.
+
+For a lightly edited domain, retain the procedural base descriptor plus ordered accepted matter operations such as SDF subtraction. Save the **resolved matter mutation**, not the original gameplay input.
+
+For a heavily edited or detached/moved domain, checkpoint the current authoritative matter and retain only newer operations after that checkpoint. Persist current pose/actor state rather than replaying physics history.
+
+The U4D JSON/Base64 dense snapshot is qualification-only. It proves source-free reload; it is not the production format.
 
 Removed matter must not regenerate.
 
+See [native world persistence and updates](NATIVE_WORLD_PERSISTENCE_AND_UPDATES.md).
+
 ## Storage
 
-Do not infer that every domain should be one giant dense array.
+U4D proves that a bounded dense 0.125 m domain is practical for the qualification specimen, not that every production domain should permanently store one monolithic dense array.
 
-Likely direction if U4C validates 0.125/0.0625 matter:
+Preferred production direction:
 
-- fixed-size dense bricks internally;
-- sparse set of resident bricks;
-- true signed-distance narrow band around surfaces;
-- material/occupancy metadata;
-- optional coarse/deep-interior representation later if profiling warrants it.
+- fixed-size dense bricks internally for cache-friendly work;
+- sparse residency/persistence of bricks that are needed or changed;
+- true signed-distance information around active surfaces;
+- possible narrow-band/clamped deep-interior representation after profiling;
+- compact material metadata;
+- procedural regeneration for untouched domains;
+- checkpoints only after edits become dense or replay becomes expensive.
+
+U4D's recorded 0.125 m boulder has 12,650 samples and 63,250 raw density/material bytes; its JSON/Base64 proof save is about 84.9 KB. Those numbers are useful evidence for future compression benchmarks, not target save sizes.
 
 ## Relationship to adaptive terrain
 
@@ -180,6 +190,18 @@ Potential answer: yes, independent domain.
 Requires explicit transition topology/LOD work.
 
 Do not solve the second before the first needs it.
+
+## Regional update behavior
+
+Local-domain edits should not rebuild an entire domain when the dependency set is bounded.
+
+The current U4D proof derives changed samples and rebuilds only Surface Nets regions whose cell/halo dependencies touch those samples. Its first 0.125 m carve changes 291 samples, directly touches 2 regions, rebuilds 4 including dependencies and reuses 8 of 12. A moved-pose carve changes 174 samples, directly touches 1 region, rebuilds 4 and reuses 8.
+
+Carry this pattern forward to world chunks:
+
+`accepted operation → changed samples → direct write set → dependent mesh/collider/support/persistence sets → revision-gated publication`.
+
+Storage bricks, meshing regions and world-stream chunks should remain separate concepts. See [native world persistence and updates](NATIVE_WORLD_PERSISTENCE_AND_UPDATES.md).
 
 ## Experiment gates
 
@@ -202,6 +224,10 @@ Prove:
 - edit;
 - persistence;
 - no accidental duplicate authority.
+
+### U4E
+
+Compose several high-quality local MatterDomains into deterministic procedural formations. Keep individual stones as independent matter authorities by default, derive contact from geometry, and avoid substantial double-owned overlap. See [U4E formation plan](UNITY_U4E_FORMATION_PLAN.md).
 
 ### U5
 
