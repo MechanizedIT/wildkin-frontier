@@ -280,9 +280,33 @@ The .125 m sequence proves a 291-sample local carve (2 direct regions, 4 rebuilt
 
 Independent review found no technical blocker; the standalone overview is softer than the Editor closeups, which provide the surface-detail evidence. The bounded dense prototype does not prove world-scale memory, physics, support, collapse or transfer. U4C3's arbitrary trilinear-interior and higher-genus limitations remain. U4E/U5, Unreal, adaptive terrain stitching, streaming and production migration remain stopped for owner review.
 
+## Phase U4E — procedural multi-domain formations
+
+**Status:** planned after U4D `LOCAL_DOMAIN_0_125_PASS`; not yet implemented.
+
+Use multiple individually high-quality MatterDomains to compose authored-looking procedural rock formations. The default formation representation is **several independent stone domains**, not one fused formation SDF.
+
+Required direction:
+
+- deterministic formation recipe/version/seed;
+- deterministic stable child-domain IDs;
+- 3–8 semantic stone slots such as foundation, shoulder, support, cap and accent;
+- generation-time shape/proportion variation from the successful sculpted-stone source direction;
+- 0.25 m ordinary-detail and 0.125 m high-detail children as justified by composition;
+- contact fitting from actual geometry rather than arbitrary random placement;
+- no substantial double-owned positive-solid overlap;
+- diagnostic contact graph for later support work;
+- 20-seed gallery with meaningful silhouette and mass-hierarchy diversity;
+- one-child edit/remesh proof that leaves world and sibling domains unchanged;
+- compact pristine regeneration from recipe/seed rather than dense snapshotting every untouched child.
+
+Do not implement collapse/rigidbody detachment yet. Do not union every formation into one SDF merely to hide contact problems. See [U4E formation plan](UNITY_U4E_FORMATION_PLAN.md).
+
+**U4E PASS:** multiple independent destructible stone domains read as one coherent stylized formation, gallery diversity is meaningful, stable child identity/contact evidence is deterministic, no substantial duplicate matter is introduced, and editing one child remains local.
+
 ## Phase U5 — minimal destruction slice
 
-Port only enough proven behavior to expose engine integration costs:
+After U4E review, integrate the browser-proven destruction invariants with the selected native MatterDomain architecture. Port only enough behavior to expose engine integration costs:
 
 - terrain/rock edit;
 - dirt vs rock response;
@@ -291,7 +315,9 @@ Port only enough proven behavior to expose engine integration costs:
 - one MatterActor;
 - approximate physics proxy;
 - moved-pose matter targeting;
-- one save/reload.
+- one save/reload;
+- preservation of the detailed domain's local sample spacing after static→dynamic transfer;
+- persistence compatible with the procedural-base / mutation-journal / checkpoint direction in `NATIVE_WORLD_PERSISTENCE_AND_UPDATES.md`.
 
 Do not port every browser subsystem.
 
@@ -304,7 +330,7 @@ Use the Phase E reference invariants:
 - physics proxy may remain approximate;
 - unsupported search fails closed if evidence is incomplete.
 
-**U5 PASS:** one small native scene demonstrates edit → support loss → detached matter → physics → moved edit → reload with automated evidence.
+**U5 PASS:** one small native scene demonstrates coarse-world or formation contact/support invalidation → static-to-dynamic transfer of a detailed local MatterDomain → approximate physics → moved-pose edit → exact ownership/accounting → reload, while preserving the local domain spacing and the established matter/render/physics separation.
 
 ## Unity qualification gate
 
@@ -384,12 +410,13 @@ Do not port merely because it exists:
 
 Port the **behavioral contract**, not incidental implementation.
 
-## First local session
+## Current session entry point
 
-When the owner reaches the PC:
+The initial Unity bootstrap through U4D is complete. A fresh planning/review session should now:
 
-1. pull `main`;
-2. read `AGENTS.md`, `docs/CURRENT_SLICE.md`, this file and the U0 prompt;
-3. run `docs/prompts/UNITY_00_BOOTSTRAP_AGENT_SMOKE.md` in a fresh Codex/Luna High session;
-4. stop at its review gate;
-5. do not start meshing until U0/U1 agent operation is proven.
+1. pull/read current `main`;
+2. read `docs/CURRENT_SLICE.md` and `docs/UNITY_NATIVE_HANDOFF_AFTER_U4D.md`;
+3. review the committed U4D evidence/review;
+4. read `docs/UNITY_U4E_FORMATION_PLAN.md` and `docs/NATIVE_WORLD_PERSISTENCE_AND_UPDATES.md`;
+5. write the detailed bounded Luna-Max U4E implementation spec from the current evidence;
+6. stop for owner review after the eventual U4E implementation before U5.
