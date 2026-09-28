@@ -1,5 +1,7 @@
 # Native destruction representation strategy
 
+> **September 28, 2026 update:** U4D qualifies the local-domain direction: ~0.50 m coarse world matter can coexist with independent 0.25 m and 0.125 m editable MatterDomains without adaptive terrain stitching. Treat 0.25 m as an ordinary-detail local tier and 0.125 m as the current high-detail candidate; 0.0625 m remains optional. Detailed domains should retain true-SDF surface information. Persistence/storage direction is documented in `NATIVE_WORLD_PERSISTENCE_AND_UPDATES.md`; procedural multi-domain formation planning is in `UNITY_U4E_FORMATION_PLAN.md`.
+
 Wildkin's goal is that the world feels broadly destructible, not that every visible object must use the same volumetric data structure.
 
 Use the cheapest representation that preserves the gameplay interaction.
