@@ -1,6 +1,6 @@
 # Wildkin Frontier — source geometry to matter fidelity route
 
-**Status:** `SOURCE_MODELER_HOLD` after one bounded source-modeler remediation and independent review, September 27, 2026. The three direct source meshes remain below the visual gate, so voxelization and all matter-fidelity experiments are withheld. Stop for owner review; this plan does not authorize U4D, U5 destruction, Unreal, adaptive terrain stitching, or production migration. See [the U4C evidence and receipt](../native/evidence/unity/u4c-source-matter-fidelity/).
+**Status, September 28, 2026:** U4C2 source Gate A **PASS**, final **REPRESENTATION_HOLD**. The owner explicitly replaced the historical failed composite modeler with a single-shell sculpted cube-derived superquadric, macro asymmetry, shaped base and large subtractive face cuts. One bounded source adjustment passed independent review. The exact accepted meshes were converted into true-SDF local fields and the full four-spacing Surface Nets matrix; the fixed-exterior-air control loses fidelity. 0.25 m is the lowest common visual/topology baseline. C/0.125 and B/0.0625 each have a four-use nonmanifold edge even when combined by integer cell identity. Fine tiers preserve broad faces, so the feature-fidelity criterion for `REOPEN_MESHER` is not met. Stop for owner review; no U4D/U4E/U5/Unreal/adaptive stitching/production migration is admitted. See [U4C2 evidence](../native/evidence/unity/u4c2-sculpted-source/), [fresh owner brief](prompts/UNITY_05C2_SCULPTED_STONE_SOURCE.md), and [preserved U4C failure evidence](../native/evidence/unity/u4c-source-matter-fidelity/).
 
 ## Why the direction is changing
 
@@ -140,6 +140,8 @@ Then prove:
 edit → support loss → world/local ownership transfer as appropriate → physics → moved edit → save/reload.
 
 ## Source-rock modeling method for U4C
+
+**Historical method below — negative evidence, not the active recommendation.** The owner rejected further tuning of the half-space component assembly. U4C2 instead models one connected manifold stone per recipe with welded subdivided cube topology, superquadric projection, anisotropic scale, lean/taper/skew/twist, asymmetric quadrants, contact-base shaping, and three subtractive cuts through that existing shell. Separate-stone formation composition belongs to U4E. The preserved plan below explains the original U4C experiment, not authorization to resume it.
 
 The source shape should be generated using a **procedural modeling** algorithm rather than the current rounded implicit primitives.
 

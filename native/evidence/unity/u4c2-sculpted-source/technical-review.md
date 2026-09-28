@@ -1,0 +1,23 @@
+# U4C2 local source-fidelity technical review
+
+**Review verdict: no blocker found for the bounded, read-only fidelity experiment.**
+
+I reviewed `SourceMeshSignedDistance.cs`, `MatterLocalVolume.cs`, the `MatterRegionSnapshot`/`MatterMeshers` read-only-grid adapter path, and `SourceMeshFidelityTests.cs`. Final receipts report 23/23 scalar/fidelity/adapter tests and 16/16 source-generation tests passing. The findings below distinguish what the code and tests establish from the experiment's intentional limits.
+
+## Findings supporting admission
+
+- **Signed distance:** `SourceMeshSignedDistance` computes the closest point over each triangle's face, edge, and vertex Voronoi regions, so exterior distance is geometric distance to the source shell rather than fixed air. The positive-inside / negative-outside convention is consistent with the matter mesher. Fixed-ray parity handles ordinary queries, while edge/vertex ambiguity switches to solid-angle winding. The tests cover analytic box face, edge, and corner distances; zero on generated source vertices and a face interior; and both sides of deliberately ambiguous ray hits.
+- **Local field ownership:** `MatterLocalVolume` stores density and material in its own bounded arrays, translates global sample addresses through `Bounds.MinInclusive`, and returns air only outside that owned window. Its density population uses the signed-distance sampler directly. The local snapshot adapter likewise maps local indices through its own bounds, so the brick mesher receives the same global coordinates and sample spacing it expects.
+- **World-path preservation and forbidden writeback:** the normal world capture path is unchanged. `CaptureGrid` constructs a snapshot from `IMatterReadOnlyGrid`; that snapshot is not world-backed, so its write-back calls return false or throw. The focused test compares both Surface Nets and Dual Contouring hashes between a world capture and a read-only world adapter over positive and negative bricks, then verifies that writeback is rejected.
+- **Surface Nets seam/winding path:** reconstruction goes through the existing `MatterSurfaceNetsMesher` and the existing globally owned-edge emission logic. `MatterLocalVolume.Reconstruct` combines halo duplicates by `MatterMeshData.VertexCellAddresses`—the integer owner-cell identity—not by rounded positions. This preserves distinct cell vertices even when their positions coincide, and it does not implement a second mesher or alter winding. The reconstruction test validates a closed outward-wound mesh, determinism over two builds, and the expected finer-spacing improvement in signed-volume error.
+- **Metrics:** sample count, occupied count, raw density/material payload bytes, sampling wall time, reconstruction wall time, and region count are measured from the actual local field / existing mesher work. The `RawBytes` name accurately describes payload bytes (five per sample), rather than claiming total managed-memory usage.
+
+## Bounded limitations (not blockers for U4C2)
+
+1. Sampling is brute force: every local lattice sample tests every source triangle. It is appropriate for this hard-capped, offline fidelity experiment, but is not a production-scale SDF query structure. The two-million-sample cap is the essential containment boundary.
+2. Exact true exterior distance is retained inside the local volume only. Queries beyond its padded bounds intentionally receive fixed air, and trilinear interpolation at or beyond that boundary inherits that bounded-grid behavior.
+3. The signed-distance fallback assumes a valid, consistently wound, embedded source shell. `SculptedStoneMesh.Validate` establishes finite, closed, connected, genus-zero topology and positive volume, but it is not a general self-intersection test. The admitted procedural source path is within that validated bounded family; arbitrary imported meshes would need stronger admission validation.
+4. The completed resolution matrix exposes a separate Surface Nets topology limitation: C at 0.125 m and B at 0.0625 m each contain one four-use nonmanifold edge, with zero skipped-degenerate triangles. The C/0.125 edge was recorded from `(0.1756221, 1.069546, -0.7523146)` to `(0.1756221, 1.069546, -0.7481436)`. Because integer-cell-keyed combination produces the same failures as the former position-keyed diagnostic, this is not positional welding collapse; it remains a one-vertex-per-cell face-ambiguity limitation in the unchanged shared Surface Nets path.
+5. The elapsed-time metrics are useful qualification evidence, not a full performance benchmark: they do not separately account for GC, editor/player differences, or memory allocator overhead.
+
+No source files were changed by this review.

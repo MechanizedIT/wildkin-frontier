@@ -52,6 +52,17 @@ namespace Wildkin.Matter
             return new MatterMeshingRegion(brick, snapshot);
         }
 
+        public static MatterMeshingRegion CaptureGrid(IMatterReadOnlyGrid grid, MatterBrickAddress brick)
+        {
+            if (grid == null) throw new ArgumentNullException(nameof(grid));
+            if (!(grid.SampleSpacingMeters > 0) || float.IsInfinity(grid.SampleSpacingMeters))
+                throw new ArgumentOutOfRangeException(nameof(grid), "Read-only sample spacing must be finite and positive.");
+            int side = MatterBrickLayout.CellSize;
+            var owner = new MatterInt3(checked(brick.X * side), checked(brick.Y * side), checked(brick.Z * side));
+            var bounds = new MatterBounds(owner - new MatterInt3(1, 1, 1), owner + new MatterInt3(side + 1, side + 1, side + 1));
+            return new MatterMeshingRegion(brick, new MatterRegionSnapshot(grid, bounds));
+        }
+
         public MatterSample GetSample(MatterInt3 globalAddress)
         {
             MatterInt3 local = globalAddress - SampleOrigin;
@@ -83,6 +94,7 @@ namespace Wildkin.Matter
     {
         public MatterMesherKind Mesher { get; }
         public MatterMeshVertex[] Vertices { get; }
+        public MatterInt3[] VertexCellAddresses { get; }
         public int[] Indices { get; }
         public int TriangleCount => Indices.Length / 3;
         public int SkippedDegenerateTriangles { get; }
@@ -93,10 +105,11 @@ namespace Wildkin.Matter
 
         internal MatterMeshData(MatterMesherKind mesher, MatterMeshVertex[] vertices, int[] indices,
             int skippedDegenerateTriangles, int qefFallbackCount, int qefClampedVertexCount,
-            float cellSpacingMeters)
+            float cellSpacingMeters, MatterInt3[] vertexCellAddresses)
         {
             Mesher = mesher;
             Vertices = vertices;
+            VertexCellAddresses = vertexCellAddresses;
             Indices = indices;
             SkippedDegenerateTriangles = skippedDegenerateTriangles;
             QefFallbackCount = qefFallbackCount;
@@ -203,6 +216,7 @@ namespace Wildkin.Matter
             int[] vertexByCell = new int[CellCapacity];
             for (int i = 0; i < vertexByCell.Length; i++) vertexByCell[i] = -1;
             var vertices = new MatterMeshVertex[CellCapacity];
+            var vertexCells = new MatterInt3[CellCapacity];
             int vertexCount = 0;
             int qefFallbackCount = 0, qefClampedVertexCount = 0;
             float spacing = region.Samples.SampleSpacingMeters;
@@ -223,6 +237,7 @@ namespace Wildkin.Matter
                 if (qefClamped) qefClampedVertexCount++;
                 int cellIndex = CellIndex(x, y, z);
                 vertexByCell[cellIndex] = vertexCount;
+                vertexCells[vertexCount] = region.CellOrigin + new MatterInt3(x, y, z);
                 vertices[vertexCount++] = vertex;
             }
 
@@ -241,10 +256,12 @@ namespace Wildkin.Matter
 
             var exactVertices = new MatterMeshVertex[vertexCount];
             Array.Copy(vertices, exactVertices, vertexCount);
+            var exactVertexCells = new MatterInt3[vertexCount];
+            Array.Copy(vertexCells, exactVertexCells, vertexCount);
             var exactIndices = new int[indexCount];
             Array.Copy(indices, exactIndices, indexCount);
             return new MatterMeshData(kind, exactVertices, exactIndices, skippedDegenerate,
-                qefFallbackCount, qefClampedVertexCount, spacing);
+                qefFallbackCount, qefClampedVertexCount, spacing, exactVertexCells);
         }
 
         private static bool TryBuildCellVertex(MatterMeshingRegion region, MatterMesherKind kind,

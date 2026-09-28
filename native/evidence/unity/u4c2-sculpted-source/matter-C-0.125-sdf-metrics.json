@@ -1,0 +1,43 @@
+{
+    "label": "C",
+    "encoding": "true signed distance, positive solid",
+    "sourceHash": "EF8ACF6528F0C296",
+    "reconstructedHash": "D8596BFDA2B48BCE",
+    "spacingMeters": 0.125,
+    "sourceVertices": 127,
+    "sourceTriangles": 250,
+    "samples": 13050,
+    "occupied": 2332,
+    "reconstructedVertices": 1393,
+    "reconstructedTriangles": 2784,
+    "regions": 18,
+    "skippedDegenerateTriangles": 0,
+    "volumeDimensions": [
+        25,
+        29,
+        18
+    ],
+    "sampleOrigin": [
+        -8,
+        -2,
+        -9
+    ],
+    "rawFieldBytes": 65250,
+    "sourceGenerationMilliseconds": 8.6018,
+    "samplingMilliseconds": 1381.5646000000002,
+    "surfaceNetsMilliseconds": 333.7708,
+    "publicationMilliseconds": 1.6081,
+    "reconstructedToSourceMeters": {
+        "median": 0.00017186094191856682,
+        "p95": 0.01676863618195057,
+        "max": 0.0522710345685482
+    },
+    "sourceToFieldMeters": {
+        "median": 0.0019127706764265895,
+        "p95": 0.030510157346725465,
+        "max": 0.04817591607570648
+    },
+    "closedConnectedManifold": false,
+    "topologyIssue": "Open, nonmanifold, or inconsistently wound edge.",
+    "allocationBytes": "unavailable; raw field payload only is measured"
+}

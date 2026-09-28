@@ -1,0 +1,902 @@
+{
+  "success": true,
+  "command": "command run_tests",
+  "data": {
+    "command": "run_tests",
+    "parameters": {
+      "mode": "editor"
+    },
+    "result": {
+      "Summary": {
+        "Total": 124,
+        "Passed": 124,
+        "Failed": 0,
+        "Skipped": 0,
+        "Inconclusive": 0
+      },
+      "Results": [
+        {
+          "FullName": "Wildkin.Tests.EditMode.AgentSmokeMarkerTests.AngleAfter_IsDeterministicAndWraps(2.0f,45.0f,90.0f)",
+          "Status": "Passed",
+          "Duration": 0.0043319,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Wildkin.Tests.EditMode.AgentSmokeMarkerTests.AngleAfter_IsDeterministicAndWraps(10.0f,36.0f,0.0f)",
+          "Status": "Passed",
+          "Duration": 0.0001323,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Wildkin.Tests.EditMode.AgentSmokeMarkerTests.AngleAfter_IsDeterministicAndWraps(5.0f,36.0f,180.0f)",
+          "Status": "Passed",
+          "Duration": 0.0000671,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Wildkin.Tests.EditMode.MatterBurstReadinessTests.BurstActiveCellProbe_MatchesScalarAndWritesReadinessReport",
+          "Status": "Passed",
+          "Duration": 2.6372519,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Wildkin.Tests.EditMode.MatterCompositionTests.AirCut_SubtractsFromComposedSolidAndResolvesOneAirMaterial",
+          "Status": "Passed",
+          "Duration": 0.0044583,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Wildkin.Tests.EditMode.MatterCompositionTests.Composition_IsIndependentOfSourceEvaluationOrder",
+          "Status": "Passed",
+          "Duration": 0.0106143,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Wildkin.Tests.EditMode.MatterCompositionTests.EqualDensityRockAndDirt_UseRegistryCompositionPrecedence",
+          "Status": "Passed",
+          "Duration": 0.0005624,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Wildkin.Tests.EditMode.MatterCompositionTests.QualificationSource_IsDeterministicForSeedAndAddress",
+          "Status": "Passed",
+          "Duration": 0.0010235,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Wildkin.Tests.EditMode.MatterCompositionTests.ResolvedSample_RejectsCompetingDensityAndMaterialIdentity",
+          "Status": "Passed",
+          "Duration": 0.0042313,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Wildkin.Tests.EditMode.MatterCoordinatesTests.BrickBoundary_SampleHasOneOwnerAndNeighborCellCornerIsNotDuplicated",
+          "Status": "Passed",
+          "Duration": 0.0048389,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Wildkin.Tests.EditMode.MatterCoordinatesTests.Mapping_RoundTripsPositiveAndNegativeBrickBoundaries(-1,-1,15)",
+          "Status": "Passed",
+          "Duration": 0.0014935,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Wildkin.Tests.EditMode.MatterCoordinatesTests.Mapping_RoundTripsPositiveAndNegativeBrickBoundaries(0,0,0)",
+          "Status": "Passed",
+          "Duration": 0.0001046,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Wildkin.Tests.EditMode.MatterCoordinatesTests.Mapping_RoundTripsPositiveAndNegativeBrickBoundaries(15,0,15)",
+          "Status": "Passed",
+          "Duration": 0.0000878,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Wildkin.Tests.EditMode.MatterCoordinatesTests.Mapping_RoundTripsPositiveAndNegativeBrickBoundaries(16,1,0)",
+          "Status": "Passed",
+          "Duration": 0.0000714,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Wildkin.Tests.EditMode.MatterCoordinatesTests.Mapping_RoundTripsPositiveAndNegativeBrickBoundaries(31,1,15)",
+          "Status": "Passed",
+          "Duration": 0.0000672,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Wildkin.Tests.EditMode.MatterCoordinatesTests.Mapping_RoundTripsPositiveAndNegativeBrickBoundaries(32,2,0)",
+          "Status": "Passed",
+          "Duration": 0.0000707,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Wildkin.Tests.EditMode.MatterCoordinatesTests.QualificationBrick_IsSixteenCellIntervalsWithContiguousUniqueSamples",
+          "Status": "Passed",
+          "Duration": 0.0002284,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Wildkin.Tests.EditMode.MatterCoordinatesTests.SampleMapping_UsesFloorDivisionAndHalfOpenOwnership(0,0,0)",
+          "Status": "Passed",
+          "Duration": 0.0006315,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Wildkin.Tests.EditMode.MatterCoordinatesTests.SampleMapping_UsesFloorDivisionAndHalfOpenOwnership(1,0,1)",
+          "Status": "Passed",
+          "Duration": 0.000232,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Wildkin.Tests.EditMode.MatterCoordinatesTests.SampleMapping_UsesFloorDivisionAndHalfOpenOwnership(15,0,15)",
+          "Status": "Passed",
+          "Duration": 0.0001346,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Wildkin.Tests.EditMode.MatterCoordinatesTests.SampleMapping_UsesFloorDivisionAndHalfOpenOwnership(16,1,0)",
+          "Status": "Passed",
+          "Duration": 0.0000851,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Wildkin.Tests.EditMode.MatterCoordinatesTests.SampleMapping_UsesFloorDivisionAndHalfOpenOwnership(17,1,1)",
+          "Status": "Passed",
+          "Duration": 0.0000841,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Wildkin.Tests.EditMode.MatterCoordinatesTests.SampleMapping_UsesFloorDivisionAndHalfOpenOwnership(-1,-1,15)",
+          "Status": "Passed",
+          "Duration": 0.0000722,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Wildkin.Tests.EditMode.MatterCoordinatesTests.SampleMapping_UsesFloorDivisionAndHalfOpenOwnership(-15,-1,1)",
+          "Status": "Passed",
+          "Duration": 0.000072,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Wildkin.Tests.EditMode.MatterCoordinatesTests.SampleMapping_UsesFloorDivisionAndHalfOpenOwnership(-16,-1,0)",
+          "Status": "Passed",
+          "Duration": 0.0001686,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Wildkin.Tests.EditMode.MatterCoordinatesTests.SampleMapping_UsesFloorDivisionAndHalfOpenOwnership(-17,-2,15)",
+          "Status": "Passed",
+          "Duration": 0.0000989,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Wildkin.Tests.EditMode.MatterCoordinatesTests.SampleMapping_UsesFloorDivisionAndHalfOpenOwnership(-32,-2,0)",
+          "Status": "Passed",
+          "Duration": 0.0000679,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Wildkin.Tests.EditMode.MatterDebugViewMeshTests.SampleCubeMesh_AllTriangleWindingsMatchOutwardNormals",
+          "Status": "Passed",
+          "Duration": 0.0113185,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Wildkin.Tests.EditMode.MatterEditsTests.MaterialEdit_PreservesDensityAndNoOpDoesNotRevise",
+          "Status": "Passed",
+          "Duration": 0.0052654,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Wildkin.Tests.EditMode.MatterEditsTests.RemovingGeneratedMatter_StoresGlobalAirTombstoneWithoutRegeneration",
+          "Status": "Passed",
+          "Duration": 0.0050207,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Wildkin.Tests.EditMode.MatterEditsTests.SettingCurrentSample_IsNoOpAndReturningToSourceRemovesOverride",
+          "Status": "Passed",
+          "Duration": 0.0034374,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Wildkin.Tests.EditMode.MatterMesherTests.AdjacentBrickMeshes_OwnEachCrossingEdgeOnceWithoutDuplicateOrMissingQuads",
+          "Status": "Passed",
+          "Duration": 0.2837958,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Wildkin.Tests.EditMode.MatterMesherTests.BothMeshers_ProduceDeterministicFiniteTopologyForEveryFrozenField(SmoothOrganic)",
+          "Status": "Passed",
+          "Duration": 0.1093266,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Wildkin.Tests.EditMode.MatterMesherTests.BothMeshers_ProduceDeterministicFiniteTopologyForEveryFrozenField(LayeredRock)",
+          "Status": "Passed",
+          "Duration": 0.1655408,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Wildkin.Tests.EditMode.MatterMesherTests.BothMeshers_ProduceDeterministicFiniteTopologyForEveryFrozenField(CliffCave)",
+          "Status": "Passed",
+          "Duration": 0.1534515,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Wildkin.Tests.EditMode.MatterMesherTests.BothMeshers_ProduceDeterministicFiniteTopologyForEveryFrozenField(MaterialBoundary)",
+          "Status": "Passed",
+          "Duration": 0.1440935,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Wildkin.Tests.EditMode.MatterMesherTests.BothMeshers_ProduceDeterministicFiniteTopologyForEveryFrozenField(MinedCavity)",
+          "Status": "Passed",
+          "Duration": 0.1139191,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Wildkin.Tests.EditMode.MatterMesherTests.BothMeshers_ProduceDeterministicFiniteTopologyForEveryFrozenField(DetachedIrregular)",
+          "Status": "Passed",
+          "Duration": 0.1419879,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Wildkin.Tests.EditMode.MatterMesherTests.DualContouring_UsesARealPlanarQefAndDocumentsTheRankDeficientFallback",
+          "Status": "Passed",
+          "Duration": 0.0583825,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Wildkin.Tests.EditMode.MatterMesherTests.EditAndRemesh_UsesNewRevisionWithoutMutatingPreviouslyPublishedMeshData",
+          "Status": "Passed",
+          "Duration": 0.0752929,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Wildkin.Tests.EditMode.MatterMesherTests.EveryDatasetAndUniformResolution_ProducesMatchedValidMeshes(SmoothOrganic,0.5f)",
+          "Status": "Passed",
+          "Duration": 0.0767961,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Wildkin.Tests.EditMode.MatterMesherTests.EveryDatasetAndUniformResolution_ProducesMatchedValidMeshes(SmoothOrganic,0.25f)",
+          "Status": "Passed",
+          "Duration": 0.1174886,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Wildkin.Tests.EditMode.MatterMesherTests.EveryDatasetAndUniformResolution_ProducesMatchedValidMeshes(LayeredRock,0.5f)",
+          "Status": "Passed",
+          "Duration": 0.1922467,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Wildkin.Tests.EditMode.MatterMesherTests.EveryDatasetAndUniformResolution_ProducesMatchedValidMeshes(LayeredRock,0.25f)",
+          "Status": "Passed",
+          "Duration": 0.1439102,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Wildkin.Tests.EditMode.MatterMesherTests.EveryDatasetAndUniformResolution_ProducesMatchedValidMeshes(CliffCave,0.5f)",
+          "Status": "Passed",
+          "Duration": 0.1447852,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Wildkin.Tests.EditMode.MatterMesherTests.EveryDatasetAndUniformResolution_ProducesMatchedValidMeshes(CliffCave,0.25f)",
+          "Status": "Passed",
+          "Duration": 0.1509142,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Wildkin.Tests.EditMode.MatterMesherTests.EveryDatasetAndUniformResolution_ProducesMatchedValidMeshes(MaterialBoundary,0.5f)",
+          "Status": "Passed",
+          "Duration": 0.0950941,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Wildkin.Tests.EditMode.MatterMesherTests.EveryDatasetAndUniformResolution_ProducesMatchedValidMeshes(MaterialBoundary,0.25f)",
+          "Status": "Passed",
+          "Duration": 0.1150364,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Wildkin.Tests.EditMode.MatterMesherTests.EveryDatasetAndUniformResolution_ProducesMatchedValidMeshes(MinedCavity,0.5f)",
+          "Status": "Passed",
+          "Duration": 0.0967523,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Wildkin.Tests.EditMode.MatterMesherTests.EveryDatasetAndUniformResolution_ProducesMatchedValidMeshes(MinedCavity,0.25f)",
+          "Status": "Passed",
+          "Duration": 0.0931195,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Wildkin.Tests.EditMode.MatterMesherTests.EveryDatasetAndUniformResolution_ProducesMatchedValidMeshes(DetachedIrregular,0.5f)",
+          "Status": "Passed",
+          "Duration": 0.0844214,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Wildkin.Tests.EditMode.MatterMesherTests.EveryDatasetAndUniformResolution_ProducesMatchedValidMeshes(DetachedIrregular,0.25f)",
+          "Status": "Passed",
+          "Duration": 0.0922895,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Wildkin.Tests.EditMode.MatterMesherTests.MaterialBoundary_ProducesDeterministicRockAndDirtWeights",
+          "Status": "Passed",
+          "Duration": 0.0982543,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Wildkin.Tests.EditMode.MatterMesherTests.MeshingRegion_IncludesTheRequiredSharedCornerWindowAndOwnedEdgeHalo",
+          "Status": "Passed",
+          "Duration": 0.0717566,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Wildkin.Tests.EditMode.MatterReferenceContractTests.MatterDomainAssembly_HasNoUnityEngineDependency",
+          "Status": "Passed",
+          "Duration": 0.0033402,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Wildkin.Tests.EditMode.MatterReferenceContractTests.Phase05EReference_PreservesArchitectureAndMatterInvariants",
+          "Status": "Passed",
+          "Duration": 0.0042761,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Wildkin.Tests.EditMode.MatterReferenceContractTests.UnknownSupport_IsFailClosedAndOnlyCompleteUnsupportedEvidenceAllowsDetach(Unknown,False)",
+          "Status": "Passed",
+          "Duration": 0.0009832,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Wildkin.Tests.EditMode.MatterReferenceContractTests.UnknownSupport_IsFailClosedAndOnlyCompleteUnsupportedEvidenceAllowsDetach(Supported,False)",
+          "Status": "Passed",
+          "Duration": 0.0001691,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Wildkin.Tests.EditMode.MatterReferenceContractTests.UnknownSupport_IsFailClosedAndOnlyCompleteUnsupportedEvidenceAllowsDetach(Unsupported,True)",
+          "Status": "Passed",
+          "Duration": 0.0001204,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Wildkin.Tests.EditMode.MatterRegionSnapshotTests.ActorLocalMatterCoordinates_AreIndependentOfWorldBrickIdentity",
+          "Status": "Passed",
+          "Duration": 0.0056936,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Wildkin.Tests.EditMode.MatterRegionSnapshotTests.Snapshot_CopiesResolvedSamplesAcrossPositiveAndNegativeBrickBoundaries",
+          "Status": "Passed",
+          "Duration": 0.0150323,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Wildkin.Tests.EditMode.MatterRegionSnapshotTests.Snapshot_RejectsOutOfBoundsLocalAndGlobalWriteback",
+          "Status": "Passed",
+          "Duration": 0.00341,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Wildkin.Tests.EditMode.MatterRegionSnapshotTests.SnapshotWriteback_AppliesOnlyChangedSamplesInsideItsBounds",
+          "Status": "Passed",
+          "Duration": 0.0031739,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Wildkin.Tests.EditMode.MatterSamplingBenchmarkTests.FixedRegionBenchmark_ReportsMatchingDirectAndResolvedSamples",
+          "Status": "Passed",
+          "Duration": 0.041308,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Wildkin.Tests.EditMode.MatterWorldSaveTests.QualificationJson_EmptyEditSetPreservesSeedAndZeroRevision",
+          "Status": "Passed",
+          "Duration": 0.0070108,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Wildkin.Tests.EditMode.MatterWorldSaveTests.QualificationJson_RejectsUnsupportedSchemaAndSourceVersions",
+          "Status": "Passed",
+          "Duration": 0.0012838,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Wildkin.Tests.EditMode.MatterWorldSaveTests.QualificationJson_RoundTripsSeedSpacingEditsRevisionAndRemovedMatter",
+          "Status": "Passed",
+          "Duration": 0.0081129,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Wildkin.Tests.EditMode.ProceduralSourceRockTests.FixedSourceRecipes_ReproduceStableHashesAndDistinctShapes",
+          "Status": "Passed",
+          "Duration": 0.0172269,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Wildkin.Tests.EditMode.ProceduralSourceRockTests.PlaneSet_TriplePlaneIntersectionsAreFiniteAndRejectParallelTriples",
+          "Status": "Passed",
+          "Duration": 0.0009501,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Wildkin.Tests.EditMode.ProceduralSourceRockTests.ThreeSourceArchetypes_AreClosedBoundedFacetedAndOutwardWound",
+          "Status": "Passed",
+          "Duration": 0.0484814,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Wildkin.Tests.EditMode.RockFormationConstructionTests.AtLeastOneSeedResolvesAsMultipleSubstantialOrdinaryMatterComponents",
+          "Status": "Passed",
+          "Duration": 1.029158,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Wildkin.Tests.EditMode.RockFormationConstructionTests.FormationModes_AreDeterministicAcrossRecipeRetryResolutionAndMesh",
+          "Status": "Passed",
+          "Duration": 1.9837114,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Wildkin.Tests.EditMode.RockFormationConstructionTests.ProceduralStoneRecipes_AreBoundedFacetedAndFinite",
+          "Status": "Passed",
+          "Duration": 0.0039164,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Wildkin.Tests.EditMode.RockFormationConstructionTests.QuarterMeterResolution_UsesTheSamePhysicalBoundsAsHalfMeterResolution",
+          "Status": "Passed",
+          "Duration": 0.1459418,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Wildkin.Tests.EditMode.RockFormationConstructionTests.ResolvedFormation_DoesNotRetainStoneRecipeAsMatterAuthority",
+          "Status": "Passed",
+          "Duration": 0.0316066,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Wildkin.Tests.EditMode.RockFormationConstructionTests.SelectiveUnion_ChangesOnlyTheCoreBlendAndLeavesAccentGroupsHard",
+          "Status": "Passed",
+          "Duration": 0.001089,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Wildkin.Tests.EditMode.RockFormationConstructionTests.U4BMaterialTextures_AreDeterministicWithCoolerRockAndWarmDirt",
+          "Status": "Passed",
+          "Duration": 0.3419553,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Wildkin.Tests.EditMode.RockFormationStampTests.DirtIsAnEmbeddedMaterialBandAndNeverAddsMatterOutsideTheStampField",
+          "Status": "Passed",
+          "Duration": 0.1174045,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Wildkin.Tests.EditMode.RockFormationStampTests.GeneratedRockAndDirtTextures_AreDeterministicSeparatedAndLowNoise",
+          "Status": "Passed",
+          "Duration": 0.3512519,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Wildkin.Tests.EditMode.RockFormationStampTests.PublishedSurface_UsesOneSubmeshAndStableRestProjectionWithRockDirtWeights",
+          "Status": "Passed",
+          "Duration": 0.0798113,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Wildkin.Tests.EditMode.RockFormationStampTests.ResolvedWorld_UsesOrdinaryRockAndDirtMatterAndRoundTripsWithoutStampSource",
+          "Status": "Passed",
+          "Duration": 0.022927,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Wildkin.Tests.EditMode.RockFormationStampTests.RestProjection_IsInvariantUnderObjectTranslationAndRotationWhileWorldPointChanges",
+          "Status": "Passed",
+          "Duration": 0.0019487,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Wildkin.Tests.EditMode.RockFormationStampTests.SameSeed_RepeatsRecipeResolvedFieldAndSurfaceNetsMesh",
+          "Status": "Passed",
+          "Duration": 0.3630312,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Wildkin.Tests.EditMode.RockFormationStampTests.SurfaceNets_ProducesValidConnectedMeshAcrossTheStampBrickSeams",
+          "Status": "Passed",
+          "Duration": 0.2913858,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Wildkin.Tests.EditMode.RockFormationStampTests.U4ControlGallerySeeds_RemainMeasurablyDifferentFiniteConnectedControlFormations",
+          "Status": "Passed",
+          "Duration": 0.4281726,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Wildkin.Tests.EditMode.SculptedStoneTests.AllTriangles_FaceAwayFromAnInteriorPoint(CapstoneSlab,4101)",
+          "Status": "Passed",
+          "Duration": 0.0038303,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Wildkin.Tests.EditMode.SculptedStoneTests.AllTriangles_FaceAwayFromAnInteriorPoint(ChunkyBoulder,4102)",
+          "Status": "Passed",
+          "Duration": 0.0032623,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Wildkin.Tests.EditMode.SculptedStoneTests.AllTriangles_FaceAwayFromAnInteriorPoint(ButtressWedge,4103)",
+          "Status": "Passed",
+          "Duration": 0.003138,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Wildkin.Tests.EditMode.SculptedStoneTests.Archetype_IsOneFiniteOutwardWoundManifoldWithGroundedBase(CapstoneSlab,4101)",
+          "Status": "Passed",
+          "Duration": 0.0049644,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Wildkin.Tests.EditMode.SculptedStoneTests.Archetype_IsOneFiniteOutwardWoundManifoldWithGroundedBase(ChunkyBoulder,4102)",
+          "Status": "Passed",
+          "Duration": 0.0027876,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Wildkin.Tests.EditMode.SculptedStoneTests.Archetype_IsOneFiniteOutwardWoundManifoldWithGroundedBase(ButtressWedge,4103)",
+          "Status": "Passed",
+          "Duration": 0.0028923,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Wildkin.Tests.EditMode.SculptedStoneTests.InvalidRecipe_RejectsNonfiniteAndOutOfEnvelopeParameters",
+          "Status": "Passed",
+          "Duration": 0.0019495,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Wildkin.Tests.EditMode.SculptedStoneTests.ReviewedSource_HasPinnedGeometryHash(CapstoneSlab,4101,\"881447DF8B9C5082\")",
+          "Status": "Passed",
+          "Duration": 0.0024355,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Wildkin.Tests.EditMode.SculptedStoneTests.ReviewedSource_HasPinnedGeometryHash(ChunkyBoulder,4102,\"EA991B6C6C2D132D\")",
+          "Status": "Passed",
+          "Duration": 0.0017264,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Wildkin.Tests.EditMode.SculptedStoneTests.ReviewedSource_HasPinnedGeometryHash(ButtressWedge,4103,\"EF8ACF6528F0C296\")",
+          "Status": "Passed",
+          "Duration": 0.0017715,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Wildkin.Tests.EditMode.SculptedStoneTests.SameRecipe_ReproducesEveryVertexIndexAndHash(CapstoneSlab,4101)",
+          "Status": "Passed",
+          "Duration": 0.0083771,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Wildkin.Tests.EditMode.SculptedStoneTests.SameRecipe_ReproducesEveryVertexIndexAndHash(ChunkyBoulder,4102)",
+          "Status": "Passed",
+          "Duration": 0.0069736,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Wildkin.Tests.EditMode.SculptedStoneTests.SameRecipe_ReproducesEveryVertexIndexAndHash(ButtressWedge,4103)",
+          "Status": "Passed",
+          "Duration": 0.0065571,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Wildkin.Tests.EditMode.SculptedStoneTests.SeedVariation_ChangesMacroShapeAndRetainsOneShell(CapstoneSlab)",
+          "Status": "Passed",
+          "Duration": 0.0193361,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Wildkin.Tests.EditMode.SculptedStoneTests.SeedVariation_ChangesMacroShapeAndRetainsOneShell(ChunkyBoulder)",
+          "Status": "Passed",
+          "Duration": 0.0172258,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Wildkin.Tests.EditMode.SculptedStoneTests.SeedVariation_ChangesMacroShapeAndRetainsOneShell(ButtressWedge)",
+          "Status": "Passed",
+          "Duration": 0.0190717,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Wildkin.Tests.EditMode.SourceMeshFidelityTests.AnalyticBox_HasTrueSignedFaceEdgeAndCornerDistances(0.0f,0.0f,0.0f,1.0f)",
+          "Status": "Passed",
+          "Duration": 0.0013729,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Wildkin.Tests.EditMode.SourceMeshFidelityTests.AnalyticBox_HasTrueSignedFaceEdgeAndCornerDistances(0.9f,0.0f,0.0f,0.1f)",
+          "Status": "Passed",
+          "Duration": 0.0001493,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Wildkin.Tests.EditMode.SourceMeshFidelityTests.AnalyticBox_HasTrueSignedFaceEdgeAndCornerDistances(1.0f,0.0f,0.0f,0.0f)",
+          "Status": "Passed",
+          "Duration": 0.0001181,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Wildkin.Tests.EditMode.SourceMeshFidelityTests.AnalyticBox_HasTrueSignedFaceEdgeAndCornerDistances(1.0f,1.0f,0.0f,0.0f)",
+          "Status": "Passed",
+          "Duration": 0.0001152,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Wildkin.Tests.EditMode.SourceMeshFidelityTests.AnalyticBox_HasTrueSignedFaceEdgeAndCornerDistances(1.0f,1.0f,1.0f,0.0f)",
+          "Status": "Passed",
+          "Duration": 0.0001171,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Wildkin.Tests.EditMode.SourceMeshFidelityTests.AnalyticBox_HasTrueSignedFaceEdgeAndCornerDistances(1.25f,0.0f,0.0f,-0.25f)",
+          "Status": "Passed",
+          "Duration": 0.0001293,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Wildkin.Tests.EditMode.SourceMeshFidelityTests.AnalyticBox_HasTrueSignedFaceEdgeAndCornerDistances(1.3f,1.4f,0.0f,-0.5f)",
+          "Status": "Passed",
+          "Duration": 0.0001294,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Wildkin.Tests.EditMode.SourceMeshFidelityTests.AnalyticBox_HasTrueSignedFaceEdgeAndCornerDistances(1.2f,1.3f,1.6f,-0.7f)",
+          "Status": "Passed",
+          "Duration": 0.0001144,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Wildkin.Tests.EditMode.SourceMeshFidelityTests.AnalyticBox_HasTrueSignedFaceEdgeAndCornerDistances(-1.25f,-0.2f,0.3f,-0.25f)",
+          "Status": "Passed",
+          "Duration": 0.0001198,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Wildkin.Tests.EditMode.SourceMeshFidelityTests.LocalVolume_RetainsExactExteriorDistanceDeterminismAndMaterialSign",
+          "Status": "Passed",
+          "Duration": 0.0402605,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Wildkin.Tests.EditMode.SourceMeshFidelityTests.ParityAtRayEdgeAndVertex_IsStableOnBothSides",
+          "Status": "Passed",
+          "Duration": 0.002658,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Wildkin.Tests.EditMode.SourceMeshFidelityTests.Qualification_DetectsTheRecordedFourUseSurfaceNetsEdge(ButtressWedge,4103,0.125f)",
+          "Status": "Passed",
+          "Duration": 1.4958169,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Wildkin.Tests.EditMode.SourceMeshFidelityTests.Qualification_DetectsTheRecordedFourUseSurfaceNetsEdge(ChunkyBoulder,4102,0.0625f)",
+          "Status": "Passed",
+          "Duration": 7.6551183,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Wildkin.Tests.EditMode.SourceMeshFidelityTests.ReadOnlyGridAdapter_PreservesWorldMeshHashesAndCannotWriteBack(SmoothOrganic)",
+          "Status": "Passed",
+          "Duration": 0.2990156,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Wildkin.Tests.EditMode.SourceMeshFidelityTests.ReadOnlyGridAdapter_PreservesWorldMeshHashesAndCannotWriteBack(LayeredRock)",
+          "Status": "Passed",
+          "Duration": 0.3994905,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Wildkin.Tests.EditMode.SourceMeshFidelityTests.ReadOnlyGridAdapter_PreservesWorldMeshHashesAndCannotWriteBack(CliffCave)",
+          "Status": "Passed",
+          "Duration": 0.3569604,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Wildkin.Tests.EditMode.SourceMeshFidelityTests.ReadOnlyGridAdapter_PreservesWorldMeshHashesAndCannotWriteBack(MaterialBoundary)",
+          "Status": "Passed",
+          "Duration": 0.4351599,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Wildkin.Tests.EditMode.SourceMeshFidelityTests.ReadOnlyGridAdapter_PreservesWorldMeshHashesAndCannotWriteBack(MinedCavity)",
+          "Status": "Passed",
+          "Duration": 0.384511,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Wildkin.Tests.EditMode.SourceMeshFidelityTests.ReadOnlyGridAdapter_PreservesWorldMeshHashesAndCannotWriteBack(DetachedIrregular)",
+          "Status": "Passed",
+          "Duration": 0.3824432,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Wildkin.Tests.EditMode.SourceMeshFidelityTests.SourceVerticesAndFaceInteriors_AreZeroDistanceWithCorrectLocalSigns(CapstoneSlab,4101)",
+          "Status": "Passed",
+          "Duration": 0.0182382,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Wildkin.Tests.EditMode.SourceMeshFidelityTests.SourceVerticesAndFaceInteriors_AreZeroDistanceWithCorrectLocalSigns(ChunkyBoulder,4102)",
+          "Status": "Passed",
+          "Duration": 0.0169968,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Wildkin.Tests.EditMode.SourceMeshFidelityTests.SourceVerticesAndFaceInteriors_AreZeroDistanceWithCorrectLocalSigns(ButtressWedge,4103)",
+          "Status": "Passed",
+          "Duration": 0.016266,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Wildkin.Tests.EditMode.SourceMeshFidelityTests.SurfaceNets_LocalFieldHasClosedDeterministicReconstructionAndImprovesWithSpacing",
+          "Status": "Passed",
+          "Duration": 0.5642669,
+          "Message": null,
+          "StackTrace": null
+        }
+      ],
+      "Duration": 29.11,
+      "StatusPath": null,
+      "Mode": "EditMode",
+      "FilterApplied": null,
+      "success": true,
+      "result": null
+    },
+    "target": {
+      "host": "127.0.0.1",
+      "port": 7800,
+      "projectPath": "C:\\Users\\cwood\\Documents\\mobile-rpg\\native\\unity\\WildkinUnity"
+    }
+  },
+  "errors": [],
+  "warnings": []
+}

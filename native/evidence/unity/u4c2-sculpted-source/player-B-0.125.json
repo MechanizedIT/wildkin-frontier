@@ -1,0 +1,12 @@
+{
+    "sourceHash": "EA991B6C6C2D132D",
+    "reconstructedHash": "7D2310981C316846",
+    "issue": "",
+    "spacing": 0.125,
+    "samples": 12650,
+    "rawBytes": 63250,
+    "samplingMilliseconds": 1722.0307,
+    "meshingMilliseconds": 290.3885,
+    "manifold": true,
+    "environment": "Windows x64 Development Player, one cold qualification run"
+}

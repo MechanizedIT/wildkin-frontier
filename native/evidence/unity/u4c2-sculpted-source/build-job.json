@@ -1,0 +1,16 @@
+{
+  "success": true,
+  "command": "job wait",
+  "data": {
+    "jobId": "f6bec7abe9854a3bb68ae08a37c08fee",
+    "command": "u4c2_build_windows_development",
+    "state": "completed",
+    "cancellationRequested": false,
+    "result": "{\n    \"unityVersion\": \"6000.3.25f1\",\n    \"result\": \"Succeeded\",\n    \"output\": \"C:\\\\Users\\\\cwood\\\\Documents\\\\mobile-rpg\\\\native\\\\unity\\\\WildkinUnity\\\\Builds\\\\U4C2\\\\Wildkin-U4C2.exe\",\n    \"scene\": \"Assets/Wildkin/Scenes/Tech/U4C2SculptedSource.unity\",\n    \"errors\": 0,\n    \"warnings\": 4,\n    \"bytes\": 229680241,\n    \"seconds\": 32.843621\n}",
+    "error": null,
+    "errorDetails": null,
+    "progress": null
+  },
+  "errors": [],
+  "warnings": []
+}

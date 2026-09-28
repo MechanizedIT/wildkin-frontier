@@ -319,7 +319,7 @@ namespace Wildkin.AgentTools.Editor
             throw new InvalidOperationException("The U4C scene has no comparison camera.");
         }
 
-        private static void CreateEnvironment(Scene scene)
+        internal static void CreateEnvironment(Scene scene)
         {
             GameObject cameraObject = new GameObject("U4C Neutral Geometry Camera");
             SceneManager.MoveGameObjectToScene(cameraObject, scene);
@@ -394,7 +394,7 @@ namespace Wildkin.AgentTools.Editor
             camera.transform.LookAt(target);
         }
 
-        private static void CaptureInScene(Scene scene, Camera camera, string path, int width, int height)
+        internal static void CaptureInScene(Scene scene, Camera camera, string path, int width, int height)
         {
             Scene previous = SceneManager.GetActiveScene();
             if (!scene.IsValid() || !scene.isLoaded)

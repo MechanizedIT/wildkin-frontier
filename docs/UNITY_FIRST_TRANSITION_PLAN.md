@@ -2,9 +2,9 @@
 
 **Owner direction — September 25, 2026:** start with Unity. Spend the next Codex budget proving that Unity can support the target game and the desired agent-driven workflow before duplicating work in Unreal. Unreal remains a credible fallback/challenger, not an automatic parallel task.
 
-## Qualification status — September 27, 2026
+## Qualification status — September 28, 2026
 
-**U0/U1, U2 and U3 PASS; U4 and U4B are visual-method HOLDs; U4C is SOURCE_MODELER_HOLD after its one bounded repair; U5 has not started.** The U4C source meshes improved on U4B's soft fused clasts but remain block/slab-like and do not meet the stylized rock target. The independent review confirms that no source passed Gate A, so no voxelization or Gate B experiment was run. This is a source-modeling limitation in the current experiment, not an identified Unity engine failure. Stop for owner review. Do not begin U4D, U5, Unreal, adaptive terrain stitching, or production migration until U4C is reviewed and fresh direction is given. See [U4C evidence and receipt](../native/evidence/unity/u4c-source-matter-fidelity/), [SOURCE_GEOMETRY_MATTER_FIDELITY_PLAN.md](SOURCE_GEOMETRY_MATTER_FIDELITY_PLAN.md), [LOCAL_MATTER_DOMAINS.md](LOCAL_MATTER_DOMAINS.md), and the [U4C prompt](prompts/UNITY_05_SOURCE_GEOMETRY_MATTER_FIDELITY.md).
+**U0/U1, U2 and U3 PASS; U4/U4B/U4C HOLDs remain historical; U4C2 passes source Gate A and ends REPRESENTATION_HOLD; U5 has not started.** The owner-authorized sculpted superquadric method creates three accepted individual source stones and completes the true-SDF resolution matrix. 0.25 m is the lowest common visual/topology baseline; fine reconstruction retains the broad faces but C/0.125 and B/0.0625 each have a four-use nonmanifold edge. This is a representation qualification blocker, not a proven Unity engine failure or reason to reopen feature-preserving mesher comparison. Stop for owner review. Do not begin U4D, U4E, U5, Unreal, adaptive terrain stitching, or production migration. See [U4C2 evidence and receipt](../native/evidence/unity/u4c2-sculpted-source/), [SOURCE_GEOMETRY_MATTER_FIDELITY_PLAN.md](SOURCE_GEOMETRY_MATTER_FIDELITY_PLAN.md), [LOCAL_MATTER_DOMAINS.md](LOCAL_MATTER_DOMAINS.md), and [the U4C2 owner brief](prompts/UNITY_05C2_SCULPTED_STONE_SOURCE.md).
 
 ## Target
 
@@ -260,7 +260,9 @@ The technical contracts pass: stone recipes resolve into ordinary U2 `MatterWorl
 
 ## Phase U4C — source geometry → signed-distance matter fidelity
 
-**Current checkpoint: SOURCE_MODELER_HOLD after one bounded repair, September 27, 2026.** The direct source mesh gallery and independent review are in [U4C evidence](../native/evidence/unity/u4c-source-matter-fidelity/README.md). Gate A did not pass; true-SDF sampling, occupancy control, resolution comparisons, fidelity/cost measurements, and Surface Nets assessment were therefore not started. Stop for owner review.
+**September 28 continuation U4C2: source Gate A PASS; final REPRESENTATION_HOLD.** The materially different single-shell sculpted superquadric method passes after one bounded large-cut adjustment. True signed-distance conversion and all requested resolution/encoding comparisons are recorded in [U4C2 evidence](../native/evidence/unity/u4c2-sculpted-source/README.md). Visual fidelity reaches a common acceptable baseline at 0.25 m; finer-tier topology fails for two rows. The existing mesher algorithm remains intact, and the ordinary MatterWorld default stays 0.50 m. No local-domain phase is admitted.
+
+**Historical U4C checkpoint: SOURCE_MODELER_HOLD after one bounded repair, September 27, 2026.** The direct source mesh gallery and independent review are in [U4C evidence](../native/evidence/unity/u4c-source-matter-fidelity/README.md). Gate A did not pass in that experiment; its conversion work was withheld. Preserve this negative evidence.
 
 **Goal:** determine whether the visual problem is the source generator, scalar-field encoding, sample spacing, or Surface Nets itself.
 

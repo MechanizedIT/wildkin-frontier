@@ -1,0 +1,10 @@
+{
+    "unityVersion": "6000.3.25f1",
+    "result": "Succeeded",
+    "output": "C:\\Users\\cwood\\Documents\\mobile-rpg\\native\\unity\\WildkinUnity\\Builds\\U4C2\\Wildkin-U4C2.exe",
+    "scene": "Assets/Wildkin/Scenes/Tech/U4C2SculptedSource.unity",
+    "errors": 0,
+    "warnings": 4,
+    "bytes": 229680241,
+    "seconds": 32.843621
+}

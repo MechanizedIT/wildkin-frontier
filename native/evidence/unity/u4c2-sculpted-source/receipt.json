@@ -1,0 +1,779 @@
+{
+  "schemaVersion": 1,
+  "phase": "Unity U4C2",
+  "date": "2026-09-28",
+  "unityVersion": "6000.3.25f1",
+  "hdrpVersion": "17.3.0",
+  "finalDisposition": "REPRESENTATION_HOLD",
+  "oldMethod": {
+    "gate": "HOLD",
+    "evidence": "../u4c-source-matter-fidelity/README.md",
+    "preserved": true,
+    "method": "half-space composite"
+  },
+  "newMethod": {
+    "sourceGate": "PASS",
+    "independentReview": "review-final.md",
+    "remediationCount": 1,
+    "sources": [
+      {
+        "method": "SculptedCubeSuperquadric-v2-large-cuts",
+        "recipe": {
+          "archetype": 0,
+          "seed": 4101,
+          "radiusX": 1.8656142950057983,
+          "radiusY": 0.6800000071525574,
+          "radiusZ": 1.1904783248901367,
+          "exponent": 3.717963218688965,
+          "sideFullness": 0.15757271647453308,
+          "frontFullness": -0.05975518003106117,
+          "taper": -0.07999999821186066,
+          "lean": 0.08211568742990494,
+          "skew": 0.10950911790132523,
+          "twist": 0.07073131203651428,
+          "topTilt": -0.09276437759399414,
+          "quadrantCompression": 0.1599999964237213,
+          "baseFraction": 0.1599999964237213,
+          "subdivisions": 4
+        },
+        "vertices": 129,
+        "triangles": 254,
+        "connectedComponents": 1,
+        "closedManifold": true,
+        "issue": "",
+        "geometryHash": "881447DF8B9C5082",
+        "volumeMetersCubed": 6.996381718203071,
+        "boundsMin": [
+          -1.5786714553833008,
+          0.0,
+          -1.3120801448822021
+        ],
+        "boundsMax": [
+          2.159250259399414,
+          1.2533708810806274,
+          1.1641147136688232
+        ]
+      },
+      {
+        "method": "SculptedCubeSuperquadric-v2-large-cuts",
+        "recipe": {
+          "archetype": 1,
+          "seed": 4102,
+          "radiusX": 1.3035939931869507,
+          "radiusY": 1.25,
+          "radiusZ": 1.0989468097686768,
+          "exponent": 3.3870208263397217,
+          "sideFullness": 0.14223770797252655,
+          "frontFullness": -0.036697305738925934,
+          "taper": 0.2199999988079071,
+          "lean": -0.14260263741016388,
+          "skew": 0.13337522745132446,
+          "twist": 0.10421784222126007,
+          "topTilt": 0.07108595222234726,
+          "quadrantCompression": 0.20000000298023224,
+          "baseFraction": 0.1599999964237213,
+          "subdivisions": 4
+        },
+        "vertices": 126,
+        "triangles": 248,
+        "connectedComponents": 1,
+        "closedManifold": true,
+        "issue": "",
+        "geometryHash": "EA991B6C6C2D132D",
+        "volumeMetersCubed": 5.471815358310781,
+        "boundsMin": [
+          -1.1179897785186768,
+          0.0,
+          -1.024725079536438
+        ],
+        "boundsMax": [
+          1.2617729902267456,
+          2.166306495666504,
+          0.9498959183692932
+        ]
+      },
+      {
+        "method": "SculptedCubeSuperquadric-v2-large-cuts",
+        "recipe": {
+          "archetype": 2,
+          "seed": 4103,
+          "radiusX": 1.2219393253326416,
+          "radiusY": 1.7999999523162842,
+          "radiusZ": 0.8644514679908752,
+          "exponent": 2.9819111824035645,
+          "sideFullness": 0.05162917450070381,
+          "frontFullness": -0.09466543048620224,
+          "taper": 0.3799999952316284,
+          "lean": 0.36594220995903015,
+          "skew": 0.1309535950422287,
+          "twist": 0.056669753044843674,
+          "topTilt": -0.18960098922252655,
+          "quadrantCompression": 0.23000000417232513,
+          "baseFraction": 0.1599999964237213,
+          "subdivisions": 4
+        },
+        "vertices": 127,
+        "triangles": 250,
+        "connectedComponents": 1,
+        "closedManifold": true,
+        "issue": "",
+        "geometryHash": "EF8ACF6528F0C296",
+        "volumeMetersCubed": 4.646778287051559,
+        "boundsMin": [
+          -0.7319073677062988,
+          0.0,
+          -0.7742903828620911
+        ],
+        "boundsMax": [
+          1.7122551202774048,
+          2.92429780960083,
+          0.672478199005127
+        ]
+      }
+    ],
+    "method": "SculptedCubeSuperquadric-v2-large-cuts"
+  },
+  "matterGate": {
+    "reviewerCommonBaselineMeters": 0.25,
+    "topologyFailures": [
+      "C / 0.125 m: one edge used by four triangles",
+      "B / 0.0625 m: one edge used by four triangles"
+    ],
+    "productionSpacingAdmitted": false,
+    "disposition": "REPRESENTATION_HOLD",
+    "reopenMesherFeatureLossConditionMet": false,
+    "matrix": [
+      {
+        "label": "A",
+        "encoding": "true signed distance, positive solid",
+        "sourceHash": "881447DF8B9C5082",
+        "reconstructedHash": "4C47489FA0506F22",
+        "spacingMeters": 0.0625,
+        "sourceVertices": 129,
+        "sourceTriangles": 254,
+        "samples": 77220,
+        "occupied": 28007,
+        "reconstructedVertices": 7156,
+        "reconstructedTriangles": 14308,
+        "regions": 60,
+        "skippedDegenerateTriangles": 0,
+        "volumeDimensions": [
+          66,
+          26,
+          45
+        ],
+        "sampleOrigin": [
+          -28,
+          -2,
+          -23
+        ],
+        "rawFieldBytes": 386100,
+        "sourceGenerationMilliseconds": 1.6099,
+        "samplingMilliseconds": 6912.626200000001,
+        "surfaceNetsMilliseconds": 937.2706000000001,
+        "publicationMilliseconds": 6.101100000000001,
+        "reconstructedToSourceMeters": {
+          "median": 0.0,
+          "p95": 0.006097576580941677,
+          "max": 0.025447629392147064
+        },
+        "sourceToFieldMeters": {
+          "median": 4.6698787627974525E-05,
+          "p95": 0.012682763859629631,
+          "max": 0.019936567172408104
+        },
+        "closedConnectedManifold": true,
+        "topologyIssue": "",
+        "allocationBytes": "unavailable; raw field payload only is measured"
+      },
+      {
+        "label": "A",
+        "encoding": "true signed distance, positive solid",
+        "sourceHash": "881447DF8B9C5082",
+        "reconstructedHash": "6D77DDB7CF55BBA0",
+        "spacingMeters": 0.125,
+        "sourceVertices": 129,
+        "sourceTriangles": 254,
+        "samples": 14976,
+        "occupied": 3415,
+        "reconstructedVertices": 1768,
+        "reconstructedTriangles": 3532,
+        "regions": 12,
+        "skippedDegenerateTriangles": 0,
+        "volumeDimensions": [
+          36,
+          16,
+          26
+        ],
+        "sampleOrigin": [
+          -15,
+          -2,
+          -13
+        ],
+        "rawFieldBytes": 74880,
+        "sourceGenerationMilliseconds": 1.5054,
+        "samplingMilliseconds": 1382.6698000000001,
+        "surfaceNetsMilliseconds": 185.2255,
+        "publicationMilliseconds": 1.7444000000000002,
+        "reconstructedToSourceMeters": {
+          "median": 5.5886768677737564E-05,
+          "p95": 0.01810021884739399,
+          "max": 0.049171242862939835
+        },
+        "sourceToFieldMeters": {
+          "median": 0.0009922380559146404,
+          "p95": 0.0274430550634861,
+          "max": 0.04279842972755432
+        },
+        "closedConnectedManifold": true,
+        "topologyIssue": "",
+        "allocationBytes": "unavailable; raw field payload only is measured"
+      },
+      {
+        "label": "A",
+        "encoding": "true signed distance, positive solid",
+        "sourceHash": "881447DF8B9C5082",
+        "reconstructedHash": "21F40B6504CB512F",
+        "spacingMeters": 0.25,
+        "sourceVertices": 129,
+        "sourceTriangles": 254,
+        "samples": 3696,
+        "occupied": 405,
+        "reconstructedVertices": 428,
+        "reconstructedTriangles": 852,
+        "regions": 8,
+        "skippedDegenerateTriangles": 0,
+        "volumeDimensions": [
+          21,
+          11,
+          16
+        ],
+        "sampleOrigin": [
+          -9,
+          -2,
+          -8
+        ],
+        "rawFieldBytes": 18480,
+        "sourceGenerationMilliseconds": 1.3367,
+        "samplingMilliseconds": 359.7447,
+        "surfaceNetsMilliseconds": 147.1634,
+        "publicationMilliseconds": 1.0905,
+        "reconstructedToSourceMeters": {
+          "median": 0.004706843756139278,
+          "p95": 0.056088391691446304,
+          "max": 0.10264113545417786
+        },
+        "sourceToFieldMeters": {
+          "median": 0.009266737848520279,
+          "p95": 0.054665274918079376,
+          "max": 0.0805007666349411
+        },
+        "closedConnectedManifold": true,
+        "topologyIssue": "",
+        "allocationBytes": "unavailable; raw field payload only is measured"
+      },
+      {
+        "label": "A",
+        "encoding": "true signed distance, positive solid",
+        "sourceHash": "881447DF8B9C5082",
+        "reconstructedHash": "9D207803B9B0BF38",
+        "spacingMeters": 0.5,
+        "sourceVertices": 129,
+        "sourceTriangles": 254,
+        "samples": 1232,
+        "occupied": 50,
+        "reconstructedVertices": 112,
+        "reconstructedTriangles": 220,
+        "regions": 8,
+        "skippedDegenerateTriangles": 0,
+        "volumeDimensions": [
+          14,
+          8,
+          11
+        ],
+        "sampleOrigin": [
+          -6,
+          -2,
+          -5
+        ],
+        "rawFieldBytes": 6160,
+        "sourceGenerationMilliseconds": 21.8856,
+        "samplingMilliseconds": 130.8737,
+        "surfaceNetsMilliseconds": 154.4113,
+        "publicationMilliseconds": 15.4458,
+        "reconstructedToSourceMeters": {
+          "median": 0.027822161093354225,
+          "p95": 0.1721775233745575,
+          "max": 0.23291617631912231
+        },
+        "sourceToFieldMeters": {
+          "median": 0.04843536391854286,
+          "p95": 0.11791770905256271,
+          "max": 0.17167721688747406
+        },
+        "closedConnectedManifold": true,
+        "topologyIssue": "",
+        "allocationBytes": "unavailable; raw field payload only is measured"
+      },
+      {
+        "label": "B",
+        "encoding": "true signed distance, positive solid",
+        "sourceHash": "EA991B6C6C2D132D",
+        "reconstructedHash": "703F91CF39020A4F",
+        "spacingMeters": 0.0625,
+        "sourceVertices": 126,
+        "sourceTriangles": 248,
+        "samples": 66880,
+        "occupied": 22155,
+        "reconstructedVertices": 5943,
+        "reconstructedTriangles": 11884,
+        "regions": 64,
+        "skippedDegenerateTriangles": 0,
+        "volumeDimensions": [
+          44,
+          40,
+          38
+        ],
+        "sampleOrigin": [
+          -20,
+          -2,
+          -19
+        ],
+        "rawFieldBytes": 334400,
+        "sourceGenerationMilliseconds": 1.7537,
+        "samplingMilliseconds": 5964.365000000001,
+        "surfaceNetsMilliseconds": 961.8102,
+        "publicationMilliseconds": 5.550400000000001,
+        "reconstructedToSourceMeters": {
+          "median": 0.0,
+          "p95": 0.0053865439258515835,
+          "max": 0.024340372532606125
+        },
+        "sourceToFieldMeters": {
+          "median": 5.967119795968756E-05,
+          "p95": 0.014036626555025578,
+          "max": 0.02066757157444954
+        },
+        "closedConnectedManifold": false,
+        "topologyIssue": "Open, nonmanifold, or inconsistently wound edge.",
+        "allocationBytes": "unavailable; raw field payload only is measured"
+      },
+      {
+        "label": "B",
+        "encoding": "positive-distance-inside / fixed-air-outside",
+        "sourceHash": "EA991B6C6C2D132D",
+        "reconstructedHash": "C35A44FC86F65D4F",
+        "spacingMeters": 0.125,
+        "sourceVertices": 126,
+        "sourceTriangles": 248,
+        "samples": 12650,
+        "occupied": 2718,
+        "reconstructedVertices": 1458,
+        "reconstructedTriangles": 2912,
+        "regions": 12,
+        "skippedDegenerateTriangles": 0,
+        "volumeDimensions": [
+          25,
+          23,
+          22
+        ],
+        "sampleOrigin": [
+          -11,
+          -2,
+          -11
+        ],
+        "rawFieldBytes": 63250,
+        "sourceGenerationMilliseconds": 1.1636,
+        "samplingMilliseconds": 1194.2433,
+        "surfaceNetsMilliseconds": 189.0214,
+        "publicationMilliseconds": 1.3652,
+        "reconstructedToSourceMeters": {
+          "median": 0.024500826373696327,
+          "p95": 0.0625,
+          "max": 0.0792190432548523
+        },
+        "sourceToFieldMeters": {
+          "median": 0.059142857789993286,
+          "p95": 0.125,
+          "max": 0.125
+        },
+        "closedConnectedManifold": true,
+        "topologyIssue": "",
+        "allocationBytes": "unavailable; raw field payload only is measured"
+      },
+      {
+        "label": "B",
+        "encoding": "true signed distance, positive solid",
+        "sourceHash": "EA991B6C6C2D132D",
+        "reconstructedHash": "7D2310981C316846",
+        "spacingMeters": 0.125,
+        "sourceVertices": 126,
+        "sourceTriangles": 248,
+        "samples": 12650,
+        "occupied": 2718,
+        "reconstructedVertices": 1458,
+        "reconstructedTriangles": 2912,
+        "regions": 12,
+        "skippedDegenerateTriangles": 0,
+        "volumeDimensions": [
+          25,
+          23,
+          22
+        ],
+        "sampleOrigin": [
+          -11,
+          -2,
+          -11
+        ],
+        "rawFieldBytes": 63250,
+        "sourceGenerationMilliseconds": 1.116,
+        "samplingMilliseconds": 1156.7597,
+        "surfaceNetsMilliseconds": 226.33610000000002,
+        "publicationMilliseconds": 1.3364,
+        "reconstructedToSourceMeters": {
+          "median": 8.461643119517248E-06,
+          "p95": 0.020190132781863213,
+          "max": 0.04824938252568245
+        },
+        "sourceToFieldMeters": {
+          "median": 0.0013569087022915483,
+          "p95": 0.030240707099437714,
+          "max": 0.04360508173704147
+        },
+        "closedConnectedManifold": true,
+        "topologyIssue": "",
+        "allocationBytes": "unavailable; raw field payload only is measured"
+      },
+      {
+        "label": "B",
+        "encoding": "true signed distance, positive solid",
+        "sourceHash": "EA991B6C6C2D132D",
+        "reconstructedHash": "0A9527F316D40D81",
+        "spacingMeters": 0.25,
+        "sourceVertices": 126,
+        "sourceTriangles": 248,
+        "samples": 3136,
+        "occupied": 323,
+        "reconstructedVertices": 352,
+        "reconstructedTriangles": 700,
+        "regions": 8,
+        "skippedDegenerateTriangles": 0,
+        "volumeDimensions": [
+          16,
+          14,
+          14
+        ],
+        "sampleOrigin": [
+          -7,
+          -2,
+          -7
+        ],
+        "rawFieldBytes": 15680,
+        "sourceGenerationMilliseconds": 1.1129,
+        "samplingMilliseconds": 261.7595,
+        "surfaceNetsMilliseconds": 120.0711,
+        "publicationMilliseconds": 0.7902,
+        "reconstructedToSourceMeters": {
+          "median": 0.004370531532913446,
+          "p95": 0.05826976150274277,
+          "max": 0.09365051984786987
+        },
+        "sourceToFieldMeters": {
+          "median": 0.00927094928920269,
+          "p95": 0.061330895870923996,
+          "max": 0.09009072929620743
+        },
+        "closedConnectedManifold": true,
+        "topologyIssue": "",
+        "allocationBytes": "unavailable; raw field payload only is measured"
+      },
+      {
+        "label": "B",
+        "encoding": "true signed distance, positive solid",
+        "sourceHash": "EA991B6C6C2D132D",
+        "reconstructedHash": "D14DE55FC0DD0129",
+        "spacingMeters": 0.5,
+        "sourceVertices": 126,
+        "sourceTriangles": 248,
+        "samples": 1100,
+        "occupied": 36,
+        "reconstructedVertices": 84,
+        "reconstructedTriangles": 164,
+        "regions": 8,
+        "skippedDegenerateTriangles": 0,
+        "volumeDimensions": [
+          11,
+          10,
+          10
+        ],
+        "sampleOrigin": [
+          -5,
+          -2,
+          -5
+        ],
+        "rawFieldBytes": 5500,
+        "sourceGenerationMilliseconds": 1.5943,
+        "samplingMilliseconds": 103.5892,
+        "surfaceNetsMilliseconds": 159.4918,
+        "publicationMilliseconds": 3.1554,
+        "reconstructedToSourceMeters": {
+          "median": 0.033071842044591904,
+          "p95": 0.18805740773677826,
+          "max": 0.22230075299739838
+        },
+        "sourceToFieldMeters": {
+          "median": 0.04541328176856041,
+          "p95": 0.13950704038143158,
+          "max": 0.19401812553405762
+        },
+        "closedConnectedManifold": true,
+        "topologyIssue": "",
+        "allocationBytes": "unavailable; raw field payload only is measured"
+      },
+      {
+        "label": "C",
+        "encoding": "true signed distance, positive solid",
+        "sourceHash": "EF8ACF6528F0C296",
+        "reconstructedHash": "D5611844AFB809C4",
+        "spacingMeters": 0.0625,
+        "sourceVertices": 127,
+        "sourceTriangles": 250,
+        "samples": 67860,
+        "occupied": 18830,
+        "reconstructedVertices": 5632,
+        "reconstructedTriangles": 11260,
+        "regions": 30,
+        "skippedDegenerateTriangles": 0,
+        "volumeDimensions": [
+          45,
+          52,
+          29
+        ],
+        "sampleOrigin": [
+          -14,
+          -2,
+          -15
+        ],
+        "rawFieldBytes": 339300,
+        "sourceGenerationMilliseconds": 1.3236,
+        "samplingMilliseconds": 6015.5843,
+        "surfaceNetsMilliseconds": 490.771,
+        "publicationMilliseconds": 4.4927,
+        "reconstructedToSourceMeters": {
+          "median": 0.0,
+          "p95": 0.005870484281331301,
+          "max": 0.02500000037252903
+        },
+        "sourceToFieldMeters": {
+          "median": 0.0001386499934596941,
+          "p95": 0.014291083440184593,
+          "max": 0.023419460281729698
+        },
+        "closedConnectedManifold": true,
+        "topologyIssue": "",
+        "allocationBytes": "unavailable; raw field payload only is measured"
+      },
+      {
+        "label": "C",
+        "encoding": "true signed distance, positive solid",
+        "sourceHash": "EF8ACF6528F0C296",
+        "reconstructedHash": "D8596BFDA2B48BCE",
+        "spacingMeters": 0.125,
+        "sourceVertices": 127,
+        "sourceTriangles": 250,
+        "samples": 13050,
+        "occupied": 2332,
+        "reconstructedVertices": 1393,
+        "reconstructedTriangles": 2784,
+        "regions": 18,
+        "skippedDegenerateTriangles": 0,
+        "volumeDimensions": [
+          25,
+          29,
+          18
+        ],
+        "sampleOrigin": [
+          -8,
+          -2,
+          -9
+        ],
+        "rawFieldBytes": 65250,
+        "sourceGenerationMilliseconds": 8.6018,
+        "samplingMilliseconds": 1381.5646000000002,
+        "surfaceNetsMilliseconds": 333.7708,
+        "publicationMilliseconds": 1.6081,
+        "reconstructedToSourceMeters": {
+          "median": 0.00017186094191856682,
+          "p95": 0.01676863618195057,
+          "max": 0.0522710345685482
+        },
+        "sourceToFieldMeters": {
+          "median": 0.0019127706764265895,
+          "p95": 0.030510157346725464,
+          "max": 0.04817591607570648
+        },
+        "closedConnectedManifold": false,
+        "topologyIssue": "Open, nonmanifold, or inconsistently wound edge.",
+        "allocationBytes": "unavailable; raw field payload only is measured"
+      },
+      {
+        "label": "C",
+        "encoding": "true signed distance, positive solid",
+        "sourceHash": "EF8ACF6528F0C296",
+        "reconstructedHash": "EC3AB4283025AB26",
+        "spacingMeters": 0.25,
+        "sourceVertices": 127,
+        "sourceTriangles": 250,
+        "samples": 3060,
+        "occupied": 280,
+        "reconstructedVertices": 332,
+        "reconstructedTriangles": 660,
+        "regions": 8,
+        "skippedDegenerateTriangles": 0,
+        "volumeDimensions": [
+          15,
+          17,
+          12
+        ],
+        "sampleOrigin": [
+          -5,
+          -2,
+          -6
+        ],
+        "rawFieldBytes": 15300,
+        "sourceGenerationMilliseconds": 1.5123,
+        "samplingMilliseconds": 273.0589,
+        "surfaceNetsMilliseconds": 127.85350000000001,
+        "publicationMilliseconds": 0.7668,
+        "reconstructedToSourceMeters": {
+          "median": 0.00594587717205286,
+          "p95": 0.05650355666875839,
+          "max": 0.11282315105199814
+        },
+        "sourceToFieldMeters": {
+          "median": 0.010683532804250717,
+          "p95": 0.0660465657711029,
+          "max": 0.11080020666122437
+        },
+        "closedConnectedManifold": true,
+        "topologyIssue": "",
+        "allocationBytes": "unavailable; raw field payload only is measured"
+      },
+      {
+        "label": "C",
+        "encoding": "true signed distance, positive solid",
+        "sourceHash": "EF8ACF6528F0C296",
+        "reconstructedHash": "B0AA2E914433DB2B",
+        "spacingMeters": 0.5,
+        "sourceVertices": 127,
+        "sourceTriangles": 250,
+        "samples": 1089,
+        "occupied": 39,
+        "reconstructedVertices": 86,
+        "reconstructedTriangles": 168,
+        "regions": 8,
+        "skippedDegenerateTriangles": 0,
+        "volumeDimensions": [
+          11,
+          11,
+          9
+        ],
+        "sampleOrigin": [
+          -4,
+          -2,
+          -4
+        ],
+        "rawFieldBytes": 5445,
+        "sourceGenerationMilliseconds": 1.2670000000000001,
+        "samplingMilliseconds": 102.5959,
+        "surfaceNetsMilliseconds": 136.7366,
+        "publicationMilliseconds": 0.5703,
+        "reconstructedToSourceMeters": {
+          "median": 0.036092035472393036,
+          "p95": 0.1286328136920929,
+          "max": 0.20909275114536285
+        },
+        "sourceToFieldMeters": {
+          "median": 0.045054130256175995,
+          "p95": 0.13977459073066711,
+          "max": 0.17015376687049866
+        },
+        "closedConnectedManifold": true,
+        "topologyIssue": "",
+        "allocationBytes": "unavailable; raw field payload only is measured"
+      }
+    ],
+    "independentReview": "fidelity-review.md"
+  },
+  "validation": {
+    "editMode": {
+      "Total": 124,
+      "Passed": 124,
+      "Failed": 0,
+      "Skipped": 0,
+      "Inconclusive": 0
+    },
+    "fidelityTests": {
+      "Total": 23,
+      "Passed": 23,
+      "Failed": 0,
+      "Skipped": 0,
+      "Inconclusive": 0
+    },
+    "playMode": {
+      "total": 2,
+      "passed": 2,
+      "failed": 0,
+      "skipped": 0,
+      "inconclusive": 0
+    },
+    "sourceTests": {
+      "Total": 16,
+      "Passed": 16,
+      "Failed": 0,
+      "Skipped": 0,
+      "Inconclusive": 0
+    },
+    "build": {
+      "unityVersion": "6000.3.25f1",
+      "result": "Succeeded",
+      "output": "C:\\Users\\cwood\\Documents\\mobile-rpg\\native\\unity\\WildkinUnity\\Builds\\U4C2\\Wildkin-U4C2.exe",
+      "scene": "Assets/Wildkin/Scenes/Tech/U4C2SculptedSource.unity",
+      "errors": 0,
+      "warnings": 4,
+      "bytes": 229680241,
+      "seconds": 32.843621
+    },
+    "playerLaunch": {
+      "capture": "player-B-0.125.png",
+      "receipt": "player-B-0.125.json",
+      "exitCode": 0
+    },
+    "player": {
+      "sourceHash": "EA991B6C6C2D132D",
+      "reconstructedHash": "7D2310981C316846",
+      "issue": "",
+      "spacing": 0.125,
+      "samples": 12650,
+      "rawBytes": 63250,
+      "samplingMilliseconds": 1722.0307,
+      "meshingMilliseconds": 290.3885,
+      "manifold": true,
+      "environment": "Windows x64 Development Player, one cold qualification run"
+    }
+  },
+  "sharedContractChecks": [
+    "Existing world fixtures through both meshers, including positive and negative bricks",
+    "Parallel vertex cell identities preserve pre-existing geometry and hash",
+    "Read-only grid snapshots cannot write back to MatterWorld",
+    "Source and matter renderers replace/dispose transient geometry and retain shaders in player"
+  ],
+  "remainingLimitations": [
+    "Two fine-tier nonmanifold edges",
+    "Raw field bytes exclude managed and mesher allocations",
+    "One Editor timing per row and one cold Development Player timing, no world-scale/edit/streaming benchmark",
+    "Three fixed source seeds reviewed; alternate seeds receive deterministic topology tests only",
+    "Unity Development Player reports eight persistent allocations at shutdown; origin unassigned, no leak-free-runtime claim"
+  ],
+  "nextAction": "STOP FOR OWNER REVIEW. No U4D, U4E, U5, Unreal or production migration."
+}

@@ -1,6 +1,20 @@
 # Wildkin Frontier code map
 
-## U4C source-geometry / local-domain owners — SOURCE_MODELER_HOLD
+## U4C2 sculpted sources and read-only fidelity — REPRESENTATION_HOLD
+
+- `native/unity/WildkinUnity/Assets/Wildkin/Matter/Core/SculptedStone.cs` — deterministic source recipes, welded cube-to-superquadric shells, macro shaping, topology/hash/volume validation.
+- `SculptedStoneCuts.cs` in that core directory — three large subtractive cuts with shared boundary caps and bounded near-vertex clearance. No component assembly or decimator.
+- `SourceMeshSignedDistance.cs` — nearest triangle face/edge/corner distance, deterministic ray parity and solid-angle fallback for ambiguous boundary hits.
+- `MatterLocalVolume.cs` — bounded contiguous density/material experiment, exact positive-solid SDF within padded bounds, same-spacing clipped scalar control, trilinear field sampling, existing Surface Nets region integration by integer cell keys. No edits, physics, persistence, support or production-domain admission.
+- `MatterRegionSnapshot.cs` / `MatterMeshers.cs` — small read-only-grid snapshot adapter and vertex-cell metadata; original mesher kernel, world input/hash and writeback semantics are preserved, local snapshots cannot write back to a world.
+- `Assets/Wildkin/Matter/Unity/SculptedStoneGalleryView.cs` — transient neutral source/reconstructed mesh presentation and reproducible Windows player sample/capture; scene bootstrap stays thin.
+- `Assets/Wildkin/AgentTools/Editor/SculptedStoneAgentCommands.cs` / `StoneFidelityAgentCommands.cs` — source and matrix capture, recipes/metrics/errors, matched strips, bounded Windows build. Existing U4C capture environment is reused without changing its output path.
+- `Assets/Wildkin/Tests/EditMode/SculptedStoneTests.cs` / `SourceMeshFidelityTests.cs`, and `Tests/PlayMode/SculptedStonePlayModeTests.cs` — source contracts, analytic SDF checks, six-fixture/two-mesher adapter parity, explicit qualification-defect detection, transient runtime lifecycle.
+- [U4C2 evidence](../native/evidence/unity/u4c2-sculpted-source/) — pinned accepted source hashes, preserved first pass, independent source/technical/fidelity review, complete matrix and receipt.
+
+Source Gate A passes. Common visual/topology baseline is 0.25 m; C/0.125 and B/0.0625 have a four-use nonmanifold edge. Fine-tier admission is HOLD. U4D/U4E/U5/Unreal remain closed. Paths beginning `Assets/` above are relative to `native/unity/WildkinUnity/`.
+
+## Historical U4C source-geometry / local-domain owners — SOURCE_MODELER_HOLD
 
 - `docs/SOURCE_GEOMETRY_MATTER_FIDELITY_PLAN.md` — active representation experiment and U4C→U4D decision route.
 - `docs/LOCAL_MATTER_DOMAINS.md` — provisional independent-resolution matter-domain architecture for detailed objects on coarse terrain.

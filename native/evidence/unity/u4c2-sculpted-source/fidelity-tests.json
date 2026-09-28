@@ -1,0 +1,196 @@
+{
+  "success": true,
+  "command": "command run_tests",
+  "data": {
+    "command": "run_tests",
+    "parameters": {
+      "mode": "editor",
+      "filter": "SourceMeshFidelityTests"
+    },
+    "result": {
+      "Summary": {
+        "Total": 23,
+        "Passed": 23,
+        "Failed": 0,
+        "Skipped": 0,
+        "Inconclusive": 0
+      },
+      "Results": [
+        {
+          "FullName": "Wildkin.Tests.EditMode.SourceMeshFidelityTests.AnalyticBox_HasTrueSignedFaceEdgeAndCornerDistances(0.0f,0.0f,0.0f,1.0f)",
+          "Status": "Passed",
+          "Duration": 0.0039564,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Wildkin.Tests.EditMode.SourceMeshFidelityTests.AnalyticBox_HasTrueSignedFaceEdgeAndCornerDistances(0.9f,0.0f,0.0f,0.1f)",
+          "Status": "Passed",
+          "Duration": 0.0002808,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Wildkin.Tests.EditMode.SourceMeshFidelityTests.AnalyticBox_HasTrueSignedFaceEdgeAndCornerDistances(1.0f,0.0f,0.0f,0.0f)",
+          "Status": "Passed",
+          "Duration": 0.0001563,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Wildkin.Tests.EditMode.SourceMeshFidelityTests.AnalyticBox_HasTrueSignedFaceEdgeAndCornerDistances(1.0f,1.0f,0.0f,0.0f)",
+          "Status": "Passed",
+          "Duration": 0.0001335,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Wildkin.Tests.EditMode.SourceMeshFidelityTests.AnalyticBox_HasTrueSignedFaceEdgeAndCornerDistances(1.0f,1.0f,1.0f,0.0f)",
+          "Status": "Passed",
+          "Duration": 0.0001138,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Wildkin.Tests.EditMode.SourceMeshFidelityTests.AnalyticBox_HasTrueSignedFaceEdgeAndCornerDistances(1.25f,0.0f,0.0f,-0.25f)",
+          "Status": "Passed",
+          "Duration": 0.0001151,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Wildkin.Tests.EditMode.SourceMeshFidelityTests.AnalyticBox_HasTrueSignedFaceEdgeAndCornerDistances(1.3f,1.4f,0.0f,-0.5f)",
+          "Status": "Passed",
+          "Duration": 0.0001167,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Wildkin.Tests.EditMode.SourceMeshFidelityTests.AnalyticBox_HasTrueSignedFaceEdgeAndCornerDistances(1.2f,1.3f,1.6f,-0.7f)",
+          "Status": "Passed",
+          "Duration": 0.0001114,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Wildkin.Tests.EditMode.SourceMeshFidelityTests.AnalyticBox_HasTrueSignedFaceEdgeAndCornerDistances(-1.25f,-0.2f,0.3f,-0.25f)",
+          "Status": "Passed",
+          "Duration": 0.000114,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Wildkin.Tests.EditMode.SourceMeshFidelityTests.LocalVolume_RetainsExactExteriorDistanceDeterminismAndMaterialSign",
+          "Status": "Passed",
+          "Duration": 0.0362806,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Wildkin.Tests.EditMode.SourceMeshFidelityTests.ParityAtRayEdgeAndVertex_IsStableOnBothSides",
+          "Status": "Passed",
+          "Duration": 0.0024744,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Wildkin.Tests.EditMode.SourceMeshFidelityTests.Qualification_DetectsTheRecordedFourUseSurfaceNetsEdge(ButtressWedge,4103,0.125f)",
+          "Status": "Passed",
+          "Duration": 1.5459921,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Wildkin.Tests.EditMode.SourceMeshFidelityTests.Qualification_DetectsTheRecordedFourUseSurfaceNetsEdge(ChunkyBoulder,4102,0.0625f)",
+          "Status": "Passed",
+          "Duration": 7.84035,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Wildkin.Tests.EditMode.SourceMeshFidelityTests.ReadOnlyGridAdapter_PreservesWorldMeshHashesAndCannotWriteBack(SmoothOrganic)",
+          "Status": "Passed",
+          "Duration": 0.292548,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Wildkin.Tests.EditMode.SourceMeshFidelityTests.ReadOnlyGridAdapter_PreservesWorldMeshHashesAndCannotWriteBack(LayeredRock)",
+          "Status": "Passed",
+          "Duration": 0.3396846,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Wildkin.Tests.EditMode.SourceMeshFidelityTests.ReadOnlyGridAdapter_PreservesWorldMeshHashesAndCannotWriteBack(CliffCave)",
+          "Status": "Passed",
+          "Duration": 0.3243945,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Wildkin.Tests.EditMode.SourceMeshFidelityTests.ReadOnlyGridAdapter_PreservesWorldMeshHashesAndCannotWriteBack(MaterialBoundary)",
+          "Status": "Passed",
+          "Duration": 0.2810965,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Wildkin.Tests.EditMode.SourceMeshFidelityTests.ReadOnlyGridAdapter_PreservesWorldMeshHashesAndCannotWriteBack(MinedCavity)",
+          "Status": "Passed",
+          "Duration": 0.2762144,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Wildkin.Tests.EditMode.SourceMeshFidelityTests.ReadOnlyGridAdapter_PreservesWorldMeshHashesAndCannotWriteBack(DetachedIrregular)",
+          "Status": "Passed",
+          "Duration": 0.308268,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Wildkin.Tests.EditMode.SourceMeshFidelityTests.SourceVerticesAndFaceInteriors_AreZeroDistanceWithCorrectLocalSigns(CapstoneSlab,4101)",
+          "Status": "Passed",
+          "Duration": 0.0152239,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Wildkin.Tests.EditMode.SourceMeshFidelityTests.SourceVerticesAndFaceInteriors_AreZeroDistanceWithCorrectLocalSigns(ChunkyBoulder,4102)",
+          "Status": "Passed",
+          "Duration": 0.0115374,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Wildkin.Tests.EditMode.SourceMeshFidelityTests.SourceVerticesAndFaceInteriors_AreZeroDistanceWithCorrectLocalSigns(ButtressWedge,4103)",
+          "Status": "Passed",
+          "Duration": 0.0115695,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Wildkin.Tests.EditMode.SourceMeshFidelityTests.SurfaceNets_LocalFieldHasClosedDeterministicReconstructionAndImprovesWithSpacing",
+          "Status": "Passed",
+          "Duration": 0.3520978,
+          "Message": null,
+          "StackTrace": null
+        }
+      ],
+      "Duration": 14.67,
+      "StatusPath": null,
+      "Mode": "EditMode",
+      "FilterApplied": "testname: SourceMeshFidelityTests",
+      "success": true,
+      "result": null
+    },
+    "target": {
+      "host": "127.0.0.1",
+      "port": 7800,
+      "projectPath": "C:\\Users\\cwood\\Documents\\mobile-rpg\\native\\unity\\WildkinUnity"
+    }
+  },
+  "errors": [],
+  "warnings": []
+}

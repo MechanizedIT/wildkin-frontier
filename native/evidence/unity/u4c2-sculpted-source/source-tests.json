@@ -1,0 +1,147 @@
+{
+  "success": true,
+  "command": "command run_tests",
+  "data": {
+    "command": "run_tests",
+    "parameters": {
+      "mode": "editor",
+      "filter": "SculptedStoneTests"
+    },
+    "result": {
+      "Summary": {
+        "Total": 16,
+        "Passed": 16,
+        "Failed": 0,
+        "Skipped": 0,
+        "Inconclusive": 0
+      },
+      "Results": [
+        {
+          "FullName": "Wildkin.Tests.EditMode.SculptedStoneTests.AllTriangles_FaceAwayFromAnInteriorPoint(CapstoneSlab,4101)",
+          "Status": "Passed",
+          "Duration": 0.0483382,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Wildkin.Tests.EditMode.SculptedStoneTests.AllTriangles_FaceAwayFromAnInteriorPoint(ChunkyBoulder,4102)",
+          "Status": "Passed",
+          "Duration": 0.0025569,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Wildkin.Tests.EditMode.SculptedStoneTests.AllTriangles_FaceAwayFromAnInteriorPoint(ButtressWedge,4103)",
+          "Status": "Passed",
+          "Duration": 0.0020093,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Wildkin.Tests.EditMode.SculptedStoneTests.Archetype_IsOneFiniteOutwardWoundManifoldWithGroundedBase(CapstoneSlab,4101)",
+          "Status": "Passed",
+          "Duration": 0.0170553,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Wildkin.Tests.EditMode.SculptedStoneTests.Archetype_IsOneFiniteOutwardWoundManifoldWithGroundedBase(ChunkyBoulder,4102)",
+          "Status": "Passed",
+          "Duration": 0.0026349,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Wildkin.Tests.EditMode.SculptedStoneTests.Archetype_IsOneFiniteOutwardWoundManifoldWithGroundedBase(ButtressWedge,4103)",
+          "Status": "Passed",
+          "Duration": 0.001849,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Wildkin.Tests.EditMode.SculptedStoneTests.InvalidRecipe_RejectsNonfiniteAndOutOfEnvelopeParameters",
+          "Status": "Passed",
+          "Duration": 0.00283,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Wildkin.Tests.EditMode.SculptedStoneTests.ReviewedSource_HasPinnedGeometryHash(CapstoneSlab,4101,\"881447DF8B9C5082\")",
+          "Status": "Passed",
+          "Duration": 0.0027305,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Wildkin.Tests.EditMode.SculptedStoneTests.ReviewedSource_HasPinnedGeometryHash(ChunkyBoulder,4102,\"EA991B6C6C2D132D\")",
+          "Status": "Passed",
+          "Duration": 0.0015831,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Wildkin.Tests.EditMode.SculptedStoneTests.ReviewedSource_HasPinnedGeometryHash(ButtressWedge,4103,\"EF8ACF6528F0C296\")",
+          "Status": "Passed",
+          "Duration": 0.0018527,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Wildkin.Tests.EditMode.SculptedStoneTests.SameRecipe_ReproducesEveryVertexIndexAndHash(CapstoneSlab,4101)",
+          "Status": "Passed",
+          "Duration": 0.0096649,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Wildkin.Tests.EditMode.SculptedStoneTests.SameRecipe_ReproducesEveryVertexIndexAndHash(ChunkyBoulder,4102)",
+          "Status": "Passed",
+          "Duration": 0.0048113,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Wildkin.Tests.EditMode.SculptedStoneTests.SameRecipe_ReproducesEveryVertexIndexAndHash(ButtressWedge,4103)",
+          "Status": "Passed",
+          "Duration": 0.0061313,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Wildkin.Tests.EditMode.SculptedStoneTests.SeedVariation_ChangesMacroShapeAndRetainsOneShell(CapstoneSlab)",
+          "Status": "Passed",
+          "Duration": 0.0224795,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Wildkin.Tests.EditMode.SculptedStoneTests.SeedVariation_ChangesMacroShapeAndRetainsOneShell(ChunkyBoulder)",
+          "Status": "Passed",
+          "Duration": 0.0202304,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "Wildkin.Tests.EditMode.SculptedStoneTests.SeedVariation_ChangesMacroShapeAndRetainsOneShell(ButtressWedge)",
+          "Status": "Passed",
+          "Duration": 0.0230219,
+          "Message": null,
+          "StackTrace": null
+        }
+      ],
+      "Duration": 5.67,
+      "StatusPath": null,
+      "Mode": "EditMode",
+      "FilterApplied": "testname: SculptedStoneTests",
+      "success": true,
+      "result": null
+    },
+    "target": {
+      "host": "127.0.0.1",
+      "port": 7800,
+      "projectPath": "C:\\Users\\cwood\\Documents\\mobile-rpg\\native\\unity\\WildkinUnity"
+    }
+  },
+  "errors": [],
+  "warnings": []
+}

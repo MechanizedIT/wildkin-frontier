@@ -2,7 +2,9 @@
   "name": "Wildkin.Tests.PlayMode",
   "rootNamespace": "Wildkin.Tests.PlayMode",
   "references": [
-    "Wildkin.Core"
+    "Wildkin.Core",
+    "Wildkin.Matter.Core",
+    "Wildkin.Matter.Unity"
   ],
   "includePlatforms": [],
   "excludePlatforms": [],

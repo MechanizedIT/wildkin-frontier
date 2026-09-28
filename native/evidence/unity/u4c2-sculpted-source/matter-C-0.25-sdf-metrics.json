@@ -1,0 +1,43 @@
+{
+    "label": "C",
+    "encoding": "true signed distance, positive solid",
+    "sourceHash": "EF8ACF6528F0C296",
+    "reconstructedHash": "EC3AB4283025AB26",
+    "spacingMeters": 0.25,
+    "sourceVertices": 127,
+    "sourceTriangles": 250,
+    "samples": 3060,
+    "occupied": 280,
+    "reconstructedVertices": 332,
+    "reconstructedTriangles": 660,
+    "regions": 8,
+    "skippedDegenerateTriangles": 0,
+    "volumeDimensions": [
+        15,
+        17,
+        12
+    ],
+    "sampleOrigin": [
+        -5,
+        -2,
+        -6
+    ],
+    "rawFieldBytes": 15300,
+    "sourceGenerationMilliseconds": 1.5123,
+    "samplingMilliseconds": 273.0589,
+    "surfaceNetsMilliseconds": 127.85350000000001,
+    "publicationMilliseconds": 0.7668,
+    "reconstructedToSourceMeters": {
+        "median": 0.00594587717205286,
+        "p95": 0.05650355666875839,
+        "max": 0.11282315105199814
+    },
+    "sourceToFieldMeters": {
+        "median": 0.010683532804250718,
+        "p95": 0.0660465657711029,
+        "max": 0.11080020666122437
+    },
+    "closedConnectedManifold": true,
+    "topologyIssue": "",
+    "allocationBytes": "unavailable; raw field payload only is measured"
+}

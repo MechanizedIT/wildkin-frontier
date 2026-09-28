@@ -10,6 +10,7 @@ namespace Wildkin.Matter
     {
         private readonly float[] _densities;
         private readonly byte[] _materials;
+        private readonly bool _worldBacked;
 
         public MatterBounds Bounds { get; }
         public MatterInt3 Origin => Bounds.MinInclusive;
@@ -24,6 +25,7 @@ namespace Wildkin.Matter
 
         private MatterRegionSnapshot(MatterWorld world, MatterBounds bounds)
         {
+            _worldBacked = true;
             Bounds = bounds;
             SourceSeed = world.SourceSeed;
             SourceVersion = world.SourceVersion;
@@ -52,6 +54,23 @@ namespace Wildkin.Matter
         {
             if (world == null) throw new ArgumentNullException(nameof(world));
             return new MatterRegionSnapshot(world, bounds);
+        }
+
+        // Read-only qualification input: no global world, sparse air overrides, or write-back authority.
+        internal MatterRegionSnapshot(IMatterReadOnlyGrid grid, MatterBounds bounds)
+        {
+            Bounds = bounds; SampleSpacingMeters = grid.SampleSpacingMeters; SourceVersion = -1;
+            int count = checked(bounds.Size.X * bounds.Size.Y * bounds.Size.Z);
+            if (count > 16 * 1024 * 1024) throw new ArgumentOutOfRangeException(nameof(bounds));
+            _densities = new float[count]; _materials = new byte[count];
+            for (int z = 0; z < bounds.Size.Z; z++)
+            for (int y = 0; y < bounds.Size.Y; y++)
+            for (int x = 0; x < bounds.Size.X; x++)
+            {
+                MatterSample sample = grid.ReadSample(AddressFromLocal(new MatterInt3(x, y, z)));
+                int index = Index(x, y, z, bounds.Size);
+                _densities[index] = sample.Density; _materials[index] = (byte)sample.Material;
+            }
         }
 
         public MatterSample GetLocal(MatterInt3 local)
@@ -95,14 +114,14 @@ namespace Wildkin.Matter
             MatterWorld world, MatterSampleAddress address, MatterSample sample)
         {
             if (world == null) throw new ArgumentNullException(nameof(world));
-            if (!IsCompatible(world) || !Bounds.Contains(address)) return false;
+            if (!_worldBacked || !IsCompatible(world) || !Bounds.Contains(address)) return false;
             return world.SetSample(address, sample);
         }
 
         public int WriteBack(MatterWorld world)
         {
             if (world == null) throw new ArgumentNullException(nameof(world));
-            if (!IsCompatible(world))
+            if (!_worldBacked || !IsCompatible(world))
                 throw new ArgumentException("Snapshot and world source settings do not match.", nameof(world));
 
             int acceptedEdits = 0;

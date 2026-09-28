@@ -1,0 +1,38 @@
+{
+    "method": "SculptedCubeSuperquadric-v1",
+    "recipe": {
+        "archetype": 2,
+        "seed": 4103,
+        "radiusX": 1.2219393253326417,
+        "radiusY": 1.7999999523162842,
+        "radiusZ": 0.8644514679908752,
+        "exponent": 2.9819111824035646,
+        "sideFullness": 0.05162917450070381,
+        "frontFullness": -0.09466543048620224,
+        "taper": 0.3799999952316284,
+        "lean": 0.36594220995903017,
+        "skew": 0.1309535950422287,
+        "twist": 0.056669753044843677,
+        "topTilt": -0.18960098922252656,
+        "quadrantCompression": 0.23000000417232514,
+        "baseFraction": 0.1599999964237213,
+        "subdivisions": 4
+    },
+    "vertices": 98,
+    "triangles": 192,
+    "connectedComponents": 1,
+    "closedManifold": true,
+    "issue": "",
+    "geometryHash": "BDD48AEBACF7A9E7",
+    "volumeMetersCubed": 6.604340997892882,
+    "boundsMin": [
+        -0.7554133534431458,
+        0.0,
+        -0.8014566898345947
+    ],
+    "boundsMax": [
+        1.873823642730713,
+        3.3701400756835939,
+        0.672478199005127
+    ]
+}
