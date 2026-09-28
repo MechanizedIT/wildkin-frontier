@@ -36,13 +36,21 @@ namespace Wildkin.Matter.Unity
             _archetype = archetype; _seed = seed; _matterSpacing = spacing;
             SculptedStoneMesh source = SculptedStoneGenerator.Generate(archetype, seed);
             Volume = new MatterLocalVolume(source, spacing);
-            SculptedStoneMesh reconstructed = Volume.Reconstruct(out double meshMilliseconds, out _);
+            SculptedStoneMesh reconstructed = Volume.Reconstruct(out double meshMilliseconds, out int regions);
             Show(reconstructed, false);
             _playerReceipt = new PlayerReceipt
             {
                 sourceHash = source.GeometryHash.ToString("X16"), reconstructedHash = reconstructed.GeometryHash.ToString("X16"),
                 spacing = spacing, samples = Volume.SampleCount, rawBytes = Volume.RawBytes,
+                vertices = reconstructed.VertexCount, triangles = reconstructed.TriangleCount, regions = regions,
                 samplingMilliseconds = Volume.SamplingMilliseconds, meshingMilliseconds = meshMilliseconds,
+                activeCells = Volume.LastActiveCellCount, ambiguousFaces = Volume.LastAmbiguousFaceCount,
+                ambiguousCells = Volume.LastAmbiguousCellCount, multiComponentCells = Volume.LastMultiComponentCellCount,
+                maximumComponentsPerCell = Volume.LastMaximumComponentsPerCell,
+                additionalSurfaceVertices = Volume.LastAdditionalSurfaceVertexCount,
+                mappedCrossingEdges = Volume.LastMappedCrossingEdgeCount,
+                missingCrossingEdgeMappings = Volume.LastMissingCrossingEdgeMappings,
+                skippedDegenerateTriangles = Volume.SkippedDegenerateTriangles,
                 manifold = reconstructed.Validate(out string issue), issue = issue
             };
         }
@@ -51,7 +59,9 @@ namespace Wildkin.Matter.Unity
         {
             public string sourceHash, reconstructedHash, issue;
             public float spacing;
-            public int samples;
+            public int samples, vertices, triangles, regions, activeCells, ambiguousFaces, ambiguousCells;
+            public int multiComponentCells, maximumComponentsPerCell, additionalSurfaceVertices;
+            public int mappedCrossingEdges, missingCrossingEdgeMappings, skippedDegenerateTriangles;
             public long rawBytes;
             public double samplingMilliseconds, meshingMilliseconds;
             public bool manifold;

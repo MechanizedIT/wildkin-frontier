@@ -1,0 +1,9 @@
+{
+  "phase": "U4C3 focused test summary",
+  "testRuns": [
+    { "suite": "MatterSurfaceNetsTopologyTests", "passed": 5, "failed": 0, "coverage": ["256 sign masks x 48 signed cube orientations", "bilinear saddle values and deterministic near-tie", "known unsupported interior ambiguity exposed by a positive body-diagonal trilinear regression", "ambiguous component stitching across a brick seam", "96 deterministic noisy scalar fields"] },
+    { "suite": "MatterMesherTests", "passed": 23, "failed": 0 },
+    { "suite": "SourceMeshFidelityTests", "passed": 37, "failed": 0, "coverage": ["exact B/0.0625 and C/0.125 regressions", "all 12 U4C2 true-SDF matrix rows", "B/0.125 clipped control", "pinned source hashes", "pinched one-ring manifold rejection"] }
+  ],
+  "note": "Suite counts overlap because the exact-case and matrix checks are members of SourceMeshFidelityTests."
+}

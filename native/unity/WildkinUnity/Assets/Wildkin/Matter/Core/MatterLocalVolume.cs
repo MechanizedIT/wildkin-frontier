@@ -23,6 +23,15 @@ namespace Wildkin.Matter
         public double SamplingMilliseconds { get; }
         public bool ClippedControl { get; }
         public int SkippedDegenerateTriangles { get; private set; }
+        public int LastActiveCellCount { get; private set; }
+        public int LastAmbiguousCellCount { get; private set; }
+        public int LastAmbiguousFaceCount { get; private set; }
+        public int LastMultiComponentCellCount { get; private set; }
+        public int LastMaximumComponentsPerCell { get; private set; }
+        public int LastAdditionalSurfaceVertexCount { get; private set; }
+        public int LastMappedCrossingEdgeCount { get; private set; }
+        public int LastMissingCrossingEdgeMappings { get; private set; }
+        public double LastKernelMilliseconds { get; private set; }
 
         public MatterLocalVolume(SculptedStoneMesh source, float spacing, bool clippedControl = false)
         {
@@ -78,12 +87,16 @@ namespace Wildkin.Matter
         {
             var watch = Stopwatch.StartNew();
             var vertices = new List<MatterFloat3>(); var triangles = new List<int>();
-            // Surface Nets owns one vertex per integer cell, not per rounded position.
-            // Distinct cells can legitimately produce coincident points at a sharp sampled corner.
-            var welded = new Dictionary<MatterInt3, int>();
+            // Global cells may now contribute several independently stitched surface patches.
+            var welded = new Dictionary<MatterSurfaceVertexKey, int>();
             MatterBrickLayout.Resolve(new MatterSampleAddress(Bounds.MinInclusive), out MatterBrickAddress min, out _);
             MatterBrickLayout.Resolve(new MatterSampleAddress(Bounds.MaxExclusive - new MatterInt3(1, 1, 1)), out MatterBrickAddress max, out _);
-            regionCount = 0; SkippedDegenerateTriangles = 0; var mesher = new MatterSurfaceNetsMesher();
+            regionCount = 0; SkippedDegenerateTriangles = 0;
+            LastActiveCellCount = LastAmbiguousCellCount = LastAmbiguousFaceCount = 0;
+            LastMultiComponentCellCount = LastMaximumComponentsPerCell = LastAdditionalSurfaceVertexCount = 0;
+            LastMappedCrossingEdgeCount = LastMissingCrossingEdgeMappings = 0;
+            LastKernelMilliseconds = 0d;
+            var mesher = new MatterSurfaceNetsMesher();
             for (int z = min.Z; z <= max.Z; z++)
             for (int y = min.Y; y <= max.Y; y++)
             for (int x = min.X; x <= max.X; x++)
@@ -91,10 +104,19 @@ namespace Wildkin.Matter
                 MatterMeshData part = mesher.Generate(MatterMeshingRegion.CaptureGrid(this, new MatterBrickAddress(x, y, z)));
                 regionCount++;
                 SkippedDegenerateTriangles += part.SkippedDegenerateTriangles;
+                LastActiveCellCount += part.ActiveCellCount;
+                LastAmbiguousCellCount += part.AmbiguousCellCount;
+                LastAmbiguousFaceCount += part.AmbiguousFaceCount;
+                LastMultiComponentCellCount += part.MultiComponentCellCount;
+                LastMaximumComponentsPerCell = Math.Max(LastMaximumComponentsPerCell, part.MaximumComponentsPerCell);
+                LastAdditionalSurfaceVertexCount += part.AdditionalSurfaceVertexCount;
+                LastMappedCrossingEdgeCount += part.MappedCrossingEdgeCount;
+                LastMissingCrossingEdgeMappings += part.MissingCrossingEdgeMappings;
+                LastKernelMilliseconds += part.GenerationMilliseconds;
                 foreach (int index in part.Indices)
                 {
                     MatterFloat3 p = part.Vertices[index].PositionMeters;
-                    MatterInt3 key = part.VertexCellAddresses[index];
+                    MatterSurfaceVertexKey key = part.VertexSurfaceKeys[index];
                     if (!welded.TryGetValue(key, out int global))
                     { global = vertices.Count; welded.Add(key, global); vertices.Add(p); }
                     triangles.Add(global);

@@ -1,0 +1,1273 @@
+{
+  "phase": "Unity U4C3 — before/after topology diagnostic",
+  "label": "C-0.125",
+  "sourceHash": "EF8ACF6528F0C296",
+  "reconstructedHash": "FA4FA04EE35A8BC9",
+  "seed": 4103,
+  "samples": 13050,
+  "occupied": 2332,
+  "regions": 18,
+  "vertices": 1394,
+  "triangles": 2784,
+  "spacingMeters": 0.125,
+  "skippedDegenerateTriangles": 0,
+  "missingCrossingEdgeMappings": 0,
+  "activeCells": 1644,
+  "ambiguousFaces": 2,
+  "ambiguousCells": 2,
+  "multiComponentCells": 1,
+  "maximumComponentsPerCell": 2,
+  "additionalSurfaceVertices": 1,
+  "sourceValid": true,
+  "meshValid": true,
+  "sourceIssue": "",
+  "meshIssue": "",
+  "knownCells": [
+    {
+      "globalCell": [
+        1,
+        8,
+        -7
+      ],
+      "signMask": "0x50",
+      "crossingEdgeMask": "0x5F0",
+      "cornerDensities": [
+        -0.11964995414018631,
+        -0.13047942519187927,
+        -0.11511330306529999,
+        -0.12555071711540222,
+        0.004737378563731909,
+        -0.009750143624842167,
+        0.009067040868103504,
+        -0.0010395912686362863
+      ],
+      "ambiguousFaces": 1,
+      "componentCount": 1,
+      "componentMasks": [
+        "0x5F0"
+      ]
+    },
+    {
+      "globalCell": [
+        1,
+        8,
+        -6
+      ],
+      "signMask": "0xF5",
+      "crossingEdgeMask": "0xA0F",
+      "cornerDensities": [
+        0.004737378563731909,
+        -0.009750143624842167,
+        0.009067040868103504,
+        -0.0010395912686362863,
+        0.12546665966510773,
+        0.11097913980484009,
+        0.13324739038944244,
+        0.12347153574228287
+      ],
+      "ambiguousFaces": 1,
+      "componentCount": 2,
+      "componentMasks": [
+        "0x203",
+        "0x80C"
+      ]
+    }
+  ],
+  "before": {
+    "label": "C-0.125",
+    "seed": 4103,
+    "spacing": 0.125,
+    "sourceValid": true,
+    "sourceIssue": null,
+    "sourceHash": "EF8ACF6528F0C296",
+    "samples": 13050,
+    "occupied": 2332,
+    "nonFiniteSamples": 0,
+    "skippedDegenerateTriangles": 0,
+    "meshValid": false,
+    "meshIssue": "Open, nonmanifold, or inconsistently wound edge.",
+    "meshHash": "D8596BFDA2B48BCE",
+    "vertices": 1393,
+    "triangles": 2784,
+    "fourUseEdges": 1,
+    "failures": [
+      {
+        "globalVertexIds": [
+          225,
+          277
+        ],
+        "globalCellIdentities": [
+          [
+            1,
+            8,
+            -7
+          ],
+          [
+            1,
+            8,
+            -6
+          ]
+        ],
+        "endpointPositionsMeters": [
+          [
+            0.1756221,
+            1.069546,
+            -0.7523146
+          ],
+          [
+            0.1756221,
+            1.069546,
+            -0.7481436
+          ]
+        ],
+        "incidentTriangleIds": [
+          466,
+          469,
+          471,
+          492
+        ],
+        "incidentTriangles": [
+          {
+            "triangleId": 466,
+            "ownerBrick": [
+              0,
+              0,
+              -1
+            ],
+            "globalVertexIds": [
+              223,
+              225,
+              277
+            ],
+            "globalCellIdentities": [
+              [
+                1,
+                7,
+                -7
+              ],
+              [
+                1,
+                8,
+                -7
+              ],
+              [
+                1,
+                8,
+                -6
+              ]
+            ],
+            "positionsMeters": [
+              [
+                0.1386249,
+                0.9931875,
+                -0.7515869
+              ],
+              [
+                0.1756221,
+                1.069546,
+                -0.7523146
+              ],
+              [
+                0.1756221,
+                1.069546,
+                -0.7481436
+              ]
+            ]
+          },
+          {
+            "triangleId": 469,
+            "ownerBrick": [
+              0,
+              0,
+              -1
+            ],
+            "globalVertexIds": [
+              224,
+              277,
+              225
+            ],
+            "globalCellIdentities": [
+              [
+                0,
+                8,
+                -7
+              ],
+              [
+                1,
+                8,
+                -6
+              ],
+              [
+                1,
+                8,
+                -7
+              ]
+            ],
+            "positionsMeters": [
+              [
+                0.1040916,
+                1.034169,
+                -0.7515869
+              ],
+              [
+                0.1756221,
+                1.069546,
+                -0.7481436
+              ],
+              [
+                0.1756221,
+                1.069546,
+                -0.7523146
+              ]
+            ]
+          },
+          {
+            "triangleId": 471,
+            "ownerBrick": [
+              0,
+              0,
+              -1
+            ],
+            "globalVertexIds": [
+              225,
+              278,
+              277
+            ],
+            "globalCellIdentities": [
+              [
+                1,
+                8,
+                -7
+              ],
+              [
+                2,
+                8,
+                -6
+              ],
+              [
+                1,
+                8,
+                -6
+              ]
+            ],
+            "positionsMeters": [
+              [
+                0.1756221,
+                1.069546,
+                -0.7523146
+              ],
+              [
+                0.3125,
+                1.042333,
+                -0.7412025
+              ],
+              [
+                0.1756221,
+                1.069546,
+                -0.7481436
+              ]
+            ]
+          },
+          {
+            "triangleId": 492,
+            "ownerBrick": [
+              0,
+              0,
+              -1
+            ],
+            "globalVertexIds": [
+              225,
+              277,
+              288
+            ],
+            "globalCellIdentities": [
+              [
+                1,
+                8,
+                -7
+              ],
+              [
+                1,
+                8,
+                -6
+              ],
+              [
+                1,
+                9,
+                -6
+              ]
+            ],
+            "positionsMeters": [
+              [
+                0.1756221,
+                1.069546,
+                -0.7523146
+              ],
+              [
+                0.1756221,
+                1.069546,
+                -0.7481436
+              ],
+              [
+                0.1507622,
+                1.1875,
+                -0.7480326
+              ]
+            ]
+          }
+        ],
+        "adjacentCellMasks": [
+          {
+            "globalCell": [
+              0,
+              7,
+              -8
+            ],
+            "signMask": "0x00",
+            "cornerDensities": [
+              -0.2534262,
+              -0.2656962,
+              -0.2445458,
+              -0.2537256,
+              -0.1304867,
+              -0.1449669,
+              -0.11965,
+              -0.1292145
+            ],
+            "crossingCubeEdges": []
+          },
+          {
+            "globalCell": [
+              1,
+              7,
+              -8
+            ],
+            "signMask": "0x00",
+            "cornerDensities": [
+              -0.2656962,
+              -0.2801837,
+              -0.2512087,
+              -0.2445458,
+              -0.1449669,
+              -0.1594545,
+              -0.1304794,
+              -0.11965
+            ],
+            "crossingCubeEdges": []
+          },
+          {
+            "globalCell": [
+              2,
+              7,
+              -8
+            ],
+            "signMask": "0x00",
+            "cornerDensities": [
+              -0.2801837,
+              -0.2946713,
+              -0.2656962,
+              -0.2512087,
+              -0.1594545,
+              -0.173942,
+              -0.1449669,
+              -0.1304794
+            ],
+            "crossingCubeEdges": []
+          },
+          {
+            "globalCell": [
+              0,
+              8,
+              -8
+            ],
+            "signMask": "0x00",
+            "cornerDensities": [
+              -0.2537256,
+              -0.2445458,
+              -0.2500618,
+              -0.2594854,
+              -0.1292145,
+              -0.11965,
+              -0.1255507,
+              -0.1349743
+            ],
+            "crossingCubeEdges": []
+          },
+          {
+            "globalCell": [
+              1,
+              8,
+              -8
+            ],
+            "signMask": "0x00",
+            "cornerDensities": [
+              -0.2445458,
+              -0.2512087,
+              -0.2392936,
+              -0.2500618,
+              -0.11965,
+              -0.1304794,
+              -0.1151133,
+              -0.1255507
+            ],
+            "crossingCubeEdges": []
+          },
+          {
+            "globalCell": [
+              2,
+              8,
+              -8
+            ],
+            "signMask": "0x00",
+            "cornerDensities": [
+              -0.2512087,
+              -0.2656962,
+              -0.2374177,
+              -0.2392936,
+              -0.1304794,
+              -0.1449669,
+              -0.1159919,
+              -0.1151133
+            ],
+            "crossingCubeEdges": []
+          },
+          {
+            "globalCell": [
+              0,
+              9,
+              -8
+            ],
+            "signMask": "0x00",
+            "cornerDensities": [
+              -0.2594854,
+              -0.2500618,
+              -0.2558216,
+              -0.2652452,
+              -0.1349743,
+              -0.1255507,
+              -0.1313105,
+              -0.1407341
+            ],
+            "crossingCubeEdges": []
+          },
+          {
+            "globalCell": [
+              1,
+              9,
+              -8
+            ],
+            "signMask": "0x00",
+            "cornerDensities": [
+              -0.2500618,
+              -0.2392936,
+              -0.2463981,
+              -0.2558216,
+              -0.1255507,
+              -0.1151133,
+              -0.1218869,
+              -0.1313105
+            ],
+            "crossingCubeEdges": []
+          },
+          {
+            "globalCell": [
+              2,
+              9,
+              -8
+            ],
+            "signMask": "0x00",
+            "cornerDensities": [
+              -0.2392936,
+              -0.2374177,
+              -0.2355977,
+              -0.2463981,
+              -0.1151133,
+              -0.1159919,
+              -0.1114173,
+              -0.1218869
+            ],
+            "crossingCubeEdges": []
+          },
+          {
+            "globalCell": [
+              0,
+              7,
+              -7
+            ],
+            "signMask": "0x40",
+            "cornerDensities": [
+              -0.1304867,
+              -0.1449669,
+              -0.11965,
+              -0.1292145,
+              -0.009750131,
+              -0.02423765,
+              0.004737379,
+              -0.004703365
+            ],
+            "crossingCubeEdges": [
+              5,
+              6,
+              10
+            ]
+          },
+          {
+            "globalCell": [
+              1,
+              7,
+              -7
+            ],
+            "signMask": "0x80",
+            "cornerDensities": [
+              -0.1449669,
+              -0.1594545,
+              -0.1304794,
+              -0.11965,
+              -0.02423765,
+              -0.03872517,
+              -0.009750144,
+              0.004737379
+            ],
+            "crossingCubeEdges": [
+              6,
+              7,
+              11
+            ]
+          },
+          {
+            "globalCell": [
+              2,
+              7,
+              -7
+            ],
+            "signMask": "0x00",
+            "cornerDensities": [
+              -0.1594545,
+              -0.173942,
+              -0.1449669,
+              -0.1304794,
+              -0.03872517,
+              -0.05321269,
+              -0.02423766,
+              -0.009750144
+            ],
+            "crossingCubeEdges": []
+          },
+          {
+            "globalCell": [
+              0,
+              8,
+              -7
+            ],
+            "signMask": "0x20",
+            "cornerDensities": [
+              -0.1292145,
+              -0.11965,
+              -0.1255507,
+              -0.1349743,
+              -0.004703365,
+              0.004737379,
+              -0.001039591,
+              -0.01046315
+            ],
+            "crossingCubeEdges": [
+              4,
+              5,
+              9
+            ]
+          },
+          {
+            "globalCell": [
+              1,
+              8,
+              -7
+            ],
+            "signMask": "0x50",
+            "cornerDensities": [
+              -0.11965,
+              -0.1304794,
+              -0.1151133,
+              -0.1255507,
+              0.004737379,
+              -0.009750144,
+              0.009067041,
+              -0.001039591
+            ],
+            "crossingCubeEdges": [
+              4,
+              5,
+              6,
+              7,
+              8,
+              10
+            ]
+          },
+          {
+            "globalCell": [
+              2,
+              8,
+              -7
+            ],
+            "signMask": "0xC0",
+            "cornerDensities": [
+              -0.1304794,
+              -0.1449669,
+              -0.1159919,
+              -0.1151133,
+              -0.009750144,
+              -0.02423766,
+              0.004737363,
+              0.009067041
+            ],
+            "crossingCubeEdges": [
+              5,
+              7,
+              10,
+              11
+            ]
+          },
+          {
+            "globalCell": [
+              0,
+              9,
+              -7
+            ],
+            "signMask": "0x00",
+            "cornerDensities": [
+              -0.1349743,
+              -0.1255507,
+              -0.1313105,
+              -0.1407341,
+              -0.01046315,
+              -0.001039591,
+              -0.006799372,
+              -0.01622293
+            ],
+            "crossingCubeEdges": []
+          },
+          {
+            "globalCell": [
+              1,
+              9,
+              -7
+            ],
+            "signMask": "0x60",
+            "cornerDensities": [
+              -0.1255507,
+              -0.1151133,
+              -0.1218869,
+              -0.1313105,
+              -0.001039591,
+              0.009067041,
+              0.002624183,
+              -0.006799372
+            ],
+            "crossingCubeEdges": [
+              4,
+              6,
+              9,
+              10
+            ]
+          },
+          {
+            "globalCell": [
+              2,
+              9,
+              -7
+            ],
+            "signMask": "0xF0",
+            "cornerDensities": [
+              -0.1151133,
+              -0.1159919,
+              -0.1114173,
+              -0.1218869,
+              0.009067041,
+              0.004737363,
+              0.01276302,
+              0.002624183
+            ],
+            "crossingCubeEdges": [
+              8,
+              9,
+              10,
+              11
+            ]
+          },
+          {
+            "globalCell": [
+              0,
+              7,
+              -6
+            ],
+            "signMask": "0xF4",
+            "cornerDensities": [
+              -0.009750131,
+              -0.02423765,
+              0.004737379,
+              -0.004703365,
+              0.1109792,
+              0.09649163,
+              0.1254667,
+              0.1198078
+            ],
+            "crossingCubeEdges": [
+              1,
+              2,
+              8,
+              9,
+              11
+            ]
+          },
+          {
+            "globalCell": [
+              1,
+              7,
+              -6
+            ],
+            "signMask": "0xF8",
+            "cornerDensities": [
+              -0.02423765,
+              -0.03872517,
+              -0.009750144,
+              0.004737379,
+              0.09649163,
+              0.08200411,
+              0.1109791,
+              0.1254667
+            ],
+            "crossingCubeEdges": [
+              2,
+              3,
+              8,
+              9,
+              10
+            ]
+          },
+          {
+            "globalCell": [
+              2,
+              7,
+              -6
+            ],
+            "signMask": "0xF0",
+            "cornerDensities": [
+              -0.03872517,
+              -0.05321269,
+              -0.02423766,
+              -0.009750144,
+              0.08200411,
+              0.06751659,
+              0.09649162,
+              0.1109791
+            ],
+            "crossingCubeEdges": [
+              8,
+              9,
+              10,
+              11
+            ]
+          },
+          {
+            "globalCell": [
+              0,
+              8,
+              -6
+            ],
+            "signMask": "0xF2",
+            "cornerDensities": [
+              -0.004703365,
+              0.004737379,
+              -0.001039591,
+              -0.01046315,
+              0.1198078,
+              0.1254667,
+              0.1234715,
+              0.114048
+            ],
+            "crossingCubeEdges": [
+              0,
+              1,
+              8,
+              10,
+              11
+            ]
+          },
+          {
+            "globalCell": [
+              1,
+              8,
+              -6
+            ],
+            "signMask": "0xF5",
+            "cornerDensities": [
+              0.004737379,
+              -0.009750144,
+              0.009067041,
+              -0.001039591,
+              0.1254667,
+              0.1109791,
+              0.1332474,
+              0.1234715
+            ],
+            "crossingCubeEdges": [
+              0,
+              1,
+              2,
+              3,
+              9,
+              11
+            ]
+          },
+          {
+            "globalCell": [
+              2,
+              8,
+              -6
+            ],
+            "signMask": "0xFC",
+            "cornerDensities": [
+              -0.009750144,
+              -0.02423766,
+              0.004737363,
+              0.009067041,
+              0.1109791,
+              0.09649162,
+              0.1254666,
+              0.1332474
+            ],
+            "crossingCubeEdges": [
+              1,
+              3,
+              8,
+              9
+            ]
+          },
+          {
+            "globalCell": [
+              0,
+              9,
+              -6
+            ],
+            "signMask": "0xF0",
+            "cornerDensities": [
+              -0.01046315,
+              -0.001039591,
+              -0.006799372,
+              -0.01622293,
+              0.114048,
+              0.1234715,
+              0.1177118,
+              0.1082882
+            ],
+            "crossingCubeEdges": [
+              8,
+              9,
+              10,
+              11
+            ]
+          },
+          {
+            "globalCell": [
+              1,
+              9,
+              -6
+            ],
+            "signMask": "0xF6",
+            "cornerDensities": [
+              -0.001039591,
+              0.009067041,
+              0.002624183,
+              -0.006799372,
+              0.1234715,
+              0.1332474,
+              0.1271353,
+              0.1177118
+            ],
+            "crossingCubeEdges": [
+              0,
+              2,
+              8,
+              11
+            ]
+          },
+          {
+            "globalCell": [
+              2,
+              9,
+              -6
+            ],
+            "signMask": "0xFF",
+            "cornerDensities": [
+              0.009067041,
+              0.004737363,
+              0.01276302,
+              0.002624183,
+              0.1332474,
+              0.1254666,
+              0.1369434,
+              0.1271353
+            ],
+            "crossingCubeEdges": []
+          },
+          {
+            "globalCell": [
+              0,
+              7,
+              -5
+            ],
+            "signMask": "0xFF",
+            "cornerDensities": [
+              0.1109792,
+              0.09649163,
+              0.1254667,
+              0.1198078,
+              0.2317084,
+              0.2172209,
+              0.2461959,
+              0.2443189
+            ],
+            "crossingCubeEdges": []
+          },
+          {
+            "globalCell": [
+              1,
+              7,
+              -5
+            ],
+            "signMask": "0xFF",
+            "cornerDensities": [
+              0.09649163,
+              0.08200411,
+              0.1109791,
+              0.1254667,
+              0.2172209,
+              0.2027334,
+              0.2317084,
+              0.2461959
+            ],
+            "crossingCubeEdges": []
+          },
+          {
+            "globalCell": [
+              2,
+              7,
+              -5
+            ],
+            "signMask": "0xFF",
+            "cornerDensities": [
+              0.08200411,
+              0.06751659,
+              0.09649162,
+              0.1109791,
+              0.2027334,
+              0.1882459,
+              0.2172209,
+              0.2317084
+            ],
+            "crossingCubeEdges": []
+          },
+          {
+            "globalCell": [
+              0,
+              8,
+              -5
+            ],
+            "signMask": "0xFF",
+            "cornerDensities": [
+              0.1198078,
+              0.1254667,
+              0.1234715,
+              0.114048,
+              0.2443189,
+              0.2461959,
+              0.2479827,
+              0.2385591
+            ],
+            "crossingCubeEdges": []
+          },
+          {
+            "globalCell": [
+              1,
+              8,
+              -5
+            ],
+            "signMask": "0xFF",
+            "cornerDensities": [
+              0.1254667,
+              0.1109791,
+              0.1332474,
+              0.1234715,
+              0.2461959,
+              0.2317084,
+              0.2574411,
+              0.2479827
+            ],
+            "crossingCubeEdges": []
+          },
+          {
+            "globalCell": [
+              2,
+              8,
+              -5
+            ],
+            "signMask": "0xFF",
+            "cornerDensities": [
+              0.1109791,
+              0.09649162,
+              0.1254666,
+              0.1332474,
+              0.2317084,
+              0.2172209,
+              0.2461959,
+              0.2574411
+            ],
+            "crossingCubeEdges": []
+          },
+          {
+            "globalCell": [
+              0,
+              9,
+              -5
+            ],
+            "signMask": "0xFF",
+            "cornerDensities": [
+              0.114048,
+              0.1234715,
+              0.1177118,
+              0.1082882,
+              0.2385591,
+              0.2479827,
+              0.2422229,
+              0.2327993
+            ],
+            "crossingCubeEdges": []
+          },
+          {
+            "globalCell": [
+              1,
+              9,
+              -5
+            ],
+            "signMask": "0xFF",
+            "cornerDensities": [
+              0.1234715,
+              0.1332474,
+              0.1271353,
+              0.1177118,
+              0.2479827,
+              0.2574411,
+              0.2516464,
+              0.2422229
+            ],
+            "crossingCubeEdges": []
+          },
+          {
+            "globalCell": [
+              2,
+              9,
+              -5
+            ],
+            "signMask": "0xFF",
+            "cornerDensities": [
+              0.1332474,
+              0.1254666,
+              0.1369434,
+              0.1271353,
+              0.2574411,
+              0.2461959,
+              0.2611278,
+              0.2516464
+            ],
+            "crossingCubeEdges": []
+          }
+        ],
+        "crossingSampleEdges": [
+          {
+            "axis": 0,
+            "globalSampleAnchor": [
+              1,
+              8,
+              -6
+            ],
+            "startDensity": 0.004737379,
+            "endDensity": -0.009750144,
+            "ownerBrick": [
+              0,
+              0,
+              -1
+            ],
+            "incidentCells": [
+              [
+                1,
+                7,
+                -7
+              ],
+              [
+                1,
+                8,
+                -7
+              ],
+              [
+                1,
+                8,
+                -6
+              ],
+              [
+                1,
+                7,
+                -6
+              ]
+            ],
+            "incidentSignMasks": [
+              "0x80",
+              "0x50",
+              "0xF5",
+              "0xF8"
+            ],
+            "incidentTriangleIds": [
+              466
+            ]
+          },
+          {
+            "axis": 1,
+            "globalSampleAnchor": [
+              1,
+              8,
+              -6
+            ],
+            "startDensity": 0.004737379,
+            "endDensity": -0.001039591,
+            "ownerBrick": [
+              0,
+              0,
+              -1
+            ],
+            "incidentCells": [
+              [
+                0,
+                8,
+                -7
+              ],
+              [
+                0,
+                8,
+                -6
+              ],
+              [
+                1,
+                8,
+                -6
+              ],
+              [
+                1,
+                8,
+                -7
+              ]
+            ],
+            "incidentSignMasks": [
+              "0x20",
+              "0xF2",
+              "0xF5",
+              "0x50"
+            ],
+            "incidentTriangleIds": [
+              469
+            ]
+          },
+          {
+            "axis": 1,
+            "globalSampleAnchor": [
+              2,
+              8,
+              -6
+            ],
+            "startDensity": -0.009750144,
+            "endDensity": 0.009067041,
+            "ownerBrick": [
+              0,
+              0,
+              -1
+            ],
+            "incidentCells": [
+              [
+                1,
+                8,
+                -7
+              ],
+              [
+                1,
+                8,
+                -6
+              ],
+              [
+                2,
+                8,
+                -6
+              ],
+              [
+                2,
+                8,
+                -7
+              ]
+            ],
+            "incidentSignMasks": [
+              "0x50",
+              "0xF5",
+              "0xFC",
+              "0xC0"
+            ],
+            "incidentTriangleIds": [
+              471
+            ]
+          },
+          {
+            "axis": 0,
+            "globalSampleAnchor": [
+              1,
+              9,
+              -6
+            ],
+            "startDensity": -0.001039591,
+            "endDensity": 0.009067041,
+            "ownerBrick": [
+              0,
+              0,
+              -1
+            ],
+            "incidentCells": [
+              [
+                1,
+                8,
+                -7
+              ],
+              [
+                1,
+                9,
+                -7
+              ],
+              [
+                1,
+                9,
+                -6
+              ],
+              [
+                1,
+                8,
+                -6
+              ]
+            ],
+            "incidentSignMasks": [
+              "0x50",
+              "0x60",
+              "0xF6",
+              "0xF5"
+            ],
+            "incidentTriangleIds": [
+              492
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}

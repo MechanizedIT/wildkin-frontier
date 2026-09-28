@@ -1,0 +1,20 @@
+{
+  "engine": "Unity 6000.3.25f1, HDRP 17.3.0",
+  "target": "Windows x64 Development Player",
+  "status": "succeeded",
+  "durationSeconds": 56.812,
+  "buildBytes": 229700943,
+  "errors": 0,
+  "warnings": 2,
+  "output": "native/unity/WildkinUnity/Builds/U4C3/Wildkin-U4C3.exe",
+  "playerExitCode": 0,
+  "playerCase": "B / seed 4102 / 0.0625 m",
+  "playerRuntimeReceipt": "player-B-0.0625.json",
+  "playerCapture": "player-B-0.0625.png",
+  "missingShaderOrPinkPresentation": false,
+  "warningCategories": [
+    "No RuntimePipelineConfig",
+    "D3D12 shader only_renderers warning"
+  ],
+  "developmentBuild": true
+}

@@ -43,6 +43,24 @@ namespace Wildkin.Tests.EditMode
             Assert.Throws<ArgumentOutOfRangeException>(() => sampler.Sample(new MatterFloat3(float.NaN, 0, 0)));
         }
 
+        [Test]
+        public void ManifoldValidation_RejectsTwoClosedShellsPinchedAtOneVertex()
+        {
+            var points = new[]
+            {
+                new MatterFloat3(0,0,0), new MatterFloat3(1,0,0), new MatterFloat3(0,1,0), new MatterFloat3(0,0,1),
+                new MatterFloat3(-1,.2f,0), new MatterFloat3(.2f,-1,0), new MatterFloat3(.1f,.1f,1)
+            };
+            var indices = new[]
+            {
+                0,2,1, 0,1,3, 0,3,2, 1,2,3,
+                0,5,4, 0,4,6, 0,6,5, 4,5,6
+            };
+            ArgumentException exception = Assert.Throws<ArgumentException>(
+                () => SculptedStoneMesh.FromIndexedGeometry(points, indices));
+            StringAssert.Contains("Vertex one-ring contains disconnected triangle fans", exception.Message);
+        }
+
         [TestCase(SourceRockArchetype.CapstoneSlab, 4101)]
         [TestCase(SourceRockArchetype.ChunkyBoulder, 4102)]
         [TestCase(SourceRockArchetype.ButtressWedge, 4103)]
@@ -115,21 +133,39 @@ namespace Wildkin.Tests.EditMode
                     MatterMeshData original=mesher.Generate(a),adapted=mesher.Generate(b);
                     Assert.That(adapted.DeterministicHash,Is.EqualTo(original.DeterministicHash));
                     CollectionAssert.AreEqual(original.VertexCellAddresses,adapted.VertexCellAddresses);
+                    CollectionAssert.AreEqual(original.VertexSurfaceKeys,adapted.VertexSurfaceKeys);
                 }
                 Assert.That(b.Samples.TryWriteBackSample(world,new MatterSampleAddress(b.SampleOrigin),new MatterSample(-1,MatterMaterialId.Air)),Is.False);
                 Assert.Throws<ArgumentException>(()=>b.Samples.WriteBack(world));
             }
         }
 
-        [TestCase(SourceRockArchetype.ButtressWedge,4103,.125f)]
-        [TestCase(SourceRockArchetype.ChunkyBoulder,4102,.0625f)]
-        public void Qualification_DetectsTheRecordedFourUseSurfaceNetsEdge(SourceRockArchetype archetype,int seed,float spacing)
+        [Test]
+        public void ClippedControl_B125RemainsClosedAndSeparateFromTheTrueSdfQualificationMatrix()
         {
-            var volume=new MatterLocalVolume(SculptedStoneGenerator.Generate(archetype,seed),spacing);
+            SculptedStoneMesh source=SculptedStoneGenerator.Generate(SourceRockArchetype.ChunkyBoulder,4102);
+            Assert.That(source.GeometryHash.ToString("X16"),Is.EqualTo("EA991B6C6C2D132D"));
+            var volume=new MatterLocalVolume(source,.125f,true);
+            SculptedStoneMesh mesh=volume.Reconstruct(out _,out _);
+            Assert.That(mesh.Validate(out string issue),Is.True,issue);
+            Assert.That(volume.SkippedDegenerateTriangles,Is.Zero);
+            Assert.That(volume.LastMissingCrossingEdgeMappings,Is.Zero);
+        }
+
+        [TestCase(SourceRockArchetype.ButtressWedge,4103,.125f,"EF8ACF6528F0C296")]
+        [TestCase(SourceRockArchetype.ChunkyBoulder,4102,.0625f,"EA991B6C6C2D132D")]
+        public void Qualification_ReconstructsTheRecordedFourUseSurfaceNetsCasesAsManifold(
+            SourceRockArchetype archetype,int seed,float spacing,string expectedSourceHash)
+        {
+            SculptedStoneMesh source=SculptedStoneGenerator.Generate(archetype,seed);
+            Assert.That(source.Validate(out string sourceIssue),Is.True,sourceIssue);
+            Assert.That(source.GeometryHash.ToString("X16"),Is.EqualTo(expectedSourceHash),"Exact U4C2 source is retained.");
+            var volume=new MatterLocalVolume(source,spacing);
             SculptedStoneMesh mesh=volume.Reconstruct(out _,out _);
             Assert.That(volume.SkippedDegenerateTriangles,Is.Zero);
-            Assert.That(mesh.Validate(out string issue),Is.False,"Known qualification HOLD must not be hidden.");
-            StringAssert.Contains("nonmanifold",issue);
+            Assert.That(volume.LastMissingCrossingEdgeMappings,Is.Zero);
+            Assert.That(volume.LastMultiComponentCellCount,Is.GreaterThan(0),"The repair must split scalar patches generically.");
+            Assert.That(mesh.Validate(out string issue),Is.True,issue);
             var uses=new System.Collections.Generic.Dictionary<ulong,int>();
             for(int i=0;i<mesh.TriangleCount;i++)for(int edge=0;edge<3;edge++)
             {
@@ -138,7 +174,35 @@ namespace Wildkin.Tests.EditMode
                 uses.TryGetValue(key,out int count);uses[key]=count+1;
             }
             int fourUseEdges=0;foreach(int count in uses.Values)if(count==4)fourUseEdges++;
-            Assert.That(fourUseEdges,Is.EqualTo(1));
+            Assert.That(fourUseEdges,Is.Zero);
+            foreach(int count in uses.Values)Assert.That(count,Is.EqualTo(2),"Every closed manifold edge has two uses.");
+        }
+
+        [TestCase(SourceRockArchetype.CapstoneSlab,4101,.5f,"881447DF8B9C5082")]
+        [TestCase(SourceRockArchetype.CapstoneSlab,4101,.25f,"881447DF8B9C5082")]
+        [TestCase(SourceRockArchetype.CapstoneSlab,4101,.125f,"881447DF8B9C5082")]
+        [TestCase(SourceRockArchetype.CapstoneSlab,4101,.0625f,"881447DF8B9C5082")]
+        [TestCase(SourceRockArchetype.ChunkyBoulder,4102,.5f,"EA991B6C6C2D132D")]
+        [TestCase(SourceRockArchetype.ChunkyBoulder,4102,.25f,"EA991B6C6C2D132D")]
+        [TestCase(SourceRockArchetype.ChunkyBoulder,4102,.125f,"EA991B6C6C2D132D")]
+        [TestCase(SourceRockArchetype.ChunkyBoulder,4102,.0625f,"EA991B6C6C2D132D")]
+        [TestCase(SourceRockArchetype.ButtressWedge,4103,.5f,"EF8ACF6528F0C296")]
+        [TestCase(SourceRockArchetype.ButtressWedge,4103,.25f,"EF8ACF6528F0C296")]
+        [TestCase(SourceRockArchetype.ButtressWedge,4103,.125f,"EF8ACF6528F0C296")]
+        [TestCase(SourceRockArchetype.ButtressWedge,4103,.0625f,"EF8ACF6528F0C296")]
+        public void TrueSdfReconstruction_FullU4C2MatrixRemainsClosedAndConnected(
+            SourceRockArchetype archetype,int seed,float spacing,string expectedSourceHash)
+        {
+            SculptedStoneMesh source=SculptedStoneGenerator.Generate(archetype,seed);
+            Assert.That(source.GeometryHash.ToString("X16"),Is.EqualTo(expectedSourceHash));
+            Assert.That(source.Validate(out string sourceIssue),Is.True,sourceIssue);
+            var volume=new MatterLocalVolume(source,spacing);
+            SculptedStoneMesh mesh=volume.Reconstruct(out _,out _);
+            Assert.That(mesh.Validate(out string issue),Is.True,$"{archetype} / {spacing}: {issue}");
+            Assert.That(volume.SkippedDegenerateTriangles,Is.Zero);
+            Assert.That(volume.LastMissingCrossingEdgeMappings,Is.Zero);
+            Assert.That(mesh.TriangleCount,Is.GreaterThan(0));
+            Assert.That(volume.LastMappedCrossingEdgeCount,Is.GreaterThan(0));
         }
 
         [Test]

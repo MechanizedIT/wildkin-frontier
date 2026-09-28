@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace Wildkin.Matter
 {
@@ -90,11 +92,37 @@ namespace Wildkin.Matter
         }
     }
 
+    /// <summary>Stable identity for one connected crossing-edge patch in a global cell.</summary>
+    public readonly struct MatterSurfaceVertexKey : IEquatable<MatterSurfaceVertexKey>
+    {
+        public readonly MatterInt3 GlobalCellAddress;
+        public readonly ushort CrossingEdgeComponentMask;
+
+        public MatterSurfaceVertexKey(MatterInt3 globalCellAddress, ushort crossingEdgeComponentMask)
+        { GlobalCellAddress = globalCellAddress; CrossingEdgeComponentMask = crossingEdgeComponentMask; }
+
+        public bool Equals(MatterSurfaceVertexKey other)
+            => GlobalCellAddress.Equals(other.GlobalCellAddress) && CrossingEdgeComponentMask == other.CrossingEdgeComponentMask;
+        public override bool Equals(object obj) => obj is MatterSurfaceVertexKey other && Equals(other);
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                int hash = GlobalCellAddress.GetHashCode();
+                hash = (hash * 397) ^ CrossingEdgeComponentMask;
+                return hash;
+            }
+        }
+        public static bool operator ==(MatterSurfaceVertexKey left, MatterSurfaceVertexKey right) => left.Equals(right);
+        public static bool operator !=(MatterSurfaceVertexKey left, MatterSurfaceVertexKey right) => !left.Equals(right);
+    }
+
     public sealed class MatterMeshData
     {
         public MatterMesherKind Mesher { get; }
         public MatterMeshVertex[] Vertices { get; }
         public MatterInt3[] VertexCellAddresses { get; }
+        public MatterSurfaceVertexKey[] VertexSurfaceKeys { get; }
         public int[] Indices { get; }
         public int TriangleCount => Indices.Length / 3;
         public int SkippedDegenerateTriangles { get; }
@@ -102,19 +130,41 @@ namespace Wildkin.Matter
         public int QefClampedVertexCount { get; }
         public ulong DeterministicHash { get; }
         public float CellSpacingMeters { get; }
+        public int ActiveCellCount { get; }
+        public int AmbiguousCellCount { get; }
+        public int AmbiguousFaceCount { get; }
+        public int MultiComponentCellCount { get; }
+        public int MaximumComponentsPerCell { get; }
+        public int AdditionalSurfaceVertexCount { get; }
+        public int MappedCrossingEdgeCount { get; }
+        public int MissingCrossingEdgeMappings { get; }
+        public double GenerationMilliseconds { get; }
 
         internal MatterMeshData(MatterMesherKind mesher, MatterMeshVertex[] vertices, int[] indices,
             int skippedDegenerateTriangles, int qefFallbackCount, int qefClampedVertexCount,
-            float cellSpacingMeters, MatterInt3[] vertexCellAddresses)
+            float cellSpacingMeters, MatterInt3[] vertexCellAddresses, MatterSurfaceVertexKey[] vertexSurfaceKeys,
+            int activeCellCount, int ambiguousCellCount, int ambiguousFaceCount, int multiComponentCellCount,
+            int maximumComponentsPerCell, int additionalSurfaceVertexCount, int mappedCrossingEdgeCount,
+            int missingCrossingEdgeMappings, double generationMilliseconds)
         {
             Mesher = mesher;
             Vertices = vertices;
             VertexCellAddresses = vertexCellAddresses;
+            VertexSurfaceKeys = vertexSurfaceKeys;
             Indices = indices;
             SkippedDegenerateTriangles = skippedDegenerateTriangles;
             QefFallbackCount = qefFallbackCount;
             QefClampedVertexCount = qefClampedVertexCount;
             CellSpacingMeters = cellSpacingMeters;
+            ActiveCellCount = activeCellCount;
+            AmbiguousCellCount = ambiguousCellCount;
+            AmbiguousFaceCount = ambiguousFaceCount;
+            MultiComponentCellCount = multiComponentCellCount;
+            MaximumComponentsPerCell = maximumComponentsPerCell;
+            AdditionalSurfaceVertexCount = additionalSurfaceVertexCount;
+            MappedCrossingEdgeCount = mappedCrossingEdgeCount;
+            MissingCrossingEdgeMappings = missingCrossingEdgeMappings;
+            GenerationMilliseconds = generationMilliseconds;
             DeterministicHash = ComputeHash(vertices, indices, mesher);
         }
 
@@ -173,8 +223,9 @@ namespace Wildkin.Matter
     }
 
     /// <summary>
-    /// One dual vertex per active cell, placed at the centroid of its Hermite intersections.
-    /// Faces are emitted by globally edge-owned sample anchors, including the negative halo.
+    /// One dual vertex per connected crossing-edge patch in each active cell, placed at that
+    /// patch's Hermite-intersection centroid. Faces are emitted by globally edge-owned sample
+    /// anchors, including the negative halo.
     /// </summary>
     public sealed class MatterSurfaceNetsMesher : IMatterMesher
     {
@@ -201,6 +252,7 @@ namespace Wildkin.Matter
         private const float DegenerateAreaSquared = 1e-12f;
         private const int CellSide = MatterMeshingRegion.HaloCellCount;
         private const int CellCapacity = CellSide * CellSide * CellSide;
+        private const int CellEdgeCapacity = CellCapacity * MatterSurfaceNetsTopology.CubeEdgeCount;
         private const int EdgeAnchorSide = MatterBrickLayout.CellSize;
         private const int MaxIndexCount = EdgeAnchorSide * EdgeAnchorSide * EdgeAnchorSide * 3 * 6;
 
@@ -209,16 +261,28 @@ namespace Wildkin.Matter
         private static readonly byte[] CornerX = { 0, 1, 1, 0, 0, 1, 1, 0 };
         private static readonly byte[] CornerY = { 0, 0, 1, 1, 0, 0, 1, 1 };
         private static readonly byte[] CornerZ = { 0, 0, 0, 0, 1, 1, 1, 1 };
+        private static readonly byte[] XIncidentEdges = { 6, 4, 0, 2 };
+        private static readonly byte[] YIncidentEdges = { 5, 1, 3, 7 };
+        private static readonly byte[] ZIncidentEdges = { 10, 11, 8, 9 };
 
         public static MatterMeshData Generate(MatterMeshingRegion region, MatterMesherKind kind)
         {
             if (region == null) throw new ArgumentNullException(nameof(region));
-            int[] vertexByCell = new int[CellCapacity];
-            for (int i = 0; i < vertexByCell.Length; i++) vertexByCell[i] = -1;
-            var vertices = new MatterMeshVertex[CellCapacity];
-            var vertexCells = new MatterInt3[CellCapacity];
+            var watch = Stopwatch.StartNew();
+            int[] vertexByCell = kind == MatterMesherKind.DualContouring ? new int[CellCapacity] : null;
+            int[] vertexByCellEdge = kind == MatterMesherKind.SurfaceNets ? new int[CellEdgeCapacity] : null;
+            if (vertexByCell != null) for (int i = 0; i < vertexByCell.Length; i++) vertexByCell[i] = -1;
+            if (vertexByCellEdge != null) for (int i = 0; i < vertexByCellEdge.Length; i++) vertexByCellEdge[i] = -1;
+            int vertexCapacity = kind == MatterMesherKind.SurfaceNets
+                ? CellCapacity * MatterSurfaceNetsTopology.MaximumComponentCount : CellCapacity;
+            var vertices = new MatterMeshVertex[vertexCapacity];
+            var vertexCells = new MatterInt3[vertexCapacity];
+            var vertexKeys = new MatterSurfaceVertexKey[vertexCapacity];
             int vertexCount = 0;
             int qefFallbackCount = 0, qefClampedVertexCount = 0;
+            int activeCellCount = 0, ambiguousCellCount = 0, ambiguousFaceCount = 0;
+            int multiComponentCellCount = 0, maximumComponentsPerCell = 0, additionalSurfaceVertexCount = 0;
+            int mappedCrossingEdgeCount = 0;
             float spacing = region.Samples.SampleSpacingMeters;
             float inverseSpacing = 1f / spacing;
             MatterInt3 ownerOrigin = new MatterInt3(
@@ -230,42 +294,90 @@ namespace Wildkin.Matter
             for (int y = 0; y < CellSide; y++)
             for (int x = 0; x < CellSide; x++)
             {
-                if (!TryBuildCellVertex(region, kind, x, y, z, inverseSpacing,
-                    out MatterMeshVertex vertex, out bool qefFallback, out bool qefClamped))
-                    continue;
-                if (qefFallback) qefFallbackCount++;
-                if (qefClamped) qefClampedVertexCount++;
                 int cellIndex = CellIndex(x, y, z);
-                vertexByCell[cellIndex] = vertexCount;
-                vertexCells[vertexCount] = region.CellOrigin + new MatterInt3(x, y, z);
-                vertices[vertexCount++] = vertex;
+                MatterInt3 cellAddress = region.CellOrigin + new MatterInt3(x, y, z);
+                if (kind == MatterMesherKind.SurfaceNets)
+                {
+                    LoadCorners(region, x, y, z, out CornerField corners);
+                    MatterSurfaceCellClassification classification = MatterSurfaceNetsTopology.Classify(
+                        corners.Density0, corners.Density1, corners.Density2, corners.Density3,
+                        corners.Density4, corners.Density5, corners.Density6, corners.Density7);
+                    if (classification.ComponentCount == 0) continue;
+                    activeCellCount++;
+                    ambiguousFaceCount += classification.AmbiguousFaceCount;
+                    if (classification.AmbiguousFaceCount > 0) ambiguousCellCount++;
+                    if (classification.ComponentCount > 1) multiComponentCellCount++;
+                    maximumComponentsPerCell = Math.Max(maximumComponentsPerCell, classification.ComponentCount);
+                    additionalSurfaceVertexCount += classification.ComponentCount - 1;
+                    for (int component = 0; component < classification.ComponentCount; component++)
+                    {
+                        ushort componentMask = classification.GetComponentEdgeMask(component);
+                        if (!TryBuildCellVertex(region, kind, x, y, z, inverseSpacing, componentMask,
+                            out MatterMeshVertex vertex, out bool qefFallback, out bool qefClamped))
+                            throw new InvalidOperationException("A classified Surface Nets patch has no Hermite crossings.");
+                        if (qefFallback) qefFallbackCount++;
+                        if (qefClamped) qefClampedVertexCount++;
+                        vertexCells[vertexCount] = cellAddress;
+                        vertexKeys[vertexCount] = new MatterSurfaceVertexKey(cellAddress, componentMask);
+                        vertices[vertexCount] = vertex;
+                        for (int edge = 0; edge < MatterSurfaceNetsTopology.CubeEdgeCount; edge++)
+                            if ((componentMask & (1 << edge)) != 0)
+                            {
+                                vertexByCellEdge[cellIndex * MatterSurfaceNetsTopology.CubeEdgeCount + edge] = vertexCount;
+                                mappedCrossingEdgeCount++;
+                            }
+                        vertexCount++;
+                    }
+                }
+                else
+                {
+                    if (!TryBuildCellVertex(region, kind, x, y, z, inverseSpacing, ushort.MaxValue,
+                        out MatterMeshVertex vertex, out bool qefFallback, out bool qefClamped)) continue;
+                    if (qefFallback) qefFallbackCount++;
+                    if (qefClamped) qefClampedVertexCount++;
+                    activeCellCount++;
+                    vertexByCell[cellIndex] = vertexCount;
+                    vertexCells[vertexCount] = cellAddress;
+                    vertexKeys[vertexCount] = new MatterSurfaceVertexKey(cellAddress, 0);
+                    vertices[vertexCount++] = vertex;
+                }
             }
 
             int[] indices = new int[MaxIndexCount];
             int indexCount = 0;
             int skippedDegenerate = 0;
+            int missingCrossingEdgeMappings = 0;
             for (int z = 0; z < EdgeAnchorSide; z++)
             for (int y = 0; y < EdgeAnchorSide; y++)
             for (int x = 0; x < EdgeAnchorSide; x++)
             {
                 MatterInt3 anchor = ownerOrigin + new MatterInt3(x, y, z);
-                EmitCrossingEdge(region, anchor, 0, vertexByCell, vertices, indices, ref indexCount, ref skippedDegenerate);
-                EmitCrossingEdge(region, anchor, 1, vertexByCell, vertices, indices, ref indexCount, ref skippedDegenerate);
-                EmitCrossingEdge(region, anchor, 2, vertexByCell, vertices, indices, ref indexCount, ref skippedDegenerate);
+                EmitCrossingEdge(region, anchor, 0, vertexByCell, vertexByCellEdge, vertices, indices,
+                    ref indexCount, ref skippedDegenerate, ref missingCrossingEdgeMappings);
+                EmitCrossingEdge(region, anchor, 1, vertexByCell, vertexByCellEdge, vertices, indices,
+                    ref indexCount, ref skippedDegenerate, ref missingCrossingEdgeMappings);
+                EmitCrossingEdge(region, anchor, 2, vertexByCell, vertexByCellEdge, vertices, indices,
+                    ref indexCount, ref skippedDegenerate, ref missingCrossingEdgeMappings);
             }
 
             var exactVertices = new MatterMeshVertex[vertexCount];
             Array.Copy(vertices, exactVertices, vertexCount);
             var exactVertexCells = new MatterInt3[vertexCount];
             Array.Copy(vertexCells, exactVertexCells, vertexCount);
+            var exactVertexKeys = new MatterSurfaceVertexKey[vertexCount];
+            Array.Copy(vertexKeys, exactVertexKeys, vertexCount);
             var exactIndices = new int[indexCount];
             Array.Copy(indices, exactIndices, indexCount);
+            watch.Stop();
             return new MatterMeshData(kind, exactVertices, exactIndices, skippedDegenerate,
-                qefFallbackCount, qefClampedVertexCount, spacing, exactVertexCells);
+                qefFallbackCount, qefClampedVertexCount, spacing, exactVertexCells, exactVertexKeys,
+                activeCellCount, ambiguousCellCount, ambiguousFaceCount, multiComponentCellCount,
+                maximumComponentsPerCell, additionalSurfaceVertexCount, mappedCrossingEdgeCount,
+                missingCrossingEdgeMappings, watch.Elapsed.TotalMilliseconds);
         }
 
         private static bool TryBuildCellVertex(MatterMeshingRegion region, MatterMesherKind kind,
-            int cellX, int cellY, int cellZ, float inverseSpacing, out MatterMeshVertex vertex,
+            int cellX, int cellY, int cellZ, float inverseSpacing, ushort componentEdgeMask, out MatterMeshVertex vertex,
             out bool qefFallback, out bool qefClamped)
         {
             qefFallback = false;
@@ -296,6 +408,7 @@ namespace Wildkin.Matter
 
             for (int edge = 0; edge < 12; edge++)
             {
+                if ((componentEdgeMask & (1 << edge)) == 0) continue;
                 float d0 = corners.GetDensity(EdgeA[edge]);
                 float d1 = corners.GetDensity(EdgeB[edge]);
                 if ((d0 > 0f) == (d1 > 0f)) continue;
@@ -380,8 +493,8 @@ namespace Wildkin.Matter
         }
 
         private static void EmitCrossingEdge(MatterMeshingRegion region, MatterInt3 anchor, int axis,
-            int[] vertexByCell, MatterMeshVertex[] vertices, int[] indices,
-            ref int indexCount, ref int skippedDegenerate)
+            int[] vertexByCell, int[] vertexByCellEdge, MatterMeshVertex[] vertices, int[] indices,
+            ref int indexCount, ref int skippedDegenerate, ref int missingCrossingEdgeMappings)
         {
             MatterInt3 step = axis == 0 ? new MatterInt3(1, 0, 0) :
                 axis == 1 ? new MatterInt3(0, 1, 0) : new MatterInt3(0, 0, 1);
@@ -390,26 +503,27 @@ namespace Wildkin.Matter
             int i0, i1, i2, i3;
             if (axis == 0)
             {
-                i0 = FindVertex(region, vertexByCell, anchor + new MatterInt3(0, -1, -1));
-                i1 = FindVertex(region, vertexByCell, anchor + new MatterInt3(0, 0, -1));
-                i2 = FindVertex(region, vertexByCell, anchor);
-                i3 = FindVertex(region, vertexByCell, anchor + new MatterInt3(0, -1, 0));
+                i0 = FindIncidentVertex(region, vertexByCell, vertexByCellEdge, anchor + new MatterInt3(0, -1, -1), XIncidentEdges[0]);
+                i1 = FindIncidentVertex(region, vertexByCell, vertexByCellEdge, anchor + new MatterInt3(0, 0, -1), XIncidentEdges[1]);
+                i2 = FindIncidentVertex(region, vertexByCell, vertexByCellEdge, anchor, XIncidentEdges[2]);
+                i3 = FindIncidentVertex(region, vertexByCell, vertexByCellEdge, anchor + new MatterInt3(0, -1, 0), XIncidentEdges[3]);
             }
             else if (axis == 1)
             {
-                i0 = FindVertex(region, vertexByCell, anchor + new MatterInt3(-1, 0, -1));
-                i1 = FindVertex(region, vertexByCell, anchor + new MatterInt3(-1, 0, 0));
-                i2 = FindVertex(region, vertexByCell, anchor);
-                i3 = FindVertex(region, vertexByCell, anchor + new MatterInt3(0, 0, -1));
+                i0 = FindIncidentVertex(region, vertexByCell, vertexByCellEdge, anchor + new MatterInt3(-1, 0, -1), YIncidentEdges[0]);
+                i1 = FindIncidentVertex(region, vertexByCell, vertexByCellEdge, anchor + new MatterInt3(-1, 0, 0), YIncidentEdges[1]);
+                i2 = FindIncidentVertex(region, vertexByCell, vertexByCellEdge, anchor, YIncidentEdges[2]);
+                i3 = FindIncidentVertex(region, vertexByCell, vertexByCellEdge, anchor + new MatterInt3(0, 0, -1), YIncidentEdges[3]);
             }
             else
             {
-                i0 = FindVertex(region, vertexByCell, anchor + new MatterInt3(-1, -1, 0));
-                i1 = FindVertex(region, vertexByCell, anchor + new MatterInt3(0, -1, 0));
-                i2 = FindVertex(region, vertexByCell, anchor);
-                i3 = FindVertex(region, vertexByCell, anchor + new MatterInt3(-1, 0, 0));
+                i0 = FindIncidentVertex(region, vertexByCell, vertexByCellEdge, anchor + new MatterInt3(-1, -1, 0), ZIncidentEdges[0]);
+                i1 = FindIncidentVertex(region, vertexByCell, vertexByCellEdge, anchor + new MatterInt3(0, -1, 0), ZIncidentEdges[1]);
+                i2 = FindIncidentVertex(region, vertexByCell, vertexByCellEdge, anchor, ZIncidentEdges[2]);
+                i3 = FindIncidentVertex(region, vertexByCell, vertexByCellEdge, anchor + new MatterInt3(-1, 0, 0), ZIncidentEdges[3]);
             }
-            if (i0 < 0 || i1 < 0 || i2 < 0 || i3 < 0) return;
+            if (i0 < 0 || i1 < 0 || i2 < 0 || i3 < 0)
+            { missingCrossingEdgeMappings++; return; }
 
             bool startSolid = region.GetSample(anchor).Density > 0f;
             if (!startSolid) { int temp = i1; i1 = i3; i3 = temp; }
@@ -434,6 +548,17 @@ namespace Wildkin.Matter
             if (local.X < 0 || local.X >= CellSide || local.Y < 0 || local.Y >= CellSide ||
                 local.Z < 0 || local.Z >= CellSide) return -1;
             return vertexByCell[CellIndex(local.X, local.Y, local.Z)];
+        }
+
+        private static int FindIncidentVertex(MatterMeshingRegion region, int[] vertexByCell,
+            int[] vertexByCellEdge, MatterInt3 globalCell, int localCubeEdge)
+        {
+            if (vertexByCellEdge == null) return FindVertex(region, vertexByCell, globalCell);
+            MatterInt3 local = globalCell - region.CellOrigin;
+            if (local.X < 0 || local.X >= CellSide || local.Y < 0 || local.Y >= CellSide ||
+                local.Z < 0 || local.Z >= CellSide) return -1;
+            int cellIndex = CellIndex(local.X, local.Y, local.Z);
+            return vertexByCellEdge[cellIndex * MatterSurfaceNetsTopology.CubeEdgeCount + localCubeEdge];
         }
 
         private static int CellIndex(int x, int y, int z) => x + CellSide * (y + CellSide * z);

@@ -1,5 +1,18 @@
 # Wildkin Frontier code map
 
+## U4C3 Surface Nets topology qualification — PASS within documented scope
+
+- `native/unity/WildkinUnity/Assets/Wildkin/Matter/Core/MatterSurfaceNetsTopology.cs` — face-based crossing-edge connectivity, bilinear checkerboard saddle decision, deterministic near-tie policy, and cached partitions for non-ambiguous sign masks.
+- `MatterMeshers.cs` in that core directory — component-aware global vertex key, patch-local Hermite vertex data, and crossing-edge-to-component face routing; Dual Contouring remains unchanged.
+- `MatterLocalVolume.cs` — merges halo duplicates by `(global cell, crossing-edge component mask)` and records topology/mapping metrics.
+- `SculptedStone.cs` — indexed manifold validation includes a connected 2D vertex fan and single-shell check, rejecting shells pinched at one vertex.
+- `Assets/Wildkin/AgentTools/Editor/SurfaceNetsTopologyAgentCommands.cs` — U4C3 matrix, diagnostics, matched captures and separate player scene.
+- `Assets/Wildkin/Scenes/Tech/U4C3TopologySafeSurfaceNets.unity` — isolated B/4102/0.0625 m Windows player proof scene; the U4C2 scene remains unchanged.
+- `Assets/Wildkin/Tests/EditMode/MatterSurfaceNetsTopologyTests.cs` and `SourceMeshFidelityTests.cs` — all masks/orientations, value-sensitive saddles, a named unsupported interior-connectivity case, seam identity, deterministic stress, exact B/C failures and full true-SDF matrix.
+- [U4C3 evidence](../native/evidence/unity/u4c3-topology-safe-surface-nets/) — before/after topology diagnostics, matrix, captures, tests, player and build receipts.
+
+The two U4C2 fine-tier cases pass the genus-zero closed-manifold qualification after splitting separate cell patches; all 12 existing true-SDF rows pass without changes to sources or SDF fidelity. The face-only classifier's unsupported interior class is explicitly exposed: two opposite positive corners can remain separate despite a positive trilinear body diagonal. Higher-genus surfaces and arbitrary trilinear topology are outside these claims. Independent review passes within this scope and recommends U4D only after owner review. No later phase began. Paths beginning `Assets/` above are relative to `native/unity/WildkinUnity/`.
+
 ## U4C2 sculpted sources and read-only fidelity — REPRESENTATION_HOLD
 
 - `native/unity/WildkinUnity/Assets/Wildkin/Matter/Core/SculptedStone.cs` — deterministic source recipes, welded cube-to-superquadric shells, macro shaping, topology/hash/volume validation.

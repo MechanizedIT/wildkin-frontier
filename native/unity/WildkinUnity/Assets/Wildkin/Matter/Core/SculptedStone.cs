@@ -66,20 +66,24 @@ namespace Wildkin.Matter
             SignedVolume = volume;
         }
 
-        /// <summary>Checks finite geometry, nondegenerate triangles, opposite edge use, one shell and Euler characteristic.</summary>
+        /// <summary>Checks finite geometry, closed oriented edges, one connected shell, and a single triangle fan at each vertex.</summary>
         public bool Validate(out string issue)
         {
             if (VertexCount < 4 || TriangleCount < 4 || _indices.Length % 3 != 0)
-            { issue = "Empty or malformed source shell."; return false; }
+                { issue = "Empty or malformed source shell."; return false; }
             foreach (MatterFloat3 p in _vertices)
                 if (!Finite(p.X) || !Finite(p.Y) || !Finite(p.Z))
                 { issue = "Nonfinite source vertex."; return false; }
             var uses = new Dictionary<ulong, int>();
             var directions = new Dictionary<ulong, int>();
+            var edgeTriangles = new Dictionary<ulong, List<int>>();
             var adjacency = new List<int>[VertexCount];
-            for (int i = 0; i < adjacency.Length; i++) adjacency[i] = new List<int>();
+            var incidentTriangles = new List<int>[VertexCount];
+            for (int i = 0; i < adjacency.Length; i++)
+            { adjacency[i] = new List<int>(); incidentTriangles[i] = new List<int>(); }
             for (int i = 0; i < _indices.Length; i += 3)
             {
+                int triangle = i / 3;
                 int a = _indices[i], b = _indices[i + 1], c = _indices[i + 2];
                 if (a < 0 || b < 0 || c < 0 || a >= VertexCount || b >= VertexCount || c >= VertexCount ||
                     a == b || b == c || c == a)
@@ -87,13 +91,47 @@ namespace Wildkin.Matter
                 MatterFloat3 normal = Cross(Subtract(_vertices[b], _vertices[a]), Subtract(_vertices[c], _vertices[a]));
                 if (Dot(normal, normal) < 1e-12d)
                 { issue = "Zero area source triangle " + (i / 3) + " (cross squared=" + Dot(normal, normal).ToString("R", System.Globalization.CultureInfo.InvariantCulture) + ")."; return false; }
-                AddEdge(a, b, uses, directions, adjacency);
-                AddEdge(b, c, uses, directions, adjacency);
-                AddEdge(c, a, uses, directions, adjacency);
+                incidentTriangles[a].Add(triangle); incidentTriangles[b].Add(triangle); incidentTriangles[c].Add(triangle);
+                AddEdge(a, b, triangle, uses, directions, edgeTriangles, adjacency);
+                AddEdge(b, c, triangle, uses, directions, edgeTriangles, adjacency);
+                AddEdge(c, a, triangle, uses, directions, edgeTriangles, adjacency);
             }
             foreach (ulong edge in uses.Keys)
-                if (uses[edge] != 2 || directions[edge] != 0)
-                { issue = "Open, nonmanifold, or inconsistently wound edge."; return false; }
+            {
+                if (uses[edge] < 2) { issue = "Open boundary edge has one incident triangle."; return false; }
+                if (uses[edge] > 2) { issue = "Nonmanifold edge has " + uses[edge] + " incident triangles."; return false; }
+                if (directions[edge] != 0) { issue = "Inconsistent winding across a shared edge."; return false; }
+            }
+
+            // Edge counts alone do not reject two surface sheets pinched together at one vertex.
+            // A closed 2-manifold has one connected cycle of incident triangles at every vertex.
+            int[] fanMarks = new int[TriangleCount];
+            int[] fanStack = new int[TriangleCount];
+            for (int vertex = 0; vertex < VertexCount; vertex++)
+            {
+                List<int> faces = incidentTriangles[vertex];
+                if (faces.Count < 3) { issue = "Vertex has no closed one-ring triangle fan."; return false; }
+                int stamp = vertex + 1, pendingCount = 1, visitedFans = 0;
+                fanStack[0] = faces[0]; fanMarks[faces[0]] = stamp;
+                while (pendingCount > 0)
+                {
+                    int triangle = fanStack[--pendingCount]; visitedFans++;
+                    int i = triangle * 3;
+                    int a = _indices[i], b = _indices[i + 1], c = _indices[i + 2];
+                    int neighborA, neighborB;
+                    if (a == vertex) { neighborA = b; neighborB = c; }
+                    else if (b == vertex) { neighborA = c; neighborB = a; }
+                    else { neighborA = a; neighborB = b; }
+                    int faceA = OtherTriangle(edgeTriangles[EdgeKey(vertex, neighborA)], triangle);
+                    int faceB = OtherTriangle(edgeTriangles[EdgeKey(vertex, neighborB)], triangle);
+                    if (faceA == faceB)
+                    { issue = "Vertex one-ring repeats one triangle instead of forming a surface fan."; return false; }
+                    if (fanMarks[faceA] != stamp) { fanMarks[faceA] = stamp; fanStack[pendingCount++] = faceA; }
+                    if (fanMarks[faceB] != stamp) { fanMarks[faceB] = stamp; fanStack[pendingCount++] = faceB; }
+                }
+                if (visitedFans != faces.Count)
+                { issue = "Vertex one-ring contains disconnected triangle fans."; return false; }
+            }
             var visited = new HashSet<int>();
             var pending = new Stack<int>(); pending.Push(0);
             while (pending.Count != 0)
@@ -109,14 +147,22 @@ namespace Wildkin.Matter
             issue = null; return true;
         }
 
-        private static void AddEdge(int a, int b, Dictionary<ulong, int> uses,
-            Dictionary<ulong, int> directions, List<int>[] adjacency)
+        private static void AddEdge(int a, int b, int triangle, Dictionary<ulong, int> uses,
+            Dictionary<ulong, int> directions, Dictionary<ulong, List<int>> edgeTriangles,
+            List<int>[] adjacency)
         {
-            ulong key = ((ulong)(uint)Math.Min(a, b) << 32) | (uint)Math.Max(a, b);
+            ulong key = EdgeKey(a, b);
             uses.TryGetValue(key, out int count); uses[key] = count + 1;
             directions.TryGetValue(key, out int direction); directions[key] = direction + (a < b ? 1 : -1);
+            if (!edgeTriangles.TryGetValue(key, out List<int> triangles))
+            { triangles = new List<int>(2); edgeTriangles.Add(key, triangles); }
+            triangles.Add(triangle);
             adjacency[a].Add(b); adjacency[b].Add(a);
         }
+        private static int OtherTriangle(List<int> incident, int triangle)
+            => incident[0] == triangle ? incident[1] : incident[0];
+        private static ulong EdgeKey(int a, int b)
+            => ((ulong)(uint)Math.Min(a, b) << 32) | (uint)Math.Max(a, b);
         private static bool Finite(float value) => !float.IsNaN(value) && !float.IsInfinity(value);
         private static void Hash(ref ulong hash, int value)
         {

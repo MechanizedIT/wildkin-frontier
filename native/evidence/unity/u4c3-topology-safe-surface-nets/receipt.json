@@ -1,0 +1,100 @@
+{
+  "phase": "Unity U4C3 — topology-safe / manifold Surface Nets",
+  "result": "PASS_WITH_DOCUMENTED_SCOPE_LIMITS",
+  "date": "2026-09-28",
+  "engine": {
+    "unity": "6000.3.25f1",
+    "renderPipeline": "HDRP 17.3.0"
+  },
+  "question": "Can scalar-topology patch identity repair the two deterministic fine-tier Surface Nets nonmanifold edges while preserving the U3-selected renderer, exact U4C2 fields, visual character, and deterministic brick stitching?",
+  "rootCause": "One vertex per active cell collapsed disconnected boundary surface patches; four distinct primal crossing-edge quads reused the same dual edge, producing exactly one four-use edge in each known case.",
+  "fix": {
+    "faceConnectivity": "Crossing-edge graph over the six cube faces; two-crossing faces connect directly; checkerboard faces use the bilinear saddle/asymptotic decider with deterministic positive-solid near-tie policy.",
+    "vertexIdentity": "Global cell address plus a 12-bit crossing-edge component mask.",
+    "faceEmission": "Each incident cell selects the vertex component containing the emitted primal crossing edge.",
+    "vertexPlacement": "Hermite crossings, normal and material weights are accumulated per patch.",
+    "dualContouringChanged": false,
+    "sourceSamplerChanged": false
+  },
+  "knownFailures": [
+    {
+      "label": "B-0.0625",
+      "seed": 4102,
+      "spacingMeters": 0.0625,
+      "sourceHash": "EA991B6C6C2D132D",
+      "before": { "meshHash": "703F91CF39020A4F", "vertices": 5943, "triangles": 11884, "fourUseEdges": 1, "skippedDegenerateTriangles": 0, "closedConnectedManifold": false },
+      "after": { "meshHash": "5744C5B42A230E0F", "vertices": 5944, "triangles": 11884, "fourUseEdges": 0, "skippedDegenerateTriangles": 0, "missingCrossingEdgeMappings": 0, "closedConnectedManifold": true },
+      "splitCell": { "globalCell": [-5, 32, 10], "signMask": "0x7B", "crossingEdgeMask": "0xCC6", "componentMasks": ["0x406", "0x8C0"] }
+    },
+    {
+      "label": "C-0.125",
+      "seed": 4103,
+      "spacingMeters": 0.125,
+      "sourceHash": "EF8ACF6528F0C296",
+      "before": { "meshHash": "D8596BFDA2B48BCE", "vertices": 1393, "triangles": 2784, "fourUseEdges": 1, "skippedDegenerateTriangles": 0, "closedConnectedManifold": false },
+      "after": { "meshHash": "FA4FA04EE35A8BC9", "vertices": 1394, "triangles": 2784, "fourUseEdges": 0, "skippedDegenerateTriangles": 0, "missingCrossingEdgeMappings": 0, "closedConnectedManifold": true },
+      "splitCell": { "globalCell": [1, 8, -6], "signMask": "0xF5", "crossingEdgeMask": "0xA0F", "componentMasks": ["0x203", "0x80C"] }
+    }
+  ],
+  "matrix": {
+    "rows": 12,
+    "manifoldRows": 12,
+    "sourceHashesUnchanged": true,
+    "sdfMetricsUnchanged": true,
+    "clippedB125ControlUnchanged": true,
+    "evidence": "matrix/u4c3-matrix.json"
+  },
+  "knownUnsupportedInteriorClass": {
+    "cornerDensities": [1, -0.1, -0.1, -0.1, -0.1, -0.1, 1, -0.1],
+    "checkerboardFaces": 0,
+    "faceGraphComponents": 2,
+    "trilinearBodyDiagonalPositive": true,
+    "regression": "MatterSurfaceNetsTopologyTests.KnownUnsupportedInteriorAmbiguity_OppositePositiveCornersStaySeparateWithoutCheckerboardFaces"
+  },
+  "qualificationLimits": {
+    "arbitraryTrilinearTopologyClaim": false,
+    "higherGenusClosedSurfaceQualification": false,
+    "validatorEulerCharacteristic": 2
+  },
+  "tests": {
+    "topologyFocused": { "passed": 5, "failed": 0 },
+    "matterMesherTests": { "passed": 23, "failed": 0 },
+    "sourceMeshFidelityTests": { "passed": 37, "failed": 0 },
+    "fullEditMode": { "passed": 143, "failed": 0 },
+    "playMode": { "passed": 2, "failed": 0 },
+    "evidenceDirectory": "tests/"
+  },
+  "windowsPlayer": {
+    "target": "Windows x64 Development",
+    "buildStatus": "succeeded",
+    "buildDurationSeconds": 56.812,
+    "buildBytes": 229700943,
+    "errors": 0,
+    "warnings": 2,
+    "executable": "native/unity/WildkinUnity/Builds/U4C3/Wildkin-U4C3.exe",
+    "playerExitCode": 0,
+    "case": "B / 4102 / 0.0625 m",
+    "runtimeReceipt": "tests/player-B-0.0625.json",
+    "runtimeCapture": "tests/player-B-0.0625.png",
+    "missingShaderOrPinkPresentation": false,
+    "coldSamplingMilliseconds": 4955.4672,
+    "coldMeshingMilliseconds": 1069.2344,
+    "leakFreeClaim": false
+  },
+  "performance": {
+    "editorMatrixObservation": "One warm run, not a median or production budget. A/0.25 m: 104.8258 ms vs 147.1634 ms baseline; B/0.0625 m: 915.2180 ms vs 961.8102 ms; C/0.125 m: 239.3140 ms vs 333.7708 ms.",
+    "allocations": "Not measured."
+  },
+  "independentReview": {
+    "status": "PASS_WITHIN_DOCUMENTED_SCOPE",
+    "findings": [
+      "Named opposite-corner regression exposes the unsupported interior-connectivity class without requiring MC33 for B/C.",
+      "Recorded B/C repairs, 12 matrix rows, seam, stress tests, visual comparisons and final Player evidence are credible.",
+      "No remaining technical blocker; arbitrary trilinear topology and higher-genus surfaces remain outside this qualification."
+    ],
+    "record": "README.md"
+  },
+  "nextRecommendation": "UNITY U4D — local high-resolution matter domain; 0.125 m candidate, 0.0625 m optional hero tier.",
+  "stopForOwnerReview": true,
+  "futurePhasesStarted": []
+}
