@@ -115,7 +115,23 @@ The Unity qualification must compare **Surface Nets vs Dual Contouring** and **u
 **PASS gate:** Unity has enough evidence to be accepted provisionally as the production engine **or** a concrete blocker is documented that justifies an Unreal challenger. The result must include agent autonomy evidence, visual/mesher/resolution comparisons, runtime mesh/collision behavior, procedural-stamp results, build/test automation, performance measurements and a recommended matter representation. See [Unity-first transition plan](UNITY_FIRST_TRANSITION_PLAN.md).
 
 
-**Unity qualification after U4/U4B/U4C HOLD:** do not treat the failed procedural rock galleries as an engine-level visual failure. U4C's direct source meshes remain below Gate A after the one allowed modeler repair, so no SDF/local-volume, occupancy control, resolution comparison, or Surface Nets fidelity measurement was run. Stop for owner review. If U4C is reopened, first resolve the source-modeling direction; only a passing direct source gate can admit the true-SDF fidelity test. `U4D`, U5, Unreal, adaptive terrain stitching, and production migration remain closed. See `SOURCE_GEOMETRY_MATTER_FIDELITY_PLAN.md`, `LOCAL_MATTER_DOMAINS.md`, and the [U4C HOLD receipt](../native/evidence/unity/u4c-source-matter-fidelity/receipt.json).
+**Unity qualification after U4D:** later owner-authorized continuations superseded the earlier U4/U4B/U4C visual HOLD as the current state. U4C2 produced accepted sculpted one-shell source stones and showed true SDF materially improves source→matter fidelity; U4C3 repaired the two recorded fine-tier Surface Nets nonmanifold defects within the documented topology scope; U4D then qualified independent 0.25 m and 0.125 m editable MatterDomains beside unchanged 0.50 m world terrain without adaptive stitching. The current next planning target is U4E multi-domain procedural formations, followed by U5 native destruction integration. Persistence direction is procedural base + accepted mutation journal + periodic checkpoint/compaction, with regional dirty-set rebuilding and revision-gated publication. Unreal remains deferred unless Unity exposes a specific blocker. See `UNITY_NATIVE_HANDOFF_AFTER_U4D.md`, `UNITY_U4E_FORMATION_PLAN.md`, `LOCAL_MATTER_DOMAINS.md`, and `NATIVE_WORLD_PERSISTENCE_AND_UPDATES.md`.
+
+### Phase 0.5F.1 — U4E procedural multi-domain formation qualification
+
+**Question:** Can multiple individually high-quality 0.25/0.125 m MatterDomains compose into varied authored-looking formations without fusing them into one field or duplicating physical matter?
+
+Use deterministic formation recipes, stable child IDs, measured contact fitting, a geometry-derived contact graph and a 20-seed gallery. One child edit should remain local. Pristine formation persistence should be recipe/seed-based rather than dense-snapshotting every untouched child.
+
+**PASS gate:** coherent formation visuals, meaningful seed diversity, deterministic identities/contact, no substantial double-owned solid overlap, child-local edits/remesh, and plausible performance. See [U4E formation plan](UNITY_U4E_FORMATION_PLAN.md).
+
+### Phase 0.5F.2 — U5 native destruction integration
+
+**Question:** Can the native Unity architecture reproduce the browser-proven destruction chain while preserving local MatterDomain resolution?
+
+Exercise coarse terrain + detailed local matter through material-specific edit, bounded support/contact invalidation, atomic static→dynamic ownership transfer, approximate physics, moved-pose edit, exact accounting and reload. Begin integrating the journal/checkpoint persistence direction without requiring the full world-scale streaming system.
+
+**PASS gate:** one native vertical slice proves the full ownership/physics/edit/reload chain with measured bounded work and no loss of the established matter/render/physics separation.
 
 ### Phase 0.5G — Native production matter kernel
 
