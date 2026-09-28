@@ -1,6 +1,6 @@
 # Local matter domains — multi-resolution object hypothesis
 
-**Status:** provisional architecture direction to be tested after U4C. Not yet production authority.
+**Status, September 28, 2026:** independent read-only review assigns `LOCAL_DOMAIN_0_125_PASS` within the documented U4D qualification scope. A bounded Unity prototype demonstrates separate editable 0.25 m and 0.125 m dense local domains beside unchanged 0.50 m world terrain, without adaptive terrain stitching. Focused EditMode passes 11/11, full EditMode 153/153, PlayMode 2/2, and the Windows x64 Development Player exits 0. This is qualification evidence, not production authority or a world-scale memory result. See the [U4D report and receipt](../native/evidence/unity/u4d-local-matter-domain/README.md) and [independent review](../native/evidence/unity/u4d-local-matter-domain/review.md).
 
 ## Problem
 
@@ -60,7 +60,7 @@ Potential benefits:
 
 ## Domain responsibilities
 
-A future `MatterDomain` may own:
+The U4D prototype `MatterDomain` owns:
 
 - stable ID;
 - local integer sample coordinates;
@@ -68,11 +68,12 @@ A future `MatterDomain` may own:
 - local origin/transform;
 - density;
 - resolved material;
-- bounded brick/sparse storage;
+- bounded dense density/material arrays;
 - edit revision;
-- surface mesh products;
-- collision product/proxy;
+- local Surface Nets products partitioned into logical regions;
 - persistence record.
+
+U4D keeps integer local sample addresses authoritative and stores spacing and a position/rotation transform per domain. The source mesh is used only by a generic read-only matter-grid bake boundary; the baked domain remains editable and source-independent. Collision products, sparse/world-scale residency, and production ownership are not part of this prototype.
 
 A world-terrain domain may use global coordinates/identity while object domains use local coordinates. They should still expose compatible matter queries.
 
@@ -188,7 +189,9 @@ Determine whether good source geometry survives matter conversion and at what sp
 
 ### U4D
 
-If U4C succeeds, implement one detailed rock local domain on coarse terrain.
+U4D has passed independent read-only review within its documented scope. The scene contains 0.50 m world terrain plus independent 0.25 m and 0.125 m domains. Initial mesh clearance is approximately 2 cm; direct positive-sample checks find zero solid overlap. The 0.125 m domain's 291-sample local carve changes 2 directly affected regions, rebuilds 4 including halo neighbors, and reuses 8 of 12. A transform-only move to 45° yaw preserves matter and mesh hashes. A moved-pose world-space edit changes 174 samples at the expected local address; the former pose target is a no-op. The saved density/material snapshot reloads without source geometry or saved mesh data and deterministically rebuilds the same mesh. Other domain and world hashes remain unchanged. The conservative AABB diagnostic contains occupied world sample centers, which is reported separately from zero positive-solid sample overlap. No cross-resolution stitching is attempted. See the [U4D report](../native/evidence/unity/u4d-local-matter-domain/README.md) and [independent review](../native/evidence/unity/u4d-local-matter-domain/review.md).
+
+This pass qualifies only the bounded domain abstraction. It does not select production storage, solve broad cross-domain material ownership/contact, or prove world-scale residency, physics, support, or collapse.
 
 Prove:
 

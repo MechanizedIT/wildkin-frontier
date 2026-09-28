@@ -1,0 +1,13 @@
+{
+    "unityVersion": "6000.3.25f1",
+    "result": "Succeeded",
+    "output": "C:\\Users\\cwood\\AppData\\Local\\Temp\\U4DLocalMatterDomain\\Wildkin-U4D.exe",
+    "scene": "Assets/Wildkin/Scenes/Tech/U4DLocalMatterDomain.unity",
+    "playerExitCode": "0",
+    "bytes": 230322441,
+    "errors": 0,
+    "warnings": 4,
+    "seconds": 76.3795213,
+    "capture": "C:\\Users\\cwood\\Documents\\mobile-rpg\\native\\evidence\\unity\\u4d-local-matter-domain\\player\\capture.png",
+    "editorSequenceFilesPresent": true
+}

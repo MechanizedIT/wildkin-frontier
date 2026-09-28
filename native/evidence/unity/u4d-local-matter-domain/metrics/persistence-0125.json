@@ -1,0 +1,18 @@
+{
+    "saveMilliseconds": 13.2216,
+    "loadMilliseconds": 23.0622,
+    "jsonBytes": 84900,
+    "savedFile": "C:\\Users\\cwood\\Documents\\mobile-rpg\\native\\evidence\\unity\\u4d-local-matter-domain\\metrics\\persistence-0125.save.json",
+    "runtimeDomainRemovedBeforeReload": true,
+    "sourceMeshAvailableDuringReload": false,
+    "contentHashMatches": true,
+    "transformMatches": true,
+    "remeshedGeometryMatches": true,
+    "editedCavityRemainsAir": true,
+    "loadedDomainPublished": true,
+    "sourceFreeRemeshCpuMilliseconds": 408.7004,
+    "sourceFreeCombineMilliseconds": 4.0862,
+    "sourceFreeUnityPublicationMilliseconds": 23.3825,
+    "loadedContentHash": "0xB3139652B91D26F3",
+    "loadedMeshHash": "0x086266BEB069211C"
+}

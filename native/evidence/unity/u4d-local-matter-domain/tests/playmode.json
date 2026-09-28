@@ -1,0 +1,12 @@
+{
+  "mode": "PlayMode",
+  "durationSeconds": 2.09,
+  "total": 2,
+  "passed": 2,
+  "failed": 0,
+  "skipped": 0,
+  "tests": [
+    "AgentSmokeMarkerPlayModeTests.Marker_ChangesRotationDuringPlay",
+    "SculptedStonePlayModeTests.DirectSourceAndMatterPreview_ReplaceAndDisposeTheirTransientGeometry"
+  ]
+}

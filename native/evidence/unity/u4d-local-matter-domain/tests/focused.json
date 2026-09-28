@@ -1,0 +1,21 @@
+{
+  "filter": "MatterDomain",
+  "mode": "EditMode",
+  "total": 11,
+  "passed": 11,
+  "failed": 0,
+  "skipped": 0,
+  "tests": [
+    "MatterDomainSaveTests.EditedMovedDomain_ReloadsFromMatterOnlyAndRemeshesDeterministically",
+    "MatterDomainSaveTests.SaveCodec_RejectsWrongSchemaCorruptPayloadAndInvalidMaterial",
+    "MatterDomainTests.ContentHash_TracksMatterButIgnoresDomainPose",
+    "MatterDomainTests.DomainCoordinates_RoundTripNegativeSamplesThroughTranslationAndRotation",
+    "MatterDomainTests.Domains_KeepIndependentIdsAndSpacingAndCopyTheirSourceSamples",
+    "MatterDomainTests.HighResolutionSculptedRock_IsSourceIndependentAndIncrementallyRemeshesAcrossRegions",
+    "MatterDomainTests.SphereSubtraction_PreservesSignedValuesAndComposesWithoutChangingWorld",
+    "MatterDomainTests.StagedMesh_CannotPublishAfterNewContentRevision",
+    "MatterDomainTests.WorldSpaceEdit_UsesMovedPoseAndOldPoseTargetIsNoOp",
+    "MatterReferenceContractTests.MatterDomainAssembly_HasNoUnityEngineDependency",
+    "MatterDomainTests.MeshCacheAndStagedPublication_RejectReplacementWithSameIdAndRevision"
+  ]
+}

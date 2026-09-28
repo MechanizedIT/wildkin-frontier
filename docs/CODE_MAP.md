@@ -1,5 +1,18 @@
 # Wildkin Frontier code map
 
+## U4D local high-resolution MatterDomain — `LOCAL_DOMAIN_0_125_PASS` within documented scope
+
+- `Assets/Wildkin/Matter/Core/MatterDomain.cs` — bounded editable authority with stable ID, local integer sample bounds, independent spacing, dense density/material storage, transform, content revision, and local/world SDF carve APIs.
+- `Assets/Wildkin/Matter/Core/MatterDomainMeshing.cs` — one-time generic `IMatterReadOnlyGrid` bake boundary, local regional Surface Nets builds, bounded dirty-region updates, halo reuse, and revision-checked publication. Source geometry is discarded after baking.
+- `Assets/Wildkin/Matter/Unity/MatterDomainSaveCodec.cs` — JSON/Base64 density/material snapshot; saves no source mesh or Unity mesh product.
+- `Assets/Wildkin/Matter/Unity/MatterDomainQualificationView.cs` — thin U4D scene/sequence composition, separate 0.50 m world snapshot and .25/.125 m domains, placement/contact observations, debug overlays, edits, move, and reload proof.
+- `Assets/Wildkin/AgentTools/Editor/U4DLocalMatterDomainCommands.cs` — focused/full test capture, Editor sequence, evidence, Windows x64 Development Player, and standalone capture commands.
+- `Assets/Wildkin/Scenes/Tech/U4DLocalMatterDomain.unity` — isolated visual qualification scene; no terrain stitching or domain/world shared sample authority.
+- `Assets/Wildkin/Tests/EditMode/MatterDomainTests.cs` / `MatterDomainSaveTests.cs` — domain spacing, coordinate/transform, edits, isolation, regional remesh, stale publication, and source-free deterministic persistence checks.
+- [U4D evidence](../native/evidence/unity/u4d-local-matter-domain/) — Editor/Player metrics, captures, test summaries, build provenance, report, and receipt.
+
+Independent read-only review assigns `LOCAL_DOMAIN_0_125_PASS` within this bounded qualification. Preserve U4C3's exact limitation: the recorded genus-zero source family, all 256 sign masks/orientations, face-saddle decider and deterministic stress are qualified; arbitrary trilinear interior connectivity and higher-genus surfaces are not. The optional 0.0625 m tier was not tested. No adaptive stitching, collision/physics, support/collapse, MatterActor transfer, U4E/U5, streaming, Unreal, or production migration is included. See the [review record](../native/evidence/unity/u4d-local-matter-domain/review.md). Paths beginning `Assets/` are relative to `native/unity/WildkinUnity/`.
+
 ## U4C3 Surface Nets topology qualification — PASS within documented scope
 
 - `native/unity/WildkinUnity/Assets/Wildkin/Matter/Core/MatterSurfaceNetsTopology.cs` — face-based crossing-edge connectivity, bilinear checkerboard saddle decision, deterministic near-tie policy, and cached partitions for non-ambiguous sign masks.
@@ -11,7 +24,7 @@
 - `Assets/Wildkin/Tests/EditMode/MatterSurfaceNetsTopologyTests.cs` and `SourceMeshFidelityTests.cs` — all masks/orientations, value-sensitive saddles, a named unsupported interior-connectivity case, seam identity, deterministic stress, exact B/C failures and full true-SDF matrix.
 - [U4C3 evidence](../native/evidence/unity/u4c3-topology-safe-surface-nets/) — before/after topology diagnostics, matrix, captures, tests, player and build receipts.
 
-The two U4C2 fine-tier cases pass the genus-zero closed-manifold qualification after splitting separate cell patches; all 12 existing true-SDF rows pass without changes to sources or SDF fidelity. The face-only classifier's unsupported interior class is explicitly exposed: two opposite positive corners can remain separate despite a positive trilinear body diagonal. Higher-genus surfaces and arbitrary trilinear topology are outside these claims. Independent review passes within this scope and recommends U4D only after owner review. No later phase began. Paths beginning `Assets/` above are relative to `native/unity/WildkinUnity/`.
+The two U4C2 fine-tier cases pass the genus-zero closed-manifold qualification after splitting separate cell patches; all 12 existing true-SDF rows pass without changes to sources or SDF fidelity. The face-only classifier's unsupported interior class is explicitly exposed: two opposite positive corners can remain separate despite a positive trilinear body diagonal. Higher-genus surfaces and arbitrary trilinear topology are outside these claims. Independent review passes within this scope. At that checkpoint U4D had not started; the owner later authorized the bounded U4D work documented above. Paths beginning `Assets/` above are relative to `native/unity/WildkinUnity/`.
 
 ## U4C2 sculpted sources and read-only fidelity — REPRESENTATION_HOLD
 
@@ -38,7 +51,7 @@ Source Gate A passes. Common visual/topology baseline is 0.25 m; C/0.125 and B/0
 - `native/unity/WildkinUnity/Assets/Wildkin/Tests/EditMode/ProceduralSourceRockTests.cs` — fixed-seed geometry, manifold, winding and deterministic-hash coverage.
 - `native/evidence/unity/u4c-source-matter-fidelity/` — direct source captures, component plane recipes, review record, and SOURCE_MODELER_HOLD receipt.
 
-Independent review found improved faceted hierarchy over U4B, but the shapes remain slab/block-like and one cap reads as floating. The single allowed source-modeler remediation is exhausted. No mesh-to-SDF, occupancy control, local volume, resolution comparison or mesher change exists in this checkpoint. Do not begin U4D, U5, Unreal, adaptive terrain stitching or production migration before owner review.
+Independent review found improved faceted hierarchy over U4B, but the shapes remain slab/block-like and one cap reads as floating. The single allowed source-modeler remediation is exhausted. No mesh-to-SDF, occupancy control, local volume, resolution comparison or mesher change exists in this checkpoint. The U4D stop in this historical U4C record was later superseded by the accepted U4C3 result and explicit U4D owner authorization; U5, Unreal, adaptive terrain stitching and production migration remain outside the current scope.
 
 ## Native PC transition — Unity-first qualification
 
