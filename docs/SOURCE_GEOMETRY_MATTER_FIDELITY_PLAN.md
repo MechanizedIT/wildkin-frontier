@@ -117,20 +117,26 @@ The initial proof does **not** need adaptive terrain stitching. A detailed rock 
 
 ### U4E — procedural formation from high-quality matter stones
 
-Only after individual-rock fidelity and local-domain viability are known.
+**Planned after U4D `LOCAL_DOMAIN_0_125_PASS`; not yet implemented.**
 
-Compose several high-quality local matter stones into a procedural formation. The formation recipe controls:
+Compose several high-quality local matter stones into a procedural formation. Keep each child as an independent MatterDomain by default. The formation recipe controls:
 
+- deterministic formation version/seed;
+- stable child-domain IDs;
 - count;
-- scale hierarchy;
+- size hierarchy;
+- source seed/archetype;
+- generation-time proportions;
 - orientation;
-- support/contact;
+- measured contact fitting;
 - archetype;
 - gaps/recesses.
 
-Do not melt the entire formation into one SDF unless an archetype explicitly requires it.
+Do not melt the entire formation into one SDF unless an archetype explicitly requires it. Avoid substantial positive-solid overlap between independent authorities; derive a diagnostic contact graph from geometry for later U5 support work.
 
-This is where 20-seed family diversity becomes useful again.
+Generate at least 20 formation seeds and judge silhouette/mass-hierarchy diversity, not just randomized transforms. One child should accept a local edit/remesh while world and siblings remain unchanged.
+
+Pristine formations should be reproducible from recipe/seed rather than dense-snapshotting every untouched child. See [U4E formation plan](UNITY_U4E_FORMATION_PLAN.md) and [persistence/update architecture](NATIVE_WORLD_PERSISTENCE_AND_UPDATES.md).
 
 ### U5 — minimal destruction vertical slice
 
