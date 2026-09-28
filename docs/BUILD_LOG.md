@@ -1,5 +1,16 @@
 # Build Log
 
+## 2026-09-28 — post-U4D architecture review / persistence + handoff consolidation — ChatGPT GPT-5.6 Sol
+
+- **Reviewed checkpoint:** Unity U4D commit `f2fff9f445925712e461542efe1e176259310718`, including MatterDomain core/meshing/save code, U4D tests, metrics, captures, receipt and independent review. Accepted `LOCAL_DOMAIN_0_125_PASS` within the documented scope.
+- **Representation direction:** 0.50 m coarse world matter + independent 0.25 m ordinary-detail and 0.125 m high-detail MatterDomains; 0.0625 m remains optional. Surface Nets remains selected with U4C3 patch identity and its explicit trilinear-interior/higher-genus limitation. Detailed local domains retain true-SDF surface information.
+- **Persistence direction:** added `NATIVE_WORLD_PERSISTENCE_AND_UPDATES.md`. Preferred model is procedural base + accepted matter-operation journal + periodic compact checkpoint. Untouched deterministic content need not store dense voxels; lightly edited content can store operations; heavily edited/detached content checkpoints current matter plus recent operations/current pose. U4D JSON/Base64 dense snapshot remains qualification-only.
+- **Update direction:** changed samples derive direct write regions and dependent Surface Nets regions; collider/support/persistence sets remain separate. Prepare expensive products and publish only against matching owner/content revision. Storage brick, meshing region and stream chunk are intentionally separate concepts. U4D evidence (291 changed samples → 2 direct / 4 rebuilt / 8 reused of 12) is the current local-domain exemplar.
+- **Next phase:** added `UNITY_U4E_FORMATION_PLAN.md`. U4E should compose several individually high-quality MatterDomains using deterministic recipes, stable child IDs, contact fitting and a geometry-derived contact graph. Do not fuse every formation into one SDF. Generate at least 20 seeds and prove one-child edit/remesh isolation. U5 follows only after U4E review.
+- **Cross-session handoff:** added `UNITY_NATIVE_HANDOFF_AFTER_U4D.md` and updated CURRENT_SLICE, SESSION_START, UNITY_FIRST_TRANSITION_PLAN, LOCAL_MATTER_DOMAINS, NATIVE_DESTRUCTION_REPRESENTATION, DESTRUCTIBLE_MATTER_ROADMAP and CODE_MAP so a fresh planning chat can recover the current architecture without replaying the full conversation.
+- **Workflow retained:** review committed evidence → design next uncertainty → detailed bounded Luna-Max spec → fresh implementation session → tests/captures/receipt/commit → independent GitHub review → PASS/remediation/HOLD → next phase.
+- **Runtime changes:** none. This was documentation/architecture consolidation after reviewing the already-pushed U4D implementation.
+
 ## 2026-09-27 16:03 America/Chicago — Unity U4C direct source-geometry gate — Codex GPT-6
 
 - **Goal:** Pull current `main`, execute the authoritative U4C source-geometry → matter-fidelity brief, preserve unrelated work, independently review direct procedural sources, and stop for owner review without beginning later phases.
