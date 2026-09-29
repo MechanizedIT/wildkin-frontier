@@ -7,14 +7,14 @@ For asset-first loose/deposited environment objects, use **two visible represent
 ### Pristine / dormant
 - Render the reviewed high-quality source mesh or LODs.
 - Use cheap placement/interaction/settling collision proxies.
-- Keep a pre-baked local matter stamp available by stable asset ID, but do not require every untouched instance to own a dense mutable \`MatterDomain\`.
+- Keep a pre-baked local matter stamp available by stable asset ID, but do not require every untouched instance to own a dense mutable `MatterDomain`.
 - The source mesh is a render representation, not mutable matter authority.
 
 ### Activation
-On the first destructive interaction, instantiate/decompress the selected base stamp into a local \`MatterDomain\`, apply the accepted mutation, build the changed Surface Nets product, then hand visible rendering to the destructible representation. Dust/chips/impact feedback may hide bounded preparation latency, but the phase must measure the cost honestly.
+On the first destructive interaction, instantiate/decompress the selected base stamp into a local `MatterDomain`, apply the accepted mutation, build the changed Surface Nets product, then hand visible rendering to the destructible representation. Dust/chips/impact feedback may hide bounded preparation latency, but the phase must measure the cost honestly.
 
 ### Active matter
-After activation, mutable \`MatterDomain\` state is authoritative for shape/material destruction. The pristine source mesh must not continue to shadow changed geometry. Existing regional dirty remeshing, revision-gated publication and mutation/persistence rules continue to apply.
+After activation, mutable `MatterDomain` state is authoritative for shape/material destruction. The pristine source mesh must not continue to shadow changed geometry. Existing regional dirty remeshing, revision-gated publication and mutation/persistence rules continue to apply.
 
 ### Render mesh versus stamp-source mesh
 A generative raw mesh is not automatically suitable for SDF sign tests. It is valid to retain:
