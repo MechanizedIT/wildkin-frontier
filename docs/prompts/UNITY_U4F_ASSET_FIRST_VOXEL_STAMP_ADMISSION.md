@@ -1,3 +1,10 @@
+
+> **OWNER SUPERSESSION — DO NOT EXECUTE THIS PROMPT FROM THE CURRENT CHECKPOINT.**
+>
+> The first U4F run stopped at \`U4F_SOURCE_GENERATOR_HOLD\` before TRELLIS. The owner then rejected the generated \`u4f-rock-001\` reference set as insufficiently stylized/game-like. Candidate 04 is not an approved source target even though an independent reviewer previously selected it. Run \`docs/prompts/UNITY_U4FR_STYLIZED_REFERENCE_GATE.md\` first. Resume this full U4F pipeline only after Chris explicitly selects a new reference.
+>
+> When this full prompt is resumed later, continue in the **current root task**. Do not create or hand off to another durable Codex/ChatGPT task merely because this document says to use Luna/max reasoning.
+
 # WILDKIN FRONTIER
 # UNITY U4F — ASSET-FIRST VOXEL STAMP ADMISSION
 
