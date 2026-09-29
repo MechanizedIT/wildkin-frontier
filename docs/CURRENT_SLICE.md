@@ -2,11 +2,11 @@
 
 ## September 29 owner art-direction correction — U4F-R reference gate now active
 
-The first U4F checkpoint remains a valid \`U4F_SOURCE_GENERATOR_HOLD\`: TRELLIS correctly did not start because the guarded RAM/service requirements were not met. However, the owner subsequently reviewed the four generated references and rejected them as the **wrong visual direction**. They read too much like real/natural rocks rather than finished stylized Wildkin Frontier game assets. The earlier independent selection of \`candidate-04.png\` is therefore superseded for active art direction, though the original files/review remain historical evidence.
+The first U4F checkpoint remains a valid `U4F_SOURCE_GENERATOR_HOLD`: TRELLIS correctly did not start because the guarded RAM/service requirements were not met. However, the owner subsequently reviewed the four generated references and rejected them as the **wrong visual direction**. They read too much like real/natural rocks rather than finished stylized Wildkin Frontier game assets. The earlier independent selection of `candidate-04.png` is therefore superseded for active art direction, though the original files/review remain historical evidence.
 
-Do **not** resume TRELLIS from \`u4f-rock-001\` even if RAM becomes available. The active next checkpoint is **U4F-R — stylized rock reference gate** using [the new bounded prompt](prompts/UNITY_U4FR_STYLIZED_REFERENCE_GATE.md). It generates a fresh six-image \`u4f-rock-002\` set that must look like finished stylized 3D game models: chunky/faceted, broad designed planes, rounded bevels, simplified matte materials, strong silhouettes, minimal photographic grain and no photogrammetry/real-rock aesthetic.
+Do **not** resume TRELLIS from `u4f-rock-001` even if RAM becomes available. The active next checkpoint is **U4F-R — stylized rock reference gate** using [the new bounded prompt](prompts/UNITY_U4FR_STYLIZED_REFERENCE_GATE.md). It generates a fresh six-image `u4f-rock-002` set that must look like finished stylized 3D game models: chunky/faceted, broad designed planes, rounded bevels, simplified matte materials, strong silhouettes, minimal photographic grain and no photogrammetry/real-rock aesthetic.
 
-U4F-R ends at owner review. An independent agent may shortlist candidates, but **only Chris may select the reference that unlocks TRELLIS**. No TRELLIS status/start, Unity work, SDF work, tests, or Player build should occur in U4F-R. Preserve \`u4f-rock-001\` and the U4F source-generator HOLD exactly as history.
+U4F-R ends at owner review. An independent agent may shortlist candidates, but **only Chris may select the reference that unlocks TRELLIS**. No TRELLIS status/start, Unity work, SDF work, tests, or Player build should occur in U4F-R. Preserve `u4f-rock-001` and the U4F source-generator HOLD exactly as history.
 
 
 ## September 29 owner pivot — asset-first voxel stamps are now the active next direction
