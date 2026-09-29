@@ -1,5 +1,14 @@
 # Build Log
 
+## 2026-09-29 — U4F-R stylized reference correction — ChatGPT GPT-5.6 Sol
+
+- **Reviewed checkpoint:** `30fb35bacb7ad3eac9122cb989a1a8b5b48765e3`, which correctly records `U4F_SOURCE_GENERATOR_HOLD` before any TRELLIS attempt. The commit contains only the first four generated references, their review/manifest, TRELLIS resource/status evidence, and HOLD documentation; no Unity/source-model/SDF implementation occurred.
+- **Owner review:** the first reference set is rejected for active art direction. The images read too much like real/natural rocks rather than finished stylized Wildkin Frontier game assets. The earlier independent selection of candidate 04 remains historical evidence but no longer authorizes source generation.
+- **Workflow correction:** added bounded `U4F-R` reference-only gate. It generates six new references across three shape families, requires explicit non-photoreal/stylized-game-model prompt language, creates a contact sheet, permits an independent shortlist only, and stops for Chris's visual selection. TRELLIS/Unity/tests are forbidden in this phase.
+- **Task ownership correction:** active and future U4F prompts now say to remain in the current root task and not create/hand off to another durable Codex/ChatGPT task. Internal bounded review agents remain allowed.
+- **Docs:** updated `AGENTS.md`, `CURRENT_SLICE.md`, `SESSION_START.md`, `ASSET_FIRST_VOXEL_PIPELINE.md`, `art/style/README.md`, and the original U4F prompt; added `docs/prompts/UNITY_U4FR_STYLIZED_REFERENCE_GATE.md`. Historical U4F evidence is unchanged.
+
+
 ## 2026-09-29 — owner architecture pivot to asset-first voxel stamps — ChatGPT GPT-5.6 Sol
 
 - **Reviewed checkpoint:** actual U4E.2 commit `b3affc06ffa53b5235162121ff8727572d2621a2`, implementation, metrics and independent review. Machine E candidates pass 5/5 context/overlap checks, but the visual gate remains `U4E2_LOCAL_POSE_SEARCH_HOLD`; several cases require conspicuous translation/rotation and still read as repositioned rather than naturally formed.
