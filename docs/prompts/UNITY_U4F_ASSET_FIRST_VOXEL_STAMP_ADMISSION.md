@@ -247,7 +247,7 @@ The rock's shape matters more than a 4K texture in U4F.
 
 Preserve the raw result immediately.
 
-If the first run is structurally bad, allow **one materially different seed/reference-conditioned retry**.
+If the first run is structurally bad, allow **one materially different seed/reference-conditioned retry**. If the first run is structurally good but visibly under-resolved, the second and final attempt may instead use 1024 generation resolution **only if the existing guarded tooling reports adequate headroom**. Do not lower any guard to make 1024 fit.
 
 Maximum TRELLIS source attempts for U4F:
 
