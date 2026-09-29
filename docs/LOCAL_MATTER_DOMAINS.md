@@ -1,6 +1,8 @@
 # Local matter domains — multi-resolution object hypothesis
 
-**Status, September 28, 2026:** independent read-only review assigns `LOCAL_DOMAIN_0_125_PASS` within the documented U4D qualification scope. A bounded Unity prototype demonstrates separate editable 0.25 m and 0.125 m dense local domains beside unchanged 0.50 m world terrain, without adaptive terrain stitching. Focused EditMode passes 11/11, full EditMode 153/153, PlayMode 2/2, and the Windows x64 Development Player exits 0. This is qualification evidence, not production authority or a world-scale memory result. See the [U4D report and receipt](../native/evidence/unity/u4d-local-matter-domain/README.md) and [independent review](../native/evidence/unity/u4d-local-matter-domain/review.md).
+**Status, September 28, 2026:** U4D has `LOCAL_DOMAIN_0_125_PASS` within documented scope after independent review. U4E then proved deterministic multi-domain formation, measured contact, sampled-overlap checks, local edit isolation and compact pristine regeneration; independent visual review assigns U4E HOLD after one bounded camera/framing remediation. U4E evidence, tests and review are in [the U4E folder](../native/evidence/unity/u4e-multi-domain-formations/). This remains qualification evidence, not production authority or a world-scale memory/performance result.
+
+A bounded U4D Unity prototype demonstrates separate editable 0.25 m and 0.125 m dense local domains beside unchanged 0.50 m world terrain, without adaptive terrain stitching. Focused EditMode passes 11/11, full EditMode 153/153, PlayMode 2/2, and the Windows x64 Development Player exits 0. See the [U4D report and receipt](../native/evidence/unity/u4d-local-matter-domain/README.md) and [independent review](../native/evidence/unity/u4d-local-matter-domain/review.md).
 
 ## Problem
 
@@ -227,7 +229,9 @@ Prove:
 
 ### U4E
 
-Compose several high-quality local MatterDomains into deterministic procedural formations. Keep individual stones as independent matter authorities by default, derive contact from geometry, and avoid substantial double-owned overlap. See [U4E formation plan](UNITY_U4E_FORMATION_PLAN.md).
+U4E implements four deterministic formation families from independent MatterDomains. Its 20-seed gallery accepts every final seed, with one 0.125 m child and 4–5 0.25 m children per formation. Geometry-derived contact has 35 cross-tier edges; bidirectional sampled checks report zero overlap for 306 terrain/sibling pairs. A 67-sample edit rebuilds two directly affected regions, reuses 14 and invalidates only the edited domain's five incident terrain/sibling pairs; terrain and sibling hashes remain unchanged. A 364-byte pristine descriptor regenerates the same formation, child, mesh, source and graph hashes. The runtime proof and limitations are in [U4E evidence/review](../native/evidence/unity/u4e-multi-domain-formations/README.md).
+
+**Disposition: HOLD after independent visual review.** One camera/framing repair made the Player and gallery views legible, but several stones still read as separated/floating. Do not begin U5 from these technical contacts alone; the perceptual formation requirement remains unmet and U5 is not authorized.
 
 ### U5
 

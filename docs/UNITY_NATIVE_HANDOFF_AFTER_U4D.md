@@ -1,7 +1,9 @@
-# Wildkin Frontier native Unity handoff — after U4D
+# Wildkin Frontier native Unity handoff — after U4D and U4E HOLD
 
 **Date:** September 28, 2026  
-**Purpose:** fast context recovery for a fresh ChatGPT/Codex planning session after the long Unity transition discussion.
+**Purpose:** fast context recovery after the U4E qualification and independent review.
+
+**Current checkpoint — September 28, 2026:** U4D passed within its documented scope; U4E's technical gates pass, but independent visual review assigns HOLD after one bounded camera/framing remediation. The 20-seed gallery, contact graph, isolated one-child edit, deterministic pristine regeneration, test results and Player build are recorded in [U4E evidence](../native/evidence/unity/u4e-multi-domain-formations/README.md) and [review](../native/evidence/unity/u4e-multi-domain-formations/review.md). The same visual issue remains: several stones read as separated/floating. Stop; U5 has not started.
 
 This document is the current high-level handoff. Detailed historical evidence remains in the phase reports/evidence folders.
 
@@ -161,7 +163,7 @@ Known unsupported case:
 - interior trilinear connectivity can differ from the face-only component graph
 - higher-genus closed surfaces are not currently qualified by the validator
 
-This is a later production-completeness gate, not a blocker for U4D/U4E.
+This remains a later production-completeness gate and does not expand the stopped U4E qualification into production scope.
 
 ---
 
@@ -381,9 +383,13 @@ They are not necessarily the same size.
 
 ---
 
-## 11. Planned U4E
+## 11. U4E — technical gates pass; visual HOLD
 
-U4E has **not yet been implemented**.
+U4E has been implemented and independently reviewed. Twenty seeds were accepted across four archetypes; every formation has one 0.125 m domain and four or five 0.25 m domains. Child source-geometry hashes are unique across all 101 children. The geometry-derived contact graph has 35 cross-tier edges, and bidirectional sampled checks find no solid overlap among the 306 terrain/sibling pairs. A 67-sample edit rebuilds two directly affected regions and reuses 14; four sibling hashes and terrain revisions remain unchanged. Pristine regeneration from a 364-byte descriptor reproduces the formation and all child/contact hashes. Focused EditMode 3/3, full EditMode 156/156, PlayMode 3/3; Windows x64 Player build exits 0 with zero errors and five warnings.
+
+Independent review remains HOLD after one bounded camera/framing remediation. The framing is now readable, but several heroes still read as separated/floating stones; a geometry-measured contact graph does not erase that perceptual failure. See [U4E evidence/review](../native/evidence/unity/u4e-multi-domain-formations/README.md). Stop here; U5, Unreal, adaptive stitching, physics/support/collapse and production migration have not started.
+
+The original U4E plan and acceptance target follow for context; they are evidence of what the experiment set out to prove, not authorization to proceed to U5.
 
 Plan:
 
@@ -450,7 +456,7 @@ This is a valid production option, not a failure mode.
 
 ## 13. Planned U5
 
-After U4E review, U5 should become the native destruction integration proof.
+U5 remains a future native destruction integration proof, but the U4E visual HOLD means it is not authorized by this checkpoint. Do not start U5 without fresh owner direction.
 
 Target chain:
 
@@ -603,12 +609,11 @@ Read in this order:
 5. `LOCAL_MATTER_DOMAINS.md`
 6. `NATIVE_WORLD_PERSISTENCE_AND_UPDATES.md`
 7. `UNITY_U4E_FORMATION_PLAN.md`
-8. U4D evidence README/review
-9. U4C3 evidence README if topology details matter
-10. browser Phase 0.5E report only when support/ownership history is needed
+8. U4E evidence README/review
+9. U4D evidence README/review
+10. U4C3 evidence README if topology details matter
+11. browser Phase 0.5E report only when support/ownership history is needed
 
-The next planning task should normally be:
+The next task is owner review of the U4E HOLD and fresh direction. U5 is stopped.
 
-> review U4D and the U4E plan, then write the detailed Luna-Max U4E implementation specification.
-
-Do not start implementation from this handoff alone without reading current `origin/main`.
+Do not treat the future U5 outline below as active authorization or begin implementation from this handoff alone.

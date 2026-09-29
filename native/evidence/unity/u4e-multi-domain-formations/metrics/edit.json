@@ -1,0 +1,62 @@
+{
+    "phase": "One-child local carve, regional remesh, and incident-contact refresh",
+    "changed": true,
+    "editedDomainId": "u4e-v1-00007000-foundation",
+    "changedSampleCount": 67,
+    "samplesExamined": 648,
+    "directRegions": 2,
+    "rebuiltRegions": 2,
+    "reusedRegions": 14,
+    "beforeContentHash": "0xF39C52E56AC364DB",
+    "afterContentHash": "0x38836DB36A2E5518",
+    "beforeMeshHash": "0x97652B136FC8B65A",
+    "afterMeshHash": "0x831880FDB589FD35",
+    "invalidatedContactPairs": [
+        "terrain|u4e-v1-00007000-foundation",
+        "u4e-v1-00007000-cap|u4e-v1-00007000-foundation",
+        "u4e-v1-00007000-foundation|u4e-v1-00007000-rear-support",
+        "u4e-v1-00007000-foundation|u4e-v1-00007000-shoulder-left",
+        "u4e-v1-00007000-foundation|u4e-v1-00007000-shoulder-right"
+    ],
+    "contactGraphConnectedToTerrain": true,
+    "terrainRevisionBefore": 0,
+    "terrainRevisionAfter": 0,
+    "terrainEditCountBefore": 0,
+    "terrainEditCountAfter": 0,
+    "terrainUnchanged": true,
+    "siblings": [
+        {
+            "domainId": "u4e-v1-00007000-shoulder-left",
+            "beforeContentHash": "0xE654555AF1C73B70",
+            "afterContentHash": "0xE654555AF1C73B70",
+            "beforeMeshHash": "0xB36B298BF8643D7C",
+            "afterMeshHash": "0xB36B298BF8643D7C",
+            "unchanged": true
+        },
+        {
+            "domainId": "u4e-v1-00007000-shoulder-right",
+            "beforeContentHash": "0xEB36CE571F8EE468",
+            "afterContentHash": "0xEB36CE571F8EE468",
+            "beforeMeshHash": "0x2AFF4AACC59A27AA",
+            "afterMeshHash": "0x2AFF4AACC59A27AA",
+            "unchanged": true
+        },
+        {
+            "domainId": "u4e-v1-00007000-cap",
+            "beforeContentHash": "0x1F309F75A23CABFA",
+            "afterContentHash": "0x1F309F75A23CABFA",
+            "beforeMeshHash": "0x9A011ECC0532EA06",
+            "afterMeshHash": "0x9A011ECC0532EA06",
+            "unchanged": true
+        },
+        {
+            "domainId": "u4e-v1-00007000-rear-support",
+            "beforeContentHash": "0x339B1181EB6BD431",
+            "afterContentHash": "0x339B1181EB6BD431",
+            "beforeMeshHash": "0x40D6BBC91EC4E53F",
+            "afterMeshHash": "0x40D6BBC91EC4E53F",
+            "unchanged": true
+        }
+    ],
+    "siblingsUnchanged": true
+}

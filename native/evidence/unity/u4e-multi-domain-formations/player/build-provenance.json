@@ -1,0 +1,14 @@
+{
+    "unityVersion": "6000.3.25f1",
+    "result": "Succeeded",
+    "outputPath": "C:\\Users\\cwood\\AppData\\Local\\Temp\\Wildkin-U4E-MultiDomainFormation\\Wildkin-U4E.exe",
+    "scenePath": "Assets/Wildkin/Scenes/Tech/U4EMultiDomainFormation.unity",
+    "processExitCode": 0,
+    "outputBytes": 230387193,
+    "errors": 0,
+    "warnings": 5,
+    "buildSeconds": 33.0645476,
+    "capturePath": "native\\evidence\\unity\\u4e-multi-domain-formations\\player\\capture.png",
+    "playerReceiptPresent": true,
+    "playerCapturePresent": true
+}

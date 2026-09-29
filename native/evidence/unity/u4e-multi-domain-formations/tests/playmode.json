@@ -1,0 +1,27 @@
+{
+  "mode": "playmode",
+  "status": "completed",
+  "durationSeconds": 7.88,
+  "total": 3,
+  "passed": 3,
+  "failed": 0,
+  "skipped": 0,
+  "unityVersion": "6000.3.25f1",
+  "tests": [
+    {
+      "name": "AgentSmokeMarkerPlayModeTests.Marker_ChangesRotationDuringPlay",
+      "status": "Passed",
+      "durationSeconds": 0.3039868
+    },
+    {
+      "name": "SculptedStonePlayModeTests.DirectSourceAndMatterPreview_ReplaceAndDisposeTheirTransientGeometry",
+      "status": "Passed",
+      "durationSeconds": 1.492496
+    },
+    {
+      "name": "U4EFormationPlayModeTests.RuntimeFormation_RendersIndependentDomainsAndRegeneratesPristineDescriptor",
+      "status": "Passed",
+      "durationSeconds": 5.7220662
+    }
+  ]
+}

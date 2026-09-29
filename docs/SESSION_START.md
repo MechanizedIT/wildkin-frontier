@@ -1,12 +1,12 @@
 # Resume Wildkin Frontier
 
-## September 28 post-U4D handoff — start here for the next planning session
+## September 28 post-U4E HOLD — start here for the next planning session
 
-U4D is accepted as `LOCAL_DOMAIN_0_125_PASS` within its documented scope. The preferred native architecture is now 0.50 m coarse world matter plus independent 0.25 m / 0.125 m local MatterDomains, topology-aware Surface Nets, true-SDF detailed matter, and no adaptive terrain stitching for ordinary detailed props. Read [the post-U4D handoff](UNITY_NATIVE_HANDOFF_AFTER_U4D.md) first after [CURRENT_SLICE](CURRENT_SLICE.md).
+U4E's implementation and technical evidence are complete; independent visual review assigns HOLD after the single bounded framing/camera repair. The 20-seed multi-domain gallery, edit isolation, contact graph and recipe-only regeneration are recorded in [U4E evidence and review](../native/evidence/unity/u4e-multi-domain-formations/README.md). Read [CURRENT_SLICE](CURRENT_SLICE.md), then [the native handoff](UNITY_NATIVE_HANDOFF_AFTER_U4D.md), [U4E review](../native/evidence/unity/u4e-multi-domain-formations/review.md), [U4E formation plan](UNITY_U4E_FORMATION_PLAN.md), and [persistence/update architecture](NATIVE_WORLD_PERSISTENCE_AND_UPDATES.md). U5 has not started; stop for owner review and fresh direction.
 
-The next phase to **plan/specify** is [U4E procedural multi-domain formations](UNITY_U4E_FORMATION_PLAN.md). U4E has not been implemented. Before writing its Luna prompt, review the U4D evidence/review and the new [persistence and update architecture](NATIVE_WORLD_PERSISTENCE_AND_UPDATES.md). The persistence direction is procedural base + accepted matter-operation journal + periodic checkpoint/compaction; the update direction is changed samples → dependent regional products → revision-gated publication, not whole-domain/chunk rebuild.
+U4D remains accepted as `LOCAL_DOMAIN_0_125_PASS` within its documented scope. The qualified native candidate is 0.50 m coarse world matter with independent 0.25 m and 0.125 m local MatterDomains, topology-aware Surface Nets and no adaptive terrain stitching for ordinary detailed props. Preserve the U4C3 limits on arbitrary trilinear interior connectivity and higher-genus surfaces. Persistence remains procedural base + accepted matter-operation journal + periodic checkpoint/compaction; updates remain changed samples → dependent regional products → revision-gated publication.
 
-For the established development loop: review current Git/evidence → write one detailed bounded Luna-Max prompt → fresh Luna implementation session → tests/captures/receipt/commit → independent GitHub review → PASS/remediation/HOLD → then design the next phase. Do not skip review gates merely because a later plan already exists.
+For later authorized phases, keep the established loop: review committed evidence → write one detailed bounded prompt → implementation → tests/captures/receipt/commit → independent review → PASS/remediation/HOLD → only then plan the next phase.
 
 ## September 28 Unity U4D — PASS within documented scope; stop for owner review
 

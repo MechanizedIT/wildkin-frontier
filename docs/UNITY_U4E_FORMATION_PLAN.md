@@ -1,6 +1,6 @@
 # Unity U4E — procedural multi-domain rock formation plan
 
-**Status — planned after U4D `LOCAL_DOMAIN_0_125_PASS`.** This is the next architecture/visual experiment. It is a plan, not an implementation result.
+**Status — implemented; HOLD after independent visual review, September 28, 2026.** U4E's deterministic multi-domain, contact, isolated-edit and pristine-regeneration technical gates pass. One bounded camera/framing remediation improved legibility, but the independent re-review still sees separated/floating stones in several heroes rather than the required believable interlocking formation. Stop at U4E; do not begin U5. Detailed implementation evidence and both review passes are in [the U4E evidence folder](../native/evidence/unity/u4e-multi-domain-formations/README.md) and [review record](../native/evidence/unity/u4e-multi-domain-formations/review.md).
 
 ## Primary question
 
@@ -360,9 +360,13 @@ Hold if:
 
 Do not union everything into one SDF merely to force a pass.
 
+### September 28 result
+
+The 20-seed gallery contains 20 accepted seeds across four families, with 101 unique child source-geometry hashes and one 0.125 m child plus four or five 0.25 m children per formation. Measured fitting yields 35 cross-tier contact edges; bidirectional sampled-overlap checks report zero overlap across all 306 possible domain/terrain pairs. The one-child carve and compact pristine recipe regeneration also pass. These results do not override the visual HOLD: the independent reviewer sees visibly separated/floating stones in hero seeds 7004, 7017, 7010, 7015 and weakest seed 7019. The initial gallery/player framing issue received one bounded camera repair; the same core formation-readability gap remains. See `review.md` and `README.md` in the evidence folder.
+
 ## After U4E
 
-Proceed to U5 only after review.
+U4E has been reviewed and remains HOLD. U5 is not authorized by this checkpoint and must not begin until fresh owner direction resolves the formation-readability blocker.
 
 U5 should be the native destruction integration proof:
 

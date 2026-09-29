@@ -1,0 +1,15 @@
+{
+  "suite": "Wildkin.Tests.EditMode.U4ERockFormationTests",
+  "mode": "editor",
+  "status": "completed",
+  "total": 3,
+  "passed": 3,
+  "failed": 0,
+  "skipped": 0,
+  "tests": [
+    "ContactProbe_FitsDisjointSpheresAndDetectsSampledOverlapSymmetrically",
+    "Formation_BuildsRegeneratesEditsOneDomainAndInvalidatesOnlyIncidentPairs",
+    "Recipe_IsRepeatableSlotStableVariedAndUsesOneSelectedHeroTier"
+  ],
+  "note": "Focused U4E suite after final implementation and presentation changes."
+}

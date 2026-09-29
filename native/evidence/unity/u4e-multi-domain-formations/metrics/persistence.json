@@ -1,0 +1,96 @@
+{
+    "phase": "U4E capture, edit, persistence, and regeneration evidence",
+    "representativeSeed": "7000",
+    "descriptorPath": "native\\evidence\\unity\\u4e-multi-domain-formations\\persistence\\pristine-descriptor.json",
+    "descriptorUtf8Bytes": 364,
+    "rawChildMatterBytes": 99480,
+    "descriptorBelowTenPercentOfMatter": true,
+    "initialFormationHash": "0x0F88FA53FA2DB385",
+    "regeneratedFormationHash": "0x0F88FA53FA2DB385",
+    "regeneratedHashMatches": true,
+    "initialSourceGeometryHash": "0x02F295AB44F100B8",
+    "regeneratedSourceGeometryHash": "0x02F295AB44F100B8",
+    "sourceGeometryHashMatches": true,
+    "initialContactGraphHash": "0x9116934656E273ED",
+    "regeneratedContactGraphHash": "0x9116934656E273ED",
+    "contactGraphHashMatches": true,
+    "pristineChildIds": [
+        "u4e-v1-00007000-foundation",
+        "u4e-v1-00007000-shoulder-left",
+        "u4e-v1-00007000-shoulder-right",
+        "u4e-v1-00007000-cap",
+        "u4e-v1-00007000-rear-support"
+    ],
+    "regeneratedChildIds": [
+        "u4e-v1-00007000-foundation",
+        "u4e-v1-00007000-shoulder-left",
+        "u4e-v1-00007000-shoulder-right",
+        "u4e-v1-00007000-cap",
+        "u4e-v1-00007000-rear-support"
+    ],
+    "pristineChildContentHashes": [
+        "0xF39C52E56AC364DB",
+        "0xE654555AF1C73B70",
+        "0xEB36CE571F8EE468",
+        "0x1F309F75A23CABFA",
+        "0x339B1181EB6BD431"
+    ],
+    "regeneratedChildContentHashes": [
+        "0xF39C52E56AC364DB",
+        "0xE654555AF1C73B70",
+        "0xEB36CE571F8EE468",
+        "0x1F309F75A23CABFA",
+        "0x339B1181EB6BD431"
+    ],
+    "pristineChildMeshHashes": [
+        "0x97652B136FC8B65A",
+        "0xB36B298BF8643D7C",
+        "0x2AFF4AACC59A27AA",
+        "0x9A011ECC0532EA06",
+        "0x40D6BBC91EC4E53F"
+    ],
+    "regeneratedChildMeshHashes": [
+        "0x97652B136FC8B65A",
+        "0xB36B298BF8643D7C",
+        "0x2AFF4AACC59A27AA",
+        "0x9A011ECC0532EA06",
+        "0x40D6BBC91EC4E53F"
+    ],
+    "pristineChildSourceGeometryHashes": [
+        "0x497737654CB25ACD",
+        "0x5C216570AC336FC7",
+        "0x316938658FAE1874",
+        "0xF4C224790EEBF96B",
+        "0xEBDD89A9999391C8"
+    ],
+    "regeneratedChildSourceGeometryHashes": [
+        "0x497737654CB25ACD",
+        "0x5C216570AC336FC7",
+        "0x316938658FAE1874",
+        "0xF4C224790EEBF96B",
+        "0xEBDD89A9999391C8"
+    ],
+    "childIdsMatch": true,
+    "childContentHashesMatch": true,
+    "childMeshHashesMatch": true,
+    "childSourceGeometryHashesMatch": true,
+    "editDomainId": "u4e-v1-00007000-foundation",
+    "editChangedSampleCount": 67,
+    "editDirectRegions": 2,
+    "editRebuiltRegions": 2,
+    "editReusedRegions": 14,
+    "editBeforeContentHash": "0xF39C52E56AC364DB",
+    "editAfterContentHash": "0x38836DB36A2E5518",
+    "editBeforeMeshHash": "0x97652B136FC8B65A",
+    "editAfterMeshHash": "0x831880FDB589FD35",
+    "invalidatedContactPairs": [
+        "terrain|u4e-v1-00007000-foundation",
+        "u4e-v1-00007000-cap|u4e-v1-00007000-foundation",
+        "u4e-v1-00007000-foundation|u4e-v1-00007000-rear-support",
+        "u4e-v1-00007000-foundation|u4e-v1-00007000-shoulder-left",
+        "u4e-v1-00007000-foundation|u4e-v1-00007000-shoulder-right"
+    ],
+    "worldRevisionUnchanged": true,
+    "contactGraphPath": "native\\evidence\\unity\\u4e-multi-domain-formations\\contact\\representative-graph.json",
+    "editedContactGraphPath": "native\\evidence\\unity\\u4e-multi-domain-formations\\contact\\edited-graph.json"
+}

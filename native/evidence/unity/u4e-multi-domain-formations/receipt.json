@@ -1,0 +1,25 @@
+{
+  "result": "U4E_MULTI_DOMAIN_FORMATION_CANDIDATE",
+  "acceptedSeeds": 20,
+  "rejectedSeeds": 0,
+  "heroSeeds": [
+    "7004",
+    "7017",
+    "7010",
+    "7015"
+  ],
+  "alternateAngleSeeds": [
+    "7004",
+    "7017",
+    "7010"
+  ],
+  "weakestSeed": "7019",
+  "descriptorBelowTenPercent": true,
+  "regenerationMatches": true,
+  "editInvalidatedPairCount": 5,
+  "unityVersion": "6000.3.25f1",
+  "overallDisposition": "HOLD_AFTER_INDEPENDENT_VISUAL_REVIEW",
+  "independentReviewPath": "review.md",
+  "boundedPresentationRemediations": 1,
+  "u5Started": false
+}

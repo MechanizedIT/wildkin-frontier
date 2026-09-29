@@ -1,5 +1,17 @@
 # Wildkin Frontier code map
 
+## U4E procedural multi-domain formations — visual HOLD after independent review
+
+- `native/unity/WildkinUnity/Assets/Wildkin/Matter/Core/U4ERockFormationRecipe.cs` — deterministic versioned seed/family/slot recipe and stable child IDs/tiers.
+- `native/unity/WildkinUnity/Assets/Wildkin/Matter/Core/U4ERockFormationBuilder.cs` — independent true-SDF MatterDomain creation, source bake/release, seeded candidate retries, placement fitting and regional child edit.
+- `native/unity/WildkinUnity/Assets/Wildkin/Matter/Core/U4ERockFormationContacts.cs` — geometry-measured terrain/sibling contact graph and symmetric sampled-overlap diagnostics; not a support solver.
+- `native/unity/WildkinUnity/Assets/Wildkin/Matter/Unity/U4EMultiDomainFormationView.cs` — thin isolated gallery/hero/debug/edit/persistence presentation.
+- `native/unity/WildkinUnity/Assets/Wildkin/AgentTools/Editor/U4EMultiDomainFormationCommands.cs` — deterministic gallery, hero/contact/edit/regeneration evidence and Windows Player workflow.
+- `native/unity/WildkinUnity/Assets/Wildkin/Scenes/Tech/U4EMultiDomainFormation.unity` and `Assets/Wildkin/Tests/EditMode/U4ERockFormationTests.cs` / `Tests/PlayMode/U4EFormationPlayModeTests.cs` — isolated scene and focused automated coverage.
+- [U4E evidence/review](../native/evidence/unity/u4e-multi-domain-formations/) — 20-seed gallery, metrics, captures, edit/regeneration/Player receipts and independent HOLD review.
+
+The technical generation, contact, sampled-overlap, local-edit and compact-regeneration gates pass. Independent review still finds separated/floating stones in several heroes after one bounded camera/framing repair, so U4E remains visual HOLD and U5 is stopped. Preserve U4C3's explicit topology boundary: arbitrary trilinear interior connectivity and higher-genus surfaces remain unqualified. Paths beginning `Assets/` are relative to `native/unity/WildkinUnity/`.
+
 ## U4D local high-resolution MatterDomain — `LOCAL_DOMAIN_0_125_PASS` within documented scope
 
 - `Assets/Wildkin/Matter/Core/MatterDomain.cs` — bounded editable authority with stable ID, local integer sample bounds, independent spacing, dense density/material storage, transform, content revision, and local/world SDF carve APIs.
@@ -38,7 +50,7 @@ The two U4C2 fine-tier cases pass the genus-zero closed-manifold qualification a
 - `Assets/Wildkin/Tests/EditMode/SculptedStoneTests.cs` / `SourceMeshFidelityTests.cs`, and `Tests/PlayMode/SculptedStonePlayModeTests.cs` — source contracts, analytic SDF checks, six-fixture/two-mesher adapter parity, explicit qualification-defect detection, transient runtime lifecycle.
 - [U4C2 evidence](../native/evidence/unity/u4c2-sculpted-source/) — pinned accepted source hashes, preserved first pass, independent source/technical/fidelity review, complete matrix and receipt.
 
-Source Gate A passes. Common visual/topology baseline is 0.25 m; C/0.125 and B/0.0625 have a four-use nonmanifold edge. Fine-tier admission is HOLD. U4D/U4E/U5/Unreal remain closed. Paths beginning `Assets/` above are relative to `native/unity/WildkinUnity/`.
+Source Gate A passes. Common visual/topology baseline is 0.25 m; C/0.125 and B/0.0625 have a four-use nonmanifold edge. Fine-tier admission is HOLD. At the U4C2 checkpoint U4D/U4E/U5/Unreal remained closed; later U4D/U4E outcomes are recorded above. Paths beginning `Assets/` above are relative to `native/unity/WildkinUnity/`.
 
 ## Historical U4C source-geometry / local-domain owners — SOURCE_MODELER_HOLD
 
@@ -77,10 +89,10 @@ Prepared and active native owners:
 - `docs/prompts/UNITY_02_MESHER_RESOLUTION_BAKEOFF.md` — Surface Nets vs Dual Contouring / resolution checkpoint.
 - `docs/prompts/UNITY_03_STYLIZED_MATERIAL_ROCK_STAMP.md` — projected materials + seeded rock-family checkpoint.
 - `docs/prompts/UNITY_04_MINIMAL_DESTRUCTION_SLICE.md` — final Unity qualification destruction slice.
-- `docs/UNITY_NATIVE_HANDOFF_AFTER_U4D.md` — current cross-session architecture/status handoff after the accepted U4D checkpoint.
+- `docs/UNITY_NATIVE_HANDOFF_AFTER_U4D.md` — current cross-session architecture/status handoff after the U4E HOLD checkpoint.
 - `docs/NATIVE_WORLD_PERSISTENCE_AND_UPDATES.md` — preferred procedural-base + mutation-journal + checkpoint persistence and bounded dirty-update architecture.
-- `docs/UNITY_U4E_FORMATION_PLAN.md` — next planned procedural multi-domain formation experiment.
-- `docs/LOCAL_MATTER_DOMAINS.md` — qualified independent-spacing MatterDomain responsibilities and U4D evidence.
+- `docs/UNITY_U4E_FORMATION_PLAN.md` — U4E design contract, review disposition and stopped next-phase gate.
+- `docs/LOCAL_MATTER_DOMAINS.md` — qualified independent-spacing MatterDomain responsibilities and U4D/U4E evidence.
 
 `native/unity/WildkinUnity/` is now a Unity-created Unity 6.3/HDRP project. The U0/U1 smoke owners remain under `Assets/Wildkin/AgentTools/Editor/`, `Assets/Wildkin/Tests/`, and `Assets/Wildkin/Scenes/Tech/AgentSmoke.unity`. Do not treat browser `lab/voxel/` modules as production owners after native qualification begins.
 
