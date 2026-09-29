@@ -1,21 +1,12 @@
 # Resume Wildkin Frontier
 
-## September 29 U4F-R — stylized reference correction before TRELLIS
+## September 29 U4F-R — complete; owner review required
 
-Owner review supersedes the first U4F reference selection for active art direction: `u4f-rock-001` candidates 01–04 are retained as historical evidence but are **not approved TRELLIS inputs** because they read too much like real/natural rocks rather than stylized game models.
+Owner review supersedes the first U4F reference selection for active art direction: u4f-rock-001 candidates 01–04 remain preserved as historical evidence but are **not approved TRELLIS inputs** because they read too much like real/natural rocks rather than stylized game models.
 
-The active next task is `docs/prompts/UNITY_U4FR_STYLIZED_REFERENCE_GATE.md`.
+U4F-R generated six new references in art/source/u4f-rock-002/reference/. The independent pixel review shortlisted candidates 04 and 06; the [contact sheet](../art/source/u4f-rock-002/reference/contact-sheet.png), [manifest](../art/source/u4f-rock-002/reference/reference-manifest.md), [review](../art/source/u4f-rock-002/reference/review-reference.md), and [owner status](../art/source/u4f-rock-002/reference/owner-review-status.md) preserve the evidence. Result: **U4FR_OWNER_REVIEW_REQUIRED**.
 
-For U4F-R:
-- remain in the current root task; do not spawn another durable task;
-- read `art/style/README.md` and the asset-first/native guidance;
-- generate a fresh stylized six-candidate `u4f-rock-002` set;
-- use an independent reviewer only to shortlist;
-- stop for Chris's explicit visual selection;
-- do **not** run or even prepare TRELLIS;
-- do not touch Unity implementation, U4G, or U5.
-
-After Chris explicitly approves a reference, a later bounded continuation may resume the main U4F source-generation pipeline under the existing guarded TRELLIS rules.
+Stop here for Chris's explicit visual selection, repair/new direction, or rejection of all. TRELLIS remains blocked until Chris selects a new reference, regardless of current RAM availability. Do not check/start TRELLIS, touch Unity implementation, or begin U4G or U5.
 
 
 ## September 29 asset-first pivot — start here

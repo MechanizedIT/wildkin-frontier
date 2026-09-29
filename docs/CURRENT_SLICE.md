@@ -1,12 +1,12 @@
 # Wildkin Frontier — current scope and checkpoint
 
-## September 29 owner art-direction correction — U4F-R reference gate now active
+## September 29 owner art-direction correction — U4F-R owner review required
 
 The first U4F checkpoint remains a valid `U4F_SOURCE_GENERATOR_HOLD`: TRELLIS correctly did not start because the guarded RAM/service requirements were not met. However, the owner subsequently reviewed the four generated references and rejected them as the **wrong visual direction**. They read too much like real/natural rocks rather than finished stylized Wildkin Frontier game assets. The earlier independent selection of `candidate-04.png` is therefore superseded for active art direction, though the original files/review remain historical evidence.
 
-Do **not** resume TRELLIS from `u4f-rock-001` even if RAM becomes available. The active next checkpoint is **U4F-R — stylized rock reference gate** using [the new bounded prompt](prompts/UNITY_U4FR_STYLIZED_REFERENCE_GATE.md). It generates a fresh six-image `u4f-rock-002` set that must look like finished stylized 3D game models: chunky/faceted, broad designed planes, rounded bevels, simplified matte materials, strong silhouettes, minimal photographic grain and no photogrammetry/real-rock aesthetic.
+Do **not** resume TRELLIS from `u4f-rock-001` even if RAM becomes available. The bounded U4F-R reference gate generated six new 1536 × 1024 images under [u4f-rock-002](../art/source/u4f-rock-002/reference/reference-manifest.md), plus a [contact sheet](../art/source/u4f-rock-002/reference/contact-sheet.png). Independent pixel review assigns STYLE_SHORTLIST to candidates 04 and 06; candidates 01 and 05 are STYLE_REJECT_REALISTIC, candidate 02 is STYLE_REJECT_3D_INPUT, and candidate 03 is STYLE_REJECT_GENERIC. See the [full image review](../art/source/u4f-rock-002/reference/review-reference.md).
 
-U4F-R ends at owner review. An independent agent may shortlist candidates, but **only Chris may select the reference that unlocks TRELLIS**. No TRELLIS status/start, Unity work, SDF work, tests, or Player build should occur in U4F-R. Preserve `u4f-rock-001` and the U4F source-generator HOLD exactly as history.
+**U4FR_OWNER_REVIEW_REQUIRED.** The shortlist is not an approved source. Chris may select one candidate, request a repair or new direction, or reject all. Only Chris may select a reference before TRELLIS. Preserve `u4f-rock-001` and the U4F source-generator HOLD exactly as historical evidence. TRELLIS remains blocked until Chris explicitly chooses a new reference, regardless of current RAM availability. No TRELLIS status/start, Unity work, SDF work, tests, or Player build occurred in U4F-R.
 
 
 ## September 29 owner pivot — asset-first voxel stamps are now the active next direction

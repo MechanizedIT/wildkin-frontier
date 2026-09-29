@@ -20,6 +20,8 @@ For the first representative rock family, the independent reference reviewer may
 
 The bounded correction phase is `U4F-R`; see `docs/prompts/UNITY_U4FR_STYLIZED_REFERENCE_GATE.md`. Do not resume the original U4F source-generation step until the owner explicitly chooses a new reference.
 
+**U4F-R checkpoint, September 29, 2026:** U4FR_OWNER_REVIEW_REQUIRED. Six stylized reference candidates and the independent pixel review are preserved in [u4f-rock-002](../art/source/u4f-rock-002/reference/reference-manifest.md). The reviewer shortlisted candidate-04 and candidate-06; neither is owner-approved. TRELLIS remains blocked until Chris explicitly selects a reference, regardless of current RAM availability. u4f-rock-001 and its original review remain unchanged historical evidence.
+
 
 **Status:** active architecture direction after U4E.2 HOLD, September 29, 2026.
 
