@@ -1,5 +1,29 @@
 # Resume Wildkin Frontier
 
+## September 29 asset-first pivot — start here
+
+The owner has ended the procedural source-rock/formation line after U4E.2 HOLD. Do **not** begin U4E.3 and do **not** begin U5.
+
+For the active native task read, in order:
+
+1. \`AGENTS.md\`
+2. \`docs/CURRENT_SLICE.md\`
+3. this file
+4. \`docs/ASSET_FIRST_VOXEL_PIPELINE.md\`
+5. \`docs/UNITY_FIRST_TRANSITION_PLAN.md\`
+6. \`docs/NATIVE_DESTRUCTION_REPRESENTATION.md\`
+7. \`docs/SOURCE_GEOMETRY_MATTER_FIDELITY_PLAN.md\`
+8. \`.agents/skills/wildkin-asset-forge/SKILL.md\`
+9. \`.agents/skills/wildkin-asset-forge/references/local-tools.md\`
+10. \`docs/prompts/UNITY_U4F_ASSET_FIRST_VOXEL_STAMP_ADMISSION.md\`
+11. U4D/U4C3 evidence only as needed for the accepted matter/mesher baseline
+12. U4E/U4E.1/U4E.2 evidence only when explaining why procedural composition was retired
+
+Next bounded implementation target: **U4F — one high-quality asset-first rock all the way from reviewed reference/source mesh to pristine Unity render plus selected destructible voxel stamp and one edit/handoff proof.** TRELLIS.2 is a source provider candidate, not runtime architecture. U4G physics settling is later and must not start during U4F.
+
+The U4E tech scene's runtime-only content is not an adequate owner test surface. U4F must leave an immediately inspectable Edit-Mode stamp lab/preview path.
+
+
 ## September 29 Unity U4E.2 — `U4E2_LOCAL_POSE_SEARCH_HOLD`; stop here
 
 The bounded D/E local-pose search, tests, evidence, and independent visual review are complete. Read [CURRENT_SLICE](CURRENT_SLICE.md), the [U4E.2 evidence and review](../native/evidence/unity/u4e2-interlock-pose-search/README.md), and the [saved brief](prompts/UNITY_U4E2_MULTI_AXIS_INTERLOCK_POSE_SEARCH.md). E passes machine validation on all five fixtures; D passes three. Independent review still finds the poses visually unconvincing as natural interlocks, so the formation gate remains HOLD. Do not start U5; wait for fresh owner direction.
