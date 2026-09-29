@@ -2,14 +2,14 @@
 
 ## September 29 U4F-R — stylized reference correction before TRELLIS
 
-Owner review supersedes the first U4F reference selection for active art direction: \`u4f-rock-001\` candidates 01–04 are retained as historical evidence but are **not approved TRELLIS inputs** because they read too much like real/natural rocks rather than stylized game models.
+Owner review supersedes the first U4F reference selection for active art direction: `u4f-rock-001` candidates 01–04 are retained as historical evidence but are **not approved TRELLIS inputs** because they read too much like real/natural rocks rather than stylized game models.
 
-The active next task is \`docs/prompts/UNITY_U4FR_STYLIZED_REFERENCE_GATE.md\`.
+The active next task is `docs/prompts/UNITY_U4FR_STYLIZED_REFERENCE_GATE.md`.
 
 For U4F-R:
 - remain in the current root task; do not spawn another durable task;
-- read \`art/style/README.md\` and the asset-first/native guidance;
-- generate a fresh stylized six-candidate \`u4f-rock-002\` set;
+- read `art/style/README.md` and the asset-first/native guidance;
+- generate a fresh stylized six-candidate `u4f-rock-002` set;
 - use an independent reviewer only to shortlist;
 - stop for Chris's explicit visual selection;
 - do **not** run or even prepare TRELLIS;
