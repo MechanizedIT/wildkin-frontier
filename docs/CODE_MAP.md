@@ -1,5 +1,15 @@
 # Wildkin Frontier code map
 
+## Asset-first voxel environment pipeline — active next native track
+
+- \`docs/ASSET_FIRST_VOXEL_PIPELINE.md\` — active architecture/workflow for generated/authored environment source meshes, pristine render derivatives, closed stamp-source meshes, dormant matter stamps, activation and later physics settling.
+- \`docs/prompts/UNITY_U4F_ASSET_FIRST_VOXEL_STAMP_ADMISSION.md\` — next bounded implementation brief; one rock only.
+- \`.agents/skills/wildkin-asset-forge/\` — source/reference/TRELLIS/Blender review and cleanup guidance. September 29 native override supersedes older mobile assumptions for this track.
+- Existing \`SourceMeshSignedDistance\` / \`MatterLocalVolume\` — accepted proof path but currently sculpted-stone-specific and brute-force; U4F may add a minimal generic imported triangle-mesh boundary/offline acceleration without changing MatterDomain semantics.
+- Existing \`MatterDomain\` / \`MatterDomainSurfaceNetsMesher\` — retain as the mutable destructible local authority/renderer after stamp activation.
+- U4E/U4E.1/U4E.2 modules — retained qualification evidence and diagnostics; not the production source-art generator. No U4E.3.
+
+
 ## U4E.2 local interlock pose search — `U4E2_LOCAL_POSE_SEARCH_HOLD`
 
 - `native/unity/WildkinUnity/Assets/Wildkin/Matter/Core/U4E2LocalPoseSearch.cs` — bounded deterministic D translation and E local-frame orientation search, fixed-pose/context validation, and search counters; no generator/default fitter changes.
