@@ -1,0 +1,10 @@
+{
+  "suite": "Unity full EditMode",
+  "mode": "EditMode",
+  "total": 166,
+  "passed": 166,
+  "failed": 0,
+  "skipped": 0,
+  "durationSeconds": 96.05,
+  "result": "PASS"
+}

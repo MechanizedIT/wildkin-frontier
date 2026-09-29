@@ -1,5 +1,13 @@
 # Unity U4E — procedural multi-domain rock formation plan
 
+## U4E.2 local interlock pose search — `U4E2_LOCAL_POSE_SEARCH_HOLD`
+
+The bounded follow-up adds deterministic D three-axis translation and E local-frame orientation search around the frozen U4E.1 attempt-index-0 poses. Translation is constrained to U/V ±0.50 m, with bounded coarse/refinement sampling; orientation is a 5×5×3 lattice (U/V ±20°; N twist ±15°). The fixed directional patch metric, 12.5 mm penetration limit, terrain/sibling context, and bidirectional zero sampled-overlap rule remain gates. Source geometry and ordinary U4E defaults are untouched.
+
+Five fixtures were replayed: frozen A accepts 5/5, D accepts 3/5 overall (2/4 core), and E accepts 5/5 (4/4 core plus stress). Accepted candidates preserve source/recipe/geometry/content/mesh/spacing and frozen siblings, and have zero sampled overlap. Focused EditMode 6/6, full EditMode 166/166, PlayMode 3/3. No Player build was requested.
+
+Fresh independent visual review assigns HOLD. Some accepted poses need conspicuously large translation/rotation, contact footprints remain unclear in several cases, and other stones in context still appear detached. Machine-valid local poses do not resolve the formation's visual interlocking problem. Stop here; do not begin U5. See [U4E.2 evidence](../native/evidence/unity/u4e2-interlock-pose-search/README.md) and the [independent review](../native/evidence/unity/u4e2-interlock-pose-search/review.md).
+
 ## U4E.1 contact-patch follow-up — U4E1_CONTACT_METHOD_HOLD
 
 A preserves the global-min +25 mm control and accepts all six fixed seeds with connected graphs and zero sampled-overlap pairs. B/0 mm and C/-5 mm each accept 0/6 complete formations. Failed candidates encounter sample-center overlap, penetration above the 12.5 mm limit, or no support-facing witness while moving only along the existing parent direction. All six source/domain comparisons match the frozen U4E rows, but regenerated graph/formation hashes and all eight exact reference capture comparisons differ. Current A captures are 640 × 360 versus the 1920 × 1080 U4E references; they are current visual evidence, not exact replay proof. No Player build was made because neither candidate was viable. The original U4E HOLD and evidence remain unchanged. The detailed result, reviewer findings, metrics and validation are in the [U4E.1 evidence folder](../native/evidence/unity/u4e1-directional-contact/README.md). The next bounded planning question is multi-axis/interlock composition; do not start U5.

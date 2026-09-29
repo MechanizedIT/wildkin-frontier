@@ -1,5 +1,14 @@
 # Wildkin Frontier code map
 
+## U4E.2 local interlock pose search — `U4E2_LOCAL_POSE_SEARCH_HOLD`
+
+- `native/unity/WildkinUnity/Assets/Wildkin/Matter/Core/U4E2LocalPoseSearch.cs` — bounded deterministic D translation and E local-frame orientation search, fixed-pose/context validation, and search counters; no generator/default fitter changes.
+- `native/unity/WildkinUnity/Assets/Wildkin/AgentTools/Editor/U4E2InterlockPoseSearchCommands.cs` — frozen A/D/E replay, per-seed invariance/overlap metrics, and matched pair/context/debug capture workflow.
+- `native/unity/WildkinUnity/Assets/Wildkin/Tests/EditMode/U4E2LocalPoseSearchTests.cs` — focused bounded-search, determinism, pose restoration, and context-validation regressions.
+- [U4E.2 evidence/review](../native/evidence/unity/u4e2-interlock-pose-search/) — fixture metrics, matched 1920×1080 captures, test summaries, receipt, and independent HOLD review.
+
+Machine acceptance is 3/5 for D and 5/5 for E, with accepted candidates context-valid and overlap-free; the independent visual formation gate remains HOLD. No U5 work is authorized. `Assets/` references above are relative to `native/unity/WildkinUnity/`.
+
 ## U4E.1 directional contact-patch bakeoff — U4E1_CONTACT_METHOD_HOLD
 
 - native/unity/WildkinUnity/Assets/Wildkin/Matter/Core/U4ERockFormationContacts.cs — engine-light area-weighted support-facing triangle probes, patch ratio/spread measurements, and deterministic B/C 1-D fitters; A retains the existing global-min fitter.

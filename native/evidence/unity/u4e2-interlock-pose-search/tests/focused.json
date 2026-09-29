@@ -1,0 +1,10 @@
+{
+  "suite": "U4E2LocalPoseSearchTests",
+  "mode": "EditMode",
+  "filter": "testName contains U4E2LocalPoseSearchTests",
+  "total": 6,
+  "passed": 6,
+  "failed": 0,
+  "skipped": 0,
+  "result": "PASS"
+}

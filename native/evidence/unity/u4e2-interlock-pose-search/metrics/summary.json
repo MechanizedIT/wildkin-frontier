@@ -1,0 +1,43 @@
+{
+    "phase": "U4E.2 bounded local interlock pose search",
+    "result": "U4E2_LOCAL_POSE_SEARCH_HOLD_UNREVIEWED",
+    "unityVersion": "6000.3.25f1",
+    "runUtc": "2026-09-29T17:58:49Z",
+    "outputPath": "native/evidence/unity/u4e2-interlock-pose-search",
+    "editorScenePath": "Assets/Wildkin/Scenes/Tech/U4EMultiDomainFormation.unity",
+    "controlMode": "U4E original GLOBAL_MIN_25MM at frozen attempt index 0; no global fitter/default generator changes",
+    "requestedFixtureCount": 5,
+    "acceptedTranslationCount": 3,
+    "acceptedInterlockCount": 5,
+    "allControlsAccepted": true,
+    "allSourceAndMatterInvariant": true,
+    "allContextPairsOverlapFree": true,
+    "independentVisualReviewPending": true,
+    "noPlayerBuildRequested": true,
+    "fixtureMetrics": [
+        "native/evidence/unity/u4e2-interlock-pose-search/metrics/seed-7000.json",
+        "native/evidence/unity/u4e2-interlock-pose-search/metrics/seed-7004.json",
+        "native/evidence/unity/u4e2-interlock-pose-search/metrics/seed-7010.json",
+        "native/evidence/unity/u4e2-interlock-pose-search/metrics/seed-7015.json",
+        "native/evidence/unity/u4e2-interlock-pose-search/metrics/seed-7017.json"
+    ],
+    "captureFiles": [
+        "native/evidence/unity/u4e2-interlock-pose-search/captures/seed-7000-pair.png",
+        "native/evidence/unity/u4e2-interlock-pose-search/captures/seed-7000-context.png",
+        "native/evidence/unity/u4e2-interlock-pose-search/captures/debug/debug-7000.png",
+        "native/evidence/unity/u4e2-interlock-pose-search/captures/seed-7010-pair.png",
+        "native/evidence/unity/u4e2-interlock-pose-search/captures/seed-7010-context.png",
+        "native/evidence/unity/u4e2-interlock-pose-search/captures/seed-7015-pair.png",
+        "native/evidence/unity/u4e2-interlock-pose-search/captures/seed-7015-context.png",
+        "native/evidence/unity/u4e2-interlock-pose-search/captures/debug/debug-7015.png",
+        "native/evidence/unity/u4e2-interlock-pose-search/captures/seed-7017-pair.png",
+        "native/evidence/unity/u4e2-interlock-pose-search/captures/seed-7017-context.png",
+        "native/evidence/unity/u4e2-interlock-pose-search/captures/debug/debug-7017.png"
+    ],
+    "preservedBoundaries": [
+        "No U5 implementation.",
+        "No source-rock redesign or global fitter/default generator change.",
+        "No historical U4E/U4E.1 evidence edited.",
+        "No Player build in this slice."
+    ]
+}

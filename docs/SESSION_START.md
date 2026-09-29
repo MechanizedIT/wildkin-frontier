@@ -1,5 +1,9 @@
 # Resume Wildkin Frontier
 
+## September 29 Unity U4E.2 — `U4E2_LOCAL_POSE_SEARCH_HOLD`; stop here
+
+The bounded D/E local-pose search, tests, evidence, and independent visual review are complete. Read [CURRENT_SLICE](CURRENT_SLICE.md), the [U4E.2 evidence and review](../native/evidence/unity/u4e2-interlock-pose-search/README.md), and the [saved brief](prompts/UNITY_U4E2_MULTI_AXIS_INTERLOCK_POSE_SEARCH.md). E passes machine validation on all five fixtures; D passes three. Independent review still finds the poses visually unconvincing as natural interlocks, so the formation gate remains HOLD. Do not start U5; wait for fresh owner direction.
+
 ## September 29 Unity U4E.1 — CONTACT_METHOD_HOLD; stop here
 
 The bounded directional contact-patch follow-up is complete. Read [CURRENT_SLICE](CURRENT_SLICE.md), the [U4E.1 evidence and independent review](../native/evidence/unity/u4e1-directional-contact/README.md), the [saved brief](prompts/UNITY_U4E1_DIRECTIONAL_CONTACT_PATCH_BAKEOFF.md), and the [U4E formation plan](UNITY_U4E_FORMATION_PLAN.md). A passes 6/6 frozen controls; directional B/0 mm and C/-5 mm each pass 0/6 full formations under fixed single-axis placement and no-overlap/penetration constraints. Their candidate scenes do not exist, so no visual improvement is claimed. The next planning question is multi-axis/interlock composition. Do not start U5.

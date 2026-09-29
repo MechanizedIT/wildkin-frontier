@@ -1,5 +1,11 @@
 # Wildkin Frontier — current scope and checkpoint
 
+## September 29 Unity U4E.2 local interlock pose search — HOLD
+
+**`U4E2_LOCAL_POSE_SEARCH_HOLD`.** Added a bounded deterministic local-frame search that tests three-axis translations (D) and a constrained orientation lattice (E) for five frozen U4E.1 attempt-index-0 fixtures. All five original A controls remain accepted; D accepts 3/5 overall (2/4 core fixtures), while E accepts 5/5 (4/4 core plus the stress accent). Every accepted result passes terrain, intended-parent, and frozen-sibling context validation with zero bidirectional sampled overlap. Source/recipe/geometry/content/mesh/spacing invariants remain intact. Focused EditMode is 6/6, full EditMode 166/166, and PlayMode 3/3.
+
+Independent visual review holds: some machine-valid poses require large repositioning/reorientation, contact footprints are not clear in several heroes, and untouched neighboring stones still read detached. This experiment does not close the formation visual gate and does not authorize U5. No Player build was requested. See [U4E.2 evidence, tests, and review](../native/evidence/unity/u4e2-interlock-pose-search/README.md), the [review record](../native/evidence/unity/u4e2-interlock-pose-search/review.md), and [saved brief](prompts/UNITY_U4E2_MULTI_AXIS_INTERLOCK_POSE_SEARCH.md). Preserve the original U4E and U4E.1 results below.
+
 ## September 29 Unity U4E.1 directional contact-patch bakeoff — HOLD
 
 **U4E1_CONTACT_METHOD_HOLD.** The area-weighted directional patch measure distinguishes corner proximity from broad support in focused fixtures and adds useful diagnostics to the six frozen U4E problem seeds. However, B at 0 mm and C at -5 mm each accept 0/6 complete formations. Under the unchanged recipes, parent graph, yaw, source geometry and single fit direction, the candidates that reach broader patches hit positive-sample overlap, excessive penetration, or no support-facing witness. A remains 6/6 accepted with connected graphs and zero sampled-overlap pairs.
