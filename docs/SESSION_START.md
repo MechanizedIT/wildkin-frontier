@@ -6,16 +6,16 @@ The owner has ended the procedural source-rock/formation line after U4E.2 HOLD. 
 
 For the active native task read, in order:
 
-1. \`AGENTS.md\`
-2. \`docs/CURRENT_SLICE.md\`
+1. `AGENTS.md`
+2. `docs/CURRENT_SLICE.md`
 3. this file
-4. \`docs/ASSET_FIRST_VOXEL_PIPELINE.md\`
-5. \`docs/UNITY_FIRST_TRANSITION_PLAN.md\`
-6. \`docs/NATIVE_DESTRUCTION_REPRESENTATION.md\`
-7. \`docs/SOURCE_GEOMETRY_MATTER_FIDELITY_PLAN.md\`
-8. \`.agents/skills/wildkin-asset-forge/SKILL.md\`
-9. \`.agents/skills/wildkin-asset-forge/references/local-tools.md\`
-10. \`docs/prompts/UNITY_U4F_ASSET_FIRST_VOXEL_STAMP_ADMISSION.md\`
+4. `docs/ASSET_FIRST_VOXEL_PIPELINE.md`
+5. `docs/UNITY_FIRST_TRANSITION_PLAN.md`
+6. `docs/NATIVE_DESTRUCTION_REPRESENTATION.md`
+7. `docs/SOURCE_GEOMETRY_MATTER_FIDELITY_PLAN.md`
+8. `.agents/skills/wildkin-asset-forge/SKILL.md`
+9. `.agents/skills/wildkin-asset-forge/references/local-tools.md`
+10. `docs/prompts/UNITY_U4F_ASSET_FIRST_VOXEL_STAMP_ADMISSION.md`
 11. U4D/U4C3 evidence only as needed for the accepted matter/mesher baseline
 12. U4E/U4E.1/U4E.2 evidence only when explaining why procedural composition was retired
 
