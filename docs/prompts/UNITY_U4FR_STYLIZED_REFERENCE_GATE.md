@@ -22,23 +22,25 @@ The task ends after a new Wildkin-style reference set is generated, independentl
 
 ## 0. STARTING CHECKPOINT
 
-Expected current \`origin/main\` at kickoff:
+The historical U4F source-generator HOLD commit is:
 
-\`30fb35bacb7ad3eac9122cb989a1a8b5b48765e3\`
+`30fb35bacb7ad3eac9122cb989a1a8b5b48765e3`
+
+Current `main` should be ahead of that commit with the U4F-R planning/style-correction documentation. Do not reset back to the historical HOLD commit.
 
 Verify:
 
-\`\`\`bash
+```bash
 git checkout main
 git fetch origin
 git status --short
 git rev-parse HEAD
 git rev-parse origin/main
-\`\`\`
+```
 
 If main has advanced, inspect the intervening commits first.
 
-Preserve unrelated local work exactly as required by \`AGENTS.md\`.
+Preserve unrelated local work exactly as required by `AGENTS.md`.
 Do not reset, clean, stash, or absorb unrelated files.
 
 ---
@@ -47,19 +49,19 @@ Do not reset, clean, stash, or absorb unrelated files.
 
 Read in this order:
 
-1. \`AGENTS.md\`
-2. \`docs/CURRENT_SLICE.md\`
-3. \`docs/SESSION_START.md\`
-4. \`docs/ASSET_FIRST_VOXEL_PIPELINE.md\`
-5. \`art/style/README.md\`
-6. \`docs/GAME_DESIGN.md\` — current product/art direction only
-7. \`.agents/skills/wildkin-asset-forge/SKILL.md\`
-8. \`.agents/skills/wildkin-asset-forge/references/dream-loop-production.md\`
-9. \`docs/PRODUCTION_LOOP_POLICY.md\`
+1. `AGENTS.md`
+2. `docs/CURRENT_SLICE.md`
+3. `docs/SESSION_START.md`
+4. `docs/ASSET_FIRST_VOXEL_PIPELINE.md`
+5. `art/style/README.md`
+6. `docs/GAME_DESIGN.md` — current product/art direction only
+7. `.agents/skills/wildkin-asset-forge/SKILL.md`
+8. `.agents/skills/wildkin-asset-forge/references/dream-loop-production.md`
+9. `docs/PRODUCTION_LOOP_POLICY.md`
 10. historical U4F reference manifest/review only to understand why the first set was rejected:
-   - \`art/source/u4f-rock-001/reference/reference-manifest.md\`
-   - \`art/source/u4f-rock-001/reference/review-reference.md\`
-   - \`native/evidence/unity/u4f-asset-first-stamp/README.md\`
+   - `art/source/u4f-rock-001/reference/reference-manifest.md`
+   - `art/source/u4f-rock-001/reference/review-reference.md`
+   - `native/evidence/unity/u4f-asset-first-stamp/README.md`
 
 Do not reread the full voxel/browser history.
 
@@ -73,7 +75,7 @@ An independent agent previously selected candidate 04, but the owner subsequentl
 
 That owner visual judgment supersedes the earlier agent selection for active art direction.
 
-Preserve \`u4f-rock-001\` exactly as historical evidence.
+Preserve `u4f-rock-001` exactly as historical evidence.
 Do not delete, overwrite, or relabel it as accepted.
 
 Do not send candidate 04 to TRELLIS.
@@ -183,9 +185,9 @@ Create **six** new candidates across three distinct shape families.
 
 Use a fresh source package:
 
-\`art/source/u4f-rock-002/reference/\`
+`art/source/u4f-rock-002/reference/`
 
-Do not overwrite \`u4f-rock-001\`.
+Do not overwrite `u4f-rock-001`.
 
 ### Family A — chunky slab / block boulder
 
@@ -261,18 +263,18 @@ The reference author must save:
 - image dimensions;
 - SHA-256;
 - image-tool provenance;
-- exposed image-model version, or \`undisclosed\` if unavailable.
+- exposed image-model version, or `undisclosed` if unavailable.
 
 Candidate IDs:
 
-- \`candidate-01\`
-- \`candidate-02\`
-- \`candidate-03\`
-- \`candidate-04\`
-- \`candidate-05\`
-- \`candidate-06\`
+- `candidate-01`
+- `candidate-02`
+- `candidate-03`
+- `candidate-04`
+- `candidate-05`
+- `candidate-06`
 
-Do not reuse hashes/names from \`u4f-rock-001\`.
+Do not reuse hashes/names from `u4f-rock-001`.
 
 ---
 
@@ -297,10 +299,10 @@ For each candidate answer:
 
 Use these explicit status labels per image:
 
-- \`STYLE_SHORTLIST\`
-- \`STYLE_REJECT_REALISTIC\`
-- \`STYLE_REJECT_GENERIC\`
-- \`STYLE_REJECT_3D_INPUT\`
+- `STYLE_SHORTLIST`
+- `STYLE_REJECT_REALISTIC`
+- `STYLE_REJECT_GENERIC`
+- `STYLE_REJECT_3D_INPUT`
 
 The reviewer may shortlist **at most three**.
 
@@ -335,20 +337,20 @@ Create a simple comparison sheet from the six original candidate images.
 
 Suggested layout:
 
-\`3 columns × 2 rows\`
+`3 columns × 2 rows`
 
 Requirements:
 
 - preserve candidate pixels/aspect without stylistic editing;
 - same displayed size;
 - neutral background;
-- label only \`01\` through \`06\`;
+- label only `01` through `06`;
 - no review scores painted over the images;
 - no beauty filters.
 
 Save:
 
-\`art/source/u4f-rock-002/reference/contact-sheet.png\`
+`art/source/u4f-rock-002/reference/contact-sheet.png`
 
 The contact sheet is for fast owner comparison.
 Individual originals remain authoritative.
@@ -357,7 +359,7 @@ Individual originals remain authoritative.
 
 ## 12. NEGATIVE COMPARISON TO THE REJECTED SET
 
-Create a short written comparison against \`u4f-rock-001\`.
+Create a short written comparison against `u4f-rock-001`.
 
 Do not alter the old images.
 
@@ -382,20 +384,20 @@ Allowed result states:
 
 ### If no candidate survives the independent style gate:
 
-\`U4FR_REFERENCE_STYLE_HOLD\`
+`U4FR_REFERENCE_STYLE_HOLD`
 
 Commit the failed set/review as useful evidence and STOP.
 
 ### If one or more candidates are shortlisted:
 
-\`U4FR_OWNER_REVIEW_REQUIRED\`
+`U4FR_OWNER_REVIEW_REQUIRED`
 
 This is the expected successful checkpoint.
 
 It does **not** mean a reference is approved.
 It means the owner now has a suitable shortlist to inspect.
 
-There is intentionally no \`PASS\` state without a later owner decision.
+There is intentionally no `PASS` state without a later owner decision.
 
 ---
 
@@ -423,7 +425,7 @@ For validation, only perform lightweight artifact checks such as:
 - hashes match manifest;
 - contact sheet includes all six;
 - Markdown/JSON parse where applicable;
-- \`git diff --check\`.
+- `git diff --check`.
 
 ---
 
@@ -431,25 +433,25 @@ For validation, only perform lightweight artifact checks such as:
 
 Use:
 
-\`art/source/u4f-rock-002/reference/\`
+`art/source/u4f-rock-002/reference/`
 
 Recommended:
 
-- \`candidate-01.png\` ... \`candidate-06.png\`
-- \`contact-sheet.png\`
-- \`reference-manifest.md\`
-- \`review-reference.md\`
-- \`owner-review-status.md\`
+- `candidate-01.png` ... `candidate-06.png`
+- `contact-sheet.png`
+- `reference-manifest.md`
+- `review-reference.md`
+- `owner-review-status.md`
 
-For this checkpoint, \`owner-review-status.md\` should say:
+For this checkpoint, `owner-review-status.md` should say:
 
-\`PENDING — requires Chris visual selection before TRELLIS\`
+`PENDING — requires Chris visual selection before TRELLIS`
 
 Do not fabricate owner approval.
 
 Optionally add a small checkpoint under:
 
-\`native/evidence/unity/u4fr-stylized-reference/\`
+`native/evidence/unity/u4fr-stylized-reference/`
 
 only if consistent with existing evidence conventions. Do not imply Unity work occurred.
 
@@ -461,31 +463,31 @@ Update current-state docs so future sessions do not resume candidate 04 by mista
 
 At minimum:
 
-- \`docs/CURRENT_SLICE.md\`
-- \`docs/SESSION_START.md\`
-- \`docs/ASSET_FIRST_VOXEL_PIPELINE.md\`
-- \`docs/BUILD_LOG.md\`
+- `docs/CURRENT_SLICE.md`
+- `docs/SESSION_START.md`
+- `docs/ASSET_FIRST_VOXEL_PIPELINE.md`
+- `docs/BUILD_LOG.md`
 
 Record:
 
-- prior \`u4f-rock-001\` independent selection was superseded by owner art-direction review;
+- prior `u4f-rock-001` independent selection was superseded by owner art-direction review;
 - candidate 01–04 are retained historical references but not approved TRELLIS inputs;
 - current gate is U4F-R;
 - TRELLIS remains blocked until owner picks a new reference regardless of RAM status.
 
-Do not rewrite the historical \`U4F_SOURCE_GENERATOR_HOLD\` evidence.
+Do not rewrite the historical `U4F_SOURCE_GENERATOR_HOLD` evidence.
 
 ---
 
 ## 17. GIT
 
-Work directly on \`main\` per project rules.
+Work directly on `main` per project rules.
 
 Before staging:
 
-\`\`\`bash
+```bash
 git status --short
-\`\`\`
+```
 
 Stage only U4F-R reference/evidence/docs.
 
@@ -493,22 +495,22 @@ Do not include unrelated HDRP, U3, Builds/, authoring/, or other local dirt.
 
 Review:
 
-\`\`\`bash
+```bash
 git diff --cached --stat
 git diff --cached
-\`\`\`
+```
 
 Suggested commit:
 
-\`Create U4F-R stylized rock reference shortlist [skip ci]\`
+`Create U4F-R stylized rock reference shortlist [skip ci]`
 
 Push:
 
-\`\`\`bash
+```bash
 git push origin main
 git rev-parse HEAD
 git rev-parse origin/main
-\`\`\`
+```
 
 Then STOP.
 
@@ -518,7 +520,7 @@ Then STOP.
 
 Return:
 
-\`U4F-R RESULT:
+`U4F-R RESULT:
 U4FR_REFERENCE_STYLE_HOLD
 or
 U4FR_OWNER_REVIEW_REQUIRED
@@ -570,6 +572,6 @@ UNRELATED LOCAL WORK:
 <preserved list>
 
 STOP FOR OWNER REVIEW.
-DO NOT RUN TRELLIS UNTIL OWNER EXPLICITLY SELECTS A REFERENCE.\`
+DO NOT RUN TRELLIS UNTIL OWNER EXPLICITLY SELECTS A REFERENCE.`
 
 In the final UI response, display/attach the contact sheet if the client supports it, and provide exact paths to all six originals.
