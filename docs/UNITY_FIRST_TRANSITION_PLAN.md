@@ -1,5 +1,35 @@
 # Wildkin Frontier — Unity-First Native Transition Plan
 
+## September 29, 2026 — asset-first environment pivot
+
+Owner review after U4E.2 changes the next qualification target. The Unity matter work remains useful, but **procedurally sculpting and arranging source rocks is no longer the presumed production route**.
+
+### Retain
+
+- Unity 6.3 LTS + HDRP native target.
+- 0.50 m world matter baseline where appropriate.
+- independent local \`MatterDomain\` ownership;
+- 0.25 / 0.125 m tested local tiers and bounded 0.0625 m evaluation where useful;
+- true signed-distance source sampling;
+- Surface Nets + U4C3 topology patch within its documented scope;
+- regional dirty remeshing and revision-gated publication;
+- procedural base + mutation journal + periodic checkpoint persistence direction;
+- separation of matter authority, render representation and physics proxy.
+
+### Retire as the default art route
+
+Do not continue U4E.3-style attempts to synthesize convincing production rocks from \`SculptedStoneRecipe\` plus increasingly complex placement solvers. U4/U4B/U4C/U4E/U4E.1/U4E.2 remain evidence and test fixtures, not the production asset factory.
+
+### New staged route
+
+- **U4F — Asset-First Voxel Stamp Admission:** one excellent rock from reviewed image/generated-or-authored source to cleaned pristine mesh, closed stamp-source derivative, multi-resolution SDF bake, matched fidelity review, selected MatterDomain, destructive edit/handoff, and owner-visible Edit-Mode stamp lab.
+- **U4G — Settled Formation Proof:** only after U4F passes; compose 6–10 admitted stamps, settle with authoring/offscreen physics proxies, bake stable transforms, and prove disturbance can wake affected pieces and settle/freeze them again.
+- **U4H — Asset Factory Automation:** only after U4F/U4G establish a good path; manifest-driven reference generation/review → TRELLIS/provider generation → cleanup → visual review → stamp bake → catalog admission. Do not mass-generate assets before the representative pipeline passes.
+- **U5:** remains stopped. Re-scope it only after the asset-first route establishes the source/stamp/settling representation.
+
+See \`docs/ASSET_FIRST_VOXEL_PIPELINE.md\`.
+
+
 **Owner direction — September 25, 2026:** start with Unity. Spend the next Codex budget proving that Unity can support the target game and the desired agent-driven workflow before duplicating work in Unreal. Unreal remains a credible fallback/challenger, not an automatic parallel task.
 
 ## Qualification status — September 28, 2026
