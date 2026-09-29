@@ -1,5 +1,18 @@
 # Destructible Matter R&D Roadmap
 
+## September 29 roadmap pivot — asset quality before broader destruction
+
+The next milestones are no longer “make the procedural formation solver more sophisticated.”
+
+1. **U4F — one asset-first destructible stamp.** Prove a high-quality generated/authored rock can retain its source character through cleanup, Unity import, true-SDF bake, selected resolution and first destructive edit.
+2. **U4G — settled stamp formation.** Use several admitted stamps and physics to settle them naturally, bake stable transforms, then wake only affected pieces after support loss.
+3. **U4H — asset-factory automation.** Automate high-volume reference/model/cleanup/review/stamp/catalog work only after one-rock and one-formation quality gates pass.
+4. **Continuous geology track.** Keep bedrock, cliffs, strata, caves and veins in world-matter/geological generation rather than representing the entire world as loose stamp actors.
+5. **Broader production destruction/streaming.** Resume only after the above establishes acceptable art fidelity and measured activation/runtime costs.
+
+U4E.2 remains a HOLD and closes the current procedural source-formation experiment. No U4E.3 or U5 is implied by this roadmap.
+
+
 **Status:** Phase 0.5E PASS for the bounded browser R&D lab. Project direction has pivoted to a PC-first native production target. The next gate is **Unity-first Phase 0.5F qualification** using Unity 6.3 LTS + HDRP with Codex/agent workflow as a first-class criterion. Unreal Engine 5.8 remains a challenger only if Unity exposes a meaningful blocker or the owner later requests the comparison. The browser implementation remains the behavioral reference; do not begin a full production migration until Unity qualification is reviewed. See [Unity-first transition plan](UNITY_FIRST_TRANSITION_PLAN.md) and [PC engine bakeoff criteria](PC_ENGINE_BAKEOFF_PLAN.md).
 **Scope:** the existing Three.js/Rapier matter lab remains an isolated executable specification. New implementation work after Phase E should target the native PC engine bakeoff rather than optimizing the browser/mobile stack for production.
 
