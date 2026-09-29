@@ -8,7 +8,7 @@ Owner review after U4E.2 changes the next qualification target. The Unity matter
 
 - Unity 6.3 LTS + HDRP native target.
 - 0.50 m world matter baseline where appropriate.
-- independent local \`MatterDomain\` ownership;
+- independent local `MatterDomain` ownership;
 - 0.25 / 0.125 m tested local tiers and bounded 0.0625 m evaluation where useful;
 - true signed-distance source sampling;
 - Surface Nets + U4C3 topology patch within its documented scope;
@@ -18,7 +18,7 @@ Owner review after U4E.2 changes the next qualification target. The Unity matter
 
 ### Retire as the default art route
 
-Do not continue U4E.3-style attempts to synthesize convincing production rocks from \`SculptedStoneRecipe\` plus increasingly complex placement solvers. U4/U4B/U4C/U4E/U4E.1/U4E.2 remain evidence and test fixtures, not the production asset factory.
+Do not continue U4E.3-style attempts to synthesize convincing production rocks from `SculptedStoneRecipe` plus increasingly complex placement solvers. U4/U4B/U4C/U4E/U4E.1/U4E.2 remain evidence and test fixtures, not the production asset factory.
 
 ### New staged route
 
@@ -27,7 +27,7 @@ Do not continue U4E.3-style attempts to synthesize convincing production rocks f
 - **U4H — Asset Factory Automation:** only after U4F/U4G establish a good path; manifest-driven reference generation/review → TRELLIS/provider generation → cleanup → visual review → stamp bake → catalog admission. Do not mass-generate assets before the representative pipeline passes.
 - **U5:** remains stopped. Re-scope it only after the asset-first route establishes the source/stamp/settling representation.
 
-See \`docs/ASSET_FIRST_VOXEL_PIPELINE.md\`.
+See `docs/ASSET_FIRST_VOXEL_PIPELINE.md`.
 
 
 **Owner direction — September 25, 2026:** start with Unity. Spend the next Codex budget proving that Unity can support the target game and the desired agent-driven workflow before duplicating work in Unreal. Unreal remains a credible fallback/challenger, not an automatic parallel task.
