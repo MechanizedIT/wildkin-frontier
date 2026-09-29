@@ -4,7 +4,7 @@
 
 U4E.2 is the final experiment in this procedural source-rock/formation line unless the owner explicitly reopens it. Its E solver can find overlap-free machine-valid poses for all five fixtures, but independent visual review still sees conspicuous repositioning/reorientation and detached neighboring stones. That is sufficient evidence to stop increasing solver complexity.
 
-Preserve U4E/U4E.1/U4E.2 code and evidence as useful diagnostics/tests. Do not promote \`SculptedStoneRecipe\` formations to the production art pipeline and do not add U4E.3.
+Preserve U4E/U4E.1/U4E.2 code and evidence as useful diagnostics/tests. Do not promote `SculptedStoneRecipe` formations to the production art pipeline and do not add U4E.3.
 
 The active successor is [Asset-First Voxel Pipeline](ASSET_FIRST_VOXEL_PIPELINE.md), beginning with [U4F Asset-First Voxel Stamp Admission](prompts/UNITY_U4F_ASSET_FIRST_VOXEL_STAMP_ADMISSION.md). Physics-settled formations are deliberately deferred to U4G after an individual generated/authored stamp passes.
 
