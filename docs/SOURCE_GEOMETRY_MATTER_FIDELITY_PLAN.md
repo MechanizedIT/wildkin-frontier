@@ -1,5 +1,22 @@
 # Wildkin Frontier — source geometry to matter fidelity route
 
+## September 29 source-fidelity pivot — generated/authored assets become the primary source gate
+
+U4C2 proved that the source-mesh → true-SDF → Surface Nets route can preserve broad shape when the source itself is good enough, while U4E.2 showed that increasingly sophisticated procedural composition still does not create convincing art direction. The next fidelity work therefore starts from a **reviewed external source mesh**, not from \`SculptedStoneRecipe\`.
+
+U4F must distinguish three artifacts:
+
+1. **raw/generated master** — immutable provenance from TRELLIS.2 or another provider;
+2. **reviewed pristine render derivative** — normalized, cleaned, visually accepted, with practical LODs/material handling;
+3. **closed stamp-source derivative** — suitable for deterministic inside/outside SDF sampling and visually matched to the pristine render derivative.
+
+The current \`SourceMeshSignedDistance\` / \`MatterLocalVolume\` path is tied to the sculpted-stone mesh type and uses brute-force triangle traversal. U4F may introduce the smallest provider-agnostic triangle-mesh adapter and offline acceleration structure needed to make high-quality imported meshes practical. Do not couple matter code to TRELLIS-specific classes or file formats.
+
+For the first rock, evaluate 0.25 m, 0.125 m and 0.0625 m only when sample bounds remain bounded. Select resolution from matched source-vs-reconstruction images plus geometric error/cost evidence; do not assume the old procedural-stone tier decision automatically applies to generated source geometry.
+
+The pristine source remains visible before destruction. The voxel reconstruction must nevertheless be visually close enough that the first destructive handoff does not read as the rock changing identity. That handoff is a U4F admission gate.
+
+
 **U4E formation qualification, September 28, 2026 — technical gates pass; visual HOLD after independent review:** 20/20 deterministic seeds are accepted across four families. Each has one 0.125 m MatterDomain and 4–5 independent 0.25 m domains. Geometry-derived contact produces 35 cross-tier edges; bidirectional sampled checks find zero overlap among 306 possible terrain/sibling pairs. A one-child edit is isolated and pristine recipe regeneration reproduces formation, child, source, mesh and graph hashes from a compact descriptor. The Windows Player and 3/3 focused EditMode, 156/156 full EditMode and 3/3 PlayMode gates pass. After one bounded camera/framing repair, review still finds separated/floating stones in several heroes. Stop at U4E HOLD; U5 has not started. See [U4E evidence and review](../native/evidence/unity/u4e-multi-domain-formations/README.md).
 
 **U4D local-domain qualification, September 28, 2026 — `LOCAL_DOMAIN_0_125_PASS` within documented scope after independent review:** a 0.50 m world coexists with separate 0.25 m and 0.125 m editable local domains. The 0.125 m domain supports local carving, transform-stable matter identity, moved-pose world-space editing, bounded regional remeshing, and source-free save/reload. Multi-domain/world isolation, approximately 2 cm initial mesh clearance, and zero positive-solid sample overlap are recorded separately from conservative padded AABB intersections; no terrain stitching/refinement was added. Focused EditMode is 11/11, full EditMode 153/153, PlayMode 2/2, and the Windows x64 Development Player builds with zero errors and exits 0. The 0.0625 m option was not tested. See [U4D evidence and receipt](../native/evidence/unity/u4d-local-matter-domain/README.md) and [independent review](../native/evidence/unity/u4d-local-matter-domain/review.md). At the U4D checkpoint, U4E/U5/Unreal/production migration had not begun; U4E's later status is recorded above.
