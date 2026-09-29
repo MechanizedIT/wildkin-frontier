@@ -1,5 +1,26 @@
 # Wildkin Frontier — Asset-First Voxel Environment Pipeline
 
+## September 29 owner style-gate correction — reference must already look like Wildkin
+
+The first U4F reference pass exposed an important workflow rule. A technically suitable single-rock silhouette is not enough. The target image must already look like a **finished stylized Wildkin Frontier 3D game model**, not a natural rock rendered attractively in a studio.
+
+For native environment references, require:
+- substantial chunky/faceted forms;
+- broad intentional planes;
+- rounded/chamfered readable bevels;
+- strong thumbnail silhouette;
+- simplified matte/game-art material treatment;
+- broad value/color design rather than photographic grain;
+- restrained shading and no scan/photogrammetry aesthetic;
+- visible authored-game-asset character.
+
+The rejected \`u4f-rock-001\` set remains useful negative evidence: prompts used the word "stylized" but also emphasized natural slate/stone treatment strongly enough that the actual images still read as realistic rocks. Future reference prompts must explicitly exclude photorealism, photographic geology, scans, micro-erosion and realistic surface noise.
+
+For the first representative rock family, the independent reference reviewer may reject or shortlist candidates, but **owner visual selection is a hard gate before any TRELLIS computation**. This keeps the expensive 3D/source pipeline from optimizing toward an agent-approved but owner-rejected art target.
+
+The bounded correction phase is \`U4F-R\`; see \`docs/prompts/UNITY_U4FR_STYLIZED_REFERENCE_GATE.md\`. Do not resume the original U4F source-generation step until the owner explicitly chooses a new reference.
+
+
 **Status:** active architecture direction after U4E.2 HOLD, September 29, 2026.
 
 **Immediate next implementation:** U4F — one asset-first voxel stamp admission.
