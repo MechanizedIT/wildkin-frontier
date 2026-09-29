@@ -1,5 +1,14 @@
 # Unity U4E — procedural multi-domain rock formation plan
 
+## September 29 owner closure — no U4E.3
+
+U4E.2 is the final experiment in this procedural source-rock/formation line unless the owner explicitly reopens it. Its E solver can find overlap-free machine-valid poses for all five fixtures, but independent visual review still sees conspicuous repositioning/reorientation and detached neighboring stones. That is sufficient evidence to stop increasing solver complexity.
+
+Preserve U4E/U4E.1/U4E.2 code and evidence as useful diagnostics/tests. Do not promote \`SculptedStoneRecipe\` formations to the production art pipeline and do not add U4E.3.
+
+The active successor is [Asset-First Voxel Pipeline](ASSET_FIRST_VOXEL_PIPELINE.md), beginning with [U4F Asset-First Voxel Stamp Admission](prompts/UNITY_U4F_ASSET_FIRST_VOXEL_STAMP_ADMISSION.md). Physics-settled formations are deliberately deferred to U4G after an individual generated/authored stamp passes.
+
+
 ## U4E.2 local interlock pose search — `U4E2_LOCAL_POSE_SEARCH_HOLD`
 
 The bounded follow-up adds deterministic D three-axis translation and E local-frame orientation search around the frozen U4E.1 attempt-index-0 poses. Translation is constrained to U/V ±0.50 m, with bounded coarse/refinement sampling; orientation is a 5×5×3 lattice (U/V ±20°; N twist ±15°). The fixed directional patch metric, 12.5 mm penetration limit, terrain/sibling context, and bidirectional zero sampled-overlap rule remain gates. Source geometry and ordinary U4E defaults are untouched.
