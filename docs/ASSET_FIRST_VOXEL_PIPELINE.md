@@ -14,11 +14,11 @@ For native environment references, require:
 - restrained shading and no scan/photogrammetry aesthetic;
 - visible authored-game-asset character.
 
-The rejected \`u4f-rock-001\` set remains useful negative evidence: prompts used the word "stylized" but also emphasized natural slate/stone treatment strongly enough that the actual images still read as realistic rocks. Future reference prompts must explicitly exclude photorealism, photographic geology, scans, micro-erosion and realistic surface noise.
+The rejected `u4f-rock-001` set remains useful negative evidence: prompts used the word "stylized" but also emphasized natural slate/stone treatment strongly enough that the actual images still read as realistic rocks. Future reference prompts must explicitly exclude photorealism, photographic geology, scans, micro-erosion and realistic surface noise.
 
 For the first representative rock family, the independent reference reviewer may reject or shortlist candidates, but **owner visual selection is a hard gate before any TRELLIS computation**. This keeps the expensive 3D/source pipeline from optimizing toward an agent-approved but owner-rejected art target.
 
-The bounded correction phase is \`U4F-R\`; see \`docs/prompts/UNITY_U4FR_STYLIZED_REFERENCE_GATE.md\`. Do not resume the original U4F source-generation step until the owner explicitly chooses a new reference.
+The bounded correction phase is `U4F-R`; see `docs/prompts/UNITY_U4FR_STYLIZED_REFERENCE_GATE.md`. Do not resume the original U4F source-generation step until the owner explicitly chooses a new reference.
 
 
 **Status:** active architecture direction after U4E.2 HOLD, September 29, 2026.
