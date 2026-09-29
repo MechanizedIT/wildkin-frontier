@@ -1,5 +1,18 @@
 # Wildkin Frontier — current scope and checkpoint
 
+## September 29 owner pivot — asset-first voxel stamps are now the active next direction
+
+**Fresh owner direction closes the U4/U4E procedural source-rock/formation line as the presumed production art route. Do not start U4E.3. U5 remains stopped.** U4E.2 is retained as a useful negative result: its bounded pose solver finds overlap-free machine-valid poses for all five E fixtures, yet independent review still reads several as repositioned rather than naturally formed. The architecture lesson is to stop asking the runtime/procedural system to invent art-directed source geology.
+
+The active next slice is **U4F — asset-first voxel stamp admission**. Start with one high-quality stylized rock: target/reference → image-to-3D or authored source (TRELLIS.2 first candidate) → independent source review → cleanup/normalization → pristine Unity render mesh → closed stamp-source mesh → true-SDF bake at 0.25/0.125/0.0625 m where bounded → matched source/reconstruction fidelity review → selected local \`MatterDomain\` → one destructive edit and representation handoff. The source generator is provider-agnostic; Wildkin's durable technology is the ingestion, validation, voxelization, persistence and destruction path.
+
+The production representation direction is now **dual-state**: untouched assets render their high-quality pristine mesh/LODs, while a pre-baked matter stamp remains dormant until destruction is needed. On activation, matter becomes mutable authority and Surface Nets renders the changed state. Later **U4G** should test physics-settled formations using admitted stamps: settle with cheap convex proxies, bake stable transforms, keep them static in ordinary play, wake only affected pieces after support/destruction changes, then sleep/freeze again.
+
+Loose/deposited objects (boulders, fallen slabs, roots/logs, surface formations) use asset stamps; continuous native geology (cliffs, strata, bedrock, caves, veins) remains a terrain/matter-generation problem rather than a pile of stamped rocks. See [Asset-First Voxel Pipeline](ASSET_FIRST_VOXEL_PIPELINE.md). The active implementation brief is [U4F Asset-First Voxel Stamp Admission](prompts/UNITY_U4F_ASSET_FIRST_VOXEL_STAMP_ADMISSION.md).
+
+**Owner usability is also a U4F gate.** The current U4E tech scene generates content at runtime; the empty/white Scene view is not an acceptable owner workflow. U4F must provide an Edit-Mode-visible stamp lab or explicit preview controls so Chris can open Unity and inspect the current source/voxel candidate without relying on evidence screenshots or entering Play mode.
+
+
 ## September 29 Unity U4E.2 local interlock pose search — HOLD
 
 **`U4E2_LOCAL_POSE_SEARCH_HOLD`.** Added a bounded deterministic local-frame search that tests three-axis translations (D) and a constrained orientation lattice (E) for five frozen U4E.1 attempt-index-0 fixtures. All five original A controls remain accepted; D accepts 3/5 overall (2/4 core fixtures), while E accepts 5/5 (4/4 core plus the stress accent). Every accepted result passes terrain, intended-parent, and frozen-sibling context validation with zero bidirectional sampled overlap. Source/recipe/geometry/content/mesh/spacing invariants remain intact. Focused EditMode is 6/6, full EditMode 166/166, and PlayMode 3/3.
