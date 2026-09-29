@@ -5,6 +5,27 @@ description: Generate, optimize, rig, animate and admit local 3D characters and 
 
 # Wildkin asset forge
 
+## September 29, 2026 native asset-first override — active
+
+For **native PC environment assets and destructible stamps**, this section supersedes older mobile/Rootbound-specific guidance below.
+
+Read \`docs/ASSET_FIRST_VOXEL_PIPELINE.md\` and the active \`docs/prompts/UNITY_U4F_*\` brief before changing the native asset path. The target is Unity 6.3 LTS + HDRP on Windows PC. TRELLIS.2 is the first image-to-3D provider to test, but the Wildkin pipeline must admit ordinary reviewed GLB/OBJ/PLY/FBX sources so a future generator can replace it without changing runtime matter architecture.
+
+For U4F, make **one excellent rock** rather than a broad batch. Preserve the raw/generated master, produce a reviewed cleanup derivative, and maintain separate concepts of:
+- pristine render mesh / LODs;
+- closed stamp-source geometry suitable for signed-distance sampling;
+- pre-baked local matter payload;
+- runtime mutable \`MatterDomain\` after activation.
+
+Do not force a raw generative mesh through admission because it exported successfully. Generated rocks commonly need disconnected-component cleanup, watertight/stamp-source repair, decimation, pivot/scale normalization and visual review. A high-fidelity render mesh may remain more detailed than the stamp-source derivative if their silhouettes and macro forms match.
+
+For the first native proof, judge geometry under a shared neutral rock material as well as any generated PBR beauty render. Generated textures are useful provenance but are not allowed to hide weak geometry or become a blocker for proving the mesh→matter route.
+
+The existing guarded local TRELLIS tooling may be used only within its documented memory/process limits. Do not disable headroom guards, install a new TRELLIS stack, or launch concurrent heavy GPU jobs merely to finish U4F. If local generation cannot produce an admissible source within the bounded attempts, preserve the evidence and return a generator/backend HOLD rather than weakening the quality gate.
+
+Older instructions below about portrait-mobile budgets and the historical browser Author library remain applicable only when explicitly working on those historical/browser paths.
+
+
 **Latest owner review direction:** apply [Rootbound practical asset reuse and showcase review](../../../docs/ROOTBOUND_ASSET_REUSE_REVIEW.md). Attractive, useful actual results may be used despite target differences or lower scores; older fixed score thresholds below are superseded for this focused run. Review reusable components, material-yield ideas, arrangement/rotation/scale/tint variants, and useful curve-authored roots/trunks. Preserve focused correctness and actual gameplay proof.
 
 
