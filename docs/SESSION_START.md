@@ -23,6 +23,10 @@ Next bounded implementation target: **U4F — one high-quality asset-first rock 
 
 The U4E tech scene's runtime-only content is not an adequate owner test surface. U4F must leave an immediately inspectable Edit-Mode stamp lab/preview path.
 
+## September 29 U4F source-generation gate — HOLD
+
+The initial reference pass is complete, with `candidate-04.png` selected by independent review. `U4F_SOURCE_GENERATOR_HOLD` is recorded because guarded TRELLIS status found no responding endpoint and final available RAM was 12.11 GiB, below the unchanged 18 GiB Small512 startup requirement. Follow-up `/ping` and `/status` requests timed out, no listener was found on port 7960, and the stale recorded PID is currently a Node process. No TRELLIS attempt or downstream implementation ran. Read [U4F evidence](../native/evidence/unity/u4f-asset-first-stamp/README.md) and the [receipt](../native/evidence/unity/u4f-asset-first-stamp/receipt.json). A future continuation must recheck service/process identity and memory, then use the guarded path with at most two source attempts. Do not lower guards or start U4E.3, U4G, or U5.
+
 
 ## September 29 Unity U4E.2 — `U4E2_LOCAL_POSE_SEARCH_HOLD`; stop here
 

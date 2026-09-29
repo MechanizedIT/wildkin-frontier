@@ -16,6 +16,8 @@ For the first rock, evaluate 0.25 m, 0.125 m and 0.0625 m only when sample bound
 
 The pristine source remains visible before destruction. The voxel reconstruction must nevertheless be visually close enough that the first destructive handoff does not read as the rock changing identity. That handoff is a U4F admission gate.
 
+**U4F status, September 29, 2026:** the source-fidelity path has not been exercised. The reference was selected, but generation did not start because the guarded TRELLIS service did not respond, no listener was found on port 7960, and available RAM (12.11 GiB) was below the unchanged 18 GiB startup gate. There are no U4F mesh, SDF, resolution, fidelity, or handoff results. See [the hold receipt](../native/evidence/unity/u4f-asset-first-stamp/receipt.json).
+
 
 **U4E formation qualification, September 28, 2026 — technical gates pass; visual HOLD after independent review:** 20/20 deterministic seeds are accepted across four families. Each has one 0.125 m MatterDomain and 4–5 independent 0.25 m domains. Geometry-derived contact produces 35 cross-tier edges; bidirectional sampled checks find zero overlap among 306 possible terrain/sibling pairs. A one-child edit is isolated and pristine recipe regeneration reproduces formation, child, source, mesh and graph hashes from a compact descriptor. The Windows Player and 3/3 focused EditMode, 156/156 full EditMode and 3/3 PlayMode gates pass. After one bounded camera/framing repair, review still finds separated/floating stones in several heroes. Stop at U4E HOLD; U5 has not started. See [U4E evidence and review](../native/evidence/unity/u4e-multi-domain-formations/README.md).
 

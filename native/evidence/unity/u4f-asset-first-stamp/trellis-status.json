@@ -1,0 +1,48 @@
+{
+  "capturedAtUtc": "2026-09-29T20:01:56.9960156Z",
+  "helper": "tools/art/trellis-local.ps1 -Action Status",
+  "helperStatusAtUtc": "2026-09-29T19:50:19.8548542Z",
+  "result": {
+    "detail": "API is absent or still loading; inspect its logs before launching another process.",
+    "endpoint": "http://127.0.0.1:7960",
+    "ready": false
+  },
+  "recordedReceipt": {
+    "path": ".dream-loop/local-trellis/server.json",
+    "startedUtc": "2026-09-14T22:57:51.4201316Z",
+    "processId": 38692,
+    "launcherPath": "C:\\Users\\cwood\\Documents\\mobile-rpg\\tools\\art\\trellis-small-profile.py",
+    "profile": "Small512"
+  },
+  "pidRecheck": {
+    "processId": 38692,
+    "currentName": "node",
+    "currentStartUtc": "2026-09-29T17:50:14.6168434Z"
+  },
+  "directRouteChecksAtUtc": "2026-09-29T20:01:17.9530279Z",
+  "directRouteChecks": [
+    {
+      "route": "http://127.0.0.1:7960/ping",
+      "reachable": false,
+      "error": "The request was canceled due to the configured HttpClient.Timeout of 2 seconds elapsing."
+    },
+    {
+      "route": "http://127.0.0.1:7960/status",
+      "reachable": false,
+      "error": "The request was canceled due to the configured HttpClient.Timeout of 2 seconds elapsing."
+    }
+  ],
+  "listenerCheckAtUtc": "2026-09-29T20:01:56.9960156Z",
+  "listeners": [],
+  "resourceSnapshot": {
+    "capturedAtUtc": "2026-09-29T20:01:56.9960156Z",
+    "availableRamGiB": 12.11,
+    "requiredAvailableRamGiB": 18,
+    "gpuCapturedAtUtc": "2026-09-29T20:01:17.9530279Z",
+    "gpuName": "NVIDIA GeForce RTX 3070 Laptop GPU",
+    "gpuFreeMiB": 5519,
+    "gpuTotalMiB": 8192,
+    "gpuUtilizationPercent": 0
+  },
+  "actionTaken": "No TRELLIS process was started; existing memory and ownership guards were preserved."
+}

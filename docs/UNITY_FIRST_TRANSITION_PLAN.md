@@ -29,6 +29,8 @@ Do not continue U4E.3-style attempts to synthesize convincing production rocks f
 
 See `docs/ASSET_FIRST_VOXEL_PIPELINE.md`.
 
+**U4F checkpoint, September 29, 2026:** the reference review selected candidate-04, then source generation stopped at `U4F_SOURCE_GENERATOR_HOLD`. The guarded service did not respond, the final listener check found no process on port 7960, and available RAM was 12.11 GiB against the unchanged 18 GiB startup gate; no generation attempt or downstream Unity implementation ran. The asset-first route remains the next native track, but no U4F source/stamp qualification passed. See [U4F evidence](../native/evidence/unity/u4f-asset-first-stamp/README.md).
+
 
 **Owner direction — September 25, 2026:** start with Unity. Spend the next Codex budget proving that Unity can support the target game and the desired agent-driven workflow before duplicating work in Unreal. Unreal remains a credible fallback/challenger, not an automatic parallel task.
 

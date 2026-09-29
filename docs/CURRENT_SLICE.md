@@ -12,6 +12,12 @@ Loose/deposited objects (boulders, fallen slabs, roots/logs, surface formations)
 
 **Owner usability is also a U4F gate.** The current U4E tech scene generates content at runtime; the empty/white Scene view is not an acceptable owner workflow. U4F must provide an Edit-Mode-visible stamp lab or explicit preview controls so Chris can open Unity and inspect the current source/voxel candidate without relying on evidence screenshots or entering Play mode.
 
+## September 29 Unity U4F asset-first voxel stamp admission — `U4F_SOURCE_GENERATOR_HOLD`
+
+U4F stopped at its first source-generation gate. Four image references are preserved; the independent reference review selected `candidate-04.png` and accepted it as a useful individual-rock target, with the upper-right concavity still ambiguous and hidden-side closure unproven from one image. The guarded TRELLIS status check found no responding service at `127.0.0.1:7960`; follow-up `/ping` and `/status` requests timed out, and the final listener check found no process bound to port 7960. The recorded `server.json` belongs to a September 14 launch; its PID 38692 is now a Node process, not that TRELLIS launch. The final RAM sample was 12.11 GiB against the unchanged 18 GiB Small512 startup gate; the RTX 3070 Laptop GPU had 5,519 MiB free of 8,192 MiB. No generation attempt ran, and no source, cleanup, stamp, Unity scene, or implementation code was produced.
+
+This is the earliest honest disposition. Do not infer a source-quality or MatterDomain failure from it. Keep the prior TRELLIS logs and active Unity U4E editor session untouched. Resume the guarded source path only after a fresh status/process check and the documented headroom gate passes; retain the two-attempt cap. Focused/full tests and a Player build were not applicable because implementation did not begin. See [U4F hold evidence](../native/evidence/unity/u4f-asset-first-stamp/README.md) and the [independent reference review](../art/source/u4f-rock-001/reference/review-reference.md). Stop for owner review; do not start U4E.3, U4G, or U5.
+
 
 ## September 29 Unity U4E.2 local interlock pose search — HOLD
 

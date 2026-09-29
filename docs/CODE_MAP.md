@@ -8,6 +8,7 @@
 - Existing `SourceMeshSignedDistance` / `MatterLocalVolume` — accepted proof path but currently sculpted-stone-specific and brute-force; U4F may add a minimal generic imported triangle-mesh boundary/offline acceleration without changing MatterDomain semantics.
 - Existing `MatterDomain` / `MatterDomainSurfaceNetsMesher` — retain as the mutable destructible local authority/renderer after stamp activation.
 - U4E/U4E.1/U4E.2 modules — retained qualification evidence and diagnostics; not the production source-art generator. No U4E.3.
+- [U4F initial checkpoint](../native/evidence/unity/u4f-asset-first-stamp/README.md) — `U4F_SOURCE_GENERATOR_HOLD` at the guarded TRELLIS headroom gate; no U4F source, stamp, or implementation code exists yet.
 
 
 ## U4E.2 local interlock pose search — `U4E2_LOCAL_POSE_SEARCH_HOLD`

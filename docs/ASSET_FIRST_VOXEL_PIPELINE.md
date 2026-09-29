@@ -6,6 +6,8 @@
 
 **Not authorized by this document:** U4G+, U5, mass asset generation, production streaming, or a new engine.
 
+**U4F checkpoint, September 29, 2026:** `U4F_SOURCE_GENERATOR_HOLD`. The selected reference is retained, but the guarded TRELLIS service is not responding, no listener was found on port 7960, and final available RAM is 12.11 GiB versus the unchanged 18 GiB Small512 startup gate. No generation attempt or downstream source/stamp implementation ran. See [the U4F evidence](../native/evidence/unity/u4f-asset-first-stamp/README.md). This does not change the provider-agnostic architecture direction or qualify any source/stamp candidate.
+
 ## 1. Why the direction changed
 
 The native Unity R&D proved useful matter technology but repeatedly failed the art/composition goal when asked to invent production source rocks procedurally.

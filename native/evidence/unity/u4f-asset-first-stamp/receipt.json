@@ -1,0 +1,84 @@
+{
+  "phase": "U4F",
+  "disposition": "U4F_SOURCE_GENERATOR_HOLD",
+  "capturedAtUtc": "2026-09-29T20:01:56.9960156Z",
+  "branch": "main",
+  "startingSha": "5a921073c37a5fd1c3aa657b4b53d640530b81d0",
+  "originMainAtStart": "5a921073c37a5fd1c3aa657b4b53d640530b81d0",
+  "reference": {
+    "candidateCount": 4,
+    "selected": "art/source/u4f-rock-001/reference/candidate-04.png",
+    "sha256": "8CD08B697FF9FEA8035336B01D88CCC729DD598E23A285996DA166D374FEDF25",
+    "imageModelVersion": "undisclosed",
+    "review": "Independent review selected candidate-04 as a useful single-rock target; upper-right concavity depth remains ambiguous and hidden-side closure cannot be established from one image.",
+    "manifest": "art/source/u4f-rock-001/reference/reference-manifest.md",
+    "reviewFile": "art/source/u4f-rock-001/reference/review-reference.md"
+  },
+  "sourceGeneration": {
+    "provider": "Local TRELLIS.2 through guarded Small512 helper",
+    "attemptsStarted": 0,
+    "rawOutput": null,
+    "statusEndpoint": "http://127.0.0.1:7960",
+    "statusCheckAtUtc": "2026-09-29T19:50:19.8548542Z",
+    "statusReady": false,
+    "statusDetail": "API is absent or still loading; inspect its logs before launching another process.",
+    "recordedServerReceipt": ".dream-loop/local-trellis/server.json",
+    "recordedServerReceiptStartedUtc": "2026-09-14T22:57:51.4201316Z",
+    "recordedServerReceiptPid": 38692,
+    "recordedPidCurrentProcess": "node",
+    "recordedPidCurrentStartUtc": "2026-09-29T17:50:14.6168434Z",
+    "followUpRouteChecksAtUtc": "2026-09-29T20:01:17.9530279Z",
+    "pingRoute": "Timed out after a 2-second request timeout.",
+    "statusRoute": "Timed out after a 2-second request timeout.",
+    "listenerCheckAtUtc": "2026-09-29T20:01:56.9960156Z",
+    "listenerCheck": "No TCP listener found on port 7960.",
+    "pythonCommandLineInspection": "Denied by Windows: Get-CimInstance Win32_Process returned Access denied. No exact role is claimed for every current Python process.",
+    "logsPreserved": [
+      ".dream-loop/local-trellis/20260911-020258.stdout.log",
+      ".dream-loop/local-trellis/20260911-020258.stderr.log",
+      ".dream-loop/local-trellis/20260914-040812.stdout.log",
+      ".dream-loop/local-trellis/20260914-040812.stderr.log",
+      ".dream-loop/local-trellis/20260914-041625.stdout.log",
+      ".dream-loop/local-trellis/20260914-041625.stderr.log",
+      ".dream-loop/local-trellis/20260914-061301.stdout.log",
+      ".dream-loop/local-trellis/20260914-061301.stderr.log",
+      ".dream-loop/local-trellis/20260914-175751.stdout.log",
+      ".dream-loop/local-trellis/20260914-175751.stderr.log"
+    ],
+    "holdReason": "No service responded and available RAM remained below the unchanged startup gate; do not launch model loading."
+  },
+  "resources": {
+    "capturedAtUtc": "2026-09-29T20:01:56.9960156Z",
+    "availableRamGiB": 12.11,
+    "small512RequiredAvailableRamGiB": 18,
+    "headroomDeficitGiB": 5.89,
+    "gpuCapturedAtUtc": "2026-09-29T20:01:17.9530279Z",
+    "gpuName": "NVIDIA GeForce RTX 3070 Laptop GPU",
+    "gpuFreeMiB": 5519,
+    "gpuTotalMiB": 8192,
+    "gpuUtilizationPercent": 0
+  },
+  "downstream": {
+    "rawAudit": "not started",
+    "cleanup": "not started",
+    "unityImport": "not started",
+    "stampBake": "not started",
+    "fidelityReview": "not started",
+    "destructiveHandoff": "not started",
+    "sourceFreePersistence": "not started",
+    "stampLab": "not started"
+  },
+  "validation": {
+    "tests": "not run; no implementation started and the source-generation gate is the earliest hold",
+    "windowsPlayer": "not required after the earlier source-generation hold"
+  },
+  "unityEditor": "Existing active U4E Editor session left untouched.",
+  "unrelatedLocalWorkPreserved": [
+    "modified native/evidence/unity/u3-mesher-resolution/burst-readiness-editor.json",
+    "modified native/unity/WildkinUnity/Assets/Settings/HDRPDefaultResources/HDRenderPipelineAsset.asset",
+    "modified native/unity/WildkinUnity/Assets/Settings/HDRPDefaultResources/HDRenderPipelineGlobalSettings.asset",
+    "untracked Builds/",
+    "untracked authoring/",
+    "untracked docs/evidence/voxel-phase05/portable/"
+  ]
+}

@@ -4,6 +4,8 @@
 
 For asset-first loose/deposited environment objects, use **two visible representations with one destruction source of truth**.
 
+**U4F status, September 29, 2026:** this remains an architecture direction, not an admitted runtime path. U4F stopped before source generation because the guarded TRELLIS endpoint was absent and available RAM was below the unchanged startup gate. No pristine mesh, dormant stamp, active MatterDomain handoff, or owner preview has been qualified. See [U4F hold evidence](../native/evidence/unity/u4f-asset-first-stamp/README.md).
+
 ### Pristine / dormant
 - Render the reviewed high-quality source mesh or LODs.
 - Use cheap placement/interaction/settling collision proxies.
