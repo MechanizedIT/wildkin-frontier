@@ -1,0 +1,122 @@
+{
+  "phase": "U4F",
+  "disposition": "U4F_SOURCE_GENERATOR_HOLD",
+  "capturedAtUtc": "2026-09-29T21:33:47.7257524Z",
+  "branch": "main",
+  "startingSha": "fe7185b6970bcc9c4e06da2cd0d563a7e2f50015",
+  "originMainAtStart": "fe7185b6970bcc9c4e06da2cd0d563a7e2f50015",
+  "reference": {
+    "selected": "art/source/u4f-rock-002/reference/candidate-04.png",
+    "sha256": "6B0D4606568158DE586F488BB0CAFE7B17E04C26B6C47F5528CEE6209043B0BC",
+    "provenance": "Built-in Codex image_gen, 2026-09-29; model version undisclosed; 1536x1024 opaque RGB PNG.",
+    "purpose": "Representative first source for one-rock U4F qualification.",
+    "candidateSet": "u4f-rock-002 candidates 01-06 all retained as future rock-family/reference material; selection of 04 does not reject the others."
+  },
+  "resourceGate": {
+    "small512StartupRequirementFreeRamGiB": 18,
+    "immediatelyBeforeLaunch": {
+      "freeRamGiB": 21.21,
+      "gpuName": "NVIDIA GeForce RTX 3070 Laptop GPU",
+      "gpuTotalMiB": 8192,
+      "gpuFreeMiB": 7390,
+      "gpuUtilizationPercent": 7,
+      "statusEndpoint": "http://127.0.0.1:7960",
+      "serviceReady": false,
+      "matchingTrellisProcess": false,
+      "portListener": false,
+      "recordedReceiptPid": 38692,
+      "recordedReceiptPidWasStale": true
+    },
+    "launcher": {
+      "profile": "Small512",
+      "ownedPid": 4152,
+      "startedUtc": "2026-09-29T21:27:02.3811883Z",
+      "endpoint": "http://127.0.0.1:7960",
+      "loadedCachedModels": true,
+      "serviceReady": true,
+      "pingStatus": "running",
+      "idleBusy": false,
+      "idleTaskStatus": "FAILED",
+      "idleTaskStatusMeaning": "Generation route initializes its task status to FAILED; the live ping and idle busy=false showed the server was operational before generation."
+    },
+    "beforeGeneration": {
+      "freeRamGiB": 8.67,
+      "gpuFreeMiB": 7355,
+      "gpuTotalMiB": 8192
+    },
+    "nearClientExit": {
+      "observedAtUtc": "2026-09-29T21:32:20.2487621Z",
+      "freeRamGiB": 7.61,
+      "gpuFreeMiB": 4368,
+      "gpuUtilizationPercent": 100
+    },
+    "afterOwnedProcessExit": {
+      "observedAtUtc": "2026-09-29T21:33:47.7257524Z",
+      "freeRamGiB": 22.42,
+      "gpuFreeMiB": 7372,
+      "gpuUtilizationPercent": 5,
+      "ownedProcessAlive": false,
+      "port7960Listener": false
+    }
+  },
+  "sourceGeneration": {
+    "provider": "Local TRELLIS.2 through the guarded project Small512 helper",
+    "attemptsStarted": 1,
+    "maximumAttempts": 2,
+    "attempt1": {
+      "input": "art/source/u4f-rock-002/reference/candidate-04.png",
+      "inputSha256": "6B0D4606568158DE586F488BB0CAFE7B17E04C26B6C47F5528CEE6209043B0BC",
+      "resolution": 512,
+      "seed": 1234,
+      "samplingSteps": 12,
+      "jobs": 1,
+      "exportFaceTarget": 60000,
+      "textureSize": 1024,
+      "stagesCompleted": [
+        "sparse structure: all 12 sampling steps; 14.53 seconds"
+      ],
+      "stageAtTermination": "Transition to Shape SLat; no completed shape stage recorded.",
+      "guardMessage": "[RAM GUARD] Stopping owned TRELLIS process: only 5.31 GiB free.",
+      "outcome": "guarded_memory_termination",
+      "clientError": "ConnectionResetError [WinError 10054]: An existing connection was forcibly closed by the remote host.",
+      "attemptDirectory": "art/source/u4f-rock-002/raw/attempt-01-small512-seed1234/",
+      "clientTrialReceiptWritten": false,
+      "rawGlb": null,
+      "attemptDirectoryFileCount": 0
+    },
+    "attempt2": {
+      "started": false,
+      "reason": "Attempt 1 produced no raw model to classify as structurally poor or good-but-under-resolved. A different seed would not address the measured memory-guard termination; the written policy does not justify repeating this failed route unchanged or weakening its guard."
+    },
+    "holdReason": "Memory / guarded tool-runtime termination before a raw source existed."
+  },
+  "downstream": {
+    "rawAudit": "not started",
+    "cleanup": "not started",
+    "unityImport": "not started",
+    "stampBake": "not started",
+    "fidelityReview": "not started",
+    "destructiveHandoff": "not started",
+    "sourceFreePersistence": "not started",
+    "stampLab": "not started"
+  },
+  "validation": {
+    "focusedEditMode": "not run; source-generation gate stopped before implementation",
+    "fullEditMode": "not run; source-generation gate stopped before implementation",
+    "playMode": "not run; source-generation gate stopped before implementation",
+    "windowsPlayer": "not required after earlier source-generation HOLD"
+  },
+  "independentReview": {
+    "disposition": "U4F_SOURCE_GENERATOR_HOLD is the earliest honest disposition.",
+    "finding": "The current guarded Small512 route could not safely complete attempt 1. Attempt 2 is not materially justified by the prompt's conditions; the observed blocker is memory/guarded runtime, not topology, source interpretation, or export ceiling.",
+    "limit": "This does not prove another authorized future provider or safe profile cannot work; it establishes only the observed guarded route's failure here."
+  },
+  "unrelatedLocalWorkPreserved": [
+    "modified native/evidence/unity/u3-mesher-resolution/burst-readiness-editor.json",
+    "modified native/unity/WildkinUnity/Assets/Settings/HDRPDefaultResources/HDRenderPipelineAsset.asset",
+    "modified native/unity/WildkinUnity/Assets/Settings/HDRPDefaultResources/HDRenderPipelineGlobalSettings.asset",
+    "untracked Builds/",
+    "untracked authoring/",
+    "untracked docs/evidence/voxel-phase05/portable/"
+  ]
+}

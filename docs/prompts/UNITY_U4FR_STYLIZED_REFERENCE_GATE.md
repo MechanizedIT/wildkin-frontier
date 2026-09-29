@@ -1,6 +1,8 @@
 # WILDKIN FRONTIER
 # UNITY U4F-R — STYLIZED ROCK REFERENCE GATE
 
+> **COMPLETED — superseded by owner selection.** Chris approved candidate-04 from `art/source/u4f-rock-002/reference/` as the representative first U4F source on September 29, 2026. U4F-R's original reference-only stop instructions below are historical; the current source-generation result is `U4F_SOURCE_GENERATOR_HOLD` because guarded TRELLIS attempt 1 stopped at the RAM reserve before producing a model. See `art/source/u4f-rock-002/reference/owner-review-status.md` and `native/evidence/unity/u4f-asset-first-stamp/continuation-2026-09-29/README.md`.
+
 Continue in **this current root task**.
 
 Do **not** create, hand off to, or message another durable Codex/ChatGPT task.

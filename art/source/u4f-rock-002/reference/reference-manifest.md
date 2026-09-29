@@ -2,7 +2,7 @@
 
 - Asset family: u4f-rock-002
 - Candidate count: 6
-- Status: U4FR_OWNER_REVIEW_REQUIRED; independent review is recorded in review-reference.md.
+- Status: independent reference review complete; candidate-04 owner-approved for the first U4F source-generation attempt. See owner-review-status.md for the separate owner decision.
 - Generated: 2026-09-29 with the built-in Codex image_gen tool.
 - Image model version: undisclosed by the tool.
 - Output format: PNG, 1536 × 1024 each, opaque pale neutral background.
@@ -19,7 +19,7 @@
 | candidate-05 | Family C — asymmetrical alien wedge / fracture boulder | exec-7c28cc8a-2da9-4c07-9218-98664d7d5ef7.png | 1536 × 1024 | 5675F642F899EDD3A66B9992317BC50888B925F3A390A5E7DF99A28E2BF1D8AD |
 | candidate-06 | Family C — asymmetrical alien wedge / fracture boulder | exec-fd655a16-ca44-4476-b802-b3852e13789d.png | 1536 × 1024 | 4CD8CE3E678A2C78F1FF142666E83CE03A8BB08E9D90C3628C3F60C76A1D58B1 |
 
-The original generated outputs remain under the Codex generated-images directory on the authoring machine. The workspace candidates are byte-for-byte copies; the original candidate images are authoritative and were not cropped, recolored, or retouched. Candidate status is assigned only by the independent pixel review; no candidate is owner-approved.
+The original generated outputs remain under the Codex generated-images directory on the authoring machine. The workspace candidates are byte-for-byte copies; the original candidate images are authoritative and were not cropped, recolored, or retouched. Candidate status is assigned by the independent pixel review; owner selection is recorded separately in owner-review-status.md. Chris approved candidate-04 as the representative first source; candidates 01–06 remain retained as future reference/family material, and unselected candidates are not rejected by this first-pipeline choice.
 
 ## Exact generation prompts
 

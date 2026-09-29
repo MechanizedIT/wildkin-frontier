@@ -1,12 +1,10 @@
 # Resume Wildkin Frontier
 
-## September 29 U4F-R — complete; owner review required
+## September 29 U4F-R — complete; candidate-04 owner-approved; U4F source-generation HOLD
 
-Owner review supersedes the first U4F reference selection for active art direction: u4f-rock-001 candidates 01–04 remain preserved as historical evidence but are **not approved TRELLIS inputs** because they read too much like real/natural rocks rather than stylized game models.
+Chris approved `art/source/u4f-rock-002/reference/candidate-04.png` as the representative source reference for the first end-to-end one-rock U4F qualification. SHA-256: `6B0D4606568158DE586F488BB0CAFE7B17E04C26B6C47F5528CEE6209043B0BC`. Provenance, exact prompt, and owner decision are in the [manifest](../art/source/u4f-rock-002/reference/reference-manifest.md) and [owner status](../art/source/u4f-rock-002/reference/owner-review-status.md). All six references remain retained as future rock-family/reference material; the selection does not reject the others or define the only Wildkin rock style.
 
-U4F-R generated six new references in art/source/u4f-rock-002/reference/. The independent pixel review shortlisted candidates 04 and 06; the [contact sheet](../art/source/u4f-rock-002/reference/contact-sheet.png), [manifest](../art/source/u4f-rock-002/reference/reference-manifest.md), [review](../art/source/u4f-rock-002/reference/review-reference.md), and [owner status](../art/source/u4f-rock-002/reference/owner-review-status.md) preserve the evidence. Result: **U4FR_OWNER_REVIEW_REQUIRED**.
-
-Stop here for Chris's explicit visual selection, repair/new direction, or rejection of all. TRELLIS remains blocked until Chris selects a new reference, regardless of current RAM availability. Do not check/start TRELLIS, touch Unity implementation, or begin U4G or U5.
+The fresh guarded gate passed before startup, but attempt 1 was stopped by the unchanged 6 GiB reserve guard at 5.31 GiB during model inference and produced no raw model. An independent read-only review confirms `U4F_SOURCE_GENERATOR_HOLD`; attempt 2 is not justified because no raw output exists and a seed change would not address the memory failure. Read the [U4F continuation evidence and review](../native/evidence/unity/u4f-asset-first-stamp/continuation-2026-09-29/README.md) before resuming. Do not lower guards, close applications, or repeat the route unchanged. Candidate-04 remains the approved representative first source; all six references remain retained. Final stylization may also come from material, weathering, biome, and surface-treatment systems. Do not start U4E.3, U4G, U5, or broad asset-family exploration.
 
 
 ## September 29 asset-first pivot — start here
@@ -32,9 +30,9 @@ Next bounded implementation target: **U4F — one high-quality asset-first rock 
 
 The U4E tech scene's runtime-only content is not an adequate owner test surface. U4F must leave an immediately inspectable Edit-Mode stamp lab/preview path.
 
-## September 29 U4F source-generation gate — HOLD
+## September 29 initial U4F source-generation gate — historical HOLD
 
-The initial reference pass is complete, with `candidate-04.png` selected by independent review. `U4F_SOURCE_GENERATOR_HOLD` is recorded because guarded TRELLIS status found no responding endpoint and final available RAM was 12.11 GiB, below the unchanged 18 GiB Small512 startup requirement. Follow-up `/ping` and `/status` requests timed out, no listener was found on port 7960, and the stale recorded PID is currently a Node process. No TRELLIS attempt or downstream implementation ran. Read [U4F evidence](../native/evidence/unity/u4f-asset-first-stamp/README.md) and the [receipt](../native/evidence/unity/u4f-asset-first-stamp/receipt.json). A future continuation must recheck service/process identity and memory, then use the guarded path with at most two source attempts. Do not lower guards or start U4E.3, U4G, or U5.
+The first attempted U4F source gate used the now-rejected `u4f-rock-001` reference set and stopped because guarded TRELLIS status found no responding endpoint and RAM was 12.11 GiB, below the unchanged 18 GiB Small512 startup requirement. No TRELLIS attempt or downstream implementation ran. This HOLD is historical; the newly owner-approved `u4f-rock-002` candidate-04 authorizes a fresh readiness check, whose current result is not yet recorded. Read [historical U4F evidence](../native/evidence/unity/u4f-asset-first-stamp/README.md) and the [new reference approval](../art/source/u4f-rock-002/reference/owner-review-status.md). Use the guarded path with at most two attempts and do not start U4E.3, U4G, or U5.
 
 
 ## September 29 Unity U4E.2 — `U4E2_LOCAL_POSE_SEARCH_HOLD`; stop here

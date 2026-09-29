@@ -1,7 +1,7 @@
 
-> **OWNER SUPERSESSION — DO NOT EXECUTE THIS PROMPT FROM THE CURRENT CHECKPOINT.**
+> **OWNER CONTINUATION — candidate-04 approved; current source-generation HOLD.**
 >
-> The first U4F run stopped at `U4F_SOURCE_GENERATOR_HOLD` before TRELLIS. The owner then rejected the generated `u4f-rock-001` reference set as insufficiently stylized/game-like. Candidate 04 is not an approved source target even though an independent reviewer previously selected it. Run `docs/prompts/UNITY_U4FR_STYLIZED_REFERENCE_GATE.md` first. Resume this full U4F pipeline only after Chris explicitly selects a new reference.
+> U4F-R completed and Chris approved `art/source/u4f-rock-002/reference/candidate-04.png` (SHA-256 `6B0D4606568158DE586F488BB0CAFE7B17E04C26B6C47F5528CEE6209043B0BC`) as the representative first source. One guarded Small512 attempt was made; the existing runtime RAM guard stopped it at 5.31 GiB before a raw model was produced. The current disposition is `U4F_SOURCE_GENERATOR_HOLD`; see `native/evidence/unity/u4f-asset-first-stamp/continuation-2026-09-29/README.md`. Do not repeat this route unchanged or weaken guards. The remaining sections below remain the U4F qualification contract if a materially safe, authorized source-generation path becomes available.
 >
 > When this full prompt is resumed later, continue in the **current root task**. Do not create or hand off to another durable Codex/ChatGPT task merely because this document says to use Luna/max reasoning.
 

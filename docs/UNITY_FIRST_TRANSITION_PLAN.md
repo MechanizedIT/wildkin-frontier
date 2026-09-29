@@ -29,7 +29,7 @@ Do not continue U4E.3-style attempts to synthesize convincing production rocks f
 
 See `docs/ASSET_FIRST_VOXEL_PIPELINE.md`.
 
-**U4F checkpoint, September 29, 2026:** the reference review selected candidate-04, then source generation stopped at `U4F_SOURCE_GENERATOR_HOLD`. The guarded service did not respond, the final listener check found no process on port 7960, and available RAM was 12.11 GiB against the unchanged 18 GiB startup gate; no generation attempt or downstream Unity implementation ran. The asset-first route remains the next native track, but no U4F source/stamp qualification passed. See [U4F evidence](../native/evidence/unity/u4f-asset-first-stamp/README.md).
+**U4F checkpoint, September 29, 2026:** Chris approved `u4f-rock-002/reference/candidate-04.png` as the first source reference. The fresh 21.21 GiB pre-start RAM reading passed the unchanged 18 GiB Small512 gate, but attempt 1 then hit the unchanged 6 GiB runtime reserve: the owned process stopped itself at 5.31 GiB during shape-stage transition, before producing a raw model. Independent review confirms `U4F_SOURCE_GENERATOR_HOLD`; attempt 2 is not justified by the written retry policy. No downstream Unity implementation ran. See the [continuation evidence](../native/evidence/unity/u4f-asset-first-stamp/continuation-2026-09-29/README.md) and the [initial historical U4F evidence](../native/evidence/unity/u4f-asset-first-stamp/README.md).
 
 
 **Owner direction — September 25, 2026:** start with Unity. Spend the next Codex budget proving that Unity can support the target game and the desired agent-driven workflow before duplicating work in Unreal. Unreal remains a credible fallback/challenger, not an automatic parallel task.

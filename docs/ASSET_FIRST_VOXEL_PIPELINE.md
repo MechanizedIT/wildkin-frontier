@@ -18,9 +18,9 @@ The rejected `u4f-rock-001` set remains useful negative evidence: prompts used t
 
 For the first representative rock family, the independent reference reviewer may reject or shortlist candidates, but **owner visual selection is a hard gate before any TRELLIS computation**. This keeps the expensive 3D/source pipeline from optimizing toward an agent-approved but owner-rejected art target.
 
-The bounded correction phase is `U4F-R`; see `docs/prompts/UNITY_U4FR_STYLIZED_REFERENCE_GATE.md`. Do not resume the original U4F source-generation step until the owner explicitly chooses a new reference.
+The bounded correction phase was `U4F-R`; see `docs/prompts/UNITY_U4FR_STYLIZED_REFERENCE_GATE.md`. That owner-selection gate is now satisfied for the first representative asset: Chris approved candidate-04 from `u4f-rock-002` for U4F source generation. Future assets still require their own reference review/owner gate when specified by their phase.
 
-**U4F-R checkpoint, September 29, 2026:** U4FR_OWNER_REVIEW_REQUIRED. Six stylized reference candidates and the independent pixel review are preserved in [u4f-rock-002](../art/source/u4f-rock-002/reference/reference-manifest.md). The reviewer shortlisted candidate-04 and candidate-06; neither is owner-approved. TRELLIS remains blocked until Chris explicitly selects a reference, regardless of current RAM availability. u4f-rock-001 and its original review remain unchanged historical evidence.
+**U4F-R owner decision, September 29, 2026:** candidate-04 is approved as the representative first U4F source reference. Its SHA-256 is `6B0D4606568158DE586F488BB0CAFE7B17E04C26B6C47F5528CEE6209043B0BC`; provenance and the exact prompt are in [u4f-rock-002](../art/source/u4f-rock-002/reference/reference-manifest.md), with approval recorded in [owner status](../art/source/u4f-rock-002/reference/owner-review-status.md). All candidates 01–06 remain retained as future rock-family/reference material; candidate-06 is also a strong later candidate. Selection of candidate-04 does not reject any other reference or establish it as the only Wildkin rock style. Final stylization may also come from material, weathering, biome, and surface-treatment systems. The old `u4f-rock-001` set and review remain unchanged historical evidence.
 
 
 **Status:** active architecture direction after U4E.2 HOLD, September 29, 2026.
@@ -29,7 +29,11 @@ The bounded correction phase is `U4F-R`; see `docs/prompts/UNITY_U4FR_STYLIZED_R
 
 **Not authorized by this document:** U4G+, U5, mass asset generation, production streaming, or a new engine.
 
-**U4F checkpoint, September 29, 2026:** `U4F_SOURCE_GENERATOR_HOLD`. The selected reference is retained, but the guarded TRELLIS service is not responding, no listener was found on port 7960, and final available RAM is 12.11 GiB versus the unchanged 18 GiB Small512 startup gate. No generation attempt or downstream source/stamp implementation ran. See [the U4F evidence](../native/evidence/unity/u4f-asset-first-stamp/README.md). This does not change the provider-agnostic architecture direction or qualify any source/stamp candidate.
+**U4F checkpoint, September 29, 2026:** candidate-04 from `u4f-rock-002` is owner-approved as the representative first source. One guarded Small512 attempt completed sparse sampling, then the existing 6 GiB reserve guard stopped the process at 5.31 GiB before shape generation completed. No raw model or downstream source/stamp implementation was produced. Independent review confirms `U4F_SOURCE_GENERATOR_HOLD` and finds no policy-justified second attempt from this result. See the [continuation evidence](../native/evidence/unity/u4f-asset-first-stamp/continuation-2026-09-29/README.md), [initial historical U4F evidence](../native/evidence/unity/u4f-asset-first-stamp/README.md), and [owner status](../art/source/u4f-rock-002/reference/owner-review-status.md). This does not change the provider-agnostic architecture direction or qualify any source/stamp candidate.
+
+## Owner-confirmed future environment direction — recorded, outside U4F scope
+
+The eventual environment may include many distinct individual rock families, multi-rock/fractured formations, physics-settled loose formations, and continuous geology with strata, layers, cliffs, caves, faults, veins, and erosion. Later broad asset-family exploration may cover trees, shrubs, roots, fungi, crystals, plants, and other flora/fauna/environment assets. These remain future directions: U4F proves one rock end-to-end; do not widen into batch asset exploration, U4G formation settling, or U5 during this slice. The existing phase gates below govern when later work may begin.
 
 ## 1. Why the direction changed
 
