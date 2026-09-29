@@ -2,7 +2,7 @@
 
 ## September 29 source-fidelity pivot — generated/authored assets become the primary source gate
 
-U4C2 proved that the source-mesh → true-SDF → Surface Nets route can preserve broad shape when the source itself is good enough, while U4E.2 showed that increasingly sophisticated procedural composition still does not create convincing art direction. The next fidelity work therefore starts from a **reviewed external source mesh**, not from \`SculptedStoneRecipe\`.
+U4C2 proved that the source-mesh → true-SDF → Surface Nets route can preserve broad shape when the source itself is good enough, while U4E.2 showed that increasingly sophisticated procedural composition still does not create convincing art direction. The next fidelity work therefore starts from a **reviewed external source mesh**, not from `SculptedStoneRecipe`.
 
 U4F must distinguish three artifacts:
 
@@ -10,7 +10,7 @@ U4F must distinguish three artifacts:
 2. **reviewed pristine render derivative** — normalized, cleaned, visually accepted, with practical LODs/material handling;
 3. **closed stamp-source derivative** — suitable for deterministic inside/outside SDF sampling and visually matched to the pristine render derivative.
 
-The current \`SourceMeshSignedDistance\` / \`MatterLocalVolume\` path is tied to the sculpted-stone mesh type and uses brute-force triangle traversal. U4F may introduce the smallest provider-agnostic triangle-mesh adapter and offline acceleration structure needed to make high-quality imported meshes practical. Do not couple matter code to TRELLIS-specific classes or file formats.
+The current `SourceMeshSignedDistance` / `MatterLocalVolume` path is tied to the sculpted-stone mesh type and uses brute-force triangle traversal. U4F may introduce the smallest provider-agnostic triangle-mesh adapter and offline acceleration structure needed to make high-quality imported meshes practical. Do not couple matter code to TRELLIS-specific classes or file formats.
 
 For the first rock, evaluate 0.25 m, 0.125 m and 0.0625 m only when sample bounds remain bounded. Select resolution from matched source-vs-reconstruction images plus geometric error/cost evidence; do not assume the old procedural-stone tier decision automatically applies to generated source geometry.
 
