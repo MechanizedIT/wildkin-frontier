@@ -1,0 +1,151 @@
+{
+  "profile": "fresh-process-per-stage-512-u4f-rock004-geometry-ply-v1",
+  "stageSequence": [
+    "background",
+    "conditioning",
+    "sparse",
+    "shape-flow",
+    "decode"
+  ],
+  "stages": [
+    {
+      "name": "background",
+      "stageStartedUtc": "2026-09-29T22:13:53.121428Z",
+      "stageEndedUtc": "2026-09-29T22:14:49.261383Z",
+      "requiredFreeGiB": 9.646280284970999,
+      "childPid": 30144,
+      "freeRamBeforeGiB": 18.15121078491211,
+      "lowestParentSampledFreeRamGiB": 15.87619400024414,
+      "lowestMilestoneEventFreeRamGiB": 15.523963928222656,
+      "freeRamAfterChildGiB": 17.657180786132812,
+      "exitCode": 0,
+      "result": "PASS"
+    },
+    {
+      "name": "conditioning",
+      "stageStartedUtc": "2026-09-29T22:14:49.276430Z",
+      "stageEndedUtc": "2026-09-29T22:15:02.963450Z",
+      "requiredFreeGiB": 10.258530080318451,
+      "childPid": 33396,
+      "freeRamBeforeGiB": 17.653907775878906,
+      "lowestParentSampledFreeRamGiB": 16.029651641845703,
+      "lowestMilestoneEventFreeRamGiB": 17.165904998779297,
+      "freeRamAfterChildGiB": 17.68820571899414,
+      "exitCode": 0,
+      "result": "PASS"
+    },
+    {
+      "name": "sparse",
+      "stageStartedUtc": "2026-09-29T22:15:02.989450Z",
+      "stageEndedUtc": "2026-09-29T22:16:05.702675Z",
+      "requiredFreeGiB": 15.632583007216454,
+      "childPid": 12140,
+      "freeRamBeforeGiB": 17.68777847290039,
+      "lowestParentSampledFreeRamGiB": 11.08392333984375,
+      "lowestMilestoneEventFreeRamGiB": 17.115921020507812,
+      "freeRamAfterChildGiB": 18.06720733642578,
+      "exitCode": 0,
+      "result": "PASS"
+    },
+    {
+      "name": "shape-flow",
+      "stageStartedUtc": "2026-09-29T22:16:05.714675Z",
+      "stageEndedUtc": "2026-09-29T22:17:03.360630Z",
+      "requiredFreeGiB": 15.221092782914639,
+      "childPid": 14228,
+      "freeRamBeforeGiB": 18.06580352783203,
+      "lowestParentSampledFreeRamGiB": 10.998050689697266,
+      "lowestMilestoneEventFreeRamGiB": 17.60672378540039,
+      "freeRamAfterChildGiB": 18.34890365600586,
+      "exitCode": 0,
+      "result": "PASS"
+    },
+    {
+      "name": "decode",
+      "stageStartedUtc": "2026-09-29T22:17:03.374155Z",
+      "stageEndedUtc": "2026-09-29T22:17:36.764238Z",
+      "requiredFreeGiB": 13.299913866445422,
+      "childPid": 15460,
+      "freeRamBeforeGiB": 18.343685150146484,
+      "lowestParentSampledFreeRamGiB": 15.107585906982422,
+      "lowestMilestoneEventFreeRamGiB": 15.191287994384766,
+      "freeRamAfterChildGiB": 18.413188934326172,
+      "exitCode": 0,
+      "result": "PASS"
+    }
+  ],
+  "textureFlow": {
+    "result": "SKIPPED",
+    "event": {
+      "timeUtc": "2026-09-29T22:13:53.108499Z",
+      "reason": "immutable shape-only geometry profile; texture latent is not used for raw vertices/triangles"
+    }
+  },
+  "mutex": {
+    "acquired": {
+      "timeUtc": "2026-09-29T22:13:53.120424Z",
+      "mutexName": "Local\\WildkinTrellisStagedJob",
+      "ownedByParentPid": 17344
+    },
+    "released": {
+      "timeUtc": "2026-09-29T22:17:36.861862Z",
+      "mutexName": "Local\\WildkinTrellisStagedJob",
+      "ownedByParentPid": 17344
+    }
+  },
+  "handoffFiles": [
+    {
+      "handoff": "preprocessed.png",
+      "stage": "background",
+      "timeUtc": "2026-09-29T22:14:47.576473Z",
+      "sha256": "5d3238f0f7a337fc0042375b81117a832b2bf0371030e0b2865627be888e08ca",
+      "bytes": 490350,
+      "source": "background:complete event and private per-run output; not copied into durable raw directory"
+    },
+    {
+      "handoff": "conditioning.pt",
+      "timeUtc": "2026-09-29T22:15:01.487496Z",
+      "sha256": "7e7a351d54045140a81a7042a19a16e545d13b1c6ba4f77818d6aa7b296fab93",
+      "bytes": 8431501
+    },
+    {
+      "handoff": "coords.pt",
+      "timeUtc": "2026-09-29T22:16:03.531308Z",
+      "sha256": "74ff3b1d9de84ee0056e2c152099cfb3e1ccb4c0f32c07defd665b1c6576fc6f",
+      "bytes": 50466
+    },
+    {
+      "handoff": "rng-after-sparse.pt",
+      "timeUtc": "2026-09-29T22:16:03.564383Z",
+      "sha256": "510f638d8c17eacc94e8e5f38c2cd483d9bc3f4cefa92a420755050aea4c2fcb",
+      "bytes": 6957
+    },
+    {
+      "handoff": "shape.pt",
+      "timeUtc": "2026-09-29T22:17:01.095524Z",
+      "sha256": "fabd5acd0a75266b28fa5e8d13aef6f91930cfa9c97a4ae9040e0575bca65200",
+      "bytes": 442133
+    },
+    {
+      "handoff": "rng-after-shape.pt",
+      "timeUtc": "2026-09-29T22:17:01.126046Z",
+      "sha256": "7cc4807d56b1a6b0cfb581b64d2e38eec25063e099d52fabcb62cfeadde8d6a1",
+      "bytes": 6949
+    }
+  ],
+  "rawWrite": {
+    "timeUtc": "2026-09-29T22:17:34.958203Z",
+    "sha256": "4cc76dc0608ed0e3575e25718c3b606561aa7925c4cd5d46350c4576d5958c5d",
+    "bytes": 30285576,
+    "vertices": 796082,
+    "triangles": 1594784,
+    "faceLimit": 2500000,
+    "vertexScalar": "float32",
+    "copiedVertexBytes": 9552984,
+    "copiedIndexBytes": 38274816
+  },
+  "gpuTelemetry": "Per-stage GPU telemetry is not provided by this runner; see pre-run GPU snapshot in ../resources.json.",
+  "sourceEventsPath": ".dream-loop/u4f-g1-staged-run-20260929/events.json",
+  "allStagesPassed": true,
+  "runtimeReserveGiB": 6.0
+}

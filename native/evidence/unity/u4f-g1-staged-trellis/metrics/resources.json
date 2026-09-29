@@ -1,0 +1,30 @@
+{
+  "capturedUtc": "2026-09-29T22:13:23.9608283Z",
+  "systemRamGiB": 31.775,
+  "freeSystemRamGiB": 18.173,
+  "runnerPlanObservedFreeGiB": 18.73105239868164,
+  "bootstrapRequiredFreeGiB": 16.632583007216454,
+  "bootstrapCurrentlyFits": true,
+  "reserveGiB": 6.0,
+  "stageRequiredFreeGiB": {
+    "background": 9.646,
+    "conditioning": 10.259,
+    "sparse": 15.633,
+    "shape-flow": 15.221,
+    "texture-flow": 15.221,
+    "decode": 13.3
+  },
+  "gpu": {
+    "name": "NVIDIA GeForce RTX 3070 Laptop GPU",
+    "totalMiB": 8192,
+    "freeMiB": 7333,
+    "utilizationPercent": 7
+  },
+  "trellisProcesses": [],
+  "port7960Listeners": [],
+  "stagedMutex": "absent",
+  "candidate04Sha256": "6b0d4606568158de586f488bb0cafe7b17e04c26b6c47f5528cee6209043b0bc",
+  "generationOutputDirectoryFresh": true,
+  "rawArtifactDirectoryFresh": true,
+  "preRunGatePasses": true
+}

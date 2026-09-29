@@ -1,0 +1,40 @@
+{
+  "experiment": "U4F-G1",
+  "status": "U4FG1_RAW_SOURCE_CANDIDATE",
+  "startingSha": "34b95880a2f015826f13a14fdd9f0260614c6139",
+  "input": {
+    "path": "art/source/u4f-rock-002/reference/candidate-04.png",
+    "sha256": "6B0D4606568158DE586F488BB0CAFE7B17E04C26B6C47F5528CEE6209043B0BC"
+  },
+  "method": {
+    "runner": "tools/art/trellis-process-staged.py",
+    "profile": "fresh-process-per-stage-512-u4f-rock004-geometry-ply-v1",
+    "resolution": 512,
+    "seed": 1234,
+    "steps": 12,
+    "samples": 1,
+    "lowVram": true,
+    "decodeStrategy": "shape-only",
+    "textureSampling": false,
+    "outputName": "raw-geometry.ply",
+    "maxDecodedFaces": 2500000,
+    "reserveGiB": 6.0
+  },
+  "result": {
+    "generation": "PASS",
+    "textureFlow": "SKIPPED",
+    "rawSource": {
+      "path": "art/source/u4f-rock-002/raw/staged512-geometry-r1/raw-geometry.ply",
+      "sha256": "4cc76dc0608ed0e3575e25718c3b606561aa7925c4cd5d46350c4576d5958c5d",
+      "bytes": 30285576,
+      "vertices": 796082,
+      "triangles": 1594784
+    },
+    "lowestParentSampledFreeRamGiB": 10.998050689697266,
+    "runtimeReserveBreaches": 0,
+    "blenderInspection": "PASS_EXACT_IMPORT_NO_MUTATION",
+    "independentReview": "WORTH_ONE_BOUNDED_CLEANUP_PASS",
+    "directStampAdmission": "HOLD_OPEN_UNDERSIDE_AND_RAW_NONMANIFOLD_TOPOLOGY",
+    "unityTouched": false
+  }
+}

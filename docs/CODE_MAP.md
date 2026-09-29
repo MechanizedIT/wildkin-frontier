@@ -8,7 +8,9 @@
 - Existing `SourceMeshSignedDistance` / `MatterLocalVolume` — accepted proof path but currently sculpted-stone-specific and brute-force; U4F may add a minimal generic imported triangle-mesh boundary/offline acceleration without changing MatterDomain semantics.
 - Existing `MatterDomain` / `MatterDomainSurfaceNetsMesher` — retain as the mutable destructible local authority/renderer after stamp activation.
 - U4E/U4E.1/U4E.2 modules — retained qualification evidence and diagnostics; not the production source-art generator. No U4E.3.
-- [U4F current checkpoint](../native/evidence/unity/u4f-asset-first-stamp/continuation-2026-09-29/README.md) — candidate-04 is owner-approved; guarded Small512 attempt 1 stopped at the 6 GiB reserve before producing a source. No U4F source, stamp, or implementation code exists yet. The initial hold evidence is preserved in the parent folder.
+- [U4F current checkpoint](../native/evidence/unity/u4f-g1-staged-trellis/README.md) — G1 preserved an exact-input staged shape-only raw candidate-04 PLY; independent review recommends one bounded cleanup pass, while the open underside/raw topology block direct stamp use. The previous long-lived Small512 HOLD remains historical at `native/evidence/unity/u4f-asset-first-stamp/continuation-2026-09-29/`. Do not continue into Unity, U4G, or U5 before owner review.
+- `tools/art/trellis-process-staged.py` — owns existing staged TRELLIS profiles plus the exact-hash candidate-04 geometry-only PLY profile; shared RAM reserve, stage gates, process ownership and mutex stay in this runner.
+- `tools/art/inspect-u4f-g1-geometry.py` — read-only exact-import Blender views/topology audit for the pinned U4F-G1 raw PLY; no cleanup/export.
 
 
 ## U4E.2 local interlock pose search — `U4E2_LOCAL_POSE_SEARCH_HOLD`

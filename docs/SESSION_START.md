@@ -1,10 +1,16 @@
 # Resume Wildkin Frontier
 
-## September 29 U4F-R — complete; candidate-04 owner-approved; U4F source-generation HOLD
+## September 29 U4F-G1 — `U4FG1_RAW_SOURCE_CANDIDATE`; stop for owner review
+
+The one authorized staged TRELLIS attempt succeeded with raw geometry. It used owner-approved candidate-04 (SHA-256 `6B0D4606568158DE586F488BB0CAFE7B17E04C26B6C47F5528CEE6209043B0BC`), fresh process per stage, 512, seed 1234, 12 steps, one sample, `low_vram=True`, and a shape-only decoder. Texture-flow was skipped. The 30,285,576-byte binary PLY contains 796,082 vertices and 1,594,784 triangles; SHA-256 `4CC76DC0608ED0E3575E25718C3B606561AA7925C4CD5D46350C4576D5958C5D`. Independent review says it is worth one bounded cleanup pass, while the large open underside and raw nonmanifold topology block direct stamp use. See the [G1 report/review](../native/evidence/unity/u4f-g1-staged-trellis/README.md).
+
+**Next action:** stop for owner review of the actual generated source. Do not start Unity cleanup/import/voxelization, U4G, or U5 in this session.
+
+## September 29 U4F-R — complete; candidate-04 owner-approved
 
 Chris approved `art/source/u4f-rock-002/reference/candidate-04.png` as the representative source reference for the first end-to-end one-rock U4F qualification. SHA-256: `6B0D4606568158DE586F488BB0CAFE7B17E04C26B6C47F5528CEE6209043B0BC`. Provenance, exact prompt, and owner decision are in the [manifest](../art/source/u4f-rock-002/reference/reference-manifest.md) and [owner status](../art/source/u4f-rock-002/reference/owner-review-status.md). All six references remain retained as future rock-family/reference material; the selection does not reject the others or define the only Wildkin rock style.
 
-The fresh guarded gate passed before startup, but attempt 1 was stopped by the unchanged 6 GiB reserve guard at 5.31 GiB during model inference and produced no raw model. An independent read-only review confirms `U4F_SOURCE_GENERATOR_HOLD`; attempt 2 is not justified because no raw output exists and a seed change would not address the memory failure. Read the [U4F continuation evidence and review](../native/evidence/unity/u4f-asset-first-stamp/continuation-2026-09-29/README.md) before resuming. Do not lower guards, close applications, or repeat the route unchanged. Candidate-04 remains the approved representative first source; all six references remain retained. Final stylization may also come from material, weathering, biome, and surface-treatment systems. Do not start U4E.3, U4G, U5, or broad asset-family exploration.
+The earlier long-lived Small512 run stopped at the unchanged 6 GiB reserve and produced no raw model; its `U4F_SOURCE_GENERATOR_HOLD` remains historical evidence at the [continuation report](../native/evidence/unity/u4f-asset-first-stamp/continuation-2026-09-29/README.md). Candidate-04 remains the approved representative first source; all six references remain retained. Final stylization may also come from material, weathering, biome, and surface-treatment systems. Do not lower guards, close applications, start U4E.3, U4G, U5, or broad asset-family exploration.
 
 
 ## September 29 asset-first pivot — start here

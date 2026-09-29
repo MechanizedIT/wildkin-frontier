@@ -1,0 +1,85 @@
+{
+  "status": "neutral, exact raw PLY import and visual inspection; no cleanup or export",
+  "source": "C:\\Users\\cwood\\Documents\\mobile-rpg\\art\\source\\u4f-rock-002\\raw\\staged512-geometry-r1\\raw-geometry.ply",
+  "sourceSha256": "4cc76dc0608ed0e3575e25718c3b606561aa7925c4cd5d46350c4576d5958c5d",
+  "sourceReceiptSha256": "0dec76be8ebbb8aaad2988f0aef3a7aeb24d3291301075e50e9d7ae770721e44",
+  "sourcePlanSha256": "6449d5ef4941b97a2c274a4b476b944f2132f8380fb8350f5421af256f2c191a",
+  "profile": "fresh-process-per-stage-512-u4f-rock004-geometry-ply-v1",
+  "mode": "u4f-rock004-geometry-ply-v1",
+  "pinnedInputSha256": "6b0d4606568158de586f488bb0cafe7b17e04c26b6c47f5528cee6209043b0bc",
+  "faceLimit": 2500000,
+  "vertices": 796082,
+  "triangles": 1594784,
+  "scalar": "float32",
+  "binaryBytes": 30285576,
+  "bounds": {
+    "min": [
+      -0.4990580677986145,
+      -0.46034863591194153,
+      -0.26899635791778564
+    ],
+    "max": [
+      0.5002684593200684,
+      0.4592106342315674,
+      0.268713116645813
+    ]
+  },
+  "sourceSchemaCountsIndicesVerified": true,
+  "importedPositionSha256": "1a82f77d7aa07f191a51ecf6b24d296d499ceac2e979a83fc696e769138ee7ad",
+  "maxPositionImportPrecisionError": 0.0,
+  "topology": {
+    "uv_layers": [],
+    "loose_vertices": 53,
+    "connected_vertex_components": 54,
+    "largest_component_vertices": 796029,
+    "boundary_edges": 6356,
+    "nonmanifold_edges": 9864,
+    "wire_edges": 0
+  },
+  "numericTopology": {
+    "nonfinitePositionScalars": 0,
+    "repeatedIndexFaces": 0,
+    "zeroAreaTriangles": 0,
+    "bounds": {
+      "min": [
+        -0.4990580677986145,
+        -0.46034863591194153,
+        -0.26899635791778564
+      ],
+      "max": [
+        0.5002684593200684,
+        0.4592106342315674,
+        0.268713116645813
+      ]
+    },
+    "unusedVerticesFromTriangleIndices": 53,
+    "auditMethod": "raw binary PLY indices and exact imported float32 positions; chunked numeric checks; no repair or evaluated mesh"
+  },
+  "views": [
+    "raw-front.png",
+    "raw-back.png",
+    "raw-left.png",
+    "raw-right.png",
+    "raw-top.png",
+    "raw-underside.png",
+    "raw-primary.png",
+    "raw-opposite.png",
+    "raw-wireframe.png"
+  ],
+  "viewDirections": [
+    "front",
+    "back",
+    "left",
+    "right",
+    "top",
+    "underside",
+    "primary",
+    "opposite"
+  ],
+  "neutralMaterial": "matte grayscale; roughness 0.92; metallic 0",
+  "undersideFloorPolicy": "neutral floor hidden only for underside render",
+  "noSourceMutation": true,
+  "minSampledHostFreeGiB": 17.769878387451172,
+  "initialFreeGiB": 18.305309295654297,
+  "elapsedSeconds": 27.125
+}

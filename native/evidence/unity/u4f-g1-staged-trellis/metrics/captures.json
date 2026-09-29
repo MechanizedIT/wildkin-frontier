@@ -1,0 +1,47 @@
+[
+  {
+    "name": "raw-primary.png",
+    "bytes": 250715,
+    "sha256": "9A5473EC082E8DB5A6AED89875FDA190229E53ECBCD7702D3D20FE5B895582CA"
+  },
+  {
+    "name": "raw-opposite.png",
+    "bytes": 253303,
+    "sha256": "CB5BBA317856A2B5CE944BF211D1A8DCE96624BAA78D93F3F5505550D6463756"
+  },
+  {
+    "name": "raw-front.png",
+    "bytes": 215849,
+    "sha256": "7BF00F69ABAAAB1834B5BA297138B05D7300CBFE0198148E0133EBC96F9B1C6D"
+  },
+  {
+    "name": "raw-back.png",
+    "bytes": 216902,
+    "sha256": "A604E1293FAD22B8A46D10FE0C27503E0C078DC2B9D9794FA948E6D071E653F9"
+  },
+  {
+    "name": "raw-left.png",
+    "bytes": 216908,
+    "sha256": "A2C804818109A873B4E9646C9526FEDE1F5A09FA9471674F207B2CDBEBFE52A0"
+  },
+  {
+    "name": "raw-right.png",
+    "bytes": 212964,
+    "sha256": "005FC2EC4F0B98C4BE09F918953CB9B561D16D9FD7DE8148DBB34E60C008970D"
+  },
+  {
+    "name": "raw-top.png",
+    "bytes": 246430,
+    "sha256": "30C29B13D839893CE818B74FFF3F5FF67E3DE44B3A1994A40CC29A4D82E5FCE9"
+  },
+  {
+    "name": "raw-underside.png",
+    "bytes": 145585,
+    "sha256": "28F33BF72925E6312CAD9AD8DF845E84604C749DF701255E62D365D96262CB8E"
+  },
+  {
+    "name": "raw-wireframe.png",
+    "bytes": 243484,
+    "sha256": "8A7B4A7E253B2CE992915985B307AAEC945FFCAB3DF5EC217F8CA712D12A4D66"
+  }
+]

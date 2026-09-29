@@ -1,5 +1,15 @@
 # TRELLIS experiment ledger
 
+## U4F-G1 — candidate-04 staged shape-only raw PLY, September 29, 2026
+
+One owner-authorized exact-input attempt used `candidate-04.png` (SHA-256 `6B0D4606568158DE586F488BB0CAFE7B17E04C26B6C47F5528CEE6209043B0BC`) with the process-separated 512 profile, seed 1234, 12 steps, one sample and `low_vram=True`. The predeclared input-specific raw geometry face ceiling was 2,500,000, selected from prior raw PLY history; the ordinary 750,000 full-export, Rootbound 1,100,000, Lantern 2,300,000, and Trailgloam 1,900,000 limits remain unchanged. The existing six-GiB reserve, stage gates, owned-child watchdog, offline execution and mutex were retained.
+
+The profile ran fresh background, conditioning, sparse, shape-flow and decode children; each exited 0. Texture-flow was skipped and the installed shape-SLat decoder emitted only geometry. The lowest parent-sampled free RAM was 10.998 GiB during shape-flow; RAM recovered to 18.067 GiB after sparse and 18.349 GiB after shape-flow. The raw PLY is 30,285,576 bytes, 796,082 vertices and 1,594,784 triangles, SHA-256 `4cc76dc0608ed0e3575e25718c3b606561aa7925c4cd5d46350c4576d5958c5d`. Full stage, handoff and resource facts: [U4F-G1 metrics](../native/evidence/unity/u4f-g1-staged-trellis/metrics/stages.json).
+
+Blender exact-import inspection made no source changes. The raw mesh has 54 vertex-connected components (one main component plus 53 unused points), 6,356 boundary edges, 9,864 nonmanifold edges, no wire edges, no repeated-index faces, no zero-area triangles, and no nonfinite position values. An independent read-only visual review assigns `U4FG1_RAW_SOURCE_CANDIDATE`: the chunky exterior is worth one bounded cleanup pass, but a large open underside blocks direct stamp use; a deliberate closed reconstruction/remesh is likely required. This is not topology or production admission. See the [full raw review](../native/evidence/unity/u4f-g1-staged-trellis/review-raw-source.md) and [neutral capture set](../native/evidence/unity/u4f-g1-staged-trellis/README.md).
+
+The prior long-lived Small512 `U4F_SOURCE_GENERATOR_HOLD` is retained as historical evidence; G1 is a materially different execution method authorized by the owner. No Unity voxelization, cleanup derivative, U4G, or U5 work began. Stop for owner review.
+
 ## Trailgloam — TRELLIS-first recovery, September 14
 
 Latest owner direction prioritizes TRELLIS for organic assets. A new independent input review allows normal far-side occlusion in the retained single-subject target (SHA417daef7277d21dd3c5f53abc92fe4e63f11f575cf04a7e9cca7bae3d2afc2ff); final six-leg anatomy remains a mesh/rig gate. The manual R6 model is not TRELLIS output, and its prepared R7 hoof repair is paused unexecuted.

@@ -1,0 +1,9 @@
+{
+  "capturedUtc": "2026-09-29T22:41:57.213051+00:00",
+  "command": "C:/Python310/python.exe tools/art/trellis-process-staged.py --self-test",
+  "syntaxCompile": "pass",
+  "testsRun": 26,
+  "failures": 0,
+  "errors": 0,
+  "result": "pass"
+}

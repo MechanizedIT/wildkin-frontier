@@ -1,0 +1,58 @@
+{
+  "path": "art/source/u4f-rock-002/raw/staged512-geometry-r1/raw-geometry.ply",
+  "sha256": "4cc76dc0608ed0e3575e25718c3b606561aa7925c4cd5d46350c4576d5958c5d",
+  "bytes": 30285576,
+  "format": "binary_little_endian_1.0",
+  "vertices": 796082,
+  "triangles": 1594784,
+  "coordinateDtype": "float32",
+  "triangleIndexDtype": "uint32 (binary PLY list indices)",
+  "sourceTriangleIndexDtype": "int32",
+  "bounds": {
+    "min": [
+      -0.4990580677986145,
+      -0.46034863591194153,
+      -0.26899635791778564
+    ],
+    "max": [
+      0.5002684593200684,
+      0.4592106342315674,
+      0.268713116645813
+    ]
+  },
+  "topology": {
+    "uv_layers": [],
+    "loose_vertices": 53,
+    "connected_vertex_components": 54,
+    "largest_component_vertices": 796029,
+    "boundary_edges": 6356,
+    "nonmanifold_edges": 9864,
+    "wire_edges": 0
+  },
+  "numericTopology": {
+    "nonfinitePositionScalars": 0,
+    "repeatedIndexFaces": 0,
+    "zeroAreaTriangles": 0,
+    "bounds": {
+      "min": [
+        -0.4990580677986145,
+        -0.46034863591194153,
+        -0.26899635791778564
+      ],
+      "max": [
+        0.5002684593200684,
+        0.4592106342315674,
+        0.268713116645813
+      ]
+    },
+    "unusedVerticesFromTriangleIndices": 53,
+    "auditMethod": "raw binary PLY indices and exact imported float32 positions; chunked numeric checks; no repair or evaluated mesh"
+  },
+  "inspection": {
+    "exactBlenderImport": true,
+    "maxPositionImportPrecisionError": 0.0,
+    "captureCount": 9,
+    "minSampledBlenderFreeRamGiB": 17.769878387451172
+  },
+  "rawMasterUnmodified": true
+}

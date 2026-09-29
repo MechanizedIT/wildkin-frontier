@@ -30,14 +30,20 @@ MAX_DECODED_FACES = 750000
 GEOMETRY_PLY_MAX_DECODED_FACES = 1_100_000
 LANTERN_GEOMETRY_PLY_MAX_DECODED_FACES = 2_300_000
 TRAILGLOAM_GEOMETRY_PLY_MAX_DECODED_FACES = 1_900_000
+U4F_ROCK004_GEOMETRY_PLY_MAX_DECODED_FACES = 2_500_000
 FULL_EXPORT_PROFILE = 'fresh-process-per-stage-512-experiment'
 GEOMETRY_PLY_PROFILE = 'fresh-process-per-stage-512-geometry-ply-v1'
 LANTERN_GEOMETRY_PLY_PROFILE = 'fresh-process-per-stage-512-lantern-geometry-ply-v1'
 TRAILGLOAM_GEOMETRY_PLY_PROFILE = 'fresh-process-per-stage-512-trailgloam-geometry-ply-v1'
+U4F_ROCK004_GEOMETRY_PLY_PROFILE = 'fresh-process-per-stage-512-u4f-rock004-geometry-ply-v1'
 ROOTBOUND_BUTTRESS_INPUT_SHA256 = '65d8f8c63be4a3c98738aabe72cad21ce9399f3950914b559f8d1dc80abd457a'
 LANTERN_LOG_INPUT_SHA256 = '85bd175a6b102cf183b50ff5ca45a1afd6847a6920a28b0039bd8e1e98d6b2ac'
 TRAILGLOAM_INPUT_SHA256 = '417daef7277d21dd3c5f53abc92fe4e63f11f575cf04a7e9cca7bae3d2afc2ff'
-GEOMETRY_PLY_MODES = ('geometry-ply-v1', 'lantern-geometry-ply-v1', 'trailgloam-geometry-ply-v1')
+U4F_ROCK004_INPUT_SHA256 = '6b0d4606568158de586f488bb0cafe7b17e04c26b6c47f5528cee6209043b0bc'
+U4F_ROCK004_MODE = 'u4f-rock004-geometry-ply-v1'
+U4F_ROCK004_STAGE_SEQUENCE = ['background', 'conditioning', 'sparse', 'shape-flow', 'decode']
+GEOMETRY_PLY_MODES = ('geometry-ply-v1', 'lantern-geometry-ply-v1', 'trailgloam-geometry-ply-v1', U4F_ROCK004_MODE)
+PROFILE_CHOICES = ('full-export', 'geometry-ply-v1', 'lantern-geometry-ply-v1', 'trailgloam-geometry-ply-v1', 'u4f-rock004-geometry-ply-v1')
 MAX_COORDS = 32768
 STAGES = ('background', 'conditioning', 'sparse', 'shape-flow', 'texture-flow', 'decode')
 HANDOFFS = {
@@ -177,6 +183,16 @@ def profile_spec(profile):
         return {'plan_profile': TRAILGLOAM_GEOMETRY_PLY_PROFILE, 'mode': 'trailgloam-geometry-ply-v1',
                 'max_decoded_faces': TRAILGLOAM_GEOMETRY_PLY_MAX_DECODED_FACES,
                 'output_name': 'raw-geometry.ply', 'allowed_input_sha256': TRAILGLOAM_INPUT_SHA256}
+    if profile == 'u4f-rock004-geometry-ply-v1':
+        return {'plan_profile': U4F_ROCK004_GEOMETRY_PLY_PROFILE, 'mode': U4F_ROCK004_MODE,
+                'max_decoded_faces': U4F_ROCK004_GEOMETRY_PLY_MAX_DECODED_FACES,
+                'output_name': 'raw-geometry.ply', 'allowed_input_sha256': U4F_ROCK004_INPUT_SHA256,
+                'seed': 1234, 'steps': 12, 'faces': None, 'texture_size': None,
+                'pipeline_type': '512', 'num_samples': 1, 'low_vram': True,
+                'stage_sequence': U4F_ROCK004_STAGE_SEQUENCE.copy(),
+                'decode_strategy': 'shape-only',
+                'forbidden_operations': ['texture-flow sampling', 'texture SLat decoding',
+                    'o_voxel', 'CuMesh', 'BVH', 'UV', 'bake', 'simplification', 'textured GLB export']}
     raise ValueError(f'unknown TRELLIS output profile: {profile}')
 
 
@@ -190,11 +206,13 @@ def validate_profile_input(profile, input_path):
 def profile_contract_from_plan(plan):
     """Reject a mutable plan that differs from its selected immutable profile before any child import."""
     profile_name=plan.get('profile')
-    profile_arg=next((value for value in ('full-export','geometry-ply-v1','lantern-geometry-ply-v1','trailgloam-geometry-ply-v1') if profile_spec(value)['plan_profile']==profile_name),None)
+    profile_arg=next((value for value in PROFILE_CHOICES if profile_spec(value)['plan_profile']==profile_name),None)
     if profile_arg is None: raise ValueError('not this runner profile')
     expected=profile_spec(profile_arg); requested=plan.get('requested_run')
     if not isinstance(requested,dict): raise ValueError('runner plan lacks requested_run')
-    for key in ('mode','max_decoded_faces','output_name'):
+    for key in ('mode','max_decoded_faces','output_name','seed','steps','faces','texture_size',
+                'pipeline_type','num_samples','low_vram','stage_sequence','decode_strategy'):
+        if key not in expected: continue
         if requested.get(key)!=expected[key]: raise ValueError(f'runner plan {key} conflicts with immutable profile contract')
     allowed=expected.get('allowed_input_sha256')
     if allowed:
@@ -202,6 +220,20 @@ def profile_contract_from_plan(plan):
         if not input_name or requested.get('input_sha256')!=allowed: raise ValueError('geometry PLY plan lacks its reviewed input hash')
         input_path=Path(input_name).resolve()
         if not input_path.is_file() or sha256(input_path)!=allowed: raise ValueError('geometry PLY reviewed input changed before child import')
+    if profile_arg == 'u4f-rock004-geometry-ply-v1':
+        contract=plan.get('geometry_only_contract')
+        if not isinstance(contract,dict): raise ValueError('U4F geometry-only plan lacks its immutable output contract')
+        expected_forbidden=expected['forbidden_operations']
+        expected_contract={
+            'version':'trellis-' + expected['mode'],
+            'allowed_input_sha256':expected['allowed_input_sha256'],
+            'forbidden_operations':expected_forbidden,
+            'texture_sampling':False,
+            'ply_schema':'binary_little_endian; float32/float64 XYZ; uchar-3 uint32[3] triangles',
+        }
+        for key,value in expected_contract.items():
+            if contract.get(key)!=value:
+                raise ValueError(f'U4F geometry-only plan contract changed: {key}')
     return expected
 
 
@@ -217,6 +249,10 @@ def validate_decoded_face_limit(decoded_faces, face_limit):
 def make_plan(args, metadata):
     plan = metadata.prepare(args.install_root)
     profile = profile_spec(args.profile)
+    if 'seed' in profile and args.seed != profile['seed']:
+        raise ValueError(f"{args.profile} requires seed {profile['seed']}")
+    if 'steps' in profile and args.steps != profile['steps']:
+        raise ValueError(f"{args.profile} requires {profile['steps']} sampling steps")
     plan.update({'profile': profile['plan_profile'],
         'parent_torch_imported': False, 'process_boundary': 'one child exit per stage',
         'handoff_format': 'torch.save tensor-only dictionaries; weights_only load',
@@ -234,6 +270,11 @@ def make_plan(args, metadata):
             'forbidden_operations': ['o_voxel', 'CuMesh', 'BVH', 'UV', 'bake', 'simplification', 'GLB export'],
             'ply_schema': 'binary_little_endian; float32/float64 XYZ; uchar-3 uint32[3] triangles',
         }
+        if profile['mode'] == U4F_ROCK004_MODE:
+            plan['geometry_only_contract'].update({
+                'texture_sampling': False,
+                'forbidden_operations': profile['forbidden_operations'].copy(),
+            })
     plan['bootstrap_currently_fits'] = plan['observed_free_gib'] >= plan['bootstrap_required_free_gib']
     return plan
 
@@ -244,37 +285,59 @@ def stage_floor(plan, stage):
 
 def run_parent(args, plan):
     output, install = args.output_dir, args.install_root
-    profile_contract_from_plan(plan)
+    profile = profile_contract_from_plan(plan)
     ensure_free(plan['bootstrap_required_free_gib'], 'Pre-import whole-plan check')
     handle = acquire_owned_job()
     try:
-        for stage in STAGES:
+        active_stages = profile.get('stage_sequence', list(STAGES))
+        if 'texture-flow' not in active_stages:
+            append_event(output, 'texture-flow:skipped',
+                         reason='immutable shape-only geometry profile; texture latent is not used for raw vertices/triangles')
+        append_event(output, 'job-lock:acquired', mutex_name='Local\\WildkinTrellisStagedJob',
+                     owned_by_parent_pid=os.getpid())
+        for stage in active_stages:
             required = stage_floor(plan, stage)
-            ensure_free(required, f'{stage} stage')
-            append_event(output, stage + ':parent-before-child', required_free_gib=required)
+            stage_started_utc = now()
+            stage_free_before = ensure_free(required, f'{stage} stage')
+            append_event(output, stage + ':parent-before-child', required_free_gib=required,
+                         stage_started_utc=stage_started_utc, free_gib_before=stage_free_before)
             command = [str(install / 'venv/Scripts/python.exe'), str(Path(__file__).resolve()),
                        '--child-stage', stage, '--install-root', str(install), '--output-dir', str(output)]
             startup = subprocess.STARTUPINFO(); startup.dwFlags |= subprocess.STARTF_USESHOWWINDOW
             startup.wShowWindow = subprocess.SW_HIDE
             child = subprocess.Popen(command, cwd=str(install), env=offline_env(install), startupinfo=startup)
+            lowest_sampled_free = stage_free_before
             # The parent only ever terminates this exact Popen child that it created.
             while child.poll() is None:
-                if available_gib() < RESERVE_GIB:
-                    append_event(output, stage + ':parent-reserve-breach', owned_child_pid=child.pid)
+                sampled_free = available_gib()
+                lowest_sampled_free = min(lowest_sampled_free, sampled_free)
+                if sampled_free < RESERVE_GIB:
+                    append_event(output, stage + ':parent-reserve-breach', owned_child_pid=child.pid,
+                                 lowest_sampled_free_gib=lowest_sampled_free)
                     child.terminate(); child.wait(timeout=15)
                     raise RuntimeError('Owned child stopped after reserve breach')
                 time.sleep(.5)
             if child.returncode:
-                append_event(output, stage + ':child-failed', exit_code=child.returncode)
+                append_event(output, stage + ':child-failed', exit_code=child.returncode,
+                             owned_child_pid=child.pid, stage_started_utc=stage_started_utc,
+                             stage_ended_utc=now(), free_gib_after=available_gib(),
+                             lowest_sampled_free_gib=lowest_sampled_free)
                 raise RuntimeError(f'{stage} child exited {child.returncode}; preserved prior outputs')
-            append_event(output, stage + ':child-exited', exit_code=0)
+            append_event(output, stage + ':child-exited', exit_code=0, owned_child_pid=child.pid,
+                         stage_started_utc=stage_started_utc, stage_ended_utc=now(),
+                         free_gib_after=available_gib(),
+                         lowest_sampled_free_gib=lowest_sampled_free)
         target = output / plan['requested_run']['output_name']
         if not target.is_file():
             raise RuntimeError(f"decode child reported success without {target.name}")
         append_complete_event(output, target)
     finally:
-        ctypes.windll.kernel32.ReleaseMutex(ctypes.c_void_p(handle))
-        ctypes.windll.kernel32.CloseHandle(ctypes.c_void_p(handle))
+        try:
+            ctypes.windll.kernel32.ReleaseMutex(ctypes.c_void_p(handle))
+            ctypes.windll.kernel32.CloseHandle(ctypes.c_void_p(handle))
+        finally:
+            append_event(output, 'job-lock:released', mutex_name='Local\\WildkinTrellisStagedJob',
+                         owned_by_parent_pid=os.getpid())
 
 
 def validate_tensor_dict(value, required, limit=MAX_COORDS):
@@ -359,7 +422,10 @@ def child_pipeline(torch, plan, install, keys):
 
 def run_child(stage, install, output):
     plan = json.loads((output / 'plan.json').read_text(encoding='utf8'))
-    profile_contract_from_plan(plan)
+    profile = profile_contract_from_plan(plan)
+    active_stages = profile.get('stage_sequence', list(STAGES))
+    if stage not in active_stages:
+        raise RuntimeError(f'{stage} is forbidden by the immutable {profile["mode"]} stage contract')
     ensure_free(stage_floor(plan, stage), stage + ' child')
     # Texture/decode reconstruct SparseTensor before constructing their pipeline.
     # Bootstrap first so those imports work in a new interpreter.
@@ -416,12 +482,30 @@ def run_child(stage, install, output):
                 restore_rng(torch, output, 'rng-after-shape.pt')
                 texture = pipe.sample_tex_slat({k: v.to(pipe.device) for k, v in cond.items()}, pipe.models['tex_slat_flow_model_512'], shape, {'steps': plan['requested_run']['steps']})
                 child_save(torch, output, 'texture.pt', {'feats': texture.feats, 'coords': texture.coords})
-            else:
+            elif stage == 'decode':
                 from trellis2.modules.sparse import SparseTensor
-                pipe = child_pipeline(torch, plan, install, ('shape_slat_decoder', 'tex_slat_decoder'))
-                shape = child_load(torch, output, 'shape.pt', ('feats', 'coords')); texture = child_load(torch, output, 'texture.pt', ('feats', 'coords'))
-                shape, texture = SparseTensor(shape['feats'].to(pipe.device), shape['coords'].to(pipe.device)), SparseTensor(texture['feats'].to(pipe.device), texture['coords'].to(pipe.device))
-                mesh = pipe.decode_latent(shape, texture, 512)[0]
+                if profile['mode'] == U4F_ROCK004_MODE:
+                    pipe = child_pipeline(torch, plan, install, ('shape_slat_decoder',))
+                    shape_data = child_load(torch, output, 'shape.pt', ('feats', 'coords'))
+                    shape = SparseTensor(shape_data['feats'].to(pipe.device), shape_data['coords'].to(pipe.device))
+                    decoder = pipe.models['shape_slat_decoder']
+                    if decoder.dtype != torch.float16:
+                        decoder.convert_to_fp16(); decoder.dtype = torch.float16
+                    if pipe.low_vram:
+                        decoder.low_vram = True
+                        decoder.from_latent.to(pipe.device)
+                        decoder.output_layer.to(pipe.device)
+                    meshes, _ = pipe.decode_shape_slat(shape, 512)
+                    if len(meshes) != 1:
+                        raise RuntimeError(f'geometry-only profile expected one decoded mesh, got {len(meshes)}')
+                    mesh = meshes[0]
+                else:
+                    pipe = child_pipeline(torch, plan, install, ('shape_slat_decoder', 'tex_slat_decoder'))
+                    shape_data = child_load(torch, output, 'shape.pt', ('feats', 'coords'))
+                    texture_data = child_load(torch, output, 'texture.pt', ('feats', 'coords'))
+                    shape = SparseTensor(shape_data['feats'].to(pipe.device), shape_data['coords'].to(pipe.device))
+                    texture = SparseTensor(texture_data['feats'].to(pipe.device), texture_data['coords'].to(pipe.device))
+                    mesh = pipe.decode_latent(shape, texture, 512)[0]
                 face_limit = plan['requested_run']['max_decoded_faces']
                 faces = int(mesh.faces.shape[0]); append_event(output, 'decode:geometry-budget', decoded_faces=faces, decoded_vertices=int(mesh.vertices.shape[0]), face_limit=face_limit, mode=plan['requested_run']['mode'])
                 validate_decoded_face_limit(faces, face_limit)
@@ -641,6 +725,101 @@ class ProtocolTests(unittest.TestCase):
         with self.assertRaises(RuntimeError):
             validate_decoded_face_limit(TRAILGLOAM_GEOMETRY_PLY_MAX_DECODED_FACES+1,TRAILGLOAM_GEOMETRY_PLY_MAX_DECODED_FACES)
 
+    def test_u4f_candidate04_profile_pins_exact_image_and_shape_only_settings(self):
+        image=Path(__file__).resolve().parents[2]/'art/source/u4f-rock-002/reference/candidate-04.png'
+        self.assertTrue(image.is_file())
+        self.assertEqual(sha256(image),U4F_ROCK004_INPUT_SHA256)
+        validate_profile_input('u4f-rock004-geometry-ply-v1',image)
+        spec=profile_spec('u4f-rock004-geometry-ply-v1')
+        self.assertEqual(spec['plan_profile'],U4F_ROCK004_GEOMETRY_PLY_PROFILE)
+        self.assertEqual(spec['mode'],U4F_ROCK004_MODE)
+        self.assertEqual(spec['max_decoded_faces'],2_500_000)
+        self.assertEqual(spec['output_name'],'raw-geometry.ply')
+        self.assertEqual(spec['seed'],1234)
+        self.assertEqual(spec['steps'],12)
+        self.assertEqual(spec['pipeline_type'],'512')
+        self.assertEqual(spec['num_samples'],1)
+        self.assertTrue(spec['low_vram'])
+        self.assertEqual(spec['decode_strategy'],'shape-only')
+        self.assertNotIn('texture-flow',spec['stage_sequence'])
+        self.assertIn('texture-flow sampling',spec['forbidden_operations'])
+        self.assertIsNone(spec['texture_size'])
+        self.assertIsNone(spec['faces'])
+
+    def test_u4f_candidate04_profile_rejects_changed_image(self):
+        with tempfile.TemporaryDirectory() as raw:
+            changed=Path(raw)/'changed.png'
+            changed.write_bytes(b'candidate-04-changed')
+            with self.assertRaises(ValueError):
+                validate_profile_input('u4f-rock004-geometry-ply-v1',changed)
+
+    def test_u4f_candidate04_contract_fixes_output_schema_and_preserves_guards(self):
+        image=Path(__file__).resolve().parents[2]/'art/source/u4f-rock-002/reference/candidate-04.png'
+        spec=profile_spec('u4f-rock004-geometry-ply-v1')
+        requested=dict(spec,input=str(image.resolve()),input_sha256=U4F_ROCK004_INPUT_SHA256)
+        contract={
+            'version':'trellis-' + U4F_ROCK004_MODE,
+            'allowed_input_sha256':U4F_ROCK004_INPUT_SHA256,
+            'forbidden_operations':spec['forbidden_operations'].copy(),
+            'texture_sampling':False,
+            'ply_schema':'binary_little_endian; float32/float64 XYZ; uchar-3 uint32[3] triangles',
+        }
+        plan={
+            'profile':U4F_ROCK004_GEOMETRY_PLY_PROFILE,
+            'requested_run':requested,
+            'geometry_only_contract':contract,
+            'reserve_gib':RESERVE_GIB,
+            'bootstrap_required_free_gib':18.0,
+            'stages':[{'name':stage,'required_free_gib':12.0} for stage in STAGES],
+        }
+        self.assertEqual(profile_contract_from_plan(plan),spec)
+        self.assertEqual(plan['reserve_gib'],6.0)
+        self.assertEqual(stage_floor(plan,'shape-flow'),12.0)
+        self.assertEqual(RESERVE_GIB,6.0)
+        self.assertEqual(WORKSPACE_GIB,2.0)
+        for mutate in (
+            lambda p: p['requested_run'].__setitem__('output_name','raw.glb'),
+            lambda p: p['requested_run'].__setitem__('max_decoded_faces',2_500_001),
+            lambda p: p['requested_run'].__setitem__('stage_sequence',STAGES),
+            lambda p: p['geometry_only_contract'].__setitem__('texture_sampling',True),
+            lambda p: p['geometry_only_contract'].__setitem__('ply_schema','arbitrary mesh schema'),
+            lambda p: p['geometry_only_contract']['forbidden_operations'].remove('texture-flow sampling'),
+        ):
+            mutated={**plan,'requested_run':dict(requested),'geometry_only_contract':{
+                **contract,'forbidden_operations':contract['forbidden_operations'].copy()}}
+            mutate(mutated)
+            with self.assertRaises(ValueError): profile_contract_from_plan(mutated)
+
+    def test_u4f_candidate04_cannot_invoke_texture_stage(self):
+        image=Path(__file__).resolve().parents[2]/'art/source/u4f-rock-002/reference/candidate-04.png'
+        spec=profile_spec('u4f-rock004-geometry-ply-v1')
+        with tempfile.TemporaryDirectory() as raw:
+            output=Path(raw)
+            write_json(output/'plan.json',{
+                'profile':spec['plan_profile'],
+                'requested_run':dict(spec,input=str(image.resolve()),input_sha256=U4F_ROCK004_INPUT_SHA256),
+                'geometry_only_contract':{
+                    'version':'trellis-' + U4F_ROCK004_MODE,
+                    'allowed_input_sha256':U4F_ROCK004_INPUT_SHA256,
+                    'forbidden_operations':spec['forbidden_operations'],
+                    'texture_sampling':False,
+                    'ply_schema':'binary_little_endian; float32/float64 XYZ; uchar-3 uint32[3] triangles',
+                },
+            })
+            with self.assertRaisesRegex(RuntimeError,'texture-flow is forbidden'):
+                run_child('texture-flow',Path('.'),output)
+
+    def test_u4f_candidate04_profile_leaves_historical_profiles_unchanged(self):
+        self.assertEqual(profile_spec('full-export')['max_decoded_faces'],750_000)
+        self.assertEqual(profile_spec('geometry-ply-v1')['max_decoded_faces'],1_100_000)
+        self.assertEqual(profile_spec('geometry-ply-v1')['allowed_input_sha256'],ROOTBOUND_BUTTRESS_INPUT_SHA256)
+        self.assertEqual(profile_spec('lantern-geometry-ply-v1')['max_decoded_faces'],2_300_000)
+        self.assertEqual(profile_spec('lantern-geometry-ply-v1')['allowed_input_sha256'],LANTERN_LOG_INPUT_SHA256)
+        self.assertEqual(profile_spec('trailgloam-geometry-ply-v1')['max_decoded_faces'],1_900_000)
+        self.assertEqual(profile_spec('trailgloam-geometry-ply-v1')['allowed_input_sha256'],TRAILGLOAM_INPUT_SHA256)
+        for profile in ('full-export','geometry-ply-v1','lantern-geometry-ply-v1','trailgloam-geometry-ply-v1'):
+            self.assertNotIn('stage_sequence',profile_spec(profile))
+
     def test_decoded_face_limit_boundary_refuses_before_serialization(self):
         validate_decoded_face_limit(LANTERN_GEOMETRY_PLY_MAX_DECODED_FACES, LANTERN_GEOMETRY_PLY_MAX_DECODED_FACES)
         with self.assertRaises(RuntimeError):
@@ -710,7 +889,7 @@ def main():
     parser.add_argument('--install-root', type=Path, default=Path('C:/Users/cwood/Tools/trellis2-stableprojectorz/code'))
     parser.add_argument('--output-dir', type=Path, default=Path('.dream-loop/trellis-process-staged-study'))
     mode = parser.add_mutually_exclusive_group(); mode.add_argument('--prepare-only', action='store_true'); mode.add_argument('--run', action='store_true'); mode.add_argument('--import-smoke', action='store_true')
-    parser.add_argument('--input', type=Path); parser.add_argument('--seed', type=int, default=1234); parser.add_argument('--steps', type=int, default=12, choices=range(1, 13)); parser.add_argument('--faces', type=int, default=30000); parser.add_argument('--profile', choices=('full-export', 'geometry-ply-v1', 'lantern-geometry-ply-v1', 'trailgloam-geometry-ply-v1'), default='full-export'); parser.add_argument('--child-stage', choices=STAGES); parser.add_argument('--child-import-smoke', action='store_true'); parser.add_argument('--self-test', action='store_true')
+    parser.add_argument('--input', type=Path); parser.add_argument('--seed', type=int, default=1234); parser.add_argument('--steps', type=int, default=12, choices=range(1, 13)); parser.add_argument('--faces', type=int, default=30000); parser.add_argument('--profile', choices=PROFILE_CHOICES, default='full-export'); parser.add_argument('--child-stage', choices=STAGES); parser.add_argument('--child-import-smoke', action='store_true'); parser.add_argument('--self-test', action='store_true')
     args = parser.parse_args()
     if args.self_test:
         result = unittest.main(argv=[sys.argv[0]], exit=False)
