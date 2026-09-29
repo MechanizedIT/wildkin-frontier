@@ -1,5 +1,14 @@
 # Build Log
 
+## 2026-09-29 — owner architecture pivot to asset-first voxel stamps — ChatGPT GPT-5.6 Sol
+
+- **Reviewed checkpoint:** actual U4E.2 commit \`b3affc06ffa53b5235162121ff8727572d2621a2\`, implementation, metrics and independent review. Machine E candidates pass 5/5 context/overlap checks, but the visual gate remains \`U4E2_LOCAL_POSE_SEARCH_HOLD\`; several cases require conspicuous translation/rotation and still read as repositioned rather than naturally formed.
+- **Owner direction:** stop treating fully procedural source-rock generation/composition as the likely production route. Pursue a library of quality generated/authored environment models, beginning with TRELLIS.2, then clean/review them and admit them as voxel/SDF stamps. Use physics/settling for natural surface formations rather than increasing contact-solver complexity. Preserve separate handling for continuous geological strata/bedrock.
+- **Architecture decision:** adopt an asset-first dual representation candidate: pristine source mesh/LODs while untouched; provider-agnostic pre-baked local matter stamp; mutable MatterDomain + Surface Nets after destruction activation. Render mesh, stamp-source mesh and physics proxy are separate products. TRELLIS is a provider, not runtime architecture.
+- **Roadmap:** close the procedural formation line with no U4E.3. Next bounded slice U4F proves one excellent rock end-to-end and fixes the owner-visible Unity stamp lab. U4G later tests physics-settled multi-rock formations; U4H later automates the broader asset factory. U5 remains stopped.
+- **Documentation:** added \`docs/ASSET_FIRST_VOXEL_PIPELINE.md\` and the U4F implementation brief; updated active current/session/transition/destruction/representation/fidelity/U4E/code-map/agent guidance. No gameplay/native code, historical evidence or browser implementation changed in this planning checkpoint.
+
+
 ## 2026-09-29 13:04 CDT — Unity U4E.2 local interlock pose search (HOLD)
 
 - **Tool/model/authorization/starting point:** Codex GPT-6 with Unity CLI/Pipeline, Unity 6000.3.25f1 and HDRP. Chris supplied the bounded U4E.2 pose-search brief, then explicitly asked to finish, commit, and push. Started directly on `main` at `85aa8128908e4485fb5b4d1c9a0503388e51cddb`, aligned with `origin/main`. No dependencies or tools were added.
