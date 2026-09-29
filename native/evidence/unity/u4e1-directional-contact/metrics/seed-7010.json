@@ -1,0 +1,1715 @@
+{
+    "seed": 7010,
+    "attemptIndex": 0,
+    "baselineMetricsMatch": true,
+    "baselineGraphHashMatch": false,
+    "baselineFormationHashMatch": false,
+    "regeneratedGraphHash": "0x4FD2CA42F0AB56A3",
+    "regeneratedFormationHash": "0x66614F064880EDCB",
+    "baselineMismatch": "",
+    "methods": [
+        {
+            "method": "GLOBAL_MIN_25MM",
+            "accepted": true,
+            "completeFormation": true,
+            "rejectionReason": "",
+            "formationHash": "0x66614F064880EDCB",
+            "sourceGeometryHash": "0x83EAACC72E485A22",
+            "contactGraphHash": "0x4FD2CA42F0AB56A3",
+            "graphConnectedToTerrain": true,
+            "acceptedContactEdges": 7,
+            "possibleContactEdges": 21,
+            "pairOverlapValidationComplete": true,
+            "zeroOverlapPairs": 21,
+            "zeroOverlapAllPairs": true,
+            "sourceMatterInvariantToA": true,
+            "partialSourceMatterInvariantToA": true,
+            "fittingCandidateEvaluations": 24,
+            "maximumSurfacePenetrationMeters": 0.0,
+            "children": [
+                {
+                    "id": "u4e-v1-00007010-foundation",
+                    "slot": "foundation",
+                    "sourceRecipeHash": "0x38651E6649980591",
+                    "sourceGeometryHash": "0x17F90B74790C6BF1",
+                    "contentHash": "0xC4F652DA11FAF593",
+                    "meshHash": "0x7F826AF1ABA9F890",
+                    "sampleSpacingMeters": 0.125,
+                    "meshRevision": 1
+                },
+                {
+                    "id": "u4e-v1-00007010-core",
+                    "slot": "core",
+                    "sourceRecipeHash": "0x04AA084F19C8F4BC",
+                    "sourceGeometryHash": "0x69D0BA4F71545A66",
+                    "contentHash": "0x18696AF3B74C1EEE",
+                    "meshHash": "0xD20AAE6A8223DBEE",
+                    "sampleSpacingMeters": 0.25,
+                    "meshRevision": 1
+                },
+                {
+                    "id": "u4e-v1-00007010-buttress-left",
+                    "slot": "buttress-left",
+                    "sourceRecipeHash": "0x907B6CE365EF8B2C",
+                    "sourceGeometryHash": "0x857999D6266AA5EF",
+                    "contentHash": "0x042401D3785C5C4C",
+                    "meshHash": "0xD1E411E6F685A2AC",
+                    "sampleSpacingMeters": 0.25,
+                    "meshRevision": 1
+                },
+                {
+                    "id": "u4e-v1-00007010-buttress-right",
+                    "slot": "buttress-right",
+                    "sourceRecipeHash": "0x22156B880E8499DC",
+                    "sourceGeometryHash": "0xA8D1133E0112D842",
+                    "contentHash": "0x2C26AF371E98BBF3",
+                    "meshHash": "0x103F2F94D992CC85",
+                    "sampleSpacingMeters": 0.25,
+                    "meshRevision": 1
+                },
+                {
+                    "id": "u4e-v1-00007010-broken-cap",
+                    "slot": "broken-cap",
+                    "sourceRecipeHash": "0x3D19AD1D2133C97B",
+                    "sourceGeometryHash": "0x197E89C1CEABA055",
+                    "contentHash": "0x4576CC1DD270F1DC",
+                    "meshHash": "0xFF70B2FA246D87A2",
+                    "sampleSpacingMeters": 0.25,
+                    "meshRevision": 1
+                },
+                {
+                    "id": "u4e-v1-00007010-outer-accent",
+                    "slot": "outer-accent",
+                    "sourceRecipeHash": "0x05775C0F09D0B434",
+                    "sourceGeometryHash": "0xF0BA32B765346FC5",
+                    "contentHash": "0x49C201091CA04848",
+                    "meshHash": "0x774A6FDF0F007839",
+                    "sampleSpacingMeters": 0.25,
+                    "meshRevision": 1
+                }
+            ],
+            "intendedContacts": [
+                {
+                    "slot": "foundation",
+                    "parentSlot": "terrain",
+                    "spacingMovingMeters": 0.125,
+                    "spacingAnchorMeters": 0.5,
+                    "globalMinimumGapMeters": 0.023796020075678827,
+                    "directionalMinimumGapMeters": 0.023796020075678827,
+                    "directionalMedianGapMeters": 0.2696266770362854,
+                    "supportFacingTriangleCount": 1064,
+                    "acceptedPatchTriangleCount": 1,
+                    "supportFacingAreaSquareMeters": 7.459225654602051,
+                    "acceptedPatchAreaSquareMeters": 0.0078125,
+                    "patchAreaRatio": 0.001047360710799694,
+                    "witnessSpanAMeters": 0.0,
+                    "witnessSpanBMeters": 0.0,
+                    "patchDiagonalMeters": 0.0,
+                    "fittingTranslationMeters": -0.37300002574920657,
+                    "aToBPositiveSampleCount": 0,
+                    "bToAPositiveSampleCount": 0,
+                    "maximumSurfacePenetrationMeters": 0.0,
+                    "accepted": true,
+                    "fitRejectionReason": "",
+                    "contactWitnessPositionCount": 1,
+                    "contactWitnessPositionsTruncated": false,
+                    "weakPatchReason": "Accepted contact witnesses have essentially zero projected spread.",
+                    "supportFacingWitnesses": [],
+                    "contactWitnesses": [
+                        {
+                            "x": -0.018370047211647035,
+                            "y": 0.37300002574920657,
+                            "z": -0.02303468994796276,
+                            "signedGapMeters": 0.023796020075678827,
+                            "triangleAreaSquareMeters": 0.0078125,
+                            "acceptedContactBand": true
+                        }
+                    ]
+                },
+                {
+                    "slot": "core",
+                    "parentSlot": "foundation",
+                    "spacingMovingMeters": 0.25,
+                    "spacingAnchorMeters": 0.125,
+                    "globalMinimumGapMeters": 0.025028062984347345,
+                    "directionalMinimumGapMeters": 0.06173587217926979,
+                    "directionalMedianGapMeters": 0.23815952241420747,
+                    "supportFacingTriangleCount": 77,
+                    "acceptedPatchTriangleCount": 0,
+                    "supportFacingAreaSquareMeters": 2.150434970855713,
+                    "acceptedPatchAreaSquareMeters": 0.0,
+                    "patchAreaRatio": 0.0,
+                    "witnessSpanAMeters": 0.0,
+                    "witnessSpanBMeters": 0.0,
+                    "patchDiagonalMeters": 0.0,
+                    "fittingTranslationMeters": -1.0910000801086426,
+                    "aToBPositiveSampleCount": 0,
+                    "bToAPositiveSampleCount": 0,
+                    "maximumSurfacePenetrationMeters": 0.0,
+                    "accepted": true,
+                    "fitRejectionReason": "",
+                    "contactWitnessPositionCount": 0,
+                    "contactWitnessPositionsTruncated": false,
+                    "weakPatchReason": "No support-facing triangle centroid entered the fixed directional contact band.",
+                    "supportFacingWitnesses": [],
+                    "contactWitnesses": []
+                },
+                {
+                    "slot": "buttress-left",
+                    "parentSlot": "foundation",
+                    "spacingMovingMeters": 0.25,
+                    "spacingAnchorMeters": 0.125,
+                    "globalMinimumGapMeters": 0.024448571726679803,
+                    "directionalMinimumGapMeters": 0.0472586490213871,
+                    "directionalMedianGapMeters": 0.20836487412452699,
+                    "supportFacingTriangleCount": 73,
+                    "acceptedPatchTriangleCount": 0,
+                    "supportFacingAreaSquareMeters": 1.5653945207595826,
+                    "acceptedPatchAreaSquareMeters": 0.0,
+                    "patchAreaRatio": 0.0,
+                    "witnessSpanAMeters": 0.0,
+                    "witnessSpanBMeters": 0.0,
+                    "patchDiagonalMeters": 0.0,
+                    "fittingTranslationMeters": -0.7590000629425049,
+                    "aToBPositiveSampleCount": 0,
+                    "bToAPositiveSampleCount": 0,
+                    "maximumSurfacePenetrationMeters": 0.0,
+                    "accepted": true,
+                    "fitRejectionReason": "",
+                    "contactWitnessPositionCount": 0,
+                    "contactWitnessPositionsTruncated": false,
+                    "weakPatchReason": "No support-facing triangle centroid entered the fixed directional contact band.",
+                    "supportFacingWitnesses": [],
+                    "contactWitnesses": []
+                },
+                {
+                    "slot": "buttress-right",
+                    "parentSlot": "foundation",
+                    "spacingMovingMeters": 0.25,
+                    "spacingAnchorMeters": 0.125,
+                    "globalMinimumGapMeters": 0.02408469095826149,
+                    "directionalMinimumGapMeters": 0.035461943596601489,
+                    "directionalMedianGapMeters": 0.189667746424675,
+                    "supportFacingTriangleCount": 66,
+                    "acceptedPatchTriangleCount": 0,
+                    "supportFacingAreaSquareMeters": 1.263938546180725,
+                    "acceptedPatchAreaSquareMeters": 0.0,
+                    "patchAreaRatio": 0.0,
+                    "witnessSpanAMeters": 0.0,
+                    "witnessSpanBMeters": 0.0,
+                    "patchDiagonalMeters": 0.0,
+                    "fittingTranslationMeters": -0.12600000202655793,
+                    "aToBPositiveSampleCount": 0,
+                    "bToAPositiveSampleCount": 0,
+                    "maximumSurfacePenetrationMeters": 0.0,
+                    "accepted": true,
+                    "fitRejectionReason": "",
+                    "contactWitnessPositionCount": 0,
+                    "contactWitnessPositionsTruncated": false,
+                    "weakPatchReason": "No support-facing triangle centroid entered the fixed directional contact band.",
+                    "supportFacingWitnesses": [],
+                    "contactWitnesses": []
+                },
+                {
+                    "slot": "broken-cap",
+                    "parentSlot": "core",
+                    "spacingMovingMeters": 0.25,
+                    "spacingAnchorMeters": 0.25,
+                    "globalMinimumGapMeters": 0.023073356598615648,
+                    "directionalMinimumGapMeters": 0.04703647643327713,
+                    "directionalMedianGapMeters": 0.25089865922927859,
+                    "supportFacingTriangleCount": 48,
+                    "acceptedPatchTriangleCount": 0,
+                    "supportFacingAreaSquareMeters": 1.3603742122650147,
+                    "acceptedPatchAreaSquareMeters": 0.0,
+                    "patchAreaRatio": 0.0,
+                    "witnessSpanAMeters": 0.0,
+                    "witnessSpanBMeters": 0.0,
+                    "patchDiagonalMeters": 0.0,
+                    "fittingTranslationMeters": -1.2640000581741334,
+                    "aToBPositiveSampleCount": 0,
+                    "bToAPositiveSampleCount": 0,
+                    "maximumSurfacePenetrationMeters": 0.0,
+                    "accepted": true,
+                    "fitRejectionReason": "",
+                    "contactWitnessPositionCount": 0,
+                    "contactWitnessPositionsTruncated": false,
+                    "weakPatchReason": "No support-facing triangle centroid entered the fixed directional contact band.",
+                    "supportFacingWitnesses": [],
+                    "contactWitnesses": []
+                },
+                {
+                    "slot": "outer-accent",
+                    "parentSlot": "buttress-left",
+                    "spacingMovingMeters": 0.25,
+                    "spacingAnchorMeters": 0.25,
+                    "globalMinimumGapMeters": 0.025336015969514848,
+                    "directionalMinimumGapMeters": 0.06197778880596161,
+                    "directionalMedianGapMeters": 0.2719827890396118,
+                    "supportFacingTriangleCount": 15,
+                    "acceptedPatchTriangleCount": 0,
+                    "supportFacingAreaSquareMeters": 0.20105402171611787,
+                    "acceptedPatchAreaSquareMeters": 0.0,
+                    "patchAreaRatio": 0.0,
+                    "witnessSpanAMeters": 0.0,
+                    "witnessSpanBMeters": 0.0,
+                    "patchDiagonalMeters": 0.0,
+                    "fittingTranslationMeters": 0.0,
+                    "aToBPositiveSampleCount": 0,
+                    "bToAPositiveSampleCount": 0,
+                    "maximumSurfacePenetrationMeters": 0.0,
+                    "accepted": true,
+                    "fitRejectionReason": "",
+                    "contactWitnessPositionCount": 0,
+                    "contactWitnessPositionsTruncated": false,
+                    "weakPatchReason": "No support-facing triangle centroid entered the fixed directional contact band.",
+                    "supportFacingWitnesses": [],
+                    "contactWitnesses": []
+                }
+            ],
+            "primaryCapturePath": "native\\evidence\\unity\\u4e1-directional-contact\\captures\\raw\\primary\\seed-7010-GLOBAL_MIN_25MM.png",
+            "alternateCapturePath": "native\\evidence\\unity\\u4e1-directional-contact\\captures\\raw\\alternate\\seed-7010-GLOBAL_MIN_25MM.png"
+        },
+        {
+            "method": "DIRECTIONAL_PATCH_0MM",
+            "accepted": false,
+            "completeFormation": false,
+            "rejectionReason": "Measured parent contact failed for slot 'buttress-left': Candidate has bidirectional positive-solid sample-center overlap.",
+            "formationHash": "",
+            "sourceGeometryHash": "0xDD95845BDB809CBA",
+            "contactGraphHash": "",
+            "graphConnectedToTerrain": false,
+            "acceptedContactEdges": 0,
+            "possibleContactEdges": 0,
+            "pairOverlapValidationComplete": false,
+            "zeroOverlapPairs": 0,
+            "zeroOverlapAllPairs": false,
+            "sourceMatterInvariantToA": false,
+            "partialSourceMatterInvariantToA": true,
+            "fittingCandidateEvaluations": 198,
+            "maximumSurfacePenetrationMeters": 0.4829023778438568,
+            "children": [
+                {
+                    "id": "u4e-v1-00007010-foundation",
+                    "slot": "foundation",
+                    "sourceRecipeHash": "0x38651E6649980591",
+                    "sourceGeometryHash": "0x17F90B74790C6BF1",
+                    "contentHash": "0xC4F652DA11FAF593",
+                    "meshHash": "0x7F826AF1ABA9F890",
+                    "sampleSpacingMeters": 0.125,
+                    "meshRevision": 1
+                },
+                {
+                    "id": "u4e-v1-00007010-core",
+                    "slot": "core",
+                    "sourceRecipeHash": "0x04AA084F19C8F4BC",
+                    "sourceGeometryHash": "0x69D0BA4F71545A66",
+                    "contentHash": "0x18696AF3B74C1EEE",
+                    "meshHash": "0xD20AAE6A8223DBEE",
+                    "sampleSpacingMeters": 0.25,
+                    "meshRevision": 1
+                }
+            ],
+            "intendedContacts": [
+                {
+                    "slot": "foundation",
+                    "parentSlot": "terrain",
+                    "spacingMovingMeters": 0.125,
+                    "spacingAnchorMeters": 0.5,
+                    "globalMinimumGapMeters": -0.00812186487019062,
+                    "directionalMinimumGapMeters": -0.00812186487019062,
+                    "directionalMedianGapMeters": 0.230382040143013,
+                    "supportFacingTriangleCount": 1064,
+                    "acceptedPatchTriangleCount": 68,
+                    "supportFacingAreaSquareMeters": 7.459225654602051,
+                    "acceptedPatchAreaSquareMeters": 0.53125,
+                    "patchAreaRatio": 0.0712205320596695,
+                    "witnessSpanAMeters": 1.0584416389465333,
+                    "witnessSpanBMeters": 0.6082311868667603,
+                    "patchDiagonalMeters": 1.2207554578781129,
+                    "fittingTranslationMeters": -0.3230000138282776,
+                    "aToBPositiveSampleCount": 0,
+                    "bToAPositiveSampleCount": 0,
+                    "maximumSurfacePenetrationMeters": 0.00812186487019062,
+                    "accepted": true,
+                    "fitRejectionReason": "",
+                    "contactWitnessPositionCount": 68,
+                    "contactWitnessPositionsTruncated": false,
+                    "weakPatchReason": "",
+                    "supportFacingWitnesses": [],
+                    "contactWitnesses": [
+                        {
+                            "x": -0.1740826815366745,
+                            "y": 0.3230000138282776,
+                            "z": -0.5018100142478943,
+                            "signedGapMeters": 0.02266358956694603,
+                            "triangleAreaSquareMeters": 0.0078125,
+                            "acceptedContactBand": true
+                        },
+                        {
+                            "x": -0.04520382359623909,
+                            "y": 0.3230000138282776,
+                            "z": -0.5292208194732666,
+                            "signedGapMeters": 0.0164937786757946,
+                            "triangleAreaSquareMeters": 0.0078125,
+                            "acceptedContactBand": true
+                        },
+                        {
+                            "x": -0.09127319604158402,
+                            "y": 0.3230000138282776,
+                            "z": -0.49248069524765017,
+                            "signedGapMeters": 0.01095838937908411,
+                            "triangleAreaSquareMeters": 0.0078125,
+                            "acceptedContactBand": true
+                        },
+                        {
+                            "x": -0.18341195583343507,
+                            "y": 0.3230000138282776,
+                            "z": -0.4190005362033844,
+                            "signedGapMeters": 0.018215211108326913,
+                            "triangleAreaSquareMeters": 0.0078125,
+                            "acceptedContactBand": true
+                        },
+                        {
+                            "x": -0.22948133945465089,
+                            "y": 0.3230000138282776,
+                            "z": -0.38226041197776797,
+                            "signedGapMeters": 0.020586784929037095,
+                            "triangleAreaSquareMeters": 0.0078125,
+                            "acceptedContactBand": true
+                        },
+                        {
+                            "x": -0.10060247778892517,
+                            "y": 0.3230000138282776,
+                            "z": -0.40967124700546267,
+                            "signedGapMeters": 0.008745401166379452,
+                            "triangleAreaSquareMeters": 0.0078125,
+                            "acceptedContactBand": true
+                        },
+                        {
+                            "x": -0.0638623833656311,
+                            "y": 0.3230000138282776,
+                            "z": -0.3636018633842468,
+                            "signedGapMeters": 0.0033229466062039139,
+                            "triangleAreaSquareMeters": 0.0078125,
+                            "acceptedContactBand": true
+                        },
+                        {
+                            "x": -0.32162007689476015,
+                            "y": 0.3230000138282776,
+                            "z": -0.3087802529335022,
+                            "signedGapMeters": 0.022816266864538194,
+                            "triangleAreaSquareMeters": 0.0078125,
+                            "acceptedContactBand": true
+                        },
+                        {
+                            "x": -0.36768949031829836,
+                            "y": 0.3230000138282776,
+                            "z": -0.27204015851020815,
+                            "signedGapMeters": 0.02267417497932911,
+                            "triangleAreaSquareMeters": 0.0078125,
+                            "acceptedContactBand": true
+                        },
+                        {
+                            "x": -0.23881062865257264,
+                            "y": 0.3230000138282776,
+                            "z": -0.29945096373558047,
+                            "signedGapMeters": 0.015286468900740147,
+                            "triangleAreaSquareMeters": 0.0078125,
+                            "acceptedContactBand": true
+                        },
+                        {
+                            "x": -0.20207053422927857,
+                            "y": 0.3230000138282776,
+                            "z": -0.2533815801143646,
+                            "signedGapMeters": 0.009290355257689953,
+                            "triangleAreaSquareMeters": 0.0078125,
+                            "acceptedContactBand": true
+                        },
+                        {
+                            "x": -0.07319166511297226,
+                            "y": 0.3230000138282776,
+                            "z": -0.2807924151420593,
+                            "signedGapMeters": 0.0013741888105869294,
+                            "triangleAreaSquareMeters": 0.0078125,
+                            "acceptedContactBand": true
+                        },
+                        {
+                            "x": -0.11926104128360748,
+                            "y": 0.3230000138282776,
+                            "z": -0.24405230581760407,
+                            "signedGapMeters": 0.0031721044797450306,
+                            "triangleAreaSquareMeters": 0.0078125,
+                            "acceptedContactBand": true
+                        },
+                        {
+                            "x": -0.4598282277584076,
+                            "y": 0.3230000138282776,
+                            "z": -0.1985599547624588,
+                            "signedGapMeters": 0.01987631246447563,
+                            "triangleAreaSquareMeters": 0.0078125,
+                            "acceptedContactBand": true
+                        },
+                        {
+                            "x": -0.505897581577301,
+                            "y": 0.3230000138282776,
+                            "z": -0.16181986033916474,
+                            "signedGapMeters": 0.019064797088503839,
+                            "triangleAreaSquareMeters": 0.0078125,
+                            "acceptedContactBand": true
+                        },
+                        {
+                            "x": -0.3770187795162201,
+                            "y": 0.3230000138282776,
+                            "z": -0.18923066556453706,
+                            "signedGapMeters": 0.01428652461618185,
+                            "triangleAreaSquareMeters": 0.0078125,
+                            "acceptedContactBand": true
+                        },
+                        {
+                            "x": -0.34027865529060366,
+                            "y": 0.3230000138282776,
+                            "z": -0.14316129684448243,
+                            "signedGapMeters": 0.007716751657426357,
+                            "triangleAreaSquareMeters": 0.0078125,
+                            "acceptedContactBand": true
+                        },
+                        {
+                            "x": -0.21139980852603913,
+                            "y": 0.3230000138282776,
+                            "z": -0.17057210206985475,
+                            "signedGapMeters": 0.004254266154021025,
+                            "triangleAreaSquareMeters": 0.0078125,
+                            "acceptedContactBand": true
+                        },
+                        {
+                            "x": -0.25746920704841616,
+                            "y": 0.3230000138282776,
+                            "z": -0.13383200764656068,
+                            "signedGapMeters": 0.003538513323292136,
+                            "triangleAreaSquareMeters": 0.0078125,
+                            "acceptedContactBand": true
+                        },
+                        {
+                            "x": -0.12859033048152924,
+                            "y": 0.3230000138282776,
+                            "z": -0.16124281287193299,
+                            "signedGapMeters": -0.00018820384866558015,
+                            "triangleAreaSquareMeters": 0.0078125,
+                            "acceptedContactBand": true
+                        },
+                        {
+                            "x": -0.09185023605823517,
+                            "y": 0.3230000138282776,
+                            "z": -0.11517344415187836,
+                            "signedGapMeters": -0.0036706470418721439,
+                            "triangleAreaSquareMeters": 0.0078125,
+                            "acceptedContactBand": true
+                        },
+                        {
+                            "x": 0.0376056469976902,
+                            "y": 0.3230000138282776,
+                            "z": -0.5198915004730225,
+                            "signedGapMeters": 0.015713443979620935,
+                            "triangleAreaSquareMeters": 0.0078125,
+                            "acceptedContactBand": true
+                        },
+                        {
+                            "x": 0.07434574514627457,
+                            "y": 0.3230000138282776,
+                            "z": -0.47382214665412905,
+                            "signedGapMeters": 0.017018413171172143,
+                            "triangleAreaSquareMeters": 0.0078125,
+                            "acceptedContactBand": true
+                        },
+                        {
+                            "x": 0.06501646339893341,
+                            "y": 0.3230000138282776,
+                            "z": -0.39101269841194155,
+                            "signedGapMeters": 0.015146875753998757,
+                            "triangleAreaSquareMeters": 0.0078125,
+                            "acceptedContactBand": true
+                        },
+                        {
+                            "x": 0.01894708350300789,
+                            "y": 0.3230000138282776,
+                            "z": -0.3542725741863251,
+                            "signedGapMeters": 0.0023674112744629385,
+                            "triangleAreaSquareMeters": 0.0078125,
+                            "acceptedContactBand": true
+                        },
+                        {
+                            "x": 0.009617801755666733,
+                            "y": 0.3230000138282776,
+                            "z": -0.2714631259441376,
+                            "signedGapMeters": -0.0013431503903120757,
+                            "triangleAreaSquareMeters": 0.0078125,
+                            "acceptedContactBand": true
+                        },
+                        {
+                            "x": 0.0463578999042511,
+                            "y": 0.3230000138282776,
+                            "z": -0.22539374232292176,
+                            "signedGapMeters": 0.009909027256071568,
+                            "triangleAreaSquareMeters": 0.0078125,
+                            "acceptedContactBand": true
+                        },
+                        {
+                            "x": 0.037028614431619647,
+                            "y": 0.3230000138282776,
+                            "z": -0.14258424937725068,
+                            "signedGapMeters": 0.00654271524399519,
+                            "triangleAreaSquareMeters": 0.0078125,
+                            "acceptedContactBand": true
+                        },
+                        {
+                            "x": -0.009040765464305878,
+                            "y": 0.3230000138282776,
+                            "z": -0.1058441624045372,
+                            "signedGapMeters": -0.006701567675918341,
+                            "triangleAreaSquareMeters": 0.0078125,
+                            "acceptedContactBand": true
+                        },
+                        {
+                            "x": -0.5152268409729004,
+                            "y": 0.3230000138282776,
+                            "z": -0.07901038229465485,
+                            "signedGapMeters": 0.010878744535148144,
+                            "triangleAreaSquareMeters": 0.0078125,
+                            "acceptedContactBand": true
+                        },
+                        {
+                            "x": -0.4784867763519287,
+                            "y": 0.3230000138282776,
+                            "z": -0.03294100984930992,
+                            "signedGapMeters": -0.0013978607021272183,
+                            "triangleAreaSquareMeters": 0.0078125,
+                            "acceptedContactBand": true
+                        },
+                        {
+                            "x": -0.3496079444885254,
+                            "y": 0.3230000138282776,
+                            "z": -0.06035182252526283,
+                            "signedGapMeters": -0.000406664825277403,
+                            "triangleAreaSquareMeters": 0.0078125,
+                            "acceptedContactBand": true
+                        },
+                        {
+                            "x": -0.3956773281097412,
+                            "y": 0.3230000138282776,
+                            "z": -0.023611726239323617,
+                            "signedGapMeters": -0.003636088687926531,
+                            "triangleAreaSquareMeters": 0.0078125,
+                            "acceptedContactBand": true
+                        },
+                        {
+                            "x": -0.2667984664440155,
+                            "y": 0.3230000138282776,
+                            "z": -0.05102254077792168,
+                            "signedGapMeters": -0.0029091238975524904,
+                            "triangleAreaSquareMeters": 0.0078125,
+                            "acceptedContactBand": true
+                        },
+                        {
+                            "x": -0.23005837202072144,
+                            "y": 0.3230000138282776,
+                            "z": -0.004953160881996155,
+                            "signedGapMeters": -0.006965226959437132,
+                            "triangleAreaSquareMeters": 0.0078125,
+                            "acceptedContactBand": true
+                        },
+                        {
+                            "x": -0.10117951780557633,
+                            "y": 0.3230000138282776,
+                            "z": -0.032363973557949069,
+                            "signedGapMeters": -0.006766723934561014,
+                            "triangleAreaSquareMeters": 0.0078125,
+                            "acceptedContactBand": true
+                        },
+                        {
+                            "x": -0.14724889397621156,
+                            "y": 0.3230000138282776,
+                            "z": 0.0043761245906353,
+                            "signedGapMeters": -0.007595069240778685,
+                            "triangleAreaSquareMeters": 0.0078125,
+                            "acceptedContactBand": true
+                        },
+                        {
+                            "x": -0.48781606554985049,
+                            "y": 0.3230000138282776,
+                            "z": 0.04986846074461937,
+                            "signedGapMeters": 0.0010529544670134783,
+                            "triangleAreaSquareMeters": 0.0078125,
+                            "acceptedContactBand": true
+                        },
+                        {
+                            "x": -0.5338854193687439,
+                            "y": 0.3230000138282776,
+                            "z": 0.08660855889320374,
+                            "signedGapMeters": 0.018697433173656465,
+                            "triangleAreaSquareMeters": 0.0078125,
+                            "acceptedContactBand": true
+                        },
+                        {
+                            "x": -0.40500661730766299,
+                            "y": 0.3230000138282776,
+                            "z": 0.059197742491960528,
+                            "signedGapMeters": 0.0006195621681399643,
+                            "triangleAreaSquareMeters": 0.0078125,
+                            "acceptedContactBand": true
+                        },
+                        {
+                            "x": -0.3682664930820465,
+                            "y": 0.3230000138282776,
+                            "z": 0.10526712238788605,
+                            "signedGapMeters": 0.004807498771697283,
+                            "triangleAreaSquareMeters": 0.0078125,
+                            "acceptedContactBand": true
+                        },
+                        {
+                            "x": -0.2393876612186432,
+                            "y": 0.3230000138282776,
+                            "z": 0.07785630971193314,
+                            "signedGapMeters": -0.0013945413520559669,
+                            "triangleAreaSquareMeters": 0.0078125,
+                            "acceptedContactBand": true
+                        },
+                        {
+                            "x": -0.285457044839859,
+                            "y": 0.3230000138282776,
+                            "z": 0.1145964041352272,
+                            "signedGapMeters": 0.0029625575989484789,
+                            "triangleAreaSquareMeters": 0.0078125,
+                            "acceptedContactBand": true
+                        },
+                        {
+                            "x": -0.1565781831741333,
+                            "y": 0.3230000138282776,
+                            "z": 0.08718559890985489,
+                            "signedGapMeters": -0.002975251991301775,
+                            "triangleAreaSquareMeters": 0.0078125,
+                            "acceptedContactBand": true
+                        },
+                        {
+                            "x": -0.11983808130025864,
+                            "y": 0.3230000138282776,
+                            "z": 0.1332549750804901,
+                            "signedGapMeters": -0.0018746444256976247,
+                            "triangleAreaSquareMeters": 0.0078125,
+                            "acceptedContactBand": true
+                        },
+                        {
+                            "x": -0.37759578227996828,
+                            "y": 0.3230000138282776,
+                            "z": 0.18807660043239594,
+                            "signedGapMeters": 0.014190425164997578,
+                            "triangleAreaSquareMeters": 0.0078125,
+                            "acceptedContactBand": true
+                        },
+                        {
+                            "x": -0.4236651659011841,
+                            "y": 0.3230000138282776,
+                            "z": 0.2248167097568512,
+                            "signedGapMeters": 0.02106119692325592,
+                            "triangleAreaSquareMeters": 0.0078125,
+                            "acceptedContactBand": true
+                        },
+                        {
+                            "x": -0.29478633403778078,
+                            "y": 0.3230000138282776,
+                            "z": 0.1974058896303177,
+                            "signedGapMeters": 0.010669705457985402,
+                            "triangleAreaSquareMeters": 0.0078125,
+                            "acceptedContactBand": true
+                        },
+                        {
+                            "x": -0.2580462396144867,
+                            "y": 0.3230000138282776,
+                            "z": 0.2434752732515335,
+                            "signedGapMeters": 0.01234397292137146,
+                            "triangleAreaSquareMeters": 0.0078125,
+                            "acceptedContactBand": true
+                        },
+                        {
+                            "x": -0.1291673630475998,
+                            "y": 0.3230000138282776,
+                            "z": 0.216064453125,
+                            "signedGapMeters": 0.0024809418246150018,
+                            "triangleAreaSquareMeters": 0.0078125,
+                            "acceptedContactBand": true
+                        },
+                        {
+                            "x": -0.1752367466688156,
+                            "y": 0.3230000138282776,
+                            "z": 0.25280454754829409,
+                            "signedGapMeters": 0.0074117002077400688,
+                            "triangleAreaSquareMeters": 0.0078125,
+                            "acceptedContactBand": true
+                        },
+                        {
+                            "x": -0.26737549901008608,
+                            "y": 0.3230000138282776,
+                            "z": 0.3262847363948822,
+                            "signedGapMeters": 0.019786886870861055,
+                            "triangleAreaSquareMeters": 0.0078125,
+                            "acceptedContactBand": true
+                        },
+                        {
+                            "x": -0.18456602096557618,
+                            "y": 0.3230000138282776,
+                            "z": 0.33561399579048159,
+                            "signedGapMeters": 0.013178832828998566,
+                            "triangleAreaSquareMeters": 0.0078125,
+                            "acceptedContactBand": true
+                        },
+                        {
+                            "x": -0.1478259414434433,
+                            "y": 0.3230000138282776,
+                            "z": 0.3816834092140198,
+                            "signedGapMeters": 0.012339433655142784,
+                            "triangleAreaSquareMeters": 0.0078125,
+                            "acceptedContactBand": true
+                        },
+                        {
+                            "x": -0.15715521574020387,
+                            "y": 0.3230000138282776,
+                            "z": 0.4644928574562073,
+                            "signedGapMeters": 0.017842335626482965,
+                            "triangleAreaSquareMeters": 0.0078125,
+                            "acceptedContactBand": true
+                        },
+                        {
+                            "x": -0.018370047211647035,
+                            "y": 0.3230000138282776,
+                            "z": -0.02303468994796276,
+                            "signedGapMeters": -0.00812186487019062,
+                            "triangleAreaSquareMeters": 0.0078125,
+                            "acceptedContactBand": true
+                        },
+                        {
+                            "x": 0.018370047211647035,
+                            "y": 0.3230000138282776,
+                            "z": 0.02303468994796276,
+                            "signedGapMeters": -0.0011674638371914626,
+                            "triangleAreaSquareMeters": 0.0078125,
+                            "acceptedContactBand": true
+                        },
+                        {
+                            "x": 0.009040765464305878,
+                            "y": 0.3230000138282776,
+                            "z": 0.1058441624045372,
+                            "signedGapMeters": -0.0036309303250163795,
+                            "triangleAreaSquareMeters": 0.0078125,
+                            "acceptedContactBand": true
+                        },
+                        {
+                            "x": -0.037028614431619647,
+                            "y": 0.3230000138282776,
+                            "z": 0.14258424937725068,
+                            "signedGapMeters": -0.004866904579102993,
+                            "triangleAreaSquareMeters": 0.0078125,
+                            "acceptedContactBand": true
+                        },
+                        {
+                            "x": -0.0463578999042511,
+                            "y": 0.3230000138282776,
+                            "z": 0.22539374232292176,
+                            "signedGapMeters": -0.002187097445130348,
+                            "triangleAreaSquareMeters": 0.0078125,
+                            "acceptedContactBand": true
+                        },
+                        {
+                            "x": -0.009617801755666733,
+                            "y": 0.3230000138282776,
+                            "z": 0.2714631259441376,
+                            "signedGapMeters": -0.003600159427151084,
+                            "triangleAreaSquareMeters": 0.0078125,
+                            "acceptedContactBand": true
+                        },
+                        {
+                            "x": 0.07319166511297226,
+                            "y": 0.3230000138282776,
+                            "z": 0.2807924151420593,
+                            "signedGapMeters": 0.0202136542648077,
+                            "triangleAreaSquareMeters": 0.0078125,
+                            "acceptedContactBand": true
+                        },
+                        {
+                            "x": -0.01894708350300789,
+                            "y": 0.3230000138282776,
+                            "z": 0.3542725741863251,
+                            "signedGapMeters": -0.0011845844564959407,
+                            "triangleAreaSquareMeters": 0.0078125,
+                            "acceptedContactBand": true
+                        },
+                        {
+                            "x": -0.06501646339893341,
+                            "y": 0.3230000138282776,
+                            "z": 0.39101269841194155,
+                            "signedGapMeters": 0.004319833591580391,
+                            "triangleAreaSquareMeters": 0.0078125,
+                            "acceptedContactBand": true
+                        },
+                        {
+                            "x": 0.0638623833656311,
+                            "y": 0.3230000138282776,
+                            "z": 0.3636018633842468,
+                            "signedGapMeters": 0.017274944111704828,
+                            "triangleAreaSquareMeters": 0.0078125,
+                            "acceptedContactBand": true
+                        },
+                        {
+                            "x": -0.07434574514627457,
+                            "y": 0.3230000138282776,
+                            "z": 0.47382214665412905,
+                            "signedGapMeters": 0.008146957494318486,
+                            "triangleAreaSquareMeters": 0.0078125,
+                            "acceptedContactBand": true
+                        },
+                        {
+                            "x": -0.0376056469976902,
+                            "y": 0.3230000138282776,
+                            "z": 0.5198915004730225,
+                            "signedGapMeters": 0.011999104171991349,
+                            "triangleAreaSquareMeters": 0.0078125,
+                            "acceptedContactBand": true
+                        },
+                        {
+                            "x": 0.04520382359623909,
+                            "y": 0.3230000138282776,
+                            "z": 0.5292208194732666,
+                            "signedGapMeters": 0.02316192537546158,
+                            "triangleAreaSquareMeters": 0.0078125,
+                            "acceptedContactBand": true
+                        }
+                    ]
+                },
+                {
+                    "slot": "core",
+                    "parentSlot": "foundation",
+                    "spacingMovingMeters": 0.25,
+                    "spacingAnchorMeters": 0.125,
+                    "globalMinimumGapMeters": -0.010414634831249714,
+                    "directionalMinimumGapMeters": 0.022049451246857644,
+                    "directionalMedianGapMeters": 0.19794383645057679,
+                    "supportFacingTriangleCount": 77,
+                    "acceptedPatchTriangleCount": 1,
+                    "supportFacingAreaSquareMeters": 2.150434970855713,
+                    "acceptedPatchAreaSquareMeters": 0.03126136213541031,
+                    "patchAreaRatio": 0.014537227340042591,
+                    "witnessSpanAMeters": 0.0,
+                    "witnessSpanBMeters": 0.0,
+                    "patchDiagonalMeters": 0.0,
+                    "fittingTranslationMeters": -1.0,
+                    "aToBPositiveSampleCount": 0,
+                    "bToAPositiveSampleCount": 0,
+                    "maximumSurfacePenetrationMeters": 0.010414634831249714,
+                    "accepted": true,
+                    "fitRejectionReason": "",
+                    "contactWitnessPositionCount": 1,
+                    "contactWitnessPositionsTruncated": false,
+                    "weakPatchReason": "Accepted contact witnesses have essentially zero projected spread.",
+                    "supportFacingWitnesses": [],
+                    "contactWitnesses": [
+                        {
+                            "x": 0.026584163308143617,
+                            "y": 1.4815891981124879,
+                            "z": 0.372997909784317,
+                            "signedGapMeters": 0.022049451246857644,
+                            "triangleAreaSquareMeters": 0.03126136213541031,
+                            "acceptedContactBand": true
+                        }
+                    ]
+                },
+                {
+                    "slot": "buttress-left",
+                    "parentSlot": "foundation",
+                    "spacingMovingMeters": 0.25,
+                    "spacingAnchorMeters": 0.125,
+                    "globalMinimumGapMeters": -0.4829023778438568,
+                    "directionalMinimumGapMeters": -0.39776691794395449,
+                    "directionalMedianGapMeters": -0.005677902605384588,
+                    "supportFacingTriangleCount": 73,
+                    "acceptedPatchTriangleCount": 7,
+                    "supportFacingAreaSquareMeters": 1.5653945207595826,
+                    "acceptedPatchAreaSquareMeters": 0.16676001250743867,
+                    "patchAreaRatio": 0.10652905702590943,
+                    "witnessSpanAMeters": 0.8569336533546448,
+                    "witnessSpanBMeters": 0.5145163536071777,
+                    "patchDiagonalMeters": 0.999531090259552,
+                    "fittingTranslationMeters": 2.0500001907348635,
+                    "aToBPositiveSampleCount": 28,
+                    "bToAPositiveSampleCount": 258,
+                    "maximumSurfacePenetrationMeters": 0.4829023778438568,
+                    "accepted": false,
+                    "fitRejectionReason": "Candidate has bidirectional positive-solid sample-center overlap.",
+                    "contactWitnessPositionCount": 7,
+                    "contactWitnessPositionsTruncated": false,
+                    "weakPatchReason": "",
+                    "supportFacingWitnesses": [],
+                    "contactWitnesses": [
+                        {
+                            "x": 1.0738346576690674,
+                            "y": 0.35253769159317019,
+                            "z": -0.6037238836288452,
+                            "signedGapMeters": -0.01609327457845211,
+                            "triangleAreaSquareMeters": 0.03505770117044449,
+                            "acceptedContactBand": true
+                        },
+                        {
+                            "x": 1.0981230735778809,
+                            "y": 0.5243332982063294,
+                            "z": -0.6364092230796814,
+                            "signedGapMeters": -0.023212246596813203,
+                            "triangleAreaSquareMeters": 0.03152088820934296,
+                            "acceptedContactBand": true
+                        },
+                        {
+                            "x": 0.6947234272956848,
+                            "y": 1.2759249210357667,
+                            "z": -0.12189284712076187,
+                            "signedGapMeters": 0.019797179847955705,
+                            "triangleAreaSquareMeters": 0.023622658103704454,
+                            "acceptedContactBand": true
+                        },
+                        {
+                            "x": 1.1805202960968018,
+                            "y": 0.6076666712760925,
+                            "z": -0.5225126147270203,
+                            "signedGapMeters": -0.005677902605384588,
+                            "triangleAreaSquareMeters": 0.02399037405848503,
+                            "acceptedContactBand": true
+                        },
+                        {
+                            "x": 1.159775972366333,
+                            "y": 0.8296034336090088,
+                            "z": -0.5069547891616821,
+                            "signedGapMeters": -0.00840138178318739,
+                            "triangleAreaSquareMeters": 0.01851695217192173,
+                            "acceptedContactBand": true
+                        },
+                        {
+                            "x": 1.1978754997253419,
+                            "y": 0.7558045983314514,
+                            "z": -0.46746063232421877,
+                            "signedGapMeters": -0.00493962038308382,
+                            "triangleAreaSquareMeters": 0.01867198757827282,
+                            "acceptedContactBand": true
+                        },
+                        {
+                            "x": 1.0037181377410889,
+                            "y": 1.1456031799316407,
+                            "z": -0.3368622958660126,
+                            "signedGapMeters": -0.018219392746686937,
+                            "triangleAreaSquareMeters": 0.015379444696009159,
+                            "acceptedContactBand": true
+                        }
+                    ]
+                }
+            ],
+            "primaryCapturePath": "",
+            "alternateCapturePath": ""
+        },
+        {
+            "method": "DIRECTIONAL_PATCH_MINUS_5MM",
+            "accepted": false,
+            "completeFormation": false,
+            "rejectionReason": "Measured parent contact failed for slot 'core': Candidate has bidirectional positive-solid sample-center overlap.",
+            "formationHash": "",
+            "sourceGeometryHash": "0x809A503661668F50",
+            "contactGraphHash": "",
+            "graphConnectedToTerrain": false,
+            "acceptedContactEdges": 0,
+            "possibleContactEdges": 0,
+            "pairOverlapValidationComplete": false,
+            "zeroOverlapPairs": 0,
+            "zeroOverlapAllPairs": false,
+            "sourceMatterInvariantToA": false,
+            "partialSourceMatterInvariantToA": true,
+            "fittingCandidateEvaluations": 132,
+            "maximumSurfacePenetrationMeters": 0.20674949884414674,
+            "children": [
+                {
+                    "id": "u4e-v1-00007010-foundation",
+                    "slot": "foundation",
+                    "sourceRecipeHash": "0x38651E6649980591",
+                    "sourceGeometryHash": "0x17F90B74790C6BF1",
+                    "contentHash": "0xC4F652DA11FAF593",
+                    "meshHash": "0x7F826AF1ABA9F890",
+                    "sampleSpacingMeters": 0.125,
+                    "meshRevision": 1
+                }
+            ],
+            "intendedContacts": [
+                {
+                    "slot": "foundation",
+                    "parentSlot": "terrain",
+                    "spacingMovingMeters": 0.125,
+                    "spacingAnchorMeters": 0.5,
+                    "globalMinimumGapMeters": -0.00812186487019062,
+                    "directionalMinimumGapMeters": -0.00812186487019062,
+                    "directionalMedianGapMeters": 0.230382040143013,
+                    "supportFacingTriangleCount": 1064,
+                    "acceptedPatchTriangleCount": 61,
+                    "supportFacingAreaSquareMeters": 7.459225654602051,
+                    "acceptedPatchAreaSquareMeters": 0.4765625,
+                    "patchAreaRatio": 0.06388900429010391,
+                    "witnessSpanAMeters": 1.049112319946289,
+                    "witnessSpanBMeters": 0.6082311868667603,
+                    "patchDiagonalMeters": 1.2126754522323609,
+                    "fittingTranslationMeters": -0.3230000138282776,
+                    "aToBPositiveSampleCount": 0,
+                    "bToAPositiveSampleCount": 0,
+                    "maximumSurfacePenetrationMeters": 0.00812186487019062,
+                    "accepted": true,
+                    "fitRejectionReason": "",
+                    "contactWitnessPositionCount": 61,
+                    "contactWitnessPositionsTruncated": false,
+                    "weakPatchReason": "",
+                    "supportFacingWitnesses": [],
+                    "contactWitnesses": [
+                        {
+                            "x": -0.04520382359623909,
+                            "y": 0.3230000138282776,
+                            "z": -0.5292208194732666,
+                            "signedGapMeters": 0.0164937786757946,
+                            "triangleAreaSquareMeters": 0.0078125,
+                            "acceptedContactBand": true
+                        },
+                        {
+                            "x": -0.09127319604158402,
+                            "y": 0.3230000138282776,
+                            "z": -0.49248069524765017,
+                            "signedGapMeters": 0.01095838937908411,
+                            "triangleAreaSquareMeters": 0.0078125,
+                            "acceptedContactBand": true
+                        },
+                        {
+                            "x": -0.18341195583343507,
+                            "y": 0.3230000138282776,
+                            "z": -0.4190005362033844,
+                            "signedGapMeters": 0.018215211108326913,
+                            "triangleAreaSquareMeters": 0.0078125,
+                            "acceptedContactBand": true
+                        },
+                        {
+                            "x": -0.10060247778892517,
+                            "y": 0.3230000138282776,
+                            "z": -0.40967124700546267,
+                            "signedGapMeters": 0.008745401166379452,
+                            "triangleAreaSquareMeters": 0.0078125,
+                            "acceptedContactBand": true
+                        },
+                        {
+                            "x": -0.0638623833656311,
+                            "y": 0.3230000138282776,
+                            "z": -0.3636018633842468,
+                            "signedGapMeters": 0.0033229466062039139,
+                            "triangleAreaSquareMeters": 0.0078125,
+                            "acceptedContactBand": true
+                        },
+                        {
+                            "x": -0.23881062865257264,
+                            "y": 0.3230000138282776,
+                            "z": -0.29945096373558047,
+                            "signedGapMeters": 0.015286468900740147,
+                            "triangleAreaSquareMeters": 0.0078125,
+                            "acceptedContactBand": true
+                        },
+                        {
+                            "x": -0.20207053422927857,
+                            "y": 0.3230000138282776,
+                            "z": -0.2533815801143646,
+                            "signedGapMeters": 0.009290355257689953,
+                            "triangleAreaSquareMeters": 0.0078125,
+                            "acceptedContactBand": true
+                        },
+                        {
+                            "x": -0.07319166511297226,
+                            "y": 0.3230000138282776,
+                            "z": -0.2807924151420593,
+                            "signedGapMeters": 0.0013741888105869294,
+                            "triangleAreaSquareMeters": 0.0078125,
+                            "acceptedContactBand": true
+                        },
+                        {
+                            "x": -0.11926104128360748,
+                            "y": 0.3230000138282776,
+                            "z": -0.24405230581760407,
+                            "signedGapMeters": 0.0031721044797450306,
+                            "triangleAreaSquareMeters": 0.0078125,
+                            "acceptedContactBand": true
+                        },
+                        {
+                            "x": -0.4598282277584076,
+                            "y": 0.3230000138282776,
+                            "z": -0.1985599547624588,
+                            "signedGapMeters": 0.01987631246447563,
+                            "triangleAreaSquareMeters": 0.0078125,
+                            "acceptedContactBand": true
+                        },
+                        {
+                            "x": -0.505897581577301,
+                            "y": 0.3230000138282776,
+                            "z": -0.16181986033916474,
+                            "signedGapMeters": 0.019064797088503839,
+                            "triangleAreaSquareMeters": 0.0078125,
+                            "acceptedContactBand": true
+                        },
+                        {
+                            "x": -0.3770187795162201,
+                            "y": 0.3230000138282776,
+                            "z": -0.18923066556453706,
+                            "signedGapMeters": 0.01428652461618185,
+                            "triangleAreaSquareMeters": 0.0078125,
+                            "acceptedContactBand": true
+                        },
+                        {
+                            "x": -0.34027865529060366,
+                            "y": 0.3230000138282776,
+                            "z": -0.14316129684448243,
+                            "signedGapMeters": 0.007716751657426357,
+                            "triangleAreaSquareMeters": 0.0078125,
+                            "acceptedContactBand": true
+                        },
+                        {
+                            "x": -0.21139980852603913,
+                            "y": 0.3230000138282776,
+                            "z": -0.17057210206985475,
+                            "signedGapMeters": 0.004254266154021025,
+                            "triangleAreaSquareMeters": 0.0078125,
+                            "acceptedContactBand": true
+                        },
+                        {
+                            "x": -0.25746920704841616,
+                            "y": 0.3230000138282776,
+                            "z": -0.13383200764656068,
+                            "signedGapMeters": 0.003538513323292136,
+                            "triangleAreaSquareMeters": 0.0078125,
+                            "acceptedContactBand": true
+                        },
+                        {
+                            "x": -0.12859033048152924,
+                            "y": 0.3230000138282776,
+                            "z": -0.16124281287193299,
+                            "signedGapMeters": -0.00018820384866558015,
+                            "triangleAreaSquareMeters": 0.0078125,
+                            "acceptedContactBand": true
+                        },
+                        {
+                            "x": -0.09185023605823517,
+                            "y": 0.3230000138282776,
+                            "z": -0.11517344415187836,
+                            "signedGapMeters": -0.0036706470418721439,
+                            "triangleAreaSquareMeters": 0.0078125,
+                            "acceptedContactBand": true
+                        },
+                        {
+                            "x": 0.0376056469976902,
+                            "y": 0.3230000138282776,
+                            "z": -0.5198915004730225,
+                            "signedGapMeters": 0.015713443979620935,
+                            "triangleAreaSquareMeters": 0.0078125,
+                            "acceptedContactBand": true
+                        },
+                        {
+                            "x": 0.07434574514627457,
+                            "y": 0.3230000138282776,
+                            "z": -0.47382214665412905,
+                            "signedGapMeters": 0.017018413171172143,
+                            "triangleAreaSquareMeters": 0.0078125,
+                            "acceptedContactBand": true
+                        },
+                        {
+                            "x": 0.06501646339893341,
+                            "y": 0.3230000138282776,
+                            "z": -0.39101269841194155,
+                            "signedGapMeters": 0.015146875753998757,
+                            "triangleAreaSquareMeters": 0.0078125,
+                            "acceptedContactBand": true
+                        },
+                        {
+                            "x": 0.01894708350300789,
+                            "y": 0.3230000138282776,
+                            "z": -0.3542725741863251,
+                            "signedGapMeters": 0.0023674112744629385,
+                            "triangleAreaSquareMeters": 0.0078125,
+                            "acceptedContactBand": true
+                        },
+                        {
+                            "x": 0.009617801755666733,
+                            "y": 0.3230000138282776,
+                            "z": -0.2714631259441376,
+                            "signedGapMeters": -0.0013431503903120757,
+                            "triangleAreaSquareMeters": 0.0078125,
+                            "acceptedContactBand": true
+                        },
+                        {
+                            "x": 0.0463578999042511,
+                            "y": 0.3230000138282776,
+                            "z": -0.22539374232292176,
+                            "signedGapMeters": 0.009909027256071568,
+                            "triangleAreaSquareMeters": 0.0078125,
+                            "acceptedContactBand": true
+                        },
+                        {
+                            "x": 0.037028614431619647,
+                            "y": 0.3230000138282776,
+                            "z": -0.14258424937725068,
+                            "signedGapMeters": 0.00654271524399519,
+                            "triangleAreaSquareMeters": 0.0078125,
+                            "acceptedContactBand": true
+                        },
+                        {
+                            "x": -0.009040765464305878,
+                            "y": 0.3230000138282776,
+                            "z": -0.1058441624045372,
+                            "signedGapMeters": -0.006701567675918341,
+                            "triangleAreaSquareMeters": 0.0078125,
+                            "acceptedContactBand": true
+                        },
+                        {
+                            "x": -0.5152268409729004,
+                            "y": 0.3230000138282776,
+                            "z": -0.07901038229465485,
+                            "signedGapMeters": 0.010878744535148144,
+                            "triangleAreaSquareMeters": 0.0078125,
+                            "acceptedContactBand": true
+                        },
+                        {
+                            "x": -0.4784867763519287,
+                            "y": 0.3230000138282776,
+                            "z": -0.03294100984930992,
+                            "signedGapMeters": -0.0013978607021272183,
+                            "triangleAreaSquareMeters": 0.0078125,
+                            "acceptedContactBand": true
+                        },
+                        {
+                            "x": -0.3496079444885254,
+                            "y": 0.3230000138282776,
+                            "z": -0.06035182252526283,
+                            "signedGapMeters": -0.000406664825277403,
+                            "triangleAreaSquareMeters": 0.0078125,
+                            "acceptedContactBand": true
+                        },
+                        {
+                            "x": -0.3956773281097412,
+                            "y": 0.3230000138282776,
+                            "z": -0.023611726239323617,
+                            "signedGapMeters": -0.003636088687926531,
+                            "triangleAreaSquareMeters": 0.0078125,
+                            "acceptedContactBand": true
+                        },
+                        {
+                            "x": -0.2667984664440155,
+                            "y": 0.3230000138282776,
+                            "z": -0.05102254077792168,
+                            "signedGapMeters": -0.0029091238975524904,
+                            "triangleAreaSquareMeters": 0.0078125,
+                            "acceptedContactBand": true
+                        },
+                        {
+                            "x": -0.23005837202072144,
+                            "y": 0.3230000138282776,
+                            "z": -0.004953160881996155,
+                            "signedGapMeters": -0.006965226959437132,
+                            "triangleAreaSquareMeters": 0.0078125,
+                            "acceptedContactBand": true
+                        },
+                        {
+                            "x": -0.10117951780557633,
+                            "y": 0.3230000138282776,
+                            "z": -0.032363973557949069,
+                            "signedGapMeters": -0.006766723934561014,
+                            "triangleAreaSquareMeters": 0.0078125,
+                            "acceptedContactBand": true
+                        },
+                        {
+                            "x": -0.14724889397621156,
+                            "y": 0.3230000138282776,
+                            "z": 0.0043761245906353,
+                            "signedGapMeters": -0.007595069240778685,
+                            "triangleAreaSquareMeters": 0.0078125,
+                            "acceptedContactBand": true
+                        },
+                        {
+                            "x": -0.48781606554985049,
+                            "y": 0.3230000138282776,
+                            "z": 0.04986846074461937,
+                            "signedGapMeters": 0.0010529544670134783,
+                            "triangleAreaSquareMeters": 0.0078125,
+                            "acceptedContactBand": true
+                        },
+                        {
+                            "x": -0.5338854193687439,
+                            "y": 0.3230000138282776,
+                            "z": 0.08660855889320374,
+                            "signedGapMeters": 0.018697433173656465,
+                            "triangleAreaSquareMeters": 0.0078125,
+                            "acceptedContactBand": true
+                        },
+                        {
+                            "x": -0.40500661730766299,
+                            "y": 0.3230000138282776,
+                            "z": 0.059197742491960528,
+                            "signedGapMeters": 0.0006195621681399643,
+                            "triangleAreaSquareMeters": 0.0078125,
+                            "acceptedContactBand": true
+                        },
+                        {
+                            "x": -0.3682664930820465,
+                            "y": 0.3230000138282776,
+                            "z": 0.10526712238788605,
+                            "signedGapMeters": 0.004807498771697283,
+                            "triangleAreaSquareMeters": 0.0078125,
+                            "acceptedContactBand": true
+                        },
+                        {
+                            "x": -0.2393876612186432,
+                            "y": 0.3230000138282776,
+                            "z": 0.07785630971193314,
+                            "signedGapMeters": -0.0013945413520559669,
+                            "triangleAreaSquareMeters": 0.0078125,
+                            "acceptedContactBand": true
+                        },
+                        {
+                            "x": -0.285457044839859,
+                            "y": 0.3230000138282776,
+                            "z": 0.1145964041352272,
+                            "signedGapMeters": 0.0029625575989484789,
+                            "triangleAreaSquareMeters": 0.0078125,
+                            "acceptedContactBand": true
+                        },
+                        {
+                            "x": -0.1565781831741333,
+                            "y": 0.3230000138282776,
+                            "z": 0.08718559890985489,
+                            "signedGapMeters": -0.002975251991301775,
+                            "triangleAreaSquareMeters": 0.0078125,
+                            "acceptedContactBand": true
+                        },
+                        {
+                            "x": -0.11983808130025864,
+                            "y": 0.3230000138282776,
+                            "z": 0.1332549750804901,
+                            "signedGapMeters": -0.0018746444256976247,
+                            "triangleAreaSquareMeters": 0.0078125,
+                            "acceptedContactBand": true
+                        },
+                        {
+                            "x": -0.37759578227996828,
+                            "y": 0.3230000138282776,
+                            "z": 0.18807660043239594,
+                            "signedGapMeters": 0.014190425164997578,
+                            "triangleAreaSquareMeters": 0.0078125,
+                            "acceptedContactBand": true
+                        },
+                        {
+                            "x": -0.29478633403778078,
+                            "y": 0.3230000138282776,
+                            "z": 0.1974058896303177,
+                            "signedGapMeters": 0.010669705457985402,
+                            "triangleAreaSquareMeters": 0.0078125,
+                            "acceptedContactBand": true
+                        },
+                        {
+                            "x": -0.2580462396144867,
+                            "y": 0.3230000138282776,
+                            "z": 0.2434752732515335,
+                            "signedGapMeters": 0.01234397292137146,
+                            "triangleAreaSquareMeters": 0.0078125,
+                            "acceptedContactBand": true
+                        },
+                        {
+                            "x": -0.1291673630475998,
+                            "y": 0.3230000138282776,
+                            "z": 0.216064453125,
+                            "signedGapMeters": 0.0024809418246150018,
+                            "triangleAreaSquareMeters": 0.0078125,
+                            "acceptedContactBand": true
+                        },
+                        {
+                            "x": -0.1752367466688156,
+                            "y": 0.3230000138282776,
+                            "z": 0.25280454754829409,
+                            "signedGapMeters": 0.0074117002077400688,
+                            "triangleAreaSquareMeters": 0.0078125,
+                            "acceptedContactBand": true
+                        },
+                        {
+                            "x": -0.26737549901008608,
+                            "y": 0.3230000138282776,
+                            "z": 0.3262847363948822,
+                            "signedGapMeters": 0.019786886870861055,
+                            "triangleAreaSquareMeters": 0.0078125,
+                            "acceptedContactBand": true
+                        },
+                        {
+                            "x": -0.18456602096557618,
+                            "y": 0.3230000138282776,
+                            "z": 0.33561399579048159,
+                            "signedGapMeters": 0.013178832828998566,
+                            "triangleAreaSquareMeters": 0.0078125,
+                            "acceptedContactBand": true
+                        },
+                        {
+                            "x": -0.1478259414434433,
+                            "y": 0.3230000138282776,
+                            "z": 0.3816834092140198,
+                            "signedGapMeters": 0.012339433655142784,
+                            "triangleAreaSquareMeters": 0.0078125,
+                            "acceptedContactBand": true
+                        },
+                        {
+                            "x": -0.15715521574020387,
+                            "y": 0.3230000138282776,
+                            "z": 0.4644928574562073,
+                            "signedGapMeters": 0.017842335626482965,
+                            "triangleAreaSquareMeters": 0.0078125,
+                            "acceptedContactBand": true
+                        },
+                        {
+                            "x": -0.018370047211647035,
+                            "y": 0.3230000138282776,
+                            "z": -0.02303468994796276,
+                            "signedGapMeters": -0.00812186487019062,
+                            "triangleAreaSquareMeters": 0.0078125,
+                            "acceptedContactBand": true
+                        },
+                        {
+                            "x": 0.018370047211647035,
+                            "y": 0.3230000138282776,
+                            "z": 0.02303468994796276,
+                            "signedGapMeters": -0.0011674638371914626,
+                            "triangleAreaSquareMeters": 0.0078125,
+                            "acceptedContactBand": true
+                        },
+                        {
+                            "x": 0.009040765464305878,
+                            "y": 0.3230000138282776,
+                            "z": 0.1058441624045372,
+                            "signedGapMeters": -0.0036309303250163795,
+                            "triangleAreaSquareMeters": 0.0078125,
+                            "acceptedContactBand": true
+                        },
+                        {
+                            "x": -0.037028614431619647,
+                            "y": 0.3230000138282776,
+                            "z": 0.14258424937725068,
+                            "signedGapMeters": -0.004866904579102993,
+                            "triangleAreaSquareMeters": 0.0078125,
+                            "acceptedContactBand": true
+                        },
+                        {
+                            "x": -0.0463578999042511,
+                            "y": 0.3230000138282776,
+                            "z": 0.22539374232292176,
+                            "signedGapMeters": -0.002187097445130348,
+                            "triangleAreaSquareMeters": 0.0078125,
+                            "acceptedContactBand": true
+                        },
+                        {
+                            "x": -0.009617801755666733,
+                            "y": 0.3230000138282776,
+                            "z": 0.2714631259441376,
+                            "signedGapMeters": -0.003600159427151084,
+                            "triangleAreaSquareMeters": 0.0078125,
+                            "acceptedContactBand": true
+                        },
+                        {
+                            "x": -0.01894708350300789,
+                            "y": 0.3230000138282776,
+                            "z": 0.3542725741863251,
+                            "signedGapMeters": -0.0011845844564959407,
+                            "triangleAreaSquareMeters": 0.0078125,
+                            "acceptedContactBand": true
+                        },
+                        {
+                            "x": -0.06501646339893341,
+                            "y": 0.3230000138282776,
+                            "z": 0.39101269841194155,
+                            "signedGapMeters": 0.004319833591580391,
+                            "triangleAreaSquareMeters": 0.0078125,
+                            "acceptedContactBand": true
+                        },
+                        {
+                            "x": 0.0638623833656311,
+                            "y": 0.3230000138282776,
+                            "z": 0.3636018633842468,
+                            "signedGapMeters": 0.017274944111704828,
+                            "triangleAreaSquareMeters": 0.0078125,
+                            "acceptedContactBand": true
+                        },
+                        {
+                            "x": -0.07434574514627457,
+                            "y": 0.3230000138282776,
+                            "z": 0.47382214665412905,
+                            "signedGapMeters": 0.008146957494318486,
+                            "triangleAreaSquareMeters": 0.0078125,
+                            "acceptedContactBand": true
+                        },
+                        {
+                            "x": -0.0376056469976902,
+                            "y": 0.3230000138282776,
+                            "z": 0.5198915004730225,
+                            "signedGapMeters": 0.011999104171991349,
+                            "triangleAreaSquareMeters": 0.0078125,
+                            "acceptedContactBand": true
+                        }
+                    ]
+                },
+                {
+                    "slot": "core",
+                    "parentSlot": "foundation",
+                    "spacingMovingMeters": 0.25,
+                    "spacingAnchorMeters": 0.125,
+                    "globalMinimumGapMeters": -0.20674949884414674,
+                    "directionalMinimumGapMeters": -0.18025381863117219,
+                    "directionalMedianGapMeters": -0.007089026737958193,
+                    "supportFacingTriangleCount": 77,
+                    "acceptedPatchTriangleCount": 15,
+                    "supportFacingAreaSquareMeters": 2.150434970855713,
+                    "acceptedPatchAreaSquareMeters": 0.38657233119010928,
+                    "patchAreaRatio": 0.17976471781730653,
+                    "witnessSpanAMeters": 1.1687185764312745,
+                    "witnessSpanBMeters": 1.0454496145248414,
+                    "patchDiagonalMeters": 1.568077802658081,
+                    "fittingTranslationMeters": -0.7910000085830689,
+                    "aToBPositiveSampleCount": 0,
+                    "bToAPositiveSampleCount": 70,
+                    "maximumSurfacePenetrationMeters": 0.20674949884414674,
+                    "accepted": false,
+                    "fitRejectionReason": "Candidate has bidirectional positive-solid sample-center overlap.",
+                    "contactWitnessPositionCount": 15,
+                    "contactWitnessPositionsTruncated": false,
+                    "weakPatchReason": "",
+                    "supportFacingWitnesses": [],
+                    "contactWitnesses": [
+                        {
+                            "x": -0.10139021277427674,
+                            "y": 1.3070225715637208,
+                            "z": -0.4504503607749939,
+                            "signedGapMeters": 0.006579576525837183,
+                            "triangleAreaSquareMeters": 0.032832976430654529,
+                            "acceptedContactBand": true
+                        },
+                        {
+                            "x": -0.0062479376792907719,
+                            "y": 1.2830027341842652,
+                            "z": -0.3809029459953308,
+                            "signedGapMeters": -0.017799198627471925,
+                            "triangleAreaSquareMeters": 0.031572479754686359,
+                            "acceptedContactBand": true
+                        },
+                        {
+                            "x": -0.4275290071964264,
+                            "y": 1.4318407773971558,
+                            "z": -0.09831410646438599,
+                            "signedGapMeters": 0.008300884626805783,
+                            "triangleAreaSquareMeters": 0.020210184156894685,
+                            "acceptedContactBand": true
+                        },
+                        {
+                            "x": -0.46179142594337466,
+                            "y": 1.4548496007919312,
+                            "z": -0.016282230615615846,
+                            "signedGapMeters": 0.00868252944201231,
+                            "triangleAreaSquareMeters": 0.012530864216387272,
+                            "acceptedContactBand": true
+                        },
+                        {
+                            "x": 0.1584416925907135,
+                            "y": 1.2830027341842652,
+                            "z": -0.4064978361129761,
+                            "signedGapMeters": 0.01064431481063366,
+                            "triangleAreaSquareMeters": 0.031572479754686359,
+                            "acceptedContactBand": true
+                        },
+                        {
+                            "x": 0.2663813829421997,
+                            "y": 1.2710000276565552,
+                            "z": -0.25460559129714968,
+                            "signedGapMeters": -0.017452722415328027,
+                            "triangleAreaSquareMeters": 0.03125,
+                            "acceptedContactBand": true
+                        },
+                        {
+                            "x": 0.4438684582710266,
+                            "y": 1.2710000276565552,
+                            "z": -0.1978556364774704,
+                            "signedGapMeters": -0.004359541926532984,
+                            "triangleAreaSquareMeters": 0.03125,
+                            "acceptedContactBand": true
+                        },
+                        {
+                            "x": -0.44859352707862856,
+                            "y": 1.4425127506256104,
+                            "z": 0.10951176285743714,
+                            "signedGapMeters": -0.027600347995758058,
+                            "triangleAreaSquareMeters": 0.023616308346390725,
+                            "acceptedContactBand": true
+                        },
+                        {
+                            "x": -0.37575212121009829,
+                            "y": 1.5220353603363038,
+                            "z": 0.5131517052650452,
+                            "signedGapMeters": 0.007444687653332949,
+                            "triangleAreaSquareMeters": 0.018100053071975709,
+                            "acceptedContactBand": true
+                        },
+                        {
+                            "x": -0.29998263716697695,
+                            "y": 1.5017322301864625,
+                            "z": 0.5937118530273438,
+                            "signedGapMeters": -0.007449626456946135,
+                            "triangleAreaSquareMeters": 0.02540387213230133,
+                            "acceptedContactBand": true
+                        },
+                        {
+                            "x": -0.06987643241882324,
+                            "y": 1.4969302415847779,
+                            "z": 0.7182682752609253,
+                            "signedGapMeters": -0.0008584586903452873,
+                            "triangleAreaSquareMeters": 0.02659127302467823,
+                            "acceptedContactBand": true
+                        },
+                        {
+                            "x": 0.1595633327960968,
+                            "y": 1.4809224605560303,
+                            "z": 0.6860060095787048,
+                            "signedGapMeters": -0.010962245054543019,
+                            "triangleAreaSquareMeters": 0.03343253210186958,
+                            "acceptedContactBand": true
+                        },
+                        {
+                            "x": 0.5518081784248352,
+                            "y": 1.2710000276565552,
+                            "z": -0.04596344009041786,
+                            "signedGapMeters": -0.020838452503085138,
+                            "triangleAreaSquareMeters": 0.03125,
+                            "acceptedContactBand": true
+                        },
+                        {
+                            "x": 0.5836582183837891,
+                            "y": 1.3805186748504639,
+                            "z": 0.41857829689979555,
+                            "signedGapMeters": -0.007089026737958193,
+                            "triangleAreaSquareMeters": 0.021051306277513505,
+                            "acceptedContactBand": true
+                        },
+                        {
+                            "x": 0.513698399066925,
+                            "y": 1.3901687860488892,
+                            "z": 0.4815461039543152,
+                            "signedGapMeters": -0.020678607746958734,
+                            "triangleAreaSquareMeters": 0.015907997265458108,
+                            "acceptedContactBand": true
+                        }
+                    ]
+                }
+            ],
+            "primaryCapturePath": "",
+            "alternateCapturePath": ""
+        }
+    ]
+}

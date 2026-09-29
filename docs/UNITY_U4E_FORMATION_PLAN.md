@@ -1,5 +1,9 @@
 # Unity U4E — procedural multi-domain rock formation plan
 
+## U4E.1 contact-patch follow-up — U4E1_CONTACT_METHOD_HOLD
+
+A preserves the global-min +25 mm control and accepts all six fixed seeds with connected graphs and zero sampled-overlap pairs. B/0 mm and C/-5 mm each accept 0/6 complete formations. Failed candidates encounter sample-center overlap, penetration above the 12.5 mm limit, or no support-facing witness while moving only along the existing parent direction. All six source/domain comparisons match the frozen U4E rows, but regenerated graph/formation hashes and all eight exact reference capture comparisons differ. Current A captures are 640 × 360 versus the 1920 × 1080 U4E references; they are current visual evidence, not exact replay proof. No Player build was made because neither candidate was viable. The original U4E HOLD and evidence remain unchanged. The detailed result, reviewer findings, metrics and validation are in the [U4E.1 evidence folder](../native/evidence/unity/u4e1-directional-contact/README.md). The next bounded planning question is multi-axis/interlock composition; do not start U5.
+
 **Status — implemented; HOLD after independent visual review, September 28, 2026.** U4E's deterministic multi-domain, contact, isolated-edit and pristine-regeneration technical gates pass. One bounded camera/framing remediation improved legibility, but the independent re-review still sees separated/floating stones in several heroes rather than the required believable interlocking formation. Stop at U4E; do not begin U5. Detailed implementation evidence and both review passes are in [the U4E evidence folder](../native/evidence/unity/u4e-multi-domain-formations/README.md) and [review record](../native/evidence/unity/u4e-multi-domain-formations/review.md).
 
 ## Primary question

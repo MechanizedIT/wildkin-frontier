@@ -79,6 +79,135 @@ namespace Wildkin.Tests.EditMode
         }
 
         [Test]
+        public void DirectionalPatch_FiltersDownwardSidewaysAndDiagonalOutwardNormals()
+        {
+            U4ESurfaceProbeSet probes = CreateTriangles(
+                Triangle(new MatterFloat3(0f, 0f, 0f), new MatterFloat3(1f, 0f, 0f), new MatterFloat3(0f, 0f, 1f)),
+                Triangle(new MatterFloat3(2f, 0f, 0f), new MatterFloat3(2f, 1f, 0f), new MatterFloat3(2f, 0f, 1f)),
+                Triangle(new MatterFloat3(4f, 0f, 0f), new MatterFloat3(4.7071068f, .7071068f, 0f), new MatterFloat3(4f, 0f, 1f)));
+            MatterDomain moving = CreateFixtureDomain("directional-filter", new AllAirGrid(.25f));
+            var bounds = FixtureBounds;
+
+            U4EDirectionalContactPatchMeasurement downward = U4EContactProbe.MeasureDirectionalPatch(moving,
+                probes, new AllAirGrid(.25f), bounds, MatterDomainPose.Identity,
+                new MatterFloat3(0f, -1f, 0f), 0f);
+            U4EDirectionalContactPatchMeasurement sideways = U4EContactProbe.MeasureDirectionalPatch(moving,
+                probes, new AllAirGrid(.25f), bounds, MatterDomainPose.Identity,
+                new MatterFloat3(1f, 0f, 0f), 0f);
+            U4EDirectionalContactPatchMeasurement diagonal = U4EContactProbe.MeasureDirectionalPatch(moving,
+                probes, new AllAirGrid(.25f), bounds, MatterDomainPose.Identity,
+                new MatterFloat3(.7071068f, -.7071068f, 0f), 0f);
+
+            Assert.That(downward.supportFacingTriangleCount, Is.EqualTo(2));
+            Assert.That(sideways.supportFacingTriangleCount, Is.EqualTo(2));
+            Assert.That(diagonal.supportFacingTriangleCount, Is.EqualTo(3));
+        }
+
+        [Test]
+        public void DirectionalPatch_AreaRatioUsesTriangleAreaRatherThanWitnessCount()
+        {
+            U4ESurfaceProbeSet probes = CreateTriangles(
+                Triangle(new MatterFloat3(0f, .001f, 0f), new MatterFloat3(.1f, .001f, 0f), new MatterFloat3(0f, .001f, .1f)),
+                Triangle(new MatterFloat3(1f, .001f, 0f), new MatterFloat3(3f, .001f, 0f), new MatterFloat3(1f, .001f, 2f)),
+                Triangle(new MatterFloat3(4f, .1f, 0f), new MatterFloat3(6f, .1f, 0f), new MatterFloat3(4f, .1f, 2f)));
+            MatterDomain moving = CreateFixtureDomain("area-weighted", new AllAirGrid(.25f));
+            var measurement = U4EContactProbe.MeasureDirectionalPatch(moving, probes,
+                new PlaneGrid(.25f, 0f), FixtureBounds, MatterDomainPose.Identity,
+                new MatterFloat3(0f, -1f, 0f), 0f);
+
+            Assert.That(measurement.supportFacingTriangleCount, Is.EqualTo(3));
+            Assert.That(measurement.acceptedPatchTriangleCount, Is.EqualTo(2));
+            Assert.That(measurement.supportFacingSurfaceAreaSquareMeters, Is.EqualTo(4.005f).Within(.0001f));
+            Assert.That(measurement.acceptedPatchAreaSquareMeters, Is.EqualTo(2.005f).Within(.0001f));
+            Assert.That(measurement.contactPatchAreaRatio, Is.EqualTo(2.005f / 4.005f).Within(.0001f));
+            Assert.That(measurement.areaWeightedMedianDirectionalGapMeters, Is.EqualTo(.001f).Within(.001f));
+        }
+
+        [Test]
+        public void DirectionalPatch_DistinguishesCornerProximityFromBroadSupportWhenGlobalMinimumMatches()
+        {
+            U4ESurfaceProbeSet pointContact = CreateTriangles(
+                Triangle(new MatterFloat3(0f, .001f, 0f), new MatterFloat3(.1f, .001f, 0f), new MatterFloat3(0f, .001f, .1f)),
+                Triangle(new MatterFloat3(1f, .1f, 0f), new MatterFloat3(3f, .1f, 0f), new MatterFloat3(1f, .1f, 2f)));
+            U4ESurfaceProbeSet broadSupport = CreateTriangles(
+                Triangle(new MatterFloat3(0f, .001f, 0f), new MatterFloat3(2f, .001f, 0f), new MatterFloat3(0f, .001f, 2f)),
+                Triangle(new MatterFloat3(2f, .001f, 0f), new MatterFloat3(2f, .001f, 2f), new MatterFloat3(0f, .001f, 2f)));
+            MatterDomain moving = CreateFixtureDomain("point-versus-broad-moving", new AllAirGrid(.25f));
+            MatterDomain anchor = CreateFixtureDomain("point-versus-broad-anchor", new PlaneGrid(.25f, 0f));
+            var anchorProbes = broadSupport;
+            U4EContactMeasurement pointGlobal = U4EContactProbe.MeasureDomainSurfaces(moving,
+                pointContact, anchor, anchorProbes);
+            U4EContactMeasurement broadGlobal = U4EContactProbe.MeasureDomainSurfaces(moving,
+                broadSupport, anchor, anchorProbes);
+            U4EDirectionalContactPatchMeasurement pointPatch = U4EContactProbe.MeasureDirectionalPatch(moving,
+                pointContact, anchor, new MatterFloat3(0f, -1f, 0f), 0f);
+            U4EDirectionalContactPatchMeasurement broadPatch = U4EContactProbe.MeasureDirectionalPatch(moving,
+                broadSupport, anchor, new MatterFloat3(0f, -1f, 0f), 0f);
+
+            Assert.That(pointGlobal.minimumSurfaceGapMeters, Is.EqualTo(broadGlobal.minimumSurfaceGapMeters).Within(.001f));
+            Assert.That(pointGlobal.minimumSurfaceGapMeters, Is.EqualTo(.001f).Within(.001f));
+            Assert.That(pointPatch.contactPatchAreaRatio, Is.LessThan(.01f));
+            Assert.That(pointPatch.degeneratePointCluster, Is.True);
+            Assert.That(broadPatch.contactPatchAreaRatio, Is.EqualTo(1f).Within(.0001f));
+            Assert.That(broadPatch.contactPatchDiagonalMeters, Is.GreaterThan(.8f));
+        }
+
+        [Test]
+        public void DirectionalFitter_IsDeterministicAndChangesPoseWithoutChangingMatterOrMesh()
+        {
+            MatterDomain anchor = CreateFitBox("directional-fit-anchor", MatterDomainPose.Identity);
+            MatterDomain first = CreateFitBox("directional-fit-first", Pose(2.4f, 0f, 0f));
+            MatterDomain second = CreateFitBox("directional-fit-second", Pose(2.4f, 0f, 0f));
+            MatterDomain minusFive = CreateFitBox("directional-fit-minus-five", Pose(2.4f, 0f, 0f));
+            var anchorMesh = new MatterDomainSurfaceNetsMesher().Build(anchor);
+            var firstMesh = new MatterDomainSurfaceNetsMesher().Build(first);
+            var secondMesh = new MatterDomainSurfaceNetsMesher().Build(second);
+            var minusFiveMesh = new MatterDomainSurfaceNetsMesher().Build(minusFive);
+            var anchorProbes = new U4ESurfaceProbeSet(anchorMesh.Mesh);
+            var firstProbes = new U4ESurfaceProbeSet(firstMesh.Mesh);
+            var secondProbes = new U4ESurfaceProbeSet(secondMesh.Mesh);
+            var minusFiveProbes = new U4ESurfaceProbeSet(minusFiveMesh.Mesh);
+            ulong firstContent = first.ComputeContentHash();
+            ulong firstMeshHash = firstMesh.Mesh.DeterministicHash;
+            long firstMeshRevision = first.MeshRevision;
+            ulong secondContent = second.ComputeContentHash();
+            ulong secondMeshHash = secondMesh.Mesh.DeterministicHash;
+            long secondMeshRevision = second.MeshRevision;
+            ulong minusFiveContent = minusFive.ComputeContentHash();
+            ulong minusFiveMeshHash = minusFiveMesh.Mesh.DeterministicHash;
+            long minusFiveMeshRevision = minusFive.MeshRevision;
+
+            U4EContactFitResult firstFit = U4EContactFitter.FitDirectionalPatchDomainToDomain(first,
+                firstProbes, anchor, anchorProbes, new MatterFloat3(-1f, 0f, 0f), 0f);
+            U4EContactFitResult secondFit = U4EContactFitter.FitDirectionalPatchDomainToDomain(second,
+                secondProbes, anchor, anchorProbes, new MatterFloat3(-1f, 0f, 0f), 0f);
+            U4EContactFitResult minusFiveFit = U4EContactFitter.FitDirectionalPatchDomainToDomain(minusFive,
+                minusFiveProbes, anchor, anchorProbes, new MatterFloat3(-1f, 0f, 0f), -.005f);
+
+            Assert.That(firstFit.accepted, Is.True, firstFit.rejectionReason +
+                $" gap={firstFit.measurement.minimumSurfaceGapMeters:R} overlap={firstFit.measurement.aToBPositiveSampleCount}/{firstFit.measurement.bToAPositiveSampleCount} adjustment={firstFit.adjustmentMeters:R}");
+            Assert.That(secondFit.accepted, Is.True, secondFit.rejectionReason);
+            Assert.That(minusFiveFit.accepted, Is.True, minusFiveFit.rejectionReason);
+            Assert.That(firstFit.adjustmentMeters, Is.EqualTo(secondFit.adjustmentMeters));
+            Assert.That(first.Pose.PositionMeters.X, Is.EqualTo(second.Pose.PositionMeters.X));
+            Assert.That(firstFit.measurement.directionalPatch.hasAcceptedPatch, Is.True);
+            Assert.That(firstFit.measurement.HasZeroSampledOverlap, Is.True);
+            Assert.That(minusFiveFit.measurement.directionalPatch.targetGapMeters, Is.EqualTo(-.005f));
+            Assert.That(minusFiveFit.measurement.HasZeroSampledOverlap, Is.True);
+            Assert.That(minusFiveFit.measurement.minimumSurfaceGapMeters,
+                Is.GreaterThanOrEqualTo(-U4EFormationConfiguration.MaximumContactPenetrationMeters));
+            Assert.That(first.ComputeContentHash(), Is.EqualTo(firstContent));
+            Assert.That(second.ComputeContentHash(), Is.EqualTo(secondContent));
+            Assert.That(first.MeshRevision, Is.EqualTo(firstMeshRevision));
+            Assert.That(second.MeshRevision, Is.EqualTo(secondMeshRevision));
+            Assert.That(minusFive.ComputeContentHash(), Is.EqualTo(minusFiveContent));
+            Assert.That(minusFive.MeshRevision, Is.EqualTo(minusFiveMeshRevision));
+            Assert.That(firstMesh.Mesh.DeterministicHash, Is.EqualTo(firstMeshHash));
+            Assert.That(secondMesh.Mesh.DeterministicHash, Is.EqualTo(secondMeshHash));
+            Assert.That(minusFiveMesh.Mesh.DeterministicHash, Is.EqualTo(minusFiveMeshHash));
+        }
+
+        [Test]
         public void Formation_BuildsRegeneratesEditsOneDomainAndInvalidatesOnlyIncidentPairs()
         {
             U4EFormationBuildResult formation = U4ERockFormationBuilder.Build(7000, MatterDomainPose.Identity);
@@ -162,6 +291,55 @@ namespace Wildkin.Tests.EditMode
             return MatterDomain.Bake(id, bounds, spacing, grid, pose);
         }
 
+        private static MatterDomain CreateFitBox(string id, MatterDomainPose pose)
+        {
+            const float spacing = .25f;
+            var bounds = new MatterBounds(new MatterInt3(-8, -8, -8), new MatterInt3(9, 9, 9));
+            var grid = new BoxGrid(spacing, new MatterFloat3(1f, 1f, 1f));
+            return MatterDomain.Bake(id, bounds, spacing, grid, pose);
+        }
+
+        private static U4ESurfaceProbeSet CreateTriangles(params MatterFloat3[][] triangles)
+        {
+            var positions = new List<MatterFloat3>();
+            var normals = new List<MatterFloat3>();
+            var indices = new List<int>();
+            foreach (MatterFloat3[] triangle in triangles)
+            {
+                Assert.That(triangle, Is.Not.Null);
+                Assert.That(triangle.Length, Is.EqualTo(3));
+                MatterFloat3 normal = Normalize(Cross(Subtract(triangle[1], triangle[0]),
+                    Subtract(triangle[2], triangle[0])));
+                for (int corner = 0; corner < 3; corner++)
+                {
+                    indices.Add(positions.Count);
+                    positions.Add(triangle[corner]);
+                    normals.Add(normal);
+                }
+            }
+            return new U4ESurfaceProbeSet(positions.ToArray(), normals.ToArray(), indices.ToArray());
+        }
+
+        private static MatterFloat3[] Triangle(MatterFloat3 a, MatterFloat3 b, MatterFloat3 c) => new[] { a, b, c };
+
+        private static MatterBounds FixtureBounds => new MatterBounds(
+            new MatterInt3(-8, -8, -8), new MatterInt3(9, 9, 9));
+
+        private static MatterDomain CreateFixtureDomain(string id, IMatterReadOnlyGrid grid)
+            => MatterDomain.Bake(id, FixtureBounds, grid.SampleSpacingMeters, grid, MatterDomainPose.Identity);
+
+        private static MatterFloat3 Subtract(MatterFloat3 a, MatterFloat3 b)
+            => new MatterFloat3(a.X - b.X, a.Y - b.Y, a.Z - b.Z);
+
+        private static MatterFloat3 Cross(MatterFloat3 a, MatterFloat3 b)
+            => new MatterFloat3(a.Y * b.Z - a.Z * b.Y, a.Z * b.X - a.X * b.Z, a.X * b.Y - a.Y * b.X);
+
+        private static MatterFloat3 Normalize(MatterFloat3 value)
+        {
+            double length = Math.Sqrt((double)value.X * value.X + (double)value.Y * value.Y + (double)value.Z * value.Z);
+            return new MatterFloat3((float)(value.X / length), (float)(value.Y / length), (float)(value.Z / length));
+        }
+
         private static MatterDomainPose Pose(float x, float y, float z)
             => new MatterDomainPose(new MatterFloat3(x, y, z), 0f, 0f, 0f, 1f);
 
@@ -190,6 +368,49 @@ namespace Wildkin.Tests.EditMode
                 double z = address.Z * (double)SampleSpacingMeters;
                 float density = (float)(_radius - Math.Sqrt(x * x + y * y + z * z));
                 return density > 0f ? new MatterSample(density, MatterMaterialId.Rock) : MatterSample.Air(density);
+            }
+        }
+
+        private sealed class BoxGrid : IMatterReadOnlyGrid
+        {
+            private readonly MatterFloat3 _halfExtents;
+            public float SampleSpacingMeters { get; }
+
+            public BoxGrid(float spacing, MatterFloat3 halfExtents)
+            {
+                SampleSpacingMeters = spacing;
+                _halfExtents = halfExtents;
+            }
+
+            public MatterSample ReadSample(MatterSampleAddress address)
+            {
+                float x = Math.Abs(address.X * SampleSpacingMeters);
+                float y = Math.Abs(address.Y * SampleSpacingMeters);
+                float z = Math.Abs(address.Z * SampleSpacingMeters);
+                float density = Math.Min(_halfExtents.X - x, Math.Min(_halfExtents.Y - y, _halfExtents.Z - z));
+                return density > 0f ? new MatterSample(density, MatterMaterialId.Rock) : MatterSample.Air(density);
+            }
+        }
+
+        private sealed class AllAirGrid : IMatterReadOnlyGrid
+        {
+            public float SampleSpacingMeters { get; }
+            public AllAirGrid(float spacing) => SampleSpacingMeters = spacing;
+            public MatterSample ReadSample(MatterSampleAddress address)
+                => MatterSample.Air(-SampleSpacingMeters);
+        }
+
+        private sealed class PlaneGrid : IMatterReadOnlyGrid
+        {
+            private readonly float _surfaceY;
+            public float SampleSpacingMeters { get; }
+            public PlaneGrid(float spacing, float surfaceY) { SampleSpacingMeters = spacing; _surfaceY = surfaceY; }
+            public MatterSample ReadSample(MatterSampleAddress address)
+            {
+                float density = _surfaceY - address.Y * SampleSpacingMeters;
+                return density > 0f
+                    ? new MatterSample(density, MatterMaterialId.Rock)
+                    : MatterSample.Air(density);
             }
         }
     }

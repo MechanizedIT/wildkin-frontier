@@ -1,5 +1,14 @@
 # Wildkin Frontier code map
 
+## U4E.1 directional contact-patch bakeoff — U4E1_CONTACT_METHOD_HOLD
+
+- native/unity/WildkinUnity/Assets/Wildkin/Matter/Core/U4ERockFormationContacts.cs — engine-light area-weighted support-facing triangle probes, patch ratio/spread measurements, and deterministic B/C 1-D fitters; A retains the existing global-min fitter.
+- native/unity/WildkinUnity/Assets/Wildkin/Matter/Core/U4ERockFormationBuilder.cs — opt-in B/C experiment modes on fixed U4E recipes; the default builder remains A.
+- native/unity/WildkinUnity/Assets/Wildkin/AgentTools/Editor/U4EMultiDomainFormationCommands.cs — fixed six-seed bakeoff, source/domain parity checks, A control captures, and rejected-candidate diagnostics.
+- [U4E.1 evidence/review](../native/evidence/unity/u4e1-directional-contact/) — metrics, primary/alternate A control boards, rejection cards, contact-debug views, tests and independent HOLD review.
+
+B and C accept 0/6 complete formations under the unchanged parent graph and single-axis fit directions. The independent review sees no valid experimental scenes and no visual-improvement evidence. Graph/formation hash parity and exact screenshot parity with original U4E are incomplete; the receipt records those limits. Preserve the original U4E visual HOLD; do not start U5. The next bounded planning question is multi-axis/interlock composition.
+
 ## U4E procedural multi-domain formations — visual HOLD after independent review
 
 - `native/unity/WildkinUnity/Assets/Wildkin/Matter/Core/U4ERockFormationRecipe.cs` — deterministic versioned seed/family/slot recipe and stable child IDs/tiers.

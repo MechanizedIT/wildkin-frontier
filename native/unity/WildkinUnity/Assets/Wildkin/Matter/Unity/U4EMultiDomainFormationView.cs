@@ -14,9 +14,12 @@ namespace Wildkin.Matter.Unity
     {
         [SerializeField] private Material _surfaceMaterial;
         [SerializeField] private int _startupSeed = U4EFormationConfiguration.GallerySeedStart;
+        [SerializeField] private int _startupAttemptIndex;
+        [SerializeField] private U4EContactFitMode _startupContactFitMode = U4EContactFitMode.GlobalMin25mm;
         [SerializeField] private bool _generateOnStart;
         [SerializeField] private bool _showBoundaryOverlay;
         [SerializeField] private bool _showContactGraph;
+        private bool _showDirectionalDebug;
 
         private readonly Dictionary<string, GameObject> _childObjects = new Dictionary<string, GameObject>(StringComparer.Ordinal);
         private readonly List<GameObject> _transientObjects = new List<GameObject>();
@@ -24,6 +27,9 @@ namespace Wildkin.Matter.Unity
         private GameObject _presentationRoot;
         private Material _fallbackMaterial;
         private Material _overlayMaterial;
+        private Material _directionalPatchMaterial;
+        private Material _directionalRejectedMaterial;
+        private Material _directionalFitMaterial;
         private U4EFormationBuildResult _formation;
         private bool _playerEvidenceRun;
 
@@ -34,7 +40,27 @@ namespace Wildkin.Matter.Unity
         private void Start()
         {
             if (!_generateOnStart) return;
-            Generate(_startupSeed, transform.position, transform.eulerAngles.y);
+            bool experimentOverride = TryReadPlayerArgument("--u4e-fit-mode=", out string fitModeArgument) ||
+                                      TryReadPlayerArgument("--u4e-attempt=", out _);
+            int startupSeed = ReadPlayerIntArgument("--u4e-seed=", _startupSeed);
+            int startupAttempt = ReadPlayerIntArgument("--u4e-attempt=", _startupAttemptIndex);
+            U4EContactFitMode startupMode = _startupContactFitMode;
+            if (!string.IsNullOrEmpty(fitModeArgument) && !Enum.TryParse(fitModeArgument, true, out startupMode))
+            {
+                Debug.LogError("Unknown U4E contact fit mode: " + fitModeArgument);
+                Application.Quit(1);
+                return;
+            }
+            U4EFormationBuildResult startup = experimentOverride
+                ? GenerateExperiment(startupSeed, startupAttempt, startupMode,
+                    transform.position, transform.eulerAngles.y)
+                : Generate(startupSeed, transform.position, transform.eulerAngles.y);
+            if (!startup.Accepted)
+            {
+                Debug.LogError("U4E Player startup formation was rejected: " + startup.RejectionReason);
+                Application.Quit(1);
+                return;
+            }
             if (!Application.isEditor && HasPlayerEvidenceArgument() && !_playerEvidenceRun)
             {
                 _playerEvidenceRun = true;
@@ -46,6 +72,8 @@ namespace Wildkin.Matter.Unity
         {
             _surfaceMaterial = material;
             _startupSeed = seed;
+            _startupAttemptIndex = 0;
+            _startupContactFitMode = U4EContactFitMode.GlobalMin25mm;
             _generateOnStart = generateOnStart;
         }
 
@@ -53,6 +81,12 @@ namespace Wildkin.Matter.Unity
         {
             _showBoundaryOverlay = boundaries;
             _showContactGraph = contactGraph;
+            RefreshOverlays();
+        }
+
+        public void SetDirectionalDebugOverlays(bool enabled)
+        {
+            _showDirectionalDebug = enabled;
             RefreshOverlays();
         }
 
@@ -65,6 +99,19 @@ namespace Wildkin.Matter.Unity
             _startupSeed = seed;
             _formation = result;
             BuildPresentation(result);
+            return result;
+        }
+
+        public U4EFormationBuildResult GenerateExperiment(int seed, int attemptIndex,
+            U4EContactFitMode fitMode, Vector3 rootPosition, float rootYawDegrees)
+        {
+            Quaternion rootRotation = Quaternion.Euler(0f, rootYawDegrees, 0f);
+            MatterDomainPose pose = ToMatterPose(rootPosition, rootRotation);
+            U4EFormationBuildResult result = U4ERockFormationBuilder.BuildExperiment(seed,
+                attemptIndex, fitMode, pose);
+            _formation = result;
+            if (result.Accepted) BuildPresentation(result);
+            else ClearPresentation();
             return result;
         }
 
@@ -163,9 +210,25 @@ namespace Wildkin.Matter.Unity
             ClearPresentation();
             _formation = null;
             _startupSeed = startupSeed;
+            _startupAttemptIndex = 0;
+            _startupContactFitMode = U4EContactFitMode.GlobalMin25mm;
             _generateOnStart = true;
             _showBoundaryOverlay = false;
             _showContactGraph = false;
+            _showDirectionalDebug = false;
+        }
+
+        public void PrepareForExperimentBuild(int startupSeed, int attemptIndex, U4EContactFitMode fitMode)
+        {
+            ClearPresentation();
+            _formation = null;
+            _startupSeed = startupSeed;
+            _startupAttemptIndex = attemptIndex;
+            _startupContactFitMode = fitMode;
+            _generateOnStart = true;
+            _showBoundaryOverlay = false;
+            _showContactGraph = false;
+            _showDirectionalDebug = false;
         }
 
         public void ClearPreview()
@@ -261,6 +324,96 @@ namespace Wildkin.Matter.Unity
                     _transientObjects.Add(lineObject);
                 }
             }
+            if (_showDirectionalDebug) RefreshDirectionalDebugOverlays();
+        }
+
+        private void RefreshDirectionalDebugOverlays()
+        {
+            EnsureDirectionalDebugMaterials();
+            for (int childIndex = 0; childIndex < _formation.Children.Count; childIndex++)
+            {
+                U4EFormationChildBuild child = _formation.Children[childIndex];
+                U4EDirectionalContactPatchMeasurement patch = child.Fit == null || child.Fit.measurement == null
+                    ? null : child.Fit.measurement.directionalPatch;
+                if (patch == null) continue;
+
+                MatterFloat3 start = child.Domain.Pose.PositionMeters;
+                MatterFloat3 end = new MatterFloat3(start.X + patch.directionX * 1.25f,
+                    start.Y + patch.directionY * 1.25f, start.Z + patch.directionZ * 1.25f);
+                var lineObject = new GameObject("Directional fit | " + child.Recipe.slotId);
+                lineObject.transform.SetParent(_presentationRoot.transform, false);
+                var line = lineObject.AddComponent<LineRenderer>();
+                line.useWorldSpace = false;
+                line.positionCount = 2;
+                line.startWidth = .035f;
+                line.endWidth = .012f;
+                line.sharedMaterial = _directionalFitMaterial;
+                line.startColor = new Color(.05f, .92f, 1f, 1f);
+                line.endColor = line.startColor;
+                line.SetPosition(0, ToRootLocal(start));
+                line.SetPosition(1, ToRootLocal(end));
+                _transientObjects.Add(lineObject);
+
+                U4EContactWitness[] witnesses = patch.supportFacingWitnesses;
+                if (witnesses == null || witnesses.Length == 0) continue;
+                int stride = Math.Max(1, (witnesses.Length + 159) / 160);
+                for (int witnessIndex = 0; witnessIndex < witnesses.Length; witnessIndex += stride)
+                {
+                    U4EContactWitness witness = witnesses[witnessIndex];
+                    var marker = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+                    marker.name = witness.acceptedContactBand
+                        ? "Directional patch | " + child.Recipe.slotId
+                        : "Directional support | " + child.Recipe.slotId;
+                    marker.transform.SetParent(_presentationRoot.transform, false);
+                    marker.transform.localPosition = ToRootLocal(new MatterFloat3(witness.x, witness.y, witness.z));
+                    marker.transform.localScale = Vector3.one * .045f;
+                    Collider collider = marker.GetComponent<Collider>();
+                    if (collider != null) DestroyObject(collider);
+                    MeshRenderer renderer = marker.GetComponent<MeshRenderer>();
+                    renderer.sharedMaterial = witness.acceptedContactBand
+                        ? _directionalPatchMaterial : _directionalRejectedMaterial;
+                    renderer.shadowCastingMode = ShadowCastingMode.Off;
+                    renderer.receiveShadows = false;
+                    _transientObjects.Add(marker);
+                }
+            }
+            Camera camera = FindSceneCameraForLegend();
+            if (camera != null)
+            {
+                var legend = new GameObject("Directional contact legend");
+                legend.transform.SetParent(camera.transform, false);
+                legend.transform.localPosition = new Vector3(-2.65f, 1.25f, 4f);
+                legend.transform.localRotation = Quaternion.identity;
+                TextMesh text = legend.AddComponent<TextMesh>();
+                text.text = "CYAN  fit direction\nGREEN  accepted patch\nMAGENTA  support-facing outside band";
+                text.anchor = TextAnchor.UpperLeft;
+                text.alignment = TextAlignment.Left;
+                text.fontSize = 48;
+                text.characterSize = .025f;
+                text.color = Color.white;
+                _transientObjects.Add(legend);
+            }
+        }
+
+        private void EnsureDirectionalDebugMaterials()
+        {
+            if (_directionalPatchMaterial == null)
+                _directionalPatchMaterial = MatterMeshPublisher.CreateDebugMaterial(new Color(.1f, 1f, .2f),
+                    "U4E1 accepted directional patch", true);
+            if (_directionalRejectedMaterial == null)
+                _directionalRejectedMaterial = MatterMeshPublisher.CreateDebugMaterial(new Color(1f, .1f, .75f),
+                    "U4E1 support-facing non-contact", true);
+            if (_directionalFitMaterial == null)
+                _directionalFitMaterial = MatterMeshPublisher.CreateDebugMaterial(new Color(.05f, .92f, 1f),
+                    "U4E1 intended fit direction", true);
+        }
+
+        private Camera FindSceneCameraForLegend()
+        {
+            Camera[] cameras = Camera.allCameras;
+            for (int index = 0; index < cameras.Length; index++)
+                if (cameras[index].gameObject.scene == gameObject.scene) return cameras[index];
+            return null;
         }
 
         private GameObject CreateMeshObject(Transform parent, string objectName, MatterMeshData data,
@@ -315,7 +468,11 @@ namespace Wildkin.Matter.Unity
             {
                 GameObject value = _transientObjects[i];
                 if (value == null || value.name.StartsWith("Boundary | ", StringComparison.Ordinal) ||
-                    value.name.StartsWith("Measured contact | ", StringComparison.Ordinal))
+                    value.name.StartsWith("Measured contact | ", StringComparison.Ordinal) ||
+                    value.name.StartsWith("Directional fit | ", StringComparison.Ordinal) ||
+                    value.name.StartsWith("Directional patch | ", StringComparison.Ordinal) ||
+                    value.name.StartsWith("Directional support | ", StringComparison.Ordinal) ||
+                    value.name.StartsWith("Directional contact legend", StringComparison.Ordinal))
                 {
                     if (value != null) DestroyObject(value);
                     _transientObjects.RemoveAt(i);
@@ -359,6 +516,9 @@ namespace Wildkin.Matter.Unity
             ClearPresentation();
             if (_fallbackMaterial != null) DestroyObject(_fallbackMaterial);
             if (_overlayMaterial != null) DestroyObject(_overlayMaterial);
+            if (_directionalPatchMaterial != null) DestroyObject(_directionalPatchMaterial);
+            if (_directionalRejectedMaterial != null) DestroyObject(_directionalRejectedMaterial);
+            if (_directionalFitMaterial != null) DestroyObject(_directionalFitMaterial);
         }
 
         private void EnsureFormation()
@@ -432,6 +592,7 @@ namespace Wildkin.Matter.Unity
             return new U4EFormationSummary
             {
                 phase = "U4E Procedural Multi-Domain Rock Formation",
+                contactFitMode = result.ContactFitMode.ToString(),
                 accepted = result.Accepted,
                 seed = result.Seed,
                 attemptIndex = result.AttemptIndex,
@@ -455,8 +616,48 @@ namespace Wildkin.Matter.Unity
                 connectedNodeCount = result.ContactGraph.connectedNodeCount,
                 connectedToTerrain = result.ContactGraph.allChildrenConnectedToTerrain,
                 candidateAttemptDiagnostics = result.CandidateAttemptDiagnostics,
-                children = children
+                children = children,
+                intendedContacts = CreateIntendedContactSummaries(result)
             };
+        }
+
+        private static U4EIntendedContactSummary[] CreateIntendedContactSummaries(U4EFormationBuildResult result)
+        {
+            var contacts = new List<U4EIntendedContactSummary>();
+            for (int index = 0; index < result.Children.Count; index++)
+            {
+                U4EFormationChildBuild child = result.Children[index];
+                U4EContactMeasurement measurement = child.Fit == null ? null : child.Fit.measurement;
+                U4EDirectionalContactPatchMeasurement patch = measurement == null ? null : measurement.directionalPatch;
+                if (measurement == null || patch == null) continue;
+                contacts.Add(new U4EIntendedContactSummary
+                {
+                    slot = child.Recipe.slotId,
+                    parentSlot = child.Recipe.parentSlotId ?? U4EFormationConfiguration.TerrainNodeId,
+                    spacingMovingMeters = measurement.spacingAMeters,
+                    spacingAnchorMeters = measurement.spacingBMeters,
+                    globalMinimumGapMeters = measurement.minimumSurfaceGapMeters,
+                    directionalMinimumGapMeters = patch.minimumDirectionalGapMeters,
+                    directionalMedianGapMeters = patch.areaWeightedMedianDirectionalGapMeters,
+                    supportFacingTriangleCount = patch.supportFacingTriangleCount,
+                    supportFacingAreaSquareMeters = patch.supportFacingSurfaceAreaSquareMeters,
+                    acceptedPatchAreaSquareMeters = patch.acceptedPatchAreaSquareMeters,
+                    patchAreaRatio = patch.contactPatchAreaRatio,
+                    witnessSpanAMeters = patch.witnessSpanAMeters,
+                    witnessSpanBMeters = patch.witnessSpanBMeters,
+                    patchDiagonalMeters = patch.contactPatchDiagonalMeters,
+                    fittingTranslationMeters = measurement.fittingAdjustmentMeters,
+                    aToBPositiveSampleCount = measurement.aToBPositiveSampleCount,
+                    bToAPositiveSampleCount = measurement.bToAPositiveSampleCount,
+                    maximumSurfacePenetrationMeters = Math.Max(0f,
+                        -Math.Min(measurement.minimumSurfaceGapMeters, patch.minimumDirectionalGapMeters)),
+                    accepted = child.Fit.accepted && measurement.HasZeroSampledOverlap,
+                    weakPatchReason = patch.weakPatchReason,
+                    supportFacingWitnesses = patch.supportFacingWitnesses,
+                    contactWitnesses = patch.contactWitnesses
+                });
+            }
+            return contacts.ToArray();
         }
 
         private IEnumerator CapturePlayerEvidenceAfterRender()
@@ -481,6 +682,26 @@ namespace Wildkin.Matter.Unity
             return false;
         }
 
+        private static int ReadPlayerIntArgument(string prefix, int fallback)
+        {
+            if (!TryReadPlayerArgument(prefix, out string value) ||
+                !int.TryParse(value, NumberStyles.Integer, CultureInfo.InvariantCulture, out int parsed)) return fallback;
+            return parsed;
+        }
+
+        private static bool TryReadPlayerArgument(string prefix, out string value)
+        {
+            string[] args = Environment.GetCommandLineArgs();
+            for (int index = 0; index < args.Length; index++)
+            {
+                if (!args[index].StartsWith(prefix, StringComparison.Ordinal)) continue;
+                value = args[index].Substring(prefix.Length);
+                return true;
+            }
+            value = string.Empty;
+            return false;
+        }
+
         private static string GetPlayerEvidenceRoot()
         {
             string[] args = Environment.GetCommandLineArgs();
@@ -494,6 +715,7 @@ namespace Wildkin.Matter.Unity
         public sealed class U4EFormationSummary
         {
             public string phase;
+            public string contactFitMode;
             public bool accepted;
             public int seed;
             public int attemptIndex;
@@ -518,6 +740,34 @@ namespace Wildkin.Matter.Unity
             public bool connectedToTerrain;
             public string[] candidateAttemptDiagnostics;
             public U4EFormationDomainSummary[] children;
+            public U4EIntendedContactSummary[] intendedContacts;
+        }
+
+        [Serializable]
+        public sealed class U4EIntendedContactSummary
+        {
+            public string slot;
+            public string parentSlot;
+            public float spacingMovingMeters;
+            public float spacingAnchorMeters;
+            public float globalMinimumGapMeters;
+            public float directionalMinimumGapMeters;
+            public float directionalMedianGapMeters;
+            public int supportFacingTriangleCount;
+            public float supportFacingAreaSquareMeters;
+            public float acceptedPatchAreaSquareMeters;
+            public float patchAreaRatio;
+            public float witnessSpanAMeters;
+            public float witnessSpanBMeters;
+            public float patchDiagonalMeters;
+            public float fittingTranslationMeters;
+            public int aToBPositiveSampleCount;
+            public int bToAPositiveSampleCount;
+            public float maximumSurfacePenetrationMeters;
+            public bool accepted;
+            public string weakPatchReason;
+            public U4EContactWitness[] supportFacingWitnesses;
+            public U4EContactWitness[] contactWitnesses;
         }
 
         [Serializable]

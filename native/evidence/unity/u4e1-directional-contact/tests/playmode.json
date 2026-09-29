@@ -1,0 +1,19 @@
+{
+  "phase": "U4E.1 full relevant PlayMode validation",
+  "recordedUtc": "2026-09-29T03:31:20.714Z",
+  "unityVersion": "6000.3.25f1",
+  "mode": "playmode",
+  "durationSeconds": 8.27,
+  "summary": {
+    "total": 3,
+    "passed": 3,
+    "failed": 0,
+    "skipped": 0,
+    "inconclusive": 0
+  },
+  "tests": [
+    "Wildkin.Tests.PlayMode.AgentSmokeMarkerPlayModeTests.Marker_ChangesRotationDuringPlay",
+    "Wildkin.Tests.PlayMode.SculptedStonePlayModeTests.DirectSourceAndMatterPreview_ReplaceAndDisposeTheirTransientGeometry",
+    "Wildkin.Tests.PlayMode.U4EFormationPlayModeTests.RuntimeFormation_RendersIndependentDomainsAndRegeneratesPristineDescriptor"
+  ]
+}

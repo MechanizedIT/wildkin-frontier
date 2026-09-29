@@ -1,0 +1,20 @@
+{
+  "phase": "U4E.1 directional contact patch focused EditMode",
+  "recordedUtc": "2026-09-29T03:38:16.777Z",
+  "unityVersion": "6000.3.25f1",
+  "mode": "editor",
+  "filterType": "testName",
+  "filter": "Directional",
+  "summary": {
+    "total": 4,
+    "passed": 4,
+    "failed": 0,
+    "skipped": 0
+  },
+  "tests": [
+    "Wildkin.Tests.EditMode.U4ERockFormationTests.DirectionalFitter_IsDeterministicAndChangesPoseWithoutChangingMatterOrMesh",
+    "Wildkin.Tests.EditMode.U4ERockFormationTests.DirectionalPatch_AreaRatioUsesTriangleAreaRatherThanWitnessCount",
+    "Wildkin.Tests.EditMode.U4ERockFormationTests.DirectionalPatch_DistinguishesCornerProximityFromBroadSupportWhenGlobalMinimumMatches",
+    "Wildkin.Tests.EditMode.U4ERockFormationTests.DirectionalPatch_FiltersDownwardSidewaysAndDiagonalOutwardNormals"
+  ]
+}

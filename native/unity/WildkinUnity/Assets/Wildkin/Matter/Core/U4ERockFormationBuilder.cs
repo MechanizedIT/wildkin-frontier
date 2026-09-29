@@ -36,6 +36,7 @@ namespace Wildkin.Matter
         public int Seed { get; internal set; }
         public int AttemptIndex { get; internal set; }
         public U4EFormationArchetype Archetype { get; internal set; }
+        public U4EContactFitMode ContactFitMode { get; internal set; }
         public string RejectionReason { get; internal set; }
         public MatterDomainPose RootPose { get; internal set; }
         public MatterBounds TerrainBounds { get; internal set; }
@@ -94,7 +95,8 @@ namespace Wildkin.Matter
             for (int attempt = 0; attempt < U4EFormationConfiguration.MaximumCandidateAttempts; attempt++)
             {
                 U4ERockFormationRecipe recipe = U4ERockFormationGenerator.CreateRecipe(seed, attempt);
-                U4EFormationBuildResult result = BuildCandidate(recipe, rootPose, bounds);
+                U4EFormationBuildResult result = BuildCandidate(recipe, rootPose, bounds,
+                    U4EContactFitMode.GlobalMin25mm);
                 if (result.Accepted)
                 {
                     result.CandidateAttemptDiagnostics = diagnostics.ToArray();
@@ -124,7 +126,20 @@ namespace Wildkin.Matter
             MatterDomainPose rootPose = PoseFromDescriptor(descriptor);
             U4ERockFormationRecipe recipe = U4ERockFormationGenerator.CreateRecipe(
                 descriptor.formationSeed, descriptor.acceptedAttemptIndex);
-            return BuildCandidate(recipe, rootPose, terrainBounds ?? DefaultTerrainBounds);
+            return BuildCandidate(recipe, rootPose, terrainBounds ?? DefaultTerrainBounds,
+                U4EContactFitMode.GlobalMin25mm);
+        }
+
+        public static U4EFormationBuildResult BuildExperiment(int seed, int attemptIndex,
+            U4EContactFitMode fitMode, MatterDomainPose rootPose,
+            MatterBounds? terrainBounds = null)
+        {
+            if (fitMode != U4EContactFitMode.GlobalMin25mm &&
+                fitMode != U4EContactFitMode.DirectionalPatch0mm &&
+                fitMode != U4EContactFitMode.DirectionalPatchMinus5mm)
+                throw new ArgumentOutOfRangeException(nameof(fitMode));
+            U4ERockFormationRecipe recipe = U4ERockFormationGenerator.CreateRecipe(seed, attemptIndex);
+            return BuildCandidate(recipe, rootPose, terrainBounds ?? DefaultTerrainBounds, fitMode);
         }
 
         public static MatterBounds DefaultTerrainBounds => new MatterBounds(
@@ -302,7 +317,7 @@ namespace Wildkin.Matter
         }
 
         private static U4EFormationBuildResult BuildCandidate(U4ERockFormationRecipe recipe,
-            MatterDomainPose rootPose, MatterBounds terrainBounds)
+            MatterDomainPose rootPose, MatterBounds terrainBounds, U4EContactFitMode fitMode)
         {
             var terrainWatch = Stopwatch.StartNew();
             MatterWorld world = MatterWorldFactory.CreateQualificationWorld(TerrainSourceSeed, TerrainSpacingMeters);
@@ -371,13 +386,12 @@ namespace Wildkin.Matter
                 var contactWatch = Stopwatch.StartNew();
                 U4EContactFitResult fit;
                 MatterFloat3 fitDirection = RotateDirection(rootPose, childRecipe.fitDirectionLocal);
-                if (string.IsNullOrEmpty(childRecipe.parentSlotId))
+                if (fitMode == U4EContactFitMode.GlobalMin25mm && string.IsNullOrEmpty(childRecipe.parentSlotId))
                 {
                     fit = U4EContactFitter.FitDomainToGrid(domain, probes, worldGrid, terrainBounds,
                         terrainPose, terrainProbes, fitDirection);
-                    allMeasurements.Add(fit.measurement);
                 }
-                else
+                else if (fitMode == U4EContactFitMode.GlobalMin25mm)
                 {
                     if (!childBySlot.TryGetValue(childRecipe.parentSlotId, out U4EFormationChildBuild parent))
                     {
@@ -386,8 +400,38 @@ namespace Wildkin.Matter
                     }
                     fit = U4EContactFitter.FitDomainToDomain(domain, probes, parent.Domain,
                         parent.SurfaceProbes, fitDirection);
-                    allMeasurements.Add(fit.measurement);
                 }
+                else if (string.IsNullOrEmpty(childRecipe.parentSlotId))
+                {
+                    fit = U4EContactFitter.FitDirectionalPatchDomainToGrid(domain, probes,
+                        worldGrid, terrainBounds, terrainPose, terrainProbes, fitDirection,
+                        DirectionalTargetGap(fitMode));
+                }
+                else
+                {
+                    if (!childBySlot.TryGetValue(childRecipe.parentSlotId, out U4EFormationChildBuild parent))
+                    {
+                        failure = "Semantic parent slot '" + childRecipe.parentSlotId + "' was not built before '" + childRecipe.slotId + "'.";
+                        break;
+                    }
+                    fit = U4EContactFitter.FitDirectionalPatchDomainToDomain(domain, probes,
+                        parent.Domain, parent.SurfaceProbes, fitDirection, DirectionalTargetGap(fitMode));
+                }
+                if (fitMode == U4EContactFitMode.GlobalMin25mm && fit.measurement != null)
+                {
+                    string anchorId = string.IsNullOrEmpty(childRecipe.parentSlotId)
+                        ? U4EFormationConfiguration.TerrainNodeId
+                        : childBySlot[childRecipe.parentSlotId].Domain.Id;
+                    U4EDirectionalContactPatchMeasurement directional = string.IsNullOrEmpty(childRecipe.parentSlotId)
+                        ? U4EContactProbe.MeasureDirectionalPatch(domain, probes, worldGrid, terrainBounds,
+                            terrainPose, fitDirection, DirectionalTargetGap(U4EContactFitMode.DirectionalPatch0mm))
+                        : U4EContactProbe.MeasureDirectionalPatch(domain, probes,
+                            childBySlot[childRecipe.parentSlotId].Domain, fitDirection,
+                            DirectionalTargetGap(U4EContactFitMode.DirectionalPatch0mm));
+                    directional.anchorId = anchorId;
+                    fit.measurement.directionalPatch = directional;
+                }
+                allMeasurements.Add(fit.measurement);
                 contactWatch.Stop();
                 contactMilliseconds += contactWatch.Elapsed.TotalMilliseconds;
                 if (!fit.accepted)
@@ -440,6 +484,7 @@ namespace Wildkin.Matter
                 var ids = new string[children.Count];
                 for (int i = 0; i < children.Count; i++) ids[i] = children[i].Domain.Id;
                 graph = U4EContactGraph.Build(ids, terrainMeasurements, domainMeasurements);
+                AttachIntendedDirectionalPatches(graph, children);
                 if (!graph.allChildrenConnectedToTerrain)
                     failure = "Measured contact graph is not fully connected to the terrain node.";
             }
@@ -450,6 +495,7 @@ namespace Wildkin.Matter
                 Seed = recipe.seed,
                 AttemptIndex = recipe.attemptIndex,
                 Archetype = recipe.archetype,
+                ContactFitMode = fitMode,
                 RejectionReason = failure ?? string.Empty,
                 RootPose = rootPose,
                 TerrainBounds = terrainBounds,
@@ -471,6 +517,41 @@ namespace Wildkin.Matter
             };
             if (result.Accepted) result.PristineDescriptor = CreateDescriptor(result);
             return result;
+        }
+
+        private static float DirectionalTargetGap(U4EContactFitMode fitMode)
+            => fitMode == U4EContactFitMode.DirectionalPatchMinus5mm ? -.005f : 0f;
+
+        private static void AttachIntendedDirectionalPatches(U4EContactGraph graph,
+            IReadOnlyList<U4EFormationChildBuild> children)
+        {
+            if (graph == null || children == null) return;
+            var byPair = new Dictionary<string, U4EDirectionalContactPatchMeasurement>(StringComparer.Ordinal);
+            for (int index = 0; index < children.Count; index++)
+            {
+                U4EFormationChildBuild child = children[index];
+                string anchorId = string.IsNullOrEmpty(child.Recipe.parentSlotId)
+                    ? U4EFormationConfiguration.TerrainNodeId
+                    : null;
+                if (anchorId == null)
+                {
+                    for (int parentIndex = 0; parentIndex < children.Count; parentIndex++)
+                    {
+                        if (string.Equals(children[parentIndex].Recipe.slotId, child.Recipe.parentSlotId, StringComparison.Ordinal))
+                        {
+                            anchorId = children[parentIndex].Domain.Id;
+                            break;
+                        }
+                    }
+                }
+                if (!string.IsNullOrEmpty(anchorId) && child.Fit != null && child.Fit.measurement != null)
+                    byPair[U4EContactGraph.PairKey(child.Domain.Id, anchorId)] = child.Fit.measurement.directionalPatch;
+            }
+            foreach (U4EContactMeasurement measurement in graph.measurements)
+            {
+                if (byPair.TryGetValue(U4EContactGraph.PairKey(measurement.nodeA, measurement.nodeB), out U4EDirectionalContactPatchMeasurement patch))
+                    measurement.directionalPatch = patch;
+            }
         }
 
         private static MatterDomainPose ChildPose(MatterDomainPose rootPose, U4ERockFormationChildRecipe recipe)

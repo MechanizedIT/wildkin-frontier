@@ -1,0 +1,14 @@
+{
+  "phase": "U4E.1 full EditMode validation",
+  "recordedUtc": "2026-09-29T03:41:57Z",
+  "unityVersion": "6000.3.25f1",
+  "mode": "editor",
+  "durationSeconds": 80.83,
+  "summary": {
+    "total": 160,
+    "passed": 160,
+    "failed": 0,
+    "skipped": 0,
+    "inconclusive": 0
+  }
+}

@@ -1,5 +1,9 @@
 # Resume Wildkin Frontier
 
+## September 29 Unity U4E.1 — CONTACT_METHOD_HOLD; stop here
+
+The bounded directional contact-patch follow-up is complete. Read [CURRENT_SLICE](CURRENT_SLICE.md), the [U4E.1 evidence and independent review](../native/evidence/unity/u4e1-directional-contact/README.md), the [saved brief](prompts/UNITY_U4E1_DIRECTIONAL_CONTACT_PATCH_BAKEOFF.md), and the [U4E formation plan](UNITY_U4E_FORMATION_PLAN.md). A passes 6/6 frozen controls; directional B/0 mm and C/-5 mm each pass 0/6 full formations under fixed single-axis placement and no-overlap/penetration constraints. Their candidate scenes do not exist, so no visual improvement is claimed. The next planning question is multi-axis/interlock composition. Do not start U5.
+
 ## September 28 post-U4E HOLD — start here for the next planning session
 
 U4E's implementation and technical evidence are complete; independent visual review assigns HOLD after the single bounded framing/camera repair. The 20-seed multi-domain gallery, edit isolation, contact graph and recipe-only regeneration are recorded in [U4E evidence and review](../native/evidence/unity/u4e-multi-domain-formations/README.md). Read [CURRENT_SLICE](CURRENT_SLICE.md), then [the native handoff](UNITY_NATIVE_HANDOFF_AFTER_U4D.md), [U4E review](../native/evidence/unity/u4e-multi-domain-formations/review.md), [U4E formation plan](UNITY_U4E_FORMATION_PLAN.md), and [persistence/update architecture](NATIVE_WORLD_PERSISTENCE_AND_UPDATES.md). U5 has not started; stop for owner review and fresh direction.
