@@ -9,13 +9,13 @@ description: Generate, optimize, rig, animate and admit local 3D characters and 
 
 For **native PC environment assets and destructible stamps**, this section supersedes older mobile/Rootbound-specific guidance below.
 
-Read \`docs/ASSET_FIRST_VOXEL_PIPELINE.md\` and the active \`docs/prompts/UNITY_U4F_*\` brief before changing the native asset path. The target is Unity 6.3 LTS + HDRP on Windows PC. TRELLIS.2 is the first image-to-3D provider to test, but the Wildkin pipeline must admit ordinary reviewed GLB/OBJ/PLY/FBX sources so a future generator can replace it without changing runtime matter architecture.
+Read `docs/ASSET_FIRST_VOXEL_PIPELINE.md` and the active `docs/prompts/UNITY_U4F_*` brief before changing the native asset path. The target is Unity 6.3 LTS + HDRP on Windows PC. TRELLIS.2 is the first image-to-3D provider to test, but the Wildkin pipeline must admit ordinary reviewed GLB/OBJ/PLY/FBX sources so a future generator can replace it without changing runtime matter architecture.
 
 For U4F, make **one excellent rock** rather than a broad batch. Preserve the raw/generated master, produce a reviewed cleanup derivative, and maintain separate concepts of:
 - pristine render mesh / LODs;
 - closed stamp-source geometry suitable for signed-distance sampling;
 - pre-baked local matter payload;
-- runtime mutable \`MatterDomain\` after activation.
+- runtime mutable `MatterDomain` after activation.
 
 Do not force a raw generative mesh through admission because it exported successfully. Generated rocks commonly need disconnected-component cleanup, watertight/stamp-source repair, decimation, pivot/scale normalization and visual review. A high-fidelity render mesh may remain more detailed than the stamp-source derivative if their silhouettes and macro forms match.
 
