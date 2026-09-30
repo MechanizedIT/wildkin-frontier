@@ -1,0 +1,16 @@
+{
+  "operation": "retain the largest shared-edge-connected face component; discard every other disconnected component",
+  "reviewBasis": "independent reviewer identified isolated remesh debris and authorized exactly this bounded repair",
+  "componentCountBefore": 13166,
+  "largestRootFaceId": 36927,
+  "largestTrianglesBefore": 5691980,
+  "largestFractionBefore": 0.8894636009338464,
+  "largestOtherComponentTriangles": 14196,
+  "discardedComponents": 13165,
+  "discardedTriangles": 707360,
+  "explicitWindingReversal": true,
+  "largestComponentSignedVolumeBeforeRepair": -0.09394478496309745,
+  "preRepairBlendSha256": "54e5ed658a6a84cbf5b9b69e906f3bf5633072035a97b1eabf9f620157e7652d",
+  "postRepairBlendSha256": "35633fa26f42c69bb6a48723adce17ab9e4d15c1ec946e6901ab9b70acf4bd8b",
+  "method": "face adjacency through shared edges; keep largest root; compact referenced vertices; reverse all face winding only because the retained closed shell had negative signed volume"
+}

@@ -1,0 +1,30 @@
+{
+  "status": "PASS",
+  "blenderVersion": "4.5.3 LTS",
+  "topologyHelperCube": {
+    "vertices": 8,
+    "triangles": 12,
+    "bounds": null,
+    "centroid": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "boundaryEdges": 0,
+    "nonmanifoldEdges": 0,
+    "faceBearingComponents": 1,
+    "unusedVertices": 0,
+    "repeatedIndexFaces": 0,
+    "zeroAreaTriangles": 0,
+    "nonfinitePositionScalars": 0,
+    "signedVolume": 8.0,
+    "orientationConflictEdges": 0,
+    "orientedConsistently": true
+  },
+  "topologyHelperPass": true,
+  "deterministicSupportCoreHashA": "cdb936c5da888ebd42e45f80ac1276714b5f24e7555f0392b94e8878899039ab",
+  "deterministicSupportCoreHashB": "cdb936c5da888ebd42e45f80ac1276714b5f24e7555f0392b94e8878899039ab",
+  "deterministicSupportCorePass": true,
+  "rawInputRead": false,
+  "rawInputWritten": false
+}

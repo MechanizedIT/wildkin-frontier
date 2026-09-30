@@ -1,0 +1,14 @@
+{
+  "status": "diagnostic visualization only; indexed edges from immutable raw geometry",
+  "sourceSha256": "4cc76dc0608ed0e3575e25718c3b606561aa7925c4cd5d46350c4576d5958c5d",
+  "boundaryEdges": 6356,
+  "nonmanifoldEdges": 9864,
+  "boundaryColor": "red",
+  "nonmanifoldColor": "cyan",
+  "views": [
+    "defects-primary.png",
+    "defects-underside.png",
+    "defects-opposite.png"
+  ],
+  "viewConvention": "U4F-G1 camera vectors; Z-up"
+}

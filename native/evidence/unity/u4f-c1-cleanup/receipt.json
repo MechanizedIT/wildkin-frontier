@@ -1,0 +1,159 @@
+{
+  "schema": "wildkin-u4f-c1-cleanup-receipt-v1",
+  "result": "U4FC1_RENDER_SOURCE_HOLD",
+  "startingHead": "be67c47ddc75a00c2e672318cd454405b0647ab4",
+  "branch": "main",
+  "blenderVersion": "4.5.3 LTS",
+  "frozenInputs": {
+    "reference": {
+      "path": "art/source/u4f-rock-002/reference/candidate-04.png",
+      "sha256": "6b0d4606568158de586f488bb0cafe7b17e04c26b6c47f5528cee6209043b0bc"
+    },
+    "rawMaster": {
+      "path": "art/source/u4f-rock-002/raw/staged512-geometry-r1/raw-geometry.ply",
+      "sha256": "4cc76dc0608ed0e3575e25718c3b606561aa7925c4cd5d46350c4576d5958c5d",
+      "unchanged": true,
+      "vertices": 796082,
+      "triangles": 1594784,
+      "positionType": "float32",
+      "indexType": "uint32"
+    }
+  },
+  "defectLocalization": {
+    "upAxis": "+Z",
+    "boundaryEdgesByNormalizedHeight": {
+      "bottom_0_15": 1123,
+      "lower_15_30": 1084,
+      "middle_30_70": 3184,
+      "upper_70_100": 965,
+      "total": 6356
+    },
+    "nonmanifoldEdgesByNormalizedHeight": {
+      "bottom_0_15": 1850,
+      "lower_15_30": 1410,
+      "middle_30_70": 5057,
+      "upper_70_100": 1547,
+      "total": 9864
+    },
+    "boundaryGraph": {
+      "components": 1416,
+      "simpleClosedLoops": 823,
+      "branchedOrOpenComponents": 593,
+      "largestSimpleLoopEdges": 10,
+      "largestBoundaryGraphComponentEdges": 16
+    },
+    "lowerSelfOverlapProbe": {
+      "testedTriangles": 839428,
+      "overlapPairsWithoutSharedTriangleIndex": 299,
+      "scope": "lower 35 percent only; not a whole-mesh self-intersection verdict"
+    },
+    "undersideRayProbe": {
+      "grid": "81x81 upward rays",
+      "hits": 4415,
+      "misses": 2146,
+      "maxFirstHitNormalizedZ": 0.286
+    }
+  },
+  "construction": {
+    "copyOnlyLooseVertexRemoval": 53,
+    "authoredSupportCore": "deterministic shallow irregular multi-ring base using lower-band outline",
+    "voxelRemeshSize": 0.0014,
+    "initialWorkingSolid": {
+      "path": "art/source/u4f-rock-002/cleanup/c1/working/c1-working-solid.blend",
+      "sha256": "54e5ed658a6a84cbf5b9b69e906f3bf5633072035a97b1eabf9f620157e7652d",
+      "vertices": 3206138,
+      "triangles": 6399340,
+      "boundaryEdges": 0,
+      "nonmanifoldEdges": 0,
+      "faceBearingComponents": 13166,
+      "signedVolume": -0.09394476369240175,
+      "topologyGate": "FAIL"
+    }
+  },
+  "focusedRepair": {
+    "used": true,
+    "method": "retain largest edge-connected face component, discard all smaller disconnected components, compact referenced vertices, and reverse winding because retained-shell signed volume was negative",
+    "discardedComponents": 13165,
+    "discardedTriangles": 707360,
+    "retainedFractionOfFaces": 0.8894636009338464,
+    "workingSolid": {
+      "path": "art/source/u4f-rock-002/cleanup/c1/working/c1-working-solid-focused-repair.blend",
+      "sha256": "35633fa26f42c69bb6a48723adce17ab9e4d15c1ec946e6901ab9b70acf4bd8b",
+      "vertices": 2826334,
+      "triangles": 5691980,
+      "boundaryEdges": 0,
+      "nonmanifoldEdges": 0,
+      "faceBearingComponents": 1,
+      "unusedVertices": 0,
+      "repeatedIndexFaces": 0,
+      "zeroAreaTriangles": 0,
+      "nonfinitePositionScalars": 0,
+      "orientationConflictEdges": 0,
+      "signedVolume": 0.09394478496309754,
+      "topologyGate": "PASS"
+    },
+    "reopenValidation": "PASS"
+  },
+  "independentVisualReview": {
+    "status": "HOLD",
+    "result": "U4FC1_RENDER_SOURCE_HOLD",
+    "findings": [
+      "The largest-component repair is visually silhouette-preserving relative to raw; matched raw/working IoU is 0.992965-0.998631 across eight views.",
+      "The raw model itself departs from candidate-04's coherent broad connected planar hierarchy.",
+      "Severe high-frequency striped/moiré artifacts remain across visible surfaces and obscure broad planes.",
+      "The underside remains dark and retains radial/star-like shading and a striped rim."
+    ],
+    "reviewPath": "native/evidence/unity/u4f-c1-cleanup/review-cleanup.md"
+  },
+  "products": {
+    "pristineRenderDerivative": "NOT PRODUCED: pre-reduction visual gate failed",
+    "closedStampSourceDerivative": "NOT PRODUCED: blocked by pristine visual hold",
+    "unity": "NOT TOUCHED",
+    "u4g": "NOT STARTED",
+    "u5": "NOT STARTED"
+  },
+  "evidence": {
+    "rawDefectLocalization": "metrics/raw-defect-localization.json",
+    "componentAudit": "metrics/component-islands-before-repair.json",
+    "postRepairComparison": "metrics/post-repair-comparison.json",
+    "undersideProgressionHold": "captures/post-repair/underside-progression-hold.png",
+    "reopenValidation": "metrics/reopen-validation.json",
+    "testSummary": "tests/focused.json",
+    "captureHashes": "metrics/post-repair-comparison.json"
+  },
+  "tooling": {
+    "blender": "4.5.3 LTS",
+    "config": {
+      "path": "art/source/u4f-rock-002/cleanup/c1/cleanup-config.json",
+      "sha256": "c132d2f4da7e23a41b79a381f68ae288dd0deba134b6b87e3327168acbada99b"
+    },
+    "constructionPlan": {
+      "path": "art/source/u4f-rock-002/cleanup/c1/construction-plan.md",
+      "sha256": "2332761e62883fb4c6c42b334b5d9f96a9a97829eaac1c8d02574461ba98e6d3"
+    },
+    "scriptsSha256": {
+      "tools/art/audit-u4f-c1-defects.py": "d6bcbde518da8862a005e80c7d99c7e294e9c7e3f54794ef2faae79f5a78373f",
+      "tools/art/audit-u4f-c1-islands.py": "03bc0fa7875fccd231fa2ed00c70043dcdc3151034b752f3d547d2c11c348984",
+      "tools/art/audit-u4f-c1-lower-overlap.py": "eb196f01f22975c44b262efd18f89c90c5b812f277500a47e88105935665e780",
+      "tools/art/audit-u4f-c1-underside-rays.py": "be07d7ef99827e98cac2a6ccbf04630572fee3664b95165970b7661eba3759e1",
+      "tools/art/build-u4f-c1-derivatives.py": "5d4c5a1b47545e677f2566c848d9f444bcfbff759ce8f9d5b39703f3cab7ef99",
+      "tools/art/compose-u4f-c1-review-boards.py": "ba1fa1a620b4cceb365cb46ccf9f1fe86a65ddd2970a883d16d070e837597dfd",
+      "tools/art/render-u4f-c1-defect-map.py": "d7d5305d729e2332f4af7485beb5a523ff0176aa7459812eec665889c3aab4f6",
+      "tools/art/repair-u4f-c1-largest-component.py": "d5434f27a80117ea7fc1fcefd542d12c4cf0473db8ef7ff197d3d7d08620a9a0",
+      "tools/art/test-u4f-c1-helpers.py": "7fc170d12448e186259bbb5c17fb46495ec31e2f10dc12e19f2549053b717be0",
+      "tools/art/validate-u4f-c1-repaired-blend.py": "fa08ad5b915b27f1fff1e0d05fc9c22de569583e14774ab959b8716e765afcfb"
+    }
+  },
+  "ignoredLocalWorkingScenes": [
+    {
+      "path": "art/source/u4f-rock-002/cleanup/c1/working/c1-working-solid.blend",
+      "sha256": "54e5ed658a6a84cbf5b9b69e906f3bf5633072035a97b1eabf9f620157e7652d",
+      "reason": "repository .gitignore excludes *.blend; preserved locally for review, not committed"
+    },
+    {
+      "path": "art/source/u4f-rock-002/cleanup/c1/working/c1-working-solid-focused-repair.blend",
+      "sha256": "35633fa26f42c69bb6a48723adce17ab9e4d15c1ec946e6901ab9b70acf4bd8b",
+      "reason": "repository .gitignore excludes *.blend; preserved locally for review, not committed"
+    }
+  ]
+}

@@ -1,0 +1,704 @@
+{
+  "status": "read-only raw PLY defect localization; no Blender repair or mesh mutation",
+  "source": "C:\\Users\\cwood\\Documents\\mobile-rpg\\art\\source\\u4f-rock-002\\raw\\staged512-geometry-r1\\raw-geometry.ply",
+  "sha256": "4cc76dc0608ed0e3575e25718c3b606561aa7925c4cd5d46350c4576d5958c5d",
+  "headerBytes": 400,
+  "vertices": 796082,
+  "triangles": 1594784,
+  "coordinateType": "float32",
+  "upAxis": "+Z (verified from U4F-G1 view convention: top=(0,0,+1), underside=(0,0,-1))",
+  "heightDefinition": "edge midpoint Z normalized over exact raw source Z bounds",
+  "normalizedZBounds": [
+    -0.26899635791778564,
+    0.268713116645813
+  ],
+  "defects": {
+    "boundary": {
+      "total": 6356,
+      "byNormalizedHeightBand": [
+        {
+          "band": "bottom_0_15",
+          "normalizedRange": [
+            0.0,
+            0.15
+          ],
+          "edges": 1123
+        },
+        {
+          "band": "lower_15_30",
+          "normalizedRange": [
+            0.15,
+            0.3
+          ],
+          "edges": 1084
+        },
+        {
+          "band": "middle_30_70",
+          "normalizedRange": [
+            0.3,
+            0.7
+          ],
+          "edges": 3184
+        },
+        {
+          "band": "upper_70_100",
+          "normalizedRange": [
+            0.7,
+            1.0
+          ],
+          "edges": 965
+        }
+      ],
+      "below30Percent": 2207,
+      "above30Percent": 4149
+    },
+    "nonmanifold": {
+      "total": 9864,
+      "byNormalizedHeightBand": [
+        {
+          "band": "bottom_0_15",
+          "normalizedRange": [
+            0.0,
+            0.15
+          ],
+          "edges": 1850
+        },
+        {
+          "band": "lower_15_30",
+          "normalizedRange": [
+            0.15,
+            0.3
+          ],
+          "edges": 1410
+        },
+        {
+          "band": "middle_30_70",
+          "normalizedRange": [
+            0.3,
+            0.7
+          ],
+          "edges": 5057
+        },
+        {
+          "band": "upper_70_100",
+          "normalizedRange": [
+            0.7,
+            1.0
+          ],
+          "edges": 1547
+        }
+      ],
+      "below30Percent": 3260,
+      "above30Percent": 6604
+    }
+  },
+  "boundaryGraph": {
+    "connectedComponents": 1416,
+    "simpleClosedLoops": 823,
+    "branchOrOpenComponents": 593,
+    "largestSimpleClosedLoopEdges": 10,
+    "largestComponentEdges": 16,
+    "largestComponents": [
+      {
+        "vertices": 15,
+        "edges": 16,
+        "simpleClosedLoop": false,
+        "cycleRank": 2,
+        "normalizedHeightMin": 0.018784665304256563,
+        "normalizedHeightMax": 0.030462735393738442,
+        "edgesByBand": [
+          16,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "vertices": 11,
+        "edges": 12,
+        "simpleClosedLoop": false,
+        "cycleRank": 2,
+        "normalizedHeightMin": 0.6403682386999255,
+        "normalizedHeightMax": 0.6474267253782949,
+        "edgesByBand": [
+          0,
+          0,
+          12,
+          0
+        ]
+      },
+      {
+        "vertices": 11,
+        "edges": 12,
+        "simpleClosedLoop": false,
+        "cycleRank": 2,
+        "normalizedHeightMin": 0.5350240675701021,
+        "normalizedHeightMax": 0.5417675763540114,
+        "edgesByBand": [
+          0,
+          0,
+          12,
+          0
+        ]
+      },
+      {
+        "vertices": 11,
+        "edges": 12,
+        "simpleClosedLoop": false,
+        "cycleRank": 2,
+        "normalizedHeightMin": 0.5492561577818107,
+        "normalizedHeightMax": 0.5552804217766283,
+        "edgesByBand": [
+          0,
+          0,
+          12,
+          0
+        ]
+      },
+      {
+        "vertices": 11,
+        "edges": 11,
+        "simpleClosedLoop": false,
+        "cycleRank": 1,
+        "normalizedHeightMin": 0.06350379458852126,
+        "normalizedHeightMax": 0.06688181195814158,
+        "edgesByBand": [
+          11,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "vertices": 12,
+        "edges": 11,
+        "simpleClosedLoop": false,
+        "cycleRank": 0,
+        "normalizedHeightMin": 0.13379238927388035,
+        "normalizedHeightMax": 0.1469555887265515,
+        "edgesByBand": [
+          11,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "vertices": 12,
+        "edges": 11,
+        "simpleClosedLoop": false,
+        "cycleRank": 0,
+        "normalizedHeightMin": 0.6890320739833913,
+        "normalizedHeightMax": 0.6892043335814877,
+        "edgesByBand": [
+          0,
+          0,
+          11,
+          0
+        ]
+      },
+      {
+        "vertices": 10,
+        "edges": 10,
+        "simpleClosedLoop": true,
+        "cycleRank": 1,
+        "normalizedHeightMin": 0.07986105722610169,
+        "normalizedHeightMax": 0.08896548689164317,
+        "edgesByBand": [
+          10,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "vertices": 10,
+        "edges": 10,
+        "simpleClosedLoop": true,
+        "cycleRank": 1,
+        "normalizedHeightMin": 0.4432704471256147,
+        "normalizedHeightMax": 0.4519644300557305,
+        "edgesByBand": [
+          0,
+          0,
+          10,
+          0
+        ]
+      },
+      {
+        "vertices": 10,
+        "edges": 10,
+        "simpleClosedLoop": true,
+        "cycleRank": 1,
+        "normalizedHeightMin": 0.9633049367339491,
+        "normalizedHeightMax": 0.9676341507646153,
+        "edgesByBand": [
+          0,
+          0,
+          0,
+          10
+        ]
+      },
+      {
+        "vertices": 10,
+        "edges": 10,
+        "simpleClosedLoop": true,
+        "cycleRank": 1,
+        "normalizedHeightMin": 0.32362266036215753,
+        "normalizedHeightMax": 0.3321888342082288,
+        "edgesByBand": [
+          0,
+          0,
+          10,
+          0
+        ]
+      },
+      {
+        "vertices": 10,
+        "edges": 10,
+        "simpleClosedLoop": true,
+        "cycleRank": 1,
+        "normalizedHeightMin": 0.6884543835744599,
+        "normalizedHeightMax": 0.6898995241023768,
+        "edgesByBand": [
+          0,
+          0,
+          10,
+          0
+        ]
+      }
+    ],
+    "vertexDegreeCounts": {
+      "2": 5755,
+      "1": 1176,
+      "4": 5,
+      "3": 2
+    }
+  },
+  "outerBoundsByHeight": [
+    {
+      "normalizedRange": [
+        0.0,
+        0.05
+      ],
+      "vertices": 214378,
+      "xyBounds": {
+        "min": [
+          -0.482995867729187,
+          -0.44416648149490356
+        ],
+        "max": [
+          0.4922633767127991,
+          0.45517706871032715
+        ]
+      },
+      "xyMedian": [
+        -0.01854419708251953,
+        0.009158045053482056
+      ]
+    },
+    {
+      "normalizedRange": [
+        0.05,
+        0.1
+      ],
+      "vertices": 34352,
+      "xyBounds": {
+        "min": [
+          -0.49192410707473755,
+          -0.4555526375770569
+        ],
+        "max": [
+          0.49881523847579956,
+          0.4592106342315674
+        ]
+      },
+      "xyMedian": [
+        -0.04757411777973175,
+        0.012829691171646118
+      ]
+    },
+    {
+      "normalizedRange": [
+        0.1,
+        0.15000000000000002
+      ],
+      "vertices": 32628,
+      "xyBounds": {
+        "min": [
+          -0.49586156010627747,
+          -0.46034863591194153
+        ],
+        "max": [
+          0.5002684593200684,
+          0.4552244544029236
+        ]
+      },
+      "xyMedian": [
+        -0.02201239764690399,
+        0.012761622667312622
+      ]
+    },
+    {
+      "normalizedRange": [
+        0.15000000000000002,
+        0.2
+      ],
+      "vertices": 32099,
+      "xyBounds": {
+        "min": [
+          -0.49873119592666626,
+          -0.4573489725589752
+        ],
+        "max": [
+          0.49594229459762573,
+          0.44939225912094116
+        ]
+      },
+      "xyMedian": [
+        -0.015557736158370972,
+        -0.010906904935836792
+      ]
+    },
+    {
+      "normalizedRange": [
+        0.2,
+        0.25
+      ],
+      "vertices": 34102,
+      "xyBounds": {
+        "min": [
+          -0.4990580677986145,
+          -0.4503689110279083
+        ],
+        "max": [
+          0.48787593841552734,
+          0.44408321380615234
+        ]
+      },
+      "xyMedian": [
+        -0.025579437613487244,
+        -0.004829004406929016
+      ]
+    },
+    {
+      "normalizedRange": [
+        0.25,
+        0.3
+      ],
+      "vertices": 34854,
+      "xyBounds": {
+        "min": [
+          -0.4954729378223419,
+          -0.44155025482177734
+        ],
+        "max": [
+          0.479675829410553,
+          0.4377371072769165
+        ]
+      },
+      "xyMedian": [
+        -0.01850685477256775,
+        0.006840258836746216
+      ]
+    },
+    {
+      "normalizedRange": [
+        0.30000000000000004,
+        0.35000000000000003
+      ],
+      "vertices": 37075,
+      "xyBounds": {
+        "min": [
+          -0.4827869236469269,
+          -0.4353163242340088
+        ],
+        "max": [
+          0.4713195562362671,
+          0.4304601550102234
+        ]
+      },
+      "xyMedian": [
+        0.026071250438690186,
+        0.022444844245910645
+      ]
+    },
+    {
+      "normalizedRange": [
+        0.35000000000000003,
+        0.4
+      ],
+      "vertices": 38247,
+      "xyBounds": {
+        "min": [
+          -0.4671260416507721,
+          -0.4281235933303833
+        ],
+        "max": [
+          0.4589253067970276,
+          0.4236553907394409
+        ]
+      },
+      "xyMedian": [
+        0.0537533164024353,
+        0.014496147632598877
+      ]
+    },
+    {
+      "normalizedRange": [
+        0.4,
+        0.45
+      ],
+      "vertices": 38611,
+      "xyBounds": {
+        "min": [
+          -0.45594823360443115,
+          -0.4170953333377838
+        ],
+        "max": [
+          0.4419511556625366,
+          0.41732949018478394
+        ]
+      },
+      "xyMedian": [
+        0.07374465465545654,
+        -0.034588396549224854
+      ]
+    },
+    {
+      "normalizedRange": [
+        0.45,
+        0.5
+      ],
+      "vertices": 34891,
+      "xyBounds": {
+        "min": [
+          -0.442299485206604,
+          -0.4030166566371918
+        ],
+        "max": [
+          0.4085742235183716,
+          0.4071756601333618
+        ]
+      },
+      "xyMedian": [
+        -0.02431538701057434,
+        -0.010797590017318726
+      ]
+    },
+    {
+      "normalizedRange": [
+        0.5,
+        0.55
+      ],
+      "vertices": 38583,
+      "xyBounds": {
+        "min": [
+          -0.43169674277305603,
+          -0.38594716787338257
+        ],
+        "max": [
+          0.32087963819503784,
+          0.40049660205841064
+        ]
+      },
+      "xyMedian": [
+        -0.08255869150161743,
+        -0.06577551364898682
+      ]
+    },
+    {
+      "normalizedRange": [
+        0.55,
+        0.6000000000000001
+      ],
+      "vertices": 45646,
+      "xyBounds": {
+        "min": [
+          -0.4220676124095917,
+          -0.3588540852069855
+        ],
+        "max": [
+          0.3085966110229492,
+          0.39429622888565063
+        ]
+      },
+      "xyMedian": [
+        0.055583417415618896,
+        -0.026010870933532715
+      ]
+    },
+    {
+      "normalizedRange": [
+        0.6000000000000001,
+        0.6500000000000001
+      ],
+      "vertices": 38307,
+      "xyBounds": {
+        "min": [
+          -0.4107506275177002,
+          -0.2845875024795532
+        ],
+        "max": [
+          0.2301310896873474,
+          0.3664599061012268
+        ]
+      },
+      "xyMedian": [
+        0.06603258848190308,
+        -0.006743371486663818
+      ]
+    },
+    {
+      "normalizedRange": [
+        0.65,
+        0.7000000000000001
+      ],
+      "vertices": 43180,
+      "xyBounds": {
+        "min": [
+          -0.4009765088558197,
+          -0.25305289030075073
+        ],
+        "max": [
+          0.16237562894821167,
+          0.3349539041519165
+        ]
+      },
+      "xyMedian": [
+        -0.018327608704566956,
+        0.002927064895629883
+      ]
+    },
+    {
+      "normalizedRange": [
+        0.7000000000000001,
+        0.7500000000000001
+      ],
+      "vertices": 18846,
+      "xyBounds": {
+        "min": [
+          -0.39262163639068604,
+          -0.19934764504432678
+        ],
+        "max": [
+          0.008038580417633057,
+          0.3247849941253662
+        ]
+      },
+      "xyMedian": [
+        -0.17478369176387787,
+        0.032227665185928345
+      ]
+    },
+    {
+      "normalizedRange": [
+        0.75,
+        0.8
+      ],
+      "vertices": 13858,
+      "xyBounds": {
+        "min": [
+          -0.38520604372024536,
+          -0.09708088636398315
+        ],
+        "max": [
+          -0.0052498579025268555,
+          0.3148078918457031
+        ]
+      },
+      "xyMedian": [
+        -0.17851413786411285,
+        0.11616894602775574
+      ]
+    },
+    {
+      "normalizedRange": [
+        0.8,
+        0.8500000000000001
+      ],
+      "vertices": 13465,
+      "xyBounds": {
+        "min": [
+          -0.3782792091369629,
+          -0.09006404876708984
+        ],
+        "max": [
+          -0.01785808801651001,
+          0.3076366186141968
+        ]
+      },
+      "xyMedian": [
+        -0.1819663941860199,
+        0.1142997145652771
+      ]
+    },
+    {
+      "normalizedRange": [
+        0.8500000000000001,
+        0.9000000000000001
+      ],
+      "vertices": 13308,
+      "xyBounds": {
+        "min": [
+          -0.3714769184589386,
+          -0.08179131150245667
+        ],
+        "max": [
+          -0.03049585223197937,
+          0.3004845976829529
+        ]
+      },
+      "xyMedian": [
+        -0.19037096202373505,
+        0.10843005776405334
+      ]
+    },
+    {
+      "normalizedRange": [
+        0.9,
+        0.9500000000000001
+      ],
+      "vertices": 13722,
+      "xyBounds": {
+        "min": [
+          -0.3653873801231384,
+          -0.06481817364692688
+        ],
+        "max": [
+          -0.04260241985321045,
+          0.29121828079223633
+        ]
+      },
+      "xyMedian": [
+        -0.17654450237751007,
+        0.12202832102775574
+      ]
+    },
+    {
+      "normalizedRange": [
+        0.9500000000000001,
+        1.0
+      ],
+      "vertices": 25931,
+      "xyBounds": {
+        "min": [
+          -0.3503229022026062,
+          -0.048673540353775024
+        ],
+        "max": [
+          -0.07145211100578308,
+          0.2811819911003113
+        ]
+      },
+      "xyMedian": [
+        -0.20219367742538452,
+        0.10450762510299683
+      ]
+    }
+  ],
+  "limitations": [
+    "boundary graph components are not automatically assumed to be simple loops",
+    "triangle self-intersection was not tested in this numeric edge audit"
+  ]
+}

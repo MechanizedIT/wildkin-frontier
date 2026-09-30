@@ -1,10 +1,16 @@
 # Resume Wildkin Frontier
 
-## September 29 U4F-G1 — `U4FG1_RAW_SOURCE_CANDIDATE`; stop for owner review
+## September 29 U4F-C1 — `U4FC1_RENDER_SOURCE_HOLD`; stop for owner review
 
-The one authorized staged TRELLIS attempt succeeded with raw geometry. It used owner-approved candidate-04 (SHA-256 `6B0D4606568158DE586F488BB0CAFE7B17E04C26B6C47F5528CEE6209043B0BC`), fresh process per stage, 512, seed 1234, 12 steps, one sample, `low_vram=True`, and a shape-only decoder. Texture-flow was skipped. The 30,285,576-byte binary PLY contains 796,082 vertices and 1,594,784 triangles; SHA-256 `4CC76DC0608ED0E3575E25718C3B606561AA7925C4CD5D46350C4576D5958C5D`. Independent review says it is worth one bounded cleanup pass, while the large open underside and raw nonmanifold topology block direct stamp use. See the [G1 report/review](../native/evidence/unity/u4f-g1-staged-trellis/README.md).
+The one bounded cleanup attempt after successful U4F-G1 is complete. Read the [C1 report and actual matched boards](../native/evidence/unity/u4f-c1-cleanup/README.md), [independent visual review](../native/evidence/unity/u4f-c1-cleanup/review-cleanup.md), and `docs/CURRENT_SLICE.md`. Defect localization used +Z as up. One authored-base/high-resolution voxel closure construction and the reviewer-authorized largest-component/winding repair produced a topologically closed working shell, but visible striped/moiré surface artifacts, radial underside shading, and the raw-to-reference plane-hierarchy gap failed the pristine-source gate.
 
-**Next action:** stop for owner review of the actual generated source. Do not start Unity cleanup/import/voxelization, U4G, or U5 in this session.
+**Next action:** owner review the post-repair boards and provide fresh direction on a structurally different cleanup method before any new C1 attempt. Do not reuse the failed candidate for decimation or stamp construction. Unity/SDF, U4G, and U5 remain unstarted. The raw PLY and U4F-G1 evidence are unchanged.
+
+## September 29 U4F-G1 — `U4FG1_RAW_SOURCE_CANDIDATE`; successful predecessor to the C1 HOLD above
+
+The one authorized staged TRELLIS attempt succeeded with raw geometry. It used owner-approved candidate-04 (SHA-256 `6B0D4606568158DE586F488BB0CAFE7B17E04C26B6C47F5528CEE6209043B0BC`), fresh process per stage, 512, seed 1234, 12 steps, one sample, `low_vram=True`, and a shape-only decoder. Texture-flow was skipped. The 30,285,576-byte binary PLY contains 796,082 vertices and 1,594,784 triangles; SHA-256 `4CC76DC0608ED0E3575E25718C3B606561AA7925C4CD5D46350C4576D5958C5D`. Independent review justified one bounded cleanup attempt; its later C1 result is HOLD (see the current section above). The raw's large open underside and nonmanifold topology still block direct stamp use. See the [G1 report/review](../native/evidence/unity/u4f-g1-staged-trellis/README.md).
+
+**At the G1 checkpoint, next action:** one bounded cleanup review was authorized and is now complete as the C1 HOLD above. Do not start Unity cleanup/import/voxelization, U4G, or U5.
 
 ## September 29 U4F-R — complete; candidate-04 owner-approved
 
@@ -32,7 +38,7 @@ For the active native task read, in order:
 11. U4D/U4C3 evidence only as needed for the accepted matter/mesher baseline
 12. U4E/U4E.1/U4E.2 evidence only when explaining why procedural composition was retired
 
-Next bounded implementation target: **U4F — one high-quality asset-first rock all the way from reviewed reference/source mesh to pristine Unity render plus selected destructible voxel stamp and one edit/handoff proof.** TRELLIS.2 is a source provider candidate, not runtime architecture. U4G physics settling is later and must not start during U4F.
+The U4F route remains incomplete and is currently held at C1. A new cleanup approach requires fresh owner direction before work resumes. TRELLIS.2 is a source-provider candidate, not runtime architecture. U4G physics settling is later and must not start during U4F.
 
 The U4E tech scene's runtime-only content is not an adequate owner test surface. U4F must leave an immediately inspectable Edit-Mode stamp lab/preview path.
 

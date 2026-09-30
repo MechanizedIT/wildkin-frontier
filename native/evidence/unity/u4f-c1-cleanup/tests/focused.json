@@ -1,0 +1,46 @@
+{
+  "status": "focused checks recorded; C1 visual gate HOLD",
+  "results": [
+    {
+      "check": "raw and approved reference SHA-256",
+      "status": "PASS",
+      "details": "Both hashes match the frozen U4F-G1/C1 inputs before and after construction, repair, rendering, and Blender reopen validation."
+    },
+    {
+      "check": "raw PLY immutability",
+      "status": "PASS",
+      "details": "Raw remains 4cc76dc0608ed0e3575e25718c3b606561aa7925c4cd5d46350c4576d5958c5d. No raw mesh repair, write, or save-back was performed."
+    },
+    {
+      "check": "deterministic support-core helper",
+      "status": "PASS",
+      "details": "Blender 4.5.3 helper smoke test produced equal support-core hashes and passed the closed-cube topology fixture."
+    },
+    {
+      "check": "focused component repair topology",
+      "status": "PASS",
+      "details": "The repaired working solid has zero boundary/nonmanifold edges, one face-bearing component, zero unused vertices, zero repeated-index/zero-area faces, zero nonfinite scalars, zero orientation conflicts, and positive signed volume."
+    },
+    {
+      "check": "Blender reopen validation",
+      "status": "PASS",
+      "details": "The saved focused-repair blend reopened read-only in Blender 4.5.3 LTS and reproduced the recorded mesh metrics exactly. See metrics/reopen-validation.json."
+    },
+    {
+      "check": "matched captures and silhouette metrics",
+      "status": "PASS",
+      "details": "Eight raw/working view pairs, eight matched boards, eight silhouette overlays, a three-stage underside HOLD trace, and 34 capture/reference SHA-256 entries are recorded and verified in metrics/post-repair-comparison.json."
+    },
+    {
+      "check": "JSON and script syntax",
+      "status": "PASS",
+      "details": "C1 JSON evidence parsed; the audit, build, repair, validation, and composition scripts passed Python bytecode compilation."
+    },
+    {
+      "check": "independent visual gate",
+      "status": "HOLD",
+      "details": "Striped/moiré surfaces and radial underside shading remain; reviewer rejected the pristine working candidate. No reduced render derivative or stamp source was built."
+    }
+  ],
+  "unity": "NOT TOUCHED"
+}

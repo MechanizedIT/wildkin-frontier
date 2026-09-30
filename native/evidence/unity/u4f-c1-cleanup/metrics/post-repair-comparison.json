@@ -1,0 +1,239 @@
+{
+  "status": "pre-reduction",
+  "viewSet": [
+    "primary",
+    "opposite",
+    "front",
+    "back",
+    "left",
+    "right",
+    "top",
+    "underside"
+  ],
+  "cameraConvention": "all 3D captures from one Blender camera/light setup and raw-based frame; reference is an image panel only",
+  "silhouetteMethod": "alpha mask IoU and symmetric difference on matched 512x512 transparent Blender renders",
+  "silhouetteComparisons": {
+    "working": {
+      "primary": {
+        "rawPixels": 48954,
+        "candidatePixels": 48893,
+        "intersectionOverUnion": 0.9986314520906101,
+        "symmetricDifferencePixels": 67,
+        "symmetricDifferenceFractionOfRaw": 0.001368631776770029,
+        "centroidShiftPixelsYX": [
+          0.03908919880313988,
+          -0.06951324976645878
+        ],
+        "rawBoundsXYXY": [
+          104,
+          158,
+          405,
+          397
+        ],
+        "candidateBoundsXYXY": [
+          104,
+          158,
+          404,
+          397
+        ]
+      },
+      "opposite": {
+        "rawPixels": 43207,
+        "candidatePixels": 43138,
+        "intersectionOverUnion": 0.9984030365450043,
+        "symmetricDifferencePixels": 69,
+        "symmetricDifferenceFractionOfRaw": 0.0015969634549957183,
+        "centroidShiftPixelsYX": [
+          0.059125982722264325,
+          -0.04107546303094978
+        ],
+        "rawBoundsXYXY": [
+          116,
+          195,
+          409,
+          401
+        ],
+        "candidateBoundsXYXY": [
+          116,
+          195,
+          409,
+          401
+        ]
+      },
+      "front": {
+        "rawPixels": 38973,
+        "candidatePixels": 38871,
+        "intersectionOverUnion": 0.9973828034793318,
+        "symmetricDifferencePixels": 102,
+        "symmetricDifferenceFractionOfRaw": 0.002617196520668155,
+        "centroidShiftPixelsYX": [
+          0.07764819801980138,
+          0.12605182595041242
+        ],
+        "rawBoundsXYXY": [
+          112,
+          179,
+          390,
+          370
+        ],
+        "candidateBoundsXYXY": [
+          113,
+          179,
+          389,
+          370
+        ]
+      },
+      "back": {
+        "rawPixels": 39459,
+        "candidatePixels": 39226,
+        "intersectionOverUnion": 0.9940951367241947,
+        "symmetricDifferencePixels": 233,
+        "symmetricDifferenceFractionOfRaw": 0.005904863275805266,
+        "centroidShiftPixelsYX": [
+          0.03892750467252881,
+          -0.36671370783392376
+        ],
+        "rawBoundsXYXY": [
+          107,
+          182,
+          400,
+          371
+        ],
+        "candidateBoundsXYXY": [
+          108,
+          182,
+          400,
+          371
+        ]
+      },
+      "left": {
+        "rawPixels": 38563,
+        "candidatePixels": 38403,
+        "intersectionOverUnion": 0.9957474393880461,
+        "symmetricDifferencePixels": 164,
+        "symmetricDifferenceFractionOfRaw": 0.004252781163291238,
+        "centroidShiftPixelsYX": [
+          0.14008238075888357,
+          0.1755640210323861
+        ],
+        "rawBoundsXYXY": [
+          120,
+          187,
+          396,
+          374
+        ],
+        "candidateBoundsXYXY": [
+          120,
+          187,
+          396,
+          374
+        ]
+      },
+      "right": {
+        "rawPixels": 37895,
+        "candidatePixels": 37831,
+        "intersectionOverUnion": 0.9983111228394247,
+        "symmetricDifferencePixels": 64,
+        "symmetricDifferenceFractionOfRaw": 0.0016888771605752739,
+        "centroidShiftPixelsYX": [
+          0.04160497487401926,
+          0.009502932063128355
+        ],
+        "rawBoundsXYXY": [
+          134,
+          177,
+          381,
+          375
+        ],
+        "candidateBoundsXYXY": [
+          134,
+          177,
+          381,
+          375
+        ]
+      },
+      "top": {
+        "rawPixels": 52192,
+        "candidatePixels": 52060,
+        "intersectionOverUnion": 0.9929650162492831,
+        "symmetricDifferencePixels": 368,
+        "symmetricDifferenceFractionOfRaw": 0.007050889025137952,
+        "centroidShiftPixelsYX": [
+          -0.1559480209365347,
+          0.1596402982527536
+        ],
+        "rawBoundsXYXY": [
+          123,
+          137,
+          386,
+          376
+        ],
+        "candidateBoundsXYXY": [
+          125,
+          137,
+          385,
+          376
+        ]
+      },
+      "underside": {
+        "rawPixels": 70089,
+        "candidatePixels": 69987,
+        "intersectionOverUnion": 0.9979460847240051,
+        "symmetricDifferencePixels": 144,
+        "symmetricDifferenceFractionOfRaw": 0.0020545306681504943,
+        "centroidShiftPixelsYX": [
+          -0.061048067125625494,
+          0.01744621149799741
+        ],
+        "rawBoundsXYXY": [
+          103,
+          114,
+          406,
+          395
+        ],
+        "candidateBoundsXYXY": [
+          104,
+          114,
+          406,
+          395
+        ]
+      }
+    }
+  },
+  "captureAndBoardSha256": {
+    "reference": "6b0d4606568158de586f488bb0cafe7b17e04c26b6c47f5528cee6209043b0bc",
+    "raw-primary.png": "956b0da92080c3f665f4e110684c8b662e7d66a90ba462d2babbba563366898d",
+    "working-primary.png": "0c1dafdad4406a80d8859ef25ac2b2986df4a77aa7e6c2dece0d9f04eadc668f",
+    "pre-reduction-primary.png": "8bd23478eec081030ed4cb84d1b15dcbfe2ec9d8ce5e5ea7de62e248d5fcf7fd",
+    "silhouette-working-primary.png": "0ff14626d24eb2d5f8266742b04abb5a47c4cb642f5047fa41fda5ff1e1fcd7e",
+    "raw-opposite.png": "b667c8c6f6dfe0a9ab05ae9c406a728f0cd20363693ea42dd118e05aa003c6e8",
+    "working-opposite.png": "ffa98e5473fa958956c35e6fde97a385dcd4f6484c979eca14d8874adf2b2057",
+    "pre-reduction-opposite.png": "4e5b7c03645335bca3ba54ae9314b0d100230ac3f3d2848cffd2587e677273ed",
+    "silhouette-working-opposite.png": "8fc9f053dba6fed7e09726ced509b5ef60ca77f777f9512be87895afdabb76e4",
+    "raw-front.png": "1438363dbbd660dd0390f1f107cbf9af132e62ad30201027a09a11fb4f6d8ffa",
+    "working-front.png": "b4ba3bd47f790eb1033d941f1dc3477dcc4f68789923860c49889cf2f84a8c75",
+    "pre-reduction-front.png": "ff39ca1da55fb6e13b7eef92380497e75474b4e1d5bcc3fb4aa4ead6bc793560",
+    "silhouette-working-front.png": "b488db0c6fe87551cece3a3bf02877103d3400244816a8e1b9cc377f92083f01",
+    "raw-back.png": "d16cda31351e2b4017dc75a340dc7ec4c083f0863d662e7ecb401215575fd846",
+    "working-back.png": "1756ab3ec50c23b361e0480cfa31ed5a0d61dad4db74195733baa969ad69295f",
+    "pre-reduction-back.png": "63c80dc028f172abcfba5c56b0a003d1ef03bab24d8c6f672f799924edc08bdc",
+    "silhouette-working-back.png": "2c8cdb073692039732b8df5d3f7442ffd9d6635dd71e9ae3d60435a7a2504563",
+    "raw-left.png": "a5df20e48685b34d259714e6ec52cf3591b4ccaad4a22e8d5536a2eecea0a050",
+    "working-left.png": "79e26d8ae059138165ec595f3b2fbf431d1ce262d8e214a5e3d85e52b84492d6",
+    "pre-reduction-left.png": "6224139166b78a64cbc48d8daa9a9bf40eefaa2ebe93ccdf4cc2c84de33194e6",
+    "silhouette-working-left.png": "3cdc8cbdf955f4f8aca7f8405507247f37236333324b7a8e9dbabf05cd9810ff",
+    "raw-right.png": "363993cb98cbca6a6c99a8a2a9cfffa2c67cf770451439b3fd140a1634522306",
+    "working-right.png": "dd6063fe0cfbb5e9158a029d7024d406e5223e326d4a93ca4cfd0fe4fe1337e6",
+    "pre-reduction-right.png": "b023123bc1c73ec6b4d505589416d3f89aa901dc755adecf8cbf8d95b9759587",
+    "silhouette-working-right.png": "9291557b7e0337c9fec5c8248a13a21273ade09f3208c7dd66bc9d68c8656759",
+    "raw-top.png": "bb6a71121392b03c0ec9f3815c77f5717e14e3592d9f6cc88ea3635dde20b307",
+    "working-top.png": "2a1994f6102ccdc08f394e66452d633415697837829abeeb01a8c83557d60f3b",
+    "pre-reduction-top.png": "afb13de829e303e2dccf16f5534a4e674d9a2b1b1782070791960765879b4565",
+    "silhouette-working-top.png": "0b836ace13c0b20ca916653ef4de57d54ef4941c81fe6334943cb3244493433f",
+    "raw-underside.png": "577ef46ad22a6224936bc0aaa2508edbe2d64a8893bc7e64ed9078b1fbd14014",
+    "working-underside.png": "a3aa0dab040ca495941b0e0ff5c0a6ca1c67aa43d891421c6aa8441b5a79e71e",
+    "pre-reduction-underside.png": "5a4a425bf1bad226519cf61f54e70f7492a83fda08c01fc389bdd5e8826ba890",
+    "silhouette-working-underside.png": "6b2f503535af8c97cd796dd0e9e772b0e5ca3bdbb09157602749aa841d03483d",
+    "underside-progression-hold.png": "4cd21abd7feffcbf780fbbcd0e21f1650cb3076b47fe1fe68199ca89e4f10efd"
+  }
+}

@@ -1,0 +1,73 @@
+{
+  "schema": "wildkin-u4f-c1-cleanup-v1",
+  "blender": {
+    "version": "4.5.3 LTS",
+    "executable": "C:/Program Files/Blender Foundation/Blender 4.5/blender.exe"
+  },
+  "inputs": {
+    "reference": {
+      "path": "art/source/u4f-rock-002/reference/candidate-04.png",
+      "sha256": "6b0d4606568158de586f488bb0cafe7b17e04c26b6c47f5528cee6209043b0bc"
+    },
+    "rawMaster": {
+      "path": "art/source/u4f-rock-002/raw/staged512-geometry-r1/raw-geometry.ply",
+      "sha256": "4cc76dc0608ed0e3575e25718c3b606561aa7925c4cd5d46350c4576d5958c5d",
+      "vertices": 796082,
+      "triangles": 1594784,
+      "positionType": "float32",
+      "triangleIndexType": "uint32"
+    }
+  },
+  "coordinateFrame": {
+    "upAxis": "+Z",
+    "sourceTransform": "identity",
+    "scale": "preserve TRELLIS source units; no final game scale applied"
+  },
+  "workingCopy": {
+    "component": "one face-bearing component",
+    "removeUnusedVertices": true,
+    "unusedVerticesExpected": 53,
+    "weld": false,
+    "rawMasterWriteAllowed": false
+  },
+  "supportCore": {
+    "method": "closed irregular radial multi-ring rock base; fused by the pinned voxel remesh",
+    "outlineSampleNormalizedHeight": [0.0, 0.25],
+    "outlineCenter": "median X/Y of sampled lower-band source vertices",
+    "outlineSectors": 96,
+    "meshSegments": 48,
+    "outlineRadiusStatistic": "99.5th percentile radius in each angular sector",
+    "outlineScaleMargin": 1.02,
+    "ringsNormalizedHeightAndRadiusScale": [
+      [-0.06, 0.18],
+      [-0.015, 0.68],
+      [0.05, 0.90],
+      [0.18, 0.94],
+      [0.24, 0.76],
+      [0.29, 0.38],
+      [0.33, 0.04]
+    ],
+    "angularRadiusVariationAmplitude": 0.035,
+    "angularHeightVariationNormalizedAmplitude": 0.018,
+    "deterministicSeed": 84322,
+    "flatBottomPlate": false
+  },
+  "pristineRender": {
+    "voxelRemeshSize": 0.0014,
+    "reduction": "Blender collapse decimation only when needed",
+    "initialTriangleCeiling": 80000,
+    "shading": "flat"
+  },
+  "stampSource": {
+    "input": "closed high-resolution working solid before render reduction",
+    "voxelRemeshSize": 0.002,
+    "reduction": "Blender collapse decimation only when needed",
+    "initialTriangleCeiling": 80000,
+    "normalOrientation": "outward"
+  },
+  "repairAllowance": {
+    "primaryConstructionPasses": 1,
+    "focusedRepairsMaximum": 1,
+    "repairRequiresIndependentReviewerFinding": true
+  }
+}

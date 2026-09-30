@@ -1,0 +1,120 @@
+{
+  "status": "pre-focused-repair checkpoint preserved for comparison",
+  "blenderVersion": "4.5.3 LTS",
+  "rawSha256": "4cc76dc0608ed0e3575e25718c3b606561aa7925c4cd5d46350c4576d5958c5d",
+  "referenceSha256": "6b0d4606568158de586f488bb0cafe7b17e04c26b6c47f5528cee6209043b0bc",
+  "configSha256": "c132d2f4da7e23a41b79a381f68ae288dd0deba134b6b87e3327168acbada99b",
+  "workingBlendPath": "art/source/u4f-rock-002/cleanup/c1/working/c1-working-solid.blend",
+  "workingBlendSha256": "54e5ed658a6a84cbf5b9b69e906f3bf5633072035a97b1eabf9f620157e7652d",
+  "rawVertices": 796082,
+  "rawTriangles": 1594784,
+  "unusedVerticesRemovedFromCopy": 53,
+  "copyAfterLooseRemovalVertices": 796029,
+  "coordinateFrame": {
+    "upAxis": "+Z",
+    "sourceTransform": "identity",
+    "scale": "source units unchanged"
+  },
+  "supportCore": {
+    "method": "closed irregular radial multi-ring rock base; fused by the pinned voxel remesh",
+    "outlineSampleNormalizedHeight": [
+      0.0,
+      0.25
+    ],
+    "outlineCenter": "median X/Y of sampled lower-band source vertices",
+    "outlineSectors": 96,
+    "meshSegments": 48,
+    "outlineRadiusStatistic": "99.5th percentile radius in each angular sector",
+    "outlineScaleMargin": 1.02,
+    "ringsNormalizedHeightAndRadiusScale": [
+      [
+        -0.06,
+        0.18
+      ],
+      [
+        -0.015,
+        0.68
+      ],
+      [
+        0.05,
+        0.9
+      ],
+      [
+        0.18,
+        0.94
+      ],
+      [
+        0.24,
+        0.76
+      ],
+      [
+        0.29,
+        0.38
+      ],
+      [
+        0.33,
+        0.04
+      ]
+    ],
+    "angularRadiusVariationAmplitude": 0.035,
+    "angularHeightVariationNormalizedAmplitude": 0.018,
+    "deterministicSeed": 84322,
+    "flatBottomPlate": false
+  },
+  "voxelRemeshSize": 0.0014,
+  "workingSolid": {
+    "vertices": 3206138,
+    "triangles": 6399340,
+    "bounds": {
+      "min": [
+        -0.49905291199684143,
+        -0.4602985382080078,
+        -0.31070590019226074
+      ],
+      "max": [
+        0.500194787979126,
+        0.45937827229499817,
+        0.26870614290237427
+      ]
+    },
+    "centroid": [
+      -0.03575553372502327,
+      0.012885412201285362,
+      -0.10536219924688339
+    ],
+    "boundaryEdges": 0,
+    "nonmanifoldEdges": 0,
+    "faceBearingComponents": 13166,
+    "unusedVertices": 0,
+    "repeatedIndexFaces": 0,
+    "zeroAreaTriangles": 0,
+    "nonfinitePositionScalars": 0,
+    "signedVolume": -0.09394476369240175,
+    "orientationConflictEdges": 0,
+    "orientedConsistently": true
+  },
+  "topologyGate": "FAIL",
+  "matchedPreReductionCaptures": [
+    "raw-front.png",
+    "working-front.png",
+    "raw-back.png",
+    "working-back.png",
+    "raw-left.png",
+    "working-left.png",
+    "raw-right.png",
+    "working-right.png",
+    "raw-top.png",
+    "working-top.png",
+    "raw-underside.png",
+    "working-underside.png",
+    "raw-primary.png",
+    "working-primary.png",
+    "raw-opposite.png",
+    "working-opposite.png"
+  ],
+  "rawHashAfterBuild": "4cc76dc0608ed0e3575e25718c3b606561aa7925c4cd5d46350c4576d5958c5d",
+  "rawUnchanged": true,
+  "referenceHashAfterBuild": "6b0d4606568158de586f488bb0cafe7b17e04c26b6c47f5528cee6209043b0bc",
+  "minimumFreeGiB": 14.888916015625,
+  "elapsedSeconds": 95.20299999999952
+}

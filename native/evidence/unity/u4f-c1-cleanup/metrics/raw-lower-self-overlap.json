@@ -1,0 +1,17 @@
+{
+  "status": "read-only Blender BVHTree self-overlap probe; source PLY not modified",
+  "sourceSha256": "4cc76dc0608ed0e3575e25718c3b606561aa7925c4cd5d46350c4576d5958c5d",
+  "zUpConvention": "U4F-G1 top=(0,0,+1), underside=(0,0,-1)",
+  "faceSelection": "triangle centroid normalized Z <= 0.35",
+  "selectedTriangles": 839428,
+  "selectedVertices": 420303,
+  "rawBvhOverlapPairsIncludingAdjacency": 559,
+  "overlapPairsWithNoSharedTriangleIndex": 299,
+  "lowerProbeRange": [
+    0.0,
+    0.35
+  ],
+  "interpretationLimit": "BVHTree overlap candidates are local geometric overlap evidence; no global all-mesh triangle-intersection claim is made",
+  "initialFreeGiB": 19.986248016357422,
+  "finalFreeGiB": 19.820877075195312
+}

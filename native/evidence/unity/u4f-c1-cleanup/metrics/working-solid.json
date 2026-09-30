@@ -1,0 +1,137 @@
+{
+  "status": "one focused disconnected-component repair complete; awaiting independent visual review",
+  "blenderVersion": "4.5.3 LTS",
+  "rawSha256": "4cc76dc0608ed0e3575e25718c3b606561aa7925c4cd5d46350c4576d5958c5d",
+  "referenceSha256": "6b0d4606568158de586f488bb0cafe7b17e04c26b6c47f5528cee6209043b0bc",
+  "configSha256": "c132d2f4da7e23a41b79a381f68ae288dd0deba134b6b87e3327168acbada99b",
+  "workingBlendPath": "art/source/u4f-rock-002/cleanup/c1/working/c1-working-solid-focused-repair.blend",
+  "workingBlendSha256": "35633fa26f42c69bb6a48723adce17ab9e4d15c1ec946e6901ab9b70acf4bd8b",
+  "rawVertices": 796082,
+  "rawTriangles": 1594784,
+  "unusedVerticesRemovedFromCopy": 53,
+  "copyAfterLooseRemovalVertices": 796029,
+  "coordinateFrame": {
+    "upAxis": "+Z",
+    "sourceTransform": "identity",
+    "scale": "source units unchanged"
+  },
+  "supportCore": {
+    "method": "closed irregular radial multi-ring rock base; fused by the pinned voxel remesh",
+    "outlineSampleNormalizedHeight": [
+      0.0,
+      0.25
+    ],
+    "outlineCenter": "median X/Y of sampled lower-band source vertices",
+    "outlineSectors": 96,
+    "meshSegments": 48,
+    "outlineRadiusStatistic": "99.5th percentile radius in each angular sector",
+    "outlineScaleMargin": 1.02,
+    "ringsNormalizedHeightAndRadiusScale": [
+      [
+        -0.06,
+        0.18
+      ],
+      [
+        -0.015,
+        0.68
+      ],
+      [
+        0.05,
+        0.9
+      ],
+      [
+        0.18,
+        0.94
+      ],
+      [
+        0.24,
+        0.76
+      ],
+      [
+        0.29,
+        0.38
+      ],
+      [
+        0.33,
+        0.04
+      ]
+    ],
+    "angularRadiusVariationAmplitude": 0.035,
+    "angularHeightVariationNormalizedAmplitude": 0.018,
+    "deterministicSeed": 84322,
+    "flatBottomPlate": false
+  },
+  "voxelRemeshSize": 0.0014,
+  "workingSolid": {
+    "vertices": 2826334,
+    "triangles": 5691980,
+    "bounds": {
+      "min": [
+        -0.4943825900554657,
+        -0.4602985382080078,
+        -0.31070590019226074
+      ],
+      "max": [
+        0.49160194396972656,
+        0.45937827229499817,
+        0.26870614290237427
+      ]
+    },
+    "centroid": [
+      -0.031021159142255783,
+      0.01407676376402378,
+      -0.11317899078130722
+    ],
+    "boundaryEdges": 0,
+    "nonmanifoldEdges": 0,
+    "faceBearingComponents": 1,
+    "unusedVertices": 0,
+    "repeatedIndexFaces": 0,
+    "zeroAreaTriangles": 0,
+    "nonfinitePositionScalars": 0,
+    "signedVolume": 0.09394478496309754,
+    "orientationConflictEdges": 0,
+    "orientedConsistently": true
+  },
+  "topologyGate": "PASS",
+  "matchedPreReductionCaptures": [
+    "raw-back.png",
+    "raw-front.png",
+    "raw-left.png",
+    "raw-opposite.png",
+    "raw-primary.png",
+    "raw-right.png",
+    "raw-top.png",
+    "raw-underside.png",
+    "working-back.png",
+    "working-front.png",
+    "working-left.png",
+    "working-opposite.png",
+    "working-primary.png",
+    "working-right.png",
+    "working-top.png",
+    "working-underside.png"
+  ],
+  "rawHashAfterBuild": "4cc76dc0608ed0e3575e25718c3b606561aa7925c4cd5d46350c4576d5958c5d",
+  "rawUnchanged": true,
+  "referenceHashAfterBuild": "6b0d4606568158de586f488bb0cafe7b17e04c26b6c47f5528cee6209043b0bc",
+  "minimumFreeGiB": 14.888916015625,
+  "elapsedSeconds": 95.20299999999952,
+  "focusedRepair": {
+    "operation": "retain the largest shared-edge-connected face component; discard every other disconnected component",
+    "reviewBasis": "independent reviewer identified isolated remesh debris and authorized exactly this bounded repair",
+    "componentCountBefore": 13166,
+    "largestRootFaceId": 36927,
+    "largestTrianglesBefore": 5691980,
+    "largestFractionBefore": 0.8894636009338464,
+    "largestOtherComponentTriangles": 14196,
+    "discardedComponents": 13165,
+    "discardedTriangles": 707360,
+    "explicitWindingReversal": true,
+    "largestComponentSignedVolumeBeforeRepair": -0.09394478496309745,
+    "preRepairBlendSha256": "54e5ed658a6a84cbf5b9b69e906f3bf5633072035a97b1eabf9f620157e7652d",
+    "postRepairBlendSha256": "35633fa26f42c69bb6a48723adce17ab9e4d15c1ec946e6901ab9b70acf4bd8b",
+    "method": "face adjacency through shared edges; keep largest root; compact referenced vertices; reverse all face winding only because the retained closed shell had negative signed volume"
+  },
+  "focusedRepairElapsedSeconds": 109.0630000000001
+}
