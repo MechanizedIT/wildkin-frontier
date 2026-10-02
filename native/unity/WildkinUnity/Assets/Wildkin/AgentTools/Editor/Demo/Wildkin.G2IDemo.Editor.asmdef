@@ -1,0 +1,5 @@
+{
+  "name": "Wildkin.G2IDemo.Editor",
+  "references": ["Wildkin.Matter.Core", "Wildkin.Matter.Unity", "Unity.Pipeline.Attributes"],
+  "includePlatforms": ["Editor"]
+}
