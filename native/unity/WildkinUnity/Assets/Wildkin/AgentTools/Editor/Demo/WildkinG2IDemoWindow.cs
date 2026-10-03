@@ -76,6 +76,7 @@ namespace Wildkin.AgentTools.Editor.Demo
             var page = WildkinG2IDemoCatalog.Chapters[chapter];
             GUILayout.Label(page.Title, titleStyle);
             GUILayout.Label(page.Purpose, textStyle);
+            if (chapter > 0) GUILayout.Label("SUPPORTING EVIDENCE — browser gameplay evaluation is the primary demo", badgeStyle);
             GUILayout.Space(8);
             using (new EditorGUILayout.VerticalScope(EditorStyles.helpBox))
             {
@@ -88,9 +89,9 @@ namespace Wildkin.AgentTools.Editor.Demo
                 switch (chapter)
                 {
                     case 0:
-                        Button("Open Browser Gameplay", () => Application.OpenURL(WildkinG2IDemoCatalog.BrowserUrl));
+                        Button("Open Gameplay Evaluation Lab", () => Application.OpenURL(WildkinG2IDemoCatalog.BrowserUrl));
                         Button("Open Wildkin README", () => OpenDocument("README.md"));
-                        GUILayout.Label("Run the browser helper before recording. Scout: WASD, Space/C, Shift; drag to look. Use Continue or start a local game.", textStyle);
+                        GUILayout.Label("Primary demo: browser Combat + Harvest, Dodge Evaluation, optional Starter Taming. Unity chapters are supporting technical evidence. Run the browser helper before recording.", textStyle);
                         break;
                     case 1: DrawMatter(); break;
                     case 2:

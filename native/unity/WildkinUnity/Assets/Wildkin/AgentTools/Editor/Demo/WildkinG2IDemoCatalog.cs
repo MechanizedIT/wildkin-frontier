@@ -8,7 +8,7 @@ namespace Wildkin.AgentTools.Editor.Demo
 {
     public static class WildkinG2IDemoCatalog
     {
-        public const string BrowserUrl = "http://127.0.0.1:8080/?scout=1";
+        public const string BrowserUrl = "http://127.0.0.1:8080/?g2i=1";
         public const string U4DScene = "Assets/Wildkin/Scenes/Tech/U4DLocalMatterDomain.unity";
         public const string U4EScene = "Assets/Wildkin/Scenes/Tech/U4EMultiDomainFormation.unity";
         public const string ViewCode = "Assets/Wildkin/Matter/Unity/MatterDomainQualificationView.cs";

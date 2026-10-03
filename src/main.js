@@ -58,6 +58,7 @@ import { commitFrontierOutingStart, createFrontierOuting } from './session/front
 import { FRONTIER_TERRAIN_CONFIG } from './world/frontierTerrain.js';
 import { createFrontierProgress } from "./save/frontierProgress.js";
 import { createScoutSession, createScoutStorage } from './dev/scoutSession.js';
+import { getG2IConfig, createG2IStorage, isolateG2IProgress, createG2ISetup, grantG2IPrerequisites, createG2IPanel, G2I_SECTION } from './dev/g2iPlaytestLab.js';
 import { createFrontierAnchorSystem } from "./world/frontierAnchorSystem.js";
 import { createFrontierMap } from "./ui/frontierMap.js";
 import { createAnchorPrompt } from "./ui/anchorPrompt.js";
@@ -102,6 +103,8 @@ function getDevEnabled() {
 }
 const authorEnabled = getAuthorEnabled();
 const devEnabled = getDevEnabled();
+const g2iConfig = getG2IConfig(location.search);
+const g2iStorage = g2iConfig.enabled ? createG2IStorage() : null;
 const scoutEnabled = !authorEnabled && new URLSearchParams(location.search).get('scout') === '1';
 app.classList.toggle("dev-mode", devEnabled);
 app.classList.toggle("author-mode", authorEnabled);
@@ -120,6 +123,8 @@ if (authorEnabled) {
   } catch {}
 }
 
+const g2iSetup = createG2ISetup(effectiveWorldData, g2iConfig);
+effectiveWorldData = g2iSetup.world;
 if (debugLabel) debugLabel.textContent = `${VERSION} · loading local models…`;
 await preloadVisualModels([
   SAPWOOD_VISUAL_ASSET,
@@ -165,13 +170,15 @@ window.addEventListener("orientationchange", () => {
 // Load the saved generation identity before any frontier sampling or residency.
 const resourceDrops = worldRegistry.data.resourceDrops;
 let refreshCarriedResourceHud = () => {};
-const frontierProgress = createFrontierProgress({
+const progressOwner = createFrontierProgress({
   worldRegistry,
   isAuthorMode: authorEnabled,
   ...(scoutEnabled ? { storage: createScoutStorage(localStorage) } : {}),
+  ...(g2iStorage ? { storage: g2iStorage } : {}),
   resourceDrops,
   onPackResourcesChanged: inventory => refreshCarriedResourceHud(inventory),
 });
+const frontierProgress = g2iConfig.enabled ? isolateG2IProgress(progressOwner) : progressOwner;
 frontierProgress.load();
 
 const physicsWorld = createPhysicsWorld(RAPIER, playground);
@@ -1004,6 +1011,8 @@ betaGame = createBetaGame({
   physicsWorld, characterPhysics, playerCollider: characterPhysics.collider,
   getTerrainHeight: frontierChunks.getHeight,
   getTerrainSample: frontierChunks.sample,
+  ...(g2iStorage ? { storage: g2iStorage,
+    getTerrainHeight: (x, z) => playground.getGroundHeight(x, z, playerController.state.pos.y) } : {}),
   getSurfaceWater,
   onInteractionGeometryChanged: () => contextualInteraction?.invalidate(),
   audio: gameAudio, activationToast, combatHud, authorEnabled, fieldTool,
@@ -1142,11 +1151,26 @@ const scoutSession = createScoutSession({
   onToggle: () => { playerController.resetJumpState(); fieldTool.hardReset(); pendingAttackLatch = false; },
 });
 
+// Disposable presentation setup; normal fixed-step owners run all gameplay.
+if (g2iConfig.enabled) {
+  sectionRuntime.activate(G2I_SECTION);
+  expeditionSession.beginRun('g2i-disposable-setup');
+  expeditionSession.setRegion(G2I_SECTION);
+  grantG2IPrerequisites(frontierProgress, g2iConfig.scenario);
+  placePlayerAtFeetTransform(g2iSetup.feet, g2iSetup.facingYaw);
+  creatureSystem.setPlayerPos(playerController.state.pos);
+  creatureSystem.setPlayerState(playerController.getState());
+}
+const g2iPanel = createG2IPanel({ app, config: g2iConfig,
+  getPlayerState: () => playerController.getState(),
+  getTamingState: () => betaGame.companions.getFieldTamingState() });
+
 function tick() {
   requestAnimationFrame(tick);
 
   const rawDt = clock.getDelta();
   const dt = Math.min(rawDt, maxDelta);
+  g2iPanel.update(dt);
   accumulator += dt;
 
   // Author edit visibility + anchor/map updates sync
@@ -1489,5 +1513,5 @@ window.__game = {
     };
   },
 };
-betaGame.showWelcome();
+if (g2iConfig.enabled) betaGame.shell.close(); else betaGame.showWelcome();
 if(resumeBlocked)betaGame.shell.toast('Expedition could not resume','Your save and backpack were preserved. Use Settings to export or restore your save.');

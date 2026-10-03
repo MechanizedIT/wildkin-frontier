@@ -1,9 +1,9 @@
 [CmdletBinding()]
-param([switch]$NoBrowser)
+param([switch]$NoBrowser, [ValidateSet('g2i', 'scout', 'ordinary')][string]$Mode = 'g2i')
 
 $ErrorActionPreference = 'Stop'
 $demoRepoRoot = (Resolve-Path -LiteralPath (Join-Path $PSScriptRoot '../..')).Path
-$demoUrl = 'http://127.0.0.1:8080/?scout=1'
+$demoUrl = switch ($Mode) { 'scout' { 'http://127.0.0.1:8080/?scout=1' } 'ordinary' { 'http://127.0.0.1:8080/' } default { 'http://127.0.0.1:8080/?g2i=1' } }
 $demoServer = $null
 
 function Test-WildkinServer {

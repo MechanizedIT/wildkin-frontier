@@ -37,7 +37,8 @@ export function createBetaGame(deps) {
   let shell = null, corePending = false, guardianDefeated = false, objectiveTimer = 0, lastSection = null, sectionIntro = 0;
   let harvestBonus = 0, warnedStorage = false;
   let settings = { muted: false, reducedMotion: globalThis.matchMedia?.("(prefers-reduced-motion: reduce)").matches ?? false };
-  try { const saved = JSON.parse(localStorage.getItem(SETTINGS_KEY) ?? "null"); if (saved && typeof saved === "object") settings = { muted: saved.muted === true, reducedMotion: saved.reducedMotion === true }; } catch {}
+  const settingsStorage = deps.storage ?? localStorage;
+  try { const saved = JSON.parse(settingsStorage.getItem(SETTINGS_KEY) ?? "null"); if (saved && typeof saved === "object") settings = { muted: saved.muted === true, reducedMotion: saved.reducedMotion === true }; } catch {}
   const toast = (title, detail) => shell?.toast(title, detail);
   const pulse = (pos, color) => { if (!settings.reducedMotion) activationToast.pulseWorld(pos, color); };
   const atmosphere = createFrontierAtmosphere({ scene });
@@ -96,7 +97,7 @@ export function createBetaGame(deps) {
   function applySettings() {
     app.classList.toggle("reduced-motion", settings.reducedMotion);
     audio.setMuted?.(settings.muted);
-    try { localStorage.setItem(SETTINGS_KEY, JSON.stringify(settings)); } catch {}
+    try { settingsStorage.setItem(SETTINGS_KEY, JSON.stringify(settings)); } catch {}
   }
   function refreshModifiers() {
     const m = progress.getModifiers();
@@ -230,7 +231,9 @@ export function createBetaGame(deps) {
     if (type === "mute") { settings.muted = !!payload; applySettings(); return; }
     if (type === "reducedMotion") { settings.reducedMotion = !!payload; applySettings(); return; }
     if (type === "exportSave") {
-      const blob = new Blob([JSON.stringify(progress.exportSave().payload, null, 2)], { type: "application/json" });
+      const exported = progress.exportSave();
+      if (!exported.ok) return { ok: false, message: exported.message ?? 'Could not export your save. Your current progress has been kept.' };
+      const blob = new Blob([JSON.stringify(exported.payload, null, 2)], { type: "application/json" });
       const url = URL.createObjectURL(blob), a = document.createElement("a");
       a.href = url; a.download = "wildkin-frontier-save.json"; a.click(); setTimeout(() => URL.revokeObjectURL(url), 1000);
       return { ok: true, message: "Your frontier save has been exported." };
@@ -240,7 +243,7 @@ export function createBetaGame(deps) {
       if (!payload || payload.size > 1_000_000 || typeof payload.text !== "function") return { ok: false, message: "Choose a Frontier save smaller than 1 MB." };
       return payload.text().then(text => {
         const result = progress.importSave(text);
-        if (!result.ok) return { ok: false, message: result.reason === "storage-write-failed" ? "This browser could not store the backup. Your current progress has been kept." : "This file is not a supported Frontier save. Your current progress has been kept." };
+        if (!result.ok) return { ok: false, message: result.message ?? (result.reason === "storage-write-failed" ? "This browser could not store the backup. Your current progress has been kept." : "This file is not a supported Frontier save. Your current progress has been kept.") };
         // Reload reconstructs every persistent gate, chest, Camp modifier and
         // companion from the same validated snapshot, through the normal boot.
         setTimeout(() => location.reload(), 700);
